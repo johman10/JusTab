@@ -1,0 +1,44 @@
+@import 'modules/colors';
+
+#couchpotato::shadow #headerBg {
+  background-image: image-url('../img/CP_header.png');
+  background-size: auto 60%;
+  background-position: 115%;
+  background-color: $couchpotato-color;
+}
+
+#couchpotato::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: $couchpotato-color;
+}
+
+.cp_button_container {
+  position: absolute;
+  right: 0;
+  width: 100%;
+
+  .cp_add_button {
+    float: right;
+    margin-right: 10px;
+    position: relative;
+  }
+}
+
+#cp_form_container {
+  overflow: scroll;
+  height: 50%;
+  width: 30%;
+  background-color: $white;
+
+  .cp_form_close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: $grey;
+    z-index:10;
+  }
+
+  .content {
+    padding: 0 8px;
+  }
+}

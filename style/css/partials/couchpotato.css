@@ -1,0 +1,46 @@
+/* line 3, ../../sass/partials/couchpotato.scss */
+#couchpotato::shadow #headerBg {
+  background-image: url('/img/../img/CP_header.png?1415198327');
+  background-size: auto 60%;
+  background-position: 115%;
+  background-color: #4e5969;
+}
+
+/* line 10, ../../sass/partials/couchpotato.scss */
+#couchpotato::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: #4e5969;
+}
+
+/* line 15, ../../sass/partials/couchpotato.scss */
+.cp_button_container {
+  position: absolute;
+  right: 0;
+  width: 100%;
+}
+/* line 20, ../../sass/partials/couchpotato.scss */
+.cp_button_container .cp_add_button {
+  float: right;
+  margin-right: 10px;
+  position: relative;
+}
+
+/* line 27, ../../sass/partials/couchpotato.scss */
+#cp_form_container {
+  overflow: scroll;
+  height: 50%;
+  width: 30%;
+  background-color: white;
+}
+/* line 33, ../../sass/partials/couchpotato.scss */
+#cp_form_container .cp_form_close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: gray;
+  z-index: 10;
+}
+/* line 41, ../../sass/partials/couchpotato.scss */
+#cp_form_container .content {
+  padding: 0 8px;
+}

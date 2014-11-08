@@ -1,0 +1,13 @@
+@import 'modules/colors';
+
+#sabnzbd::shadow #headerBg {
+  background-image: image-url('../img/SAB_header.png');
+  background-size: auto 60%;
+  background-position: 110%;
+  background-color: $sabnzbd-color;
+}
+
+#sabnzbd::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: $sabnzbd-color;
+}

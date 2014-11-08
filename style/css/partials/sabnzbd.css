@@ -1,0 +1,13 @@
+/* line 3, ../../sass/partials/sabnzbd.scss */
+#sabnzbd::shadow #headerBg {
+  background-image: url('/img/../img/SAB_header.png?1415198382');
+  background-size: auto 60%;
+  background-position: 110%;
+  background-color: #ffeb3b;
+}
+
+/* line 10, ../../sass/partials/sabnzbd.scss */
+#sabnzbd::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: #ffeb3b;
+}

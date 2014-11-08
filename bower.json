@@ -1,0 +1,21 @@
+{
+  "name": "ChromeCalendar",
+  "version": "0.0.0",
+  "authors": [
+    "Johman10 <johveck@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "~0.4.2",
+    "jquery": "~2.1.1",
+    "core-elements": "Polymer/core-elements#~0.4.2",
+    "paper-input": "Polymer/paper-input#~0.4.2"
+  }
+}

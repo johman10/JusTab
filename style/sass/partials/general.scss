@@ -1,0 +1,59 @@
+@import 'modules/colors';
+
+body {
+  font-family: 'Roboto';
+  font-weight: 200;
+  font-size: 13px;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.cleardiv {
+  clear: both;
+}
+
+.panel {
+  float: left;
+  width: 400px;
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.content {
+  position: relative;
+}
+
+core-toolbar {
+  background-color: transparent;
+  color: $white;
+}
+
+h1 {
+  font-size: 20px;
+  font-family: 'Roboto';
+  font-weight: 400;
+  margin: 5px 0;
+}
+
+p {
+  margin: 3px;
+}
+
+// core-item::shadow #label:visited {
+//   color: $white !important;
+// }
+
+.today,
+.tomorrow,
+.snatched,
+.wanted,
+.queue,
+.history,
+.dn_links {
+  padding: 0 16px;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>NewTab Options</title>
+  <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="js/options.js" type="text/javascript" charset="utf-8" defer></script>
+</head>
+<body>
+  <h1>Calendar</h1>
+  <label for="calendar_select">
+    Show appointments from:
+  </label>
+  <div class="calendar_select_container">
+    <div id="loading">Loading...</div>
+  </div>
+
+  <h1>Couchpotato</h1>
+  <label for="CP_address">Server address</label>
+  <input type="text" id="CP_address" name="CP_address"><br>
+  <label for="CP_port">Server port</label>
+  <input type="text" id="CP_port" name="CP_port"><br>
+  <label for="CP_username">API Key</label>
+  <input type="text" id="CP_key" name="CP_key"><br>
+
+  <h1>Sabnzbd</h1>
+  <label for="SAB_address">Server address</label>
+  <input type="text" id="SAB_address" name="SAB_address"><br>
+  <label for="SAB_port">Server port</label>
+  <input type="text" id="SAB_port" name="SAB_port"><br>
+  <label for="SAB_username">API Key</label>
+  <input type="text" id="SAB_key" name="SAB_key"><br>
+  <label for="SAB_history">History limit</label>
+  <input type="number" id="SAB_history" name="SAB_history"><br>
+
+  <div id="status"></div>
+  <button id="save">Save</button>
+</body>
+</html>

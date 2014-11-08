@@ -1,0 +1,13 @@
+@import 'modules/colors';
+
+#calendar::shadow #headerBg {
+  background-image: image-url('../img/GC_header.svg');
+  background-size: auto 60%;
+  background-position: 110%;
+  background-color: $calendar-color;
+}
+
+#calendar::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: $calendar-color;
+}

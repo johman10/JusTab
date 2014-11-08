@@ -1,0 +1,13 @@
+/* line 3, ../../sass/partials/calendar.scss */
+#calendar::shadow #headerBg {
+  background-image: url('/img/../img/GC_header.svg?1415201607');
+  background-size: auto 60%;
+  background-position: 110%;
+  background-color: #4285f4;
+}
+
+/* line 10, ../../sass/partials/calendar.scss */
+#calendar::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: #4285f4;
+}

@@ -1,0 +1,28 @@
+/* line 3, ../../sass/partials/designernews.scss */
+#designernews::shadow #headerBg {
+  background-image: url('/img/../img/DN_header.png?1415210857');
+  background-size: auto 60%;
+  background-position: 110%;
+  background-color: #1c52a2;
+}
+
+/* line 10, ../../sass/partials/designernews.scss */
+#designernews::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: #1c52a2;
+}
+
+/* line 16, ../../sass/partials/designernews.scss */
+core-item a {
+  line-height: 40px;
+  text-decoration: none;
+  color: black;
+}
+/* line 21, ../../sass/partials/designernews.scss */
+core-item a:hover {
+  color: black;
+}
+/* line 25, ../../sass/partials/designernews.scss */
+core-item a:visited {
+  color: gray;
+}

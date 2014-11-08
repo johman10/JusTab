@@ -1,0 +1,29 @@
+@import 'modules/colors';
+
+#designernews::shadow #headerBg {
+  background-image: image-url('../img/DN_header.png');
+  background-size: auto 60%;
+  background-position: 110%;
+  background-color: $designernews-color;
+}
+
+#designernews::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: $designernews-color;
+}
+
+core-item {
+  a {
+    line-height: 40px;
+    text-decoration: none;
+    color: $black;
+
+    &:hover {
+      color: $black;
+    }
+
+    &:visited {
+      color: $grey;
+    }
+  }
+}
