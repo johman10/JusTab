@@ -3,10 +3,10 @@ This Chrome Extenstion gives you the ability to keep track of multiple services 
 
 At this moment it supports:
 
-- Couchpotato
-- Sabnzbd
-- Google Calendar
-- Designer News
+- [Couchpotato](https://github.com/RuudBurger/CouchPotatoServer)
+- [Sabnzbd](https://github.com/sabnzbd/sabnzbd)
+- [Google Calendar](http://calendar.google.com)
+- [Designer News](news.layervault.com)
 
 ## Installation
 If you want to install this extension
