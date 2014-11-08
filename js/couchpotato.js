@@ -26,8 +26,20 @@ $(document).ready(function() {
     }
   }
 
+  cpButtonContainerPosition();
+
+  $('#couchpotato').scroll(function(event) {
+    cpButtonContainerPosition();
+  });
+
+  // 233
+
+  $(window).resize(function(event) {
+    cpButtonContainerPosition();
+  });
+
   $('.cp_add_button').click(function() {
-    document.querySelector('#cp_form_container').toggle();
+    cpButtonContainerPosition();
   });
 
   $('.cp_form_search /deep/ input').keyup(function(event) {
@@ -61,3 +73,7 @@ $(document).ready(function() {
     });
   });
 });
+
+function cpButtonContainerPosition() {
+  $('.cp_button_container').css('top', $('#couchpotato')[0].prevScrollTop + $(window).height() - ($('.cp_button_container').height() + 133));
+}

@@ -17,22 +17,28 @@
   position: absolute;
   right: 0;
   width: 100%;
+  background-color: white;
 }
-/* line 20, ../../sass/partials/couchpotato.scss */
+/* line 21, ../../sass/partials/couchpotato.scss */
 .cp_button_container .cp_add_button {
   float: right;
   margin-right: 10px;
   position: relative;
+  margin-bottom: 10px;
+}
+/* line 27, ../../sass/partials/couchpotato.scss */
+.cp_button_container .cp_add_button:hover {
+  background-color: #eeeeee;
 }
 
-/* line 27, ../../sass/partials/couchpotato.scss */
+/* line 33, ../../sass/partials/couchpotato.scss */
 #cp_form_container {
   overflow: scroll;
   height: 50%;
   width: 30%;
   background-color: white;
 }
-/* line 33, ../../sass/partials/couchpotato.scss */
+/* line 39, ../../sass/partials/couchpotato.scss */
 #cp_form_container .cp_form_close {
   position: absolute;
   top: 0;
@@ -40,7 +46,7 @@
   color: gray;
   z-index: 10;
 }
-/* line 41, ../../sass/partials/couchpotato.scss */
+/* line 47, ../../sass/partials/couchpotato.scss */
 #cp_form_container .content {
   padding: 0 8px;
 }

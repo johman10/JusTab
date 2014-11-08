@@ -16,11 +16,17 @@
   position: absolute;
   right: 0;
   width: 100%;
+  background-color: $white;
 
   .cp_add_button {
     float: right;
     margin-right: 10px;
     position: relative;
+    margin-bottom: 10px;
+
+    &:hover {
+      background-color: $hover-color;
+    }
   }
 }
 
