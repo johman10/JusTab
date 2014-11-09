@@ -21,7 +21,7 @@ $(document).ready(function() {
       eventStartTime = eventStartDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
       eventEndDate = new Date(events[i].end.dateTime);
       eventEndTime = eventEndDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-      $('#calendar .tomorrow').append("<p>" + eventStartTime + " - " + eventEndTime + " " + events[i].summary + "</p>");
+      $('#calendar .tomorrow').append("<core-item label='" + eventStartTime + " - " + eventEndTime + " " + events[i].summary + "'></core-item>");
     }
     else if (events[i].start.date && new Date(events[i].start.date) > today) {
       $('#calendar .tomorrow').append("<core-item label='" + events[i].summary + "'></core-item>");
