@@ -1052,6 +1052,11 @@ of where they are in DOM.
 
 
 
+  
+
+
+
+
 
 
 
@@ -1061,12 +1066,6 @@ of where they are in DOM.
   
 
 
-
-
-
-
-  <!-- <link rel="import" href="bower_components/core-icons/core-icons.html"> -->
-  
 
 
 
@@ -3401,220 +3400,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 </polymer-element>
 
-<polymer-element name="paper-button-base" extends="paper-focusable" assetpath="bower_components/paper-button/">
-
-  
-</polymer-element>
-
-<polymer-element name="paper-ripple" attributes="initialOpacity opacityDecayVelocity" assetpath="bower_components/paper-ripple/">
-<template>
-
-  <style>
-
-    :host {
-      display: block;
-      position: relative;
-      border-radius: inherit;
-      overflow: hidden;
-    }
-
-    :host-context([noink]) {
-      pointer-events: none;
-    }
-
-    #bg, #waves, .wave-container, .wave {
-      pointer-events: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    #bg, .wave {
-      opacity: 0;
-    }
-
-    #waves, .wave {
-      overflow: hidden;
-    }
-
-    .wave-container, .wave {
-      border-radius: 50%;
-    }
-
-    :host(.circle) #bg,
-    :host(.circle) #waves {
-      border-radius: 50%;
-    }
-
-    :host(.circle) .wave-container {
-      overflow: hidden;
-    }
-
-  </style>
-
-  <div id="bg"></div>
-  <div id="waves">
-  </div>
-
-</template>
-
-</polymer-element>
-
-<polymer-element name="paper-shadow" assetpath="bower_components/paper-shadow/">
-
-  <template>
-
-    <style no-shim="">/*
- * @license
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
-
-.paper-shadow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  border-radius: inherit;
-  pointer-events: none;
-}
-
-.paper-shadow-animated.paper-shadow {
-  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.paper-shadow-top-z-1 {
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);
-}
-
-.paper-shadow-bottom-z-1 {
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-}
-
-.paper-shadow-top-z-2 {
-  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.paper-shadow-bottom-z-2 {
-  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
-}
-
-.paper-shadow-top-z-3 {
-  box-shadow: 0 17px 50px 0 rgba(0, 0, 0, 0.19);
-}
-
-.paper-shadow-bottom-z-3 {
-  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
-}
-
-.paper-shadow-top-z-4 {
-  box-shadow: 0 25px 55px 0 rgba(0, 0, 0, 0.21);
-}
-
-.paper-shadow-bottom-z-4 {
-  box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22);
-}
-
-.paper-shadow-top-z-5 {
-  box-shadow: 0 40px 77px 0 rgba(0, 0, 0, 0.22);
-}
-
-.paper-shadow-bottom-z-5 {
-  box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2);
-}
-
-.paper-shadow-animate-z-1-z-2.paper-shadow-top {
-  -webkit-transition: none;
-  -webkit-animation: animate-shadow-top-z-1-z-2 0.7s infinite alternate;
-}
-
-.paper-shadow-animate-z-1-z-2 .paper-shadow-bottom {
-  -webkit-transition: none;
-  -webkit-animation: animate-shadow-bottom-z-1-z-2 0.7s infinite alternate;
-}
-
-@-webkit-keyframes animate-shadow-top-z-1-z-2 {
-  0% {
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);
-  }
-  100% {
-    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  }
-}
-
-@-webkit-keyframes animate-shadow-bottom-z-1-z-2 {
-  0% {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  }
-  100% {
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
-  }
-}</style>
-
-  </template>
-
-  
-</polymer-element>
-<polymer-element name="paper-fab" extends="paper-button-base" attributes="src icon mini" role="button" assetpath="bower_components/paper-fab/">
-
-  <template>
-
-    <style>
-      :host {
-        display: inline-block;
-        position: relative;
-        outline: none;
-        -webkit-user-select: none;
-        user-select: none;
-        cursor: pointer;
-        z-index: 0;
-
-        box-sizing: border-box;
-        width: 56px;
-        height: 56px;
-        background: #d23f31;
-        color: #fff;
-        border-radius: 50%;
-        padding: 16px;
-      }
-
-      :host([mini]) {
-        width: 40px;
-        height: 40px;
-        padding: 8px;
-      }
-
-      :host([disabled]) {
-        color: #c9c9c9;
-        pointer-events: none;
-        cursor: auto;
-      }
-
-      #ripple {
-        pointer-events: none;
-        z-index: -1;
-      }
-    </style>
-
-    <template if="{{raised}}">
-      <paper-shadow id="shadow" z="{{z}}" animated=""></paper-shadow>
-    </template>
-
-    <!-- to position to ripple behind the icon -->
-    <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}"></core-icon>
-
-  </template>
-
-  
-</polymer-element>
-
 <core-style id="paper-input">
 
 :host([focused]) .floated-label {
@@ -3853,6 +3638,203 @@ textarea {
 
 </polymer-element>
 
+<polymer-element name="paper-button-base" extends="paper-focusable" assetpath="bower_components/paper-button/">
+
+  
+</polymer-element>
+
+<polymer-element name="paper-ripple" attributes="initialOpacity opacityDecayVelocity" assetpath="bower_components/paper-ripple/">
+<template>
+
+  <style>
+
+    :host {
+      display: block;
+      position: relative;
+      border-radius: inherit;
+      overflow: hidden;
+    }
+
+    :host-context([noink]) {
+      pointer-events: none;
+    }
+
+    #bg, #waves, .wave-container, .wave {
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #bg, .wave {
+      opacity: 0;
+    }
+
+    #waves, .wave {
+      overflow: hidden;
+    }
+
+    .wave-container, .wave {
+      border-radius: 50%;
+    }
+
+    :host(.circle) #bg,
+    :host(.circle) #waves {
+      border-radius: 50%;
+    }
+
+    :host(.circle) .wave-container {
+      overflow: hidden;
+    }
+
+  </style>
+
+  <div id="bg"></div>
+  <div id="waves">
+  </div>
+
+</template>
+
+</polymer-element>
+<polymer-element name="paper-icon-button" extends="paper-button-base" attributes="src icon" role="button" assetpath="bower_components/paper-icon-button/">
+
+  <template>
+
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+        padding: 8px;
+        outline: none;
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        z-index: 0;
+      }
+
+      :host([disabled]) {
+        color: #c9c9c9;
+        pointer-events: none;
+        cursor: auto;
+      }
+
+      #ripple {
+        pointer-events: none;
+        z-index: -1;
+      }
+    </style>
+
+    <!-- to position to ripple behind the icon -->
+    <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}"></core-icon>
+
+  </template>
+
+  
+
+</polymer-element>
+
+<polymer-element name="paper-shadow" assetpath="bower_components/paper-shadow/">
+
+  <template>
+
+    <style no-shim="">/*
+ * @license
+ * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ */
+
+.paper-shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.paper-shadow-animated.paper-shadow {
+  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.paper-shadow-top-z-1 {
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);
+}
+
+.paper-shadow-bottom-z-1 {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.paper-shadow-top-z-2 {
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.paper-shadow-bottom-z-2 {
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+}
+
+.paper-shadow-top-z-3 {
+  box-shadow: 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.paper-shadow-bottom-z-3 {
+  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
+}
+
+.paper-shadow-top-z-4 {
+  box-shadow: 0 25px 55px 0 rgba(0, 0, 0, 0.21);
+}
+
+.paper-shadow-bottom-z-4 {
+  box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22);
+}
+
+.paper-shadow-top-z-5 {
+  box-shadow: 0 40px 77px 0 rgba(0, 0, 0, 0.22);
+}
+
+.paper-shadow-bottom-z-5 {
+  box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2);
+}
+
+.paper-shadow-animate-z-1-z-2.paper-shadow-top {
+  -webkit-transition: none;
+  -webkit-animation: animate-shadow-top-z-1-z-2 0.7s infinite alternate;
+}
+
+.paper-shadow-animate-z-1-z-2 .paper-shadow-bottom {
+  -webkit-transition: none;
+  -webkit-animation: animate-shadow-bottom-z-1-z-2 0.7s infinite alternate;
+}
+
+@-webkit-keyframes animate-shadow-top-z-1-z-2 {
+  0% {
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);
+  }
+  100% {
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+}
+
+@-webkit-keyframes animate-shadow-bottom-z-1-z-2 {
+  0% {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  }
+  100% {
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  }
+}</style>
+
+  </template>
+
+  
+</polymer-element>
 <polymer-element name="paper-button" extends="paper-button-base" attributes="raised recenteringTouch fill" role="button" assetpath="bower_components/paper-button/">
 
   <template>
@@ -3911,15 +3893,13 @@ textarea {
   
 </polymer-element>
 </div>
-  <!-- Overlay for CP search -->
-  <core-overlay id="cp_form_container" backdrop="">
-    <paper-icon-button class="cp_form_close" icon="close" core-overlay-toggle=""></paper-icon-button>
-    <div class="content">
-      <paper-input class="cp_form_search" label="Search..">
-    </paper-input></div>
-  </core-overlay>
-
   <div class="panel_container">
+    <!-- Overlay for CP search -->
+    <core-overlay backdrop="" id="cp_form_container">
+      <paper-icon-button class="cp_form_close" icon="close" core-overlay-toggle=""></paper-icon-button>
+      <paper-input class="cp_form_search" label="Search..">
+    </paper-input></core-overlay>
+
     <core-scroll-header-panel id="calendar" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
       <core-toolbar class="medium-tall" animate="">
         <div class="middle">Calendar</div>
@@ -3971,6 +3951,8 @@ textarea {
         </div>
       </div>
     </core-scroll-header-panel>
+
+    <div class="cleardiv"></div>
   </div>
 
   <div class="cleardiv"></div>

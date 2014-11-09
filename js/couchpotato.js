@@ -32,14 +32,12 @@ $(document).ready(function() {
     cpButtonContainerPosition();
   });
 
-  // 233
-
   $(window).resize(function(event) {
     cpButtonContainerPosition();
   });
 
   $('.cp_add_button').click(function() {
-    cpButtonContainerPosition();
+    document.querySelector('#cp_form_container').toggle();
   });
 
   $('.cp_form_search /deep/ input').keyup(function(event) {

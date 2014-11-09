@@ -11,10 +11,10 @@ $(document).ready(function() {
       eventStartTime = eventStartDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
       eventEndDate = new Date(events[i].end.dateTime);
       eventEndTime = eventEndDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-      $('#calendar .today').append("<p>" + eventStartTime + " - " + eventEndTime + " " + events[i].summary + "</p>");
+      $('#calendar .today').append("<core-item label='" + eventStartTime + " - " + eventEndTime + " " + events[i].summary + "'></core-item>");
     }
     else if (events[i].start.date && new Date(events[i].start.date) <= today) {
-      $('#calendar .today').append("<p>" + events[i].summary + "</p>");
+      $('#calendar .today').append("<core-item label='" + events[i].summary + "'></core-item>");
     }
     else if (events[i].start.dateTime && new Date(events[i].start.dateTime).setHours(0,0,0,0) > today.setHours(0,0,0,0)) {
       eventStartDate = new Date(events[i].start.dateTime);
