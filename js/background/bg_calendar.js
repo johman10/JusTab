@@ -4,8 +4,10 @@ function getCalendarData(callback) {
       calendars: ''
     }, function(items) {
       var url = [];
+      var encodedUrl;
       $.each(items.calendars, function(i) {
-        url.push("https://www.googleapis.com/calendar/v3/calendars/" + items.calendars[i] + "/events");
+        encodedUrl = encodeURIComponent(items.calendars[i]);
+        url.push("https://www.googleapis.com/calendar/v3/calendars/" + encodedUrl + "/events");
       });
       eventArray(url, token, callback);
     });
@@ -35,25 +37,6 @@ function eventArray(url, token, callback) {
         });
       }
     });
-  });
-
-  events.sort(function(obj1, obj2) {
-    if (obj1.start.dateTime && obj2.start.dateTime) {
-      if (new Date(obj1.start.dateTime) < new Date(obj2.start.dateTime)) return -1;
-      if (new Date(obj1.start.dateTime) > new Date(obj2.start.dateTime)) return 1;
-    }
-    else if (obj1.start.date && obj2.start.date) {
-      if (new Date(obj1.start.date) < new Date(obj2.start.date)) return -1;
-      if (new Date(obj1.start.date) > new Date(obj2.start.date)) return 1;
-    }
-    else if (obj1.start.dateTime && obj2.start.date) {
-      if (new Date(obj1.start.dateTime) < new Date(obj2.start.date)) return -1;
-      if (new Date(obj1.start.dateTime) > new Date(obj2.start.date)) return 1;
-    }
-    else if (obj1.start.date && obj2.start.dateTime) {
-      if (new Date(obj1.start.date) < new Date(obj2.start.dateTime)) return -1;
-      if (new Date(obj1.start.date) > new Date(obj2.start.dateTime)) return 1;
-    }
   });
 
   localStorage.setItem("Calendar", JSON.stringify(events));
