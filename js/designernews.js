@@ -2,6 +2,21 @@
 // http://developers.news.layervault.com/
 
 $(document).ready(function() {
+  dnShowData();
+
+  $('.refresh_dn').click(function() {
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      backgroundPage.getDesignerNewsData(function() {
+        dnShowData();
+      });
+    });
+  });
+
+});
+
+function dnShowData() {
+  $('.dn_links').empty();
+
   if (localStorage.Designernews) {
     data = JSON.parse(localStorage.getItem('Designernews'));
     $.each(data.stories, function(i) {
@@ -12,4 +27,4 @@ $(document).ready(function() {
       );
     });
   }
-});
+}
