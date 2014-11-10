@@ -7,12 +7,13 @@ $(document).ready(function() {
     var id = $(this).attr('id');
     var opacity = $('#' + id + ' /deep/ #headerBg').css('opacity');
     refreshButton.css('opacity', opacity);
-    // var d = e.currentTarget;
-    // console.log(refreshButton);
-    // var m = d.height() - d.condensedHeight;
-    // var scale = Math.max(0.75, (m - d.y) / (m / 0.25)  + 0.75);
-    // refreshButton.transform = refreshButton.webkitTransform =
-    //     'scale(' + scale + ') translateZ(0)';
+
+    if (opacity < 0.01) {
+      refreshButton.hide();
+    }
+    else {
+      refreshButton.show();
+    }
   });
 });
 
