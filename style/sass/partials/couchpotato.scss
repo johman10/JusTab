@@ -12,6 +12,10 @@
   background-color: $couchpotato-color;
 }
 
+#couchpotato .content {
+  padding-bottom: 56px;
+}
+
 .cp_button_container {
   position: absolute;
   right: 0;
@@ -20,9 +24,8 @@
 
   .cp_add_button {
     float: right;
-    margin-right: 10px;
+    margin: 10px;
     position: relative;
-    margin-bottom: 10px;
 
     &:hover {
       background-color: $hover-color;
@@ -41,7 +44,7 @@
     top: 0;
     right: 0;
     color: $grey;
-    z-index:10;
+    z-index: 10;
   }
 
   .content {

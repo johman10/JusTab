@@ -27,6 +27,7 @@ $(document).ready(function() {
   }
 
   cpButtonContainerPosition();
+  console.log($('#couchpotato').height());
 
   $('#couchpotato').scroll(function(event) {
     cpButtonContainerPosition();
@@ -41,6 +42,7 @@ $(document).ready(function() {
   });
 
   $('.cp_form_search /deep/ input').keyup(function(event) {
+    // http://nas.pxdesign.nl:5050/api/[api_key]/movie.add/?identifier=tt1646971&?title=How%20to%20Train%20Your%20Dragon
     chrome.storage.sync.get({
       CP_address: '',
       CP_port: '',
@@ -60,9 +62,37 @@ $(document).ready(function() {
       $.ajax({
         url: url + apiKey + apiCall + $('.cp_form_search /deep/ input').val(),
         dataType: 'json',
-        async: true,
+        async: false,
         success: function(data) {
-          console.log(data, url + apiKey + apiCall + $('.cp_form_search /deep/ input').val());
+          $('.cp_search_result').html('');
+          var titles = [];
+          var posters = [];
+          var imdbId = [];
+          if (data.movies) {
+            $.each(data.movies, function(index, movie) {
+              titles.push(movie.original_title);
+              if (movie.images.poster.length > 0) {
+                posters.push(movie.images.poster[0]);
+              }
+              else {
+                posters.push('http://ia.media-imdb.com/images/G/01/imdb/images/nopicture/32x44/film-3119741174._CB379391527_.png');
+              }
+              imdbId.push(movie.imdb);
+              console.log(movie);
+            });
+
+            $.each(titles, function(i) {
+              $('.cp_search_result').append(
+                '<div class="cp_search_movie">' +
+                  '<img src=' + posters[i] + ' class="cp_search_poster">' +
+                  '<span class="cp_search_title">' + titles[i] + '</span>' +
+                '</div>'
+              );
+            });
+          }
+          else {
+            $('.cp_search_result').append('No results for search');
+          }
         },
         error: function() {
           console.log(url + apiKey + apiCall + $('.cp_form_search /deep/ input').val());
