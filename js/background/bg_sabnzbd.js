@@ -2,7 +2,7 @@
 // http://wiki.sabnzbd.org/api
 
 
-function getSabnzbdHistory() {
+function getSabnzbdHistory(callback) {
   chrome.storage.sync.get({
     SAB_address: '',
     SAB_port: '',
@@ -31,9 +31,13 @@ function getSabnzbdHistory() {
       }
     });
   });
+
+  if (callback) {
+    callback();
+  }
 }
 
-function getSabnzbdQueue() {
+function getSabnzbdQueue(callback) {
   chrome.storage.sync.get({
     SAB_address: '',
     SAB_port: '',
@@ -62,4 +66,8 @@ function getSabnzbdQueue() {
       }
     });
   });
+
+  if (callback) {
+    callback();
+  }
 }

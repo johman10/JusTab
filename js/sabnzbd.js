@@ -3,7 +3,27 @@
 
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
 $(document).ready(function() {
+  sabShowData();
+
+  $('.refresh_sab').click(function() {
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      backgroundPage.getSabnzbdHistory(function() {
+        backgroundPage.getSabnzbdQueue(function() {
+          sabShowData();
+        });
+      });
+    });
+  });
+});
+
+function sabShowData() {
   if (localStorage.SabnzbdHistory && localStorage.SabnzbdQueue) {
+    $('.queue').empty();
+    $('.history').empty();
+
+    $('.queue').append('<h1>Queue</h1>');
+    $('.history').append('<h1>History</h1>');
+
     var history = JSON.parse(localStorage.getItem('SabnzbdHistory'));
     var queue = JSON.parse(localStorage.getItem('SabnzbdQueue'));
 
@@ -19,4 +39,4 @@ $(document).ready(function() {
       $('.queue').append("<core-item label='No items in queue at this moment.'></core-item>");
     }
   }
-});
+}
