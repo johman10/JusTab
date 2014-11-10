@@ -35,9 +35,9 @@
 
 #cp_form_container {
   overflow: scroll;
-  height: 50%;
+  // height: 50%;
   width: 30%;
-  background-color: $white;
+  // background-color: $white;
 
   .cp_form_close {
     position: absolute;
@@ -49,5 +49,36 @@
 
   .content {
     padding: 0 8px;
+  }
+
+  .cp_form_search {
+    height: 40px;
+    border: 0;
+    width: 95.5%;
+    outline: none;
+    padding: 0 0 0 5px;
+    margin: 5px;
+    font-size: 20px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26), 0 2px 10px 0 rgba(0, 0, 0, 0.16);
+  }
+
+  .cp_search_result {
+    display: none;
+    height: 150px;
+    overflow-y: scroll;
+    background-color: $grey;
+
+    .cp_search_movie {
+      height: 30px;
+
+      .cp_search_poster {
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+        width: 34px;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    }
   }
 }
