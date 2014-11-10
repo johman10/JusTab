@@ -49,14 +49,13 @@ p {
   margin: 3px;
 }
 
-/* line 57, ../sass/partials/general.scss */
+/* line 56, ../sass/partials/general.scss */
 .today,
 .tomorrow,
 .snatched,
 .wanted,
 .queue,
-.history,
-.dn_links {
+.history {
   padding: 0 16px;
 }
 
@@ -160,16 +159,25 @@ p {
 }
 
 /* line 16, ../sass/partials/designernews.scss */
+.dn_links a {
+  padding: 0 16px;
+}
+/* line 20, ../sass/partials/designernews.scss */
+.dn_links a:hover {
+  background-color: #eeeeee;
+}
+
+/* line 26, ../sass/partials/designernews.scss */
 core-item a {
   line-height: 40px;
   text-decoration: none;
   color: black;
 }
-/* line 21, ../sass/partials/designernews.scss */
+/* line 31, ../sass/partials/designernews.scss */
 core-item a:hover {
   color: black;
 }
-/* line 25, ../sass/partials/designernews.scss */
+/* line 35, ../sass/partials/designernews.scss */
 core-item a:visited {
   color: gray;
 }

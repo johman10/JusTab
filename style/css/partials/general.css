@@ -49,13 +49,12 @@ p {
   margin: 3px;
 }
 
-/* line 57, ../../sass/partials/general.scss */
+/* line 56, ../../sass/partials/general.scss */
 .today,
 .tomorrow,
 .snatched,
 .wanted,
 .queue,
-.history,
-.dn_links {
+.history {
   padding: 0 16px;
 }

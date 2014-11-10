@@ -12,6 +12,16 @@
   background-color: $designernews-color;
 }
 
+.dn_links {
+  a {
+    padding: 0 16px;
+  }
+
+  a:hover {
+    background-color: $hover-color;
+  }
+}
+
 core-item {
   a {
     line-height: 40px;
