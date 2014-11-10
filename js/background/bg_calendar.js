@@ -1,4 +1,4 @@
-function getCalendarData() {
+function getCalendarData(callback) {
   chrome.identity.getAuthToken({'interactive': true},function (token) {
     chrome.storage.sync.get({
       calendars: ''
@@ -7,12 +7,12 @@ function getCalendarData() {
       $.each(items.calendars, function(i) {
         url.push("https://www.googleapis.com/calendar/v3/calendars/" + items.calendars[i] + "/events");
       });
-      eventArray(url, token);
+      eventArray(url, token, callback);
     });
   });
 }
 
-function eventArray(url, token) {
+function eventArray(url, token, callback) {
   dateNow = new Date();
   dateTomorrow = new Date();
   dateTomorrow.setDate(dateTomorrow.getDate() + 1);
@@ -57,4 +57,8 @@ function eventArray(url, token) {
   });
 
   localStorage.setItem("Calendar", JSON.stringify(events));
+
+  if (callback) {
+    callback();
+  }
 }

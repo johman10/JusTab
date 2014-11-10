@@ -1,4 +1,24 @@
 $(document).ready(function() {
+  calenderShowEvents();
+
+  $('.refresh_calendar').click(function() {
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      // backgroundPage.getCalendarData();
+
+      backgroundPage.getCalendarData(function() {
+        calenderShowEvents();
+      });
+    });
+
+    // calenderShowEvents();
+  });
+});
+
+function calenderShowEvents() {
+  console.log('Show');
+  $('#calendar .today').empty();
+  $('#calendar .tomorrow').empty();
+
   var events = JSON.parse(localStorage.getItem('Calendar'));
   var today = new Date();
 
@@ -27,4 +47,4 @@ $(document).ready(function() {
       $('#calendar .tomorrow').append("<core-item label='" + events[i].summary + "'></core-item>");
     }
   });
-});
+}
