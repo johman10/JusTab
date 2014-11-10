@@ -2,7 +2,7 @@
 // http://nas.pxdesign.nl:5050/docs
 
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
-function getCouchPotatoData() {
+function getCouchPotatoData(callback) {
   chrome.storage.sync.get({
     CP_address: '',
     CP_port: '',
@@ -28,4 +28,8 @@ function getCouchPotatoData() {
       }
     });
   });
+
+  if (callback) {
+    callback();
+  }
 }

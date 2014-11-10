@@ -3,28 +3,15 @@
 
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
 $(document).ready(function() {
-  if (localStorage.Couchpotato) {
-    data = JSON.parse(localStorage.getItem('Couchpotato'));
-    var snatched = [];
-    $.each(data.movies, function(i) {
-      $.each(data.movies[i].releases, function(l) {
-        if (data.movies[i].releases[l].status === "snatched" || data.movies[i].releases[l].status === "downloaded" || data.movies[i].releases[l].status === "available") {
-          snatched.push(data.movies[i].title);
-          if ($('.snatched').html().indexOf(data.movies[i].title) == -1) {
-            $('.snatched').append("<core-item label='" + data.movies[i].title + "'></core-item>");
-          }
-        }
+  cpShowData();
+
+  $('.refresh_cp').click(function() {
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      backgroundPage.getCouchPotatoData(function() {
+        cpShowData();
       });
-
-      if (data.movies[i].status === "active") {
-        $('.wanted').append("<core-item label='" + data.movies[i].title + "''></core-item>");
-      }
     });
-
-    if (snatched.length <= 0) {
-      $('.snatched').append("<core-item label='No snatched movies at this moment.'></core-item>");
-    }
-  }
+  });
 
   cpButtonContainerPosition();
 
@@ -103,4 +90,35 @@ $(document).ready(function() {
 
 function cpButtonContainerPosition() {
   $('.cp_button_container').css('top', $('#couchpotato')[0].prevScrollTop + $(window).height() - ($('.cp_button_container').height() + 133));
+}
+
+function cpShowData() {
+  $('.wanted').empty();
+  $('.snatched').empty();
+
+  $('.snatched').append('<h1>Snatched and Available</h1>');
+  $('.wanted').append('<h1>Wanted</h1>');
+
+  if (localStorage.Couchpotato) {
+    data = JSON.parse(localStorage.getItem('Couchpotato'));
+    var snatched = [];
+    $.each(data.movies, function(i) {
+      $.each(data.movies[i].releases, function(l) {
+        if (data.movies[i].releases[l].status === "snatched" || data.movies[i].releases[l].status === "downloaded" || data.movies[i].releases[l].status === "available") {
+          snatched.push(data.movies[i].title);
+          if ($('.snatched').html().indexOf(data.movies[i].title) == -1) {
+            $('.snatched').append("<core-item label='" + data.movies[i].title + "'></core-item>");
+          }
+        }
+      });
+
+      if (data.movies[i].status === "active") {
+        $('.wanted').append("<core-item label='" + data.movies[i].title + "''></core-item>");
+      }
+    });
+
+    if (snatched.length <= 0) {
+      $('.snatched').append("<core-item label='No snatched movies at this moment.'></core-item>");
+    }
+  }
 }
