@@ -23,18 +23,11 @@ function eventArray(url, token, callback) {
 
   $.each(url, function(i) {
     $.ajax({
-      url: url[i] + "?&oauth_token=" + token + "&timeMin=" + dateNow.toISOString() + "&orderBy=startTime&singleEvents=true",
+      url: url[i] + "?&oauth_token=" + token + "&timeMin=" + dateNow.toISOString() + "&timeMax=" + dateTomorrow.toISOString() + "&orderBy=startTime&singleEvents=true",
       dataType: 'json',
       async: false,
       success: function(data) {
-        $.each(data.items, function(l) {
-          if (new Date(data.items[l].start.dateTime) < dateTomorrow) {
-            events.push(data.items[l]);
-          }
-          else if (new Date(data.items[l].start.date) < dateTomorrow) {
-            events.push(data.items[l]);
-          }
-        });
+        events = $.merge(events, data.items);
       }
     });
   });
