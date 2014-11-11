@@ -1,9 +1,6 @@
 @import 'modules/colors';
 
 body {
-  font-family: 'Roboto';
-  font-weight: 200;
-  font-size: 13px;
   margin: 0;
   padding: 0;
   overflow-x: auto;
@@ -31,17 +28,6 @@ body {
 core-toolbar {
   background-color: transparent;
   color: $white;
-}
-
-h1 {
-  font-size: 20px;
-  font-family: 'Roboto';
-  font-weight: 400;
-  margin: 5px 0;
-}
-
-p {
-  margin: 3px;
 }
 
 // core-item::shadow #label:visited {

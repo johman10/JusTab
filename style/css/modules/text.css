@@ -1,0 +1,22 @@
+/* line 3, ../../sass/modules/text.scss */
+body {
+  font-family: 'Roboto';
+  font-weight: 200;
+  font-size: 14px;
+}
+
+/* line 9, ../../sass/modules/text.scss */
+h2 {
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  font-family: 'Roboto';
+  font-weight: 500;
+  color: #727272;
+  margin: 0;
+}
+
+/* line 19, ../../sass/modules/text.scss */
+p {
+  margin: 3px;
+}

@@ -1,20 +1,17 @@
 /* line 3, ../../sass/partials/general.scss */
 body {
-  font-family: 'Roboto';
-  font-weight: 200;
-  font-size: 13px;
   margin: 0;
   padding: 0;
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-/* line 13, ../../sass/partials/general.scss */
+/* line 10, ../../sass/partials/general.scss */
 .cleardiv {
   clear: both;
 }
 
-/* line 17, ../../sass/partials/general.scss */
+/* line 14, ../../sass/partials/general.scss */
 .panel {
   float: left;
   width: 400px;
@@ -25,31 +22,18 @@ body {
   white-space: nowrap;
 }
 
-/* line 27, ../../sass/partials/general.scss */
+/* line 24, ../../sass/partials/general.scss */
 .content {
   position: relative;
 }
 
-/* line 31, ../../sass/partials/general.scss */
+/* line 28, ../../sass/partials/general.scss */
 core-toolbar {
   background-color: transparent;
   color: white;
 }
 
-/* line 36, ../../sass/partials/general.scss */
-h1 {
-  font-size: 20px;
-  font-family: 'Roboto';
-  font-weight: 400;
-  margin: 5px 0;
-}
-
-/* line 43, ../../sass/partials/general.scss */
-p {
-  margin: 3px;
-}
-
-/* line 56, ../../sass/partials/general.scss */
+/* line 42, ../../sass/partials/general.scss */
 .today,
 .tomorrow,
 .snatched,

@@ -21,8 +21,8 @@ function sabShowData() {
     $('.queue').empty();
     $('.history').empty();
 
-    $('.queue').append('<h1>Queue</h1>');
-    $('.history').append('<h1>History</h1>');
+    $('.queue').append('<h2>Queue</h2>');
+    $('.history').append('<h2>History</h2>');
 
     var history = JSON.parse(localStorage.getItem('SabnzbdHistory'));
     var queue = JSON.parse(localStorage.getItem('SabnzbdQueue'));

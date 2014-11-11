@@ -89,15 +89,15 @@ $(document).ready(function() {
 });
 
 function cpButtonContainerPosition() {
-  $('.cp_button_container').css('top', $('#couchpotato')[0].prevScrollTop + $(window).height() - ($('.cp_button_container').height() + 133));
+  $('.cp_button_container').css('top', $('#couchpotato')[0].prevScrollTop + $(window).height() - ($('.cp_button_container').height() + 128));
 }
 
 function cpShowData() {
   $('.wanted').empty();
   $('.snatched').empty();
 
-  $('.snatched').append('<h1>Snatched and Available</h1>');
-  $('.wanted').append('<h1>Wanted</h1>');
+  $('.snatched').append('<h2>Snatched and Available</h2>');
+  $('.wanted').append('<h2>Wanted</h2>');
 
   if (localStorage.Couchpotato) {
     data = JSON.parse(localStorage.getItem('Couchpotato'));

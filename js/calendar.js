@@ -17,8 +17,8 @@ function calenderShowEvents() {
   var events = JSON.parse(localStorage.getItem('Calendar'));
   var today = new Date();
 
-  $('#calendar .today').append("<h1>Today</h1>");
-  $('#calendar .tomorrow').append("<h1>Tomorrow</h1>");
+  $('#calendar .today').append("<h2>Today</h2>");
+  $('#calendar .tomorrow').append("<h2>Tomorrow</h2>");
 
   $.each(events, function(i) {
     if (events[i].start.dateTime && new Date(events[i].start.dateTime).setHours(0,0,0,0) <= today.setHours(0,0,0,0)) {
