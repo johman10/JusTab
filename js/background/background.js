@@ -3,6 +3,7 @@ chrome.alarms.create('sabnzbdQueue', {periodInMinutes: 1});
 
 chrome.runtime.onStartup.addListener(
   getCouchPotatoData(),
+  getSickBeardData(),
   getSabnzbdHistory(),
   getSabnzbdQueue(),
   getDesignerNewsData(),
@@ -15,6 +16,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
   }
   else {
     getCouchPotatoData();
+    getSickBeardData();
     getSabnzbdHistory();
     getDesignerNewsData();
     getCalendarData();

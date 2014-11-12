@@ -33,12 +33,16 @@ core-toolbar {
   color: white;
 }
 
-/* line 42, ../../sass/partials/general.scss */
+/* line 46, ../../sass/partials/general.scss */
 .today,
 .tomorrow,
 .snatched,
 .wanted,
 .queue,
-.history {
+.history,
+.sb_missed,
+.sb_today,
+.sb_soon,
+.sb_later {
   padding: 0 16px;
 }

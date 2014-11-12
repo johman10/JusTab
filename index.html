@@ -13,6 +13,7 @@
   <script src="js/calendar.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/sabnzbd.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/couchpotato.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="js/sickbeard.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/designernews.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/style.js" type="text/javascript" charset="utf-8" defer></script>
   <!-- <script src="js/facebook.js" type="text/javascript" charset="utf-8" defer></script> -->
@@ -56,6 +57,21 @@
         <div class="cp_button_container">
           <paper-button icon="add" class="cp_add_button" raised>Add movie</paper-button>
         </div>
+      </div>
+    </core-scroll-header-panel>
+
+    <core-scroll-header-panel id="sickbeard" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
+      <core-toolbar class="medium-tall" animate>
+        <div class="top">
+          <paper-icon-button class="refresh_button refresh_sb" icon="refresh"></paper-icon-button>
+        </div>
+        <div class="middle">Sickbeard</div>
+      </core-toolbar>
+      <div class="content">
+        <div class="sb_missed"></div>
+        <div class="sb_today"></div>
+        <div class="sb_soon"></div>
+        <div class="sb_later"></div>
       </div>
     </core-scroll-header-panel>
 

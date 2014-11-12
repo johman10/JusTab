@@ -1,0 +1,13 @@
+/* line 3, ../../sass/partials/sickbeard.scss */
+#sickbeard::shadow #headerBg {
+  background-image: url('/img/../img/SB_header.png?1415792707');
+  background-size: auto 60%;
+  background-position: 110%;
+  background-color: #c7db40;
+}
+
+/* line 10, ../../sass/partials/sickbeard.scss */
+#sickbeard::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: #c7db40;
+}

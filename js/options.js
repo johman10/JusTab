@@ -46,6 +46,9 @@ function save_options() {
     CP_address: $('#CP_address').val(),
     CP_port: $('#CP_port').val(),
     CP_key: $('#CP_key').val(),
+    SB_address: $('#SB_address').val(),
+    SB_port: $('#SB_port').val(),
+    SB_key: $('#SB_key').val(),
     SAB_address: $('#SAB_address').val(),
     SAB_port: $('#SAB_port').val(),
     SAB_key: $('#SAB_key').val(),
@@ -66,6 +69,9 @@ function restore_options() {
     CP_address: '',
     CP_port: '',
     CP_key: '',
+    SB_address: '',
+    SB_port: '',
+    SB_key: '',
     SAB_address: '',
     SAB_port: '',
     SAB_key: '',
@@ -74,6 +80,9 @@ function restore_options() {
     $('#CP_address').val(items.CP_address);
     $('#CP_port').val(items.CP_port);
     $('#CP_key').val(items.CP_key);
+    $('#SB_address').val(items.SB_address);
+    $('#SB_port').val(items.SB_port);
+    $('#SB_key').val(items.SB_key);
     $('#SAB_address').val(items.SAB_address);
     $('#SAB_port').val(items.SAB_port);
     $('#SAB_key').val(items.SAB_key);

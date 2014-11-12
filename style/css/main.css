@@ -56,13 +56,17 @@ core-toolbar {
   color: white;
 }
 
-/* line 42, ../sass/partials/general.scss */
+/* line 46, ../sass/partials/general.scss */
 .today,
 .tomorrow,
 .snatched,
 .wanted,
 .queue,
-.history {
+.history,
+.sb_missed,
+.sb_today,
+.sb_soon,
+.sb_later {
   padding: 0 16px;
 }
 
@@ -150,6 +154,20 @@ core-toolbar {
   width: 34px;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+/* line 3, ../sass/partials/sickbeard.scss */
+#sickbeard::shadow #headerBg {
+  background-image: url('/img/../img/SB_header.png?1415792707');
+  background-size: auto 60%;
+  background-position: 110%;
+  background-color: #c7db40;
+}
+
+/* line 10, ../sass/partials/sickbeard.scss */
+#sickbeard::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: #c7db40;
 }
 
 /* line 3, ../sass/partials/sabnzbd.scss */

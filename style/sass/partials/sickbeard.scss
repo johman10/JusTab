@@ -1,0 +1,13 @@
+@import 'modules/colors';
+
+#sickbeard::shadow #headerBg {
+  background-image: image-url('../img/SB_header.png');
+  background-size: auto 60%;
+  background-position: 110%;
+  background-color: $sickbeard-color;
+}
+
+#sickbeard::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: $sickbeard-color;
+}
