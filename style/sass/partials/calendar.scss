@@ -19,14 +19,19 @@
   }
 
   a {
+    right: 16px !important;
+    top: auto !important;
+    left: auto !important;
+    bottom: auto !important;
+    line-height: 1;
+    display: none;
+  }
+
+  core-item:hover > a {
+    display: block;
+  }
+
+  core-item {
     padding: 0 16px;
-  }
-
-  a:hover {
-    background-color: $hover-color;
-  }
-
-  a:visited {
-    color: $black;
   }
 }

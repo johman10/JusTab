@@ -26,6 +26,7 @@ function getSabnzbdHistory(callback) {
       url: url + historyMode + output + apiKey,
       dataType: 'json',
       async: true,
+      timeout: 3000,
       success: function(history) {
         localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
       }

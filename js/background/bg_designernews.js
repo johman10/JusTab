@@ -10,6 +10,7 @@ function getDesignerNewsData(callback) {
     url: url + apiCall + apiKey,
     dataType: 'json',
     async: true,
+    timeout: 3000,
     success: function(data) {
       localStorage.setItem("Designernews", JSON.stringify(data));
     }

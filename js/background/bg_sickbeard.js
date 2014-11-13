@@ -22,6 +22,7 @@ function getSickBeardData(callback) {
       url: url + apiKey + apiCall,
       dataType: 'json',
       async: true,
+      timeout: 3000,
       success: function(data) {
         localStorage.setItem("Sickbeard", JSON.stringify(data));
       }

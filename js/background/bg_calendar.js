@@ -26,6 +26,7 @@ function eventArray(url, token, callback) {
       url: url[i] + "?&oauth_token=" + token + "&timeMin=" + dateNow.toISOString() + "&timeMax=" + dateTomorrow.toISOString() + "&orderBy=startTime&singleEvents=true",
       dataType: 'json',
       async: false,
+      timeout: 2000,
       success: function(data) {
         events = $.merge(events, data.items);
       }

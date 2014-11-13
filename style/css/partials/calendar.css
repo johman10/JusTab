@@ -20,15 +20,20 @@
 /* line 21, ../../sass/partials/calendar.scss */
 .today a,
 .tomorrow a {
+  right: 16px !important;
+  top: auto !important;
+  left: auto !important;
+  bottom: auto !important;
+  line-height: 1;
+  display: none;
+}
+/* line 30, ../../sass/partials/calendar.scss */
+.today core-item:hover > a,
+.tomorrow core-item:hover > a {
+  display: block;
+}
+/* line 34, ../../sass/partials/calendar.scss */
+.today core-item,
+.tomorrow core-item {
   padding: 0 16px;
-}
-/* line 25, ../../sass/partials/calendar.scss */
-.today a:hover,
-.tomorrow a:hover {
-  background-color: #eeeeee;
-}
-/* line 29, ../../sass/partials/calendar.scss */
-.today a:visited,
-.tomorrow a:visited {
-  color: black;
 }

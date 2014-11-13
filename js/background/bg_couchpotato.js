@@ -23,6 +23,7 @@ function getCouchPotatoData(callback) {
       url: url + apiKey + apiCall,
       dataType: 'json',
       async: true,
+      timeout: 2000,
       success: function(data) {
         localStorage.setItem("Couchpotato", JSON.stringify(data));
       }
