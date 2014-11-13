@@ -30,6 +30,13 @@ core-toolbar {
   color: $white;
 }
 
+.middle {
+  a {
+    color: $white;
+    text-decoration: none;
+  }
+}
+
 // core-item::shadow #label:visited {
 //   color: $white !important;
 // }

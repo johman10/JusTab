@@ -11,6 +11,20 @@ $(document).ready(function() {
       });
     });
   });
+
+  chrome.storage.sync.get({
+    SB_address: '',
+    SB_port: ''
+  }, function(items) {
+    if (items.SB_address.slice(0,7) == "http://") {
+      url = items.SB_address + ":" + items.SB_port + "/";
+    }
+    else {
+      url = "http://" + items.SB_address + ":" + items.SB_port + "/";
+    }
+
+    $('#sickbeard core-toolbar a').attr('href', url);
+  });
 });
 
 function sbShowData() {

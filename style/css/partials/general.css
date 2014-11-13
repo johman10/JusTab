@@ -33,7 +33,13 @@ core-toolbar {
   color: white;
 }
 
-/* line 44, ../../sass/partials/general.scss */
+/* line 34, ../../sass/partials/general.scss */
+.middle a {
+  color: white;
+  text-decoration: none;
+}
+
+/* line 51, ../../sass/partials/general.scss */
 .snatched,
 .wanted,
 .queue,

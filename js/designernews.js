@@ -12,6 +12,9 @@ $(document).ready(function() {
     });
   });
 
+
+  $('#designernews core-toolbar a').attr('href', 'http://news.layervault.com');
+
 });
 
 function dnShowData() {

@@ -14,6 +14,20 @@ $(document).ready(function() {
       });
     });
   });
+
+  chrome.storage.sync.get({
+    SAB_address: '',
+    SAB_port: ''
+  }, function(items) {
+    if (items.SAB_address.slice(0,7) == "http://") {
+      url = items.SAB_address + ":" + items.SAB_port + "/";
+    }
+    else {
+      url = "http://" + items.SAB_address + ":" + items.SAB_port + "/";
+    }
+
+    $('#sabnzbd core-toolbar a').attr('href', url);
+  });
 });
 
 function sabShowData() {
