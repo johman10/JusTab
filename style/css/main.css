@@ -56,9 +56,7 @@ core-toolbar {
   color: white;
 }
 
-/* line 46, ../sass/partials/general.scss */
-.today,
-.tomorrow,
+/* line 44, ../sass/partials/general.scss */
 .snatched,
 .wanted,
 .queue,
@@ -196,6 +194,27 @@ core-toolbar {
 #calendar::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #4285f4;
+}
+
+/* line 17, ../sass/partials/calendar.scss */
+.today h2,
+.tomorrow h2 {
+  padding: 0 16px;
+}
+/* line 21, ../sass/partials/calendar.scss */
+.today a,
+.tomorrow a {
+  padding: 0 16px;
+}
+/* line 25, ../sass/partials/calendar.scss */
+.today a:hover,
+.tomorrow a:hover {
+  background-color: #eeeeee;
+}
+/* line 29, ../sass/partials/calendar.scss */
+.today a:visited,
+.tomorrow a:visited {
+  color: black;
 }
 
 /* line 3, ../sass/partials/designernews.scss */

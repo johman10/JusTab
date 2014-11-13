@@ -11,3 +11,24 @@
   background-image: none;
   background-color: #4285f4;
 }
+
+/* line 17, ../../sass/partials/calendar.scss */
+.today h2,
+.tomorrow h2 {
+  padding: 0 16px;
+}
+/* line 21, ../../sass/partials/calendar.scss */
+.today a,
+.tomorrow a {
+  padding: 0 16px;
+}
+/* line 25, ../../sass/partials/calendar.scss */
+.today a:hover,
+.tomorrow a:hover {
+  background-color: #eeeeee;
+}
+/* line 29, ../../sass/partials/calendar.scss */
+.today a:visited,
+.tomorrow a:visited {
+  color: black;
+}

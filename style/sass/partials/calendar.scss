@@ -11,3 +11,22 @@
   background-image: none;
   background-color: $calendar-color;
 }
+
+.today,
+.tomorrow {
+  h2 {
+    padding: 0 16px;
+  }
+
+  a {
+    padding: 0 16px;
+  }
+
+  a:hover {
+    background-color: $hover-color;
+  }
+
+  a:visited {
+    color: $black;
+  }
+}

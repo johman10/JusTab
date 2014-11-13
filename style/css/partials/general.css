@@ -33,9 +33,7 @@ core-toolbar {
   color: white;
 }
 
-/* line 46, ../../sass/partials/general.scss */
-.today,
-.tomorrow,
+/* line 44, ../../sass/partials/general.scss */
 .snatched,
 .wanted,
 .queue,
