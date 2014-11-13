@@ -17,8 +17,6 @@ function calenderShowEvents() {
   var events = JSON.parse(localStorage.getItem('Calendar'));
   var today = new Date();
 
-  console.log(events);
-
   $('#calendar .today').append("<h2>Today</h2>");
   $('#calendar .tomorrow').append("<h2>Tomorrow</h2>");
 
