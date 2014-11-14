@@ -8,20 +8,6 @@ $(document).ready(function() {
       });
     });
   });
-
-  chrome.storage.sync.get({
-    CP_address: '',
-    CP_port: ''
-  }, function(items) {
-    if (items.CP_address.slice(0,7) == "http://") {
-      url = items.CP_address + ":" + items.CP_port + "/";
-    }
-    else {
-      url = "http://" + items.CP_address + ":" + items.CP_port + "/";
-    }
-
-    $('#sabnzbd core-toolbar a').attr('href', url);
-  });
 });
 
 function calenderShowEvents() {

@@ -55,7 +55,7 @@ function sbShowData() {
     }
 
     // Episodes soon
-    if (data.data.today.length > 0) {
+    if (data.data.soon.length > 0) {
       $('.sb_soon').append('<h2>Soon</h2>');
 
       $.each(data.data.soon, function(i) {
@@ -64,7 +64,7 @@ function sbShowData() {
     }
 
     // Episodes later
-    if (data.data.today.length > 0) {
+    if (data.data.later.length > 0) {
       $('.sb_later').append('<h2>Later</h2>');
 
       $.each(data.data.later, function(i) {
