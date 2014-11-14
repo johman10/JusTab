@@ -263,7 +263,7 @@ core-toolbar {
 /* line 21, ../sass/partials/calendar.scss */
 .today a,
 .tomorrow a {
-  right: 16px !important;
+  right: 0 !important;
   top: auto !important;
   left: auto !important;
   bottom: auto !important;
