@@ -1,21 +1,29 @@
 $(document).ready(function() {
-  // URL needs to be integrated in options, since RSS is open for everybody this is pure ment as an example
-  var url = "https://www.facebook.com/feeds/notifications.php?id=100002284302224&viewer=100002284302224&key=AWiolJJDtvCN1IYI&format=rss20";
+  fbShowData();
 
-  $.ajax({
-    url: url,
-    dataType: 'jsonp',
-    contentType: 'application/rss+xml',
-    async: false,
-    success: function(notifications) {
-      console.log(notifications);
-    }
+  $('.refresh_fb').click(function() {
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      backgroundPage.getFacebookData(function() {
+        fbShowData();
+      });
+    });
   });
-
-  // $.get(url, function(req, res){
-  //   res.header("Access-Control-Allow-Origin", "*");
-  //   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  //   res.send();
-  // });
-
 });
+
+function fbShowData() {
+  $('.notifications').empty();
+
+  if (localStorage.Facebook) {
+    data = $.parseXML(localStorage.getItem('Facebook'));
+    $('.notifications').append('<h2>Notifications</h2>');
+
+    $(data).find('item').each(function(){
+      var title = $(this).find('title').text();
+      var link = $(this).find('link').text();
+
+      $('.notifications').append(
+        '<core-item><a href="' + link + '" target="_blank" fit>' + title + '<paper-ripple fit></paper-ripple></a></core-item>'
+      );
+    });
+  }
+}

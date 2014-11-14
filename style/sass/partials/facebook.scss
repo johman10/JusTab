@@ -1,0 +1,24 @@
+@import 'modules/colors';
+
+#facebook::shadow #headerBg {
+  background-image: image-url('../img/FB_header.png');
+  background-size: auto 60%;
+  background-position: 100%;
+  background-color: $facebook-color;
+}
+
+#facebook::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: $facebook-color;
+}
+
+.notifications {
+  h2,
+  a {
+    padding: 0 16px;
+  }
+
+  a:hover {
+    background-color: $hover-color;
+  }
+}

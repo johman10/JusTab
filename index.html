@@ -16,7 +16,7 @@
   <script src="js/sickbeard.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/designernews.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/style.js" type="text/javascript" charset="utf-8" defer></script>
-  <!-- <script src="js/facebook.js" type="text/javascript" charset="utf-8" defer></script> -->
+  <script src="js/facebook.js" type="text/javascript" charset="utf-8" defer></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
 </head>
 <body unresolved>
@@ -40,6 +40,22 @@
       <div class="content">
         <div class="today"></div>
         <div class="tomorrow"></div>
+      </div>
+    </core-scroll-header-panel>
+
+    <core-scroll-header-panel id="facebook" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
+      <core-toolbar class="medium-tall" animate>
+        <div class="top">
+          <paper-icon-button class="refresh_button refresh_fb" icon="refresh"></paper-icon-button>
+        </div>
+        <div class="middle">
+          <a href="http://www.facebook.com">Facebook</a>
+        </div>
+      </core-toolbar>
+      <div class="content">
+        <div class="notifications">
+
+        </div>
       </div>
     </core-scroll-header-panel>
 
