@@ -83,3 +83,34 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+/* line 88, ../../sass/partials/couchpotato.scss */
+.wanted h2,
+.snatched h2 {
+  padding: 0 16px;
+}
+/* line 92, ../../sass/partials/couchpotato.scss */
+.wanted a,
+.snatched a {
+  right: 0 !important;
+  top: auto !important;
+  left: auto !important;
+  bottom: auto !important;
+  line-height: 1;
+  display: none;
+}
+/* line 101, ../../sass/partials/couchpotato.scss */
+.wanted core-item:hover > a,
+.snatched core-item:hover > a {
+  display: block;
+}
+/* line 105, ../../sass/partials/couchpotato.scss */
+.wanted core-item,
+.snatched core-item {
+  padding: 0 16px;
+}
+/* line 109, ../../sass/partials/couchpotato.scss */
+.wanted core-icon-button,
+.snatched core-icon-button {
+  background-color: white;
+}

@@ -39,9 +39,7 @@ core-toolbar {
   text-decoration: none;
 }
 
-/* line 51, ../../sass/partials/general.scss */
-.snatched,
-.wanted,
+/* line 49, ../../sass/partials/general.scss */
 .queue,
 .history,
 .sb_missed,

@@ -115,19 +115,20 @@ function cpShowData() {
 
   if (localStorage.Couchpotato) {
     data = JSON.parse(localStorage.getItem('Couchpotato'));
+    console.log(data);
     var snatched = [];
     $.each(data.movies, function(i) {
       $.each(data.movies[i].releases, function(l) {
         if (data.movies[i].releases[l].status === "snatched" || data.movies[i].releases[l].status === "downloaded" || data.movies[i].releases[l].status === "available") {
           snatched.push(data.movies[i].title);
           if ($('.snatched').html().indexOf(data.movies[i].title) == -1) {
-            $('.snatched').append("<core-item label='" + data.movies[i].title + "'></core-item>");
+            $('.snatched').append("<core-item label='" + data.movies[i].title + "'><a href='http://www.imdb.com/title/" + data.movies[i].identifiers.imdb + "' target='_blank'><core-icon-button icon='info-outline'></core-icon-button></a></core-item>");
           }
         }
       });
 
       if (data.movies[i].status === "active") {
-        $('.wanted').append("<core-item label='" + data.movies[i].title + "''></core-item>");
+        $('.wanted').append("<core-item label='" + data.movies[i].title + "''><a href='http://www.imdb.com/title/" + data.movies[i].identifiers.imdb + "' target='_blank'><core-icon-button icon='info-outline'></core-icon-button></a></core-item>");
       }
     });
 
