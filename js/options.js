@@ -43,6 +43,7 @@ function save_options() {
     }
   });
   chrome.storage.sync.set({
+    FB_url:$('#FB_url').val(),
     CP_address: $('#CP_address').val(),
     CP_port: $('#CP_port').val(),
     CP_key: $('#CP_key').val(),
@@ -66,6 +67,7 @@ function save_options() {
 
 function restore_options() {
   chrome.storage.sync.get({
+    FB_url: '',
     CP_address: '',
     CP_port: '',
     CP_key: '',
@@ -77,6 +79,7 @@ function restore_options() {
     SAB_key: '',
     SAB_history: ''
   }, function(items) {
+    $('#FB_url').val(items.FB_url);
     $('#CP_address').val(items.CP_address);
     $('#CP_port').val(items.CP_port);
     $('#CP_key').val(items.CP_key);
