@@ -35,14 +35,15 @@ function sbShowData() {
 
   if (localStorage.Sickbeard) {
     data = JSON.parse(localStorage.getItem('Sickbeard'));
-    // console.log(data);
+    console.log(data);
 
     // Episodes missed
     if (data.data.missed.length > 0) {
       $('.sb_missed').append('<h2>Missed</h2>');
 
       $.each(data.data.missed, function(i) {
-        $('.sb_missed').append("<core-item label='" + data.data.missed[i].show_name + "'></core-item>");
+        var date = moment(data.data.missed[i].airdate).format("D-MM-YYYY");
+        $('.sb_missed').append("<core-item label='" + date + " - " + data.data.missed[i].show_name + "'></core-item>");
       });
     }
 
@@ -50,7 +51,8 @@ function sbShowData() {
     if (data.data.today.length > 0) {
       $('.sb_today').append('<h2>Today</h2>');
       $.each(data.data.today, function(i) {
-        $('.sb_today').append("<core-item label='" + data.data.today[i].show_name + "'></core-item>");
+        var date = moment(data.data.today[i].airdate).format("D-MM-YYYY");
+        $('.sb_today').append("<core-item label='" + date + " - " + data.data.today[i].show_name + "'></core-item>");
       });
     }
 
@@ -59,7 +61,8 @@ function sbShowData() {
       $('.sb_soon').append('<h2>Soon</h2>');
 
       $.each(data.data.soon, function(i) {
-        $('.sb_soon').append("<core-item label='" + data.data.soon[i].show_name + "'></core-item>");
+        var date = moment(data.data.soon[i].airdate).format("D-MM-YYYY");
+        $('.sb_soon').append("<core-item label='" + date + " - " + data.data.soon[i].show_name + "'></core-item>");
       });
     }
 
@@ -68,7 +71,8 @@ function sbShowData() {
       $('.sb_later').append('<h2>Later</h2>');
 
       $.each(data.data.later, function(i) {
-        $('.sb_later').append("<core-item label='" + data.data.later[i].show_name + "'></core-item>");
+        var date = moment(data.data.later[i].airdate).format("D-MM-YYYY");
+        $('.sb_later').append("<core-item label='" + date + " - " + data.data.later[i].show_name + "'></core-item>");
       });
     }
   }

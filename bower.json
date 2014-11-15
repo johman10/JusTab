@@ -16,6 +16,7 @@
     "polymer": "~0.4.2",
     "jquery": "~2.1.1",
     "core-elements": "Polymer/core-elements#~0.4.2",
-    "paper-input": "Polymer/paper-input#~0.4.2"
+    "paper-input": "Polymer/paper-input#~0.4.2",
+    "moment": "~2.8.3"
   }
 }
