@@ -35,7 +35,7 @@ function sbShowData() {
 
   if (localStorage.Sickbeard) {
     data = JSON.parse(localStorage.getItem('Sickbeard'));
-    console.log(data);
+    // console.log(data);
 
     // Episodes missed
     if (data.data.missed.length > 0) {
