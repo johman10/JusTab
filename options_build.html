@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head>
-  <title>New Tab</title>
+  <title>NewTab Options</title>
   <script src="bower_components/platform/platform.js" type="text/javascript"></script>
   <style shim-shadowdom="">
 /*******************************
@@ -1050,42 +1050,22 @@ of where they are in DOM.
 
 
 
-
-
-  
-
-
-
-
-
-
-
-
-
-
-  
+<style shim-shadowdom="">
+  html /deep/ core-a11y-keys {
+    display: none;
+  }
+</style>
 
 
 
 
 
 
-
-
-
-  <link href="http://fonts.googleapis.com/css?family=RobotoDraft:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet" type="text/css">
   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer=""></script>
-  <script src="bower_components/moment/min/moment.min.js" type="text/javascript" charset="utf-8" defer=""></script>
-  <script src="js/calendar.js" type="text/javascript" charset="utf-8" defer=""></script>
-  <script src="js/sabnzbd.js" type="text/javascript" charset="utf-8" defer=""></script>
-  <script src="js/couchpotato.js" type="text/javascript" charset="utf-8" defer=""></script>
-  <script src="js/sickbeard.js" type="text/javascript" charset="utf-8" defer=""></script>
-  <script src="js/designernews.js" type="text/javascript" charset="utf-8" defer=""></script>
-  <script src="js/style.js" type="text/javascript" charset="utf-8" defer=""></script>
-  <script src="js/facebook.js" type="text/javascript" charset="utf-8" defer=""></script>
+  <script src="js/options.js" type="text/javascript" charset="utf-8" defer=""></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
 </head>
-<body unresolved=""><div hidden="">
+<body><div hidden="">
 <polymer-element name="core-xhr" hidden="" assetpath="bower_components/core-ajax/">
 
   
@@ -3382,249 +3362,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 </polymer-element>
 
-<core-style id="paper-input">
-
-:host([focused]) .floated-label {
-  color: {{g.paperInput.focusedColor}};
-}
-
-.focused-underline,
-.cursor {
-  background-color: {{g.paperInput.focusedColor}};
-}
-
-
-:host(.invalid[focused]) .floated-label,
-:host([focused]) .error-text,
-:host([focused]) .error-icon {
-  color: {{g.paperInput.invalidColor}};
-}
-
-:host(.invalid) .focused-underline,
-:host(.invalid) .cursor {
-  background-color: {{g.paperInput.invalidColor}};
-}
-
-</core-style>
-
-<polymer-element name="paper-input" extends="core-input" layout="" vertical="" attributes="label floatingLabel maxRows error" on-transitionend="{{transitionEndAction}}" on-webkittransitionend="{{transitionEndAction}}" assetpath="bower_components/paper-input/">
-
-  <template>
-
-    <!--
-    Input tests:
-
-    - set value to integer 0
-    - various html5 input types
-    - sizing:
-      - single-line: size with CSS
-      - single-line: can fit to container
-      - multi-line: size with CSS
-      - multi-line: size with rows
-      - multi-line: can fit to container
-      - multi-line: grows with typing
-      - multi-line: max rows
-      - multi-line: max rows, scrolls after
-    -->
-
-    <style>/*
- * @license
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
-
-:host {
-  display: inline-block;
-  outline: none;
-  text-align: inherit;
-  color: #757575;
-  padding: 0.75em 0;
-}
-
-:host /deep/ input,
-:host /deep/ textarea {
-  font: inherit;
-  color: #000;
-  padding: 0;
-  margin: 0;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  /* see comments in template */
-  width: 100%;
-  height: 100%;
-}
-
-input:invalid,
-textarea:invalid {
-  box-shadow: none;
-}
-
-textarea {
-  resize: none;
-}
-
-[invisible] {
-  visibility: hidden;
-}
-
-[animated] {
-  visibility: visible !important;
-  -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.floated-label {
-  font-size: 0.75em;
-  background: transparent;
-  white-space: nowrap;
-}
-
-.mirror-text {
-  padding: 0.5em 0 0.25em;
-  max-width: 100%;
-  white-space: nowrap;
-}
-
-:host([multiline]) .mirror-text {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-.label {
-  padding: 0.5em 0 0.25em;
-  background: transparent;
-  pointer-events: none;
-}
-
-.label-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline-block;
-  max-width: 100%;
-  -moz-transform-origin: 0% 0%;
-  -webkit-transform-origin: 0% 0%;
-  transform-origin: 0% 0%;
-}
-
-.cursor {
-  position: absolute;
-  top: 0.4em;
-  left: 0;
-  width: 1px;
-  height: 1.4em;
-  opacity: 0.4;
-  -moz-transform-origin: 0%;
-  -webkit-transform-origin: 0%;
-  transform-origin: 0%;
-  -webkit-transform: none;
-  transform: none;
-}
-
-.cursor[invisible] {
-  opacity: 0.75;
-  -webkit-transform: translate3d(3em,0,0) scale3d(50,1,1);
-  transform: translate3d(3em,0,0) scale3d(50,1,1);
-}
-
-.input-container {
-  position: absolute;
-  /* simulate padding so the input/textarea can use 100% width/height */
-  top: 0.5em;
-  right: 0;
-  bottom: 0.25em;
-  left: 0;
-}
-
-.underline {
-  height: 0px;
-  overflow: visible;
-}
-
-:host([disabled]) .underline {
-  border-bottom: 1px dashed;
-}
-
-.unfocused-underline {
-  height: 1px;
-  background: #757575;
-  border-bottom-color: #757575;
-}
-
-.focused-underline {
-  height: 2px;
-  -webkit-transform: none;
-  transform: none;
-}
-
-.focused-underline[invisible] {
-  -webkit-transform: scale3d(0,1,1);
-  transform: scale3d(0,1,1);
-}
-
-.error-text {
-  font-size: 0.75em;
-  padding: 0.5em 0;
-}
-
-.error-icon {
-  height: 20px;
-  width: 20px;
-}
-</style>
-    <core-style ref="paper-input"></core-style>
-
-    <div class="floated-label" aria-hidden="true" hidden?="{{!floatingLabel}}" invisible?="{{!inputValue &amp;&amp; !(type === 'number' &amp;&amp; !validity.valid) || labelAnimated}}">
-      <!-- needed for floating label animation measurement -->
-      <span id="floatedLabelText" class="label-text">{{label}}</span>
-    </div>
-
-    <!-- <div class="input-body" flex auto relative on-down="{{downAction}}" on-up="{{upAction}}"> -->
-    <div class="input-body" flex="" auto="" relative="">
-
-      <!-- the mirror sizes the input/textarea so it grows with typing -->
-      <div id="mirror" class="mirror-text" invisible="" aria-hidden="true"></div>
-
-      <div class="label" fit="" aria-hidden="true">
-        <!-- needed for floating label animation measurement -->
-        <span id="labelText" class="label-text" invisible?="{{inputValue || !inputValue &amp;&amp; type === 'number' &amp;&amp; !validity.valid}}" animated?="{{labelAnimated}}">{{label}}</span>
-      </div>
-
-      <div class="cursor" invisible?="{{!cursorAnimated}}" animated?="{{cursorAnimated}}"></div>
-
-      <!-- size the input/textarea with a div, because the textarea has intrinsic size in ff -->
-      <div class="input-container" on-down="{{downAction}}" on-up="{{upAction}}">
-        <shadow></shadow>
-      </div>
-
-    </div>
-
-    <div id="underline" class="underline" relative="">
-      <div class="unfocused-underline" fit="" invisible?="{{disabled}}"></div>
-      <div id="focusedUnderline" class="focused-underline" fit="" invisible?="{{!focused}}" animated?="{{underlineAnimated}}"></div>
-    </div>
-
-    <div layout="" horizontal="" center="" hidden?="{{!invalid}}">
-      <div class="error-text" flex="" auto="" role="alert" aria-hidden="{{!invalid}}">{{error || validationMessage}}</div>
-      <core-icon class="error-icon" icon="warning"></core-icon>
-    </div>
-
-  </template>
-
-  
-
-</polymer-element>
-
-<polymer-element name="paper-button-base" extends="paper-focusable" assetpath="bower_components/paper-button/">
-
-  
-</polymer-element>
-
 <polymer-element name="paper-ripple" attributes="initialOpacity opacityDecayVelocity" assetpath="bower_components/paper-ripple/">
 <template>
 
@@ -3680,314 +3417,458 @@ textarea {
 </template>
 
 </polymer-element>
-<polymer-element name="paper-icon-button" extends="paper-button-base" attributes="src icon" role="button" assetpath="bower_components/paper-icon-button/">
 
-  <template>
-
-    <style>
-      :host {
-        display: inline-block;
-        position: relative;
-        padding: 8px;
-        outline: none;
-        -webkit-user-select: none;
-        user-select: none;
-        cursor: pointer;
-        z-index: 0;
-      }
-
-      :host([disabled]) {
-        color: #c9c9c9;
-        pointer-events: none;
-        cursor: auto;
-      }
-
-      #ripple {
-        pointer-events: none;
-        z-index: -1;
-      }
-    </style>
-
-    <!-- to position to ripple behind the icon -->
-    <core-icon relative="" id="icon" src="{{src}}" icon="{{icon}}"></core-icon>
-
-  </template>
-
-  
+<polymer-element name="core-a11y-keys" assetpath="bower_components/core-a11y-keys/">
 
 </polymer-element>
+<polymer-element name="paper-radio-button" role="radio" tabindex="0" aria-checked="false" assetpath="bower_components/paper-radio-button/">
+<template>
 
-<polymer-element name="paper-shadow" assetpath="bower_components/paper-shadow/">
+  <style>/*
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
 
-  <template>
+:host {
+  display: inline-block;
+  white-space: nowrap;
+}
 
-    <style no-shim="">/*
- * @license
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
+:host(:focus) {
+  outline: none;
+}
 
-.paper-shadow {
+#radioContainer {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+#radioContainer.labeled {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#ink {
+  position: absolute;
+  top: -16px;
+  left: -16px;
+  width: 48px;
+  height: 48px;
+  color: #5a5a5a;
+}
+
+#ink[checked] {
+  color: #0f9d58;
+}
+
+#offRadio {
+  position: absolute;
+  top: 0px;
+  left: 0px; 
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: solid 2px;
+  border-color: #5a5a5a;
+}
+
+#onRadio {
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
-  border-radius: inherit;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #0f9d58;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  transition: -webkit-transform ease 0.28s;
+  transition: transform ease 0.28s;
+}
+
+#onRadio.fill {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+#radioLabel {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+  white-space: normal;
   pointer-events: none;
 }
 
-.paper-shadow-animated.paper-shadow {
-  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+#radioLabel[hidden] {
+  display: none;
 }
 
-.paper-shadow-top-z-1 {
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);
+/* disabled state */
+:host([disabled]) {
+  pointer-events: none;
 }
 
-.paper-shadow-bottom-z-1 {
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+:host([disabled]) #onRadio {
+  display: none;
 }
 
-.paper-shadow-top-z-2 {
-  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+:host([disabled]) #offRadio {
+  opacity: 0.33;
+  border-color: #5a5a5a;
 }
 
-.paper-shadow-bottom-z-2 {
-  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+:host([disabled][checked]) #offRadio {
+  opacity: 0.33;
+  background-color: #5a5a5a;
 }
+</style>
 
-.paper-shadow-top-z-3 {
-  box-shadow: 0 17px 50px 0 rgba(0, 0, 0, 0.19);
-}
-
-.paper-shadow-bottom-z-3 {
-  box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
-}
-
-.paper-shadow-top-z-4 {
-  box-shadow: 0 25px 55px 0 rgba(0, 0, 0, 0.21);
-}
-
-.paper-shadow-bottom-z-4 {
-  box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22);
-}
-
-.paper-shadow-top-z-5 {
-  box-shadow: 0 40px 77px 0 rgba(0, 0, 0, 0.22);
-}
-
-.paper-shadow-bottom-z-5 {
-  box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2);
-}
-
-.paper-shadow-animate-z-1-z-2.paper-shadow-top {
-  -webkit-transition: none;
-  -webkit-animation: animate-shadow-top-z-1-z-2 0.7s infinite alternate;
-}
-
-.paper-shadow-animate-z-1-z-2 .paper-shadow-bottom {
-  -webkit-transition: none;
-  -webkit-animation: animate-shadow-bottom-z-1-z-2 0.7s infinite alternate;
-}
-
-@-webkit-keyframes animate-shadow-top-z-1-z-2 {
-  0% {
-    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);
-  }
-  100% {
-    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  }
-}
-
-@-webkit-keyframes animate-shadow-bottom-z-1-z-2 {
-  0% {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  }
-  100% {
-    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
-  }
-}</style>
-
-  </template>
-
+  <core-a11y-keys target="{{}}" keys="space" on-keys-pressed="{{tap}}"></core-a11y-keys>
   
+  <div id="radioContainer" class="{{ {labeled: label} | tokenList }}">
+  
+    <div id="offRadio"></div>
+    <div id="onRadio"></div>
+    
+    <paper-ripple id="ink" class="circle recenteringTouch" checked?="{{!checked}}"></paper-ripple>
+    
+  </div>
+  
+  <div id="radioLabel" aria-hidden="true" hidden?="{{!label}}">{{label}}<content></content></div>
+  
+</template>
+
 </polymer-element>
-<polymer-element name="paper-button" extends="paper-button-base" attributes="raised recenteringTouch fill" role="button" assetpath="bower_components/paper-button/">
+<polymer-element name="paper-checkbox" extends="paper-radio-button" role="checkbox" assetpath="bower_components/paper-checkbox/">
+<template>
 
-  <template>
+  <style>/*
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
 
-    <style>
+:host {
+  display: inline-block;
+  white-space: nowrap;
+}
 
-      :host {
-        display: inline-block;
-        position: relative;
-        box-sizing: border-box;
-        min-width: 5.14em;
-        padding: 0.7em 0.57em;
-        margin: 0 0.29em;
-        background: transparent;
-        text-align: center;
-        font: inherit;
-        text-transform: uppercase;
-        outline: none;
-        border-radius: 3px;
-        -webkit-user-select: none;
-        user-select: none;
-        cursor: pointer;
-        z-index: 0;
-      }
+:host(:focus) {
+  outline: 0;
+}
 
-      :host([disabled]) {
-        background: #eaeaea !important;
-        color: #a8a8a8 !important;
-        cursor: auto;
-        pointer-events: none;
-      }
+#checkboxContainer {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
 
-      ::content * {
-        text-transform: inherit;
-      }
+#checkboxContainer.labeled {
+  display: inline-block;
+  vertical-align: middle;
+}
 
-      #ripple {
-        pointer-events: none;
-        z-index: -1;
-      }
+#ink {
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  width: 48px;
+  height: 48px;
+  color: #5a5f5a;
+}
 
-    </style>
+#ink[checked] {
+  color: #0f9d58;
+}
 
-    <template if="{{raisedButton || raised}}">
-      <paper-shadow id="shadow" z="{{z}}" animated=""></paper-shadow>
-    </template>
+#checkbox {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0px;
+  left: 0px; 
+  width: 18px;
+  height: 18px;
+  border: solid 2px;
+  border-color: #5a5a5a;
+  pointer-events: none;
+}
 
-    <!-- this div is needed to position the ripple behind text content -->
-    <div relative="">
-      <content></content>
-      {{label}}
-    </div>
+/* checkbox checked animations */
+#checkbox.checked.box {
+  border: solid 2px;
+  -webkit-animation: box-shrink 140ms ease-out forwards;
+  animation: box-shrink 140ms ease-out forwards;
+}
 
-  </template>
+@-webkit-keyframes box-shrink {
+  0% {
+    -webkit-transform: rotate(0deg);
+    top: 0px;
+    left: 0px;
+    width: 18px;
+    height: 18px;
+  }
+  100% {
+    -webkit-transform: rotate(45deg);
+    top: 13px;
+    left: 5px;
+    width: 4px;
+    height: 4px;
+  }
+}
 
+@keyframes box-shrink {
+  0% {
+    transform: rotate(0deg);
+    top: 0px;
+    left: 0px;
+    width: 18px;
+    height: 18px;
+  }
+  100% {
+    transform: rotate(45deg);
+    top: 13px;
+    left: 5px;
+    width: 4px;
+    height: 4px;
+  }
+}
+
+#checkbox.checked.checkmark {
+  border-left: none;
+  border-top: none;
+  -webkit-animation: checkmark-expand 140ms ease-out forwards;
+  animation: checkmark-expand 140ms ease-out forwards;
+}
+
+@-webkit-keyframes checkmark-expand {
+  0% {
+    -webkit-transform: rotate(45deg);
+    top: 13px;
+    left: 5px;
+    width: 4px;
+    height: 4px;
+  }
+  100% {
+    -webkit-transform: rotate(45deg);
+    top: -4px;
+    left: 6px; 
+    width: 10px;
+    height: 21px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+  }
+}
+
+@keyframes checkmark-expand {
+  0% {
+    transform: rotate(45deg);
+    top: 13px;
+    left: 5px;
+    width: 4px;
+    height: 4px;
+  }
+  100% {
+    transform: rotate(45deg);
+    top: -4px;
+    left: 6px; 
+    width: 10px;
+    height: 21px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+  }
+}
+
+#checkbox.checked {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  top: -4px;
+  left: 6px;
+  width: 10px;
+  height: 21px;
+  border-top: none;
+  border-left: none;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  border-color: #0f9d58;
+}
+
+/* checkbox unchecked animations */
+#checkbox.unchecked.checkmark {
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  border-left: none;
+  border-top: none;
+  -webkit-animation: checkmark-shrink 140ms ease-out forwards;
+  animation: checkmark-shrink 140ms ease-out forwards;
+}
+
+@-webkit-keyframes checkmark-shrink {
+  0% {
+    top: -4px;
+    left: 6px; 
+    width: 10px;
+    height: 21px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+  }
+  100% {
+    top: 13px;
+    left: 5px;
+    width: 4px;
+    height: 4px;
+  }
+}
+
+@keyframes checkmark-shrink {
+  0% {
+    top: -4px;
+    left: 6px; 
+    width: 10px;
+    height: 21px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+  }
+  100% {
+    top: 13px;
+    left: 5px;
+    width: 4px;
+    height: 4px;
+  }
+}
+
+#checkbox.unchecked.box {
+  -webkit-animation: box-expand 140ms ease-out forwards;
+  animation: box-expand 140ms ease-out forwards;
+}
+
+@-webkit-keyframes box-expand {
+  0% {
+    -webkit-transform: rotate(45deg);
+    top: 13px;
+    left: 5px;
+    width: 4px;
+    height: 4px;
+  }
+  100% {
+    -webkit-transform: rotate(0deg);
+    top: 0px;
+    left: 0px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@keyframes box-expand {
+  0% {
+    transform: rotate(45deg);
+    top: 13px;
+    left: 5px;
+    width: 4px;
+    height: 4px;
+  }
+  100% {
+    transform: rotate(0deg);
+    top: 0px;
+    left: 0px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* label */
+#checkboxLabel {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 8px;
+  white-space: normal;
+  pointer-events: none;
+}
+
+#checkboxLabel[hidden] {
+  display: none;
+}
+
+/* disabled state */
+:host([disabled]) {
+  pointer-events: none;
+}
+
+:host([disabled]) #checkbox {
+  opacity: 0.33;
+  border-color: #5a5a5a;
+}
+</style>
+
+  <div id="checkboxContainer" class="{{ {labeled: label} | tokenList }}">
   
+    <paper-ripple id="ink" class="circle recenteringTouch" checked?="{{!checked}}"></paper-ripple>
+     
+    <div id="checkbox" on-animationend="{{checkboxAnimationEnd}}" on-webkitanimationend="{{checkboxAnimationEnd}}"></div>
+    
+  </div>
+  
+  <div id="checkboxLabel" hidden?="{{!label}}">{{label}}<content></content></div>
+
+</template>
+
 </polymer-element>
 </div>
-  <div class="panel_container">
-    <!-- Overlay for CP search -->
-    <core-overlay backdrop="" id="cp_form_container">
-      <!-- <paper-icon-button class="cp_form_close" icon="close" core-overlay-toggle></paper-icon-button> -->
-      <input type="text" class="cp_form_search" placeholder="Search">
-      <div class="cp_search_result"></div>
-    </core-overlay>
-
-    <core-scroll-header-panel id="calendar" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_calendar" icon="refresh"></paper-icon-button>
-        </div>
-        <div class="middle">
-          <a href="http://www.google.com/calendar">Calendar</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <div class="today"></div>
-        <div class="tomorrow"></div>
-      </div>
-    </core-scroll-header-panel>
-
-    <core-scroll-header-panel id="facebook" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_fb" icon="refresh"></paper-icon-button>
-        </div>
-        <div class="middle">
-          <a href="http://www.facebook.com">Facebook</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <div class="notifications">
-
-        </div>
-      </div>
-    </core-scroll-header-panel>
-
-    <core-scroll-header-panel id="couchpotato" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_cp" icon="refresh"></paper-icon-button>
-        </div>
-        <div class="middle">
-          <a>Couchpotato</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <div class="snatched">
-        </div>
-        <div class="wanted">
-        </div>
-
-        <div class="cp_button_container">
-          <paper-button icon="add" class="cp_add_button" raised="">Add movie</paper-button>
-        </div>
-      </div>
-    </core-scroll-header-panel>
-
-    <core-scroll-header-panel id="sickbeard" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_sb" icon="refresh"></paper-icon-button>
-        </div>
-        <div class="middle">
-          <a>Sickbeard</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <div class="sb_missed"></div>
-        <div class="sb_today"></div>
-        <div class="sb_soon"></div>
-        <div class="sb_later"></div>
-      </div>
-    </core-scroll-header-panel>
-
-    <core-scroll-header-panel id="sabnzbd" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_sab" icon="refresh"></paper-icon-button>
-        </div>
-        <div class="middle">
-          <a>SABnzbd</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <div class="queue">
-        </div>
-        <div class="history">
-        </div>
-      </div>
-    </core-scroll-header-panel>
-
-    <core-scroll-header-panel id="designernews" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_dn" icon="refresh"></paper-icon-button>
-        </div>
-        <div class="middle">
-          <a>Designer News</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <div class="dn_links">
-        </div>
-      </div>
-    </core-scroll-header-panel>
-
-    <div class="cleardiv"></div>
+  <label class="checkbox_label"><input type="checkbox" name="GC_status" id="GC_status" checked="checked">Calendar</label>
+  <!-- <paper-checkbox for="" role="checkbox" tabindex="0" aria-checked="false" aria-labelledby="core-label-0"></paper-checkbox> -->
+  <label for="calendar_select">
+    Show appointments from:
+  </label>
+  <div class="calendar_select_container">
+    <div id="loading">Loading...</div>
   </div>
 
-  <div class="cleardiv"></div>
+  <label class="checkbox_label"><input type="checkbox" name="FB_status" id="FB_status" checked="checked">Facebook</label>
+  <label for="FB_url">Facebook RSS feed</label>
+  <input type="text" id="FB_url" name="FB_url"><br>
+
+  <label class="checkbox_label"><input type="checkbox" name="CP_status" id="CP_status" checked="checked">Couchpotato</label>
+  <label for="CP_address">Server address</label>
+  <input type="text" id="CP_address" name="CP_address"><br>
+  <label for="CP_port">Server port</label>
+  <input type="text" id="CP_port" name="CP_port"><br>
+  <label for="CP_username">API Key</label>
+  <input type="text" id="CP_key" name="CP_key"><br>
+
+  <label class="checkbox_label"><input type="checkbox" name="SB_status" id="SB_status" checked="checked">Sickbeard</label>
+  <label for="SB_address">Server address</label>
+  <input type="text" id="SB_address" name="SB_address"><br>
+  <label for="SB_port">Server port</label>
+  <input type="text" id="SB_port" name="SB_port"><br>
+  <label for="SB_username">API Key</label>
+  <input type="text" id="SB_key" name="SB_key"><br>
+
+  <label class="checkbox_label"><input type="checkbox" name="SAB_status" id="SAB_status" checked="checked">Sabnzbd</label>
+  <label for="SAB_address">Server address</label>
+  <input type="text" id="SAB_address" name="SAB_address"><br>
+  <label for="SAB_port">Server port</label>
+  <input type="text" id="SAB_port" name="SAB_port"><br>
+  <label for="SAB_username">API Key</label>
+  <input type="text" id="SAB_key" name="SAB_key"><br>
+  <label for="SAB_history">History limit</label>
+  <input type="number" id="SAB_history" name="SAB_history"><br>
+
+  <div id="status"></div>
+  <button id="save">Save</button>
 
 
-<script src="build.js"></script></body></html>
+<script src="options_build.js"></script></body></html>

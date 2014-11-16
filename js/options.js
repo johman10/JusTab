@@ -36,6 +36,7 @@ $(document).ready(function() {
 
 // Saves options to chrome.storage
 function save_options() {
+  console.log($('#FB_status').is(':checked'));
   var calendars = [];
   $.each($('.calendar'), function(i, val) {
     if (val.checked) {
@@ -43,17 +44,22 @@ function save_options() {
     }
   });
   chrome.storage.sync.set({
-    FB_url:$('#FB_url').val(),
+    FB_status: $('#FB_status').is(':checked'),
+    FB_url: $('#FB_url').val(),
+    CP_status: $('#CP_status').is(':checked'),
     CP_address: $('#CP_address').val(),
     CP_port: $('#CP_port').val(),
     CP_key: $('#CP_key').val(),
+    SB_status: $('#SB_status').is(':checked'),
     SB_address: $('#SB_address').val(),
     SB_port: $('#SB_port').val(),
     SB_key: $('#SB_key').val(),
+    SAB_status: $('#SAB_status').is(':checked'),
     SAB_address: $('#SAB_address').val(),
     SAB_port: $('#SAB_port').val(),
     SAB_key: $('#SAB_key').val(),
     SAB_history: $('#SAB_history').val(),
+    GC_status: $('#GC_status').is(':checked'),
     calendars: calendars
   }, function() {
     // Update status to let user know options were saved.

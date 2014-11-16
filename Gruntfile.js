@@ -10,12 +10,15 @@ module.exports = function(grunt) {
             stderr: false
         },
         target: {
-            command: 'vulcanize --csp -o build.html index.html'
+            command: [
+              'vulcanize --csp -o build.html index.html',
+              'vulcanize --csp -o options_build.html options.html',
+            ].join('&&')
         }
     },
     watch: {
       scripts: {
-        files: ['index.html'],
+        files: ['index.html', 'options.html'],
         tasks: ['shell'],
         options: {
           spawn: false,

@@ -6856,296 +6856,6 @@ Polymer('core-pages');;
 
   (function() {
 
-    var paperInput = CoreStyle.g.paperInput = CoreStyle.g.paperInput || {};
-    paperInput.focusedColor = '#4059a9';
-    paperInput.invalidColor = '#d34336';
-
-    Polymer('paper-input', {
-
-      publish: {
-        /**
-         * The label for this input. It normally appears as grey text inside
-         * the text input and disappears once the user enters text.
-         *
-         * @attribute label
-         * @type string
-         * @default ''
-         */
-        label: '',
-
-        /**
-         * If true, the label will "float" above the text input once the
-         * user enters text instead of disappearing.
-         *
-         * @attribute floatingLabel
-         * @type boolean
-         * @default false
-         */
-        floatingLabel: false,
-
-        /**
-         * (multiline only) If set to a non-zero value, the height of this
-         * text input will grow with the value changes until it is maxRows
-         * rows tall. If the maximum size does not fit the value, the text
-         * input will scroll internally.
-         *
-         * @attribute maxRows
-         * @type number
-         * @default 0
-         */
-        maxRows: 0,
-
-        /**
-         * The message to display if the input value fails validation. If this
-         * is unset or the empty string, a default message is displayed depending
-         * on the type of validation error.
-         *
-         * @attribute error
-         * @type string
-         */
-        error: '',
-
-        focused: {value: false, reflect: true}
-
-      },
-
-      get inputValueForMirror() {
-        var tokens = this.inputValue ? String(this.inputValue).replace(/&/gm, '&amp;').replace(/"/gm, '&quot;').replace(/'/gm, '&#39;').replace(/</gm, '&lt;').replace(/>/gm, '&gt;').split('\n') : [''];
-
-        // Enforce the min and max heights for a multiline input here to
-        // avoid measurement
-        if (this.multiline) {
-          if (this.maxRows && tokens.length > this.maxRows) {
-            tokens = tokens.slice(0, this.maxRows);
-          }
-          while (this.rows && tokens.length < this.rows) {
-            tokens.push('');
-          }
-        }
-
-        return tokens.join('<br>') + '&nbsp;';
-      },
-
-      get inputHasValue() {
-        // if type = number, the input value is the empty string until a valid number
-        // is entered so we must do some hacks here
-        return this.inputValue || (this.type === 'number' && !this.validity.valid);
-      },
-
-      syncInputValueToMirror: function() {
-        this.$.mirror.innerHTML = this.inputValueForMirror;
-      },
-
-      ready: function() {
-        this.syncInputValueToMirror();
-      },
-
-      prepareLabelTransform: function() {
-        var toRect = this.$.floatedLabelText.getBoundingClientRect();
-        var fromRect = this.$.labelText.getBoundingClientRect();
-        if (toRect.width !== 0) {
-          var sy = toRect.height / fromRect.height;
-          this.$.labelText.cachedTransform =
-            'scale3d(' + (toRect.width / fromRect.width) + ',' + sy + ',1) ' +
-            'translate3d(0,' + (toRect.top - fromRect.top) / sy + 'px,0)';
-        }
-      },
-
-      animateFloatingLabel: function() {
-        if (!this.floatingLabel || this.labelAnimated) {
-          return;
-        }
-
-        if (!this.$.labelText.cachedTransform) {
-          this.prepareLabelTransform();
-        }
-
-        // If there's still no cached transform, the input is invisible so don't
-        // do the animation.
-        if (!this.$.labelText.cachedTransform) {
-          return;
-        }
-
-        this.labelAnimated = true;
-        // Handle interrupted animation
-        this.async(function() {
-          this.transitionEndAction();
-        }, null, 250);
-
-        if (this.inputHasValue) {
-          this.$.labelText.style.webkitTransform = this.$.labelText.cachedTransform;
-          this.$.labelText.style.transform = this.$.labelText.cachedTransform;
-        } else {
-          // Handle if the label started out floating
-          if (!this.$.labelText.style.webkitTransform && !this.$.labelText.style.transform) {
-            this.$.labelText.style.webkitTransform = this.$.labelText.cachedTransform;
-            this.$.labelText.style.transform = this.$.labelText.cachedTransform;
-            this.$.labelText.offsetTop;
-          }
-          this.$.labelText.style.webkitTransform = '';
-          this.$.labelText.style.transform = '';
-        }
-      },
-
-      inputValueChanged: function(old) {
-        this.super();
-
-        this.syncInputValueToMirror();
-        if (old && !this.inputValue || !old && this.inputValue) {
-          this.animateFloatingLabel();
-        }
-      },
-
-      placeholderChanged: function() {
-        this.label = this.placeholder;
-      },
-
-      inputFocusAction: function() {
-        this.super(arguments);
-        this.focused = true;
-      },
-
-      inputBlurAction: function(e) {
-        this.super(arguments);
-        this.focused = false;
-      },
-
-      downAction: function(e) {
-        if (this.disabled) {
-          return;
-        }
-
-        if (this.focused) {
-          return;
-        }
-
-        // The underline spills from the tap location
-        var rect = this.$.underline.getBoundingClientRect();
-        var right = e.x - rect.left;
-        this.$.focusedUnderline.style.mozTransformOrigin = right + 'px';
-        this.$.focusedUnderline.style.webkitTransformOrigin = right + 'px ';
-        this.$.focusedUnderline.style.transformOriginX = right + 'px';
-
-        // Animations only run when the user interacts with the input
-        this.underlineAnimated = true;
-
-        // Cursor animation only runs if the input is empty
-        if (!this.inputHasValue) {
-          this.cursorAnimated = true;
-        }
-        // Handle interrupted animation
-        this.async(function() {
-          this.transitionEndAction();
-        }, null, 250);
-      },
-
-      keydownAction: function() {
-        this.super();
-
-        // more type = number hacks. see core-input for more info
-        if (this.type === 'number') {
-          var valid = !this.inputValue && this.validity.valid;
-          this.async(function() {
-            if (valid !== (!this.inputValue && this.validity.valid)) {
-              this.animateFloatingLabel();
-            }
-          });
-        }
-      },
-
-      transitionEndAction: function() {
-        this.underlineAnimated = false;
-        this.cursorAnimated = false;
-        this.labelAnimated = false;
-      }
-
-    });
-
-  }());
-
-  ;
-
-    Polymer('paper-button-base',{
-
-      z: 1,
-
-      activeChanged: function() {
-        this.super();
-
-        if (this.active) {
-          // FIXME: remove when paper-ripple can have a default 'down' state.
-          if (!this.lastEvent) {
-            var rect = this.getBoundingClientRect();
-            this.lastEvent = {
-              x: rect.left + rect.width / 2,
-              y: rect.top + rect.height / 2
-            }
-          }
-          this.$.ripple.downAction(this.lastEvent);
-        } else {
-          this.$.ripple.upAction();
-        }
-        this.adjustZ();
-      },
-
-      disabledChanged: function() {
-        this.super();
-        if (this.disabled) {
-          this.setAttribute('aria-disabled', '');
-        } else {
-          this.removeAttribute('aria-disabled');
-        }
-        this.adjustZ();
-      },
-
-      recenteringTouchChanged: function() {
-        if (this.$.ripple) {
-          this.$.ripple.classList.toggle('recenteringTouch', this.recenteringTouch);
-        }
-      },
-
-      fillChanged: function() {
-        if (this.$.ripple) {
-          this.$.ripple.classList.toggle('fill', this.fill);
-        }
-      },
-
-      adjustZ: function() {
-        if (this.active) {
-          this.z = 2;
-        } else if (this.disabled) {
-          this.z = 0;
-        } else {
-          this.z = 1;
-        }
-      },
-
-      downAction: function(e) {
-        this.super(e);
-        this.lastEvent = e;
-        if (!this.$.ripple) {
-          var ripple = document.createElement('paper-ripple');
-          ripple.setAttribute('id', 'ripple');
-          ripple.setAttribute('fit', '');
-          if (this.recenteringTouch) {
-            ripple.classList.add('recenteringTouch');
-          }
-          if (!this.fill) {
-            ripple.classList.add('circle');
-          }
-          this.$.ripple = ripple;
-          this.shadowRoot.insertBefore(ripple, this.shadowRoot.firstChild);
-          // No need to forward the event to the ripple because the ripple
-          // is triggered in activeChanged
-        }
-      }
-
-    });
-  ;
-
-
-  (function() {
-
     var waveMaxRadius = 150;
     //
     // INK EQUATIONS
@@ -7495,248 +7205,372 @@ Polymer('core-pages');;
 
 ;
 
-    Polymer('paper-icon-button',{
+  (function() {
+    /*
+     * Chrome uses an older version of DOM Level 3 Keyboard Events
+     *
+     * Most keys are labeled as text, but some are Unicode codepoints.
+     * Values taken from: http://www.w3.org/TR/2007/WD-DOM-Level-3-Events-20071221/keyset.html#KeySet-Set
+     */
+    var KEY_IDENTIFIER = {
+      'U+0009': 'tab',
+      'U+001B': 'esc',
+      'U+0020': 'space',
+      'U+002A': '*',
+      'U+0030': '0',
+      'U+0031': '1',
+      'U+0032': '2',
+      'U+0033': '3',
+      'U+0034': '4',
+      'U+0035': '5',
+      'U+0036': '6',
+      'U+0037': '7',
+      'U+0038': '8',
+      'U+0039': '9',
+      'U+0041': 'a',
+      'U+0042': 'b',
+      'U+0043': 'c',
+      'U+0044': 'd',
+      'U+0045': 'e',
+      'U+0046': 'f',
+      'U+0047': 'g',
+      'U+0048': 'h',
+      'U+0049': 'i',
+      'U+004A': 'j',
+      'U+004B': 'k',
+      'U+004C': 'l',
+      'U+004D': 'm',
+      'U+004E': 'n',
+      'U+004F': 'o',
+      'U+0050': 'p',
+      'U+0051': 'q',
+      'U+0052': 'r',
+      'U+0053': 's',
+      'U+0054': 't',
+      'U+0055': 'u',
+      'U+0056': 'v',
+      'U+0057': 'w',
+      'U+0058': 'x',
+      'U+0059': 'y',
+      'U+005A': 'z',
+      'U+007F': 'del'
+    };
 
-      publish: {
+    /*
+     * Special table for KeyboardEvent.keyCode.
+     * KeyboardEvent.keyIdentifier is better, and KeyBoardEvent.key is even better than that
+     *
+     * Values from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent.keyCode#Value_of_keyCode
+     */
+    var KEY_CODE = {
+      9: 'tab',
+      13: 'enter',
+      27: 'esc',
+      33: 'pageup',
+      34: 'pagedown',
+      35: 'end',
+      36: 'home',
+      32: 'space',
+      37: 'left',
+      38: 'up',
+      39: 'right',
+      40: 'down',
+      46: 'del',
+      106: '*'
+    };
 
-        /**
-         * The URL of an image for the icon. If the src property is specified,
-         * the icon property should not be.
-         *
-         * @attribute src
-         * @type string
-         * @default ''
-         */
-        src: '',
+    /*
+     * KeyboardEvent.key is mostly represented by printable character made by the keyboard, with unprintable keys labeled
+     * nicely.
+     *
+     * However, on OS X, Alt+char can make a Unicode character that follows an Apple-specific mapping. In this case, we
+     * fall back to .keyCode.
+     */
+    var KEY_CHAR = /[a-z0-9*]/;
 
-        /**
-         * Specifies the icon name or index in the set of icons available in
-         * the icon's icon set. If the icon property is specified,
-         * the src property should not be.
-         *
-         * @attribute icon
-         * @type string
-         * @default ''
-         */
-        icon: '',
-
-        recenteringTouch: true,
-        fill: false
-
-      },
-
-      iconChanged: function(oldIcon) {
-        this.setAttribute('aria-label', this.icon);
+    function transformKey(key) {
+      var validKey = '';
+      if (key) {
+        var lKey = key.toLowerCase();
+        if (lKey.length == 1) {
+          if (KEY_CHAR.test(lKey)) {
+            validKey = lKey;
+          }
+        } else if (lKey == 'multiply') {
+          // numpad '*' can map to Multiply on IE/Windows
+          validKey = '*';
+        } else {
+          validKey = lKey;
+        }
       }
+      return validKey;
+    }
 
-    });
+    var IDENT_CHAR = /U\+/;
+    function transformKeyIdentifier(keyIdent) {
+      var validKey = '';
+      if (keyIdent) {
+        if (IDENT_CHAR.test(keyIdent)) {
+          validKey = KEY_IDENTIFIER[keyIdent];
+        } else {
+          validKey = keyIdent.toLowerCase();
+        }
+      }
+      return validKey;
+    }
 
-  ;
+    function transformKeyCode(keyCode) {
+      var validKey = '';
+      if (Number(keyCode)) {
+        if (keyCode >= 65 && keyCode <= 90) {
+          // ascii a-z
+          // lowercase is 32 offset from uppercase
+          validKey = String.fromCharCode(32 + keyCode);
+        } else if (keyCode >= 112 && keyCode <= 123) {
+          // function keys f1-f12
+          validKey = 'f' + (keyCode - 112);
+        } else if (keyCode >= 48 && keyCode <= 57) {
+          // top 0-9 keys
+          validKey = String(48 - keyCode);
+        } else if (keyCode >= 96 && keyCode <= 105) {
+          // num pad 0-9
+          validKey = String(96 - keyCode);
+        } else {
+          validKey = KEY_CODE[keyCode];
+        }
+      }
+      return validKey;
+    }
 
-    Polymer('paper-shadow', {
+    function keyboardEventToKey(ev) {
+      // fall back from .key, to .keyIdentifier, and then to .keyCode
+      var normalizedKey = transformKey(ev.key) || transformKeyIdentifier(ev.keyIdentifier) || transformKeyCode(ev.keyCode) || '';
+      return {
+        shift: ev.shiftKey,
+        ctrl: ev.ctrlKey,
+        meta: ev.metaKey,
+        alt: ev.altKey,
+        key: normalizedKey
+      };
+    }
 
+    /*
+     * Input: ctrl+shift+f7 => {ctrl: true, shift: true, key: 'f7'}
+     * ctrl/space => {ctrl: true} || {key: space}
+     */
+    function stringToKey(keyCombo) {
+      var keys = keyCombo.split('+');
+      var keyObj = Object.create(null);
+      keys.forEach(function(key) {
+        if (key == 'shift') {
+          keyObj.shift = true;
+        } else if (key == 'ctrl') {
+          keyObj.ctrl = true;
+        } else if (key == 'alt') {
+          keyObj.alt = true;
+        } else {
+          keyObj.key = key;
+        }
+      });
+      return keyObj;
+    }
+
+    function keyMatches(a, b) {
+      return Boolean(a.alt) == Boolean(b.alt) && Boolean(a.ctrl) == Boolean(b.ctrl) && Boolean(a.shift) == Boolean(b.shift) && a.key === b.key;
+    }
+
+    /**
+     * Fired when a keycombo in `keys` is pressed.
+     *
+     * @event keys-pressed
+     */
+    function processKeys(ev) {
+      var current = keyboardEventToKey(ev);
+      for (var i = 0, dk; i < this._desiredKeys.length; i++) {
+        dk = this._desiredKeys[i];
+        if (keyMatches(dk, current)) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          this.fire('keys-pressed', current, this, false);
+          break;
+        }
+      }
+    }
+
+    function listen(node, handler) {
+      if (node && node.addEventListener) {
+        node.addEventListener('keydown', handler);
+      }
+    }
+
+    function unlisten(node, handler) {
+      if (node && node.removeEventListener) {
+        node.removeEventListener('keydown', handler);
+      }
+    }
+
+    Polymer('core-a11y-keys', {
+      created: function() {
+        this._keyHandler = processKeys.bind(this);
+      },
+      attached: function() {
+        if (!this.target) {
+          this.target = this.parentNode;
+        }
+        listen(this.target, this._keyHandler);
+      },
+      detached: function() {
+        unlisten(this.target, this._keyHandler);
+      },
       publish: {
         /**
-         * If set, the shadow is applied to this node.
+         * The set of key combinations to listen for.
+         *
+         * @attribute keys
+         * @type string (keys syntax)
+         * @default ''
+         */
+        keys: '',
+        /**
+         * The node that will fire keyboard events.
+         * Default to this element's parentNode unless one is assigned
          *
          * @attribute target
-         * @type Element
-         * @default null
+         * @type Node
+         * @default this.parentNode
          */
-        target: {value: null, reflect: true},
-
-        /**
-         * The z-depth of this shadow, from 0-5.
-         *
-         * @attribute z
-         * @type number
-         * @default 1
-         */
-        z: {value: 1, reflect: true},
-
-        /**
-         * If true, the shadow animates between z-depth changes.
-         *
-         * @attribute animated
-         * @type boolean
-         * @default false
-         */
-        animated: {value: false, reflect: true},
-
-        /**
-         * Workaround: getComputedStyle is wrong sometimes so `paper-shadow`
-         * may overwrite the `position` CSS property. Set this property to
-         * true to prevent this.
-         *
-         * @attribute hasPosition
-         * @type boolean
-         * @default false
-         */
-        hasPosition: false
+        target: null
       },
-
-      // NOTE: include template so that styles are loaded, but remove
-      // so that we can decide dynamically what part to include
-      registerCallback: function(polymerElement) {
-        var template = polymerElement.querySelector('template');
-        this._style = template.content.querySelector('style');
-        this._style.removeAttribute('no-shim');
+      keysChanged: function() {
+        // * can have multiple mappings: shift+8, * on numpad or Multiply on numpad
+        var normalized = this.keys.replace('*', '* shift+*');
+        this._desiredKeys = normalized.toLowerCase().split(' ').map(stringToKey);
       },
-
-      fetchTemplate: function() {
-        return null;
-      },
-
-      attached: function() {
-        // If no target is bound at attach, default the target to the parent
-        // element or shadow host.
-        if (!this.target) {
-          if (!this.parentElement && this.parentNode.host) {
-            this.target = this.parentNode.host;
-          } else if (this.parentElement && (window.ShadowDOMPolyfill ? this.parentElement !== wrap(document.body) : this.parentElement !== document.body)) {
-            this.target = this.parentElement;
-          }
-        }
-      },
-
-      targetChanged: function(old) {
-        if (old) {
-          this.removeShadow(old);
-        }
-        if (this.target) {
-          this.addShadow(this.target);
-        }
-      },
-
-      zChanged: function(old) {
-        if (this.target && this.target._paperShadow) {
-          var shadow = this.target._paperShadow;
-          ['top', 'bottom'].forEach(function(s) {
-            shadow[s].classList.remove('paper-shadow-' + s + '-z-' + old);
-            shadow[s].classList.add('paper-shadow-' + s + '-z-' + this.z);
-          }.bind(this));
-        }
-      },
-
-      animatedChanged: function() {
-        if (this.target && this.target._paperShadow) {
-          var shadow = this.target._paperShadow;
-          ['top', 'bottom'].forEach(function(s) {
-            if (this.animated) {
-              shadow[s].classList.add('paper-shadow-animated');
-            } else {
-              shadow[s].classList.remove('paper-shadow-animated');
-            }
-          }.bind(this));
-        }
-      },
-
-      addShadow: function(node) {
-        if (node._paperShadow) {
-          return;
-        }
-
-        if (!node._hasShadowStyle) {
-          if (!node.shadowRoot) {
-            node.createShadowRoot().innerHTML = '<content></content>';
-          }
-          this.installScopeStyle(this._style, 'shadow', node.shadowRoot);
-          node._hasShadowStyle = true;
-        }
-
-        var computed = getComputedStyle(node);
-        if (!this.hasPosition && computed.position === 'static') {
-          node.style.position = 'relative';
-        }
-        node.style.overflow = 'visible';
-
-        // Both the top and bottom shadows are children of the target, so
-        // it does not affect the classes and CSS properties of the target.
-        ['top', 'bottom'].forEach(function(s) {
-          var inner = (node._paperShadow && node._paperShadow[s]) || document.createElement('div');
-          inner.classList.add('paper-shadow');
-          inner.classList.add('paper-shadow-' + s + '-z-' + this.z);
-          if (this.animated) {
-            inner.classList.add('paper-shadow-animated');
-          }
-
-          if (node.shadowRoot) {
-            node.shadowRoot.insertBefore(inner, node.shadowRoot.firstChild);
-          } else {
-            node.insertBefore(inner, node.firstChild);
-          }
-
-          node._paperShadow = node._paperShadow || {};
-          node._paperShadow[s] = inner;
-        }.bind(this));
-
-      },
-
-      removeShadow: function(node) {
-        if (!node._paperShadow) {
-          return;
-        }
-
-        ['top', 'bottom'].forEach(function(s) {
-          node._paperShadow[s].remove();
-        });
-        node._paperShadow = null;
-
-        node.style.position = null;
+      targetChanged: function(oldTarget) {
+        unlisten(oldTarget, this._keyHandler);
+        listen(this.target, this._keyHandler);
       }
-
     });
-  ;
+  })();
+;
 
-    Polymer('paper-button',{
 
-      publish: {
-
-        label: '',
-
-        /**
-         * If true, the button will be styled with a shadow.
-         *
-         * @attribute raised
-         * @type boolean
-         * @default false
-         */
-        raised: false,
-        raisedButton: false,
-
-        /**
-         * By default the ripple emanates from where the user touched the button.
-         * Set this to true to always center the ripple.
-         *
-         * @attribute recenteringTouch
-         * @type boolean
-         * @default false
-         */
-        recenteringTouch: false,
-
-        /**
-         * By default the ripple expands to fill the button. Set this to true to
-         * constrain the ripple to a circle within the button.
-         *
-         * @attribute fill
-         * @type boolean
-         * @default true
-         */
-        fill: true
-
-      },
-
-      labelChanged: function() {
-        if (this.label) {
-          console.warn('The "label" property is deprecated.');
-        }
-      },
-
-      raisedButtonChanged: function() {
-        if (this.raisedButton) {
-          console.warn('The "raisedButton" property is deprecated.');
-        }
+  Polymer('paper-radio-button', {
+    
+    /**
+     * Fired when the checked state changes due to user interaction.
+     *
+     * @event change
+     */
+     
+    /**
+     * Fired when the checked state changes.
+     *
+     * @event core-change
+     */
+    
+    publish: {
+      /**
+       * Gets or sets the state, `true` is checked and `false` is unchecked.
+       *
+       * @attribute checked
+       * @type boolean
+       * @default false
+       */
+      checked: {value: false, reflect: true},
+      
+      /**
+       * The label for the radio button.
+       *
+       * @attribute label
+       * @type string
+       * @default ''
+       */
+      label: '',
+      
+      /**
+       * Normally the user cannot uncheck the radio button by tapping once
+       * checked.  Setting this property to `true` makes the radio button
+       * toggleable from checked to unchecked.
+       *
+       * @attribute toggles
+       * @type boolean
+       * @default false
+       */
+      toggles: false,
+      
+      /**
+       * If true, the user cannot interact with this element.
+       *
+       * @attribute disabled
+       * @type boolean
+       * @default false
+       */
+      disabled: {value: false, reflect: true}
+    },
+    
+    eventDelegates: {
+      tap: 'tap'
+    },
+    
+    tap: function() {
+      var old = this.checked;
+      this.toggle();
+      if (this.checked !== old) {
+        this.fire('change');
       }
+    },
+    
+    toggle: function() {
+      this.checked = !this.toggles || !this.checked;
+    },
+    
+    checkedChanged: function() {
+      this.$.onRadio.classList.toggle('fill', this.checked);
+      this.setAttribute('aria-checked', this.checked ? 'true': 'false');
+      this.fire('core-change');
+    },
+    
+    labelChanged: function() {
+      this.setAttribute('aria-label', this.label);
+    }
+    
+  });
+  
+;
 
-    });
+
+  Polymer('paper-checkbox', {
+    
+    /**
+     * Fired when the checked state changes due to user interaction.
+     *
+     * @event change
+     */
+     
+    /**
+     * Fired when the checked state changes.
+     *
+     * @event core-change
+     */
+    
+    toggles: true,
+
+    checkedChanged: function() {
+      var cl = this.$.checkbox.classList;
+      cl.toggle('checked', this.checked);
+      cl.toggle('unchecked', !this.checked);
+      cl.toggle('checkmark', !this.checked);
+      cl.toggle('box', this.checked);
+      this.setAttribute('aria-checked', this.checked ? 'true': 'false');
+      this.fire('core-change');
+    },
+
+    checkboxAnimationEnd: function() {
+      var cl = this.$.checkbox.classList;
+      cl.toggle('checkmark', this.checked && !cl.contains('checkmark'));
+      cl.toggle('box', !this.checked && !cl.contains('box'));
+    }
+
+  });
   

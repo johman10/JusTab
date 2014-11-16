@@ -2,11 +2,17 @@
 <html>
 <head>
   <title>NewTab Options</title>
+  <script src="bower_components/platform/platform.js" type="text/javascript"></script>
+  <link rel="import" href="bower_components/polymer/polymer.html">
+  <link rel="import" href="bower_components/core-elements/core-elements.html">
+  <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/options.js" type="text/javascript" charset="utf-8" defer></script>
+  <link rel="stylesheet" href="/style/css/main.css" type="text/css">
 </head>
 <body>
-  <h1>Calendar</h1>
+  <label class="checkbox_label"><input type='checkbox' name='GC_status' id="GC_status" checked='checked'>Calendar</label>
+  <!-- <paper-checkbox for="" role="checkbox" tabindex="0" aria-checked="false" aria-labelledby="core-label-0"></paper-checkbox> -->
   <label for="calendar_select">
     Show appointments from:
   </label>
@@ -14,11 +20,11 @@
     <div id="loading">Loading...</div>
   </div>
 
-  <h1>Facebook</h1>
+  <label class="checkbox_label"><input type='checkbox' name='FB_status' id="FB_status" checked='checked'>Facebook</label>
   <label for="FB_url">Facebook RSS feed</label>
   <input type="text" id="FB_url" name="FB_url"><br>
 
-  <h1>Couchpotato</h1>
+  <label class="checkbox_label"><input type='checkbox' name='CP_status' id="CP_status" checked='checked'>Couchpotato</label>
   <label for="CP_address">Server address</label>
   <input type="text" id="CP_address" name="CP_address"><br>
   <label for="CP_port">Server port</label>
@@ -26,7 +32,7 @@
   <label for="CP_username">API Key</label>
   <input type="text" id="CP_key" name="CP_key"><br>
 
-  <h1>Sickbeard</h1>
+  <label class="checkbox_label"><input type='checkbox' name='SB_status' id="SB_status" checked='checked'>Sickbeard</label>
   <label for="SB_address">Server address</label>
   <input type="text" id="SB_address" name="SB_address"><br>
   <label for="SB_port">Server port</label>
@@ -34,7 +40,7 @@
   <label for="SB_username">API Key</label>
   <input type="text" id="SB_key" name="SB_key"><br>
 
-  <h1>Sabnzbd</h1>
+  <label class="checkbox_label"><input type='checkbox' name='SAB_status' id="SAB_status" checked='checked'>Sabnzbd</label>
   <label for="SAB_address">Server address</label>
   <input type="text" id="SAB_address" name="SAB_address"><br>
   <label for="SAB_port">Server port</label>
