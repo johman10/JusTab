@@ -43,54 +43,64 @@ function save_options() {
     }
   });
   chrome.storage.sync.set({
-    FB_status: $('#FB_status').is(':checked'),
+    GC_status: $('paper-checkbox[name=GC_status]').attr('aria-checked') == "true" ? true : false,
+    calendars: calendars,
+    FB_status: $('paper-checkbox[name=FB_status]').attr('aria-checked') == "true" ? true : false,
     FB_url: $('#FB_url').val(),
-    CP_status: $('#CP_status').is(':checked'),
+    CP_status: $('paper-checkbox[name=CP_status]').attr('aria-checked') == "true" ? true : false,
     CP_address: $('#CP_address').val(),
     CP_port: $('#CP_port').val(),
     CP_key: $('#CP_key').val(),
-    SB_status: $('#SB_status').is(':checked'),
+    SB_status: $('paper-checkbox[name=SB_status]').attr('aria-checked') == "true" ? true : false,
     SB_address: $('#SB_address').val(),
     SB_port: $('#SB_port').val(),
     SB_key: $('#SB_key').val(),
-    SAB_status: $('#SAB_status').is(':checked'),
+    SAB_status: $('paper-checkbox[name=SAB_status]').attr('aria-checked') == "true" ? true : false,
     SAB_address: $('#SAB_address').val(),
     SAB_port: $('#SAB_port').val(),
     SAB_key: $('#SAB_key').val(),
-    SAB_history: $('#SAB_history').val(),
-    GC_status: $('#GC_status').is(':checked'),
-    calendars: calendars
+    SAB_history: $('#SAB_history').val()
   }, function() {
     // Update status to let user know options were saved.
     var status = $('#status');
-    status.textContent = 'Options saved.';
+    status.html('Options saved.');
     setTimeout(function() {
-      status.textContent = '';
-    }, 1500);
+      status.html('');
+    }, 750);
   });
 }
 
 function restore_options() {
   chrome.storage.sync.get({
+    GC_status: '',
+    FB_status: '',
     FB_url: '',
+    CP_status: '',
     CP_address: '',
     CP_port: '',
     CP_key: '',
+    SB_status: '',
     SB_address: '',
     SB_port: '',
     SB_key: '',
+    SAB_status: '',
     SAB_address: '',
     SAB_port: '',
     SAB_key: '',
     SAB_history: ''
   }, function(items) {
+    $('paper-checkbox[name=GC_status]').attr('checked', items.GC_status);
+    $('paper-checkbox[name=FB_status]').attr('checked', items.FB_status);
     $('#FB_url').val(items.FB_url);
+    $('paper-checkbox[name=CP_status]').attr('checked', items.CP_status);
     $('#CP_address').val(items.CP_address);
     $('#CP_port').val(items.CP_port);
     $('#CP_key').val(items.CP_key);
+    $('paper-checkbox[name=SB_status]').attr('checked', items.SB_status);
     $('#SB_address').val(items.SB_address);
     $('#SB_port').val(items.SB_port);
     $('#SB_key').val(items.SB_key);
+    $('paper-checkbox[name=SAB_status]').attr('checked', items.SAB_status);
     $('#SAB_address').val(items.SAB_address);
     $('#SAB_port').val(items.SAB_port);
     $('#SAB_key').val(items.SAB_key);
