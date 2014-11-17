@@ -1087,6 +1087,18 @@ of where they are in DOM.
 
 
 
+  
+
+
+
+
+
+
+
+
+
+
+
   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer=""></script>
   <script src="js/options.js" type="text/javascript" charset="utf-8" defer=""></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
@@ -3793,6 +3805,266 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </template>
 
 </polymer-element>
+
+<core-style id="paper-input-decorator">
+
+.label-text,
+.error {
+  color: {{g.paperInput.labelColor}};
+}
+
+::-webkit-input-placeholder {
+  color: {{g.paperInput.labelColor}};
+}
+
+::-moz-placeholder {
+  color: {{g.paperInput.labelColor}};
+}
+
+:-ms-input-placeholder {
+  color: {{g.paperInput.labelColor}};
+}
+
+.unfocused-underline {
+  background-color: {{g.paperInput.labelColor}};
+}
+
+:host([focused]) .floated-label .label-text {
+  color: {{g.paperInput.focusedColor}};
+}
+
+.focused-underline {
+  background-color: {{g.paperInput.focusedColor}};
+}
+
+.cursor {
+  background-color: {{g.paperInput.cursorColor}};
+}
+
+:host(.invalid) .floated-label .label-text,
+.error {
+  color: {{g.paperInput.invalidColor}};
+}
+
+:host(.invalid) .unfocused-underline,
+:host(.invalid) .focused-underline,
+:host(.invalid) .cursor {
+  background-color: {{g.paperInput.invalidColor}};
+}
+
+</core-style>
+
+<polymer-element name="paper-input-decorator" layout="" vertical="" on-transitionend="{{transitionEndAction}}" on-webkittransitionend="{{transitionEndAction}}" on-input="{{inputAction}}" on-down="{{downAction}}" assetpath="bower_components/paper-input/">
+
+  <template>
+
+    <style>/*
+ * @license
+ * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ */
+
+:host {
+  display: inline-block;
+  outline: none;
+  text-align: inherit;
+  padding: 0.75em 0;
+}
+
+polyfill-next-selector {
+  content: '.input-body > :not(.label):not(.cursor)';
+}
+::content > *,
+::content > input[is="core-input"] {
+  padding: 0;
+  margin: 0.5em 0 0.25em;
+  width: 100%;
+}
+
+polyfill-next-selector {
+  content: 'input, textarea';
+}
+::content input,
+::content input[is=core-input],
+::content textarea {
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+polyfill-next-selector {
+  content: ':invalid';
+}
+::content input:invalid,
+::content textarea:invalid {
+  box-shadow: none;
+}
+
+polyfill-next-selector {
+  content: 'textarea';
+}
+::content textarea {
+  resize: none;
+}
+
+[invisible] {
+  visibility: hidden;
+}
+
+[animated] {
+  visibility: visible !important;
+  -webkit-transition: -webkit-transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floated-label {
+  font-size: 0.75em;
+  background: transparent;
+  white-space: nowrap;
+}
+
+.mirror-text {
+  padding: 0.5em 0 0.25em;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+:host([multiline]) .mirror-text {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.label {
+  padding: 0.5em 0 0.25em;
+  background: transparent;
+  pointer-events: none;
+}
+
+.label-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
+  -moz-transform-origin: 0% 0%;
+  -webkit-transform-origin: 0% 0%;
+  transform-origin: 0% 0%;
+}
+
+.cursor {
+  position: absolute;
+  top: 0.4em;
+  left: 0;
+  width: 1px;
+  height: 1.4em;
+  opacity: 0.4;
+  -moz-transform-origin: 0%;
+  -webkit-transform-origin: 0%;
+  transform-origin: 0%;
+  -webkit-transform: none;
+  transform: none;
+}
+
+.cursor[invisible] {
+  opacity: 0.75;
+  -webkit-transform: translate3d(3em,0,0) scale3d(50,1,1);
+  transform: translate3d(3em,0,0) scale3d(50,1,1);
+}
+
+.underline {
+  height: 0px;
+  overflow: visible;
+}
+
+:host([disabled]) .underline {
+  border-bottom: 1px dashed #757575;
+}
+
+.unfocused-underline {
+  height: 1px;
+}
+
+.focused-underline {
+  height: 2px;
+  -webkit-transform: none;
+  transform: none;
+}
+
+.focused-underline[invisible] {
+  -webkit-transform: scale3d(0,1,1);
+  transform: scale3d(0,1,1);
+}
+
+.error-text {
+  font-size: 0.75em;
+  padding: 0.5em 0;
+}
+
+.error-icon {
+  height: 20px;
+  width: 20px;
+}
+</style>
+    <core-style ref="paper-input-decorator"></core-style>
+
+    <div class="floated-label" aria-hidden="true" hidden?="{{!floatingLabel}}" invisible?="{{!floatingLabelVisible || labelAnimated}}">
+      <!-- needed for floating label animation measurement -->
+      <span id="floatedLabelText" class="label-text">{{label}}</span>
+    </div>
+
+    <div class="input-body" flex="" auto="" relative="">
+
+      <div class="label" fit="" invisible="" aria-hidden="true">
+        <!-- needed for floating label animation measurement -->
+        <span id="labelText" class="label-text" invisible?="{{!_labelVisible}}" animated?="{{labelAnimated}}">{{label}}</span>
+      </div>
+
+      <div class="cursor" invisible?="{{!cursorAnimated}}" animated?="{{cursorAnimated}}"></div>
+
+      <content></content>
+
+    </div>
+
+    <div id="underline" class="underline" relative="">
+      <div class="unfocused-underline" fit="" invisible?="{{disabled}}"></div>
+      <div id="focusedUnderline" class="focused-underline" fit="" invisible?="{{!focused}}" animated?="{{underlineAnimated}}"></div>
+    </div>
+
+    <div class="error" layout="" horizontal="" center="" hidden?="{{!isInvalid}}">
+      <div class="error-text" flex="" auto="" role="alert" aria-hidden="{{!isInvalid}}">{{error}}</div>
+      <core-icon class="error-icon" icon="warning"></core-icon>
+    </div>
+
+  </template>
+
+  
+
+</polymer-element>
+<polymer-element name="paper-input" assetpath="bower_components/paper-input/">
+
+<template>
+
+  <style>
+    :host {
+      display: inline-block;
+    }
+  </style>
+
+  <paper-input-decorator id="decorator" label="{{label}}" floatinglabel="{{floatingLabel}}" value="{{value}}" disabled?="{{disabled}}">
+    <input is="core-input" value="{{value}}" committedvalue="{{committedValue}}" on-change="{{changeAction}}" disabled?="{{disabled}}">
+  </paper-input-decorator>
+
+</template>
+
+
+
+</polymer-element>
 </div>
   <core-label>
    <paper-checkbox for=""></paper-checkbox>
@@ -3806,35 +4078,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <div id="loading">Loading...</div>
   </div>
 
-  <label class="checkbox_label"><input type="checkbox" name="FB_status" id="FB_status" checked="checked">Facebook</label>
-  <label for="FB_url">Facebook RSS feed</label>
-  <input type="text" id="FB_url" name="FB_url"><br>
+  <core-label>
+   <paper-checkbox for=""></paper-checkbox>
+   Facebook
+  </core-label><br>
+  <paper-input floatinglabel="" name="FB_url" id="FB_url" label="Facebook RSS feed url"></paper-input><br>
 
-  <label class="checkbox_label"><input type="checkbox" name="CP_status" id="CP_status" checked="checked">Couchpotato</label>
-  <label for="CP_address">Server address</label>
-  <input type="text" id="CP_address" name="CP_address"><br>
-  <label for="CP_port">Server port</label>
-  <input type="text" id="CP_port" name="CP_port"><br>
-  <label for="CP_username">API Key</label>
-  <input type="text" id="CP_key" name="CP_key"><br>
+  <core-label>
+   <paper-checkbox for=""></paper-checkbox>
+   Couchpotato
+  </core-label><br>
+  <paper-input floatinglabel="" name="CP_address" id="CP_address" label="Server address"></paper-input><br>
+  <paper-input floatinglabel="" name="CP_port" id="CP_port" label="Server port"></paper-input><br>
+  <paper-input floatinglabel="" name="CP_key" id="CP_key" label="API Key"></paper-input><br>
 
-  <label class="checkbox_label"><input type="checkbox" name="SB_status" id="SB_status" checked="checked">Sickbeard</label>
-  <label for="SB_address">Server address</label>
-  <input type="text" id="SB_address" name="SB_address"><br>
-  <label for="SB_port">Server port</label>
-  <input type="text" id="SB_port" name="SB_port"><br>
-  <label for="SB_username">API Key</label>
-  <input type="text" id="SB_key" name="SB_key"><br>
+  <core-label>
+   <paper-checkbox for=""></paper-checkbox>
+   Sickbeard
+  </core-label><br>
+  <paper-input floatinglabel="" name="SB_address" id="SB_address" label="Server address"></paper-input><br>
+  <paper-input floatinglabel="" name="SB_port" id="SB_port" label="Server port"></paper-input><br>
+  <paper-input floatinglabel="" name="SB_key" id="SB_key" label="API Key"></paper-input><br>
 
-  <label class="checkbox_label"><input type="checkbox" name="SAB_status" id="SAB_status" checked="checked">Sabnzbd</label>
-  <label for="SAB_address">Server address</label>
-  <input type="text" id="SAB_address" name="SAB_address"><br>
-  <label for="SAB_port">Server port</label>
-  <input type="text" id="SAB_port" name="SAB_port"><br>
-  <label for="SAB_username">API Key</label>
-  <input type="text" id="SAB_key" name="SAB_key"><br>
-  <label for="SAB_history">History limit</label>
-  <input type="number" id="SAB_history" name="SAB_history"><br>
+  <core-label>
+   <paper-checkbox for=""></paper-checkbox>
+   Sabnzbd
+  </core-label><br>
+  <paper-input floatinglabel="" name="SAB_address" id="SAB_address" label="Server address"></paper-input><br>
+  <paper-input floatinglabel="" name="SAB_port" id="SAB_port" label="Server port"></paper-input><br>
+  <paper-input floatinglabel="" name="SAB_key" id="SAB_key" label="API Key"></paper-input><br>
+  <paper-input floatinglabel="" name="SAB_history" id="SAB_history" label="History limit"></paper-input><br>
 
   <div id="status"></div>
   <button id="save_settings">Save</button>

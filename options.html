@@ -7,6 +7,7 @@
   <link rel="import" href="bower_components/core-elements/core-elements.html">
   <link rel="import" href="bower_components/core-label/core-label.html">
   <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
+  <link rel="import" href="bower_components/paper-input/paper-input.html">
   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/options.js" type="text/javascript" charset="utf-8" defer></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
@@ -24,35 +25,36 @@
     <div id="loading">Loading...</div>
   </div>
 
-  <label class="checkbox_label"><input type='checkbox' name='FB_status' id="FB_status" checked='checked'>Facebook</label>
-  <label for="FB_url">Facebook RSS feed</label>
-  <input type="text" id="FB_url" name="FB_url"><br>
+  <core-label>
+   <paper-checkbox for></paper-checkbox>
+   Facebook
+  </core-label><br>
+  <paper-input floatingLabel name="FB_url" id="FB_url" label="Facebook RSS feed url"></paper-input><br>
 
-  <label class="checkbox_label"><input type='checkbox' name='CP_status' id="CP_status" checked='checked'>Couchpotato</label>
-  <label for="CP_address">Server address</label>
-  <input type="text" id="CP_address" name="CP_address"><br>
-  <label for="CP_port">Server port</label>
-  <input type="text" id="CP_port" name="CP_port"><br>
-  <label for="CP_username">API Key</label>
-  <input type="text" id="CP_key" name="CP_key"><br>
+  <core-label>
+   <paper-checkbox for></paper-checkbox>
+   Couchpotato
+  </core-label><br>
+  <paper-input floatingLabel name="CP_address" id="CP_address" label="Server address"></paper-input><br>
+  <paper-input floatingLabel name="CP_port" id="CP_port" label="Server port"></paper-input><br>
+  <paper-input floatingLabel name="CP_key" id="CP_key" label="API Key"></paper-input><br>
 
-  <label class="checkbox_label"><input type='checkbox' name='SB_status' id="SB_status" checked='checked'>Sickbeard</label>
-  <label for="SB_address">Server address</label>
-  <input type="text" id="SB_address" name="SB_address"><br>
-  <label for="SB_port">Server port</label>
-  <input type="text" id="SB_port" name="SB_port"><br>
-  <label for="SB_username">API Key</label>
-  <input type="text" id="SB_key" name="SB_key"><br>
+  <core-label>
+   <paper-checkbox for></paper-checkbox>
+   Sickbeard
+  </core-label><br>
+  <paper-input floatingLabel name="SB_address" id="SB_address" label="Server address"></paper-input><br>
+  <paper-input floatingLabel name="SB_port" id="SB_port" label="Server port"></paper-input><br>
+  <paper-input floatingLabel name="SB_key" id="SB_key" label="API Key"></paper-input><br>
 
-  <label class="checkbox_label"><input type='checkbox' name='SAB_status' id="SAB_status" checked='checked'>Sabnzbd</label>
-  <label for="SAB_address">Server address</label>
-  <input type="text" id="SAB_address" name="SAB_address"><br>
-  <label for="SAB_port">Server port</label>
-  <input type="text" id="SAB_port" name="SAB_port"><br>
-  <label for="SAB_username">API Key</label>
-  <input type="text" id="SAB_key" name="SAB_key"><br>
-  <label for="SAB_history">History limit</label>
-  <input type="number" id="SAB_history" name="SAB_history"><br>
+  <core-label>
+   <paper-checkbox for></paper-checkbox>
+   Sabnzbd
+  </core-label><br>
+  <paper-input floatingLabel name="SAB_address" id="SAB_address" label="Server address"></paper-input><br>
+  <paper-input floatingLabel name="SAB_port" id="SAB_port" label="Server port"></paper-input><br>
+  <paper-input floatingLabel name="SAB_key" id="SAB_key" label="API Key"></paper-input><br>
+  <paper-input floatingLabel name="SAB_history" id="SAB_history" label="History limit"></paper-input><br>
 
   <div id="status"></div>
   <button id="save_settings">Save</button>
