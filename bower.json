@@ -13,22 +13,10 @@
     "tests"
   ],
   "dependencies": {
-    "polymer": "~0.4.2",
     "jquery": "~2.1.1",
-    "core-elements": "Polymer/core-elements#~0.4.2",
-    "paper-input": "Polymer/paper-input#~0.4.2",
     "moment": "~2.8.3",
-    "paper-checkbox": "Polymer/paper-checkbox#~0.5.1"
-  },
-  "resolutions": {
-    "polymer": "^0.5.0",
-    "core-component-page": "^0.5.0",
-    "core-icon": "^0.5.0",
-    "core-iconset": "^0.5.0",
-    "core-icons": "^0.5.0",
-    "core-iconset-svg": "^0.5.0",
-    "core-meta": "^0.5.0",
-    "paper-ripple": "^0.5.0",
-    "font-roboto": "^0.5.0"
+    "core-elements": "Polymer/core-elements#~0.5.1",
+    "paper-elements": "Polymer/paper-elements#~0.5.1",
+    "webcomponentsjs": "Polymer/webcomponentsjs#~0.5.1"
   }
 }

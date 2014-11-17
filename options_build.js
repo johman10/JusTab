@@ -63,6 +63,7 @@
       bodyMethods: {
         POST: 1,
         PUT: 1,
+        PATCH: 1,
         DELETE: 1
       },
 
@@ -158,7 +159,7 @@
     params: '',
 
     /**
-     * The response for the most recently made request, or null if it hasn't
+     * The response for the current request, or null if it hasn't
      * completed yet or the request resulted in error.
      *
      * @attribute response
@@ -168,7 +169,7 @@
     response: null,
 
     /**
-     * The error for the most recently made request, or null if it hasn't
+     * The error for the current request, or null if it hasn't
      * completed yet or the request resulted in success.
      *
      * @attribute error
@@ -176,6 +177,24 @@
      * @default null
      */
     error: null,
+
+    /**
+     * Whether the current request is currently loading.
+     *
+     * @attribute loading
+     * @type boolean
+     * @default false
+     */
+    loading: false,
+
+    /**
+     * The progress of the current request.
+     *
+     * @attribute progress
+     * @type {loaded: number, total: number, lengthComputable: boolean}
+     * @default {}
+     */
+    progress: null,
 
     /**
      * The HTTP method to use such as 'GET', 'POST', 'PUT', or 'DELETE'.
@@ -251,6 +270,10 @@
      */
     xhrArgs: null,
 
+    created: function() {
+      this.progress = {};
+    },
+
     ready: function() {
       this.xhr = document.createElement('core-xhr');
     },
@@ -285,7 +308,26 @@
       this.fire('core-error', {response: response, xhr: xhr});
     },
 
+    processProgress: function(progress, xhr) {
+      if (xhr !== this.activeRequest) {
+        return;
+      }
+      // We create a proxy object here because these fields
+      // on the progress event are readonly properties, which
+      // causes problems in common use cases (e.g. binding to
+      // <paper-progress> attributes).
+      var progressProxy = {
+        lengthComputable: progress.lengthComputable,
+        loaded: progress.loaded,
+        total: progress.total
+      }
+      this.progress = progressProxy;
+    },
+
     complete: function(xhr) {
+      if (xhr === this.activeRequest) {
+        this.loading = false;
+      }
       this.fire('core-complete', {response: xhr.status, xhr: xhr});
     },
 
@@ -341,6 +383,10 @@
       this.autoGo();
     },
 
+    bodyChanged: function() {
+      this.autoGo();
+    },
+
     autoChanged: function() {
       this.autoGo();
     },
@@ -386,8 +432,24 @@
       args.url = this.url;
       args.method = this.method;
 
-      this.response = this.error = null;
+      this.response = this.error = this.progress = null;
       this.activeRequest = args.url && this.xhr.request(args);
+      if (this.activeRequest) {
+        this.loading = true;
+        var activeRequest = this.activeRequest;
+        // IE < 10 doesn't support progress events.
+        if ('onprogress' in activeRequest) {
+          this.activeRequest.addEventListener(
+              'progress',
+              function(progress) {
+                this.processProgress(progress, activeRequest);
+              }.bind(this), false);
+        } else {
+          this.progress = {
+            lengthComputable: false,
+          }
+        }
+      }
       return this.activeRequest;
     }
 
@@ -658,6 +720,10 @@
       notap: false,
 
       defaultExcludedLocalNames: 'template',
+      
+      observe: {
+        'selected multi': 'selectedChanged'
+      },
 
       ready: function() {
         this.activateListener = this.activateHandler.bind(this);
@@ -730,15 +796,21 @@
       },
 
       selectedChanged: function() {
-        this.updateSelected();
+        // TODO(ffu): Right now this is the only way to know that the `selected`
+        // is an array and was mutated, as opposed to newly assigned.
+        if (arguments.length === 1) {
+          this.processSplices(arguments[0]);
+        } else {
+          this.updateSelected();
+        }
       },
-
+      
       updateSelected: function() {
         this.validateSelected();
         if (this.multi) {
-          this.clearSelection();
+          this.clearSelection(this.selected)
           this.selected && this.selected.forEach(function(s) {
-            this.valueToSelection(s);
+            this.setValueSelected(s, true)
           }, this);
         } else {
           this.valueToSelection(this.selected);
@@ -748,27 +820,46 @@
       validateSelected: function() {
         // convert to an array for multi-selection
         if (this.multi && !Array.isArray(this.selected) && 
-            this.selected !== null && this.selected !== undefined) {
+            this.selected != null) {
           this.selected = [this.selected];
+        // use the first selected in the array for single-selection
+        } else if (!this.multi && Array.isArray(this.selected)) {
+          var s = this.selected[0];
+          this.clearSelection([s]);
+          this.selected = s;
+        }
+      },
+      
+      processSplices: function(splices) {
+        for (var i = 0, splice; splice = splices[i]; i++) {
+          for (var j = 0; j < splice.removed.length; j++) {
+            this.setValueSelected(splice.removed[j], false);
+          }
+          for (var j = 0; j < splice.addedCount; j++) {
+            this.setValueSelected(this.selected[splice.index + j], true);
+          }
         }
       },
 
-      clearSelection: function() {
-        if (this.multi) {
-          this.selection.slice().forEach(function(s) {
-            this.$.selection.setItemSelected(s, false);
-          }, this);
-        } else {
-          this.$.selection.setItemSelected(this.selection, false);
-        }
-        this.selectedItem = null;
-        this.$.selection.clear();
+      clearSelection: function(excludes) {
+        this.$.selection.selection.slice().forEach(function(item) {
+          var v = this.valueForNode(item) || this.items.indexOf(item);
+          if (!excludes || excludes.indexOf(v) < 0) {
+            this.$.selection.setItemSelected(item, false);
+          }
+        }, this);
       },
 
       valueToSelection: function(value) {
-        var item = (value === null || value === undefined) ? 
-            null : this.items[this.valueToIndex(value)];
+        var item = this.valueToItem(value);
         this.$.selection.select(item);
+      },
+      
+      setValueSelected: function(value, isSelected) {
+        var item = this.valueToItem(value);
+        if (isSelected ^ this.$.selection.isSelected(item)) {
+          this.$.selection.setItemSelected(item, isSelected);
+        }
       },
 
       updateSelectedItem: function() {
@@ -784,6 +875,11 @@
         }
         this.selectedIndex = this.selectedItem ? 
             parseInt(this.valueToIndex(this.selected)) : -1;
+      },
+      
+      valueToItem: function(value) {
+        return (value === null || value === undefined) ? 
+            null : this.items[this.valueToIndex(value)];
       },
 
       valueToIndex: function(value) {
@@ -853,7 +949,6 @@
         } else {
           this.selected.push(value);
         }
-        this.valueToSelection(value);
       },
 
       findDistributedTarget: function(target, nodes) {
@@ -877,14 +972,16 @@
       },
       
       /**
-       * Selects the previous item.  This should be used in single selection only.
+       * Selects the previous item. This should be used in single selection only.
        *
        * @method selectPrevious
-       * @param {boolean} wrap if true and it is already at the first item, wrap to the end
+       * @param {boolean} wrapped if true and it is already at the first item,
+       *                  wrap to the end
        * @returns the previous item or undefined if there is none
        */
-      selectPrevious: function(wrap) {
-        var i = wrap && !this.selectedIndex ? this.items.length - 1 : this.selectedIndex - 1;
+      selectPrevious: function(wrapped) {
+        var i = wrapped && !this.selectedIndex ? 
+            this.items.length - 1 : this.selectedIndex - 1;
         return this.selectIndex(i);
       },
       
@@ -892,11 +989,13 @@
        * Selects the next item.  This should be used in single selection only.
        *
        * @method selectNext
-       * @param {boolean} wrap if true and it is already at the last item, wrap to the front
+       * @param {boolean} wrapped if true and it is already at the last item,
+       *                  wrap to the front
        * @returns the next item or undefined if there is none
        */
-      selectNext: function(wrap) {
-        var i = wrap && this.selectedIndex >= this.items.length - 1 ? 0 : this.selectedIndex + 1;
+      selectNext: function(wrapped) {
+        var i = wrapped && this.selectedIndex >= this.items.length - 1 ? 
+            0 : this.selectedIndex + 1;
         return this.selectIndex(i);
       }
       
@@ -1068,7 +1167,7 @@ Polymer('core-style', {
       this.styleElement._cssText = cssText;
       if (window.ShadowDOMPolyfill) {
         this.styleElement.textContent = cssText;
-        cssText = Platform.ShadowCSS.shimStyle(this.styleElement,
+        cssText = WebComponents.ShadowCSS.shimStyle(this.styleElement,
             this.getScopeSelector());
       }
       this.styleElement.textContent = cssText;
@@ -1136,7 +1235,7 @@ Polymer('core-style', {
       if (host) {
         var typeExtension = host.hasAttribute('is');
         var name = typeExtension ? host.getAttribute('is') : host.localName;
-        selector = Platform.ShadowCSS.makeScopeSelector(name, 
+        selector = WebComponents.ShadowCSS.makeScopeSelector(name, 
             typeExtension);
       }
       this._scopeSelector = selector;
@@ -1587,14 +1686,14 @@ Polymer('core-transition-pages',{
     // carefully look into ::shadow with polyfill specific hack
     findInShadows: function(node, selector) {
       return node.querySelector(selector) || (hasShadowDOMPolyfill ? 
-          Platform.queryAllShadows(node, selector) :
+          queryAllShadows(node, selector) :
           node.querySelector('::shadow ' + selector));
     },
 
     findAllInShadows: function(node, selector) {
       if (hasShadowDOMPolyfill) {
         var nodes = node.querySelectorAll(selector).array();
-        var shadowNodes = Platform.queryAllShadows(node, selector, true);
+        var shadowNodes = queryAllShadows(node, selector, true);
         return nodes.concat(shadowNodes);
       } else {
         return node.querySelectorAll(selector).array().concat(node.shadowRoot ? node.shadowRoot.querySelectorAll(selector).array() : []);
@@ -1628,6 +1727,63 @@ Polymer('core-transition-pages',{
     }
 
   });
+
+  
+  // utility method for searching through shadowRoots.
+  function queryShadow(node, selector) {
+    var m, el = node.firstElementChild;
+    var shadows, sr, i;
+    shadows = [];
+    sr = node.shadowRoot;
+    while(sr) {
+      shadows.push(sr);
+      sr = sr.olderShadowRoot;
+    }
+    for(i = shadows.length - 1; i >= 0; i--) {
+      m = shadows[i].querySelector(selector);
+      if (m) {
+        return m;
+      }
+    }
+    while(el) {
+      m = queryShadow(el, selector);
+      if (m) {
+        return m;
+      }
+      el = el.nextElementSibling;
+    }
+    return null;
+  }
+
+  function _queryAllShadows(node, selector, results) {
+    var el = node.firstElementChild;
+    var temp, sr, shadows, i, j;
+    shadows = [];
+    sr = node.shadowRoot;
+    while(sr) {
+      shadows.push(sr);
+      sr = sr.olderShadowRoot;
+    }
+    for (i = shadows.length - 1; i >= 0; i--) {
+      temp = shadows[i].querySelectorAll(selector);
+      for(j = 0; j < temp.length; j++) {
+        results.push(temp[j]);
+      }
+    }
+    while (el) {
+      _queryAllShadows(el, selector, results);
+      el = el.nextElementSibling;
+    }
+    return results;
+  }
+
+  queryAllShadows = function(node, selector, all) {
+    if (all) {
+      return _queryAllShadows(node, selector, []);
+    } else {
+      return queryShadow(node, selector);
+    }
+  };
 
 })();
 ;
@@ -1706,7 +1862,7 @@ Polymer('core-transition-pages',{
         this.animating = null;
       }
 
-      Platform.flush();
+      Polymer.flush();
 
       if (this.transitioning.indexOf(src) === -1) {
         this.transitioning.push(src);
@@ -1722,7 +1878,7 @@ Polymer('core-transition-pages',{
         src: src,
         dst: dst,
         easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-      }
+      };
 
       // fire an event so clients have a chance to do something when the
       // new page becomes visible but before it draws.
@@ -1810,8 +1966,8 @@ Polymer('core-transition-pages',{
       if (oldItem && this.selectedItem) {
         // TODO(sorvell): allow bindings to update first?
         var self = this;
-        Platform.flush();
-        Platform.endOfMicrotask(function() {
+        Polymer.flush();
+        Polymer.endOfMicrotask(function() {
           self.applyTransition(oldItem, self.selectedItem);
         });
       }
@@ -1838,7 +1994,8 @@ Polymer('core-transition-pages',{
      */
 
     /**
-     * The target element.
+     * The target element that will be opened when the `core-collapse` is 
+     * opened. If unspecified, the `core-collapse` itself is the target.
      *
      * @attribute target
      * @type object
@@ -1884,6 +2041,18 @@ Polymer('core-transition-pages',{
      * @default false
      */
     fixedSize: false,
+    
+    /**
+     * By default the collapsible element is set to overflow hidden. This helps
+     * avoid element bleeding outside the region and provides consistent overflow
+     * style across opened and closed states. Set this property to true to allow 
+     * the collapsible element to overflow when it's opened.
+     *
+     * @attribute allowOverflow
+     * @type boolean
+     * @default false
+     */
+    allowOverflow: false,
 
     created: function() {
       this.transitionEndListener = this.transitionEnd.bind(this);
@@ -1914,7 +2083,7 @@ Polymer('core-transition-pages',{
       }
       this.isTargetReady = !!this.target;
       this.classList.toggle('core-collapse-closed', this.target !== this);
-      this.target.style.overflow = 'hidden';
+      this.toggleOpenedStyle(false);
       this.horizontalChanged();
       this.addListeners(this.target);
       // set core-collapse-closed class initially to hide the target
@@ -1961,6 +2130,7 @@ Polymer('core-transition-pages',{
         this.updateSize('auto', null);
       }
       this.setTransitionDuration(null);
+      this.toggleOpenedStyle(this.opened);
       this.toggleClosedClass(!this.opened);
       this.asyncFire('core-resize', null, this.target);
     },
@@ -1968,6 +2138,10 @@ Polymer('core-transition-pages',{
     toggleClosedClass: function(closed) {
       this.hasClosedClass = closed;
       this.target.classList.toggle('core-collapse-closed', closed);
+    },
+    
+    toggleOpenedStyle: function(opened) {
+      this.target.style.overflow = this.allowOverflow && opened ? '' : 'hidden';
     },
 
     updateSize: function(size, duration, forceEnd) {
@@ -2024,6 +2198,7 @@ Polymer('core-transition-pages',{
     },
 
     hide: function() {
+      this.toggleOpenedStyle(false);
       // don't need to do anything if it's already hidden
       if (this.hasClosedClass && !this.fixedSize) {
         return;
@@ -2510,10 +2685,77 @@ Polymer('core-transition-pages',{
     });
 
   ;
-Polymer('core-toolbar');;
 
 
-  Polymer('core-header-panel', {
+(function() {
+
+  Polymer('core-toolbar', {
+    
+    /**
+     * Controls how the items are aligned horizontally.
+     * Options are `start`, `center`, `end`, `between` and `around`.
+     *
+     * @attribute justify
+     * @type string
+     * @default ''
+     */
+    justify: '',
+    
+    /**
+     * Controls how the items are aligned horizontally when they are placed
+     * in the middle.
+     * Options are `start`, `center`, `end`, `between` and `around`.
+     *
+     * @attribute middleJustify
+     * @type string
+     * @default ''
+     */
+    middleJustify: '',
+    
+    /**
+     * Controls how the items are aligned horizontally when they are placed
+     * at the bottom.
+     * Options are `start`, `center`, `end`, `between` and `around`.
+     *
+     * @attribute bottomJustify
+     * @type string
+     * @default ''
+     */
+    bottomJustify: '',
+    
+    justifyChanged: function(old) {
+      this.updateBarJustify(this.$.topBar, this.justify, old);
+    },
+    
+    middleJustifyChanged: function(old) {
+      this.updateBarJustify(this.$.middleBar, this.middleJustify, old);
+    },
+    
+    bottomJustifyChanged: function(old) {
+      this.updateBarJustify(this.$.bottomBar, this.bottomJustify, old);
+    },
+    
+    updateBarJustify: function(bar, justify, old) {
+      if (old) {
+        bar.removeAttribute(this.toLayoutAttrName(old));
+      }
+      if (this.justify) {
+        bar.setAttribute(this.toLayoutAttrName(justify), '');
+      }
+    },
+    
+    toLayoutAttrName: function(value) {
+      return value === 'between' ? 'justified' : value + '-justified';
+    }
+    
+  });
+
+})();
+
+;
+
+
+  Polymer('core-header-panel',{
 
     /**
      * Fired when the content has been scrolled.  `event.detail.target` returns
@@ -2568,9 +2810,9 @@ Polymer('core-toolbar');;
        *     </style>
        *
        *     <core-header-panel mode="cover">
-       *       <core-appbar class="tall">
+       *       <core-toolbar class="tall">
        *         <core-icon-button icon="menu"></core-icon-button>
-       *       </core-appbar>
+       *       </core-toolbar>
        *       <div class="content"></div>
        *     </core-header-panel>
        *
@@ -2632,9 +2874,9 @@ Polymer('core-toolbar');;
     },
 
     modeChanged: function(old) {
+      var configs = this.modeConfigs;
       var header = this.header;
       if (header) {
-        var configs = this.modeConfigs;
         // in tallMode it may add tallClass to the header; so do the cleanup
         // when mode is changed from tallMode to not tallMode
         if (configs.tallMode[old] && !configs.tallMode[this.mode]) {
@@ -2646,7 +2888,7 @@ Polymer('core-toolbar');;
           header.classList.toggle('animate', configs.tallMode[this.mode]);
         }
       }
-      if (configs.outerScroll[this.mode] || configs.outerScroll[old]) {
+      if (configs && (configs.outerScroll[this.mode] || configs.outerScroll[old])) {
         this.removeListener(old);
         this.addListener();
       }
@@ -2710,8 +2952,10 @@ Polymer('core-toolbar');;
       }
     },
 
-    textChanged: function () {
-      this.innerHTML = marked(this.text);
+    textChanged: function (oldVal, newVal) {
+      if (newVal) {
+        this.innerHTML = marked(this.text);
+      }
     },
 
     highlight: function(code, lang) {
@@ -2831,7 +3075,7 @@ Polymer('core-menu');;
   ;
 
 
-    Polymer('core-doc-viewer', {
+    Polymer('core-doc-viewer',{
       /**
        * A single file to parse for docs
        *
@@ -2893,8 +3137,43 @@ Polymer('core-menu');;
         this.data = this.classes[this.selected];
       },
 
-      parserDataReady: function(event) {
-        this.assimilateData(event.target.data);
+      parserDataReady: function(event, detail, sender) {
+        var path = '';
+        if (this.sources.length) {
+          var path = event.target.templateInstance.model;
+          var idx = path.lastIndexOf('/');
+          path = idx != -1 ? path.substr(0, idx) : '.';
+        } else {
+          var parts = location.pathname.split('/');
+          parts.pop();
+          path = parts.join('/');
+        }
+
+        var data = event.target.data;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', path + '/bower.json');
+
+        xhr.onerror = function(e) {
+          this.assimilateData(data);
+        }.bind(this);
+
+        xhr.onloadend = function(e) {
+
+          // Add package version to data.
+          if (e.target.status == 200) {
+            var version = JSON.parse(e.target.response).version;
+            // Assumes all classes (elements) in the list are the same version.
+            for (var i = 0, c; c = data.classes[i]; ++i) {
+              c.version = version;
+            }
+          }
+
+          this.assimilateData(data);
+
+        }.bind(this);
+
+        xhr.send();
       },
 
       assimilateData: function(data) {
@@ -3120,15 +3399,25 @@ Polymer('core-menu');;
        * @type boolean
        * @default false
        */
-      disableSwipe: false
+      disableSwipe: false,
+      
+      /**
+       * If true, ignore `responsiveWidth` setting and force the narrow layout.
+       *
+       * @attribute forceNarrow
+       * @type boolean
+       * @default false
+       */
+      forceNarrow: false
     },
 
     eventDelegates: {
       trackstart: 'trackStart',
       trackx: 'trackx',
       trackend: 'trackEnd',
-      down: 'touchStart',
-      up: 'touchEnd'
+      down: 'downHandler',
+      up: 'upHandler',
+      tap: 'tapHandler'
     },
 
     // Whether the transition is enabled.
@@ -3148,6 +3437,10 @@ Polymer('core-menu');;
 
     // Whether the browser has support for the will-change CSS property.
     hasWillChange: true,
+    
+    // The attribute on elements that should toggle the drawer on tap, also 
+    // elements will automatically be hidden in wide layout.
+    toggleAttribute: 'core-drawer-toggle',
 
     created: function() {
       this.hasTransform = 'transform' in this.style;
@@ -3169,7 +3462,7 @@ Polymer('core-menu');;
      * @method togglePanel
      */
     togglePanel: function() {
-      this.selected = this.selected === 'main' ? 'drawer' : 'main';
+      this.selected = this.isMainSelected() ? 'drawer' : 'main';
     },
 
     /**
@@ -3191,16 +3484,24 @@ Polymer('core-menu');;
     },
 
     queryMatchesChanged: function() {
-      if (this.queryMatches) {
+      this.narrow = this.queryMatches || this.forceNarrow;
+      if (this.narrow) {
         this.selected = this.defaultSelected;
       }
-      this.narrow = this.queryMatches;
       this.setAttribute('touch-action', this.swipeAllowed() ? 'pan-y' : '');
       this.fire('core-responsive-change', {narrow: this.narrow});
+    },
+    
+    forceNarrowChanged: function() {
+      this.queryMatchesChanged();
     },
 
     swipeAllowed: function() {
       return this.narrow && !this.disableSwipe;
+    },
+    
+    isMainSelected: function() {
+      return this.selected === 'main';
     },
 
     startEdgePeek: function() {
@@ -3217,13 +3518,21 @@ Polymer('core-menu');;
       }
     },
 
-    touchStart: function(e) {
-      if (!this.dragging && this.selected === 'main' && this.isEdgeTouch(e))
+    downHandler: function(e) {
+      if (!this.dragging && this.isMainSelected() && this.isEdgeTouch(e)) {
         this.startEdgePeek();
+      }
     },
 
-    touchEnd: function(e) {
+    upHandler: function(e) {
       this.stopEdgePeak();
+    },
+    
+    tapHandler: function(e) {
+      if (e.target && this.toggleAttribute && 
+          e.target.hasAttribute(this.toggleAttribute)) {
+        this.togglePanel();
+      }
     },
 
     isEdgeTouch: function(e) {
@@ -3232,14 +3541,13 @@ Polymer('core-menu');;
         e.pageX <= this.edgeSwipeSensitivity);
     },
 
-    // swipe support for the drawer, inspired by
-    // https://github.com/Polymer/core-drawer-panel/pull/6
     trackStart : function(e) {
       if (this.swipeAllowed()) {
         this.dragging = true;
 
-        if (this.selected === 'main')
+        if (this.isMainSelected()) {
           this.dragging = this.peeking || this.isEdgeTouch(e);
+        }
 
         if (this.dragging) {
           this.width = this.$.drawer.offsetWidth;
@@ -3250,18 +3558,20 @@ Polymer('core-menu');;
     },
 
     translateXForDeltaX: function(deltaX) {
+      var isMain = this.isMainSelected();
       if (this.rightDrawer) {
-        return Math.max(0, (this.selected === 'main') ? this.width + deltaX : deltaX);
+        return Math.max(0, isMain ? this.width + deltaX : deltaX);
       } else {
-        return Math.min(0, (this.selected === 'main') ? deltaX - this.width : deltaX);
+        return Math.min(0, isMain ? deltaX - this.width : deltaX);
       }
     },
 
     trackx : function(e) {
       if (this.dragging) {
         if (this.peeking) {
-          if (Math.abs(e.dx) <= this.edgeSwipeSensitivity)
+          if (Math.abs(e.dx) <= this.edgeSwipeSensitivity) {
             return; // Ignore trackx until we move past the edge peek.
+          }
           this.peeking = false;
         }
         this.moveDrawer(this.translateXForDeltaX(e.dx));
@@ -3282,10 +3592,12 @@ Polymer('core-menu');;
       }
     },
 
-    transformForTranslateX: function (translateX) {
-      if (translateX === null)
+    transformForTranslateX: function(translateX) {
+      if (translateX === null) {
         return '';
-      return this.hasWillChange ? 'translateX(' + translateX + 'px)' : 'translate3d(' + translateX + 'px, 0, 0)';
+      }
+      return this.hasWillChange ? 'translateX(' + translateX + 'px)' : 
+          'translate3d(' + translateX + 'px, 0, 0)';
     },
 
     moveDrawer: function(translateX) {
@@ -3296,7 +3608,7 @@ Polymer('core-menu');;
       } else {
         s.webkitTransform = this.transformForTranslateX(translateX);
       }
-    },
+    }
 
   });
 
@@ -3528,7 +3840,7 @@ Polymer('core-menu');;
     ready: function() {
       this.target = this.target || this;
       // flush to ensure styles are installed before paint
-      Platform.flush();
+      Polymer.flush();
     },
 
     /** 
@@ -3851,11 +4163,13 @@ Polymer('core-menu');;
     },
 
     resetTargetDimensions: function() {
-      if (!this.dimensions.size.v) {
+      if (!this.dimensions || !this.dimensions.size.v) {
         this.sizingTarget.style.maxHeight = '';  
+        this.target.style.top = '';
       }
-      if (!this.dimensions.size.h) {
+      if (!this.dimensions || !this.dimensions.size.h) {
         this.sizingTarget.style.maxWidth = '';  
+        this.target.style.left = '';
       }
       this.dimensions = null;
     },
@@ -4036,134 +4350,34 @@ Polymer('core-menu');;
 })();
 ;
 
-    Polymer('core-dropdown-overlay',{
 
-      publish: {
+(function() {
 
-        /**
-         * The `relatedTarget` is an element used to position the overlay. It should have
-         * the same offsetParent as the target.
-         *
-         * @attribute relatedTarget
-         * @type Node
-         */
-        relatedTarget: null,
+  function docElem(property) {
+    var t;
+    return ((t = document.documentElement) || (t = document.body.parentNode)) && (typeof t[property] === 'number') ? t : document.body;
+  }
 
-        /**
-         * The horizontal alignment of the overlay relative to the `relatedTarget`.
-         * `left` means the left edges are aligned together and `right` means the right
-         * edges are aligned together.
-         *
-         * @attribute halign
-         * @type 'left' | 'right'
-         * @default 'auto'
-         */
-        halign: 'left',
-
-        /**
-         * The vertical alignment of the overlay relative to the `relatedTarget`. `top`
-         * means the top edges are aligned together and `bottom` means the bottom edges
-         * are aligned together.
-         *
-         * @attribute valign
-         * @type 'top' | 'bottom'
-         * @default 'top'
-         */
-        valign: 'top'
-
-      },
-
-      measure: function() {
-        var target = this.target;
-        // remember position, because core-overlay may have set the property
-        var pos = target.style.position;
-
-        // get the size of the target as if it's positioned in the top left
-        // corner of the screen
-        target.style.position = 'fixed';
-        target.style.left = '0px';
-        target.style.top = '0px';
-
-        var rect = target.getBoundingClientRect();
-
-        target.style.position = pos;
-        target.style.left = null;
-        target.style.top = null;
-
-        return rect;
-      },
-
-      resetTargetDimensions: function() {
-        var dims = this.dimensions;
-        var style = this.target.style;
-        if (dims.position.h_by === this.localName) {
-          style[dims.position.h] = null;
-        }
-        if (dims.position.v_by === this.localName) {
-          style[dims.position.v] = null;
-        }
-        this.super();
-      },
-
-      positionTarget: function() {
-        if (!this.relatedTarget) {
-          this.super();
-          return;
-        }
-
-        var target = this.target;
-        var related = this.relatedTarget;
-
-        // explicitly set width/height, because we don't want it constrained
-        // to the offsetParent
-        var rect = this.measure();
-        target.style.width = rect.width + 'px';
-        target.style.height = rect.height + 'px';
-
-        var t_op = target.offsetParent;
-        var r_op = related.offsetParent;
-        if (window.ShadowDOMPolyfill) {
-          t_op = wrap(t_op);
-          r_op = wrap(r_op);
-        }
-
-        if (t_op !== r_op && t_op !== related) {
-          console.warn('core-dropdown-overlay: dropdown\'s offsetParent must be the relatedTarget or the relatedTarget\'s offsetParent!');
-        }
-
-        // Don't use CSS to handle halign/valign so we can use
-        // dimensions.position to detect custom positioning
-
-        var dims = this.dimensions;
-        var margin = dims.margin;
-        var inside = t_op === related;
-
-        if (!dims.position.h) {
-          if (this.halign === 'right') {
-            target.style.right = ((inside ? 0 : t_op.offsetWidth - related.offsetLeft - related.offsetWidth) - margin.right) + 'px';
-            dims.position.h = 'right';
-          } else {
-            target.style.left = ((inside ? 0 : related.offsetLeft) - margin.left) + 'px';
-            dims.position.h = 'left';
-          }
-          dims.position.h_by = this.localName;
-        }
-
-        if (!dims.position.v) {
-          if (this.valign === 'bottom') {
-            target.style.bottom = ((inside ? 0 : t_op.offsetHeight - related.offsetTop - related.offsetHeight) - margin.bottom) + 'px';
-            dims.position.v = 'bottom';
-          } else {
-            target.style.top = ((inside ? 0 : related.offsetTop) - margin.top) + 'px';
-            dims.position.v = 'top';
-          }
-          dims.position.v_by = this.localName;
-        }
-      }
-
-    });
-  ;
-
+  // View width and height excluding any visible scrollbars
+  // http://www.highdots.com/forums/javascript/faq-topic-how-do-i-296669.html
+  //    1) document.client[Width|Height] always reliable when available, including Safari2
+  //    2) document.documentElement.client[Width|Height] reliable in standards mode DOCTYPE, except for Safari2, Opera<9.5
+  //    3) document.body.client[Width|Height] is gives correct result when #2 does not, except for Safari2
+  //    4) When document.documentElement.client[Width|Height] is unreliable, it will be size of <html> element either greater or less than desired view size
+  //       https://bugzilla.mozilla.org/show_bug.cgi?id=156388#c7
+  //    5) When document.body.client[Width|Height] is unreliable, it will be size of <body> element less than desired view size
+  function viewSize() {
+    // This algorithm avoids creating test page to determine if document.documentElement.client[Width|Height] is greater then view size,
+    // will succeed where such test page wouldn't detect dynamic unreliability,
+    // and will only fail in the case the right or bottom edge is within the width of a scrollbar from edge of the viewport that has visible scrollbar(s).
+    var doc = docElem('clientWidth');
+    var body = document.body;
+    var w, h;
+    return typeof document.clientWidth === 'number' ?
+      {w: document.clientWidth, h: document.clientHeight} :
+      doc === body || (w = Math.max( doc.clientWidth, body.clientWidth )) > self.innerWidth || (h = Math.max( doc.clientHeight, body.clientHeight )) > self.innerHeight ?
+        {w: body.clientWidth, h: body.clientHeight} : {w: w, h: h };
+  }
 
   Polymer('core-dropdown',{
 
@@ -4171,21 +4385,13 @@ Polymer('core-menu');;
 
       /**
        * The element associated with this dropdown, usually the element that triggers
-       * the menu.
+       * the menu. If unset, this property will default to the target's parent node
+       * or shadow host.
        *
        * @attribute relatedTarget
        * @type Node
        */
       relatedTarget: null,
-
-      /**
-       * If true, the menu is currently visible.
-       *
-       * @attribute opened
-       * @type boolean
-       * @default false
-       */
-      opened: false,
 
       /**
        * The horizontal alignment of the popup relative to `relatedTarget`. `left`
@@ -4209,37 +4415,402 @@ Polymer('core-menu');;
        */
       valign: 'top',
 
-     /**
-       * By default an overlay will focus its target or an element inside
-       * it with the `autoFocus` attribute. Disable this
-       * behavior by setting the `autoFocusDisabled` property to true.
-       *
-       * @attribute autoFocusDisabled
-       * @type boolean
-       * @default false
-       */
-      autoFocusDisabled: false,
+    },
 
-      /**
-       * The transition property specifies a string which identifies a 
-       * <a href="../core-transition/">`core-transition`</a> element that 
-       * will be used to help the overlay open and close. The default
-       * `core-transition-fade` will cause the overlay to fade in and out.
-       *
-       * @attribute transition
-       * @type string
-       * @default null
-       */
-      transition: null
+    measure: function() {
+      var target = this.target;
+      // remember position, because core-overlay may have set the property
+      var pos = target.style.position;
 
+      // get the size of the target as if it's positioned in the top left
+      // corner of the screen
+      target.style.position = 'fixed';
+      target.style.left = '0px';
+      target.style.top = '0px';
+
+      var rect = target.getBoundingClientRect();
+
+      target.style.position = pos;
+      target.style.left = null;
+      target.style.top = null;
+
+      return rect;
+    },
+
+    resetTargetDimensions: function() {
+      var dims = this.dimensions;
+      var style = this.target.style;
+      if (dims.position.h_by === this.localName) {
+        style[dims.position.h] = null;
+        dims.position.h_by = null;
+      }
+      if (dims.position.v_by === this.localName) {
+        style[dims.position.v] = null;
+        dims.position.v_by = null;
+      }
+      this.super();
+    },
+
+    positionTarget: function() {
+      if (!this.relatedTarget) {
+        this.relatedTarget = this.target.parentElement || (this.target.parentNode && this.target.parentNode.host);
+        if (!this.relatedTarget) {
+          this.super();
+          return;
+        }
+      }
+
+      // explicitly set width/height, because we don't want it constrained
+      // to the offsetParent
+      var target = this.sizingTarget;
+      var rect = this.measure();
+      target.style.width = Math.ceil(rect.width) + 'px';
+      target.style.height = Math.ceil(rect.height) + 'px';
+
+      if (this.layered) {
+        this.positionLayeredTarget();
+      } else {
+        this.positionNestedTarget();
+      }
+    },
+
+    positionLayeredTarget: function() {
+      var target = this.target;
+      var rect = this.relatedTarget.getBoundingClientRect();
+
+      var dims = this.dimensions;
+      var margin = dims.margin;
+      var vp = viewSize();
+
+      if (!dims.position.h) {
+        if (this.halign === 'right') {
+          target.style.right = vp.w - rect.right - margin.right + 'px';
+          dims.position.h = 'right';
+        } else {
+          target.style.left = rect.left - margin.left + 'px';
+          dims.position.h = 'left';
+        }
+        dims.position.h_by = this.localName;
+      }
+
+      if (!dims.position.v) {
+        if (this.valign === 'bottom') {
+          target.style.bottom = vp.h - rect.bottom - margin.bottom + 'px';
+          dims.position.v = 'bottom';
+        } else {
+          target.style.top = rect.top - margin.top + 'px';
+          dims.position.v = 'top';
+        }
+        dims.position.v_by = this.localName;
+      }
+
+      if (dims.position.h_by || dims.position.v_by) {
+        target.style.position = 'fixed';
+      }
+    },
+
+    positionNestedTarget: function() {
+      var target = this.target;
+      var related = this.relatedTarget;
+
+      var t_op = target.offsetParent;
+      var r_op = related.offsetParent;
+      if (window.ShadowDOMPolyfill) {
+        t_op = wrap(t_op);
+        r_op = wrap(r_op);
+      }
+
+      if (t_op !== r_op && t_op !== related) {
+        console.warn('core-dropdown-overlay: dropdown\'s offsetParent must be the relatedTarget or the relatedTarget\'s offsetParent!');
+      }
+
+      // Don't use CSS to handle halign/valign so we can use
+      // dimensions.position to detect custom positioning
+
+      var dims = this.dimensions;
+      var margin = dims.margin;
+      var inside = t_op === related;
+
+      if (!dims.position.h) {
+        if (this.halign === 'right') {
+          target.style.right = ((inside ? 0 : t_op.offsetWidth - related.offsetLeft - related.offsetWidth) - margin.right) + 'px';
+          dims.position.h = 'right';
+        } else {
+          target.style.left = ((inside ? 0 : related.offsetLeft) - margin.left) + 'px';
+          dims.position.h = 'left';
+        }
+        dims.position.h_by = this.localName;
+      }
+
+      if (!dims.position.v) {
+        if (this.valign === 'bottom') {
+          target.style.bottom = ((inside ? 0 : t_op.offsetHeight - related.offsetTop - related.offsetHeight) - margin.bottom) + 'px';
+          dims.position.v = 'bottom';
+        } else {
+          target.style.top = ((inside ? 0 : related.offsetTop) - margin.top) + 'px';
+          dims.position.v = 'top';
+        }
+        dims.position.v_by = this.localName;
+      }
     }
 
   });
 
+})();
+
+;
+
+  (function() {
+    /*
+     * Chrome uses an older version of DOM Level 3 Keyboard Events
+     *
+     * Most keys are labeled as text, but some are Unicode codepoints.
+     * Values taken from: http://www.w3.org/TR/2007/WD-DOM-Level-3-Events-20071221/keyset.html#KeySet-Set
+     */
+    var KEY_IDENTIFIER = {
+      'U+0009': 'tab',
+      'U+001B': 'esc',
+      'U+0020': 'space',
+      'U+002A': '*',
+      'U+0030': '0',
+      'U+0031': '1',
+      'U+0032': '2',
+      'U+0033': '3',
+      'U+0034': '4',
+      'U+0035': '5',
+      'U+0036': '6',
+      'U+0037': '7',
+      'U+0038': '8',
+      'U+0039': '9',
+      'U+0041': 'a',
+      'U+0042': 'b',
+      'U+0043': 'c',
+      'U+0044': 'd',
+      'U+0045': 'e',
+      'U+0046': 'f',
+      'U+0047': 'g',
+      'U+0048': 'h',
+      'U+0049': 'i',
+      'U+004A': 'j',
+      'U+004B': 'k',
+      'U+004C': 'l',
+      'U+004D': 'm',
+      'U+004E': 'n',
+      'U+004F': 'o',
+      'U+0050': 'p',
+      'U+0051': 'q',
+      'U+0052': 'r',
+      'U+0053': 's',
+      'U+0054': 't',
+      'U+0055': 'u',
+      'U+0056': 'v',
+      'U+0057': 'w',
+      'U+0058': 'x',
+      'U+0059': 'y',
+      'U+005A': 'z',
+      'U+007F': 'del'
+    };
+
+    /*
+     * Special table for KeyboardEvent.keyCode.
+     * KeyboardEvent.keyIdentifier is better, and KeyBoardEvent.key is even better than that
+     *
+     * Values from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent.keyCode#Value_of_keyCode
+     */
+    var KEY_CODE = {
+      9: 'tab',
+      13: 'enter',
+      27: 'esc',
+      33: 'pageup',
+      34: 'pagedown',
+      35: 'end',
+      36: 'home',
+      32: 'space',
+      37: 'left',
+      38: 'up',
+      39: 'right',
+      40: 'down',
+      46: 'del',
+      106: '*'
+    };
+
+    /*
+     * KeyboardEvent.key is mostly represented by printable character made by the keyboard, with unprintable keys labeled
+     * nicely.
+     *
+     * However, on OS X, Alt+char can make a Unicode character that follows an Apple-specific mapping. In this case, we
+     * fall back to .keyCode.
+     */
+    var KEY_CHAR = /[a-z0-9*]/;
+
+    function transformKey(key) {
+      var validKey = '';
+      if (key) {
+        var lKey = key.toLowerCase();
+        if (lKey.length == 1) {
+          if (KEY_CHAR.test(lKey)) {
+            validKey = lKey;
+          }
+        } else if (lKey == 'multiply') {
+          // numpad '*' can map to Multiply on IE/Windows
+          validKey = '*';
+        } else {
+          validKey = lKey;
+        }
+      }
+      return validKey;
+    }
+
+    var IDENT_CHAR = /U\+/;
+    function transformKeyIdentifier(keyIdent) {
+      var validKey = '';
+      if (keyIdent) {
+        if (IDENT_CHAR.test(keyIdent)) {
+          validKey = KEY_IDENTIFIER[keyIdent];
+        } else {
+          validKey = keyIdent.toLowerCase();
+        }
+      }
+      return validKey;
+    }
+
+    function transformKeyCode(keyCode) {
+      var validKey = '';
+      if (Number(keyCode)) {
+        if (keyCode >= 65 && keyCode <= 90) {
+          // ascii a-z
+          // lowercase is 32 offset from uppercase
+          validKey = String.fromCharCode(32 + keyCode);
+        } else if (keyCode >= 112 && keyCode <= 123) {
+          // function keys f1-f12
+          validKey = 'f' + (keyCode - 112);
+        } else if (keyCode >= 48 && keyCode <= 57) {
+          // top 0-9 keys
+          validKey = String(48 - keyCode);
+        } else if (keyCode >= 96 && keyCode <= 105) {
+          // num pad 0-9
+          validKey = String(96 - keyCode);
+        } else {
+          validKey = KEY_CODE[keyCode];
+        }
+      }
+      return validKey;
+    }
+
+    function keyboardEventToKey(ev) {
+      // fall back from .key, to .keyIdentifier, and then to .keyCode
+      var normalizedKey = transformKey(ev.key) || transformKeyIdentifier(ev.keyIdentifier) || transformKeyCode(ev.keyCode) || '';
+      return {
+        shift: ev.shiftKey,
+        ctrl: ev.ctrlKey,
+        meta: ev.metaKey,
+        alt: ev.altKey,
+        key: normalizedKey
+      };
+    }
+
+    /*
+     * Input: ctrl+shift+f7 => {ctrl: true, shift: true, key: 'f7'}
+     * ctrl/space => {ctrl: true} || {key: space}
+     */
+    function stringToKey(keyCombo) {
+      var keys = keyCombo.split('+');
+      var keyObj = Object.create(null);
+      keys.forEach(function(key) {
+        if (key == 'shift') {
+          keyObj.shift = true;
+        } else if (key == 'ctrl') {
+          keyObj.ctrl = true;
+        } else if (key == 'alt') {
+          keyObj.alt = true;
+        } else {
+          keyObj.key = key;
+        }
+      });
+      return keyObj;
+    }
+
+    function keyMatches(a, b) {
+      return Boolean(a.alt) == Boolean(b.alt) && Boolean(a.ctrl) == Boolean(b.ctrl) && Boolean(a.shift) == Boolean(b.shift) && a.key === b.key;
+    }
+
+    /**
+     * Fired when a keycombo in `keys` is pressed.
+     *
+     * @event keys-pressed
+     */
+    function processKeys(ev) {
+      var current = keyboardEventToKey(ev);
+      for (var i = 0, dk; i < this._desiredKeys.length; i++) {
+        dk = this._desiredKeys[i];
+        if (keyMatches(dk, current)) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          this.fire('keys-pressed', current, this, false);
+          break;
+        }
+      }
+    }
+
+    function listen(node, handler) {
+      if (node && node.addEventListener) {
+        node.addEventListener('keydown', handler);
+      }
+    }
+
+    function unlisten(node, handler) {
+      if (node && node.removeEventListener) {
+        node.removeEventListener('keydown', handler);
+      }
+    }
+
+    Polymer('core-a11y-keys', {
+      created: function() {
+        this._keyHandler = processKeys.bind(this);
+      },
+      attached: function() {
+        if (!this.target) {
+          this.target = this.parentNode;
+        }
+        listen(this.target, this._keyHandler);
+      },
+      detached: function() {
+        unlisten(this.target, this._keyHandler);
+      },
+      publish: {
+        /**
+         * The set of key combinations to listen for.
+         *
+         * @attribute keys
+         * @type string (keys syntax)
+         * @default ''
+         */
+        keys: '',
+        /**
+         * The node that will fire keyboard events.
+         * Default to this element's parentNode unless one is assigned
+         *
+         * @attribute target
+         * @type Node
+         * @default this.parentNode
+         */
+        target: null
+      },
+      keysChanged: function() {
+        // * can have multiple mappings: shift+8, * on numpad or Multiply on numpad
+        var normalized = this.keys.replace('*', '* shift+*');
+        this._desiredKeys = normalized.toLowerCase().split(' ').map(stringToKey);
+      },
+      targetChanged: function(oldTarget) {
+        unlisten(oldTarget, this._keyHandler);
+        listen(this.target, this._keyHandler);
+      }
+    });
+  })();
 ;
 
 
-  Polymer('core-dropdown-menu',{
+  Polymer('core-dropdown-base',{
 
     publish: {
 
@@ -4250,7 +4821,90 @@ Polymer('core-menu');;
        * @type boolean
        * @default false
        */
-      opened: false,
+      opened: false
+
+    },
+
+    eventDelegates: {
+      'tap': 'toggleOverlay'
+    },
+
+    overlayListeners: {
+      'core-overlay-open': 'openAction'
+    },
+
+    get dropdown() {
+      if (!this._dropdown) {
+        this._dropdown = this.querySelector('.dropdown');
+        for (var l in this.overlayListeners) {
+          this.addElementListener(this._dropdown, l, this.overlayListeners[l]);
+        }
+      }
+      return this._dropdown;
+    },
+
+    attached: function() {
+      // find the dropdown on attach
+      // FIXME: Support MO?
+      this.dropdown;
+    },
+
+    addElementListener: function(node, event, methodName, capture) {
+      var fn = this._makeBoundListener(methodName);
+      if (node && fn) {
+        Polymer.addEventListener(node, event, fn, capture);
+      }
+    },
+
+    removeElementListener: function(node, event, methodName, capture) {
+      var fn = this._makeBoundListener(methodName);
+      if (node && fn) {
+        Polymer.removeEventListener(node, event, fn, capture);
+      }
+    },
+
+    _makeBoundListener: function(methodName) {
+      var self = this, method = this[methodName];
+      if (!method) {
+        return;
+      }
+      var bound = '_bound' + methodName;
+      if (!this[bound]) {
+        this[bound] = function(e) {
+          method.call(self, e);
+        };
+      }
+      return this[bound];
+    },
+
+    openedChanged: function() {
+      if (this.disabled) {
+        return;
+      }
+      var dropdown = this.dropdown;
+      if (dropdown) {
+        dropdown.opened = this.opened;
+      }
+    },
+
+    openAction: function(e) {
+      this.opened = !!e.detail;
+    },
+
+    toggleOverlay: function() {
+      this.opened = !this.opened;
+    }
+
+  });
+
+;
+
+
+(function() {
+
+  var p = {
+
+    publish: {
 
       /**
        * A label for the control. The label is displayed if no item is selected.
@@ -4262,493 +4916,385 @@ Polymer('core-menu');;
       label: 'Select an item',
 
       /**
-       * The currently selected element. By default this is the index of the item element.
-       * If you want a specific attribute value of the element to be used instead of the
-       * index, set `valueattr` to that attribute name.
+       * The icon to display when the drop-down is opened.
        *
-       * @attribute selected
-       * @type Object
-       * @default null
-       */
-      selected: null,
-
-      /**
-       * Specifies the attribute to be used for "selected" attribute.
-       *
-       * @attribute valueattr
+       * @attribute openedIcon
        * @type string
-       * @default 'name'
+       * @default 'arrow-drop-up'
        */
-      valueattr: 'name',
+      openedIcon: 'arrow-drop-up',
 
       /**
-       * Specifies the CSS class to be used to add to the selected element.
-       * 
-       * @attribute selectedClass
+       * The icon to display when the drop-down is closed.
+       *
+       * @attribute closedIcon
        * @type string
-       * @default 'core-selected'
+       * @default 'arrow-drop-down'
        */
-      selectedClass: 'core-selected',
-
-      /**
-       * Specifies the property to be used to set on the selected element
-       * to indicate its active state.
-       *
-       * @attribute selectedProperty
-       * @type string
-       * @default ''
-       */
-      selectedProperty: '',
-
-      /**
-       * Specifies the attribute to set on the selected element to indicate
-       * its active state.
-       *
-       * @attribute selectedAttribute
-       * @type string
-       * @default 'active'
-       */
-      selectedAttribute: 'selected',
-
-      /**
-       * The currently selected element.
-       *
-       * @attribute selectedItem
-       * @type Object
-       * @default null
-       */
-      selectedItem: null,
-
-      /**
-       * Horizontally align the overlay with the control.
-       *
-       * @attribute halign
-       * @type "left" | "right"
-       * @default "left"
-       */
-      halign: 'left',
-
-      /**
-       * Vertically align the dropdown menu with the control.
-       *
-       * @attribute valign
-       * @type "top" | "bottom"
-       * @default "bottom"
-       */
-      valign: 'top'
+      closedIcon: 'arrow-drop-down'
 
     },
 
-    activateAction: function() {
+    selectedItemLabel: '',
+
+    overlayListeners: {
+      'core-overlay-open': 'openAction',
+      'core-activate': 'activateAction',
+      'core-select': 'selectAction'
+    },
+
+    activateAction: function(e) {
       this.opened = false;
     },
 
-    toggle: function() {
-      this.opened = !this.opened;
+    selectAction: function(e) {
+      var detail = e.detail;
+      if (detail.isSelected) {
+        this.selectedItemLabel = detail.item.label || detail.item.textContent;
+      } else {
+        this.selectedItemLabel = '';
+      }
     }
 
-  });
+  };
+
+  Polymer.mixin2(p, Polymer.CoreFocusable);
+  Polymer('core-dropdown-menu',p);
+
+})();
 
 ;
 Polymer('core-field');;
 
 
-    Polymer('core-input', {
-      publish: {
-        /**
-         * Placeholder text that hints to the user what can be entered in
-         * the input.
-         *
-         * @attribute placeholder
-         * @type string
-         * @default ''
-         */
-        placeholder: '',
-  
-        /**
-         * If true, this input cannot be focused and the user cannot change
-         * its value.
-         *
-         * @attribute disabled
-         * @type boolean
-         * @default false
-         */
-        disabled: false,
-  
-        /**
-         * If true, the user cannot modify the value of the input.
-         *
-         * @attribute readonly
-         * @type boolean
-         * @default false
-         */
-        readonly: false,
+  Polymer('core-image',{
+    
+    publish: {
 
-        /**
-         * If true, this input will automatically gain focus on page load.
-         *
-         * @attribute autofocus
-         * @type boolean
-         * @default false
-         */
-        autofocus: false,
+      /**
+       * The URL of an image.
+       *
+       * @attribute src
+       * @type string
+       * @default null
+       */
+      src: null,
 
-        /**
-         * If true, this input accepts multi-line input like a `<textarea>`
-         *
-         * @attribute multiline
-         * @type boolean
-         * @default false
-         */
-        multiline: false,
-  
-        /**
-         * (multiline only) The height of this text input in rows. The input
-         * will scroll internally if more input is entered beyond the size
-         * of the component. This property is meaningless if multiline is
-         * false. You can also set this property to "fit" and size the
-         * component with CSS to make the input fit the CSS size.
-         *
-         * @attribute rows
-         * @type number|'fit'
-         * @default 'fit'
-         */
-        rows: 'fit',
-  
-        /**
-         * The current value of this input. Changing inputValue programmatically
-         * will cause value to be out of sync. Instead, change value directly
-         * or call commit() after changing inputValue.
-         *
-         * @attribute inputValue
-         * @type string
-         * @default ''
-         */
-        inputValue: '',
-  
-        /**
-         * The value of the input committed by the user, either by changing the
-         * inputValue and blurring the input, or by hitting the `enter` key.
-         *
-         * @attribute value
-         * @type string
-         * @default ''
-         */
-        value: '',
+      /**
+       * When false, the image is prevented from loading and any placeholder is
+       * shown.  This may be useful when a binding to the src property is known to
+       * be invalid, to prevent 404 requests.
+       *
+       * @attribute src
+       * @type string
+       * @default null
+       */
+      load: true,
 
-        /**
-         * Set the input type. Not supported for `multiline`.
-         *
-         * @attribute type
-         * @type string
-         * @default text
-         */
-        type: 'text',
+      /**
+       * Sets a sizing option for the image.  Valid values are `contain` (full 
+       * aspect ratio of the image is contained within the element and 
+       * letterboxed) or `cover` (image is cropped in order to fully cover the
+       * bounds of the element), or `null` (default: image takes natural size).
+       *
+       * @attribute sizing
+       * @type string
+       * @default null
+       */
+      sizing: null,
 
-        /**
-         * If true, the input is invalid if its value is null.
-         *
-         * @attribute required
-         * @type boolean
-         * @default false
-         */
-        required: false,
+      /**
+       * When a sizing option is uzed (`cover` or `contain`), this determines
+       * how the image is aligned within the element bounds.
+       *
+       * @attribute position
+       * @type string
+       * @default 'center'
+       */
+      position: 'center',
 
-        /**
-         * A regular expression to validate the input value against. See
-         * https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation#Validation-related_attributes
-         * for more info. Not supported if `multiline` is true.
-         *
-         * @attribute pattern
-         * @type string
-         * @default '.*'
-         */
-        // FIXME(yvonne): The default is set to .* because we can't bind to pattern such
-        // that the attribute is unset if pattern is null.
-        pattern: '.*',
+      /**
+       * When `true`, any change to the `src` property will cause the `placeholder`
+       * image to be shown until the 
+       *
+       * @attribute preload
+       * @type boolean
+       * @default false
+       */
+      preload: false,
 
-        /**
-         * If set, the input is invalid if the value is less than this property. See
-         * https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation#Validation-related_attributes
-         * for more info. Not supported if `multiline` is true.
-         *
-         * @attribute min
-         */
-        min: null,
+      /**
+       * This image will be used as a background/placeholder until the src image has
+       * loaded.  Use of a data-URI for placeholder is encouraged for instant rendering.
+       *
+       * @attribute placeholder
+       * @type string
+       * @default null
+       */
+      placeholder: null,
 
-        /**
-         * If set, the input is invalid if the value is greater than this property. See
-         * https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation#Validation-related_attributes
-         * for more info. Not supported if `multiline` is true.
-         *
-         * @attribute max
-         */
-        max: null,
+      /**
+       * When `preload` is true, setting `fade` to true will cause the image to
+       * fade into place.
+       *
+       * @attribute fade
+       * @type boolean
+       * @default false
+       */
+      fade: false,
 
-        /**
-         * If set, the input is invalid if the value is not `min` plus an integral multiple
-         * of this property. See
-         * https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation#Validation-related_attributes
-         * for more info. Not supported if `multiline` is true.
-         *
-         * @attribute step
-         */
-        step: null,
+      /**
+       * Read-only value that tracks the loading state of the image when the `preload`
+       * option is used.
+       *
+       * @attribute loading
+       * @type boolean
+       * @default false
+       */
+      loading: false,
 
-        /**
-         * The maximum length of the input value.
-         *
-         * @attribute maxlength
-         * @type number
-         */
-        maxlength: null,
-  
-        /**
-         * If this property is true, the text input's inputValue failed validation.
-         *
-         * @attribute invalid
-         * @type boolean
-         * @default false
-         */
-        invalid: false,
+      /**
+       * Can be used to set the width of image (e.g. via binding); size may also be
+       * set via CSS.
+       *
+       * @attribute width
+       * @type number
+       * @default null
+       */
+      width: null,
 
-        /**
-         * If this property is true, validate the input as they are entered.
-         *
-         * @attribute validateImmediately
-         * @type boolean
-         * @default true
-         */
-        validateImmediately: true
-      },
+      /**
+       * Can be used to set the height of image (e.g. via binding); size may also be
+       * set via CSS.
+       *
+       * @attribute height
+       * @type number
+       * @default null
+       */
+      height: null
 
-      ready: function() {
-        this.handleTabindex(this.getAttribute('tabindex'));
-      },
+    },
 
-      disabledChanged: function() {
-        if (this.disabled) {
-          this.setAttribute('aria-disabled', true);
+    observe: {
+      'preload color sizing position src fade': 'update'
+    },
+
+    widthChanged: function() {
+      this.style.width = isNaN(this.width) ? this.width : this.width + 'px';
+    },
+
+    heightChanged: function() {
+      this.style.height = isNaN(this.height) ? this.height : this.height + 'px';
+    },
+
+    update: function() {
+      this.style.backgroundSize = this.sizing;
+      this.style.backgroundPosition = this.sizing ? this.position : null;
+      this.style.backgroundRepeat = this.sizing ? 'no-repeat' : null;
+      if (this.preload) {
+        if (this.fade) {
+          if (!this._placeholderEl) {
+            this._placeholderEl = this.shadowRoot.querySelector('#placeholder');
+          }
+          this._placeholderEl.style.backgroundSize = this.sizing;
+          this._placeholderEl.style.backgroundPosition = this.sizing ? this.position : null;
+          this._placeholderEl.style.backgroundRepeat = this.sizing ? 'no-repeat' : null;
+          this._placeholderEl.classList.remove('fadein');
+          this._placeholderEl.style.backgroundImage = (this.load && this.placeholder) ? 'url(' + this.placeholder + ')': null;
         } else {
-          this.removeAttribute('aria-disabled');
+          this._setSrc(this.placeholder);
         }
-      },
-
-      invalidChanged: function() {
-        this.classList.toggle('invalid', this.invalid);
-        this.fire('input-'+ (this.invalid ? 'invalid' : 'valid'), {value: this.inputValue});
-      },
-
-      inputValueChanged: function() {
-        if (this.validateImmediately) {
-          this.updateValidity_();
+        if (this.load && this.src) {
+          var img = new Image();
+          img.src = this.src;
+          this.loading = true;
+          img.onload = function() {
+            this._setSrc(this.src);
+            this.loading = false;
+            if (this.fade) {
+              this._placeholderEl.classList.add('fadein');
+            }
+          }.bind(this);
         }
-      },
+      } else {
+        this._setSrc(this.src);
+      }
+    },
 
-      valueChanged: function() {
-        this.inputValue = this.value;
-      },
+    _setSrc: function(src) {
+      if (this.sizing) {
+        this.style.backgroundImage = src ? 'url(' + src + ')': '';
+      } else {
+        this.$.img.src = src || '';
+      }
+    }
 
-      requiredChanged: function() {
-        if (this.validateImmediately) {
-          this.updateValidity_();
-        }
-      },
+  });
 
-      attributeChanged: function(attr, oldVal, curVal) {
-        if (attr === 'tabindex') {
-          this.handleTabindex(curVal);
-        }
-      },
+;
 
-      handleTabindex: function(tabindex) {
-        if (tabindex > 0) {
-          this.$.input.setAttribute('tabindex', -1);
+
+  Polymer('core-input', {
+
+    publish: {
+
+      /**
+       * The "committed" value of the input, ie. the input value when the user
+       * hits the "enter" key or blurs the input after changing the value. You
+       * can bind to this value instead of listening for the "change" event.
+       * Setting this property has no effect on the input value.
+       *
+       * @attribute committedValue
+       * @type string
+       * @default ''
+       */
+      committedValue: '',
+
+      /**
+       * Set to true to prevent invalid input from being entered.
+       *
+       * @attribute preventInvalidInput
+       * @type boolean
+       * @default false
+       */
+      preventInvalidInput: false
+
+    },
+
+    previousValidInput: '',
+
+    eventDelegates: {
+      input: 'inputAction',
+      change: 'changeAction'
+    },
+
+    ready: function() {
+      /* set ARIA attributes */
+      this.disabledHandler();
+      this.placeholderHandler();
+    },
+
+    attributeChanged: function(attr, old) {
+      if (this[attr + 'Handler']) {
+        this[attr + 'Handler'](old);
+      }
+    },
+
+    disabledHandler: function() {
+      if (this.disabled) {
+        this.setAttribute('aria-disabled', '');
+      } else {
+        this.removeAttribute('aria-disabled');
+      }
+    },
+
+    placeholderHandler: function() {
+      if (this.placeholder) {
+        this.setAttribute('aria-label', this.placeholder);
+      } else {
+        this.removeAttribute('aria-label');
+      }
+    },
+
+    /**
+     * Commits the `value` to `committedValue`
+     *
+     * @method commit
+     */
+    commit: function() {
+      this.committedValue = this.value;
+    },
+
+    changeAction: function() {
+      this.commit();
+    },
+
+    inputAction: function(e) {
+      if (this.preventInvalidInput) {
+        if (!e.target.validity.valid) {
+          e.target.value = this.previousValidInput;
         } else {
-          this.$.input.removeAttribute('tabindex');
+          this.previousValidInput = e.target.value;
         }
-      },
+      }
+    }
 
-      /**
-       * Commits the inputValue to value.
-       *
-       * @method commit
-       */
-      commit: function() {
-         this.value = this.inputValue;
-      },
+  });
 
-      updateValidity_: function() {
-        if (this.$.input.willValidate) {
-          this.invalid = !this.$.input.validity.valid;
+;
+
+    (function() {
+
+      var ID = 0;
+      function generate(node) {
+        if (!node.id) {
+          node.id = 'core-label-' + ID++;
         }
-      },
-
-      keypressAction: function(e) {
-        // disallow non-numeric input if type = number
-        if (this.type !== 'number') {
-          return;
-        }
-        var c = String.fromCharCode(e.charCode);
-        if (e.charCode !== 0 && !c.match(/[\d-\.e]/)) {
-          e.preventDefault();
-        }
-      },
-
-      inputChangeAction: function() {
-        this.commit();
-        if (!window.ShadowDOMPolyfill) {
-          // re-fire event that does not bubble across shadow roots
-          this.fire('change', null, this);
-        }
-      },
-
-      focusAction: function(e) {
-        if (this.getAttribute('tabindex') > 0) {
-          // Forward focus to the inner input if tabindex is set on the element
-          // This will not cause an infinite loop because focus will not fire on the <input>
-          // again if it's already focused.
-          this.$.input.focus();
-        }
-      },
-
-      inputFocusAction: function(e) {
-        if (window.ShadowDOMPolyfill) {
-          // re-fire non-bubbling event if polyfill
-          this.fire('focus', null, this, false);
-        }
-      },
-
-      inputBlurAction: function() {
-        if (window.ShadowDOMPolyfill) {
-          // re-fire non-bubbling event
-          this.fire('blur', null, this, false);
-        }
-      },
-
-      /**
-       * Forwards to the internal input / textarea element.
-       *
-       * @method blur
-       */
-      blur: function() {
-        this.$.input.blur();
-      },
-
-      /**
-       * Forwards to the internal input / textarea element.
-       *
-       * @method click
-       */
-      click: function() {
-        this.$.input.click();
-      },
-
-      /**
-       * Forwards to the internal input / textarea element.
-       *
-       * @method focus
-       */
-      focus: function() {
-        this.$.input.focus();
-      },
-
-      /**
-       * Forwards to the internal input / textarea element.
-       *
-       * @method select
-       */
-      select: function() {
-        this.$.input.select();
-      },
-
-      /**
-       * Forwards to the internal input / textarea element.
-       *
-       * @method setSelectionRange
-       * @param {number} selectionStart
-       * @param {number} selectionEnd
-       * @param {String} selectionDirection (optional)
-       */
-      setSelectionRange: function(selectionStart, selectionEnd, selectionDirection) {
-        this.$.input.setSelectionRange(selectionStart, selectionEnd, selectionDirection);
-      },
-
-      /**
-       * Forwards to the internal input element, not implemented for multiline.
-       *
-       * @method setRangeText
-       * @param {String} replacement
-       * @param {number} start (optional)
-       * @param {number} end (optional)
-       * @param {String} selectMode (optional)
-       */
-      setRangeText: function(replacement, start, end, selectMode) {
-        if (!this.multiline) {
-          this.$.input.setRangeText(replacement, start, end, selectMode);
-        }
-      },
-
-      /**
-       * Forwards to the internal input, not implemented for multiline.
-       *
-       * @method stepDown
-       * @param {number} n (optional)
-       */
-      stepDown: function(n) {
-        if (!this.multiline) {
-          this.$.input.stepDown(n);
-        }
-      },
-
-      /**
-       * Forwards to the internal input, not implemented for multiline.
-       *
-       * @method stepUp
-       * @param {number} n (optional)
-       */
-      stepUp: function(n) {
-        if (!this.multiline) {
-          this.$.input.stepUp(n);
-        }
-      },
-
-      get willValidate() {
-        return this.$.input.willValidate;
-      },
-
-      get validity() {
-        return this.$.input.validity;
-      },
-
-      get validationMessage() {
-        return this.$.input.validationMessage;
-      },
-
-      /**
-       * Forwards to the internal input / textarea element and updates state.
-       *
-       * @method checkValidity
-       * @return {boolean}
-       */
-      checkValidity: function() {
-        var r = this.$.input.checkValidity();
-        this.updateValidity_();
-        return r;
-      },
-
-      /**
-       * Forwards to the internal input / textarea element and updates state.
-       *
-       * @method setCustomValidity
-       * @param {String} message
-       */
-      setCustomValidity: function(message) {
-        this.$.input.setCustomValidity(message);
-        this.updateValidity_();
+        return node.id;
       }
 
-    });
+      Polymer('core-label', {
+        /**
+         * A query selector string for a "target" element not nested in the `<core-label>`
+         *
+         * @attribute for
+         * @type string
+         * @default ''
+         */
+        publish: {
+          'for': {reflect: true, value: ''}
+        },
+        eventDelegates: {
+          'tap': 'tapHandler'
+        },
+        created: function() {
+          generate(this);
+          this._forElement = null;
+        },
+        ready: function() {
+          if (!this.for) {
+            this._forElement = this.querySelector('[for]');
+            this._tie();
+          }
+        },
+        tapHandler: function(ev) {
+          if (!this._forElement) {
+            return;
+          }
+          if (ev.target === this._forElement) {
+            return;
+          }
+          this._forElement.focus();
+          this._forElement.click();
+          this.fire('tap', null, this._forElement);
+        },
+        _tie: function() {
+          if (this._forElement) {
+            this._forElement.setAttribute('aria-labelledby', this.id);
+          }
+        },
+        _findScope: function() {
+          var n = this.parentNode;
+          while(n && n.parentNode) {
+            n = n.parentNode;
+          }
+          return n;
+        },
+        forChanged: function(oldFor, newFor) {
+          if (this._forElement) {
+            this._forElement.removeAttribute('aria-labelledby');
+          }
+          var scope = this._findScope();
+          if (!scope) {
+            return;
+          }
+          this._forElement = scope.querySelector(newFor);
+          if (this._forElement) {
+            this._tie();
+          }
+        }
+      });
+    })();
   ;
 
   (function() {
@@ -5210,6 +5756,9 @@ Polymer('core-field');;
 
 (function() {
 
+  var IOS = navigator.userAgent.match(/iP(?:hone|ad;(?: U;)? CPU) OS (\d+)/);
+  var IOS_TOUCH_SCROLLING = IOS && IOS[1] >= 8;
+
   Polymer('core-list', {
     
     publish: {
@@ -5222,14 +5771,46 @@ Polymer('core-field');;
        */
 
       /**
-       * 
-       * An array of source data for the list to display.
+       * An array of source data for the list to display.  Elements
+       * from this array will be set to the `model` peroperty on each
+       * template instance scope for binding.
+       *
+       * When `groups` is used, this array may either be flat, with
+       * the group lengths specified in the `groups` array; otherwise
+       * `data` may be specified as an array of arrays, such that the
+       * each array in `data` specifies a group.  See examples above.
        *
        * @attribute data
        * @type array
        * @default null
        */
       data: null,
+
+      /**
+       * An array of data conveying information about groupings of items
+       * in the `data` array.  Elements from this array will be set to the
+       * `groupModel` property of each template instance scope for binding.
+       *
+       * When `groups` is used, template children with the `divider` attribute
+       * will be shown above each group.  Typically data from the `groupModel`
+       * would be bound to dividers.
+       *
+       * If `data` is specified as a flat array, the `groups` array must
+       * contain objects of the format `{ length: n, data: {...} }`, where
+       * `length` determines the number of items from the `data` array
+       * that should be grouped, and `data` specifies the user data that will
+       * be assigned to the `groupModel` property on the template instance
+       * scope.
+       *
+       * If `data` is specified as a nested array of arrays, group lengths
+       * are derived from these arrays, so each object in `groups` need only
+       * contain the user data to be assigned to `groupModel`.
+       *
+       * @attribute groups
+       * @type array
+       * @default null
+       */
+      groups: null,
 
       /**
        * 
@@ -5240,28 +5821,6 @@ Polymer('core-field');;
        * @default core-list
        */
       scrollTarget: null,
-
-      /**
-       * 
-       * The height of a list item. `core-list` currently supports only fixed-height
-       * list items. This height must be specified via the height property.
-       *
-       * @attribute height
-       * @type number
-       * @default 80
-       */
-      height: 80,
-
-      /**
-       * 
-       * The number of extra items rendered above the minimum set required to
-       * fill the list's height.
-       *
-       * @attribute extraItems
-       * @type number
-       * @default 30
-       */
-      extraItems: 30,
 
       /**
        * 
@@ -5298,21 +5857,90 @@ Polymer('core-field');;
        * @type {any}
        * @default null
        */
-       selection: null
+       selection: null,
+
+      /**
+       * 
+       * When true, the list is rendered as a grid.  Grid items must be fixed
+       * height and width, with the width of each item specified in the `width`
+       * property.
+       *
+       * @attribute grid
+       * @type boolean
+       * @default false
+       */
+       grid: false,
+
+      /**
+       * 
+       * When `grid` is used, `width` determines the width of each grid item.
+       * This property has no meaning when not in `grid` mode.
+       *
+       * @attribute width
+       * @type number
+       * @default null
+       */
+       width: null,
+
+      /**
+       * The approximate height of a list item, in pixels. This is used only for determining
+       * the number of physical elements to render based on the viewport size
+       * of the list.  Items themselves may vary in height between each other
+       * depending on their data model.  There is typically no need to adjust 
+       * this value unless the average size is much larger or smaller than the default.
+       *
+       * @attribute height
+       * @type number
+       * @default 200
+       */
+      height: 200,
+
+      /**
+       * The amount of scrolling runway the list keeps rendered, as a factor of
+       * the list viewport size.  There is typically no need to adjust this value
+       * other than for performance tuning.  Larger value correspond to more
+       * physical elements being rendered.
+       *
+       * @attribute runwayFactor
+       * @type number
+       * @default 4
+       */
+      runwayFactor: 4
+
     },
 
     // Local cache of scrollTop
     _scrollTop: 0,
     
     observe: {
-      'data template scrollTarget': 'initialize',
+      'data grid width template scrollTarget': 'initialize',
       'multi selectionEnabled': '_resetSelection'
     },
 
     ready: function() {
       this._boundScrollHandler = this.scrollHandler.bind(this);
+      this._boundPositionItems = this._positionItems.bind(this);
       this._oldMulti = this.multi;
       this._oldSelectionEnabled = this.selectionEnabled;
+      this._virtualStart = 0;
+      this._virtualCount = 0;
+      this._physicalStart = 0;
+      this._physicalOffset = 0;
+      this._physicalSize = 0;
+      this._physicalSizes = [];
+      this._physicalAverage = 0;
+      this._itemSizes = [];
+      this._dividerSizes = [];
+      this._repositionedItems = [];
+
+      this._aboveSize = 0;
+
+      this._nestedGroups = false;
+      this._groupStart = 0;
+      this._groupStartIndex = 0;
+
+      this._boundResizeHandler = this.updateSize.bind(this);
+      window.addEventListener('resize', this._boundResizeHandler);
     },
 
     attached: function() {
@@ -5322,12 +5950,29 @@ Polymer('core-field');;
       }
     },
 
+    detached: function() {
+      this.removeEventListener(this._boundScrollHandler);
+      this.removeEventListener(this._boundResizeHandler);
+    },
+
+    /**
+     * To be called by the user when the list is resized or shown
+     * after being hidden.  Note, `core-list` calls this automatically
+     * when the window is resized.
+     *
+     * @method updateSize
+     */
+    updateSize: function() {
+      this._resetIndex(this._getFirstVisibleIndex());
+      this.initializeData();
+    },
+
     _resetSelection: function() {
       if (((this._oldMulti != this.multi) && !this.multi) || 
           ((this._oldSelectionEnabled != this.selectionEnabled) && 
             !this.selectionEnabled)) {
         this._clearSelection();
-        this.refresh(true);
+        this.refresh();
       } else {
         this.selection = this.$.selection.getSelection();
       }
@@ -5335,151 +5980,697 @@ Polymer('core-field');;
       this._oldSelectionEnabled = this.selectionEnabled;
     },
 
-    // TODO(sorvell): it'd be nice to dispense with 'data' and just use 
-    // template repeat's model. However, we need tighter integration
-    // with TemplateBinding for this.
+    // Adjust virtual start index based on changes to backing data
+    _adjustVirtualIndex: function(splices, group) {
+      if (this._targetSize === 0) {
+        return;
+      }
+      var totalDelta = 0;
+      for (var i=0; i<splices.length; i++) {
+        var s = splices[i];
+        var idx = s.index;
+        var gidx, gitem;
+        if (group) {
+          gidx = this.data.indexOf(group);
+          idx += this.virtualIndexForGroup(gidx);
+        }
+        // We only need to care about changes happening above the current position
+        if (idx >= this._virtualStart) {
+          break;
+        }
+        var delta = Math.max(s.addedCount - s.removed.length, idx - this._virtualStart);
+        totalDelta += delta;
+        this._physicalStart += delta;
+        this._virtualStart += delta;
+        if (this._grouped) {
+          if (group) {
+            gitem = s.index;
+          } else {
+            var g = this.groupForVirtualIndex(s.index);
+            gidx = g.group;
+            gitem = g.groupIndex;
+          }
+          if (gidx == this._groupStart && gitem < this._groupStartIndex) {
+            this._groupStartIndex += delta;
+          }
+        }
+      }
+      // Adjust offset/scroll position based on total number of items changed
+      if (this._virtualStart < this._physicalCount) {
+        this._resetIndex(this._getFirstVisibleIndex());
+      } else {
+        totalDelta = Math.max((totalDelta / this._rowFactor) * this._physicalAverage, -this._physicalOffset);
+        this._physicalOffset += totalDelta;
+        this._scrollTop = this.setScrollTop(this._scrollTop + totalDelta);
+      }
+    },
+
+    _updateSelection: function(splices) {
+      for (var i=0; i<splices.length; i++) {
+        var s = splices[i];
+        for (var j=0; j<s.removed.length; j++) {
+          var d = s.removed[j];
+          this.$.selection.setItemSelected(d, false);
+        }
+      }
+    },
+
+    groupsChanged: function() {
+      if (!!this.groups != this._grouped) {
+        this.initialize();
+        this._resetIndex(this._getFirstVisibleIndex() || this._virtualStart);
+      }
+    },
+
     initialize: function() {
       if (!this.template) {
         return;
       }
-      
-      // TODO(kschaaf): This is currently the only way to know that the array
-      // was mutated as opposed to newly assigned; to be updated with better API
+
+      // TODO(kschaaf): Checking arguments.length currently the only way to 
+      // know that the array was mutated as opposed to newly assigned; need
+      // a better API for Polymer observers
+      var splices;
       if (arguments.length == 1) {
-        var splices = arguments[0];
-        for (var i=0; i<splices.length; i++) {
-          var s = splices[i];
-          for (var j=0; j<s.removed.length; j++) {
-            var d = s.removed[j];
-            this.$.selection.setItemSelected(d, false);
-          }
+        splices = arguments[0];
+        if (!this._nestedGroups) {
+          this._adjustVirtualIndex(splices);
         }
+        this._updateSelection(splices);
       } else {
         this._clearSelection();
       }
 
+      // Initialize scroll target
       var target = this.scrollTarget || this;
       if (this._target !== target) {
-        if (this._target) {
-          this._target.removeEventListener('scroll', this._boundScrollHandler, false);
-        }
-        this._target = target;
-        this._target.addEventListener('scroll', this._boundScrollHandler, false);
-      }
-      // Only use -webkit-overflow-touch from iOS8+, where scroll events are fired
-      var ios = navigator.userAgent.match(/iP(?:hone|ad;(?: U;)? CPU) OS (\d+)/);
-      if (ios && ios[1] >= 8) {
-        target.style.webkitOverflowScrolling = 'touch';
+        this.initializeScrollTarget(target);
       }
 
-      this.initializeData();
+      // Initialize data
+      this.initializeData(splices, false);
     },
 
-    initializeData: function() {
+    initializeScrollTarget: function(target) {
+      // Listen for scroll events
+      if (this._target) {
+        this._target.removeEventListener('scroll', this._boundScrollHandler, false);
+      }
+      this._target = target;
+      target.addEventListener('scroll', this._boundScrollHandler, false);
+      // Support for non-native scrollers (must implement abstract API):
+      // getScrollTop, setScrollTop, sync
+      if ((target != this) && target.setScrollTop && target.getScrollTop) {
+        this.setScrollTop = function(val) {
+          target.setScrollTop(val);
+          return target.getScrollTop();
+        };
+        this.getScrollTop = target.getScrollTop.bind(target);
+        this.syncScroller = target.sync ? target.sync.bind(target) : function() {};
+        // Adjusting scroll position on non-native scrollers is risky
+        this.adjustPositionAllowed = false;
+      } else {
+        this.setScrollTop = function(val) {
+          target.scrollTop = val;
+          return target.scrollTop;
+        };
+        this.getScrollTop = function() {
+          return target.scrollTop;
+        };
+        this.syncScroller = function() {};
+        this.adjustPositionAllowed = true;
+      }
+      // Only use -webkit-overflow-touch from iOS8+, where scroll events are fired
+      if (IOS_TOUCH_SCROLLING) {
+        target.style.webkitOverflowScrolling = 'touch';
+        // Adjusting scrollTop during iOS momentum scrolling is "no bueno"
+        this.adjustPositionAllowed = false;
+      }
+      // Force overflow as necessary
+      this._target.style.willChange = 'transform';
+      if (getComputedStyle(this._target).position == 'static') {
+        this._target.style.position = 'relative';
+      }
+      this.style.overflowY = (target == this) ? 'auto' : null;
+    },
+
+    updateGroupObservers: function(splices) {
+      // If we're going from grouped to non-grouped, remove all observers
+      if (!this._nestedGroups) {
+        if (this._groupObservers && this._groupObservers.length) {
+          splices = [{
+            index: 0,
+            addedCount: 0,
+            removed: this._groupObservers
+          }];
+        } else {
+          splices = null;
+        }
+      }
+      // Otherwise, create observers for all groups, unless this is a group splice
+      if (this._nestedGroups) {
+        splices = splices || [{
+          index: 0,
+          addedCount: this.data.length,
+          removed: []
+        }];
+      }
+      if (splices) {
+        var observers = this._groupObservers || [];
+        // Apply the splices to the observer array
+        for (var i=0; i<splices.length; i++) {
+          var s = splices[i], j;
+          var args = [s.index, s.removed.length];
+          if (s.removed.length) {
+            for (j=s.index; j<s.removed.length; j++) {
+              observers[j].close();
+            }
+          }
+          if (s.addedCount) {
+            for (j=s.index; j<s.addedCount; j++) {
+              var o = new ArrayObserver(this.data[j]);
+              args.push(o);
+              o.open(this.getGroupDataHandler(this.data[j]));
+            }
+          }
+          observers.splice.apply(observers, args);
+        }
+        this._groupObservers = observers;
+      }
+    },
+
+    getGroupDataHandler: function(group) {
+      return function(splices) {
+        this.groupDataChanged(splices, group);
+      }.bind(this);
+    },
+
+    groupDataChanged: function(splices, group) {
+      this._adjustVirtualIndex(splices, group);
+      this._updateSelection(splices);
+      this.initializeData(null, true);
+    },
+
+    initializeData: function(splices, groupUpdate) {
+      var i;
+
+      // Calculate row-factor for grid layout
+      if (this.grid) {
+        if (!this.width) {
+          throw 'Grid requires the `width` property to be set';
+        }
+        this._rowFactor = Math.floor(this._target.offsetWidth / this.width) || 1;
+        this._rowMargin = (this._target.offsetWidth - (this._rowFactor * this.width)) / 2;
+      } else {
+        this._rowFactor = 1;
+        this._rowMargin = 0;
+      }
+
+      // Count virtual data size, depending on whether grouping is enabled
+      if (!this.data || !this.data.length) {
+        this._virtualCount = 0;
+        this._grouped = false;
+        this._nestedGroups = false;
+      } else if (this.groups) {
+        this._grouped = true;
+        this._nestedGroups = Array.isArray(this.data[0]);
+        if (this._nestedGroups) {
+          if (this.groups.length != this.data.length) {
+            throw 'When using nested grouped data, data.length and groups.length must agree!';
+          }
+          this._virtualCount = 0;
+          for (i=0; i<this.groups.length; i++) {
+            this._virtualCount += this.data[i] && this.data[i].length;
+          }
+        } else {
+          this._virtualCount = this.data.length;
+          var len = 0;
+          for (i=0; i<this.groups.length; i++) {
+            len += this.groups[i].length;
+          }
+          if (len != this.data.length) {
+            throw 'When using groups data, the sum of group[n].length\'s and data.length must agree!';
+          }
+        }
+        var g = this.groupForVirtualIndex(this._virtualStart);
+        this._groupStart = g.group;
+        this._groupStartIndex = g.groupIndex;
+      } else {
+        this._grouped = false;
+        this._nestedGroups = false;
+        this._virtualCount = this.data.length;
+      }
+
+      // Update grouped array observers used when group data is nested
+      if (!groupUpdate) {
+        this.updateGroupObservers(splices);
+      }
+      
+      // Add physical items up to a max based on data length, viewport size, and extra item overhang
       var currentCount = this._physicalCount || 0;
-      var dataLen = this.data && this.data.length || 0;
-      this._visibleCount = Math.ceil(this._target.offsetHeight / this.height);
-      this._physicalCount = Math.min(this._visibleCount + this.extraItems, dataLen);
+      this._physicalCount = Math.min(Math.ceil(this._target.offsetHeight / (this._physicalAverage || this.height)) * this.runwayFactor * this._rowFactor, this._virtualCount);
       this._physicalCount = Math.max(currentCount, this._physicalCount);
       this._physicalData = this._physicalData || new Array(this._physicalCount);
       var needItemInit = false;
       while (currentCount < this._physicalCount) {
-        this._physicalData[currentCount++] = {};
+        var model = this.templateInstance ? Object.create(this.templateInstance.model) : {};
+        this._physicalData[currentCount++] = model;
         needItemInit = true;
       }
       this.template.model = this._physicalData;
       this.template.setAttribute('repeat', '');
-      if (needItemInit) {
-        this.onMutation(this, this.initializeItems);
-      } else {
-        this.refresh(true);
+      this._dir = 0;
+
+      // If we've added new items, wait until the template renders then
+      // initialize the new items before refreshing
+      if (!this._needItemInit) {
+        if (needItemInit) {
+          this._needItemInit = true;
+          this.resetMetrics();
+          this.onMutation(this, this.initializeItems);
+        } else {
+          this.refresh();
+        }
       }
     },
 
     initializeItems: function() {
       var currentCount = this._physicalItems && this._physicalItems.length || 0;
-      this._physicalItems = this._physicalItems || new Array(this._physicalCount);
+      this._physicalItems = this._physicalItems || [new Array(this._physicalCount)];
+      this._physicalDividers = this._physicalDividers || new Array(this._physicalCount);
       for (var i = 0, item = this.template.nextElementSibling;
            item && i < this._physicalCount;
-           ++i, item = item.nextElementSibling) {
-        this._physicalItems[i] = item;
-        item._transformValue = 0;
+           item = item.nextElementSibling) {
+        if (item.getAttribute('divider') != null) {
+          this._physicalDividers[i] = item;
+        } else {
+          this._physicalItems[i++] = item;
+        }
       }
-      this.refresh(true);
+      this.refresh();
+      this._needItemInit = false;
     },
 
-    updateItem: function(virtualIndex, physicalIndex) {
-      var virtualDatum = this.data && this.data[virtualIndex];
-      var physicalDatum = this._physicalData[physicalIndex];
-      physicalDatum.model = virtualDatum;
-      physicalDatum.physicalIndex = physicalIndex;
-      physicalDatum.index = virtualIndex;
-      physicalDatum.selected = this.selectionEnabled && virtualDatum ? 
-          this._selectedData.get(virtualDatum) : null;
+    _updateItemData: function(force, physicalIndex, virtualIndex, groupIndex, groupItemIndex) {
       var physicalItem = this._physicalItems[physicalIndex];
-      physicalItem.hidden = !virtualDatum;
+      var physicalDatum = this._physicalData[physicalIndex];
+      var virtualDatum = this.dataForIndex(virtualIndex, groupIndex, groupItemIndex);
+      var needsReposition;
+      if (force || physicalDatum.model != virtualDatum) {
+        // Set model, index, and selected fields
+        physicalDatum.model = virtualDatum;
+        physicalDatum.index = virtualIndex;
+        physicalDatum.physicalIndex = physicalIndex;
+        physicalDatum.selected = this.selectionEnabled && virtualDatum ? 
+            this._selectedData.get(virtualDatum) : null;
+        // Set group-related fields
+        if (this._grouped) {
+          var groupModel = this.groups[groupIndex];
+          physicalDatum.groupModel = groupModel && (this._nestedGroups ? groupModel : groupModel.data);
+          physicalDatum.groupIndex = groupIndex;
+          physicalDatum.groupItemIndex = groupItemIndex;
+          physicalItem._isDivider = this.data.length && (groupItemIndex === 0);
+          physicalItem._isRowStart = (groupItemIndex % this._rowFactor) === 0;
+        } else {
+          physicalDatum.groupModel = null;
+          physicalDatum.groupIndex = null;
+          physicalDatum.groupItemIndex = null;
+          physicalItem._isDivider = false;
+          physicalItem._isRowStart = (virtualIndex % this._rowFactor) === 0;
+        }
+        // Hide physical items when not in use (no model assigned)
+        physicalItem.hidden = !virtualDatum;
+        var divider = this._physicalDividers[physicalIndex];
+        if (divider && (divider.hidden == physicalItem._isDivider)) {
+          divider.hidden = !physicalItem._isDivider;
+        }
+        needsReposition = !force;
+      } else {
+        needsReposition = false;
+      }
+      return needsReposition || force;
     },
 
-    scrollHandler: function(e, detail) {
-      this._scrollTop = e.detail ? e.detail.target.scrollTop : e.target.scrollTop;
-      this.refresh(false);
+    scrollHandler: function() {
+      if (IOS_TOUCH_SCROLLING) {
+        // iOS sends multiple scroll events per rAF
+        // Align work to rAF to reduce overhead & artifacts
+        if (!this._raf) {
+          this._raf = requestAnimationFrame(function() { 
+            this._raf = null;
+            this.refresh();
+          }.bind(this));
+        }
+      } else {
+        this.refresh();
+      }
     },
 
-    /**
-     * Refresh the list at the current scroll position.
-     *
-     * @method refresh
-     */
-    refresh: function(force) {
-      // Check that the array hasn't gotten longer since data was initialized
-      var dataLen = this.data && this.data.length || 0;
-      if (force) {
-        if (this._physicalCount < 
-            Math.min(this._visibleCount + this.extraItems, dataLen)) {
-          // Need to add more items; once new data & items are initialized,
-          // refresh will be run again
-          this.initializeData();
-          return;
-        }
-        this._physicalHeight = this.height * this._physicalCount;
-        this.$.viewport.style.height = this.height * dataLen + 'px';
-      }
+    resetMetrics: function() {
+      this._physicalAverage = 0;
+      this._physicalAverageCount = 0;
+    },
 
-      var firstVisibleIndex = Math.floor(this._scrollTop / this.height);
-      var visibleMidpoint = firstVisibleIndex + this._visibleCount / 2;
-
-      var firstReifiedIndex = Math.max(0, Math.floor(visibleMidpoint - 
-          this._physicalCount / 2));
-      firstReifiedIndex = Math.min(firstReifiedIndex, dataLen - 
-          this._physicalCount);
-      firstReifiedIndex = (firstReifiedIndex < 0) ? 0 : firstReifiedIndex;
-
-      var firstPhysicalIndex = firstReifiedIndex % this._physicalCount;
-      var baseVirtualIndex = firstReifiedIndex - firstPhysicalIndex;
-
-      var baseTransformValue = Math.floor(this.height * baseVirtualIndex);
-      var nextTransformValue = Math.floor(baseTransformValue + 
-          this._physicalHeight);
-
-      var baseTransformString = 'translate3d(0,' + baseTransformValue + 'px,0)';
-      var nextTransformString = 'translate3d(0,' + nextTransformValue + 'px,0)';
-
-      this.firstPhysicalIndex = firstPhysicalIndex;
-      this.baseVirtualIndex = baseVirtualIndex;
-
-      for (var i = 0; i < firstPhysicalIndex; ++i) {
+    updateMetrics: function(force) {
+      // Measure physical items & dividers
+      var totalSize = 0;
+      var count = 0;
+      for (var i=0; i<this._physicalCount; i++) {
         var item = this._physicalItems[i];
-        if (force || item._transformValue != nextTransformValue) {
-          this.updateItem(baseVirtualIndex + this._physicalCount + i, i);
-          setTransform(item, nextTransformString, nextTransformValue);
+        if (!item.hidden) {
+          var size = this._itemSizes[i] = item.offsetHeight;
+          if (item._isDivider) {
+            var divider = this._physicalDividers[i];
+            if (divider) {
+              size += (this._dividerSizes[i] = divider.offsetHeight);
+            }
+          }
+          this._physicalSizes[i] = size;
+          if (item._isRowStart) {
+            totalSize += size;
+            count++;
+          }
         }
       }
-      for (var i = firstPhysicalIndex; i < this._physicalCount; ++i) {
-        var item = this._physicalItems[i];
-        if (force || item._transformValue != baseTransformValue) {
-          this.updateItem(baseVirtualIndex + i, i);
-          setTransform(item, baseTransformString, baseTransformValue);
+      this._physicalSize = totalSize;
+
+      // Measure other DOM
+      this._viewportSize = this.$.viewport.offsetHeight;
+      this._targetSize = this._target.offsetHeight;
+
+      // Measure content in scroller before virtualized items
+      if (this._target != this) {
+        el1 = this.previousElementSibling;
+        this._aboveSize = el1 ? el1.offsetTop + el1.offsetHeight : 0;
+      } else {
+        this._aboveSize = 0;
+      }
+
+      // Calculate average height
+      if (count) {
+        totalSize = (this._physicalAverage * this._physicalAverageCount) + totalSize;
+        this._physicalAverageCount += count;
+        this._physicalAverage = Math.round(totalSize / this._physicalAverageCount);
+      }
+    },
+
+    getGroupLen: function(group) {
+      group = arguments.length ? group : this._groupStart;
+      if (this._nestedGroups) {
+        return this.data[group].length;
+      } else {
+        return this.groups[group].length;
+      }
+    },
+
+    changeStartIndex: function(inc) {
+      this._virtualStart += inc;
+      if (this._grouped) {
+        while (inc > 0) {
+          var groupMax = this.getGroupLen() - this._groupStartIndex - 1;
+          if (inc > groupMax) {
+            inc -= (groupMax + 1);
+            this._groupStart++;
+            this._groupStartIndex = 0;
+          } else {
+            this._groupStartIndex += inc;
+            inc = 0;
+          }
         }
+        while (inc < 0) {
+          if (-inc > this._groupStartIndex) {
+            inc += this._groupStartIndex;
+            this._groupStart--;
+            this._groupStartIndex = this.getGroupLen();
+          } else {
+            this._groupStartIndex += inc;
+            inc = this.getGroupLen();
+          }
+        }
+      }
+      // In grid mode, virtualIndex must alway start on a row start!
+      if (this.grid) {
+        if (this._grouped) {
+          inc = this._groupStartIndex % this._rowFactor;
+        } else {
+          inc = this._virtualStart % this._rowFactor;
+        }
+        if (inc) {
+          this.changeStartIndex(-inc);
+        }
+      }
+    },
+
+    getRowCount: function(dir) {
+      if (!this.grid) {
+        return dir;
+      } else if (!this._grouped) {
+        return dir * this._rowFactor;
+      } else {
+        if (dir < 0) {
+          if (this._groupStartIndex > 0) {
+            return -Math.min(this._rowFactor, this._groupStartIndex);
+          } else {
+            var prevLen = this.getGroupLen(this._groupStart-1);
+            return -Math.min(this._rowFactor, prevLen % this._rowFactor || this._rowFactor);
+          }
+        } else {
+          return Math.min(this._rowFactor, this.getGroupLen() - this._groupStartIndex);
+        }
+      }
+    },
+
+    _virtualToPhysical: function(virtualIndex) {
+      var physicalIndex = (virtualIndex - this._physicalStart) % this._physicalCount;
+      return physicalIndex < 0 ? this._physicalCount + physicalIndex : physicalIndex;
+    },
+
+    groupForVirtualIndex: function(virtual) {
+      if (!this._grouped) {
+        return {};
+      } else {
+        var group;
+        for (group=0; group<this.groups.length; group++) {
+          var groupLen = this.getGroupLen(group);
+          if (groupLen > virtual) {
+            break;
+          } else {
+            virtual -= groupLen;
+          }
+        }
+        return {group: group, groupIndex: virtual };
+      }
+    },
+
+    virtualIndexForGroup: function(group, groupIndex) {
+      groupIndex = groupIndex ? Math.min(groupIndex, this.getGroupLen(group)) : 0;
+      group--;
+      while (group >= 0) {
+        groupIndex += this.getGroupLen(group--);
+      }
+      return groupIndex;
+    },
+
+    dataForIndex: function(virtual, group, groupIndex) {
+      if (this.data) {
+        if (this._nestedGroups) {
+          if (virtual < this._virtualCount) {
+            return this.data[group][groupIndex];
+          }
+        } else {
+          return this.data[virtual];
+        }
+      }
+    },
+
+    // Refresh the list at the current scroll position.
+    refresh: function() {
+      var i, deltaCount;
+
+      // Determine scroll position & any scrollDelta that may have occurred
+      var lastScrollTop = this._scrollTop;
+      this._scrollTop = this.getScrollTop();
+      var scrollDelta = this._scrollTop - lastScrollTop;
+      this._dir = scrollDelta < 0 ? -1 : scrollDelta > 0 ? 1 : 0;
+
+      // Adjust virtual items and positioning offset if scroll occurred
+      if (Math.abs(scrollDelta) > Math.max(this._physicalSize, this._targetSize)) {
+        // Random access to point in list: guess new index based on average size
+        deltaCount = Math.round((scrollDelta / this._physicalAverage) * this._rowFactor);
+        deltaCount = Math.max(deltaCount, -this._virtualStart);
+        deltaCount = Math.min(deltaCount, this._virtualCount - this._virtualStart - 1);
+        this._physicalOffset += Math.max(scrollDelta, -this._physicalOffset);
+        this.changeStartIndex(deltaCount);
+        // console.log(this._scrollTop, 'Random access to ' + this._virtualStart, this._physicalOffset);
+      } else {
+        // Incremental movement: adjust index by flipping items
+        var base = this._aboveSize + this._physicalOffset;
+        var margin = 0.3 * Math.max((this._physicalSize - this._targetSize, this._physicalSize));
+        this._upperBound = base + margin;
+        this._lowerBound = base + this._physicalSize - this._targetSize - margin;
+        var flipBound = this._dir > 0 ? this._upperBound : this._lowerBound;
+        if (((this._dir > 0 && this._scrollTop > flipBound) ||
+             (this._dir < 0 && this._scrollTop < flipBound))) {
+          var flipSize = Math.abs(this._scrollTop - flipBound);
+          for (i=0; (i<this._physicalCount) && (flipSize > 0) &&
+              ((this._dir < 0 && this._virtualStart > 0) || 
+               (this._dir > 0 && this._virtualStart < this._virtualCount-this._physicalCount)); i++) {
+            var idx = this._virtualToPhysical(this._dir > 0 ? 
+              this._virtualStart : 
+              this._virtualStart + this._physicalCount -1);
+            var size = this._physicalSizes[idx];
+            flipSize -= size;
+            var cnt = this.getRowCount(this._dir);
+            // console.log(this._scrollTop, 'flip ' + (this._dir > 0 ? 'down' : 'up'), cnt, this._virtualStart, this._physicalOffset);
+            if (this._dir > 0) {
+              // When scrolling down, offset is adjusted based on previous item's size
+              this._physicalOffset += size;
+              // console.log('  ->', this._virtualStart, size, this._physicalOffset);
+            }
+            this.changeStartIndex(cnt);
+            if (this._dir < 0) {
+              this._repositionedItems.push(this._virtualStart);
+            }
+          }
+        }
+      }
+
+      // Assign data to items lazily if scrolling, otherwise force
+      if (this._updateItems(!scrollDelta)) {
+        // Position items after bindings resolve (method varies based on O.o impl)
+        if (Observer.hasObjectObserve) {
+          this.async(this._boundPositionItems);
+        } else {
+          Platform.flush();
+          Platform.endOfMicrotask(this._boundPositionItems);
+        }
+      }
+    },
+
+    _updateItems: function(force) {
+      var i, virtualIndex, physicalIndex;
+      var needsReposition = false;
+      var groupIndex = this._groupStart;
+      var groupItemIndex = this._groupStartIndex;
+      for (i = 0; i < this._physicalCount; ++i) {
+        virtualIndex = this._virtualStart + i;
+        physicalIndex = this._virtualToPhysical(virtualIndex);
+        // Update physical item with new user data and list metadata
+        needsReposition = 
+          this._updateItemData(force, physicalIndex, virtualIndex, groupIndex, groupItemIndex) || needsReposition;
+        // Increment
+        groupItemIndex++;
+        if (this.groups && groupIndex < this.groups.length - 1) {
+          if (groupItemIndex >= this.getGroupLen(groupIndex)) {
+            groupItemIndex = 0;
+            groupIndex++;
+          }
+        }
+      }
+      return needsReposition;
+    },
+
+    _positionItems: function() {
+      var i, virtualIndex, physicalIndex, physicalItem;
+
+      // Measure
+      this.updateMetrics();
+
+      // Pre-positioning tasks
+      if (this._dir < 0) {
+        // When going up, remove offset after measuring size for
+        // new data for item being moved from bottom to top
+        while (this._repositionedItems.length) {
+          virtualIndex = this._repositionedItems.pop();
+          physicalIndex = this._virtualToPhysical(virtualIndex);
+          this._physicalOffset -= this._physicalSizes[physicalIndex];
+          // console.log('  <-', virtualIndex, this._physicalSizes[physicalIndex], this._physicalOffset);
+        }
+        // Adjust scroll position to home into top when going up
+        if (this._scrollTop + this._targetSize < this._viewportSize) {
+          this._updateScrollPosition(this._scrollTop);
+        }
+      }
+
+      // Position items
+      var divider, upperBound, lowerBound;
+      var rowx = 0;
+      var x = this._rowMargin;
+      var y = this._physicalOffset;
+      var lastHeight = 0;
+      for (i = 0; i < this._physicalCount; ++i) {
+        // Calculate indices
+        virtualIndex = this._virtualStart + i;
+        physicalIndex = this._virtualToPhysical(virtualIndex);
+        physicalItem = this._physicalItems[physicalIndex];
+        // Position divider
+        if (physicalItem._isDivider) {
+          if (rowx !== 0) {
+            y += lastHeight;
+            rowx = 0;
+          }
+          divider = this._physicalDividers[physicalIndex];
+          x = this._rowMargin;
+          if (divider && (divider._translateX != x || divider._translateY != y)) {
+            divider.style.opacity = 1;
+            if (this.grid) {
+              divider.style.width = this.width * this._rowFactor + 'px';
+            }
+            divider.style.transform = divider.style.webkitTransform =
+              'translate3d(' + x + 'px,' + y + 'px,0)';
+            divider._translateX = x;
+            divider._translateY = y;
+          }
+          y += this._dividerSizes[physicalIndex];
+        }
+        // Position item
+        if (physicalItem._translateX != x || physicalItem._translateY != y) {
+          physicalItem.style.opacity = 1;
+          physicalItem.style.transform = physicalItem.style.webkitTransform =
+            'translate3d(' + x + 'px,' + y + 'px,0)';
+          physicalItem._translateX = x;
+          physicalItem._translateY = y;
+        }
+        // Increment offsets
+        lastHeight = this._itemSizes[physicalIndex];
+        if (this.grid) {
+          rowx++;
+          if (rowx >= this._rowFactor) {
+            rowx = 0;
+            y += lastHeight;
+          }
+          x = this._rowMargin + rowx * this.width;
+        } else {
+          y += lastHeight;
+        }
+      }
+
+      if (this._scrollTop >= 0) {
+        this._updateViewportHeight();
+      }
+    },
+
+    _updateViewportHeight: function() {
+      var remaining = Math.max(this._virtualCount - this._virtualStart - this._physicalCount, 0);
+      remaining = Math.ceil(remaining / this._rowFactor);
+      var vs = this._physicalOffset + this._physicalSize + remaining * this._physicalAverage;
+      if (this._viewportSize != vs) {
+        // console.log(this._scrollTop, 'adjusting viewport height', vs - this._viewportSize, vs);
+        this._viewportSize = vs;
+        this.$.viewport.style.height = this._viewportSize + 'px';
+        this.syncScroller();
+      }
+    },
+
+    _updateScrollPosition: function(scrollTop) {
+      var deltaHeight = this._virtualStart === 0 ? this._physicalOffset :
+        Math.min(scrollTop + this._physicalOffset, 0);
+      if (deltaHeight) {
+        // console.log(scrollTop, 'adjusting scroll pos', this._virtualStart, -deltaHeight, scrollTop - deltaHeight);
+        if (this.adjustPositionAllowed) {
+          this._scrollTop = this.setScrollTop(scrollTop - deltaHeight);
+        }
+        this._physicalOffset -= deltaHeight;
       }
     },
 
@@ -5519,9 +6710,13 @@ Polymer('core-field');;
 
         var model = n.templateInstance && n.templateInstance.model;
         if (model) {
-          var vi = model.index, pi = model.physicalIndex;
-          var data = this.data[vi], item = this._physicalItems[pi];
-          this.$.selection.select(data);
+          var data = this.dataForIndex(model.index, model.groupIndex, model.groupItemIndex);
+          var item = this._physicalItems[model.physicalIndex];
+          if (!this.multi && data == this.selection) {
+            this.$.selection.select(null);
+          } else {
+            this.$.selection.select(data);
+          }
           this.asyncFire('core-activate', {data: data, item: item});
         }
       }.bind(this));
@@ -5529,12 +6724,12 @@ Polymer('core-field');;
 
     selectedHandler: function(e, detail) {
       this.selection = this.$.selection.getSelection();
-      var i$ = this.indexesForData(detail.item);
+      var id = this.indexesForData(detail.item);
       // TODO(sorvell): we should be relying on selection to store the
       // selected data but we want to optimize for lookup.
       this._selectedData.set(detail.item, detail.isSelected);
-      if (i$.physical >= 0) {
-        this.updateItem(i$.virtual, i$.physical);
+      if (id.physical >= 0 && id.virtual >= 0) {
+        this.refresh();
       }
     },
 
@@ -5569,7 +6764,21 @@ Polymer('core-field');;
     },
 
     indexesForData: function(data) {
-      var virtual = this.data.indexOf(data);
+      var virtual = -1;
+      var groupsLen = 0;
+      if (this._nestedGroups) {
+        for (var i=0; i<this.groups.length; i++) {
+          virtual = this.data[i].indexOf(data);
+          if (virtual < 0) {
+            groupsLen += this.data[i].length;
+          } else {
+            virtual += groupsLen;
+            break;
+          }
+        }
+      } else {
+        virtual = this.data.indexOf(data);
+      }
       var physical = this.virtualToPhysicalIndex(virtual);
       return { virtual: virtual, physical: physical };
     },
@@ -5590,7 +6799,7 @@ Polymer('core-field');;
      */
     clearSelection: function() {
       this._clearSelection();
-      this.refresh(true);
+      this.refresh();
     },
 
     _clearSelection: function() {
@@ -5599,24 +6808,66 @@ Polymer('core-field');;
       this.selection = this.$.selection.getSelection();
     },
 
+    _getFirstVisibleIndex: function() {
+      for (var i=0; i<this._physicalCount; i++) {
+        var virtualIndex = this._virtualStart + i;
+        var physicalIndex = this._virtualToPhysical(virtualIndex);
+        var item = this._physicalItems[physicalIndex];
+        if (item._translateY >= this._scrollTop) {
+          return virtualIndex;
+        }
+      }
+    },
+
+    _resetIndex: function(index) {
+      index = Math.min(index, this._virtualCount-1);
+      index = Math.max(index, 0);
+      this.changeStartIndex(index - this._virtualStart);
+      this._scrollTop = this.setScrollTop((index / this._rowFactor) * this._physicalAverage);
+      this._physicalOffset = this._scrollTop;
+      this._dir = 0;
+    },
+
+    /**
+     * Scroll to an item.
+     *
+     * Note, when grouping is used, the index is based on the
+     * total flattened number of items.  For scrolling to an item
+     * within a group, use the `scrollToGroupItem` API.
+     *
+     * @method scrollToItem
+     * @param {number} index 
+     */
     scrollToItem: function(index) {
-      this.scrollTop = index * this.height;
+      this.scrollToGroupItem(null, index);
+    },
+
+    /**
+     * Scroll to a group.
+     *
+     * @method scrollToGroup
+     * @param {number} group 
+     */
+    scrollToGroup: function(group) {
+      this.scrollToGroupItem(group, 0);
+    },
+
+    /**
+     * Scroll to an item within a group.
+     *
+     * @method scrollToGroupItem
+     * @param {number} group 
+     * @param {number} index 
+     */
+    scrollToGroupItem: function(group, index) {
+      if (group != null) {
+        index = this.virtualIndexForGroup(group, index);
+      }
+      this._resetIndex(index);
+      this.refresh();
     }
 
   });
-
-  // determine proper transform mechanizm
-  if (document.documentElement.style.transform !== undefined) {
-    var setTransform = function(element, string, value) {
-      element.style.transform = string;
-      element._transformValue = value;
-    }
-  } else {
-    var setTransform = function(element, string, value) {
-      element.style.webkitTransform = string;
-      element._transformValue = value;
-    }
-  }
 
 })();
 ;
@@ -5765,179 +7016,21 @@ Polymer('core-field');;
 
 ;
 
-    Polymer('core-menu-button', {
 
-      publish: {
+  Polymer('core-menu-button',{
 
-        /**
-         * The icon to display.
-         * @attribute icon
-         * @type string
-         */
-        icon: 'dots',
+    overlayListeners: {
+      'core-overlay-open': 'openAction',
+      'core-activate': 'activateAction'
+    },
 
-        src: '',
+    activateAction: function() {
+      this.opened = false;
+    }
 
-        /**
-         * Set to true to open the menu.
-         * @attribute opened
-         * @type boolean
-         */
-        opened: false,
+  });
 
-        /**
-         * Set to true to cause the menu popup to be displayed inline rather
-         * than in its own layer.
-         * @attribute inlineMenu
-         * @type boolean
-         */
-        inlineMenu: false,
-
-        /**
-         * Horizontally align the overlay with the button.
-         * @attribute halign
-         * @type string
-         */
-        halign: 'left',
-
-        /**
-         * Display the overlay on top or below the button.
-         * @attribute valign
-         * @type string
-         */
-        valign: 'top',
-
-        /**
-         * If true, the selection will persist when the menu is opened
-         * and closed multiple times.
-         *
-         * @attribute stickySelection
-         * @type boolean
-         * @default false
-         */
-        stickySelection: false,
-
-        /**
-         * The index of the selected menu item.
-         * @attribute selected
-         * @type number
-         */
-        selected: '',
-
-        /**
-         * Specifies the attribute to be used for "selected" attribute.
-         *
-         * @attribute valueattr
-         * @type string
-         * @default 'name'
-         */
-        valueattr: 'name',
-
-        /**
-         * Specifies the CSS class to be used to add to the selected element.
-         *
-         * @attribute selectedClass
-         * @type string
-         * @default 'core-selected'
-         */
-        selectedClass: 'core-selected',
-
-        /**
-         * Specifies the property to be used to set on the selected element
-         * to indicate its active state.
-         *
-         * @attribute selectedProperty
-         * @type string
-         * @default ''
-         */
-        selectedProperty: '',
-
-        /**
-         * Specifies the attribute to set on the selected element to indicate
-         * its active state.
-         *
-         * @attribute selectedAttribute
-         * @type string
-         * @default 'active'
-         */
-        selectedAttribute: 'active',
-
-        /**
-         * Returns the currently selected element. In multi-selection this returns
-         * an array of selected elements.
-         * Note that you should not use this to set the selection. Instead use
-         * `selected`.
-         *
-         * @attribute selectedItem
-         * @type Object
-         * @default null
-         */
-        selectedItem: null,
-
-        /**
-         * In single selection, this returns the model associated with the
-         * selected element.
-         * Note that you should not use this to set the selection. Instead use
-         * `selected`.
-         *
-         * @attribute selectedModel
-         * @type Object
-         * @default null
-         */
-        selectedModel: null,
-
-        /**
-         * In single selection, this returns the selected index.
-         * Note that you should not use this to set the selection. Instead use
-         * `selected`.
-         *
-         * @attribute selectedIndex
-         * @type number
-         * @default -1
-         */
-        selectedIndex: -1,
-
-        /**
-         * Nodes with local name that are in the list will not be included
-         * in the selection items.
-         *
-         * @attribute excludedLocalNames
-         * @type string
-         * @default ''
-         */
-        excludedLocalNames: ''
-
-      },
-
-      closeAction: function() {
-        this.opened = false;
-      },
-
-      /**
-       * Toggle the opened state of the dropdown.
-       * @method toggle
-       */
-      toggle: function() {
-        this.opened = !this.opened;
-      },
-
-      /**
-       * The selected menu item.
-       * @property selection
-       * @type Node
-       */
-      get selection() {
-        return this.$.menu.selection;
-      },
-
-      openedChanged: function() {
-        if (this.opened && !this.stickySelection) {
-          this.selected = null;
-        }
-      }
-
-    });
-  ;
+;
 Polymer('core-pages');;
 
 
@@ -6041,6 +7134,16 @@ Polymer('core-pages');;
      */
     
     publish: {
+      
+      /**
+       * Width of the drawer panel.
+       *
+       * @attribute drawerWidth
+       * @type string
+       * @default '256px'
+       */
+      drawerWidth: '256px',
+      
       /**
        * When the browser window size is smaller than the `responsiveWidth`, 
        * `core-drawer-panel` changes to a narrow layout. In narrow layout, 
@@ -6051,6 +7154,25 @@ Polymer('core-pages');;
        * @default '600px'
        */    
       responsiveWidth: '600px',
+      
+      /**
+       * If true, position the drawer to the right. Also place menu icon to
+       * the right of the content instead of left.
+       *
+       * @attribute rightDrawer
+       * @type boolean
+       * @default false
+       */
+      rightDrawer: false,
+
+      /**
+       * If true, swipe to open/close the drawer is disabled.
+       *
+       * @attribute disableSwipe
+       * @type boolean
+       * @default false
+       */
+      disableSwipe: false,
   
       /**
        * Used to control the header and scrolling behaviour of `core-header-panel`
@@ -6072,27 +7194,37 @@ Polymer('core-pages');;
     },
 
     /**
-      * Toggle the drawer panel
-      * @method togglePanel
-      */    
+     * Toggle the drawer panel
+     * @method togglePanel
+     */    
     togglePanel: function() {
       this.$.drawerPanel.togglePanel();
     },
 
     /**
-      * Open the drawer panel
-      * @method openDrawer
-      */      
+     * Open the drawer panel
+     * @method openDrawer
+     */      
     openDrawer: function() {
       this.$.drawerPanel.openDrawer();
     },
 
     /**
-      * Close the drawer panel
-      * @method closeDrawer
-      */     
+     * Close the drawer panel
+     * @method closeDrawer
+     */     
     closeDrawer: function() {
       this.$.drawerPanel.closeDrawer();
+    },
+    
+    /**
+     * Returns the scrollable element on the main area.
+     *
+     * @property scroller
+     * @type Object
+     */
+    get scroller() {
+      return this.$.headerPanel.scroller;
     },
     
     scroll: function(e) {
@@ -6632,224 +7764,120 @@ Polymer('core-pages');;
 
 ;
 
-    Polymer('paper-focusable', {
+(function() {
+
+  var proto = {
+
+      /**
+       * A simple string label for the tooltip to display. To display a rich
+       * HTML tooltip instead, omit `label` and include the `tip` attribute
+       * on a child node of `core-tooltip`.
+       *
+       * @attribute label
+       * @type string
+       * @default null
+       */
+      label: null,
+
+      computed: {
+        // Indicates whether the tooltip has a set label propety or
+        // an element with the `tip` attribute.
+        hasTooltipContent: 'label || !!tipElement'
+      },
 
       publish: {
-
         /**
-         * If true, the button is currently active either because the
-         * user is holding down the button, or the button is a toggle
-         * and is currently in the active state.
+         * Forces the tooltip to display. If `disabled` is set, this property is ignored.
          *
-         * @attribute active
+         * @attribute show
          * @type boolean
          * @default false
          */
-        active: {value: false, reflect: true},
+        show: {value: false, reflect: true},
 
         /**
-         * If true, the element currently has focus due to keyboard
-         * navigation.
+         * Positions the tooltip to the top, right, bottom, left of its content.
          *
-         * @attribute focused
+         * @attribute position
+         * @type string
+         * @default 'bottom'
+         */
+        position: {value: 'bottom', reflect: true},
+
+        /**
+         * If true, the tooltip an arrow pointing towards the content.
+         *
+         * @attribute noarrow
          * @type boolean
          * @default false
          */
-        focused: {value: false, reflect: true},
-
-        /**
-         * If true, the user is currently holding down the button.
-         *
-         * @attribute pressed
-         * @type boolean
-         * @default false
-         */
-        pressed: {value: false, reflect: true},
-
-        /**
-         * If true, the user cannot interact with this element.
-         *
-         * @attribute disabled
-         * @type boolean
-         * @default false
-         */
-        disabled: {value: false, reflect: true},
-
-        /**
-         * If true, the button toggles the active state with each tap.
-         * Otherwise, the button becomes active when the user is holding
-         * it down.
-         *
-         * @attribute isToggle
-         * @type boolean
-         * @default false
-         */
-        isToggle: {value: false, reflect: false}
-
+        noarrow: {value: false, reflect: true}
       },
-
-      disabledChanged: function() {
-        if (this.disabled) {
-          this.removeAttribute('tabindex');
-        } else {
-          this.setAttribute('tabindex', 0);
-        }
-      },
-
-      downAction: function() {
-        this.pressed = true;
-
-        if (this.isToggle) {
-          this.active = !this.active;
-        } else {
-          this.active = true;
-        }
-      },
-
-      // Pulling up the context menu for an item should focus it; but we need to
-      // be careful about how we deal with down/up events surrounding context
-      // menus. The up event typically does not fire until the context menu
-      // closes: so we focus immediately.
-      //
-      // This fires _after_ downAction.
-      contextMenuAction: function(e) {
-        // Note that upAction may fire _again_ on the actual up event.
-        this.upAction(e);
-        this.focusAction();
-      },
-
-      upAction: function() {
-        this.pressed = false;
-
-        if (!this.isToggle) {
-          this.active = false;
-        }
-      },
-
-      focusAction: function() {
-        if (!this.pressed) {
-          // Only render the "focused" state if the element gains focus due to
-          // keyboard navigation.
-          this.focused = true;
-        }
-      },
-
-      blurAction: function() {
-        this.focused = false;
-      }
-
-    });
-
-  ;
-
-
-  Polymer('core-tooltip',{
-
-    /**
-     * A simple string label for the tooltip to display. To display a rich
-     * HTML tooltip instead, omit `label` and include the `tip` attribute
-     * on a child node of `core-tooltip`.
-     *
-     * @attribute label
-     * @type string
-     * @default null
-     */
-    label: null,
-
-    computed: {
-      // Indicates whether the tooltip has a set label propety or
-      // an element with the `tip` attribute.
-      hasTooltipContent: 'label || !!tipElement'
-    },
-
-    publish: {
-      /**
-       * Forces the tooltip to display. If `disabled` is set, this property is ignored.
-       *
-       * @attribute show
-       * @type boolean
-       * @default false
-       */
-      show: {value: false, reflect: true},
 
       /**
-       * Positions the tooltip to the top, right, bottom, left of its content.
+       * Customizes the attribute used to specify which content
+       * is the rich HTML tooltip.
        *
-       * @attribute position
+       * @attribute tipAttribute
        * @type string
-       * @default 'bottom'
+       * @default 'tip'
        */
-      position: {value: 'bottom', reflect: true},
+      tipAttribute: 'tip',
 
-      /**
-       * If true, the tooltip an arrow pointing towards the content.
-       *
-       * @attribute noarrow
-       * @type boolean
-       * @default false
-       */
-      noarrow: {value: false, reflect: true}
-    },
+      attached: function() {
+        this.updatedChildren();
+      },
 
-    /**
-     * Customizes the attribute used to specify which content
-     * is the rich HTML tooltip.
-     *
-     * @attribute tipAttribute
-     * @type string
-     * @default 'tip'
-     */
-    tipAttribute: 'tip',
+      updatedChildren: function () {
+        this.tipElement = null;
 
-    attached: function() {
-      this.updatedChildren();
-    },
+        for (var i = 0, el; el = this.$.c.getDistributedNodes()[i]; ++i) {
+          if (el.hasAttribute && el.hasAttribute('tip')) {
+            this.tipElement = el;
+            break;
+          }
+        }
 
-    updatedChildren: function () {
-      this.tipElement = null;
+        // Job ensures we're not double calling setPosition() on DOM attach.
+        this.job('positionJob', this.setPosition);
 
-      for (var i = 0, el; el = this.$.c.getDistributedNodes()[i]; ++i) {
-        if (el.hasAttribute && el.hasAttribute('tip')) {
-          this.tipElement = el;
-          break;
+        // Monitor children to re-position tooltip when light dom changes.
+        this.onMutation(this, this.updatedChildren);
+      },
+
+      labelChanged: function(oldVal, newVal) {
+        this.job('positionJob', this.setPosition);
+      },
+
+      positionChanged: function(oldVal, newVal) {
+        this.job('positionJob', this.setPosition);
+      },
+
+      setPosition: function() {
+        var controlWidth = this.clientWidth;
+        var controlHeight = this.clientHeight;
+        var toolTipWidth = this.$.tooltip.clientWidth;
+        var toolTipHeight = this.$.tooltip.clientHeight;
+
+        switch (this.position) {
+          case 'top':
+          case 'bottom':
+            this.$.tooltip.style.left = (controlWidth - toolTipWidth) / 2 + 'px';
+            this.$.tooltip.style.top = null;
+            break;
+          case 'left':
+          case 'right':
+            this.$.tooltip.style.left = null;
+            this.$.tooltip.style.top = (controlHeight - toolTipHeight) / 2 + 'px';
+            break;
         }
       }
 
-      // Job ensures we're not double calling setPosition() on DOM attach.
-      this.job('positionJob', this.setPosition);
+    };
 
-      // Monitor children to re-position tooltip when light dom changes.
-      this.onMutation(this, this.updatedChildren);
-    },
-
-    labelChanged: function(oldVal, newVal) {
-      this.job('positionJob', this.setPosition);
-    },
-
-    positionChanged: function(oldVal, newVal) {
-      this.job('positionJob', this.setPosition);
-    },
-
-    setPosition: function() {
-      var controlWidth = this.clientWidth;
-      var controlHeight = this.clientHeight;
-      var toolTipWidth = this.$.tooltip.clientWidth;
-      var toolTipHeight = this.$.tooltip.clientHeight;
-
-      switch (this.position) {
-        case 'top':
-        case 'bottom':
-          this.$.tooltip.style.left = (controlWidth - toolTipWidth) / 2 + 'px';
-          this.$.tooltip.style.top = null;
-          break;
-        case 'left':
-        case 'right':
-          this.$.tooltip.style.left = null;
-          this.$.tooltip.style.top = (controlHeight - toolTipHeight) / 2 + 'px';
-          break;
-      }
-    }
-  });
+    Polymer.mixin2(proto, Polymer.CoreFocusable);
+    Polymer('core-tooltip',proto);
+  })();
 
 ;
 
@@ -7203,255 +8231,6 @@ Polymer('core-pages');;
 
   })();
 
-;
-
-  (function() {
-    /*
-     * Chrome uses an older version of DOM Level 3 Keyboard Events
-     *
-     * Most keys are labeled as text, but some are Unicode codepoints.
-     * Values taken from: http://www.w3.org/TR/2007/WD-DOM-Level-3-Events-20071221/keyset.html#KeySet-Set
-     */
-    var KEY_IDENTIFIER = {
-      'U+0009': 'tab',
-      'U+001B': 'esc',
-      'U+0020': 'space',
-      'U+002A': '*',
-      'U+0030': '0',
-      'U+0031': '1',
-      'U+0032': '2',
-      'U+0033': '3',
-      'U+0034': '4',
-      'U+0035': '5',
-      'U+0036': '6',
-      'U+0037': '7',
-      'U+0038': '8',
-      'U+0039': '9',
-      'U+0041': 'a',
-      'U+0042': 'b',
-      'U+0043': 'c',
-      'U+0044': 'd',
-      'U+0045': 'e',
-      'U+0046': 'f',
-      'U+0047': 'g',
-      'U+0048': 'h',
-      'U+0049': 'i',
-      'U+004A': 'j',
-      'U+004B': 'k',
-      'U+004C': 'l',
-      'U+004D': 'm',
-      'U+004E': 'n',
-      'U+004F': 'o',
-      'U+0050': 'p',
-      'U+0051': 'q',
-      'U+0052': 'r',
-      'U+0053': 's',
-      'U+0054': 't',
-      'U+0055': 'u',
-      'U+0056': 'v',
-      'U+0057': 'w',
-      'U+0058': 'x',
-      'U+0059': 'y',
-      'U+005A': 'z',
-      'U+007F': 'del'
-    };
-
-    /*
-     * Special table for KeyboardEvent.keyCode.
-     * KeyboardEvent.keyIdentifier is better, and KeyBoardEvent.key is even better than that
-     *
-     * Values from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent.keyCode#Value_of_keyCode
-     */
-    var KEY_CODE = {
-      9: 'tab',
-      13: 'enter',
-      27: 'esc',
-      33: 'pageup',
-      34: 'pagedown',
-      35: 'end',
-      36: 'home',
-      32: 'space',
-      37: 'left',
-      38: 'up',
-      39: 'right',
-      40: 'down',
-      46: 'del',
-      106: '*'
-    };
-
-    /*
-     * KeyboardEvent.key is mostly represented by printable character made by the keyboard, with unprintable keys labeled
-     * nicely.
-     *
-     * However, on OS X, Alt+char can make a Unicode character that follows an Apple-specific mapping. In this case, we
-     * fall back to .keyCode.
-     */
-    var KEY_CHAR = /[a-z0-9*]/;
-
-    function transformKey(key) {
-      var validKey = '';
-      if (key) {
-        var lKey = key.toLowerCase();
-        if (lKey.length == 1) {
-          if (KEY_CHAR.test(lKey)) {
-            validKey = lKey;
-          }
-        } else if (lKey == 'multiply') {
-          // numpad '*' can map to Multiply on IE/Windows
-          validKey = '*';
-        } else {
-          validKey = lKey;
-        }
-      }
-      return validKey;
-    }
-
-    var IDENT_CHAR = /U\+/;
-    function transformKeyIdentifier(keyIdent) {
-      var validKey = '';
-      if (keyIdent) {
-        if (IDENT_CHAR.test(keyIdent)) {
-          validKey = KEY_IDENTIFIER[keyIdent];
-        } else {
-          validKey = keyIdent.toLowerCase();
-        }
-      }
-      return validKey;
-    }
-
-    function transformKeyCode(keyCode) {
-      var validKey = '';
-      if (Number(keyCode)) {
-        if (keyCode >= 65 && keyCode <= 90) {
-          // ascii a-z
-          // lowercase is 32 offset from uppercase
-          validKey = String.fromCharCode(32 + keyCode);
-        } else if (keyCode >= 112 && keyCode <= 123) {
-          // function keys f1-f12
-          validKey = 'f' + (keyCode - 112);
-        } else if (keyCode >= 48 && keyCode <= 57) {
-          // top 0-9 keys
-          validKey = String(48 - keyCode);
-        } else if (keyCode >= 96 && keyCode <= 105) {
-          // num pad 0-9
-          validKey = String(96 - keyCode);
-        } else {
-          validKey = KEY_CODE[keyCode];
-        }
-      }
-      return validKey;
-    }
-
-    function keyboardEventToKey(ev) {
-      // fall back from .key, to .keyIdentifier, and then to .keyCode
-      var normalizedKey = transformKey(ev.key) || transformKeyIdentifier(ev.keyIdentifier) || transformKeyCode(ev.keyCode) || '';
-      return {
-        shift: ev.shiftKey,
-        ctrl: ev.ctrlKey,
-        meta: ev.metaKey,
-        alt: ev.altKey,
-        key: normalizedKey
-      };
-    }
-
-    /*
-     * Input: ctrl+shift+f7 => {ctrl: true, shift: true, key: 'f7'}
-     * ctrl/space => {ctrl: true} || {key: space}
-     */
-    function stringToKey(keyCombo) {
-      var keys = keyCombo.split('+');
-      var keyObj = Object.create(null);
-      keys.forEach(function(key) {
-        if (key == 'shift') {
-          keyObj.shift = true;
-        } else if (key == 'ctrl') {
-          keyObj.ctrl = true;
-        } else if (key == 'alt') {
-          keyObj.alt = true;
-        } else {
-          keyObj.key = key;
-        }
-      });
-      return keyObj;
-    }
-
-    function keyMatches(a, b) {
-      return Boolean(a.alt) == Boolean(b.alt) && Boolean(a.ctrl) == Boolean(b.ctrl) && Boolean(a.shift) == Boolean(b.shift) && a.key === b.key;
-    }
-
-    /**
-     * Fired when a keycombo in `keys` is pressed.
-     *
-     * @event keys-pressed
-     */
-    function processKeys(ev) {
-      var current = keyboardEventToKey(ev);
-      for (var i = 0, dk; i < this._desiredKeys.length; i++) {
-        dk = this._desiredKeys[i];
-        if (keyMatches(dk, current)) {
-          ev.preventDefault();
-          ev.stopPropagation();
-          this.fire('keys-pressed', current, this, false);
-          break;
-        }
-      }
-    }
-
-    function listen(node, handler) {
-      if (node && node.addEventListener) {
-        node.addEventListener('keydown', handler);
-      }
-    }
-
-    function unlisten(node, handler) {
-      if (node && node.removeEventListener) {
-        node.removeEventListener('keydown', handler);
-      }
-    }
-
-    Polymer('core-a11y-keys', {
-      created: function() {
-        this._keyHandler = processKeys.bind(this);
-      },
-      attached: function() {
-        if (!this.target) {
-          this.target = this.parentNode;
-        }
-        listen(this.target, this._keyHandler);
-      },
-      detached: function() {
-        unlisten(this.target, this._keyHandler);
-      },
-      publish: {
-        /**
-         * The set of key combinations to listen for.
-         *
-         * @attribute keys
-         * @type string (keys syntax)
-         * @default ''
-         */
-        keys: '',
-        /**
-         * The node that will fire keyboard events.
-         * Default to this element's parentNode unless one is assigned
-         *
-         * @attribute target
-         * @type Node
-         * @default this.parentNode
-         */
-        target: null
-      },
-      keysChanged: function() {
-        // * can have multiple mappings: shift+8, * on numpad or Multiply on numpad
-        var normalized = this.keys.replace('*', '* shift+*');
-        this._desiredKeys = normalized.toLowerCase().split(' ').map(stringToKey);
-      },
-      targetChanged: function(oldTarget) {
-        unlisten(oldTarget, this._keyHandler);
-        listen(this.target, this._keyHandler);
-      }
-    });
-  })();
 ;
 
 

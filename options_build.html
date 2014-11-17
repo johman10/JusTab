@@ -1,6 +1,6 @@
 <!DOCTYPE html><html><head>
   <title>NewTab Options</title>
-  <script src="bower_components/platform/platform.js" type="text/javascript"></script>
+  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
   <style shim-shadowdom="">
 /*******************************
           Flex Layout
@@ -879,23 +879,32 @@ object like this: `{v: 'top', h: 'right'}`.
 
 
 
-<!--
-
-`core-dropdown-overlay` is a helper class to position an overlay relative to another
-element within the same offsetParent.
-
-@group Polymer Core Elements
-@element core-dropdown-overlay
-@extends core-overlay
-@homepage github.io
--->
+<style shim-shadowdom="">
+  html /deep/ core-dropdown {
+    position: absolute;
+    overflow: auto;
+    background-color: #fff;
+  }
+</style>
 
 
 
 
 
+<style shim-shadowdom="">
+  html /deep/ core-a11y-keys {
+    display: none;
+  }
+</style>
 
 
+
+
+
+
+
+<script src="bower_components/core-focusable/polymer-mixin.js"></script>
+<script src="bower_components/core-focusable/core-focusable.js"></script>
 
 
 
@@ -925,6 +934,32 @@ Example:
 
 
 
+
+
+<style shim-shadowdom="">
+  /* FIXME consider theming */
+
+  html /deep/ input[is=core-input] {
+    width: 20em;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    outline: none;
+  }
+</style>
+
+
+
+
+
+<!-- Native <label> has cursor: default -->
+<style>
+  html /deep/ core-label {
+    cursor: default;
+  }
+</style>
 
 
 
@@ -1012,12 +1047,12 @@ a detail object containing `name` and `data` fields.
     this.fire('core-signal', {name: 'hello', data: null});
     
 To receive a signal, listen for `core-signal-<name>` event on a 
-`core-signal` element.
+`core-signals` element.
 
-  <core-signal on-core-signal-hello="{{helloSignal}}">
+  <core-signals on-core-signal-hello="{{helloSignal}}">
 
 You can fire a signal event from anywhere, and all 
-`core-signal` elements will receive the event, regardless
+`core-signals` elements will receive the event, regardless
 of where they are in DOM.
 
 @group Polymer Core Elements
@@ -1025,8 +1060,6 @@ of where they are in DOM.
 @status stable
 @homepage github.io
 -->
-
-
 
 
 
@@ -1046,15 +1079,8 @@ of where they are in DOM.
 
 
   
+  
 
-
-
-
-<style shim-shadowdom="">
-  html /deep/ core-a11y-keys {
-    display: none;
-  }
-</style>
 
 
 
@@ -1071,7 +1097,7 @@ of where they are in DOM.
   
   
 </polymer-element>
-<polymer-element name="core-ajax" hidden="" attributes="url handleAs auto params response error method headers body contentType withCredentials" assetpath="bower_components/core-ajax/">
+<polymer-element name="core-ajax" hidden="" attributes="url handleAs auto params response error method headers body contentType withCredentials progress loading" assetpath="bower_components/core-ajax/">
 
 </polymer-element>
 
@@ -1098,7 +1124,8 @@ of where they are in DOM.
 <polymer-element name="core-transition" extends="core-meta" assetpath="bower_components/core-transition/">
   
   
-</polymer-element><polymer-element name="core-transition-pages" extends="core-transition" assetpath="bower_components/core-animated-pages/transitions/">
+</polymer-element>
+<polymer-element name="core-transition-pages" extends="core-transition" assetpath="bower_components/core-animated-pages/transitions/">
 
 </polymer-element>
 <core-style id="hero-transition">
@@ -1393,7 +1420,7 @@ polyfill-next-selector { content: ':host > *:not(.core-selected):not([animate])'
 
 </polymer-element>
 
-<polymer-element name="core-collapse" attributes="target horizontal opened duration fixedSize" assetpath="bower_components/core-collapse/">
+<polymer-element name="core-collapse" attributes="target horizontal opened duration fixedSize allowOverflow" assetpath="bower_components/core-collapse/">
 <template>
 
   <content></content>
@@ -1751,7 +1778,7 @@ core-icon {
 
 </polymer-element>
 
-<polymer-element name="core-toolbar" assetpath="bower_components/core-toolbar/">
+<polymer-element name="core-toolbar" attributes="justify middleJustify bottomJustify" assetpath="bower_components/core-toolbar/">
 <template>
 
   <style>/*
@@ -1844,8 +1871,8 @@ polyfill-next-selector { content: ':host.core-narrow .toolbar-tools, .core-narro
 }
 
 /* make elements (e.g. buttons) respond to mouse/touch events */
-polyfill-next-selector { content: '.toolbar-tools > *'; }
-::content > * {
+polyfill-next-selector { content: '.toolbar-tools > *:not([disabled])'; }
+::content > *:not([disabled]) {
   pointer-events: auto;
 }
 
@@ -1876,7 +1903,7 @@ polyfill-next-selector { content: ':host .indent'; }
   <div id="bottomBar" class="toolbar-tools" center="" horizontal="" layout="">
     <content select=".bottom"></content>
   </div>
-  
+
   <div id="middleBar" class="toolbar-tools" center="" horizontal="" layout="">
     <content select=".middle"></content>
   </div>
@@ -1886,6 +1913,7 @@ polyfill-next-selector { content: ':host .indent'; }
   </div>
 
 </template>
+
 </polymer-element>
 
 <polymer-element name="core-header-panel" assetpath="bower_components/core-header-panel/">
@@ -2021,6 +2049,14 @@ mode: cover
 
 :host {
   display: block;
+}
+
+#info > * {
+  margin-right: 20px;
+}
+
+core-icon {
+  margin-right: 5px;
 }
 
 .main {
@@ -2159,8 +2195,9 @@ pre .com,pre .comment,.prettyprint .com,.prettyprint .comment {
 
         <h1>{{data.name}}</h1>
 
-        <p>
-          <core-icon icon="home"></core-icon>&nbsp;<a href="{{data | homepageFilter}}">Home Page</a>
+        <p id="info" layout="" horizontal="" center="">
+          <span layout="" horizontal="" center=""><core-icon icon="home"></core-icon><a href="{{data | homepageFilter}}">Home Page</a></span>
+          <span layout="" horizontal="" center="" hidden?="{{!data.version}}"><core-icon icon="info-outline"></core-icon>Version: {{data.version}}</span>
         </p>
 
         <template if="{{data.extends}}">
@@ -2610,11 +2647,16 @@ polyfill-next-selector { content: ':host .narrow-layout > #main > [main]'; }
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
+
+polyfill-next-selector { content: 'core-selector:not(.narrow-layout) [core-drawer-toggle]'; }
+core-selector:not(.narrow-layout) ::content [core-drawer-toggle] {
+  display: none;
+}
 </style>
 
-  <core-media-query query="max-width: {{responsiveWidth}}" querymatches="{{queryMatches}}"></core-media-query>
+  <core-media-query query="max-width: {{forceNarrow ? '' : responsiveWidth}}" querymatches="{{queryMatches}}"></core-media-query>
 
-  <core-selector class="{{ {'narrow-layout' : queryMatches, transition : transition, dragging : dragging, 'right-drawer': rightDrawer} | tokenList }}" valueattr="id" selected="{{selected}}">
+  <core-selector class="{{ {'narrow-layout' : narrow, transition : transition, dragging : dragging, 'right-drawer': rightDrawer} | tokenList }}" valueattr="id" selected="{{selected}}">
 
     <div id="main" _style="left: {{ narrow || rightDrawer ? '0' : drawerWidth }}; right: {{ rightDrawer ? (narrow ? '' : drawerWidth) : '' }};">
       <content select="[main]"></content>
@@ -2657,28 +2699,41 @@ polyfill-next-selector { content: ':host .narrow-layout > #main > [main]'; }
 <polymer-element name="core-overlay" assetpath="bower_components/core-overlay/">
 
 </polymer-element>
-<polymer-element name="core-dropdown-overlay" extends="core-overlay" assetpath="bower_components/core-dropdown/">
+<polymer-element name="core-dropdown" extends="core-overlay" assetpath="bower_components/core-dropdown/">
 
 </polymer-element>
-<polymer-element name="core-dropdown" assetpath="bower_components/core-dropdown/">
+
+<polymer-element name="core-a11y-keys" assetpath="bower_components/core-a11y-keys/">
+
+</polymer-element>
+
+<polymer-element name="core-dropdown-base" tabindex="0" assetpath="bower_components/core-dropdown/">
+
+</polymer-element>
+
+<polymer-element name="core-dropdown-menu" extends="core-dropdown-base" relative="" layout="" inline="" horizontal="" center="" tabindex="0" assetpath="bower_components/core-dropdown-menu/">
 <template>
 
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
+  <style>
+    :host {
+      background-color: #fff;
+    }
 
-:host {
-  position: absolute;
-  overflow: auto;
-  background-color: #fff;
-}</style>
+    :host([disabled]) {
+      color: #a8a8a8;
+    }
 
-  <core-dropdown-overlay id="overlay" target="{{}}" relatedtarget="{{relatedTarget}}" opened="{{opened}}" halign="{{halign}}" valign="{{valign}}" margin="{{margin}}" transition="{{transition}}" autofocusdisabled="{{autoFocusDisabled}}"></core-dropdown-overlay>
+    #label {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  </style>
+
+  <core-a11y-keys target="{{}}" keys="enter space" on-keys-pressed="{{toggleOverlay}}"></core-a11y-keys>
+
+  <div flex="" auto="" id="label">{{selectedItemLabel || label}}</div>
+  <core-icon id="arrow" icon="{{opened ? openedIcon : closedIcon}}"></core-icon>
 
   <content></content>
 
@@ -2686,60 +2741,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 </polymer-element>
 
-<polymer-element name="core-dropdown-menu" assetpath="bower_components/core-dropdown-menu/">
-<template>
-
-  <style>/*
- * @license
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
-
-:host {
-  position: relative;
-  display: inline-block;
-  background-color: #fff;
-}
-
-#control core-item {
-  margin-left: 12px;
-  max-width: inherit;
-}
-
-#control core-item::shadow #label {
-  overflow: hidden;
-  /* FIXME not working for some reason */
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-#arrow {
-  margin: 0 12px;
-}
-
-#dropdown {
-  margin: 12px;
-}
-</style>
-
-  <div id="control" layout="" horizontal="" center="" on-tap="{{toggle}}">
-    <core-item flex="" src="{{selectedItem.src}}" icon="{{selectedItem.icon}}" label="{{selectedItem ? (selectedItem.label || selected) : label}}"></core-item>
-    <core-icon id="arrow" icon="{{opened ? 'arrow-drop-up' : 'arrow-drop-down'}}"></core-icon>
-  </div>
-
-  <core-dropdown id="dropdown" relatedtarget="{{$.control}}" opened="{{opened}}" halign="{{halign}}" valign="{{valign}}">
-    <core-menu selected="{{selected}}" valueattr="{{valueattr}}" selecteditem="{{selectedItem}}" on-core-activate="{{activateAction}}">
-      <content></content>
-    </core-menu>
-  </core-dropdown>
-
-</template>
-
-</polymer-element>
 <polymer-element name="core-field" center="" horizontal="" layout="" assetpath="bower_components/core-field/">
 <template>
 
@@ -2787,69 +2788,56 @@ polyfill-next-selector { content: ':host input::placeholder'; }
 </template>
 </polymer-element>
 
-<polymer-element name="core-input" on-focus="{{focusAction}}" assetpath="bower_components/core-input/">
-
-  <template>
-
-    <style>/*
- * @license
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
+<polymer-element name="core-image" assetpath="bower_components/core-image/">
+<template>
+  <style>/*
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
 
 :host {
   display: inline-block;
-  text-align: inherit;
+  overflow: hidden;
   position: relative;
-  width: 20em;
 }
 
-:host:hover {
-  cursor: text;
+#placeholder {
+  background-color: inherit;
+  opacity: 1;
 }
-
-input,
-textarea {
-  font: inherit;
-  color: inherit;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  width: 100%;
-}
-
-textarea {
-  resize: none;
-}
-
-textarea[rows=fit] {
-  height: 100%;
+#placeholder.fadein {
+  transition: opacity 0.5s linear;
+  opacity: 0;
 }</style>
-
-    <template if="{{multiline}}">
-      <textarea id="input" value="{{inputValue}}" rows="{{rows}}" disabled?="{{disabled}}" placeholder="{{placeholder}}" autofocus?="{{autofocus}}" required?="{{required}}" readonly?="{{readonly}}" maxlength="{{maxlength}}" aria-label="{{label || placeholder}}" aria-invalid="{{invalid}}" on-change="{{inputChangeAction}}" on-focus="{{inputFocusAction}}" on-blur="{{inputBlurAction}}"></textarea>
-    </template>
-
-    <template if="{{!multiline}}">
-      <input id="input" value="{{inputValue}}" disabled?="{{disabled}}" type="{{type}}" placeholder="{{placeholder}}" autofocus?="{{autofocus}}" required?="{{required}}" readonly?="{{readonly}}" pattern="{{pattern}}" min="{{min}}" max="{{max}}" step="{{step}}" maxlength="{{maxlength}}" aria-label="{{label || placeholder}}" aria-invalid="{{invalid}}" on-keypress="{{keypressAction}}" on-change="{{inputChangeAction}}" on-focus="{{inputFocusAction}}" on-blur="{{inputBlurAction}}">
-    </template>
-
+  <template if="{{!sizing}}">
+    <img id="img">
   </template>
+  <template if="{{preload &amp;&amp; fade}}">
+    <div id="placeholder" fit=""></div>
+  </template>
+  <content></content>
+</template>
 
+</polymer-element>
+
+<polymer-element name="core-input" extends="input" assetpath="bower_components/core-input/">
+
+
+
+</polymer-element>
+
+<polymer-element name="core-label" assetpath="bower_components/core-label/">
   
-
 </polymer-element>
 
 <polymer-element name="core-layout-grid" attributes="nodes layout auto" assetpath="bower_components/core-layout-grid/">
 
 </polymer-element>
+
 <polymer-element name="core-layout-trbl" attributes="vertical" assetpath="bower_components/core-layout-trbl/">
 
   <template>
@@ -2869,40 +2857,32 @@ textarea[rows=fit] {
 <polymer-element name="core-list" on-tap="{{tapHandler}}" tabindex="-1" assetpath="bower_components/core-list/">
 <template>
   <core-selection id="selection" multi="{{multi}}" on-core-select="{{selectedHandler}}"></core-selection>
-  <style>/*
- * @license
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
-
-:host {
+  <style>:host {
   display: block;
-  overflow: auto;
   outline: none;
+  position: relative;
 }
 
-.core-list-viewport > * {
-  overflow: hidden;
+polyfill-next-selector { content: '.core-list-viewport > *'; }
+::content > * {
+  position: absolute;
+  top: 0;
+  box-sizing: border-box;
+  opacity: 0;
 }
 
-.core-list-viewport.horizontal {
+polyfill-next-selector { content: ':host(:not([grid])) .core-list-viewport > *'; }
+:host(:not([grid])) ::content > * {
+  width: 100%;
+}
+
+.core-list-items.horizontal {
   height: 100%;
   white-space: nowrap;
 }
 
-.core-list-viewport.horizontal > * {
+.core-list-items.horizontal > * {
   display: inline-block;
-}
-
-/* Setting will-change: transform on the #viewport makes the viewport a
-   stacking context, which causes all the composited layers inside the
-   viewport to actually be stacked underneath the viewport. */
-#viewport {
-  will-change: transform;
 }
 </style>
   <div id="viewport" class="core-list-viewport"><content></content></div>
@@ -2976,34 +2956,31 @@ core-item {
 
 </polymer-element>
 
-<polymer-element name="core-menu-button" attributes="icon label src selected opened halign valign valueattr multi inlineMenu" assetpath="bower_components/core-menu-button/">
-  <template>
-    <style>/*
-Copyright 2013 The Polymer Authors. All rights reserved.
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file.
-*/
+<polymer-element name="core-menu-button" extends="core-dropdown-base" relative="" assetpath="bower_components/core-menu-button/">
+<template>
 
-:host {
-  position: relative;
-  display: inline-block;
-}
+  <style>
+    :host {
+      display: inline-block;
+    }
 
-#dropdown {
-  margin: 12px;
-  background: #fff;
-  color: #000;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-}</style>
-    <core-icon-button id="button" on-tap="{{toggle}}" src="{{src}}" icon="{{icon}}" active="{{opened}}"><span>{{label}}</span></core-icon-button>
-    <core-dropdown id="dropdown" relatedtarget="{{$.button}}" opened="{{opened}}" halign="{{halign}}" valign="{{valign}}">
-      <core-menu selected="{{selected}}" valueattr="{{valueattr}}" selectedclass="{{selectedClass}}" selectedproperty="{{selectedProperty}}" selectedattribute="{{selectedAttribute}}" selecteditem="{{selectedItem}}" selectedmodel="{{selectedModel}}" selectedindex="{{selectedIndex}}" excludedlocalnames="{{excludedLocalNames}}" on-core-activate="{{closeAction}}">
-        <content select="*"></content>
-      </core-menu>
-    </core-dropdown>
-  </template>
-  
+    :host([disabled]) {
+      pointer-events: none;
+      color: #a8a8a8;
+    }
+
+    polyfill-next-selector { content: ':host([disabled]) *'; }
+    :host([disabled]) ::content * {
+      pointer-events: none;
+    }
+  </style>
+
+  <core-a11y-keys target="{{}}" keys="enter space" on-keys-pressed="{{toggleOverlay}}"></core-a11y-keys>
+
+  <content></content>
+
+</template>
+
 </polymer-element>
 
 <polymer-element name="core-pages" extends="core-selector" selected="0" notap="" assetpath="bower_components/core-pages/">
@@ -3079,7 +3056,7 @@ polyfill-next-selector { content: ':host > .core-selected'; }
     
   </style>
 
-  <core-drawer-panel id="drawerPanel" narrow="{{narrow}}" responsivewidth="{{responsiveWidth}}">
+  <core-drawer-panel id="drawerPanel" narrow="{{narrow}}" drawerwidth="{{drawerWidth}}" rightdrawer="{{rightDrawer}}" responsivewidth="{{responsiveWidth}}" disableswipe="{{disableSwipe}}">
 
     <div vertical="" layout="" drawer="">
 
@@ -3090,8 +3067,13 @@ polyfill-next-selector { content: ':host > .core-selected'; }
     <core-header-panel id="headerPanel" main="" mode="{{mode}}">
 
       <core-toolbar>
-        <core-icon-button id="menuButton" icon="menu" on-tap="{{togglePanel}}"></core-icon-button>
+        <template if="{{!rightDrawer}}">
+          <core-icon-button id="menuButton" icon="menu" on-tap="{{togglePanel}}"></core-icon-button>
+        </template>
         <content select="[tool]"></content>
+        <template if="{{rightDrawer}}">
+          <core-icon-button id="menuButton" icon="menu" on-tap="{{togglePanel}}"></core-icon-button>
+        </template>
       </core-toolbar>
       
       <content select="*"></content>
@@ -3168,7 +3150,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <div id="mainContainer">
   
-    <content id="mainContent" select="[content], .content"></content>
+    <content id="mainContent" select=":not(core-toolbar):not(.core-header)"></content>
     
   </div>
   
@@ -3231,20 +3213,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </template>
 
 </polymer-element>
-<polymer-element name="paper-focusable" attributes="active focused disabled isToggle" tabindex="0" on-down="{{downAction}}" on-up="{{upAction}}" on-focus="{{focusAction}}" on-blur="{{blurAction}}" on-contextmenu="{{contextMenuAction}}" assetpath="bower_components/paper-focusable/">
 
-  <template>
-    <style>
-      :host([disabled]) {
-        pointer-events: none;
-      }
-    </style>
-    <content></content>
-  </template>
-
-  
-</polymer-element>
-<polymer-element name="core-tooltip" extends="paper-focusable" attributes="noarrow position label show tipAttribute" role="tooltip" assetpath="bower_components/core-tooltip/">
+<polymer-element name="core-tooltip" attributes="noarrow position label show tipAttribute" role="tooltip" tabindex="0" assetpath="bower_components/core-tooltip/">
 <template>
 
   <style>/* Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
@@ -3415,10 +3385,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </div>
 
 </template>
-
-</polymer-element>
-
-<polymer-element name="core-a11y-keys" assetpath="bower_components/core-a11y-keys/">
 
 </polymer-element>
 <polymer-element name="paper-radio-button" role="radio" tabindex="0" aria-checked="false" assetpath="bower_components/paper-radio-button/">
@@ -3828,11 +3794,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 </polymer-element>
 </div>
-  <label class="checkbox_label"><input type="checkbox" name="GC_status" id="GC_status" checked="checked">Calendar</label>
-  <!-- <paper-checkbox for="" role="checkbox" tabindex="0" aria-checked="false" aria-labelledby="core-label-0"></paper-checkbox> -->
-  <label for="calendar_select">
+  <core-label>
+   <paper-checkbox for=""></paper-checkbox>
+   Calendar
+  </core-label><br>
+
+  <core-label>
     Show appointments from:
-  </label>
+  </core-label>
   <div class="calendar_select_container">
     <div id="loading">Loading...</div>
   </div>
@@ -3868,7 +3837,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <input type="number" id="SAB_history" name="SAB_history"><br>
 
   <div id="status"></div>
-  <button id="save">Save</button>
+  <button id="save_settings">Save</button>
 
 
 <script src="options_build.js"></script></body></html>

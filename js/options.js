@@ -18,10 +18,10 @@ $(document).ready(function() {
           $.each(data.items, function(l) {
             var calendar = data.items[l];
             if ($.inArray(calendar.id, calendars_storage) > -1) {
-              $('.calendar_select_container').append("<label><input type='checkbox' name='" + calendar.summary + "' class='calendar' value='" + calendar.id + "' checked='checked'>" + calendar.summary + "</label>");
+              $('.calendar_select_container').append("<core-label><paper-checkbox checked class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
             }
             else {
-              $('.calendar_select_container').append("<label><input type='checkbox' name='" + calendar.summary + "' class='calendar' value='" + calendar.id + "'>" + calendar.summary + "</label>");
+              $('.calendar_select_container').append("<core-label><paper-checkbox class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
             }
           });
         });
@@ -29,18 +29,17 @@ $(document).ready(function() {
     });
   });
 
-  $("#save").click(function() {
+  $("#save_settings").click(function() {
     save_options();
   });
 });
 
 // Saves options to chrome.storage
 function save_options() {
-  console.log($('#FB_status').is(':checked'));
   var calendars = [];
   $.each($('.calendar'), function(i, val) {
     if (val.checked) {
-      calendars.push(val.value);
+      calendars.push($(this).attr('value'));
     }
   });
   chrome.storage.sync.set({
@@ -63,11 +62,11 @@ function save_options() {
     calendars: calendars
   }, function() {
     // Update status to let user know options were saved.
-    var status = document.getElementById('status');
+    var status = $('#status');
     status.textContent = 'Options saved.';
     setTimeout(function() {
       status.textContent = '';
-    }, 750);
+    }, 1500);
   });
 }
 
