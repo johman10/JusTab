@@ -31,6 +31,9 @@ $(document).ready(function() {
 });
 
 function sabShowData() {
+  $('.queue').empty();
+  $('.history').empty();
+
   var history = '';
   var queue = '';
 
@@ -42,7 +45,6 @@ function sabShowData() {
   }
 
   if (queue !== '') {
-    $('.queue').empty();
 
     $('.queue').append('<h2>Queue</h2>');
 
@@ -60,8 +62,6 @@ function sabShowData() {
   }
 
   if (history !== '') {
-    $('.history').empty();
-
     $('.history').append('<h2>History</h2>');
 
     $.each(history.history.slots, function(i) {
