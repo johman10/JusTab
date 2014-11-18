@@ -110,11 +110,16 @@ function cpShowData() {
   $('.wanted').empty();
   $('.snatched').empty();
 
-  $('.snatched').append('<h2>Snatched and Available</h2>');
-  $('.wanted').append('<h2>Wanted</h2>');
+  var data = '';
 
   if (localStorage.Couchpotato) {
     data = JSON.parse(localStorage.getItem('Couchpotato'));
+  }
+
+  if (data !== '') {
+    $('.snatched').append('<h2>Snatched and Available</h2>');
+    $('.wanted').append('<h2>Wanted</h2>');
+
     // console.log(data);
     var snatched = [];
     $.each(data.movies, function(i) {
@@ -135,5 +140,8 @@ function cpShowData() {
     if (snatched.length <= 0) {
       $('.snatched').append("<core-item label='No snatched movies at this moment.'></core-item>");
     }
+  }
+  else {
+    $('#couchpotato .snatched').append('<core-item label="There is a error connecting to Couchpotato."></core-item><core-item label="Please check your connection and your settings."></core-item>');
   }
 }

@@ -25,6 +25,9 @@ function getSickBeardData(callback) {
       timeout: 3000,
       success: function(data) {
         localStorage.setItem("Sickbeard", JSON.stringify(data));
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        localStorage.setItem("Sickbeard", '');
       }
     });
   });

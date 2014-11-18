@@ -20,8 +20,13 @@ $(document).ready(function() {
 function dnShowData() {
   $('.dn_links').empty();
 
+  var data = '';
+
   if (localStorage.Designernews) {
     data = JSON.parse(localStorage.getItem('Designernews'));
+  }
+
+  if (data !== '') {
     $.each(data.stories, function(i) {
       $('.dn_links').append(
         // '<core-item label="' + data.stories[i].title + '""><a href="' + data.stories[i].url + '" target="_blank"></a></core-item>'
@@ -29,5 +34,8 @@ function dnShowData() {
         // '<p><a href="' + data.stories[i].url + '" target="_blank">' + data.stories[i].title + '</a></p>'
       );
     });
+  }
+  else {
+    $('#designernews .dn_links').append('<core-item label="There is a error connecting to Designernews."></core-item><core-item label="Please check your connection and your settings."></core-item>');
   }
 }

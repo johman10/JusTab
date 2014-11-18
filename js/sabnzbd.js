@@ -31,19 +31,20 @@ $(document).ready(function() {
 });
 
 function sabShowData() {
-  if (localStorage.SabnzbdHistory && localStorage.SabnzbdQueue) {
+  var history = '';
+  var queue = '';
+
+  if (localStorage.SabnzbdHistory) {
+    history = JSON.parse(localStorage.getItem('SabnzbdHistory'));
+  }
+  if (localStorage.SabnzbdQueue) {
+    queue = JSON.parse(localStorage.getItem('SabnzbdQueue'));
+  }
+
+  if (queue !== '') {
     $('.queue').empty();
-    $('.history').empty();
 
     $('.queue').append('<h2>Queue</h2>');
-    $('.history').append('<h2>History</h2>');
-
-    var history = JSON.parse(localStorage.getItem('SabnzbdHistory'));
-    var queue = JSON.parse(localStorage.getItem('SabnzbdQueue'));
-
-    $.each(history.history.slots, function(i) {
-      $('.history').append("<core-item label='" + history.history.slots[i].name + "'></core-item>");
-    });
 
     $.each(queue.queue.slots, function(i) {
       $('.queue').append("<core-item label='" + queue.queue.slots[i].filename + "'></core-item>");
@@ -52,5 +53,27 @@ function sabShowData() {
     if (queue.queue.slots.length < 1) {
       $('.queue').append("<core-item label='No items in queue at this moment.'></core-item>");
     }
+  }
+  else {
+    $('.queue').append('<h2>Queue</h2>');
+    $('#sabnzbd .queue').append('<core-item label="There is a error connecting to SABnzbd queue."></core-item><core-item label="Please check your connection and your settings."></core-item>');
+  }
+
+  if (history !== '') {
+    $('.history').empty();
+
+    $('.history').append('<h2>History</h2>');
+
+    $.each(history.history.slots, function(i) {
+      $('.history').append("<core-item label='" + history.history.slots[i].name + "'></core-item>");
+    });
+
+    if (queue.history.slots.length < 1) {
+      $('.queue').append("<core-item label='No items in history at this moment.'></core-item>");
+    }
+  }
+  else {
+    $('.history').append('<h2>History</h2>');
+    $('#sabnzbd .history').append('<core-item label="There is a error connecting to SABnzbd history."></core-item><core-item label="Please check your connection and your settings."></core-item>');
   }
 }

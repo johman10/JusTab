@@ -76,4 +76,7 @@ function sbShowData() {
       });
     }
   }
+  else {
+    $('#sickbeard .sb_missed').append('<core-item label="There is a error connecting to Sickbeard."></core-item><core-item label="Please check your connection and your settings."></core-item>');
+  }
 }

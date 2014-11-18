@@ -29,6 +29,9 @@ function getSabnzbdHistory(callback) {
       timeout: 3000,
       success: function(history) {
         localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        localStorage.setItem("SabnzbdHistory", '');
       }
     });
   });
@@ -61,9 +64,13 @@ function getSabnzbdQueue(callback) {
     $.ajax({
       url: url + queueMode + output + apiKey,
       dataType: 'json',
-      async: false,
+      async: true,
+      timeout: 3000,
       success: function(queue) {
         localStorage.setItem("SabnzbdQueue", JSON.stringify(queue));
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        localStorage.setItem("SabnzbdQueue", '');
       }
     });
   });
