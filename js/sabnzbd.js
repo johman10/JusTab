@@ -68,7 +68,7 @@ function sabShowData() {
       $('.history').append("<core-item label='" + history.history.slots[i].name + "'></core-item>");
     });
 
-    if (queue.history.slots.length < 1) {
+    if (history.history.slots.length < 1) {
       $('.queue').append("<core-item label='No items in history at this moment.'></core-item>");
     }
   }
