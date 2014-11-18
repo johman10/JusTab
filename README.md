@@ -4,6 +4,7 @@ This Chrome Extenstion gives you the ability to keep track of multiple services 
 At this moment it supports:
 
 - [Google Calendar](http://calendar.google.com)
+- [Facebook](https://facebook.com)
 - [Couchpotato](https://github.com/RuudBurger/CouchPotatoServer)
 - [Sickbeard](https://github.com/midgetspy/Sick-Beard)
 - [Sabnzbd](https://github.com/sabnzbd/sabnzbd)
