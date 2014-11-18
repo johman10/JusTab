@@ -38,7 +38,7 @@ function sabShowData() {
   $('.queue').append('<h2>Queue</h2>');
 
   if (localStorage.SabnzbdQueue) {
-    queue = JSON.parse(localStorage.getItem('SabnzbdQueue'));
+    var queue = JSON.parse(localStorage.getItem('SabnzbdQueue'));
 
     $.each(queue.queue.slots, function(i) {
       $('.queue').append("<core-item label='" + queue.queue.slots[i].filename + "'></core-item>");
@@ -53,7 +53,9 @@ function sabShowData() {
   }
 
   if (localStorage.SabnzbdHistory) {
-    history = JSON.parse(localStorage.getItem('SabnzbdHistory'));
+    var history = JSON.parse(localStorage.getItem('SabnzbdHistory'));
+
+    console.log(history);
 
     $.each(history.history.slots, function(i) {
       $('.history').append("<core-item label='" + history.history.slots[i].name + "'></core-item>");
