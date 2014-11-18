@@ -12,13 +12,9 @@ $(document).ready(function() {
 
 function fbShowData() {
   $('.notifications').empty();
-  var data = '';
 
   if (localStorage.Facebook) {
     data = $.parseXML(localStorage.getItem('Facebook'));
-  }
-
-  if (data !== '') {
     $('.notifications').append('<h2>Notifications</h2>');
 
     $(data).find('item').each(function(){

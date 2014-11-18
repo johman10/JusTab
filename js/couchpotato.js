@@ -110,15 +110,11 @@ function cpShowData() {
   $('.wanted').empty();
   $('.snatched').empty();
 
-  var data = '';
-
   if (localStorage.Couchpotato) {
-    data = JSON.parse(localStorage.getItem('Couchpotato'));
-  }
-
-  if (data !== '') {
     $('.snatched').append('<h2>Snatched and Available</h2>');
     $('.wanted').append('<h2>Wanted</h2>');
+
+    data = JSON.parse(localStorage.getItem('Couchpotato'));
 
     // console.log(data);
     var snatched = [];

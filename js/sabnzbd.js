@@ -34,19 +34,11 @@ function sabShowData() {
   $('.queue').empty();
   $('.history').empty();
 
-  var history = '';
-  var queue = '';
+  $('.history').append('<h2>History</h2>');
+  $('.queue').append('<h2>Queue</h2>');
 
-  if (localStorage.SabnzbdHistory) {
-    history = JSON.parse(localStorage.getItem('SabnzbdHistory'));
-  }
   if (localStorage.SabnzbdQueue) {
     queue = JSON.parse(localStorage.getItem('SabnzbdQueue'));
-  }
-
-  if (queue !== '') {
-
-    $('.queue').append('<h2>Queue</h2>');
 
     $.each(queue.queue.slots, function(i) {
       $('.queue').append("<core-item label='" + queue.queue.slots[i].filename + "'></core-item>");
@@ -57,12 +49,11 @@ function sabShowData() {
     }
   }
   else {
-    $('.queue').append('<h2>Queue</h2>');
     $('#sabnzbd .queue').append('<core-item label="There is a error connecting to SABnzbd queue."></core-item><core-item label="Please check your connection and your settings."></core-item>');
   }
 
-  if (history !== '') {
-    $('.history').append('<h2>History</h2>');
+  if (localStorage.SabnzbdHistory) {
+    history = JSON.parse(localStorage.getItem('SabnzbdHistory'));
 
     $.each(history.history.slots, function(i) {
       $('.history').append("<core-item label='" + history.history.slots[i].name + "'></core-item>");
@@ -73,7 +64,6 @@ function sabShowData() {
     }
   }
   else {
-    $('.history').append('<h2>History</h2>');
     $('#sabnzbd .history').append('<core-item label="There is a error connecting to SABnzbd history."></core-item><core-item label="Please check your connection and your settings."></core-item>');
   }
 }
