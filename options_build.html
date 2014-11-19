@@ -4070,19 +4070,20 @@ polyfill-next-selector {
    <paper-checkbox name="GC_status" for=""></paper-checkbox>
    Calendar
   </core-label><br>
-
   <core-label>
     Show appointments from:
   </core-label>
   <div class="calendar_select_container">
     <div id="loading">Loading...</div>
   </div>
+  <paper-input floatinglabel="" name="GC_refresh" id="GC_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
    <paper-checkbox name="FB_status" id="FB_status" for=""></paper-checkbox>
    Facebook
   </core-label><br>
   <paper-input floatinglabel="" name="FB_url" id="FB_url" label="Facebook RSS feed url"></paper-input><br>
+  <paper-input floatinglabel="" name="FB_refresh" id="FB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
    <paper-checkbox name="CP_status" for=""></paper-checkbox>
@@ -4091,6 +4092,7 @@ polyfill-next-selector {
   <paper-input floatinglabel="" name="CP_address" id="CP_address" label="Server address"></paper-input><br>
   <paper-input floatinglabel="" name="CP_port" id="CP_port" label="Server port"></paper-input><br>
   <paper-input floatinglabel="" name="CP_key" id="CP_key" label="API Key"></paper-input><br>
+  <paper-input floatinglabel="" name="CP_refresh" id="CP_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
    <paper-checkbox name="SB_status" for=""></paper-checkbox>
@@ -4099,6 +4101,7 @@ polyfill-next-selector {
   <paper-input floatinglabel="" name="SB_address" id="SB_address" label="Server address"></paper-input><br>
   <paper-input floatinglabel="" name="SB_port" id="SB_port" label="Server port"></paper-input><br>
   <paper-input floatinglabel="" name="SB_key" id="SB_key" label="API Key"></paper-input><br>
+  <paper-input floatinglabel="" name="SB_refresh" id="SB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
    <paper-checkbox name="SAB_status" for=""></paper-checkbox>
@@ -4108,6 +4111,14 @@ polyfill-next-selector {
   <paper-input floatinglabel="" name="SAB_port" id="SAB_port" label="Server port"></paper-input><br>
   <paper-input floatinglabel="" name="SAB_key" id="SAB_key" label="API Key"></paper-input><br>
   <paper-input floatinglabel="" name="SAB_history" id="SAB_history" label="History limit"></paper-input><br>
+  <paper-input floatinglabel="" name="SABQ_refresh" id="SABQ_refresh" label="Refresh rate queue (in minutes)"></paper-input><br>
+  <paper-input floatinglabel="" name="SABH_refresh" id="SABH_refresh" label="Refresh rate history (in minutes)"></paper-input><br>
+
+  <core-label>
+   <paper-checkbox name="DN_status" for=""></paper-checkbox>
+   Designernews
+  </core-label><br>
+  <paper-input floatinglabel="" name="DN_refresh" id="DN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <div id="status"></div>
   <button id="save_settings">Save</button>

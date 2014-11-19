@@ -45,21 +45,28 @@ function save_options() {
   chrome.storage.sync.set({
     GC_status: $('paper-checkbox[name=GC_status]').attr('aria-checked') == "true" ? true : false,
     calendars: calendars,
+    GC_refresh: $('#GC_refresh').val(),
     FB_status: $('paper-checkbox[name=FB_status]').attr('aria-checked') == "true" ? true : false,
     FB_url: $('#FB_url').val(),
+    FB_refresh: $('#FB_refresh').val(),
     CP_status: $('paper-checkbox[name=CP_status]').attr('aria-checked') == "true" ? true : false,
     CP_address: $('#CP_address').val(),
     CP_port: $('#CP_port').val(),
     CP_key: $('#CP_key').val(),
+    CP_refresh: $('#CP_refresh').val(),
     SB_status: $('paper-checkbox[name=SB_status]').attr('aria-checked') == "true" ? true : false,
     SB_address: $('#SB_address').val(),
     SB_port: $('#SB_port').val(),
     SB_key: $('#SB_key').val(),
+    SB_refresh: $('#SB_refresh').val(),
     SAB_status: $('paper-checkbox[name=SAB_status]').attr('aria-checked') == "true" ? true : false,
     SAB_address: $('#SAB_address').val(),
     SAB_port: $('#SAB_port').val(),
     SAB_key: $('#SAB_key').val(),
-    SAB_history: $('#SAB_history').val()
+    SAB_history: $('#SAB_history').val(),
+    SABQ_refresh: $('#SABQ_refresh').val(),
+    SABH_refresh: $('#SABH_refresh').val(),
+    DN_refresh: $('#DN_refresh').val(),
   }, function() {
     // Update status to let user know options were saved.
     var status = $('#status');
@@ -73,37 +80,51 @@ function save_options() {
 function restore_options() {
   chrome.storage.sync.get({
     GC_status: '',
+    GC_refresh: '',
     FB_status: '',
     FB_url: '',
+    FB_refresh: '',
     CP_status: '',
     CP_address: '',
     CP_port: '',
     CP_key: '',
+    CP_refresh: '',
     SB_status: '',
     SB_address: '',
     SB_port: '',
     SB_key: '',
+    SB_refresh: '',
     SAB_status: '',
     SAB_address: '',
     SAB_port: '',
     SAB_key: '',
-    SAB_history: ''
+    SAB_history: '',
+    SABQ_refresh: '',
+    SABH_refresh: '',
+    DN_refresh: ''
   }, function(items) {
     $('paper-checkbox[name=GC_status]').attr('checked', items.GC_status);
+    $('#GC_refresh').val(items.GC_refresh);
     $('paper-checkbox[name=FB_status]').attr('checked', items.FB_status);
     $('#FB_url').val(items.FB_url);
+    $('#FB_refresh').val(items.FB_refresh);
     $('paper-checkbox[name=CP_status]').attr('checked', items.CP_status);
     $('#CP_address').val(items.CP_address);
     $('#CP_port').val(items.CP_port);
     $('#CP_key').val(items.CP_key);
+    $('#CP_refresh').val(items.CP_refresh);
     $('paper-checkbox[name=SB_status]').attr('checked', items.SB_status);
     $('#SB_address').val(items.SB_address);
     $('#SB_port').val(items.SB_port);
     $('#SB_key').val(items.SB_key);
+    $('#SB_refresh').val(items.SB_refresh);
     $('paper-checkbox[name=SAB_status]').attr('checked', items.SAB_status);
     $('#SAB_address').val(items.SAB_address);
     $('#SAB_port').val(items.SAB_port);
     $('#SAB_key').val(items.SAB_key);
     $('#SAB_history').val(items.SAB_history);
+    $('#SABQ_refresh').val(items.SABQ_refresh);
+    $('#SABH_refresh').val(items.SABH_refresh);
+    $('#DN_refresh').val(items.DN_refresh);
   });
 }
