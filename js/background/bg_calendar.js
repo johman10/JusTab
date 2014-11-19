@@ -17,8 +17,8 @@ function getCalendarData(callback) {
 function eventArray(url, token, callback) {
   dateNow = new Date();
   dateTomorrow = new Date();
-  dateTomorrow.setDate(dateTomorrow.getDate() + 1);
-  timeMax = dateTomorrow;
+  dateTomorrow.setDate(dateTomorrow.getDate() + 2);
+  dateTomorrow.setHours(0,0,0,0);
   events = [];
 
   $.each(url, function(i) {
