@@ -3,30 +3,36 @@
 
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
 $(document).ready(function() {
-  sabShowData();
-
-  $('.refresh_sab').click(function() {
-    chrome.runtime.getBackgroundPage(function(backgroundPage) {
-      backgroundPage.getSabnzbdHistory(function() {
-        backgroundPage.getSabnzbdQueue(function() {
-          sabShowData();
-        });
-      });
-    });
-  });
-
   chrome.storage.sync.get({
+    SAB_status: '',
     SAB_address: '',
     SAB_port: ''
   }, function(items) {
-    if (items.SAB_address.slice(0,7) == "http://") {
-      url = items.SAB_address + ":" + items.SAB_port + "/";
-    }
-    else {
-      url = "http://" + items.SAB_address + ":" + items.SAB_port + "/";
-    }
+    if (items.SAB_status === true) {
+      sabShowData();
 
-    $('#sabnzbd core-toolbar a').attr('href', url);
+      $('.refresh_sab').click(function() {
+        chrome.runtime.getBackgroundPage(function(backgroundPage) {
+          backgroundPage.getSabnzbdHistory(function() {
+            backgroundPage.getSabnzbdQueue(function() {
+              sabShowData();
+            });
+          });
+        });
+      });
+
+      if (items.SAB_address.slice(0,7) == "http://") {
+        url = items.SAB_address + ":" + items.SAB_port + "/";
+      }
+      else {
+        url = "http://" + items.SAB_address + ":" + items.SAB_port + "/";
+      }
+
+      $('#sabnzbd core-toolbar a').attr('href', url);
+
+      $('#sabnzbd').show();
+      $('body').width($('body').width() + $('#sabnzbd').width());
+    }
   });
 });
 

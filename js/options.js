@@ -66,6 +66,7 @@ function save_options() {
     SAB_history: $('#SAB_history').val(),
     SABQ_refresh: $('#SABQ_refresh').val(),
     SABH_refresh: $('#SABH_refresh').val(),
+    DN_status: $('paper-checkbox[name=DN_status]').attr('aria-checked') == "true" ? true : false,
     DN_refresh: $('#DN_refresh').val(),
   }, function() {
     // Update status to let user know options were saved.
@@ -101,6 +102,7 @@ function restore_options() {
     SAB_history: '',
     SABQ_refresh: '',
     SABH_refresh: '',
+    DN_status: '',
     DN_refresh: ''
   }, function(items) {
     $('paper-checkbox[name=GC_status]').attr('checked', items.GC_status);
@@ -125,6 +127,7 @@ function restore_options() {
     $('#SAB_history').val(items.SAB_history);
     $('#SABQ_refresh').val(items.SABQ_refresh);
     $('#SABH_refresh').val(items.SABH_refresh);
+    $('paper-checkbox[name=DN_status]').attr('checked', items.DN_status);
     $('#DN_refresh').val(items.DN_refresh);
   });
 }

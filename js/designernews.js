@@ -2,19 +2,27 @@
 // http://developers.news.layervault.com/
 
 $(document).ready(function() {
-  dnShowData();
+  chrome.storage.sync.get({
+    DN_status: ''
+  }, function(items) {
+    console.log(items);
+    if (items.DN_status === true) {
+      dnShowData();
 
-  $('.refresh_dn').click(function() {
-    chrome.runtime.getBackgroundPage(function(backgroundPage) {
-      backgroundPage.getDesignerNewsData(function() {
-        dnShowData();
+      $('.refresh_dn').click(function() {
+        chrome.runtime.getBackgroundPage(function(backgroundPage) {
+          backgroundPage.getDesignerNewsData(function() {
+            dnShowData();
+          });
+        });
       });
-    });
+
+      $('#designernews core-toolbar a').attr('href', 'http://news.layervault.com');
+
+      $('#designernews').show();
+      $('body').width($('body').width() + $('#designernews').width());
+    }
   });
-
-
-  $('#designernews core-toolbar a').attr('href', 'http://news.layervault.com');
-
 });
 
 function dnShowData() {

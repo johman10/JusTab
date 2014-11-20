@@ -12,10 +12,9 @@ $(document).ready(function() {
           });
         });
       });
-    }
-    else {
-      $('#calendar').hide();
-      $('body').width($('body').width() - $('#calendar').width());
+
+      $('#calendar').show();
+      $('body').width($('body').width() + $('#calendar').width());
     }
   });
 });

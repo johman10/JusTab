@@ -2,28 +2,34 @@
 // http://sickbeard.com/api
 
 $(document).ready(function() {
-  sbShowData();
-
-  $('.refresh_sb').click(function() {
-    chrome.runtime.getBackgroundPage(function(backgroundPage) {
-      backgroundPage.getSickBeardData(function() {
-        sbShowData();
-      });
-    });
-  });
-
   chrome.storage.sync.get({
+    SB_status: '',
     SB_address: '',
     SB_port: ''
   }, function(items) {
-    if (items.SB_address.slice(0,7) == "http://") {
-      url = items.SB_address + ":" + items.SB_port + "/";
-    }
-    else {
-      url = "http://" + items.SB_address + ":" + items.SB_port + "/";
-    }
+    if (items.SB_status === true) {
+      sbShowData();
 
-    $('#sickbeard core-toolbar a').attr('href', url);
+      $('.refresh_sb').click(function() {
+        chrome.runtime.getBackgroundPage(function(backgroundPage) {
+          backgroundPage.getSickBeardData(function() {
+            sbShowData();
+          });
+        });
+      });
+
+      if (items.SB_address.slice(0,7) == "http://") {
+        url = items.SB_address + ":" + items.SB_port + "/";
+      }
+      else {
+        url = "http://" + items.SB_address + ":" + items.SB_port + "/";
+      }
+
+      $('#sickbeard core-toolbar a').attr('href', url);
+
+      $('#sickbeard').show();
+      $('body').width($('body').width() + $('#sickbeard').width());
+    }
   });
 });
 

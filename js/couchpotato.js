@@ -3,38 +3,44 @@
 
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
 $(document).ready(function() {
-  cpShowData();
-
-  $('.refresh_cp').click(function() {
-    chrome.runtime.getBackgroundPage(function(backgroundPage) {
-      backgroundPage.getCouchPotatoData(function() {
-        cpShowData();
-      });
-    });
-  });
-
   chrome.storage.sync.get({
+    CP_status: '',
     CP_address: '',
     CP_port: ''
   }, function(items) {
-    if (items.CP_address.slice(0,7) == "http://") {
-      url = items.CP_address + ":" + items.CP_port + "/";
+    if (items.CP_status === true) {
+      cpShowData();
+
+      $('.refresh_cp').click(function() {
+        chrome.runtime.getBackgroundPage(function(backgroundPage) {
+          backgroundPage.getCouchPotatoData(function() {
+            cpShowData();
+          });
+        });
+      });
+
+      if (items.CP_address.slice(0,7) == "http://") {
+        url = items.CP_address + ":" + items.CP_port + "/";
+      }
+      else {
+        url = "http://" + items.CP_address + ":" + items.CP_port + "/";
+      }
+
+      $('#couchpotato core-toolbar a').attr('href', url);
+
+      cpButtonContainerPosition();
+
+      $('#couchpotato').scroll(function(event) {
+        cpButtonContainerPosition();
+      });
+
+      $(window).resize(function(event) {
+        cpButtonContainerPosition();
+      });
+
+      $('#couchpotato').show();
+      $('body').width($('body').width() + $('#couchpotato').width());
     }
-    else {
-      url = "http://" + items.CP_address + ":" + items.CP_port + "/";
-    }
-
-    $('#couchpotato core-toolbar a').attr('href', url);
-  });
-
-  cpButtonContainerPosition();
-
-  $('#couchpotato').scroll(function(event) {
-    cpButtonContainerPosition();
-  });
-
-  $(window).resize(function(event) {
-    cpButtonContainerPosition();
   });
 
   // $('.cp_add_button').click(function() {

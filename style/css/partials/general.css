@@ -13,6 +13,7 @@ body {
 
 /* line 14, ../../sass/partials/general.scss */
 .panel {
+  display: none;
   float: left;
   width: 400px;
   height: 100vh;
@@ -22,24 +23,24 @@ body {
   white-space: nowrap;
 }
 
-/* line 24, ../../sass/partials/general.scss */
+/* line 25, ../../sass/partials/general.scss */
 .content {
   position: relative;
 }
 
-/* line 28, ../../sass/partials/general.scss */
+/* line 29, ../../sass/partials/general.scss */
 core-toolbar {
   background-color: transparent;
   color: white;
 }
 
-/* line 34, ../../sass/partials/general.scss */
+/* line 35, ../../sass/partials/general.scss */
 .middle a {
   color: white;
   text-decoration: none;
 }
 
-/* line 49, ../../sass/partials/general.scss */
+/* line 50, ../../sass/partials/general.scss */
 .queue,
 .history,
 .sb_missed,

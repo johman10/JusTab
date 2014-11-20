@@ -1,12 +1,21 @@
 $(document).ready(function() {
-  fbShowData();
+  chrome.storage.sync.get({
+    FB_status: ''
+  }, function(items) {
+    if (items.FB_status === true) {
+      fbShowData();
 
-  $('.refresh_fb').click(function() {
-    chrome.runtime.getBackgroundPage(function(backgroundPage) {
-      backgroundPage.getFacebookData(function() {
-        fbShowData();
+      $('.refresh_fb').click(function() {
+        chrome.runtime.getBackgroundPage(function(backgroundPage) {
+          backgroundPage.getFacebookData(function() {
+            fbShowData();
+          });
+        });
       });
-    });
+
+      $('#facebook').show();
+      $('body').width($('body').width() + $('#facebook').width());
+    }
   });
 });
 
