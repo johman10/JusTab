@@ -7,13 +7,13 @@ chrome.storage.sync.get({
   SABH_refresh: '',
   DN_refresh: ''
 }, function(items) {
-  chrome.alarms.create('googleCalendar', {periodInMinutes: items.GC_refresh});
-  chrome.alarms.create('facebook', {periodInMinutes: items.FB_refresh});
-  chrome.alarms.create('couchPotato', {periodInMinutes: items.CP_refresh});
-  chrome.alarms.create('sickBeard', {periodInMinutes: items.SB_refresh});
-  chrome.alarms.create('sabnzbdQueue', {periodInMinutes: items.SABQ_refresh});
-  chrome.alarms.create('sabnzbdHistory', {periodInMinutes: items.SABH_refresh});
-  chrome.alarms.create('designerNews', {periodInMinutes: items.DN_refresh});
+  chrome.alarms.create('googleCalendar', {periodInMinutes: parseFloat(items.GC_refresh)});
+  chrome.alarms.create('facebook', {periodInMinutes: parseFloat(items.FB_refresh)});
+  chrome.alarms.create('couchPotato', {periodInMinutes: parseFloat(items.CP_refresh)});
+  chrome.alarms.create('sickBeard', {periodInMinutes: parseFloat(items.SB_refresh)});
+  chrome.alarms.create('sabnzbdQueue', {periodInMinutes: parseFloat(items.SABQ_refresh)});
+  chrome.alarms.create('sabnzbdHistory', {periodInMinutes: parseFloat(items.SABH_refresh)});
+  chrome.alarms.create('designerNews', {periodInMinutes: parseFloat(items.DN_refresh)});
 });
 
 chrome.runtime.onStartup.addListener(

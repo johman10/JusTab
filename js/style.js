@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  var panelWidth = $('.panel').outerWidth() * $('.panel').length;
+  var panelWidth = $('.panel:visible').outerWidth() * $('.panel:visible').length;
   $('body').width(panelWidth);
 
   $('.panel').on('core-header-transform', function(e) {

@@ -1,12 +1,22 @@
 $(document).ready(function() {
-  calenderShowEvents();
+  chrome.storage.sync.get({
+    GC_status: ''
+  }, function(items) {
+    if (items.GC_status === true) {
+      calenderShowEvents();
 
-  $('.refresh_calendar').click(function() {
-    chrome.runtime.getBackgroundPage(function(backgroundPage) {
-      backgroundPage.getCalendarData(function() {
-        calenderShowEvents();
+      $('.refresh_calendar').click(function() {
+        chrome.runtime.getBackgroundPage(function(backgroundPage) {
+          backgroundPage.getCalendarData(function() {
+            calenderShowEvents();
+          });
+        });
       });
-    });
+    }
+    else {
+      $('#calendar').hide();
+      $('body').width($('body').width() - $('#calendar').width());
+    }
   });
 });
 
