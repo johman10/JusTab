@@ -32,8 +32,3 @@
 .tomorrow core-item:hover > a {
   display: block;
 }
-/* line 34, ../../sass/partials/calendar.scss */
-.today core-item,
-.tomorrow core-item {
-  padding: 0 16px;
-}

@@ -105,11 +105,6 @@
   display: block;
 }
 /* line 105, ../../sass/partials/couchpotato.scss */
-.wanted core-item,
-.snatched core-item {
-  padding: 0 16px;
-}
-/* line 109, ../../sass/partials/couchpotato.scss */
 .wanted core-icon-button,
 .snatched core-icon-button {
   background-color: white;

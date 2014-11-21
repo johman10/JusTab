@@ -11,3 +11,10 @@
   background-image: none;
   background-color: $sabnzbd-color;
 }
+
+.queue,
+.history {
+  h2 {
+    padding: 0 16px;
+  }
+}

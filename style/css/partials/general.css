@@ -29,23 +29,24 @@ body {
 }
 
 /* line 29, ../../sass/partials/general.scss */
+.error {
+  color: #f44336;
+  padding: 0 16px;
+}
+
+/* line 34, ../../sass/partials/general.scss */
 core-toolbar {
   background-color: transparent;
   color: white;
 }
 
-/* line 35, ../../sass/partials/general.scss */
+/* line 40, ../../sass/partials/general.scss */
 .middle a {
   color: white;
   text-decoration: none;
 }
 
 /* line 50, ../../sass/partials/general.scss */
-.queue,
-.history,
-.sb_missed,
-.sb_today,
-.sb_soon,
-.sb_later {
+core-item {
   padding: 0 16px;
 }

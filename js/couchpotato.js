@@ -144,6 +144,6 @@ function cpShowData() {
     }
   }
   else {
-    $('#couchpotato .snatched').append('<core-item label="There is a error connecting to Couchpotato."></core-item><core-item label="Please check your connection and your settings."></core-item>');
+    $('#couchpotato .snatched').append('<core-item class="error" label="There was an error connecting to Couchpotato."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
   }
 }

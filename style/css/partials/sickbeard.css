@@ -11,3 +11,11 @@
   background-image: none;
   background-color: #c7db40;
 }
+
+/* line 19, ../../sass/partials/sickbeard.scss */
+.sb_missed h2,
+.sb_today h2,
+.sb_soon h2,
+.sb_later h2 {
+  padding: 0 16px;
+}

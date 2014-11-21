@@ -52,24 +52,25 @@ body {
 }
 
 /* line 29, ../sass/partials/general.scss */
+.error {
+  color: #f44336;
+  padding: 0 16px;
+}
+
+/* line 34, ../sass/partials/general.scss */
 core-toolbar {
   background-color: transparent;
   color: white;
 }
 
-/* line 35, ../sass/partials/general.scss */
+/* line 40, ../sass/partials/general.scss */
 .middle a {
   color: white;
   text-decoration: none;
 }
 
 /* line 50, ../sass/partials/general.scss */
-.queue,
-.history,
-.sb_missed,
-.sb_today,
-.sb_soon,
-.sb_later {
+core-item {
   padding: 0 16px;
 }
 
@@ -180,11 +181,6 @@ core-toolbar {
   display: block;
 }
 /* line 105, ../sass/partials/couchpotato.scss */
-.wanted core-item,
-.snatched core-item {
-  padding: 0 16px;
-}
-/* line 109, ../sass/partials/couchpotato.scss */
 .wanted core-icon-button,
 .snatched core-icon-button {
   background-color: white;
@@ -228,6 +224,14 @@ core-toolbar {
   background-color: #c7db40;
 }
 
+/* line 19, ../sass/partials/sickbeard.scss */
+.sb_missed h2,
+.sb_today h2,
+.sb_soon h2,
+.sb_later h2 {
+  padding: 0 16px;
+}
+
 /* line 3, ../sass/partials/sabnzbd.scss */
 #sabnzbd::shadow #headerBg {
   background-image: url('/img/../img/SAB_header.png?1415198382');
@@ -240,6 +244,12 @@ core-toolbar {
 #sabnzbd::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #ffeb3b;
+}
+
+/* line 17, ../sass/partials/sabnzbd.scss */
+.queue h2,
+.history h2 {
+  padding: 0 16px;
 }
 
 /* line 3, ../sass/partials/calendar.scss */
@@ -275,11 +285,6 @@ core-toolbar {
 .today core-item:hover > a,
 .tomorrow core-item:hover > a {
   display: block;
-}
-/* line 34, ../sass/partials/calendar.scss */
-.today core-item,
-.tomorrow core-item {
-  padding: 0 16px;
 }
 
 /* line 3, ../sass/partials/designernews.scss */

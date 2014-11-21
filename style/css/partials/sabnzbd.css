@@ -11,3 +11,9 @@
   background-image: none;
   background-color: #ffeb3b;
 }
+
+/* line 17, ../../sass/partials/sabnzbd.scss */
+.queue h2,
+.history h2 {
+  padding: 0 16px;
+}

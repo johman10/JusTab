@@ -26,6 +26,11 @@ body {
   position: relative;
 }
 
+.error {
+  color: $error-color;
+  padding: 0 16px;
+}
+
 core-toolbar {
   background-color: transparent;
   color: $white;
@@ -42,11 +47,6 @@ core-toolbar {
 //   color: $white !important;
 // }
 
-.queue,
-.history,
-.sb_missed,
-.sb_today,
-.sb_soon,
-.sb_later {
+core-item {
   padding: 0 16px;
 }

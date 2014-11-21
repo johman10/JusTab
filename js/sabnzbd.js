@@ -55,7 +55,7 @@ function sabShowData() {
     }
   }
   else {
-    $('#sabnzbd .queue').append('<core-item label="There is a error connecting to SABnzbd queue."></core-item><core-item label="Please check your connection and your settings."></core-item>');
+    $('#sabnzbd .queue').append('<core-item class="error" label="There was an error connecting to SABnzbd queue."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
   }
 
   if (localStorage.SabnzbdHistory) {
@@ -72,6 +72,6 @@ function sabShowData() {
     }
   }
   else {
-    $('#sabnzbd .history').append('<core-item label="There is a error connecting to SABnzbd history."></core-item><core-item label="Please check your connection and your settings."></core-item>');
+    $('#sabnzbd .history').append('<core-item class="error" label="There was an error connecting to SABnzbd history."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
   }
 }
