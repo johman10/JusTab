@@ -40,8 +40,15 @@ function sabShowData() {
   $('.queue').empty();
   $('.history').empty();
 
+  var queueError = localStorage.getItem('SabnzbdQueue_error');
+  var historyError = localStorage.getItem('SabnzbdHistory_error');
+
   $('.history').append('<h2>History</h2>');
   $('.queue').append('<h2>Queue</h2>');
+
+  if (queueError == "true") {
+    $('#sabnzbd .queue').append('<core-item class="error" label="There was an error connecting to SABnzbd queue."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
+  }
 
   if (localStorage.SabnzbdQueue) {
     var queue = JSON.parse(localStorage.getItem('SabnzbdQueue'));
@@ -54,14 +61,13 @@ function sabShowData() {
       $('.queue').append("<core-item label='No items in queue at this moment.'></core-item>");
     }
   }
-  else {
-    $('#sabnzbd .queue').append('<core-item class="error" label="There was an error connecting to SABnzbd queue."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
+
+  if (historyError == "true") {
+    $('#sabnzbd .history').append('<core-item class="error" label="There was an error connecting to SABnzbd history."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
   }
 
   if (localStorage.SabnzbdHistory) {
     var history = JSON.parse(localStorage.getItem('SabnzbdHistory'));
-
-    console.log(history);
 
     $.each(history.history.slots, function(i) {
       $('.history').append("<core-item label='" + history.history.slots[i].name + "'></core-item>");
@@ -70,8 +76,5 @@ function sabShowData() {
     if (history.history.slots.length < 1) {
       $('.queue').append("<core-item label='No items in history at this moment.'></core-item>");
     }
-  }
-  else {
-    $('#sabnzbd .history').append('<core-item class="error" label="There was an error connecting to SABnzbd history."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
   }
 }

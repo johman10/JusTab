@@ -34,10 +34,17 @@ $(document).ready(function() {
 });
 
 function sbShowData() {
+  $('#sickbeard .error').remove();
   $('.sb_missed').empty();
   $('.sb_today').empty();
   $('.sb_soon').empty();
   $('.sb_later').empty();
+
+  var error = localStorage.getItem("Sickbeard_error");
+
+  if (error == "true") {
+    $('<core-item class="error" label="There was an error connecting to Sickbeard."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>').insertBefore('.sb_missed');
+  }
 
   if (localStorage.Sickbeard) {
     data = JSON.parse(localStorage.getItem('Sickbeard'));
@@ -81,8 +88,5 @@ function sbShowData() {
         $('.sb_later').append("<core-item label='" + date + " - " + data.data.later[i].show_name + "'></core-item>");
       });
     }
-  }
-  else {
-    $('#sickbeard .sb_missed').append('<core-item class="error" label="There was an error connecting to Sickbeard."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
   }
 }

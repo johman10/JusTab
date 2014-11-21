@@ -116,6 +116,12 @@ function cpShowData() {
   $('.wanted').empty();
   $('.snatched').empty();
 
+  var error = localStorage.getItem('Couchpotato_error');
+
+  if (error == "true") {
+    $('#couchpotato .snatched').append('<core-item class="error" label="There was an error connecting to Couchpotato."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
+  }
+
   if (localStorage.Couchpotato) {
     $('.snatched').append('<h2>Snatched and Available</h2>');
     $('.wanted').append('<h2>Wanted</h2>');
@@ -142,8 +148,5 @@ function cpShowData() {
     if (snatched.length <= 0) {
       $('.snatched').append("<core-item label='No snatched movies at this moment.'></core-item>");
     }
-  }
-  else {
-    $('#couchpotato .snatched').append('<core-item class="error" label="There was an error connecting to Couchpotato."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
   }
 }

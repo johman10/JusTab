@@ -27,10 +27,11 @@ function getCouchPotatoData(callback) {
         async: true,
         timeout: 3000,
         success: function(data) {
+          localStorage.setItem("Couchpotato_error", false);
           localStorage.setItem("Couchpotato", JSON.stringify(data));
         },
         error: function(xhr, ajaxOptions, thrownError) {
-          localStorage.setItem("Couchpotato", '');
+          localStorage.setItem("Couchpotato_error", true);
         }
       });
 

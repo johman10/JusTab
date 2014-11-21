@@ -26,10 +26,11 @@ function getSickBeardData(callback) {
         async: true,
         timeout: 3000,
         success: function(data) {
+          localStorage.setItem("Sickbeard_error", false);
           localStorage.setItem("Sickbeard", JSON.stringify(data));
         },
         error: function(xhr, ajaxOptions, thrownError) {
-          localStorage.setItem("Sickbeard", '');
+          localStorage.setItem("Sickbeard_error", true);
         }
       });
 
