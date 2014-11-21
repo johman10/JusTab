@@ -48,7 +48,7 @@ function sbShowData() {
 
   if (localStorage.Sickbeard) {
     data = JSON.parse(localStorage.getItem('Sickbeard'));
-    // console.log(data);
+    console.log(data);
 
     // Episodes missed
     if (data.data.missed.length > 0) {
@@ -56,7 +56,7 @@ function sbShowData() {
 
       $.each(data.data.missed, function(i) {
         var date = moment(data.data.missed[i].airdate).format("D-MM-YYYY");
-        $('.sb_missed').append("<core-item label='" + date + " - " + data.data.missed[i].show_name + "'></core-item>");
+        $('.sb_missed').append("<core-item label='" + date + " - " + data.data.missed[i].show_name + " S" + data.data.missed[i].season + "E" + data.data.missed[i].episode + "'></core-item>");
       });
     }
 
@@ -65,7 +65,7 @@ function sbShowData() {
       $('.sb_today').append('<h2>Today</h2>');
       $.each(data.data.today, function(i) {
         var date = moment(data.data.today[i].airdate).format("D-MM-YYYY");
-        $('.sb_today').append("<core-item label='" + date + " - " + data.data.today[i].show_name + "'></core-item>");
+        $('.sb_today').append("<core-item label='" + date + " - " + data.data.today[i].show_name + " S" + data.data.today[i].season + "E" + data.data.today[i].episode + "'></core-item>");
       });
     }
 
@@ -75,7 +75,7 @@ function sbShowData() {
 
       $.each(data.data.soon, function(i) {
         var date = moment(data.data.soon[i].airdate).format("D-MM-YYYY");
-        $('.sb_soon').append("<core-item label='" + date + " - " + data.data.soon[i].show_name + "'></core-item>");
+        $('.sb_soon').append("<core-item label='" + date + " - " + data.data.soon[i].show_name + " S" + data.data.soon[i].season + "E" + data.data.soon[i].episode + "'></core-item>");
       });
     }
 
@@ -85,7 +85,7 @@ function sbShowData() {
 
       $.each(data.data.later, function(i) {
         var date = moment(data.data.later[i].airdate).format("D-MM-YYYY");
-        $('.sb_later').append("<core-item label='" + date + " - " + data.data.later[i].show_name + "'></core-item>");
+        $('.sb_later').append("<core-item label='" + date + " - " + data.data.later[i].show_name + " S" + data.data.later[i].season + "E" + data.data.later[i].episode + "'></core-item>");
       });
     }
   }
