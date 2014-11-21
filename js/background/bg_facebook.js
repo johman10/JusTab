@@ -6,7 +6,7 @@ function getFacebookData(callback) {
     if (items.FB_status === true) {
       var url = items.FB_url;
 
-      $.ajax({
+      $.when($.ajax({
         type: "GET",
         url: url,
         dataType: 'xml',
@@ -20,11 +20,15 @@ function getFacebookData(callback) {
         error: function(xhr, ajaxOptions, thrownError) {
           localStorage.setItem("Facebook_error", true);
         }
+      })).then(function() {
+        if (callback) {
+          callback();
+        }
+      }, function() {
+        if (callback) {
+          callback();
+        }
       });
-
-      if (callback) {
-        callback();
-      }
     }
   });
 }

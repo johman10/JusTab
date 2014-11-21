@@ -25,7 +25,7 @@ function eventArray(url, token, callback) {
   events = [];
 
   $.each(url, function(i) {
-    $.ajax({
+    $.when($.ajax({
       url: url[i] + "?&oauth_token=" + token + "&timeMin=" + dateNow.toISOString() + "&timeMax=" + dateTomorrow.toISOString() + "&orderBy=startTime&singleEvents=true",
       dataType: 'json',
       async: false,
@@ -37,14 +37,18 @@ function eventArray(url, token, callback) {
       error: function(xhr, ajaxOptions, thrownError) {
         localStorage.setItem("Calendar_error", true);
       }
+    })).then(function() {
+      if (callback) {
+        callback();
+      }
+    }, function() {
+      if (callback) {
+        callback();
+      }
     });
 
     if (events.length > 0) {
       localStorage.setItem("Calendar", JSON.stringify(events));
     }
   });
-
-  if (callback) {
-    callback();
-  }
 }

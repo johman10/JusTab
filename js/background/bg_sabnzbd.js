@@ -24,7 +24,7 @@ function getSabnzbdHistory(callback) {
       var output = "&output=json";
       var apiKey = "&apikey=" + items.SAB_key;
 
-      $.ajax({
+      $.when($.ajax({
         url: url + historyMode + output + apiKey,
         dataType: 'json',
         async: true,
@@ -36,11 +36,15 @@ function getSabnzbdHistory(callback) {
         error: function(xhr, ajaxOptions, thrownError) {
           localStorage.setItem("SabnzbdHistory_error", true);
         }
+      })).then(function() {
+        if (callback) {
+          callback();
+        }
+      }, function() {
+        if (callback) {
+          callback();
+        }
       });
-
-      if (callback) {
-        callback();
-      }
     }
   });
 }
@@ -67,7 +71,7 @@ function getSabnzbdQueue(callback) {
       var output = "&output=json";
       var apiKey = "&apikey=" + items.SAB_key;
 
-      $.ajax({
+      $.when($.ajax({
         url: url + queueMode + output + apiKey,
         dataType: 'json',
         async: true,
@@ -79,11 +83,15 @@ function getSabnzbdQueue(callback) {
         error: function(xhr, ajaxOptions, thrownError) {
           localStorage.setItem("SabnzbdQueue_error", true);
         }
+      })).then(function() {
+        if (callback) {
+          callback();
+        }
+      }, function() {
+        if (callback) {
+          callback();
+        }
       });
-    }
-
-    if (callback) {
-      callback();
     }
   });
 }

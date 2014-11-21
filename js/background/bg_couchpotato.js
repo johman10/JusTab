@@ -21,7 +21,7 @@ function getCouchPotatoData(callback) {
       var apiKey = "api/" + items.CP_key + "/";
       var apiCall = "media.list/";
 
-      $.ajax({
+      $.when($.ajax({
         url: url + apiKey + apiCall,
         dataType: 'json',
         async: true,
@@ -33,11 +33,15 @@ function getCouchPotatoData(callback) {
         error: function(xhr, ajaxOptions, thrownError) {
           localStorage.setItem("Couchpotato_error", true);
         }
+      })).then(function() {
+        if (callback) {
+          callback();
+        }
+      }, function() {
+        if (callback) {
+          callback();
+        }
       });
-
-      if (callback) {
-        callback();
-      }
     }
   });
 }

@@ -20,7 +20,7 @@ function getSickBeardData(callback) {
       var apiKey = "api/" + items.SB_key + "/";
       var apiCall = "?cmd=future&sort=date&type=today|missed|soon|later";
 
-      $.ajax({
+      $.when($.ajax({
         url: url + apiKey + apiCall,
         dataType: 'json',
         async: true,
@@ -32,11 +32,15 @@ function getSickBeardData(callback) {
         error: function(xhr, ajaxOptions, thrownError) {
           localStorage.setItem("Sickbeard_error", true);
         }
+      })).then(function() {
+        if (callback) {
+          callback();
+        }
+      }, function() {
+        if (callback) {
+          callback();
+        }
       });
-
-      if (callback) {
-        callback();
-      }
     }
   });
 }

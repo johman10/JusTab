@@ -10,7 +10,7 @@ function getDesignerNewsData(callback) {
       var apiCall = "stories";
       var apiKey = "?client_id=e7c9f9422feb744c661cc25a248d3b7206962f0605e174ae30aab12a05fb107a";
 
-      $.ajax({
+      $.when($.ajax({
         url: url + apiCall + apiKey,
         dataType: 'json',
         async: true,
@@ -22,11 +22,15 @@ function getDesignerNewsData(callback) {
         error: function(xhr, ajaxOptions, thrownError) {
           localStorage.setItem("Designernews_error", true);
         }
+      })).then(function() {
+        if (callback) {
+          callback();
+        }
+      }, function() {
+        if (callback) {
+          callback();
+        }
       });
-
-      if (callback) {
-        callback();
-      }
     }
   });
 }
