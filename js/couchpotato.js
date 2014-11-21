@@ -119,7 +119,10 @@ function cpShowData() {
   var error = localStorage.getItem('Couchpotato_error');
 
   if (error == "true") {
-    $('#couchpotato .snatched').append('<core-item class="error" label="There was an error connecting to Couchpotato."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
+    $('#couchpotato .error').slideDown('slow');
+  }
+  if (error == "false") {
+    $('#couchpotato .error').slideUp('slow');
   }
 
   if (localStorage.Couchpotato) {

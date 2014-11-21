@@ -27,7 +27,10 @@ function calenderShowEvents() {
   var error = localStorage.getItem('Calendar_error');
 
   if (error == "true") {
-    $('#calendar .today').append('<core-item class="error" label="There was an error connecting to Google Calendar."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
+    $('#calendar .error').slideDown('slow');
+  }
+  if (error == "false") {
+    $('#calendar .error').slideUp('slow');
   }
 
   if (localStorage.Calendar) {

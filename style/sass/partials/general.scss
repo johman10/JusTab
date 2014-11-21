@@ -27,8 +27,11 @@ body {
 }
 
 .error {
-  color: $error-color;
-  padding: 0 16px;
+  white-space: normal;
+  background-color: #323232;
+  color: $white;
+  padding: 15px 16px;
+  display: none;
 }
 
 core-toolbar {

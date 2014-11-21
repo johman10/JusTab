@@ -30,23 +30,26 @@ body {
 
 /* line 29, ../../sass/partials/general.scss */
 .error {
-  color: #f44336;
-  padding: 0 16px;
+  white-space: normal;
+  background-color: #323232;
+  color: white;
+  padding: 15px 16px;
+  display: none;
 }
 
-/* line 34, ../../sass/partials/general.scss */
+/* line 37, ../../sass/partials/general.scss */
 core-toolbar {
   background-color: transparent;
   color: white;
 }
 
-/* line 40, ../../sass/partials/general.scss */
+/* line 43, ../../sass/partials/general.scss */
 .middle a {
   color: white;
   text-decoration: none;
 }
 
-/* line 50, ../../sass/partials/general.scss */
+/* line 53, ../../sass/partials/general.scss */
 core-item {
   padding: 0 16px;
 }

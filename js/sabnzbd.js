@@ -46,8 +46,11 @@ function sabShowData() {
   $('.history').append('<h2>History</h2>');
   $('.queue').append('<h2>Queue</h2>');
 
-  if (queueError == "true") {
-    $('#sabnzbd .queue').append('<core-item class="error" label="There was an error connecting to SABnzbd queue."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
+  if (queueError == "true" || historyError == "true") {
+    $('#sabnzbd .error').slideDown('slow');
+  }
+  else {
+    $('#sabnzbd .error').slideUp('slow');
   }
 
   if (localStorage.SabnzbdQueue) {
@@ -60,10 +63,6 @@ function sabShowData() {
     if (queue.queue.slots.length < 1) {
       $('.queue').append("<core-item label='No items in queue at this moment.'></core-item>");
     }
-  }
-
-  if (historyError == "true") {
-    $('#sabnzbd .history').append('<core-item class="error" label="There was an error connecting to SABnzbd history."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
   }
 
   if (localStorage.SabnzbdHistory) {

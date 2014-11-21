@@ -24,7 +24,10 @@ function fbShowData() {
   var error = localStorage.getItem('Facebook_error');
 
   if (error == "true") {
-    $('#facebook .notifications').append('<core-item class="error" label="There was an error connecting to Facebook."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
+    $('#facebook .error').slideDown('slow');
+  }
+  if (error == "false") {
+    $('#facebook .error').slideUp('slow');
   }
 
   if (localStorage.Facebook) {

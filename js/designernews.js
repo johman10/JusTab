@@ -29,7 +29,10 @@ function dnShowData() {
   var error = localStorage.getItem('Designernews_error');
 
   if (error == "true") {
-    $('#designernews .dn_links').append('<core-item class="error" label="There was an error connecting to Designernews."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>');
+    $('#designernews .error').slideDown('slow');
+  }
+  if (error == "false") {
+    $('#designernews .error').slideUp('slow');
   }
 
   if (localStorage.Designernews) {

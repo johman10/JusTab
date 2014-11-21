@@ -34,7 +34,6 @@ $(document).ready(function() {
 });
 
 function sbShowData() {
-  $('#sickbeard .error').remove();
   $('.sb_missed').empty();
   $('.sb_today').empty();
   $('.sb_soon').empty();
@@ -43,12 +42,15 @@ function sbShowData() {
   var error = localStorage.getItem("Sickbeard_error");
 
   if (error == "true") {
-    $('<core-item class="error" label="There was an error connecting to Sickbeard."></core-item><core-item class="error" label="Please check your connection and your settings."></core-item>').insertBefore('.sb_missed');
+    $('#sickbeard .error').slideDown('slow');
+  }
+  if (error == "false") {
+    $('#sickbeard .error').slideUp('slow');
   }
 
   if (localStorage.Sickbeard) {
     data = JSON.parse(localStorage.getItem('Sickbeard'));
-    console.log(data);
+    // console.log(data);
 
     // Episodes missed
     if (data.data.missed.length > 0) {
