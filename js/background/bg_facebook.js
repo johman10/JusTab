@@ -14,10 +14,11 @@ function getFacebookData(callback) {
         async: false,
         timeout: 3000,
         success: function(xml) {
+          localStorage.setItem("Facebook_error", false);
           localStorage.setItem("Facebook", (new XMLSerializer()).serializeToString(xml));
         },
         error: function(xhr, ajaxOptions, thrownError) {
-          localStorage.setItem("Facebook", '');
+          localStorage.setItem("Facebook_error", true);
         }
       });
 

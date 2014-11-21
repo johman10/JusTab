@@ -20,12 +20,17 @@ $(document).ready(function() {
 });
 
 function calenderShowEvents() {
+  $('#calendar .today').empty();
+  $('#calendar .tomorrow').empty();
+
   var events = JSON.parse(localStorage.getItem('Calendar'));
+  var error = localStorage.getItem('Calendar_error');
 
-  if (events.length !== 0) {
-    $('#calendar .today').empty();
-    $('#calendar .tomorrow').empty();
+  if (error == "true") {
+    $('#calendar .today').append('<core-item label="There is a error connecting to Google Calendar."></core-item><core-item label="Please check your connection and your settings."></core-item>');
+  }
 
+  if (localStorage.Calendar) {
     var today = new Date();
 
     $('#calendar .today').append("<h2>Today</h2>");
@@ -53,8 +58,5 @@ function calenderShowEvents() {
         $('#calendar .tomorrow').append('<core-item label="' + events[i].summary + '"><a href="' + events[i].htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
       }
     });
-  }
-  else {
-    $('#calendar .today').append('<core-item label="There is a error connecting to Google Calendar."></core-item><core-item label="Please check your connection and your settings."></core-item>');
   }
 }

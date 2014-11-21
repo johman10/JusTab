@@ -21,6 +21,11 @@ $(document).ready(function() {
 
 function fbShowData() {
   $('.notifications').empty();
+  var error = localStorage.getItem('Facebook_error');
+
+  if (error == "true") {
+    $('#facebook .notifications').append('<core-item label="There is a error connecting to Facebook."></core-item><core-item label="Please check your connection and your settings."></core-item>');
+  }
 
   if (localStorage.Facebook) {
     data = $.parseXML(localStorage.getItem('Facebook'));
@@ -34,8 +39,5 @@ function fbShowData() {
         '<core-item><a href="' + link + '" target="_blank" fit>' + title + '<paper-ripple fit></paper-ripple></a></core-item>'
       );
     });
-  }
-  else {
-    $('#Facebook .notifications').append('<core-item label="There is a error connecting to Facebook."></core-item><core-item label="Please check your connection and your settings."></core-item>');
   }
 }

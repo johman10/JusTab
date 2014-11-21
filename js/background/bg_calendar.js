@@ -31,15 +31,18 @@ function eventArray(url, token, callback) {
       async: false,
       timeout: 3000,
       success: function(data) {
+        localStorage.setItem("Calendar_error", false);
         events = $.merge(events, data.items);
       },
       error: function(xhr, ajaxOptions, thrownError) {
-        events = $.merge(events, '');
+        localStorage.setItem("Calendar_error", true);
       }
     });
-  });
 
-  localStorage.setItem("Calendar", JSON.stringify(events));
+    if (events.length > 0) {
+      localStorage.setItem("Calendar", JSON.stringify(events));
+    }
+  });
 
   if (callback) {
     callback();
