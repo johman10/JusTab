@@ -5,7 +5,6 @@ $(document).ready(function() {
   chrome.storage.sync.get({
     DN_status: ''
   }, function(items) {
-    console.log(items);
     if (items.DN_status === true) {
       dnShowData();
 
@@ -27,6 +26,11 @@ $(document).ready(function() {
 
 function dnShowData() {
   $('.dn_links').empty();
+  var error = localStorage.getItem('Designernews_error');
+
+  if (error == "true") {
+    $('#designernews .dn_links').append('<core-item label="There is a error connecting to Designernews."></core-item><core-item label="Please check your connection and your settings."></core-item>');
+  }
 
   if (localStorage.Designernews) {
     data = JSON.parse(localStorage.getItem('Designernews'));
@@ -37,8 +41,5 @@ function dnShowData() {
         // '<p><a href="' + data.stories[i].url + '" target="_blank">' + data.stories[i].title + '</a></p>'
       );
     });
-  }
-  else {
-    $('#designernews .dn_links').append('<core-item label="There is a error connecting to Designernews."></core-item><core-item label="Please check your connection and your settings."></core-item>');
   }
 }

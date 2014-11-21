@@ -16,10 +16,11 @@ function getDesignerNewsData(callback) {
         async: true,
         timeout: 5000,
         success: function(data) {
+          localStorage.setItem("Designernews_error", false);
           localStorage.setItem("Designernews", JSON.stringify(data));
         },
         error: function(xhr, ajaxOptions, thrownError) {
-          localStorage.setItem("Designernews", '');
+          localStorage.setItem("Designernews_error", true);
         }
       });
 
