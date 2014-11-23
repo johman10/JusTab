@@ -46,6 +46,9 @@ function save_options() {
     GC_status: $('paper-checkbox[name=GC_status]').attr('aria-checked') == "true" ? true : false,
     calendars: calendars,
     GC_refresh: $('#GC_refresh').val(),
+    GM_status: $('paper-checkbox[name=GM_status]').attr('aria-checked') == "true" ? true : false,
+    GM_email: $('#GM_email').val(),
+    GM_refresh: $('#GM_refresh').val(),
     FB_status: $('paper-checkbox[name=FB_status]').attr('aria-checked') == "true" ? true : false,
     FB_url: $('#FB_url').val(),
     FB_refresh: $('#FB_refresh').val(),
@@ -81,32 +84,38 @@ function save_options() {
 function restore_options() {
   chrome.storage.sync.get({
     GC_status: '',
-    GC_refresh: '',
+    GC_refresh: '15',
+    GM_status: '',
+    GM_email: '',
+    GM_refresh: '15',
     FB_status: '',
     FB_url: '',
-    FB_refresh: '',
+    FB_refresh: '15',
     CP_status: '',
     CP_address: '',
     CP_port: '',
     CP_key: '',
-    CP_refresh: '',
+    CP_refresh: '15',
     SB_status: '',
     SB_address: '',
     SB_port: '',
     SB_key: '',
-    SB_refresh: '',
+    SB_refresh: '15',
     SAB_status: '',
     SAB_address: '',
     SAB_port: '',
     SAB_key: '',
     SAB_history: '',
-    SABQ_refresh: '',
-    SABH_refresh: '',
+    SABQ_refresh: '1',
+    SABH_refresh: '15',
     DN_status: '',
-    DN_refresh: ''
+    DN_refresh: '15'
   }, function(items) {
     $('paper-checkbox[name=GC_status]').attr('checked', items.GC_status);
     $('#GC_refresh').val(items.GC_refresh);
+    $('paper-checkbox[name=GM_status]').attr('checked', items.GM_status);
+    $('#GM_email').val(items.GM_email);
+    $('#GM_refresh').val(items.GM_refresh);
     $('paper-checkbox[name=FB_status]').attr('checked', items.FB_status);
     $('#FB_url').val(items.FB_url);
     $('#FB_refresh').val(items.FB_refresh);

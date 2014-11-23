@@ -1,5 +1,6 @@
 chrome.storage.sync.get({
   GC_refresh: '',
+  GM_refresh: '',
   FB_refresh: '',
   CP_refresh: '',
   SB_refresh: '',
@@ -8,6 +9,7 @@ chrome.storage.sync.get({
   DN_refresh: ''
 }, function(items) {
   chrome.alarms.create('googleCalendar', {periodInMinutes: parseFloat(items.GC_refresh)});
+  // chrome.alarms.create('gmail', {periodInMinutes: parseFloat(items.GM_refresh)});
   chrome.alarms.create('facebook', {periodInMinutes: parseFloat(items.FB_refresh)});
   chrome.alarms.create('couchPotato', {periodInMinutes: parseFloat(items.CP_refresh)});
   chrome.alarms.create('sickBeard', {periodInMinutes: parseFloat(items.SB_refresh)});
@@ -17,19 +19,23 @@ chrome.storage.sync.get({
 });
 
 chrome.runtime.onStartup.addListener(
-  getCouchPotatoData(),
+  getCalendarData(),
+  // getGmailData(),
   getFacebookData(),
+  getCouchPotatoData(),
   getSickBeardData(),
   getSabnzbdHistory(),
   getSabnzbdQueue(),
-  getDesignerNewsData(),
-  getCalendarData()
+  getDesignerNewsData()
 );
 
 chrome.alarms.onAlarm.addListener(function(alarm) {
   if (alarm.name == 'googleCalendar') {
     getCalendarData();
   }
+  // else if (alarm.name == 'gmail') {
+  //   getGmailData();
+  // }
   else if (alarm.name == 'facebook') {
     getFacebookData();
   }
