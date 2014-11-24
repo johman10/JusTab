@@ -11,9 +11,17 @@ $(document).ready(function() {
       sbShowData();
 
       $('.refresh_sb').click(function() {
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getSickBeardData(function() {
-            sbShowData();
+        $('.refresh_sb').fadeOut(400, function() {
+          $('.loading_sb').attr('active', true);
+          chrome.runtime.getBackgroundPage(function(backgroundPage) {
+            backgroundPage.getSickBeardData(function() {
+              $.when(sbShowData()).done(function() {
+                $('.loading_sb').attr('active', false);
+                setTimeout(function() {
+                  $('.refresh_sb').fadeIn(400);
+                }, 400);
+              });
+            });
           });
         });
       });

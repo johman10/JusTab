@@ -12,9 +12,17 @@ $(document).ready(function() {
       cpShowData();
 
       $('.refresh_cp').click(function() {
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getCouchPotatoData(function() {
-            cpShowData();
+        $('.refresh_cp').fadeOut(400, function() {
+          $('.loading_cp').attr('active', true);
+          chrome.runtime.getBackgroundPage(function(backgroundPage) {
+            backgroundPage.getCouchPotatoData(function() {
+              $.when(cpShowData()).done(function() {
+                $('.loading_cp').attr('active', false);
+                setTimeout(function() {
+                  $('.refresh_cp').fadeIn(400);
+                }, 400);
+              });
+            });
           });
         });
       });

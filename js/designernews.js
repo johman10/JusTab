@@ -9,9 +9,17 @@ $(document).ready(function() {
       dnShowData();
 
       $('.refresh_dn').click(function() {
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getDesignerNewsData(function() {
-            dnShowData();
+        $('.refresh_dn').fadeOut(400, function() {
+          $('.loading_dn').attr('active', true);
+          chrome.runtime.getBackgroundPage(function(backgroundPage) {
+            backgroundPage.getDesignerNewsData(function() {
+              $.when(dnShowData()).done(function() {
+                $('.loading_dn').attr('active', false);
+                setTimeout(function() {
+                  $('.refresh_dn').fadeIn(400);
+                }, 400);
+              });
+            });
           });
         });
       });

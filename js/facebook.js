@@ -6,9 +6,17 @@ $(document).ready(function() {
       fbShowData();
 
       $('.refresh_fb').click(function() {
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getFacebookData(function() {
-            fbShowData();
+        $('.refresh_fb').fadeOut(400, function() {
+          $('.loading_fb').attr('active', true);
+          chrome.runtime.getBackgroundPage(function(backgroundPage) {
+            backgroundPage.getFacebookData(function() {
+              $.when(fbShowData()).done(function() {
+                $('.loading_fb').attr('active', false);
+                setTimeout(function() {
+                  $('.refresh_fb').fadeIn(400);
+                }, 400);
+              });
+            });
           });
         });
       });

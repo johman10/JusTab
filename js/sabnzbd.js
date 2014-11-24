@@ -12,10 +12,18 @@ $(document).ready(function() {
       sabShowData();
 
       $('.refresh_sab').click(function() {
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getSabnzbdHistory(function() {
-            backgroundPage.getSabnzbdQueue(function() {
-              sabShowData();
+        $('.refresh_sab').fadeOut(400, function() {
+          $('.loading_sab').attr('active', true);
+          chrome.runtime.getBackgroundPage(function(backgroundPage) {
+            backgroundPage.getSabnzbdHistory(function() {
+              backgroundPage.getSabnzbdQueue(function() {
+                $.when(sabShowData()).done(function() {
+                  $('.loading_sab').attr('active', false);
+                  setTimeout(function() {
+                    $('.refresh_sab').fadeIn(400);
+                  }, 400);
+                });
+              });
             });
           });
         });
