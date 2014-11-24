@@ -6,9 +6,17 @@ $(document).ready(function() {
       calenderShowEvents();
 
       $('.refresh_calendar').click(function() {
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getCalendarData(function() {
-            calenderShowEvents();
+        $('.refresh_calendar').fadeOut(300, function() {
+          $('.loading_calendar').attr('active', true);
+          chrome.runtime.getBackgroundPage(function(backgroundPage) {
+            backgroundPage.getCalendarData(function() {
+              $.when(calenderShowEvents()).done(function() {
+                $('.loading_calendar').attr('active', false);
+                setTimeout(function() {
+                  $('.refresh_calendar').fadeIn(300);
+                }, 300);
+              });
+            });
           });
         });
       });

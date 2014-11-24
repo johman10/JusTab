@@ -8,6 +8,7 @@
   <link rel="import" href="bower_components/paper-input/paper-input.html">
   <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
   <link rel="import" href="bower_components/paper-button/paper-button.html">
+  <link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
   <link href='http://fonts.googleapis.com/css?family=RobotoDraft:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en' rel='stylesheet' type='text/css'>
   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="bower_components/moment/min/moment.min.js" type="text/javascript" charset="utf-8" defer></script>
@@ -33,6 +34,10 @@
       <core-toolbar class="medium-tall" animate>
         <div class="top">
           <paper-icon-button class="refresh_button refresh_calendar" icon="refresh"></paper-icon-button>
+          <!-- <svg class="loading_icon loading_calendar" width="24px" height="24px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+            <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+          </svg> -->
+          <paper-spinner class="loading_icon loading_calendar"></paper-spinner>
         </div>
         <div class="middle">
           <a href="http://www.google.com/calendar">Calendar</a>
