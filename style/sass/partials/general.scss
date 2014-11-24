@@ -15,6 +15,7 @@ body {
 
 .loading_icon::shadow .circle {
   border-color: $white;
+  border-width: 2px;
 }
 
 .cleardiv {

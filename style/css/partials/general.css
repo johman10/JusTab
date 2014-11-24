@@ -16,14 +16,15 @@ body {
 /* line 16, ../../sass/partials/general.scss */
 .loading_icon::shadow .circle {
   border-color: white;
+  border-width: 2px;
 }
 
-/* line 20, ../../sass/partials/general.scss */
+/* line 21, ../../sass/partials/general.scss */
 .cleardiv {
   clear: both;
 }
 
-/* line 24, ../../sass/partials/general.scss */
+/* line 25, ../../sass/partials/general.scss */
 .panel {
   display: none;
   float: left;
@@ -35,12 +36,12 @@ body {
   white-space: nowrap;
 }
 
-/* line 35, ../../sass/partials/general.scss */
+/* line 36, ../../sass/partials/general.scss */
 .content {
   position: relative;
 }
 
-/* line 39, ../../sass/partials/general.scss */
+/* line 40, ../../sass/partials/general.scss */
 .error {
   white-space: normal;
   background-color: #323232;
@@ -49,19 +50,19 @@ body {
   display: none;
 }
 
-/* line 47, ../../sass/partials/general.scss */
+/* line 48, ../../sass/partials/general.scss */
 core-toolbar {
   background-color: transparent;
   color: white;
 }
 
-/* line 53, ../../sass/partials/general.scss */
+/* line 54, ../../sass/partials/general.scss */
 .middle a {
   color: white;
   text-decoration: none;
 }
 
-/* line 63, ../../sass/partials/general.scss */
+/* line 64, ../../sass/partials/general.scss */
 core-item {
   padding: 0 16px;
 }
