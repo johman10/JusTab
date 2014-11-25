@@ -15,6 +15,12 @@ $(document).ready(function() {
       refreshButton.show();
     }
   });
+
+  $('.settings_button').click(function(event) {
+    chrome.tabs.create({
+      'url': chrome.extension.getURL("options_build.html")
+    });
+  });
 });
 
 // addEventListener('drag-start', function(e) {
