@@ -4,6 +4,7 @@ body {
   font-family: 'Roboto';
   font-weight: 200;
   font-size: 14px;
+  color: $text-color;
 }
 
 h2 {
@@ -17,5 +18,5 @@ h2 {
 }
 
 p {
-  margin: 3px;
+  margin: 3px 0;
 }

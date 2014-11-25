@@ -36,15 +36,15 @@ $(document).ready(function() {
 
       $('#couchpotato core-toolbar a').attr('href', url);
 
-      cpButtonContainerPosition();
+      // cpButtonContainerPosition();
 
-      $('#couchpotato').scroll(function(event) {
-        cpButtonContainerPosition();
-      });
+      // $('#couchpotato').scroll(function(event) {
+      //   cpButtonContainerPosition();
+      // });
 
-      $(window).resize(function(event) {
-        cpButtonContainerPosition();
-      });
+      // $(window).resize(function(event) {
+      //   cpButtonContainerPosition();
+      // });
 
       $('#couchpotato').show();
       $('body').width($('body').width() + $('#couchpotato').width());

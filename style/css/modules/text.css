@@ -3,9 +3,10 @@ body {
   font-family: 'Roboto';
   font-weight: 200;
   font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 9, ../../sass/modules/text.scss */
+/* line 10, ../../sass/modules/text.scss */
 h2 {
   height: 40px;
   line-height: 40px;
@@ -16,7 +17,7 @@ h2 {
   margin: 0;
 }
 
-/* line 19, ../../sass/modules/text.scss */
+/* line 20, ../../sass/modules/text.scss */
 p {
-  margin: 3px;
+  margin: 3px 0;
 }

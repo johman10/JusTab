@@ -3,9 +3,10 @@ body {
   font-family: 'Roboto';
   font-weight: 200;
   font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 9, ../sass/modules/text.scss */
+/* line 10, ../sass/modules/text.scss */
 h2 {
   height: 40px;
   line-height: 40px;
@@ -16,9 +17,9 @@ h2 {
   margin: 0;
 }
 
-/* line 19, ../sass/modules/text.scss */
+/* line 20, ../sass/modules/text.scss */
 p {
-  margin: 3px;
+  margin: 3px 0;
 }
 
 /* line 3, ../sass/partials/general.scss */
@@ -62,6 +63,7 @@ body {
 
 /* line 38, ../sass/partials/general.scss */
 .panel {
+  background-color: #fafafa;
   display: none;
   float: left;
   width: 400px;
@@ -72,33 +74,37 @@ body {
   white-space: nowrap;
 }
 
-/* line 49, ../sass/partials/general.scss */
+/* line 50, ../sass/partials/general.scss */
 .content {
   position: relative;
 }
 
-/* line 53, ../sass/partials/general.scss */
+/* line 54, ../sass/partials/general.scss */
 .error {
   white-space: normal;
   background-color: #323232;
   color: white;
-  padding: 15px 16px;
+  padding: 15px 16px 10px;
   display: none;
 }
-
 /* line 61, ../sass/partials/general.scss */
+.error paper-button {
+  float: right;
+}
+
+/* line 66, ../sass/partials/general.scss */
 core-toolbar {
   background-color: transparent;
   color: white;
 }
 
-/* line 67, ../sass/partials/general.scss */
+/* line 72, ../sass/partials/general.scss */
 .middle a {
   color: white;
   text-decoration: none;
 }
 
-/* line 77, ../sass/partials/general.scss */
+/* line 82, ../sass/partials/general.scss */
 core-item {
   padding: 0 16px;
 }
@@ -115,11 +121,6 @@ core-item {
 #couchpotato::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #4e5969;
-}
-
-/* line 15, ../sass/partials/couchpotato.scss */
-#couchpotato .content {
-  padding-bottom: 56px;
 }
 
 /* line 19, ../sass/partials/couchpotato.scss */

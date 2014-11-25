@@ -12,11 +12,6 @@
   background-color: #4e5969;
 }
 
-/* line 15, ../../sass/partials/couchpotato.scss */
-#couchpotato .content {
-  padding-bottom: 56px;
-}
-
 /* line 19, ../../sass/partials/couchpotato.scss */
 .cp_button_container {
   position: absolute;

@@ -16,10 +16,15 @@ $(document).ready(function() {
     }
   });
 
-  $('.settings_button').click(function(event) {
+  $('.settings_button, .error_settings_button').click(function(event) {
     chrome.tabs.create({
       'url': chrome.extension.getURL("options_build.html")
     });
+  });
+
+  $('.error_retry_button').click(function(event) {
+    var refresh_button = $(this).closest('.content').prev('core-toolbar').find('.refresh_button');
+    refresh_button.click();
   });
 });
 
