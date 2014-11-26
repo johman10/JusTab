@@ -11,6 +11,9 @@ $(document).ready(function() {
       sbShowData();
 
       $('.refresh_sb').click(function() {
+        if ($('#sickbeard .error:visible')) {
+          $('#sickbeard .error:visible').slideUp(400);
+        }
         $('.refresh_sb').fadeOut(400, function() {
           $('.loading_sb').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {

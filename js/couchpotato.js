@@ -12,6 +12,9 @@ $(document).ready(function() {
       cpShowData();
 
       $('.refresh_cp').click(function() {
+        if ($('#couchpotato .error:visible')) {
+          $('#couchpotato .error:visible').slideUp(400);
+        }
         $('.refresh_cp').fadeOut(400, function() {
           $('.loading_cp').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {

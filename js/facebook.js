@@ -6,6 +6,9 @@ $(document).ready(function() {
       fbShowData();
 
       $('.refresh_fb').click(function() {
+        if ($('#facebook .error:visible')) {
+          $('#facebook .error:visible').slideUp(400);
+        }
         $('.refresh_fb').fadeOut(400, function() {
           $('.loading_fb').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {

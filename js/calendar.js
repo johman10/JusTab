@@ -6,6 +6,9 @@ $(document).ready(function() {
       calenderShowEvents();
 
       $('.refresh_calendar').click(function() {
+        if ($('#calendar .error:visible')) {
+          $('#calendar .error:visible').slideUp(400);
+        }
         $('.refresh_calendar').fadeOut(400, function() {
           $('.loading_calendar').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {

@@ -9,6 +9,9 @@ $(document).ready(function() {
       dnShowData();
 
       $('.refresh_dn').click(function() {
+        if ($('#designernews .error:visible')) {
+          $('#designernews .error:visible').slideUp(400);
+        }
         $('.refresh_dn').fadeOut(400, function() {
           $('.loading_dn').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {

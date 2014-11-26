@@ -12,6 +12,9 @@ $(document).ready(function() {
       sabShowData();
 
       $('.refresh_sab').click(function() {
+        if ($('#sabnzbd .error:visible')) {
+          $('#sabnzbd .error:visible').slideUp(400);
+        }
         $('.refresh_sab').fadeOut(400, function() {
           $('.loading_sab').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
