@@ -82,8 +82,8 @@ body {
 /* line 54, ../sass/partials/general.scss */
 .error {
   white-space: normal;
-  background-color: #323232;
-  color: white;
+  background-color: #eee;
+  color: black;
   padding: 15px 16px 10px;
   display: none;
 }

@@ -4297,12 +4297,14 @@ polyfill-next-selector {
         </div>
       </core-toolbar>
       <div class="content">
-        <div class="error">
-          <p>There was an error connecting to Google Calendar. Please check your connection and your settings.</p>
-          <paper-button class="error_settings_button">Settings</paper-button>
-          <paper-button class="error_retry_button">Retry</paper-button>
-          <div class="cleardiv"></div>
-        </div>
+        <paper-shadow z="1">
+          <div class="error">
+            <p>There was an error connecting to Google Calendar. Please check your connection and your settings.</p>
+            <paper-button class="error_settings_button">Settings</paper-button>
+            <paper-button class="error_retry_button">Retry</paper-button>
+            <div class="cleardiv"></div>
+          </div>
+        </paper-shadow>
         <div class="today"></div>
         <div class="tomorrow"></div>
       </div>
