@@ -262,6 +262,11 @@ core-item {
   padding: 0 16px;
 }
 
+/* line 24, ../sass/partials/sickbeard.scss */
+.sb_collapse {
+  padding: 0 16px;
+}
+
 /* line 3, ../sass/partials/sabnzbd.scss */
 #sabnzbd::shadow #headerBg {
   background-image: url('/img/../img/SAB_header.png?1415198382');

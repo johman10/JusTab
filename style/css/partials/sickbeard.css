@@ -19,3 +19,8 @@
 .sb_later h2 {
   padding: 0 16px;
 }
+
+/* line 24, ../../sass/partials/sickbeard.scss */
+.sb_collapse {
+  padding: 0 16px;
+}
