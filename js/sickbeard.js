@@ -66,9 +66,14 @@ function sbShowData() {
     // Episodes missed
     if (data.data.missed.length > 0) {
       $('.sb_missed').append('<h2>Missed</h2>');
-
       $.each(data.data.missed, function(i) {
-        var date = moment(data.data.missed[i].airdate).format("D-MM-YYYY");
+        var date;
+        if (moment(data.data.missed[i].airdate).year() > moment().year()) {
+          date = moment(data.data.missed[i].airdate).format("MMM D, YYYY");
+        }
+        else {
+          date = moment(data.data.missed[i].airdate).format("MMM D");
+        }
         var episodeString = " S" + (data.data.missed[i].season<10?'0':'') + data.data.missed[i].season + "E" + (data.data.missed[i].episode<10?'0':'') + data.data.missed[i].episode;
         $('.sb_missed').append("<core-item label='" + date + " - " + data.data.missed[i].show_name + episodeString + "'></core-item>");
       });
@@ -78,7 +83,13 @@ function sbShowData() {
     if (data.data.today.length > 0) {
       $('.sb_today').append('<h2>Today</h2>');
       $.each(data.data.today, function(i) {
-        var date = moment(data.data.today[i].airdate).format("D-MM-YYYY");
+        var date;
+        if (moment(data.data.today[i].airdate).year() > moment().year()) {
+          date = moment(data.data.today[i].airdate).format("MMM D, YYYY");
+        }
+        else {
+          date = moment(data.data.today[i].airdate).format("MMM D");
+        }
         var episodeString = " S" + (data.data.today[i].season<10?'0':'') + data.data.today[i].season + "E" + (data.data.today[i].episode<10?'0':'') + data.data.today[i].episode;
         $('.sb_today').append("<core-item label='" + date + " - " + data.data.today[i].show_name + episodeString + "'></core-item>");
       });
@@ -89,7 +100,13 @@ function sbShowData() {
       $('.sb_soon').append('<h2>Soon</h2>');
 
       $.each(data.data.soon, function(i) {
-        var date = moment(data.data.soon[i].airdate).format("D-MM-YYYY");
+        var date;
+        if (moment(data.data.soon[i].airdate).year() > moment().year()) {
+          date = moment(data.data.soon[i].airdate).format("MMM D, YYYY");
+        }
+        else {
+          date = moment(data.data.soon[i].airdate).format("MMM D");
+        }
         var episodeString = " S" + (data.data.soon[i].season<10?'0':'') + data.data.soon[i].season + "E" + (data.data.soon[i].episode<10?'0':'') + data.data.soon[i].episode;
         $('.sb_soon').append("<core-item label='" + date + " - " + data.data.soon[i].show_name + episodeString + "'></core-item>");
       });
@@ -100,7 +117,13 @@ function sbShowData() {
       $('.sb_later').append('<h2>Later</h2>');
 
       $.each(data.data.later, function(i) {
-        var date = moment(data.data.later[i].airdate).format("D-MM-YYYY");
+        var date;
+        if (moment(data.data.later[i].airdate).year() > moment().year()) {
+          date = moment(data.data.later[i].airdate).format("MMM D, YYYY");
+        }
+        else {
+          date = moment(data.data.later[i].airdate).format("MMM D");
+        }
         var episodeString = " S" + (data.data.later[i].season<10?'0':'') + data.data.later[i].season + "E" + (data.data.later[i].episode<10?'0':'') + data.data.later[i].episode;
         $('.sb_later').append("<core-item label='" + date + " - " + data.data.later[i].show_name + episodeString + "'></core-item>");
       });
