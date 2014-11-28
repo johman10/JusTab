@@ -9,7 +9,7 @@ function getSickBeardData(callback) {
     SB_key: ''
   }, function(items) {
     if (items.SB_status === true) {
-      var url = items.SB_address;
+      var url = items.SB_address + ":" + items.SB_port + "/";
       var apiKey = "api/" + items.SB_key + "/";
       var apiCall = "?cmd=future&sort=date&type=today|missed|soon|later";
 

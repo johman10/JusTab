@@ -10,7 +10,7 @@ function getCouchPotatoData(callback) {
     CP_key: ''
   }, function(items) {
     if (items.CP_status === true) {
-      var url = items.CP_address;
+      var url = items.CP_address + ":" + items.CP_port + "/";
       var apiKey = "api/" + items.CP_key + "/";
       var apiCall = "media.list/";
 

@@ -11,7 +11,7 @@ function getSabnzbdHistory(callback) {
     SAB_history: ''
   }, function(items) {
     if (items.SAB_status === true) {
-      var url = items.SAB_address;
+      var url = items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?";
       var historyMode = "mode=history&limit=" + items.SAB_history;
       var output = "&output=json";
       var apiKey = "&apikey=" + items.SAB_key;
@@ -50,7 +50,7 @@ function getSabnzbdQueue(callback) {
     SAB_history: ''
   }, function(items) {
     if (items.SAB_status === true) {
-      var url = items.SAB_address;
+      var url = items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?";
       var queueMode = "mode=queue";
       var output = "&output=json";
       var apiKey = "&apikey=" + items.SAB_key;
