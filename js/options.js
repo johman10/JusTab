@@ -43,37 +43,10 @@ function save_options() {
     }
   });
 
-  var FB_url_var;
-  if ($('#FB_url').val().slice(0,8) == "https://") {
-    FB_url_var = $('#FB_url').val();
-  }
-  else {
-    FB_url_var = "http://" + $('#FB_url').val();
-  }
-
-  var CP_address_var;
-  if ($('#CP_address').val().slice(0,7) == "http://" || $('#CP_address').val().slice(0,8) == "https://") {
-    CP_address_var = $('#CP_address').val();
-  }
-  else {
-    CP_address_var = "http://" + $('#CP_address').val();
-  }
-
-  var SB_address_var;
-  if ($('#SB_address').val().slice(0,7) == "http://" || $('#SB_address').val().slice(0,8) == "https://") {
-    SB_address_var = $('#SB_address').val();
-  }
-  else {
-    SB_address_var = "http://" + $('#SB_address').val();
-  }
-
-  var SAB_address_var;
-  if ($('#SAB_address').val().slice(0,7) == "http://" || $('#SAB_address').val().slice(0,8) == "https://") {
-    SAB_address_var = $('#SAB_address').val();
-  }
-  else {
-    SAB_address_var = "http://" + $('#SAB_address').val();
-  }
+  formatUrl('FB_url');
+  formatUrl('CP_address');
+  formatUrl('SB_address');
+  formatUrl('SAB_address');
 
   chrome.storage.sync.set({
     GC_status: $('paper-checkbox[name=GC_status]').attr('aria-checked') == "true" ? true : false,
@@ -83,20 +56,20 @@ function save_options() {
     GM_email: $('#GM_email').val(),
     GM_refresh: $('#GM_refresh').val(),
     FB_status: $('paper-checkbox[name=FB_status]').attr('aria-checked') == "true" ? true : false,
-    FB_url: FB_url_var,
+    FB_url: FB_url.var,
     FB_refresh: $('#FB_refresh').val(),
     CP_status: $('paper-checkbox[name=CP_status]').attr('aria-checked') == "true" ? true : false,
-    CP_address: CP_address_var,
+    CP_address: CP_address.var,
     CP_port: $('#CP_port').val(),
     CP_key: $('#CP_key').val(),
     CP_refresh: $('#CP_refresh').val(),
     SB_status: $('paper-checkbox[name=SB_status]').attr('aria-checked') == "true" ? true : false,
-    SB_address: SB_address_var,
+    SB_address: SB_address.var,
     SB_port: $('#SB_port').val(),
     SB_key: $('#SB_key').val(),
     SB_refresh: $('#SB_refresh').val(),
     SAB_status: $('paper-checkbox[name=SAB_status]').attr('aria-checked') == "true" ? true : false,
-    SAB_address: SAB_address_var,
+    SAB_address: SAB_address.var,
     SAB_port: $('#SAB_port').val(),
     SAB_key: $('#SAB_key').val(),
     SAB_history: $('#SAB_history').val(),
@@ -172,4 +145,13 @@ function restore_options() {
     $('paper-checkbox[name=DN_status]').attr('checked', items.DN_status);
     $('#DN_refresh').val(items.DN_refresh);
   });
+}
+
+function formatUrl(fieldname) {
+  if ($('#' + fieldname).val().slice(0,8) == "https://") {
+    fieldname.var = $('#' + fieldname).val();
+  }
+  else {
+    fieldname.var = "http://" + $('#' + fieldname).val();
+  }
 }
