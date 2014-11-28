@@ -21,13 +21,13 @@ body {
 }
 
 /* line 23, ../../sass/partials/general.scss */
-.loading_icon {
+.refresh_loading_icon {
   height: 24px;
   width: 24px;
   padding: 8px;
 }
 /* line 28, ../../sass/partials/general.scss */
-.loading_icon::shadow .circle {
+.refresh_loading_icon::shadow .circle {
   border-color: white;
   border-width: 2px;
 }
@@ -38,6 +38,16 @@ body {
 }
 
 /* line 38, ../../sass/partials/general.scss */
+.float_right {
+  float: right;
+}
+
+/* line 42, ../../sass/partials/general.scss */
+.float_left {
+  float: left;
+}
+
+/* line 46, ../../sass/partials/general.scss */
 .panel {
   background-color: #fafafa;
   display: none;
@@ -50,12 +60,12 @@ body {
   white-space: nowrap;
 }
 
-/* line 50, ../../sass/partials/general.scss */
+/* line 58, ../../sass/partials/general.scss */
 .content {
   position: relative;
 }
 
-/* line 54, ../../sass/partials/general.scss */
+/* line 62, ../../sass/partials/general.scss */
 .error {
   white-space: normal;
   background-color: #eee;
@@ -63,25 +73,25 @@ body {
   padding: 15px 16px 10px;
   display: none;
 }
-/* line 61, ../../sass/partials/general.scss */
+/* line 69, ../../sass/partials/general.scss */
 .error paper-button {
   font-weight: 500;
   float: right;
 }
 
-/* line 67, ../../sass/partials/general.scss */
+/* line 75, ../../sass/partials/general.scss */
 core-toolbar {
   background-color: transparent;
   color: white;
 }
 
-/* line 73, ../../sass/partials/general.scss */
+/* line 81, ../../sass/partials/general.scss */
 .middle a {
   color: white;
   text-decoration: none;
 }
 
-/* line 83, ../../sass/partials/general.scss */
+/* line 91, ../../sass/partials/general.scss */
 core-item {
   padding: 0 16px;
 }

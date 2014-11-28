@@ -21,6 +21,19 @@
 }
 
 /* line 24, ../../sass/partials/sickbeard.scss */
-.sb_collapse {
-  padding: 0 16px;
+.sb_search_episode {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* line 30, ../../sass/partials/sickbeard.scss */
+.sb_search_spinner {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 8px;
+  pointer-events: none;
+  height: 24px;
+  width: 24px;
 }

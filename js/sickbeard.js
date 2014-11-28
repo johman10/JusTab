@@ -91,7 +91,7 @@ function sbShowData(SB_key, SB_address, SB_port) {
       listSeries(data, data.data.later, ".sb_later");
     }
 
-    $('.searchEpisode').click(function() {
+    $('.sb_search_episode').click(function() {
       searchEpisode($(this));
     });
   }
@@ -116,8 +116,11 @@ function listSeries(data, query, parent) {
     $(parent).append(
       "<core-item label='" + showname + episodeString + "' class='sb_item'></core-item>" +
       "<core-collapse opened=false class='sb_collapse'>" +
-        date +
-        "<div class='searchEpisode " + tvdbid + "'>Search</div>" +
+        "<core-item>" +
+          date +
+          "<paper-icon-button class='sb_search_episode " + tvdbid + "' icon='search'>Search</paper-icon-button>" +
+          "<paper-spinner class='sb_search_spinner'></paper-spinner>" +
+        "</core-item>" +
       "</core-collapse>"
     );
 
@@ -127,6 +130,9 @@ function listSeries(data, query, parent) {
 
 function searchEpisode(clickedObject) {
   console.log('click');
+  clickedObject.fadeOut(400, function() {
+    clickedObject.next('paper-spinner').attr('active', true);
+  });
   chrome.storage.sync.get({
     SB_key: '',
     SB_address: '',
@@ -138,7 +144,16 @@ function searchEpisode(clickedObject) {
     $.ajax({
       url: searchApiUrl,
       success: function(data) {
-        console.log(data);
+        console.log(data.result);
+        if (data.result == "failure") {
+          clickedObject.attr('icon', 'error');
+        } else {
+          clickedObject.attr('icon', 'done');
+        }
+        clickedObject.next('paper-spinner').attr('active', false);
+        setTimeout(function() {
+          clickedObject.show();
+        }, 400);
       },
       error: function() {
         console.log("error");
