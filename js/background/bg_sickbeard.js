@@ -9,14 +9,7 @@ function getSickBeardData(callback) {
     SB_key: ''
   }, function(items) {
     if (items.SB_status === true) {
-      var url = '';
-
-      if (items.SB_address.slice(0,7) == "http://") {
-        url = items.SB_address + ":" + items.CP_port + "/";
-      }
-      else {
-        url = "http://" + items.SB_address + ":" + items.SB_port + "/";
-      }
+      var url = items.SB_address;
       var apiKey = "api/" + items.SB_key + "/";
       var apiCall = "?cmd=future&sort=date&type=today|missed|soon|later";
 

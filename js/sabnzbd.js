@@ -32,14 +32,7 @@ $(document).ready(function() {
         });
       });
 
-      if (items.SAB_address.slice(0,7) == "http://") {
-        url = items.SAB_address + ":" + items.SAB_port + "/";
-      }
-      else {
-        url = "http://" + items.SAB_address + ":" + items.SAB_port + "/";
-      }
-
-      $('#sabnzbd core-toolbar a').attr('href', url);
+      $('#sabnzbd core-toolbar a').attr('href', items.SAB_address);
 
       $('#sabnzbd').show();
       $('body').width($('body').width() + $('#sabnzbd').width());

@@ -11,15 +11,7 @@ function getSabnzbdHistory(callback) {
     SAB_history: ''
   }, function(items) {
     if (items.SAB_status === true) {
-      var url;
-
-      if (items.SAB_address.slice(0,7) == "http://") {
-        url = items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?";
-      }
-      else {
-        url = "http://" + items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?";
-      }
-
+      var url = items.SAB_address;
       var historyMode = "mode=history&limit=" + items.SAB_history;
       var output = "&output=json";
       var apiKey = "&apikey=" + items.SAB_key;
@@ -58,15 +50,7 @@ function getSabnzbdQueue(callback) {
     SAB_history: ''
   }, function(items) {
     if (items.SAB_status === true) {
-      var url;
-
-      if (items.SAB_address.slice(0,7) == "http://") {
-        url = items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?";
-      }
-      else {
-        url = "http://" + items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?";
-      }
-
+      var url = items.SAB_address;
       var queueMode = "mode=queue";
       var output = "&output=json";
       var apiKey = "&apikey=" + items.SAB_key;

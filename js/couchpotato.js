@@ -30,14 +30,7 @@ $(document).ready(function() {
         });
       });
 
-      if (items.CP_address.slice(0,7) == "http://") {
-        url = items.CP_address + ":" + items.CP_port + "/";
-      }
-      else {
-        url = "http://" + items.CP_address + ":" + items.CP_port + "/";
-      }
-
-      $('#couchpotato core-toolbar a').attr('href', url);
+      $('#couchpotato core-toolbar a').attr('href', items.CP_address);
 
       // cpButtonContainerPosition();
 

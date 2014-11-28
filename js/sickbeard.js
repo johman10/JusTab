@@ -29,14 +29,7 @@ $(document).ready(function() {
         });
       });
 
-      if (items.SB_address.slice(0,7) == "http://") {
-        url = items.SB_address + ":" + items.SB_port + "/";
-      }
-      else {
-        url = "http://" + items.SB_address + ":" + items.SB_port + "/";
-      }
-
-      $('#sickbeard core-toolbar a').attr('href', url);
+      $('#sickbeard core-toolbar a').attr('href', items.SB_address);
 
       $('#sickbeard').show();
       $('body').width($('body').width() + $('#sickbeard').width());

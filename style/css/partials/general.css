@@ -65,22 +65,23 @@ body {
 }
 /* line 61, ../../sass/partials/general.scss */
 .error paper-button {
+  font-weight: 500;
   float: right;
 }
 
-/* line 66, ../../sass/partials/general.scss */
+/* line 67, ../../sass/partials/general.scss */
 core-toolbar {
   background-color: transparent;
   color: white;
 }
 
-/* line 72, ../../sass/partials/general.scss */
+/* line 73, ../../sass/partials/general.scss */
 .middle a {
   color: white;
   text-decoration: none;
 }
 
-/* line 82, ../../sass/partials/general.scss */
+/* line 83, ../../sass/partials/general.scss */
 core-item {
   padding: 0 16px;
 }
