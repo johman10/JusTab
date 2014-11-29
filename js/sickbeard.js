@@ -30,13 +30,26 @@ $(document).ready(function() {
       });
 
       $('.sb_item').click(function(event) {
-        var collapseItem = $(this).next('core-collapse');
+        var collapseItem = $(this).next('.sb_collapse');
+        var collapseIcon = $(this).find('.sb_collapse_icon');
         if (collapseItem.attr('opened') == 'false') {
           collapseItem.attr('opened', true);
+          collapseIcon.fadeOut(165, function() {
+            collapseIcon.attr('icon', 'expand-less');
+            collapseIcon.fadeIn(165);
+          });
         }
         else {
           collapseItem.attr('opened', false);
+          collapseIcon.fadeOut(165, function() {
+            collapseIcon.attr('icon', 'expand-more');
+            collapseIcon.fadeIn(165);
+          });
         }
+      });
+
+      $('.sb_search_episode').click(function() {
+        searchEpisode($(this));
       });
 
       $('#sickbeard core-toolbar a').attr('href', items.SB_address);
@@ -90,10 +103,6 @@ function sbShowData(SB_key, SB_address, SB_port) {
       $('.sb_later').append('<h2>Later</h2>');
       listSeries(data, data.data.later, ".sb_later");
     }
-
-    $('.sb_search_episode').click(function() {
-      searchEpisode($(this));
-    });
   }
 }
 
@@ -114,7 +123,11 @@ function listSeries(data, query, parent) {
     }
     var episodeString = " S" + (season<10?'0':'') + season + "E" + (episode<10?'0':'') + episode;
     $(parent).append(
-      "<core-item label='" + showname + episodeString + "' class='sb_item'></core-item>" +
+      "<core-item label='" + showname + episodeString + "' class='sb_item'>" +
+        "<div class='sb_collapse_icon_container'>" +
+          "<core-icon class='sb_collapse_icon' icon='expand-more'></core-icon>" +
+        "</div>" +
+      "</core-item>" +
       "<core-collapse opened=false class='sb_collapse'>" +
         "<core-item>" +
           date +

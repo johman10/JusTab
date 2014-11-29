@@ -276,7 +276,7 @@ core-item {
 /* line 24, ../sass/partials/sickbeard.scss */
 .sb_search_episode {
   position: absolute;
-  right: 0;
+  right: 16px;
   top: 0;
 }
 
@@ -289,6 +289,13 @@ core-item {
   pointer-events: none;
   height: 24px;
   width: 24px;
+}
+
+/* line 40, ../sass/partials/sickbeard.scss */
+.sb_collapse_icon_container {
+  position: absolute;
+  right: 16px;
+  padding: 8px;
 }
 
 /* line 3, ../sass/partials/sabnzbd.scss */
