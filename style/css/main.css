@@ -1,7 +1,7 @@
 /* line 3, ../sass/modules/text.scss */
 body {
-  font-family: 'Roboto';
-  font-weight: 200;
+  font-family: 'RobotoDraft';
+  font-weight: 400;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.87);
 }
@@ -11,7 +11,7 @@ h2 {
   height: 40px;
   line-height: 40px;
   font-size: 14px;
-  font-family: 'Roboto';
+  font-family: 'RobotoDraft';
   font-weight: 500;
   color: #727272;
   margin: 0;
@@ -115,7 +115,7 @@ core-toolbar {
   text-decoration: none;
 }
 
-/* line 91, ../sass/partials/general.scss */
+/* line 87, ../sass/partials/general.scss */
 core-item {
   padding: 0 16px;
 }
@@ -274,13 +274,18 @@ core-item {
 }
 
 /* line 24, ../sass/partials/sickbeard.scss */
+.sb_item {
+  cursor: pointer;
+}
+
+/* line 28, ../sass/partials/sickbeard.scss */
 .sb_search_episode {
   position: absolute;
-  right: 16px;
+  right: 0;
   top: 0;
 }
 
-/* line 30, ../sass/partials/sickbeard.scss */
+/* line 34, ../sass/partials/sickbeard.scss */
 .sb_search_spinner {
   position: absolute;
   right: 0;
@@ -291,11 +296,15 @@ core-item {
   width: 24px;
 }
 
-/* line 40, ../sass/partials/sickbeard.scss */
+/* line 44, ../sass/partials/sickbeard.scss */
 .sb_collapse_icon_container {
   position: absolute;
-  right: 16px;
+  right: 0px;
   padding: 8px;
+}
+/* line 50, ../sass/partials/sickbeard.scss */
+.sb_collapse_icon_container .sb_collapse_icon {
+  color: #9e9e9e;
 }
 
 /* line 3, ../sass/partials/sabnzbd.scss */

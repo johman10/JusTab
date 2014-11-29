@@ -10,7 +10,7 @@ $(document).ready(function() {
     if (items.SB_status === true) {
       sbShowData(items.SB_key, items.SB_address, items.SB_port);
 
-      $('.refresh_sb').click(function() {
+      $('.refresh_sb').click(function(event) {
         if ($('#sickbeard .error:visible')) {
           $('#sickbeard .error:visible').slideUp(400);
         }
@@ -33,6 +33,9 @@ $(document).ready(function() {
         var collapseItem = $(this).next('.sb_collapse');
         var collapseIcon = $(this).find('.sb_collapse_icon');
         if (collapseItem.attr('opened') == 'false') {
+          $(this).css({
+            'color': '#175F35'
+          });
           collapseItem.attr('opened', true);
           collapseIcon.fadeOut(165, function() {
             collapseIcon.attr('icon', 'expand-less');
@@ -40,6 +43,9 @@ $(document).ready(function() {
           });
         }
         else {
+          $(this).css({
+            'color': 'black'
+          });
           collapseItem.attr('opened', false);
           collapseIcon.fadeOut(165, function() {
             collapseIcon.attr('icon', 'expand-more');
