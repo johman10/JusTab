@@ -89,20 +89,10 @@
     padding: 0 16px;
   }
 
-  a {
-    right: 0 !important;
-    top: auto !important;
-    left: auto !important;
-    bottom: auto !important;
-    line-height: 1;
-    display: none;
-  }
-
-  core-item:hover > a {
-    display: block;
-  }
-
-  core-icon-button {
-    background-color: $white;
+  .cp_imdb_link {
+    color: $black;
+    position: absolute;
+    right: 0;
+    width: 40px;
   }
 }

@@ -207,24 +207,12 @@ core-item {
   padding: 0 16px;
 }
 /* line 92, ../sass/partials/couchpotato.scss */
-.wanted a,
-.snatched a {
-  right: 0 !important;
-  top: auto !important;
-  left: auto !important;
-  bottom: auto !important;
-  line-height: 1;
-  display: none;
-}
-/* line 101, ../sass/partials/couchpotato.scss */
-.wanted core-item:hover > a,
-.snatched core-item:hover > a {
-  display: block;
-}
-/* line 105, ../sass/partials/couchpotato.scss */
-.wanted core-icon-button,
-.snatched core-icon-button {
-  background-color: white;
+.wanted .cp_imdb_link,
+.snatched .cp_imdb_link {
+  color: black;
+  position: absolute;
+  right: 0;
+  width: 40px;
 }
 
 /* line 3, ../sass/partials/facebook.scss */

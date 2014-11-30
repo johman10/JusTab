@@ -44,6 +44,31 @@ $(document).ready(function() {
 
       $('#couchpotato').show();
       $('body').width($('body').width() + $('#couchpotato').width());
+
+      $('.cp_item').click(function(event) {
+        var collapseItem = $(this).next('.cp_collapse');
+        var collapseIcon = $(this).find('.cp_collapse_icon');
+        if (collapseItem.attr('opened') == 'false') {
+          // $(this).css({
+          //   'color': '#4e5969'
+          // });
+          collapseItem.attr('opened', true);
+          collapseIcon.fadeOut(165, function() {
+            collapseIcon.attr('icon', 'expand-less');
+            collapseIcon.fadeIn(165);
+          });
+        }
+        else {
+          // $(this).css({
+          //   'color': 'black'
+          // });
+          collapseItem.attr('opened', false);
+          collapseIcon.fadeOut(165, function() {
+            collapseIcon.attr('icon', 'expand-more');
+            collapseIcon.fadeIn(165);
+          });
+        }
+      });
     }
   });
 
@@ -142,13 +167,39 @@ function cpShowData() {
         if (data.movies[i].releases[l].status === "snatched" || data.movies[i].releases[l].status === "downloaded" || data.movies[i].releases[l].status === "available") {
           snatched.push(data.movies[i].title);
           if ($('.snatched').html().indexOf(data.movies[i].title) == -1) {
-            $('.snatched').append("<core-item label='" + data.movies[i].title + "'><a href='http://www.imdb.com/title/" + data.movies[i].identifiers.imdb + "' target='_blank'><core-icon-button icon='info-outline'></core-icon-button></a></core-item>");
+            $('.snatched').append(
+              "<core-item label='" + data.movies[i].title + "' class='cp_item'>" +
+                "<div class='cp_collapse_icon_container'>" +
+                  "<core-icon class='cp_collapse_icon' icon='expand-more'></core-icon>" +
+                "</div>" +
+              "</core-item>" +
+              "<core-collapse opened=false class='cp_collapse'>" +
+                "<core-item>" +
+                  "<a class='cp_imdb_link' href='http://www.imdb.com/title/" + data.movies[i].identifiers.imdb + "' target='_blank'>" +
+                    "<paper-icon-button class='cp_imdb_link_icon' icon='info-outline'></core-icon-button>" +
+                  "</a>" +
+                "</core-item>" +
+              "</core-collapse"
+            );
           }
         }
       });
 
       if (data.movies[i].status === "active") {
-        $('.wanted').append("<core-item label='" + data.movies[i].title + "''><a href='http://www.imdb.com/title/" + data.movies[i].identifiers.imdb + "' target='_blank'><core-icon-button icon='info-outline'></core-icon-button></a></core-item>");
+        $('.wanted').append(
+          "<core-item label='" + data.movies[i].title + "' class='cp_item'>" +
+            "<div class='cp_collapse_icon_container'>" +
+              "<core-icon class='cp_collapse_icon' icon='expand-more'></core-icon>" +
+            "</div>" +
+          "</core-item>" +
+          "<core-collapse opened=false class='cp_collapse'>" +
+            "<core-item>" +
+              "<a class='cp_imdb_link' href='http://www.imdb.com/title/" + data.movies[i].identifiers.imdb + "' target='_blank'>" +
+                "<paper-icon-button class='cp_imdb_link_icon' icon='info-outline'></core-icon-button>" +
+              "</a>" +
+            "</core-item>" +
+          "</core-collapse"
+        );
       }
     });
 
