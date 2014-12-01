@@ -93,6 +93,18 @@
     color: $black;
     position: absolute;
     right: 0;
+    left: auto;
     width: 40px;
+  }
+}
+
+.cp_collapse_icon_container {
+  background-color: $white;
+  position: absolute;
+  right: 0;
+  padding: 8px;
+
+  .cp_collapse_icon {
+    color: $clr-grey-500;
   }
 }

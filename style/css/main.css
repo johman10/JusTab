@@ -212,7 +212,20 @@ core-item {
   color: black;
   position: absolute;
   right: 0;
+  left: auto;
   width: 40px;
+}
+
+/* line 101, ../sass/partials/couchpotato.scss */
+.cp_collapse_icon_container {
+  background-color: white;
+  position: absolute;
+  right: 0;
+  padding: 8px;
+}
+/* line 107, ../sass/partials/couchpotato.scss */
+.cp_collapse_icon_container .cp_collapse_icon {
+  color: #9e9e9e;
 }
 
 /* line 3, ../sass/partials/facebook.scss */
@@ -286,8 +299,9 @@ core-item {
 
 /* line 44, ../sass/partials/sickbeard.scss */
 .sb_collapse_icon_container {
+  background-color: white;
   position: absolute;
-  right: 0px;
+  right: 0;
   padding: 8px;
 }
 /* line 50, ../sass/partials/sickbeard.scss */

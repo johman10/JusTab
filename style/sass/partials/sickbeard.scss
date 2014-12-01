@@ -42,9 +42,9 @@
 }
 
 .sb_collapse_icon_container {
+  background-color: $white;
   position: absolute;
-  right: 0px;
-  // top: 0;
+  right: 0;
   padding: 8px;
 
   .sb_collapse_icon {

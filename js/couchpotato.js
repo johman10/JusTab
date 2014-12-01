@@ -49,9 +49,6 @@ $(document).ready(function() {
         var collapseItem = $(this).next('.cp_collapse');
         var collapseIcon = $(this).find('.cp_collapse_icon');
         if (collapseItem.attr('opened') == 'false') {
-          // $(this).css({
-          //   'color': '#4e5969'
-          // });
           collapseItem.attr('opened', true);
           collapseIcon.fadeOut(165, function() {
             collapseIcon.attr('icon', 'expand-less');
@@ -59,9 +56,6 @@ $(document).ready(function() {
           });
         }
         else {
-          // $(this).css({
-          //   'color': 'black'
-          // });
           collapseItem.attr('opened', false);
           collapseIcon.fadeOut(165, function() {
             collapseIcon.attr('icon', 'expand-more');
