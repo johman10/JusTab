@@ -29,41 +29,35 @@ $(document).ready(function() {
         });
       });
 
-      $('.sb_item').click(function(event) {
-        var collapseItem = $(this).next('.sb_collapse');
-        var collapseIcon = $(this).find('.sb_collapse_icon');
-        if (collapseItem.attr('opened') == 'false') {
-          $(this).css({
-            'color': '#175F35'
-          });
-          collapseItem.attr('opened', true);
-          collapseIcon.fadeOut(165, function() {
-            collapseIcon.attr('icon', 'expand-less');
-            collapseIcon.fadeIn(165);
-          });
-        }
-        else {
-          $(this).css({
-            'color': 'black'
-          });
-          collapseItem.attr('opened', false);
-          collapseIcon.fadeOut(165, function() {
-            collapseIcon.attr('icon', 'expand-more');
-            collapseIcon.fadeIn(165);
-          });
-        }
-      });
-
-      $('.sb_search_episode').click(function() {
-        searchEpisode($(this));
-      });
-
       $('#sickbeard core-toolbar a').attr('href', items.SB_address);
 
       $('#sickbeard').show();
       $('body').width($('body').width() + $('#sickbeard').width());
     }
   });
+});
+
+$("body").on('click', ".sb_item", function(event) {
+  var collapseItem = $(this).next('.sb_collapse');
+  var collapseIcon = $(this).find('.sb_collapse_icon');
+  if (collapseItem.attr('opened') == 'false') {
+    collapseItem.attr('opened', true);
+    collapseIcon.fadeOut(165, function() {
+      collapseIcon.attr('icon', 'expand-less');
+      collapseIcon.fadeIn(165);
+    });
+  }
+  else {
+    collapseItem.attr('opened', false);
+    collapseIcon.fadeOut(165, function() {
+      collapseIcon.attr('icon', 'expand-more');
+      collapseIcon.fadeIn(165);
+    });
+  }
+});
+
+$("body").on('click', ".sb_search_episode", function(event) {
+  searchEpisode($(this));
 });
 
 function sbShowData(SB_key, SB_address, SB_port) {

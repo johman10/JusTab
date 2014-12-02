@@ -44,25 +44,6 @@ $(document).ready(function() {
 
       $('#couchpotato').show();
       $('body').width($('body').width() + $('#couchpotato').width());
-
-      $('.cp_item').click(function(event) {
-        var collapseItem = $(this).next('.cp_collapse');
-        var collapseIcon = $(this).find('.cp_collapse_icon');
-        if (collapseItem.attr('opened') == 'false') {
-          collapseItem.attr('opened', true);
-          collapseIcon.fadeOut(165, function() {
-            collapseIcon.attr('icon', 'expand-less');
-            collapseIcon.fadeIn(165);
-          });
-        }
-        else {
-          collapseItem.attr('opened', false);
-          collapseIcon.fadeOut(165, function() {
-            collapseIcon.attr('icon', 'expand-more');
-            collapseIcon.fadeIn(165);
-          });
-        }
-      });
     }
   });
 
@@ -129,6 +110,25 @@ $(document).ready(function() {
   //     });
   //   });
   // });
+});
+
+$('body').on('click', '.cp_item', function(event) {
+  var collapseItem = $(this).next('.cp_collapse');
+  var collapseIcon = $(this).find('.cp_collapse_icon');
+  if (collapseItem.attr('opened') == 'false') {
+    collapseItem.attr('opened', true);
+    collapseIcon.fadeOut(165, function() {
+      collapseIcon.attr('icon', 'expand-less');
+      collapseIcon.fadeIn(165);
+    });
+  }
+  else {
+    collapseItem.attr('opened', false);
+    collapseIcon.fadeOut(165, function() {
+      collapseIcon.attr('icon', 'expand-more');
+      collapseIcon.fadeIn(165);
+    });
+  }
 });
 
 function cpButtonContainerPosition() {
