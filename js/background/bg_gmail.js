@@ -20,7 +20,7 @@ function getReadId(token, GM_email, callback) {
   $.when($.ajax({
     url: url,
     dataType: 'json',
-    async: true,
+    async: false,
     timeout: 3000,
     success: function(data) {
       $.each(data.messages, function(i, message) {
@@ -29,6 +29,7 @@ function getReadId(token, GM_email, callback) {
       localStorage.setItem("Gmail_error", false);
     },
     error: function(xhr, ajaxOptions, thrownError) {
+      console.log(xhr, ajaxOptions, thrownError);
       localStorage.setItem("Gmail_error", true);
     }
   })).done(function() {
@@ -55,6 +56,7 @@ function getMailContent(token, GM_email, Id, messages) {
       localStorage.setItem("Gmail_error", false);
     },
     error: function(xhr, ajaxOptions, thrownError) {
+      console.log(xhr, ajaxOptions, thrownError);
       localStorage.setItem("Gmail_error", true);
     }
   });

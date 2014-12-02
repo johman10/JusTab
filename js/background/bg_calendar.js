@@ -35,6 +35,7 @@ function eventArray(url, token, callback) {
         events = $.merge(events, data.items);
       },
       error: function(xhr, ajaxOptions, thrownError) {
+        console.log(xhr, ajaxOptions, thrownError);
         localStorage.setItem("Calendar_error", true);
       }
     });

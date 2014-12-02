@@ -17,13 +17,14 @@ function getCouchPotatoData(callback) {
       $.when($.ajax({
         url: url + apiKey + apiCall,
         dataType: 'json',
-        async: true,
+        async: false,
         timeout: 3000,
         success: function(data) {
           localStorage.setItem("Couchpotato_error", false);
           localStorage.setItem("Couchpotato", JSON.stringify(data));
         },
         error: function(xhr, ajaxOptions, thrownError) {
+          console.log(xhr, ajaxOptions, thrownError);
           localStorage.setItem("Couchpotato_error", true);
         }
       })).then(function() {

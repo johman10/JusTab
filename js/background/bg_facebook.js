@@ -18,6 +18,7 @@ function getFacebookData(callback) {
           localStorage.setItem("Facebook", (new XMLSerializer()).serializeToString(xml));
         },
         error: function(xhr, ajaxOptions, thrownError) {
+          console.log(xhr, ajaxOptions, thrownError);
           localStorage.setItem("Facebook_error", true);
         }
       })).then(function() {

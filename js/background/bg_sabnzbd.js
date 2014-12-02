@@ -19,13 +19,14 @@ function getSabnzbdHistory(callback) {
       $.when($.ajax({
         url: url + historyMode + output + apiKey,
         dataType: 'json',
-        async: true,
+        async: false,
         timeout: 3000,
         success: function(history) {
           localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
           localStorage.setItem("SabnzbdHistory_error", false);
         },
         error: function(xhr, ajaxOptions, thrownError) {
+          console.log(xhr, ajaxOptions, thrownError);
           localStorage.setItem("SabnzbdHistory_error", true);
         }
       })).then(function() {
@@ -58,13 +59,14 @@ function getSabnzbdQueue(callback) {
       $.when($.ajax({
         url: url + queueMode + output + apiKey,
         dataType: 'json',
-        async: true,
+        async: false,
         timeout: 3000,
         success: function(queue) {
           localStorage.setItem("SabnzbdQueue", JSON.stringify(queue));
           localStorage.setItem("SabnzbdQueue_error", false);
         },
         error: function(xhr, ajaxOptions, thrownError) {
+          console.log(xhr, ajaxOptions, thrownError);
           localStorage.setItem("SabnzbdQueue_error", true);
         }
       })).then(function() {
