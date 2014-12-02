@@ -1,0 +1,34 @@
+/* line 3, ../../sass/partials/gmail.scss */
+#gmail::shadow #headerBg {
+  background-image: url('/img/../img/GM_header.svg?1417534157');
+  background-size: auto 60%;
+  background-position: 118%;
+  background-color: #e04a3f;
+}
+
+/* line 10, ../../sass/partials/gmail.scss */
+#gmail::shadow #condensedHeaderBg {
+  background-image: none;
+  background-color: #e04a3f;
+}
+
+/* line 17, ../../sass/partials/gmail.scss */
+.mail_unread h2,
+.mail_read h2 {
+  padding: 0 16px;
+}
+/* line 21, ../../sass/partials/gmail.scss */
+.mail_unread a,
+.mail_read a {
+  right: 0 !important;
+  top: auto !important;
+  left: auto !important;
+  bottom: auto !important;
+  line-height: 1;
+  display: none;
+}
+/* line 30, ../../sass/partials/gmail.scss */
+.mail_unread core-item:hover > a,
+.mail_read core-item:hover > a {
+  display: block;
+}
