@@ -58,12 +58,12 @@ function GmailShowData() {
       if (message.labelIds) {
         if (message.labelIds.indexOf("UNREAD") > -1) {
           $('.mail_unread').append(
-            '<core-item label="' + messageSubject + '"></core-item>'
+            '<core-item class="gm_message" label="' + messageSubject + '"><a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '"><paper-ripple fit></paper-ripple></a></core-item>'
           );
         }
         else {
           $('.mail_read').append(
-            '<core-item label="' + messageSubject + '"></core-item>'
+            '<core-item class="gm_message" label="' + messageSubject + '"><a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '"><paper-ripple fit></paper-ripple></a></core-item>'
           );
         }
       }

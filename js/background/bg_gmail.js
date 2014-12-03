@@ -5,13 +5,13 @@ function getGmailData(callback) {
       GM_email: ''
     }, function(items) {
       if (items.GM_status === true) {
-        getReadId(token, items.GM_email, callback);
+        getMailId(token, items.GM_email, callback);
       }
     });
   });
 }
 
-function getReadId(token, GM_email, callback) {
+function getMailId(token, GM_email, callback) {
   var email = encodeURIComponent(GM_email);
   var query = "&q=" + encodeURIComponent("-in:chats -in:sent -in:notes");
   var url = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages?&oauth_token=" + token + query;

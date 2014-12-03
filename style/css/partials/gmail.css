@@ -18,17 +18,7 @@
   padding: 0 16px;
 }
 /* line 21, ../../sass/partials/gmail.scss */
-.mail_unread a,
-.mail_read a {
-  right: 0 !important;
-  top: auto !important;
-  left: auto !important;
-  bottom: auto !important;
-  line-height: 1;
-  display: none;
-}
-/* line 30, ../../sass/partials/gmail.scss */
-.mail_unread core-item:hover > a,
-.mail_read core-item:hover > a {
-  display: block;
+.mail_unread .gm_message:hover,
+.mail_read .gm_message:hover {
+  background-color: #eeeeee;
 }
