@@ -1,4 +1,4 @@
-$(document).ready(function() {
+  $(document).ready(function() {
   chrome.storage.sync.get({
     GM_status: ''
   }, function(items) {
@@ -55,15 +55,17 @@ function GmailShowData() {
         }
       });
 
-      if (message.labelIds.indexOf("UNREAD") > -1) {
-        $('.mail_unread').append(
-          '<core-item label="' + messageSubject + '"></core-item>'
-        );
-      }
-      else {
-        $('.mail_read').append(
-          '<core-item label="' + messageSubject + '"></core-item>'
-        );
+      if (message.labelIds) {
+        if (message.labelIds.indexOf("UNREAD") > -1) {
+          $('.mail_unread').append(
+            '<core-item label="' + messageSubject + '"></core-item>'
+          );
+        }
+        else {
+          $('.mail_read').append(
+            '<core-item label="' + messageSubject + '"></core-item>'
+          );
+        }
       }
     });
 
