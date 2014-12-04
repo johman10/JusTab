@@ -94,24 +94,29 @@
   width: 40px;
 }
 /* line 100, ../../sass/partials/couchpotato.scss */
+.wanted .cp_item,
+.snatched .cp_item {
+  cursor: pointer;
+}
+/* line 103, ../../sass/partials/couchpotato.scss */
 .wanted .cp_item:hover,
 .snatched .cp_item:hover {
   background-color: #eeeeee;
 }
-/* line 103, ../../sass/partials/couchpotato.scss */
+/* line 106, ../../sass/partials/couchpotato.scss */
 .wanted .cp_item:hover .cp_collapse_icon_container,
 .snatched .cp_item:hover .cp_collapse_icon_container {
   background-color: #eeeeee;
 }
 
-/* line 109, ../../sass/partials/couchpotato.scss */
+/* line 113, ../../sass/partials/couchpotato.scss */
 .cp_collapse_icon_container {
   background-color: #fafafa;
   position: absolute;
   right: 0;
   padding: 8px;
 }
-/* line 115, ../../sass/partials/couchpotato.scss */
+/* line 119, ../../sass/partials/couchpotato.scss */
 .cp_collapse_icon_container .cp_collapse_icon {
   color: #9e9e9e;
 }
