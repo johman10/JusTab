@@ -101,10 +101,10 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $hover-color;
+      background-color: $hover-color !important;
 
       .cp_collapse_icon_container {
-        background-color: $hover-color;
+        background-color: $hover-color !important;
       }
     }
   }

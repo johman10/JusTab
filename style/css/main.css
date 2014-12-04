@@ -307,12 +307,12 @@ core-item {
 /* line 103, ../sass/partials/couchpotato.scss */
 .wanted .cp_item:hover,
 .snatched .cp_item:hover {
-  background-color: #eeeeee;
+  background-color: #eeeeee !important;
 }
 /* line 106, ../sass/partials/couchpotato.scss */
 .wanted .cp_item:hover .cp_collapse_icon_container,
 .snatched .cp_item:hover .cp_collapse_icon_container {
-  background-color: #eeeeee;
+  background-color: #eeeeee !important;
 }
 
 /* line 113, ../sass/partials/couchpotato.scss */

@@ -41,6 +41,9 @@ $("body").on('click', ".sb_item", function(event) {
   var collapseItem = $(this).next('.sb_collapse');
   var collapseIcon = $(this).find('.sb_collapse_icon');
   if (collapseItem.attr('opened') == 'false') {
+    $('.sb_collapse').attr('opened', false);
+    $('.sb_item').css('background-color', '#fafafa');
+    $('.sb_collapse_icon_container').css('background-color', '#fafafa');
     $(this).css('background-color', '#eee');
     collapseIcon.parent().css('background-color', '#eee');
     collapseItem.attr('opened', true);
@@ -50,8 +53,8 @@ $("body").on('click', ".sb_item", function(event) {
     });
   }
   else {
-    $(this).css('background-color', '#fff');
-    collapseIcon.parent().css('background-color', '#fff');
+    $(this).css('background-color', '#fafafa');
+    collapseIcon.parent().css('background-color', '#fafafa');
     collapseItem.attr('opened', false);
     collapseIcon.fadeOut(165, function() {
       collapseIcon.attr('icon', 'expand-more');
