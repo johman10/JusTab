@@ -1,23 +1,71 @@
-/* line 3, ../../sass/modules/text.scss */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100;
+  src: url("../fonts/Roboto-Thin-webfont.eot");
+  src: url("../fonts/Roboto-Thin-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Roboto-Thin-webfont.woff") format("woff"), url("../fonts/Roboto-Thin-webfont.ttf") format("truetype"), url("../fonts/Roboto-Thin-webfont.svg#robotothin") format("svg");
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/Roboto-Light-webfont.eot");
+  src: url("../fonts/Roboto-Light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Roboto-Light-webfont.woff") format("woff"), url("../fonts/Roboto-Light-webfont.ttf") format("truetype"), url("../fonts/Roboto-Light-webfont.svg#robotolight") format("svg");
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/Roboto-Regular-webfont.eot");
+  src: url("../fonts/Roboto-Regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Roboto-Regular-webfont.woff") format("woff"), url("../fonts/Roboto-Regular-webfont.ttf") format("truetype"), url("../fonts/Roboto-Regular-webfont.svg#robotoregular") format("svg");
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url("../fonts/Roboto-Medium-webfont.eot");
+  src: url("../fonts/Roboto-Medium-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Roboto-Medium-webfont.woff") format("woff"), url("../fonts/Roboto-Medium-webfont.ttf") format("truetype"), url("../fonts/Roboto-Medium-webfont.svg#robotomedium") format("svg");
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/Roboto-Bold-webfont.eot");
+  src: url("../fonts/Roboto-Bold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Roboto-Bold-webfont.woff") format("woff"), url("../fonts/Roboto-Bold-webfont.ttf") format("truetype"), url("../fonts/Roboto-Bold-webfont.svg#robotobold") format("svg");
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 900;
+  src: url("../fonts/Roboto-Black-webfont.eot");
+  src: url("../fonts/Roboto-Black-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Roboto-Black-webfont.woff") format("woff"), url("../fonts/Roboto-Black-webfont.ttf") format("truetype"), url("../fonts/Roboto-Black-webfont.svg#robotoblack") format("svg");
+}
+
+/* line 71, ../../sass/modules/text.scss */
 body {
-  font-family: 'RobotoDraft';
+  font-family: 'Roboto';
   font-weight: 400;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.87);
 }
 
-/* line 10, ../../sass/modules/text.scss */
+/* line 78, ../../sass/modules/text.scss */
 h2 {
   height: 40px;
   line-height: 40px;
   font-size: 14px;
-  font-family: 'RobotoDraft';
+  font-family: 'Roboto';
   font-weight: 500;
   color: #727272;
   margin: 0;
 }
 
-/* line 20, ../../sass/modules/text.scss */
+/* line 88, ../../sass/modules/text.scss */
 p {
   margin: 3px 0;
 }
