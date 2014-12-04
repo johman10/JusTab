@@ -24,15 +24,23 @@
 .sb_item {
   cursor: pointer;
 }
+/* line 27, ../../sass/partials/sickbeard.scss */
+.sb_item:hover {
+  background-color: #eeeeee;
+}
+/* line 30, ../../sass/partials/sickbeard.scss */
+.sb_item:hover .sb_collapse_icon_container {
+  background-color: #eeeeee;
+}
 
-/* line 28, ../../sass/partials/sickbeard.scss */
+/* line 36, ../../sass/partials/sickbeard.scss */
 .sb_search_episode {
   position: absolute;
   right: 0;
   top: 0;
 }
 
-/* line 34, ../../sass/partials/sickbeard.scss */
+/* line 42, ../../sass/partials/sickbeard.scss */
 .sb_search_spinner {
   position: absolute;
   right: 0;
@@ -43,14 +51,14 @@
   width: 24px;
 }
 
-/* line 44, ../../sass/partials/sickbeard.scss */
+/* line 52, ../../sass/partials/sickbeard.scss */
 .sb_collapse_icon_container {
   background-color: #fafafa;
   position: absolute;
   right: 0;
   padding: 8px;
 }
-/* line 50, ../../sass/partials/sickbeard.scss */
+/* line 58, ../../sass/partials/sickbeard.scss */
 .sb_collapse_icon_container .sb_collapse_icon {
   color: #9e9e9e;
 }

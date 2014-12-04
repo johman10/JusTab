@@ -299,15 +299,25 @@ core-item {
   left: auto;
   width: 40px;
 }
+/* line 100, ../sass/partials/couchpotato.scss */
+.wanted .cp_item:hover,
+.snatched .cp_item:hover {
+  background-color: #eeeeee;
+}
+/* line 103, ../sass/partials/couchpotato.scss */
+.wanted .cp_item:hover .cp_collapse_icon_container,
+.snatched .cp_item:hover .cp_collapse_icon_container {
+  background-color: #eeeeee;
+}
 
-/* line 101, ../sass/partials/couchpotato.scss */
+/* line 109, ../sass/partials/couchpotato.scss */
 .cp_collapse_icon_container {
   background-color: #fafafa;
   position: absolute;
   right: 0;
   padding: 8px;
 }
-/* line 107, ../sass/partials/couchpotato.scss */
+/* line 115, ../sass/partials/couchpotato.scss */
 .cp_collapse_icon_container .cp_collapse_icon {
   color: #9e9e9e;
 }
@@ -338,15 +348,23 @@ core-item {
 .sb_item {
   cursor: pointer;
 }
+/* line 27, ../sass/partials/sickbeard.scss */
+.sb_item:hover {
+  background-color: #eeeeee;
+}
+/* line 30, ../sass/partials/sickbeard.scss */
+.sb_item:hover .sb_collapse_icon_container {
+  background-color: #eeeeee;
+}
 
-/* line 28, ../sass/partials/sickbeard.scss */
+/* line 36, ../sass/partials/sickbeard.scss */
 .sb_search_episode {
   position: absolute;
   right: 0;
   top: 0;
 }
 
-/* line 34, ../sass/partials/sickbeard.scss */
+/* line 42, ../sass/partials/sickbeard.scss */
 .sb_search_spinner {
   position: absolute;
   right: 0;
@@ -357,14 +375,14 @@ core-item {
   width: 24px;
 }
 
-/* line 44, ../sass/partials/sickbeard.scss */
+/* line 52, ../sass/partials/sickbeard.scss */
 .sb_collapse_icon_container {
   background-color: #fafafa;
   position: absolute;
   right: 0;
   padding: 8px;
 }
-/* line 50, ../sass/partials/sickbeard.scss */
+/* line 58, ../sass/partials/sickbeard.scss */
 .sb_collapse_icon_container .sb_collapse_icon {
   color: #9e9e9e;
 }

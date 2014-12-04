@@ -96,6 +96,14 @@
     left: auto;
     width: 40px;
   }
+
+  .cp_item:hover {
+    background-color: $hover-color;
+
+    .cp_collapse_icon_container {
+      background-color: $hover-color;
+    }
+  }
 }
 
 .cp_collapse_icon_container {

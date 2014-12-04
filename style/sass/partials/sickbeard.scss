@@ -23,6 +23,14 @@
 
 .sb_item {
   cursor: pointer;
+
+  &:hover {
+    background-color: $hover-color;
+
+    .sb_collapse_icon_container {
+      background-color: $hover-color;
+    }
+  }
 }
 
 .sb_search_episode {
