@@ -116,6 +116,8 @@ $('body').on('click', '.cp_item', function(event) {
   var collapseItem = $(this).next('.cp_collapse');
   var collapseIcon = $(this).find('.cp_collapse_icon');
   if (collapseItem.attr('opened') == 'false') {
+    $(this).css('background-color', '#eee');
+    collapseIcon.parent().css('background-color', '#eee');
     collapseItem.attr('opened', true);
     collapseIcon.fadeOut(165, function() {
       collapseIcon.attr('icon', 'expand-less');
@@ -123,6 +125,8 @@ $('body').on('click', '.cp_item', function(event) {
     });
   }
   else {
+    $(this).css('background-color', '#fff');
+    collapseIcon.parent().css('background-color', '#fff');
     collapseItem.attr('opened', false);
     collapseIcon.fadeOut(165, function() {
       collapseIcon.attr('icon', 'expand-more');
