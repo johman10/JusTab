@@ -29,7 +29,7 @@ $(document).ready(function() {
         });
       });
 
-      $('#sickbeard core-toolbar a').attr('href', items.SB_address);
+      $('#sickbeard core-toolbar a').attr('href', items.SB_address + ':' + items.SB_port);
 
       $('#sickbeard').show();
       $('body').width($('body').width() + $('#sickbeard').width());

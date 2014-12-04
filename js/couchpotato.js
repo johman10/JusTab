@@ -30,7 +30,7 @@ $(document).ready(function() {
         });
       });
 
-      $('#couchpotato core-toolbar a').attr('href', items.CP_address);
+      $('#couchpotato core-toolbar a').attr('href', items.CP_address + ':' + items.CP_port);
 
       // cpButtonContainerPosition();
 

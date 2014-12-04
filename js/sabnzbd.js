@@ -32,7 +32,7 @@ $(document).ready(function() {
         });
       });
 
-      $('#sabnzbd core-toolbar a').attr('href', items.SAB_address);
+      $('#sabnzbd core-toolbar a').attr('href', items.SAB_address + ':' + items.SAB_port);
 
       $('#sabnzbd').show();
       $('body').width($('body').width() + $('#sabnzbd').width());
