@@ -1,12 +1,9 @@
 function getGmailData(callback) {
   chrome.identity.getAuthToken({'interactive': true},function (token) {
     chrome.storage.sync.get({
-      GM_status:'',
       GM_email: ''
     }, function(items) {
-      if (items.GM_status === true) {
-        getMailId(token, items.GM_email, callback);
-      }
+      getMailId(token, items.GM_email, callback);
     });
   });
 }
@@ -20,10 +17,11 @@ function getMailId(token, GM_email, callback) {
   $.when($.ajax({
     url: url,
     dataType: 'json',
-    async: false,
+    async: true,
     timeout: 3000,
     success: function(data) {
       $.each(data.messages, function(i, message) {
+        console.log(message);
         getMailContent(token, GM_email, message.id, messages);
       });
       localStorage.setItem("Gmail_error", false);
@@ -51,7 +49,6 @@ function getMailContent(token, GM_email, Id, messages) {
     async: false,
     timeout: 3000,
     success: function(data) {
-      console.log(data);
       messages.push(data);
       localStorage.setItem("Gmail_error", false);
     },

@@ -1,18 +1,15 @@
 function getCalendarData(callback) {
   chrome.identity.getAuthToken({'interactive': true},function (token) {
     chrome.storage.sync.get({
-      GC_status:'',
       calendars: ''
     }, function(items) {
-      if (items.GC_status === true) {
-        var url = [];
-        var encodedUrl;
-        $.each(items.calendars, function(i) {
-          encodedUrl = encodeURIComponent(items.calendars[i]);
-          url.push("https://www.googleapis.com/calendar/v3/calendars/" + encodedUrl + "/events");
-        });
-        eventArray(url, token, callback);
-      }
+      var url = [];
+      var encodedUrl;
+      $.each(items.calendars, function(i) {
+        encodedUrl = encodeURIComponent(items.calendars[i]);
+        url.push("https://www.googleapis.com/calendar/v3/calendars/" + encodedUrl + "/events");
+      });
+      eventArray(url, token, callback);
     });
   });
 }
