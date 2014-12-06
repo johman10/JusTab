@@ -1099,6 +1099,9 @@ of where they are in DOM.
 
 
 
+  
+
+
   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer=""></script>
   <script src="js/options.js" type="text/javascript" charset="utf-8" defer=""></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
@@ -4065,9 +4068,93 @@ polyfill-next-selector {
 
 
 </polymer-element>
+
+<polymer-element name="paper-toggle-button" attributes="checked disabled" role="button" aria-pressed="false" tabindex="0" assetpath="bower_components/paper-toggle-button/">
+<template>
+
+  <style>/*
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+:host {
+  display: inline-block;
+}
+
+:host(:focus) {
+  outline: none;
+}
+
+#toggleContainer {
+  position: relative;
+  width: 64px;
+  height: 16px;
+}
+
+#toggleBar {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  height: 1px;
+  width: 32px;
+  background-color: #5a5a5a;
+  pointer-events: none;
+}
+
+#toggleBar[checked] {
+  background-color: #0f9d58;
+}
+
+#toggleContainer[checked] #checkedBar {
+  width: 100%;
+}
+
+#toggleRadio {
+  position: absolute;
+  left: 0;
+  padding: 8px 48px 8px 0;
+  margin: -8px -48px -8px 0;
+  transition: -webkit-transform linear .08s;
+  transition: transform linear .08s;
+}
+
+#toggleRadio[checked] {
+  -webkit-transform: translate(48px, 0);
+  transform: translate(48px, 0);
+  padding: 8px 0 8px 48px;
+  margin: -8px 0 -8px -48px;
+}
+
+#toggleRadio.dragging {
+  -webkit-transition: none;
+  transition: none;
+}
+
+/* disabled state */
+#toggleContainer[disabled] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+</style>
+
+  <div id="toggleContainer" disabled?="{{disabled}}">
+  
+    <div id="toggleBar" checked?="{{checked}}"></div>
+  
+    <paper-radio-button id="toggleRadio" toggles="" checked="{{checked}}" on-change="{{changeAction}}" on-core-change="{{stopPropagation}}" on-trackstart="{{trackStart}}" on-trackx="{{trackx}}" on-trackend="{{trackEnd}}"></paper-radio-button>
+    
+  </div>
+
+</template>
+
+</polymer-element>
 </div>
   <core-label>
-   <paper-checkbox name="GC_status" for=""></paper-checkbox>
+   <paper-toggle-button name="GC_status" for=""></paper-toggle-button>
    Calendar
   </core-label><br>
   <core-label>
@@ -4079,21 +4166,21 @@ polyfill-next-selector {
   <paper-input floatinglabel="" name="GC_refresh" id="GC_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="GM_status" for=""></paper-checkbox>
+   <paper-toggle-button name="GM_status" for=""></paper-toggle-button>
    Gmail
   </core-label><br>
   <paper-input floatinglabel="" name="GM_email" id="GM_email" label="E-mailadress"></paper-input><br>
   <paper-input floatinglabel="" name="GM_refresh" id="GM_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="FB_status" id="FB_status" for=""></paper-checkbox>
+   <paper-toggle-button name="FB_status" id="FB_status" for=""></paper-toggle-button>
    Facebook
   </core-label><br>
   <paper-input floatinglabel="" name="FB_url" id="FB_url" label="Facebook RSS feed url"></paper-input><br>
   <paper-input floatinglabel="" name="FB_refresh" id="FB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="CP_status" for=""></paper-checkbox>
+   <paper-toggle-button name="CP_status" for=""></paper-toggle-button>
    Couchpotato
   </core-label><br>
   <paper-input floatinglabel="" name="CP_address" id="CP_address" label="Server address"></paper-input><br>
@@ -4102,7 +4189,7 @@ polyfill-next-selector {
   <paper-input floatinglabel="" name="CP_refresh" id="CP_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="SB_status" for=""></paper-checkbox>
+   <paper-toggle-button name="SB_status" for=""></paper-toggle-button>
    Sickbeard
   </core-label><br>
   <paper-input floatinglabel="" name="SB_address" id="SB_address" label="Server address"></paper-input><br>
@@ -4111,7 +4198,7 @@ polyfill-next-selector {
   <paper-input floatinglabel="" name="SB_refresh" id="SB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="SAB_status" for=""></paper-checkbox>
+   <paper-toggle-button name="SAB_status" for=""></paper-toggle-button>
    Sabnzbd
   </core-label><br>
   <paper-input floatinglabel="" name="SAB_address" id="SAB_address" label="Server address"></paper-input><br>
@@ -4122,7 +4209,7 @@ polyfill-next-selector {
   <paper-input floatinglabel="" name="SABH_refresh" id="SABH_refresh" label="Refresh rate history (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="DN_status" for=""></paper-checkbox>
+   <paper-toggle-button name="DN_status" for=""></paper-toggle-button>
    Designernews
   </core-label><br>
   <paper-input floatinglabel="" name="DN_refresh" id="DN_refresh" label="Refresh rate (in minutes)"></paper-input><br>

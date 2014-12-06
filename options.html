@@ -8,13 +8,14 @@
   <link rel="import" href="bower_components/core-label/core-label.html">
   <link rel="import" href="bower_components/paper-checkbox/paper-checkbox.html">
   <link rel="import" href="bower_components/paper-input/paper-input.html">
+  <link rel="import" href="bower_components/paper-toggle-button/paper-toggle-button.html">
   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/options.js" type="text/javascript" charset="utf-8" defer></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
 </head>
 <body>
   <core-label>
-   <paper-checkbox name="GC_status" for></paper-checkbox>
+   <paper-toggle-button name="GC_status" for></paper-toggle-button>
    Calendar
   </core-label><br>
   <core-label>
@@ -26,21 +27,21 @@
   <paper-input floatingLabel name="GC_refresh" id="GC_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="GM_status" for></paper-checkbox>
+   <paper-toggle-button name="GM_status" for></paper-toggle-button>
    Gmail
   </core-label><br>
   <paper-input floatingLabel name="GM_email" id="GM_email" label="E-mailadress"></paper-input><br>
   <paper-input floatingLabel name="GM_refresh" id="GM_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="FB_status" id="FB_status" for></paper-checkbox>
+   <paper-toggle-button name="FB_status" id="FB_status" for></paper-toggle-button>
    Facebook
   </core-label><br>
   <paper-input floatingLabel name="FB_url" id="FB_url" label="Facebook RSS feed url"></paper-input><br>
   <paper-input floatingLabel name="FB_refresh" id="FB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="CP_status" for></paper-checkbox>
+   <paper-toggle-button name="CP_status" for></paper-toggle-button>
    Couchpotato
   </core-label><br>
   <paper-input floatingLabel name="CP_address" id="CP_address" label="Server address"></paper-input><br>
@@ -49,7 +50,7 @@
   <paper-input floatingLabel name="CP_refresh" id="CP_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="SB_status" for></paper-checkbox>
+   <paper-toggle-button name="SB_status" for></paper-toggle-button>
    Sickbeard
   </core-label><br>
   <paper-input floatingLabel name="SB_address" id="SB_address" label="Server address"></paper-input><br>
@@ -58,7 +59,7 @@
   <paper-input floatingLabel name="SB_refresh" id="SB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="SAB_status" for></paper-checkbox>
+   <paper-toggle-button name="SAB_status" for></paper-toggle-button>
    Sabnzbd
   </core-label><br>
   <paper-input floatingLabel name="SAB_address" id="SAB_address" label="Server address"></paper-input><br>
@@ -69,7 +70,7 @@
   <paper-input floatingLabel name="SABH_refresh" id="SABH_refresh" label="Refresh rate history (in minutes)"></paper-input><br>
 
   <core-label>
-   <paper-checkbox name="DN_status" for></paper-checkbox>
+   <paper-toggle-button name="DN_status" for></paper-toggle-button>
    Designernews
   </core-label><br>
   <paper-input floatingLabel name="DN_refresh" id="DN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
