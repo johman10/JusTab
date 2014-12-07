@@ -86,19 +86,23 @@
 .wanted,
 .snatched {
   h2 {
+    height: 48px;
+    line-height: 48px;
     padding: 0 16px;
   }
 
   .cp_imdb_link {
     color: $black;
     position: absolute;
-    right: 0;
+    right: 8px;
     left: auto;
     width: 40px;
   }
 
   .cp_item {
     cursor: pointer;
+    padding-left: 72px;
+    height: 56px;
 
     &:hover {
       background-color: $hover-color !important;
@@ -107,6 +111,15 @@
         background-color: $hover-color !important;
       }
     }
+
+    .cp_poster {
+      position: absolute;
+      left: 16px;
+      top: 9px;
+      height: 38px;
+      width: 38px;
+      border-radius: 100%;
+    }
   }
 }
 
@@ -114,7 +127,7 @@
   background-color: $panel-background;
   position: absolute;
   right: 0;
-  padding: 8px;
+  padding: 16px;
 
   .cp_collapse_icon {
     color: $clr-grey-500;
