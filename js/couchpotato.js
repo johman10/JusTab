@@ -167,7 +167,7 @@ function cpShowData() {
 
       data = JSON.parse(localStorage.getItem('Couchpotato'));
 
-      console.log(data);
+      // console.log(data);
       var snatched = [];
       $.each(data.movies, function(i, movie) {
         $.each(movie.releases, function(l, release) {
