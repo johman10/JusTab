@@ -48,11 +48,11 @@ function dnShowData() {
 
   if (localStorage.Designernews) {
     data = JSON.parse(localStorage.getItem('Designernews'));
-    $.each(data.stories, function(i) {
+    $.each(data.stories, function(i, story) {
       $('.dn_links').append(
-        // '<core-item label="' + data.stories[i].title + '""><a href="' + data.stories[i].url + '" target="_blank"></a></core-item>'
-        '<core-item><a href="' + data.stories[i].url + '" target="_blank" fit>' + data.stories[i].title + '<paper-ripple fit></paper-ripple></a></core-item>'
-        // '<p><a href="' + data.stories[i].url + '" target="_blank">' + data.stories[i].title + '</a></p>'
+        // '<core-item label="' + story.title + '""><a href="' + story.url + '" target="_blank"></a></core-item>'
+        '<core-item><a href="' + story.url + '" target="_blank" fit>' + story.title + '<paper-ripple fit></paper-ripple></a></core-item>'
+        // '<p><a href="' + story.url + '" target="_blank">' + story.title + '</a></p>'
       );
     });
   }

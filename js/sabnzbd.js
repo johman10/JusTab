@@ -60,8 +60,8 @@ function sabShowData() {
   if (localStorage.SabnzbdQueue) {
     var queue = JSON.parse(localStorage.getItem('SabnzbdQueue'));
 
-    $.each(queue.queue.slots, function(i) {
-      $('.queue').append("<core-item label='" + queue.queue.slots[i].filename + "'></core-item>");
+    $.each(queue.queue.slots, function(i, qItem) {
+      $('.queue').append("<core-item label='" + qItem.filename + "'></core-item>");
     });
 
     if (queue.queue.slots.length < 1) {
@@ -72,8 +72,8 @@ function sabShowData() {
   if (localStorage.SabnzbdHistory) {
     var history = JSON.parse(localStorage.getItem('SabnzbdHistory'));
 
-    $.each(history.history.slots, function(i) {
-      $('.history').append("<core-item label='" + history.history.slots[i].name + "'></core-item>");
+    $.each(history.history.slots, function(i, hItem) {
+      $('.history').append("<core-item label='" + hItem.name + "'></core-item>");
     });
 
     if (history.history.slots.length < 1) {

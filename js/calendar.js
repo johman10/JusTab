@@ -50,26 +50,26 @@ function calenderShowEvents() {
     $('#calendar .today').append("<h2>Today</h2>");
     $('#calendar .tomorrow').append("<h2>Tomorrow</h2>");
 
-    $.each(events, function(i) {
-      if (events[i].start.dateTime && new Date(events[i].start.dateTime).setHours(0,0,0,0) <= today.setHours(0,0,0,0)) {
-        eventStartDate = new Date(events[i].start.dateTime);
+    $.each(events, function(i, cEvent) {
+      if (cEvent.start.dateTime && new Date(cEvent.start.dateTime).setHours(0,0,0,0) <= today.setHours(0,0,0,0)) {
+        eventStartDate = new Date(cEvent.start.dateTime);
         eventStartTime = eventStartDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-        eventEndDate = new Date(events[i].end.dateTime);
+        eventEndDate = new Date(cEvent.end.dateTime);
         eventEndTime = eventEndDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-        $('#calendar .today').append('<core-item label="' + eventStartTime + ' - ' + eventEndTime + ' ' + events[i].summary + '"><a href="' + events[i].htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
+        $('#calendar .today').append('<core-item label="' + eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary + '"><a href="' + cEvent.htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
       }
-      else if (events[i].start.date && new Date(events[i].start.date) <= today) {
-        $('#calendar .today').append('<core-item label="' + events[i].summary + '"><a href="' + events[i].htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
+      else if (cEvent.start.date && new Date(cEvent.start.date) <= today) {
+        $('#calendar .today').append('<core-item label="' + cEvent.summary + '"><a href="' + cEvent.htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
       }
-      else if (events[i].start.dateTime && new Date(events[i].start.dateTime).setHours(0,0,0,0) > today.setHours(0,0,0,0)) {
-        eventStartDate = new Date(events[i].start.dateTime);
+      else if (cEvent.start.dateTime && new Date(cEvent.start.dateTime).setHours(0,0,0,0) > today.setHours(0,0,0,0)) {
+        eventStartDate = new Date(cEvent.start.dateTime);
         eventStartTime = eventStartDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-        eventEndDate = new Date(events[i].end.dateTime);
+        eventEndDate = new Date(cEvent.end.dateTime);
         eventEndTime = eventEndDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-        $('#calendar .tomorrow').append('<core-item label="' + eventStartTime + ' - ' + eventEndTime + ' ' + events[i].summary + '"><a href="' + events[i].htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
+        $('#calendar .tomorrow').append('<core-item label="' + eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary + '"><a href="' + cEvent.htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
       }
-      else if (events[i].start.date && new Date(events[i].start.date) > today) {
-        $('#calendar .tomorrow').append('<core-item label="' + events[i].summary + '"><a href="' + events[i].htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
+      else if (cEvent.start.date && new Date(cEvent.start.date) > today) {
+        $('#calendar .tomorrow').append('<core-item label="' + cEvent.summary + '"><a href="' + cEvent.htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
       }
     });
   }
