@@ -1,7 +1,7 @@
 // Docs:
 // http://nas.pxdesign.nl:5050/docs
 
-// "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
+// "media.list" lists all movies, "movie.status" returns the status of the movie
 $(document).ready(function() {
   chrome.storage.sync.get({
     CP_status: '',
@@ -169,22 +169,22 @@ function cpShowData() {
 
       console.log(data);
       var snatched = [];
-      $.each(data.movies, function(i) {
-        $.each(data.movies[i].releases, function(l) {
-          if (data.movies[i].releases[l].status === "snatched" || data.movies[i].releases[l].status === "downloaded" || data.movies[i].releases[l].status === "available") {
+      $.each(data.movies, function(i, movie) {
+        $.each(movie.releases, function(l, release) {
+          if (release.status === "snatched" || release.status === "downloaded" || release.status === "available") {
             var posterName, posterUrl;
 
-            if (data.movies[i].files && data.movies[i].files.image_poster && data.movies[i].files.image_poster[0]) {
-              posterName = data.movies[i].files.image_poster[0].match('[^//]*$')[0];
+            if (movie.files && movie.files.image_poster && movie.files.image_poster[0]) {
+              posterName = movie.files.image_poster[0].match('[^//]*$')[0];
               posterUrl = items.CP_address + ':' + items.CP_port + '/api/' + items.CP_key + '/file.cache/' + posterName
             }
             else {
               posterUrl = 'img/poster_fallback.png'
             }
-            snatched.push(data.movies[i].title);
-            if ($('.snatched').html().indexOf(data.movies[i].title) == -1) {
+            snatched.push(movie.title);
+            if ($('.snatched').html().indexOf(movie.title) == -1) {
               $('.snatched').append(
-                "<core-item label='" + data.movies[i].title + "' class='cp_item'>" +
+                "<core-item label='" + movie.title + "' class='cp_item'>" +
                   "<core-image class='cp_poster' sizing='cover' src='" + posterUrl + "'></core-image>" +
                   "<div class='cp_collapse_icon_container'>" +
                     "<core-icon class='cp_collapse_icon' icon='expand-more'></core-icon>" +
@@ -192,7 +192,7 @@ function cpShowData() {
                 "</core-item>" +
                 "<core-collapse opened=false class='cp_collapse'>" +
                   "<core-item>" +
-                    "<a class='cp_imdb_link' href='http://www.imdb.com/title/" + data.movies[i].identifiers.imdb + "' target='_blank'>" +
+                    "<a class='cp_imdb_link' href='http://www.imdb.com/title/" + movie.identifiers.imdb + "' target='_blank'>" +
                       "<paper-icon-button class='cp_imdb_link_icon' icon='info-outline'></core-icon-button>" +
                     "</a>" +
                   "</core-item>" +
@@ -202,18 +202,18 @@ function cpShowData() {
           }
         });
 
-        if (data.movies[i].status === "active") {
+        if (movie.status === "active") {
           var posterName, posterUrl;
 
-          if (data.movies[i].files && data.movies[i].files.image_poster && data.movies[i].files.image_poster[0]) {
-            posterName = data.movies[i].files.image_poster[0].match('[^//]*$')[0];
+          if (movie.files && movie.files.image_poster && movie.files.image_poster[0]) {
+            posterName = movie.files.image_poster[0].match('[^//]*$')[0];
             posterUrl = items.CP_address + ':' + items.CP_port + '/api/' + items.CP_key + '/file.cache/' + posterName
           }
           else {
             posterUrl = 'img/poster_fallback.png'
           }
           $('.wanted').append(
-            "<core-item label='" + data.movies[i].title + "' class='cp_item'>" +
+            "<core-item label='" + movie.title + "' class='cp_item'>" +
               "<core-image class='cp_poster' sizing='cover' src='" + posterUrl + "'></core-image>" +
               "<div class='cp_collapse_icon_container'>" +
                 "<core-icon class='cp_collapse_icon' icon='expand-more'></core-icon>" +
@@ -221,7 +221,7 @@ function cpShowData() {
             "</core-item>" +
             "<core-collapse opened=false class='cp_collapse'>" +
               "<core-item>" +
-                "<a class='cp_imdb_link' href='http://www.imdb.com/title/" + data.movies[i].identifiers.imdb + "' target='_blank'>" +
+                "<a class='cp_imdb_link' href='http://www.imdb.com/title/" + movie.identifiers.imdb + "' target='_blank'>" +
                   "<paper-icon-button class='cp_imdb_link_icon' icon='info-outline'></core-icon-button>" +
                 "</a>" +
               "</core-item>" +
