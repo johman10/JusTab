@@ -85,7 +85,7 @@ function sbShowData(SB_key, SB_address, SB_port) {
 
   if (localStorage.Sickbeard) {
     data = JSON.parse(localStorage.getItem('Sickbeard'));
-    // console.log(data);
+    console.log(data);
 
     // Episodes missed
     if (data.data.missed.length > 0) {
@@ -114,37 +114,47 @@ function sbShowData(SB_key, SB_address, SB_port) {
 }
 
 function listSeries(data, query, parent) {
-  $.each(query, function(i, episodeData) {
-    var tvdbid = episodeData.tvdbid,
-        season = episodeData.season,
-        episode = episodeData.episode,
-        airdate = episodeData.airdate,
-        showname = episodeData.show_name,
-        date;
+  chrome.storage.sync.get({
+    SB_key: '',
+    SB_address: '',
+    SB_port: ''
+  }, function(items) {
+    $.each(query, function(i, episodeData) {
+      var tvdbid = episodeData.tvdbid,
+          season = episodeData.season,
+          episode = episodeData.episode,
+          airdate = episodeData.airdate,
+          showname = episodeData.show_name,
+          date;
 
-    if (moment(airdate).year() > moment().year()) {
-      date = moment(airdate).format("MMM D, YYYY");
-    }
-    else {
-      date = moment(airdate).format("MMM D");
-    }
-    var episodeString = " S" + (season<10?'0':'') + season + "E" + (episode<10?'0':'') + episode;
-    $(parent).append(
-      "<core-item label='" + showname + episodeString + "' class='sb_item'>" +
-        "<div class='sb_collapse_icon_container'>" +
-          "<core-icon class='sb_collapse_icon' icon='expand-more'></core-icon>" +
-        "</div>" +
-      "</core-item>" +
-      "<core-collapse opened=false class='sb_collapse'>" +
-        "<core-item>" +
-          date +
-          "<paper-icon-button class='sb_search_episode " + tvdbid + "' icon='search'>Search</paper-icon-button>" +
-          "<paper-spinner class='sb_search_spinner'></paper-spinner>" +
+      // TODO: Safe image to localstorage for faster loading - http://stackoverflow.com/questions/19183180/how-to-save-an-image-to-localstorage-and-display-it-on-the-next-page
+      posterUrl = items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/?cmd=show.getposter&tvdbid=" + tvdbid
+
+      if (moment(airdate).year() > moment().year()) {
+        date = moment(airdate).format("MMM D, YYYY");
+      }
+      else {
+        date = moment(airdate).format("MMM D");
+      }
+      var episodeString = " S" + (season<10?'0':'') + season + "E" + (episode<10?'0':'') + episode;
+      $(parent).append(
+        "<core-item label='" + showname + episodeString + "' class='sb_item'>" +
+          "<core-image class='sb_poster' sizing='cover' src='" + posterUrl + "'></core-image>" +
+          "<div class='sb_collapse_icon_container'>" +
+            "<core-icon class='sb_collapse_icon' icon='expand-more'></core-icon>" +
+          "</div>" +
         "</core-item>" +
-      "</core-collapse>"
-    );
+        "<core-collapse opened=false class='sb_collapse'>" +
+          "<core-item>" +
+            date +
+            "<paper-icon-button class='sb_search_episode " + tvdbid + "' icon='search'>Search</paper-icon-button>" +
+            "<paper-spinner class='sb_search_spinner'></paper-spinner>" +
+          "</core-item>" +
+        "</core-collapse>"
+      );
 
-    $('.' + tvdbid).data("episode", { tvdbid: tvdbid, season: season, episode: episode });
+      $('.' + tvdbid).data("episode", { tvdbid: tvdbid, season: season, episode: episode });
+    });
   });
 }
 

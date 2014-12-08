@@ -23,6 +23,8 @@
 
 .sb_item {
   cursor: pointer;
+  padding-left: 72px;
+  height: 56px;
 
   &:hover {
     background-color: $hover-color;
@@ -30,6 +32,15 @@
     .sb_collapse_icon_container {
       background-color: $hover-color;
     }
+  }
+
+  .sb_poster {
+    position: absolute;
+    left: 16px;
+    top: 9px;
+    height: 38px;
+    width: 38px;
+    border-radius: 100%;
   }
 }
 

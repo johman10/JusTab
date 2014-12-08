@@ -172,6 +172,7 @@ function cpShowData() {
       $.each(data.movies, function(i, movie) {
         $.each(movie.releases, function(l, release) {
           if (release.status === "snatched" || release.status === "downloaded" || release.status === "available") {
+            // TODO: Safe image to localstorage for faster loading - http://stackoverflow.com/questions/19183180/how-to-save-an-image-to-localstorage-and-display-it-on-the-next-page
             var posterName, posterUrl;
 
             if (movie.files && movie.files.image_poster && movie.files.image_poster[0]) {
