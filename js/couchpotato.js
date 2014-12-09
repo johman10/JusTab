@@ -172,68 +172,47 @@ function cpShowData() {
       $.each(data.movies, function(i, movie) {
         $.each(movie.releases, function(l, release) {
           if (release.status === "snatched" || release.status === "downloaded" || release.status === "available") {
-            // TODO: Safe image to localstorage for faster loading - http://stackoverflow.com/questions/19183180/how-to-save-an-image-to-localstorage-and-display-it-on-the-next-page
-            var posterName, posterUrl;
-
-            if (movie.files && movie.files.image_poster && movie.files.image_poster[0]) {
-              posterName = movie.files.image_poster[0].match('[^//]*$')[0];
-              posterUrl = items.CP_address + ':' + items.CP_port + '/api/' + items.CP_key + '/file.cache/' + posterName
-            }
-            else {
-              posterUrl = 'img/poster_fallback.png'
-            }
-            snatched.push(movie.title);
-            if ($('.snatched').html().indexOf(movie.title) == -1) {
-              $('.snatched').append(
-                "<core-item label='" + movie.title + "' class='cp_item'>" +
-                  "<core-image class='cp_poster' sizing='cover' src='" + posterUrl + "'></core-image>" +
-                  "<div class='cp_collapse_icon_container'>" +
-                    "<core-icon class='cp_collapse_icon' icon='expand-more'></core-icon>" +
-                  "</div>" +
-                "</core-item>" +
-                "<core-collapse opened=false class='cp_collapse'>" +
-                  "<core-item>" +
-                    "<a class='cp_imdb_link' href='http://www.imdb.com/title/" + movie.identifiers.imdb + "' target='_blank'>" +
-                      "<paper-icon-button class='cp_imdb_link_icon' icon='info-outline'></core-icon-button>" +
-                    "</a>" +
-                  "</core-item>" +
-                "</core-collapse"
-              );
-            }
+            cpAppendData(movie, items, '.snatched');
           }
         });
 
         if (movie.status === "active") {
-          var posterName, posterUrl;
-
-          if (movie.files && movie.files.image_poster && movie.files.image_poster[0]) {
-            posterName = movie.files.image_poster[0].match('[^//]*$')[0];
-            posterUrl = items.CP_address + ':' + items.CP_port + '/api/' + items.CP_key + '/file.cache/' + posterName
-          }
-          else {
-            posterUrl = 'img/poster_fallback.png'
-          }
-          $('.wanted').append(
-            "<core-item label='" + movie.title + "' class='cp_item'>" +
-              "<core-image class='cp_poster' sizing='cover' src='" + posterUrl + "'></core-image>" +
-              "<div class='cp_collapse_icon_container'>" +
-                "<core-icon class='cp_collapse_icon' icon='expand-more'></core-icon>" +
-              "</div>" +
-            "</core-item>" +
-            "<core-collapse opened=false class='cp_collapse'>" +
-              "<core-item>" +
-                "<a class='cp_imdb_link' href='http://www.imdb.com/title/" + movie.identifiers.imdb + "' target='_blank'>" +
-                  "<paper-icon-button class='cp_imdb_link_icon' icon='info-outline'></core-icon-button>" +
-                "</a>" +
-              "</core-item>" +
-            "</core-collapse"
-          );
+          cpAppendData(movie, items, '.wanted');
         }
       });
 
-      if (snatched.length <= 0) {
+      if ($('.snatched core-item').length === 0) {
         $('.snatched').append("<core-item label='No snatched movies at this moment.'></core-item>");
       }
     }
   });
+}
+
+function cpAppendData(movie, items, divSelector) {
+  var posterName, posterUrl;
+
+  if (movie.files && movie.files.image_poster && movie.files.image_poster[0]) {
+    posterName = movie.files.image_poster[0].match('[^//]*$')[0];
+    posterUrl = items.CP_address + ':' + items.CP_port + '/api/' + items.CP_key + '/file.cache/' + posterName;
+  }
+  else {
+    posterUrl = 'img/poster_fallback.png';
+  }
+  if ($(divSelector).html().indexOf(movie.title) == -1) {
+    $(divSelector).append(
+      "<core-item label='" + movie.title + "' class='cp_item'>" +
+        "<core-image class='cp_poster' sizing='cover' src='" + posterUrl + "'></core-image>" +
+        "<div class='cp_collapse_icon_container'>" +
+          "<core-icon class='cp_collapse_icon' icon='expand-more'></core-icon>" +
+        "</div>" +
+      "</core-item>" +
+      "<core-collapse opened=false class='cp_collapse'>" +
+        "<core-item>" +
+          "<a class='cp_imdb_link' href='http://www.imdb.com/title/" + movie.identifiers.imdb + "' target='_blank'>" +
+            "<paper-icon-button class='cp_imdb_link_icon' icon='info-outline'></core-icon-button>" +
+          "</a>" +
+        "</core-item>" +
+      "</core-collapse"
+    );
+  }
 }

@@ -127,8 +127,7 @@ function listSeries(data, query, parent) {
           showname = episodeData.show_name,
           date;
 
-      // TODO: Safe image to localstorage for faster loading - http://stackoverflow.com/questions/19183180/how-to-save-an-image-to-localstorage-and-display-it-on-the-next-page
-      posterUrl = items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/?cmd=show.getposter&tvdbid=" + tvdbid
+      posterUrl = items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/?cmd=show.getposter&tvdbid=" + tvdbid;
 
       if (moment(airdate).year() > moment().year()) {
         date = moment(airdate).format("MMM D, YYYY");
