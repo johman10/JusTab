@@ -44,6 +44,10 @@ $("body").on('click', ".sb_item", function(event) {
     $('.sb_collapse').attr('opened', false);
     $('.sb_item').css('background-color', '#fafafa');
     $('.sb_collapse_icon_container').css('background-color', '#fafafa');
+    $('.sb_collapse_icon[icon=expand-less]').fadeOut(165, function() {
+      $(this).attr('icon', 'expand-more');
+      $(this).fadeIn(165);
+    });
     $(this).css('background-color', '#eee');
     collapseIcon.parent().css('background-color', '#eee');
     collapseItem.attr('opened', true);

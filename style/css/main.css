@@ -452,7 +452,7 @@ core-item {
   background-color: #FAFAFA;
   position: absolute;
   right: 0;
-  padding: 8px;
+  padding: 16px;
 }
 /* line 69, ../sass/partials/sickbeard.scss */
 .sb_collapse_icon_container .sb_collapse_icon {
