@@ -10,18 +10,18 @@ $(document).ready(function() {
     if (items.SB_status === true) {
       sbShowData(items.SB_key, items.SB_address, items.SB_port);
 
-      $('.refresh_sb').click(function(event) {
+      $('#sickbeard .refresh_sb').click(function(event) {
         if ($('#sickbeard .error:visible')) {
           $('#sickbeard .error:visible').slideUp(400);
         }
-        $('.refresh_sb').fadeOut(400, function() {
+        $('#sickbeard .refresh_sb').fadeOut(400, function() {
           $('.loading_sb').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getSickBeardData(function() {
               $.when(sbShowData(items.SB_key, items.SB_address, items.SB_port)).done(function() {
                 $('.loading_sb').attr('active', false);
                 setTimeout(function() {
-                  $('.refresh_sb').fadeIn(400);
+                  $('#sickbeard .refresh_sb').fadeIn(400);
                 }, 400);
               });
             });
@@ -37,14 +37,14 @@ $(document).ready(function() {
   });
 });
 
-$("body").on('click', ".sb_item", function(event) {
-  var collapseItem = $(this).next('.sb_collapse');
-  var collapseIcon = $(this).find('.sb_collapse_icon');
+$("#sickbeard").on('click', ".sb_item", function(event) {
+  var collapseItem = $(this).next('#sickbeard .sb_collapse');
+  var collapseIcon = $(this).find('#sickbeard .sb_collapse_icon');
   if (collapseItem.attr('opened') == 'false') {
-    $('.sb_collapse').attr('opened', false);
-    $('.sb_item').css('background-color', '#fafafa');
-    $('.sb_collapse_icon_container').css('background-color', '#fafafa');
-    $('.sb_collapse_icon[icon=expand-less]').fadeOut(165, function() {
+    $('#sickbeard .sb_collapse').attr('opened', false);
+    $('#sickbeard .sb_item').css('background-color', '#fafafa');
+    $('#sickbeard .sb_collapse_icon_container').css('background-color', '#fafafa');
+    $('#sickbeard .sb_collapse_icon[icon=expand-less]').fadeOut(165, function() {
       $(this).attr('icon', 'expand-more');
       $(this).fadeIn(165);
     });
@@ -67,15 +67,15 @@ $("body").on('click', ".sb_item", function(event) {
   }
 });
 
-$("body").on('click', ".sb_search_episode", function(event) {
+$("#sickbeard").on('click', ".sb_search_episode", function(event) {
   searchEpisode($(this));
 });
 
 function sbShowData(SB_key, SB_address, SB_port) {
-  $('.sb_missed').empty();
-  $('.sb_today').empty();
-  $('.sb_soon').empty();
-  $('.sb_later').empty();
+  $('#sickbeard .sb_missed').empty();
+  $('#sickbeard .sb_today').empty();
+  $('#sickbeard .sb_soon').empty();
+  $('#sickbeard .sb_later').empty();
 
   var url = SB_address + ":" + SB_port  + "/api/" + SB_key;
   var error = localStorage.getItem("Sickbeard_error");
@@ -89,29 +89,28 @@ function sbShowData(SB_key, SB_address, SB_port) {
 
   if (localStorage.Sickbeard) {
     data = JSON.parse(localStorage.getItem('Sickbeard'));
-    console.log(data);
 
     // Episodes missed
     if (data.data.missed.length > 0) {
-      $('.sb_missed').append('<h2>Missed</h2>');
+      $('#sickbeard .sb_missed').append('<h2>Missed</h2>');
       listSeries(data, data.data.missed, ".sb_missed");
     }
 
     // Episodes today
     if (data.data.today.length > 0) {
-      $('.sb_today').append('<h2>Today</h2>');
+      $('#sickbeard .sb_today').append('<h2>Today</h2>');
       listSeries(data, data.data.today, ".sb_today");
     }
 
     // Episodes soon
     if (data.data.soon.length > 0) {
-      $('.sb_soon').append('<h2>Soon</h2>');
+      $('#sickbeard .sb_soon').append('<h2>Soon</h2>');
       listSeries(data, data.data.soon, ".sb_soon");
     }
 
     // Episodes later
     if (data.data.later.length > 0) {
-      $('.sb_later').append('<h2>Later</h2>');
+      $('#sickbeard .sb_later').append('<h2>Later</h2>');
       listSeries(data, data.data.later, ".sb_later");
     }
   }
@@ -123,6 +122,12 @@ function listSeries(data, query, parent) {
     SB_address: '',
     SB_port: ''
   }, function(items) {
+    // var SB_images;
+    // SB_images = JSON.parse(localStorage.getItem('SB_images'));
+    // if (!SB_images) {
+    //   SB_images = '[]';
+    // }
+
     $.each(query, function(i, episodeData) {
       var tvdbid = episodeData.tvdbid,
           season = episodeData.season,
@@ -132,6 +137,31 @@ function listSeries(data, query, parent) {
           date;
 
       posterUrl = items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/?cmd=show.getposter&tvdbid=" + tvdbid;
+
+      // console.log(SB_images);
+
+      // if (SB_images.length > 0) {
+      //   if (SB_images.images.some(function(element) {
+      //     return element.id === tvdbid;
+      //   })) {
+      //     convertImgToBase64(posterUrl, function(base64Img){
+      //       SB_images.push(
+      //         {id: tvdbid, image: base64Img}
+      //       );
+
+      //       localStorage.setItem('SB_images', JSON.stringify(SB_images));
+      //     });
+      //   }
+      // }
+      // else {
+      //   convertImgToBase64(posterUrl, function(base64Img){
+      //     SB_images.push(
+      //       {id: tvdbid, image: base64Img}
+      //     );
+
+      //     localStorage.setItem('SB_images', JSON.stringify(SB_images));
+      //   });
+      // }
 
       if (moment(airdate).year() > moment().year()) {
         date = moment(airdate).format("MMM D, YYYY");
@@ -162,7 +192,6 @@ function listSeries(data, query, parent) {
 }
 
 function searchEpisode(clickedObject) {
-  console.log('click');
   clickedObject.fadeOut(400, function() {
     clickedObject.next('paper-spinner').attr('active', true);
   });
@@ -177,7 +206,6 @@ function searchEpisode(clickedObject) {
     $.ajax({
       url: searchApiUrl,
       success: function(data) {
-        console.log(data.result);
         if (data.result == "failure") {
           clickedObject.attr('icon', 'error');
         } else {
@@ -194,3 +222,20 @@ function searchEpisode(clickedObject) {
     });
   });
 }
+
+// function convertImgToBase64(url, callback, outputFormat){
+//   var canvas = document.createElement('CANVAS');
+//   var ctx = canvas.getContext('2d');
+//   var img = new Image();
+//   img.crossOrigin = 'Anonymous';
+//   img.onload = function(){
+//     canvas.height = img.height;
+//     canvas.width = img.width;
+//       ctx.drawImage(img,0,0);
+//       var dataURL = canvas.toDataURL(outputFormat || 'image/png');
+//       callback.call(this, dataURL);
+//         // Clean up
+//       canvas = null;
+//   };
+//   img.src = url;
+// }
