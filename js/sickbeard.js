@@ -122,72 +122,73 @@ function listSeries(data, query, parent) {
     SB_address: '',
     SB_port: ''
   }, function(items) {
-    // var SB_images;
-    // SB_images = JSON.parse(localStorage.getItem('SB_images'));
-    // if (!SB_images) {
-    //   SB_images = '[]';
-    // }
+    // chrome.storage.local.clear();
+    chrome.storage.local.get(function(images) {
+      var SB_images;
 
-    $.each(query, function(i, episodeData) {
-      var tvdbid = episodeData.tvdbid,
-          season = episodeData.season,
-          episode = episodeData.episode,
-          airdate = episodeData.airdate,
-          showname = episodeData.show_name,
-          date;
-
-      posterUrl = items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/?cmd=show.getposter&tvdbid=" + tvdbid;
-
-      // console.log(SB_images);
-
-      // if (SB_images.length > 0) {
-      //   if (SB_images.images.some(function(element) {
-      //     return element.id === tvdbid;
-      //   })) {
-      //     convertImgToBase64(posterUrl, function(base64Img){
-      //       SB_images.push(
-      //         {id: tvdbid, image: base64Img}
-      //       );
-
-      //       localStorage.setItem('SB_images', JSON.stringify(SB_images));
-      //     });
-      //   }
-      // }
-      // else {
-      //   convertImgToBase64(posterUrl, function(base64Img){
-      //     SB_images.push(
-      //       {id: tvdbid, image: base64Img}
-      //     );
-
-      //     localStorage.setItem('SB_images', JSON.stringify(SB_images));
-      //   });
-      // }
-
-      if (moment(airdate).year() > moment().year()) {
-        date = moment(airdate).format("MMM D, YYYY");
+      if (images.SB_images) {
+        SB_images = JSON.parse(images.SB_images);
       }
       else {
-        date = moment(airdate).format("MMM D");
+        SB_images = [];
       }
-      var episodeString = " S" + (season<10?'0':'') + season + "E" + (episode<10?'0':'') + episode;
-      $(parent).append(
-        "<core-item label='" + showname + episodeString + "' class='sb_item'>" +
-          "<core-image class='sb_poster' sizing='cover' src='" + posterUrl + "'></core-image>" +
-          "<div class='sb_collapse_icon_container'>" +
-            "<core-icon class='sb_collapse_icon' icon='expand-more'></core-icon>" +
-          "</div>" +
-        "</core-item>" +
-        "<core-collapse opened=false class='sb_collapse'>" +
-          "<core-item>" +
-            date +
-            "<paper-icon-button class='sb_search_episode " + tvdbid + "' icon='search'>Search</paper-icon-button>" +
-            "<paper-spinner class='sb_search_spinner'></paper-spinner>" +
-          "</core-item>" +
-        "</core-collapse>"
-      );
 
-      $('.' + tvdbid).data("episode", { tvdbid: tvdbid, season: season, episode: episode });
-    });
+      $.each(query, function(i, episodeData) {
+        var tvdbid = episodeData.tvdbid,
+            season = episodeData.season,
+            episode = episodeData.episode,
+            airdate = episodeData.airdate,
+            showname = episodeData.show_name,
+            date;
+
+        posterUrl = items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/?cmd=show.getposter&tvdbid=" + tvdbid;
+
+        // Need to start storing in chrome.storage.local - rest is working: https://developer.chrome.com/apps/storage#property-local
+        if(!exists(tvdbid, SB_images)) {
+          convertImgToBase64(posterUrl, function(base64Img){
+            SB_images.push(
+              {id: tvdbid, image: base64Img}
+            );
+
+            chrome.storage.local.set({"SB_images": JSON.stringify(SB_images)});
+          });
+        }
+
+        if (moment(airdate).year() > moment().year()) {
+          date = moment(airdate).format("MMM D, YYYY");
+        }
+        else {
+          date = moment(airdate).format("MMM D");
+        }
+        var episodeString = " S" + (season<10?'0':'') + season + "E" + (episode<10?'0':'') + episode;
+        $(parent).append(
+          "<core-item label='" + showname + episodeString + "' class='sb_item'>" +
+            "<div class='sb_collapse_icon_container'>" +
+              "<core-icon class='sb_collapse_icon' icon='expand-more'></core-icon>" +
+            "</div>" +
+          "</core-item>" +
+          "<core-collapse opened=false class='sb_collapse'>" +
+            "<core-item>" +
+              date +
+              "<paper-icon-button class='sb_search_episode " + tvdbid + "' icon='search'>Search</paper-icon-button>" +
+              "<paper-spinner class='sb_search_spinner'></paper-spinner>" +
+            "</core-item>" +
+          "</core-collapse>"
+        );
+
+        $.each(SB_images, function(i, image) {
+          if (image.id == tvdbid && $(parent + ' .sb_item').last().find('.sb_poster').length === 0) {
+            var append_image = "<core-image class='sb_poster' sizing='cover' src='" + image.image + "'></core-image>";
+            // var append_image = new Image();
+            // append_image.src = image.image;
+            // append_image.className = 'sb_poster';
+            $(parent + ' .sb_item').last().append(append_image);
+          }
+        });
+
+        $('.' + tvdbid).data("episode", { tvdbid: tvdbid, season: season, episode: episode });
+      });
+   });
   });
 }
 
@@ -223,19 +224,31 @@ function searchEpisode(clickedObject) {
   });
 }
 
-// function convertImgToBase64(url, callback, outputFormat){
-//   var canvas = document.createElement('CANVAS');
-//   var ctx = canvas.getContext('2d');
-//   var img = new Image();
-//   img.crossOrigin = 'Anonymous';
-//   img.onload = function(){
-//     canvas.height = img.height;
-//     canvas.width = img.width;
-//       ctx.drawImage(img,0,0);
-//       var dataURL = canvas.toDataURL(outputFormat || 'image/png');
-//       callback.call(this, dataURL);
-//         // Clean up
-//       canvas = null;
-//   };
-//   img.src = url;
-// }
+function convertImgToBase64(url, callback, outputFormat){
+  var canvas = document.createElement('CANVAS');
+  var ctx = canvas.getContext('2d');
+  var img = new Image();
+  img.crossOrigin = 'Anonymous';
+  img.onload = function(){
+    canvas.height = img.height;
+    canvas.width = img.width;
+      ctx.drawImage(img,0,0);
+      var dataURL = canvas.toDataURL('image/jpeg');
+      callback.call(this, dataURL);
+        // Clean up
+      canvas = null;
+  };
+  img.src = url;
+}
+
+function exists(obj, objs) {
+  var objStr = JSON.stringify(obj);
+
+  for(var i=0;i<objs.length; i++) {
+    if(JSON.stringify(objs[i].id) == objStr) {
+      return 1;
+    }
+  }
+
+  return 0;
+}
