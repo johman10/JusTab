@@ -131,7 +131,6 @@ function cpShowData() {
 
 function cpAppendData(movie, items, divSelector, CP_images) {
   var posterName, posterUrl;
-  console.log(CP_images);
 
   if (movie.files && movie.files.image_poster && movie.files.image_poster[0]) {
     posterName = movie.files.image_poster[0].match('[^//]*$')[0];
