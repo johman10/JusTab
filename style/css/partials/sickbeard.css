@@ -28,11 +28,11 @@
 }
 /* line 29, ../../sass/partials/sickbeard.scss */
 .sb_item:hover {
-  background-color: #eee;
+  background-color: #eee !important;
 }
 /* line 32, ../../sass/partials/sickbeard.scss */
 .sb_item:hover .sb_collapse_icon_container {
-  background-color: #eee;
+  background-color: #eee !important;
 }
 /* line 37, ../../sass/partials/sickbeard.scss */
 .sb_item .sb_poster {

@@ -27,10 +27,10 @@
   height: 56px;
 
   &:hover {
-    background-color: $hover-color;
+    background-color: $hover-color !important;
 
     .sb_collapse_icon_container {
-      background-color: $hover-color;
+      background-color: $hover-color !important;
     }
   }
 
