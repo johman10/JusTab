@@ -37,14 +37,14 @@ $(document).ready(function() {
   });
 });
 
-$("#sickbeard").on('click', ".sb_item", function(event) {
-  var collapseItem = $(this).next('#sickbeard .sb_collapse');
-  var collapseIcon = $(this).find('#sickbeard .sb_collapse_icon');
+$("body").on('click', ".sb_item", function(event) {
+  var collapseItem = $(this).next('.sb_collapse');
+  var collapseIcon = $(this).find('.sb_collapse_icon');
   if (collapseItem.attr('opened') == 'false') {
-    $('#sickbeard .sb_collapse').attr('opened', false);
-    $('#sickbeard .sb_item').css('background-color', '#fafafa');
-    $('#sickbeard .sb_collapse_icon_container').css('background-color', '#fafafa');
-    $('#sickbeard .sb_collapse_icon[icon=expand-less]').fadeOut(165, function() {
+    $('.sb_collapse').attr('opened', false);
+    $('.sb_item').css('background-color', '#fafafa');
+    $('.sb_collapse_icon_container').css('background-color', '#fafafa');
+    $('.sb_collapse_icon[icon=expand-less]').fadeOut(165, function() {
       $(this).attr('icon', 'expand-more');
       $(this).fadeIn(165);
     });
@@ -67,7 +67,7 @@ $("#sickbeard").on('click', ".sb_item", function(event) {
   }
 });
 
-$("#sickbeard").on('click', ".sb_search_episode", function(event) {
+$("body").on('click', ".sb_search_episode", function(event) {
   searchEpisode($(this));
 });
 
@@ -143,7 +143,6 @@ function listSeries(data, query, parent) {
 
         posterUrl = items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/?cmd=show.getposter&tvdbid=" + tvdbid;
 
-        // Need to start storing in chrome.storage.local - rest is working: https://developer.chrome.com/apps/storage#property-local
         if(!exists(tvdbid, SB_images)) {
           convertImgToBase64(posterUrl, function(base64Img){
             SB_images.push(
@@ -222,33 +221,4 @@ function searchEpisode(clickedObject) {
       }
     });
   });
-}
-
-function convertImgToBase64(url, callback, outputFormat){
-  var canvas = document.createElement('CANVAS');
-  var ctx = canvas.getContext('2d');
-  var img = new Image();
-  img.crossOrigin = 'Anonymous';
-  img.onload = function(){
-    canvas.height = img.height;
-    canvas.width = img.width;
-      ctx.drawImage(img,0,0);
-      var dataURL = canvas.toDataURL('image/jpeg');
-      callback.call(this, dataURL);
-        // Clean up
-      canvas = null;
-  };
-  img.src = url;
-}
-
-function exists(obj, objs) {
-  var objStr = JSON.stringify(obj);
-
-  for(var i=0;i<objs.length; i++) {
-    if(JSON.stringify(objs[i].id) == objStr) {
-      return 1;
-    }
-  }
-
-  return 0;
 }
