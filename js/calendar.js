@@ -30,6 +30,36 @@ $(document).ready(function() {
   });
 });
 
+$('body').on('click', '.gc_item', function(event) {
+  var collapseItem = $(this).next('.gc_collapse');
+  var collapseIcon = $(this).find('.gc_collapse_icon');
+  if (collapseItem.attr('opened') == 'false') {
+    $('.gc_collapse').attr('opened', false);
+    $('.gc_item').css('background-color', '#fafafa');
+    $('.gc_collapse_icon_container').css('background-color', '#fafafa');
+    $('.gc_collapse_icon[icon=expand-less]').fadeOut(165, function() {
+      $(this).attr('icon', 'expand-more');
+      $(this).fadeIn(165);
+    });
+    $(this).css('background-color', '#eee');
+    collapseIcon.parent().css('background-color', '#eee');
+    collapseItem.attr('opened', true);
+    collapseIcon.fadeOut(165, function() {
+      collapseIcon.attr('icon', 'expand-less');
+      collapseIcon.fadeIn(165);
+    });
+  }
+  else {
+    $(this).css('background-color', '#fafafa');
+    collapseIcon.parent().css('background-color', '#fafafa');
+    collapseItem.attr('opened', false);
+    collapseIcon.fadeOut(165, function() {
+      collapseIcon.attr('icon', 'expand-more');
+      collapseIcon.fadeIn(165);
+    });
+  }
+});
+
 function calenderShowEvents() {
   $('#calendar .today').empty();
   $('#calendar .tomorrow').empty();
@@ -56,10 +86,36 @@ function calenderShowEvents() {
         eventStartTime = eventStartDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
         eventEndDate = new Date(cEvent.end.dateTime);
         eventEndTime = eventEndDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-        $('#calendar .today').append('<core-item label="' + eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary + '"><a href="' + cEvent.htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
+        $('#calendar .today').append(
+          '<core-item class="gc_item" label="' + eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary + '">' +
+            '<div class="gc_collapse_icon_container">' +
+              '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
+            '</div>' +
+          '</core-item>' +
+          '<core-collapse opened=false class="gc_collapse">' +
+            '<core-item>' +
+              '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
+                '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
+              '</a>' +
+            '</core-item>' +
+          '</core-collapse'
+        );
       }
       else if (cEvent.start.date && new Date(cEvent.start.date) <= today) {
-        $('#calendar .today').append('<core-item label="' + cEvent.summary + '"><a href="' + cEvent.htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
+        $('#calendar .today').append(
+          '<core-item class="gc_item" label="' + cEvent.summary + '">' +
+            '<div class="gc_collapse_icon_container">' +
+              '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
+            '</div>' +
+          '</core-item>' +
+          '<core-collapse opened=false class="gc_collapse">' +
+            '<core-item>' +
+              '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
+                '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
+              '</a>' +
+            '</core-item>' +
+          '</core-collapse'
+        );
       }
       else if (cEvent.start.dateTime && new Date(cEvent.start.dateTime).setHours(0,0,0,0) > today.setHours(0,0,0,0)) {
         eventStartDate = new Date(cEvent.start.dateTime);

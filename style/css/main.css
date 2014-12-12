@@ -182,19 +182,38 @@ core-item {
   padding: 0 16px;
 }
 /* line 21, ../sass/partials/calendar.scss */
-.today a,
-.tomorrow a {
-  right: 0 !important;
-  top: auto !important;
-  left: auto !important;
-  bottom: auto !important;
-  line-height: 1;
-  display: none;
+.today .gc_event_link,
+.tomorrow .gc_event_link {
+  color: #000;
+  position: absolute;
+  right: 0;
+  left: auto;
+  width: 40px;
 }
+
 /* line 30, ../sass/partials/calendar.scss */
-.today core-item:hover > a,
-.tomorrow core-item:hover > a {
-  display: block;
+.gc_item {
+  cursor: pointer;
+}
+/* line 33, ../sass/partials/calendar.scss */
+.gc_item:hover {
+  background-color: #eee !important;
+}
+/* line 36, ../sass/partials/calendar.scss */
+.gc_item:hover .gc_collapse_icon_container {
+  background-color: #eee !important;
+}
+
+/* line 42, ../sass/partials/calendar.scss */
+.gc_collapse_icon_container {
+  background-color: #FAFAFA;
+  position: absolute;
+  right: 0;
+  padding: 8px;
+}
+/* line 48, ../sass/partials/calendar.scss */
+.gc_collapse_icon_container .gc_collapse_icon {
+  color: #9e9e9e;
 }
 
 /* line 3, ../sass/partials/gmail.scss */

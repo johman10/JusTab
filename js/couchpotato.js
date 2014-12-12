@@ -161,7 +161,7 @@ function cpAppendData(movie, items, divSelector, CP_images) {
       "<core-collapse opened=false class='cp_collapse'>" +
         "<core-item>" +
           "<a class='cp_imdb_link' href='http://www.imdb.com/title/" + movie.identifiers.imdb + "' target='_blank'>" +
-            "<paper-icon-button class='cp_imdb_link_icon' icon='info-outline'></core-icon-button>" +
+            "<paper-icon-button class='cp_imdb_link_icon' icon='info-outline'></paper-icon-button>" +
           "</a>" +
         "</core-item>" +
       "</core-collapse"
