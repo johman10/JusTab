@@ -122,10 +122,36 @@ function calenderShowEvents() {
         eventStartTime = eventStartDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
         eventEndDate = new Date(cEvent.end.dateTime);
         eventEndTime = eventEndDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-        $('#calendar .tomorrow').append('<core-item label="' + eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary + '"><a href="' + cEvent.htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
+        $('#calendar .tomorrow').append(
+          '<core-item class="gc_item" label="' + eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary + '">' +
+            '<div class="gc_collapse_icon_container">' +
+              '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
+            '</div>' +
+          '</core-item>' +
+          '<core-collapse opened=false class="gc_collapse">' +
+            '<core-item>' +
+              '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
+                '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
+              '</a>' +
+            '</core-item>' +
+          '</core-collapse>'
+        );
       }
       else if (cEvent.start.date && new Date(cEvent.start.date) > today) {
-        $('#calendar .tomorrow').append('<core-item label="' + cEvent.summary + '"><a href="' + cEvent.htmlLink + '" target="_blank"><core-icon-button icon="create"></core-icon-button></a></core-item>');
+        $('#calendar .tomorrow').append(
+          '<core-item class="gc_item" label="' + cEvent.summary + '">' +
+            '<div class="gc_collapse_icon_container">' +
+              '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
+            '</div>' +
+          '</core-item>' +
+          '<core-collapse opened=false class="gc_collapse">' +
+            '<core-item>' +
+              '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
+                '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
+              '</a>' +
+            '</core-item>' +
+          '</core-collapse>'
+        );
       }
     });
   }
