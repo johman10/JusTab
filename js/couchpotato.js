@@ -130,16 +130,6 @@ function cpShowData() {
 }
 
 function cpAppendData(movie, items, divSelector, CP_images) {
-  var posterName, posterUrl;
-
-  if (movie.files && movie.files.image_poster && movie.files.image_poster[0]) {
-    posterName = movie.files.image_poster[0].match('[^//]*$')[0];
-    posterUrl = items.CP_address + ':' + items.CP_port + '/api/' + items.CP_key + '/file.cache/' + posterName;
-  }
-  else {
-    posterUrl = 'img/poster_fallback.png';
-  }
-
   if(!exists(movie._id, CP_images)) {
     convertImgToBase64(posterUrl, function(base64Img){
       CP_images.push(
@@ -153,7 +143,6 @@ function cpAppendData(movie, items, divSelector, CP_images) {
   if ($(divSelector).html().indexOf(movie.title) == -1) {
     $(divSelector).append(
       "<core-item label='" + movie.title + "' class='cp_item'>" +
-        // "<core-image class='cp_poster' sizing='cover' src='" + posterUrl + "'></core-image>" +
         "<div class='cp_collapse_icon_container'>" +
           "<core-icon class='cp_collapse_icon' icon='expand-more'></core-icon>" +
         "</div>" +
