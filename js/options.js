@@ -29,7 +29,7 @@ $(document).ready(function() {
     });
   });
 
-  $("#save_settings").click(function() {
+  $(".save_settings").click(function() {
     save_options();
   });
 });
@@ -81,7 +81,7 @@ function save_options() {
     DN_refresh: $('#DN_refresh').val(),
   }, function() {
     // Update status to let user know options were saved.
-    var status = $('#status');
+    var status = $('.status');
     status.html('Options saved.');
     setTimeout(function() {
       status.html('');

@@ -4153,69 +4153,119 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 </polymer-element>
 </div>
-  <core-label>
-   <paper-toggle-button name="GC_status" for=""></paper-toggle-button>
-   Calendar
-  </core-label><br>
-  <core-label>
-    Show appointments from:
-  </core-label>
-  <div class="calendar_select_container">
-    <div id="loading">Loading...</div>
-  </div>
-  <paper-input floatinglabel="" name="GC_refresh" id="GC_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+  <template is="auto-binding">
+    <core-scaffold>
 
-  <core-label>
-   <paper-toggle-button name="GM_status" for=""></paper-toggle-button>
-   Gmail
-  </core-label><br>
-  <paper-input floatinglabel="" name="GM_email" id="GM_email" label="E-mailadress"></paper-input><br>
-  <paper-input floatinglabel="" name="GM_refresh" id="GM_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <core-header-panel navigation="" flex="">
+        <core-toolbar id="navheader">
+        </core-toolbar>
+        <core-menu selected="0" selecteditem="{{item}}" selectedindex="{{selected}}">
+          <core-item label="Calendar"></core-item>
+          <core-item label="Gmail"></core-item>
+          <core-item label="Facebook"></core-item>
+          <core-item label="Couchpotato"></core-item>
+          <core-item label="Sickbeard"></core-item>
+          <core-item label="SABnzbd"></core-item>
+          <core-item label="Designernews"></core-item>
+        </core-menu>
+      </core-header-panel>
 
-  <core-label>
-   <paper-toggle-button name="FB_status" id="FB_status" for=""></paper-toggle-button>
-   Facebook
-  </core-label><br>
-  <paper-input floatinglabel="" name="FB_url" id="FB_url" label="Facebook RSS feed url"></paper-input><br>
-  <paper-input floatinglabel="" name="FB_refresh" id="FB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <span tool="">{{item.label}}</span>
 
-  <core-label>
-   <paper-toggle-button name="CP_status" for=""></paper-toggle-button>
-   Couchpotato
-  </core-label><br>
-  <paper-input floatinglabel="" name="CP_address" id="CP_address" label="Server address"></paper-input><br>
-  <paper-input floatinglabel="" name="CP_port" id="CP_port" label="Server port"></paper-input><br>
-  <paper-input floatinglabel="" name="CP_key" id="CP_key" label="API Key"></paper-input><br>
-  <paper-input floatinglabel="" name="CP_refresh" id="CP_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <core-pages selected="{{selected}}">
+        <div class="Calendar">
+          <core-label>
+            <paper-toggle-button name="GC_status" for=""></paper-toggle-button>
+            Calendar
+          </core-label><br>
+          <core-label>
+            Show appointments from:
+          </core-label>
+          <div class="calendar_select_container">
+            <div id="loading">Loading...</div>
+          </div>
+          <paper-input floatinglabel="" name="GC_refresh" id="GC_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+          <div class="status"></div>
+          <button class="save_settings">Save</button>
+        </div>
 
-  <core-label>
-   <paper-toggle-button name="SB_status" for=""></paper-toggle-button>
-   Sickbeard
-  </core-label><br>
-  <paper-input floatinglabel="" name="SB_address" id="SB_address" label="Server address"></paper-input><br>
-  <paper-input floatinglabel="" name="SB_port" id="SB_port" label="Server port"></paper-input><br>
-  <paper-input floatinglabel="" name="SB_key" id="SB_key" label="API Key"></paper-input><br>
-  <paper-input floatinglabel="" name="SB_refresh" id="SB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+        <div class="Gmail">
+          <core-label>
+            <paper-toggle-button name="GM_status" for=""></paper-toggle-button>
+            Gmail
+          </core-label><br>
+          <paper-input floatinglabel="" name="GM_email" id="GM_email" label="E-mailadress"></paper-input><br>
+          <paper-input floatinglabel="" name="GM_refresh" id="GM_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+          <div class="status"></div>
+          <button class="save_settings">Save</button>
+        </div>
 
-  <core-label>
-   <paper-toggle-button name="SAB_status" for=""></paper-toggle-button>
-   Sabnzbd
-  </core-label><br>
-  <paper-input floatinglabel="" name="SAB_address" id="SAB_address" label="Server address"></paper-input><br>
-  <paper-input floatinglabel="" name="SAB_port" id="SAB_port" label="Server port"></paper-input><br>
-  <paper-input floatinglabel="" name="SAB_key" id="SAB_key" label="API Key"></paper-input><br>
-  <paper-input floatinglabel="" name="SAB_history" id="SAB_history" label="History limit"></paper-input><br>
-  <paper-input floatinglabel="" name="SABQ_refresh" id="SABQ_refresh" label="Refresh rate queue (in minutes)"></paper-input><br>
-  <paper-input floatinglabel="" name="SABH_refresh" id="SABH_refresh" label="Refresh rate history (in minutes)"></paper-input><br>
+        <div class="Facebook">
+          <core-label>
+            <paper-toggle-button name="FB_status" id="FB_status" for=""></paper-toggle-button>
+            Facebook
+          </core-label><br>
+          <paper-input floatinglabel="" name="FB_url" id="FB_url" label="Facebook RSS feed url"></paper-input><br>
+          <paper-input floatinglabel="" name="FB_refresh" id="FB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+          <div class="status"></div>
+          <button class="save_settings">Save</button>
+        </div>
 
-  <core-label>
-   <paper-toggle-button name="DN_status" for=""></paper-toggle-button>
-   Designernews
-  </core-label><br>
-  <paper-input floatinglabel="" name="DN_refresh" id="DN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+        <div class="Couchpotato">
+          <core-label>
+            <paper-toggle-button name="CP_status" for=""></paper-toggle-button>
+            Couchpotato
+          </core-label><br>
+          <paper-input floatinglabel="" name="CP_address" id="CP_address" label="Server address"></paper-input><br>
+          <paper-input floatinglabel="" name="CP_port" id="CP_port" label="Server port"></paper-input><br>
+          <paper-input floatinglabel="" name="CP_key" id="CP_key" label="API Key"></paper-input><br>
+          <paper-input floatinglabel="" name="CP_refresh" id="CP_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+          <div class="status"></div>
+          <button class="save_settings">Save</button>
+        </div>
 
-  <div id="status"></div>
-  <button id="save_settings">Save</button>
+        <div class="Sickbeard">
+          <core-label>
+            <paper-toggle-button name="SB_status" for=""></paper-toggle-button>
+            Sickbeard
+          </core-label><br>
+          <paper-input floatinglabel="" name="SB_address" id="SB_address" label="Server address"></paper-input><br>
+          <paper-input floatinglabel="" name="SB_port" id="SB_port" label="Server port"></paper-input><br>
+          <paper-input floatinglabel="" name="SB_key" id="SB_key" label="API Key"></paper-input><br>
+          <paper-input floatinglabel="" name="SB_refresh" id="SB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+          <div class="status"></div>
+          <button class="save_settings">Save</button>
+        </div>
+
+        <div class="SABnzbd">
+          <core-label>
+            <paper-toggle-button name="SAB_status" for=""></paper-toggle-button>
+            Sabnzbd
+          </core-label><br>
+          <paper-input floatinglabel="" name="SAB_address" id="SAB_address" label="Server address"></paper-input><br>
+          <paper-input floatinglabel="" name="SAB_port" id="SAB_port" label="Server port"></paper-input><br>
+          <paper-input floatinglabel="" name="SAB_key" id="SAB_key" label="API Key"></paper-input><br>
+          <paper-input floatinglabel="" name="SAB_history" id="SAB_history" label="History limit"></paper-input><br>
+          <paper-input floatinglabel="" name="SABQ_refresh" id="SABQ_refresh" label="Refresh rate queue (in minutes)"></paper-input><br>
+          <paper-input floatinglabel="" name="SABH_refresh" id="SABH_refresh" label="Refresh rate history (in minutes)"></paper-input><br>
+          <div class="status"></div>
+          <button class="save_settings">Save</button>
+        </div>
+
+        <div class="Couchpotato">
+          <core-label>
+            <paper-toggle-button name="DN_status" for=""></paper-toggle-button>
+            Designernews
+          </core-label><br>
+          <paper-input floatinglabel="" name="DN_refresh" id="DN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+          <div class="status"></div>
+          <button class="save_settings">Save</button>
+        </div>
+
+      </core-pages>
+
+    </core-scaffold>
+  </template>
 
 
 <script src="options_build.js"></script></body></html>
