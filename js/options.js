@@ -29,9 +29,15 @@ $(document).ready(function() {
     });
   });
 
-  $(".save_settings").click(function() {
-    save_options();
-  });
+  setTimeout(function() {
+    $('.save_settings').bind('click', function() {
+      save_options();
+    });
+
+    $('.service_toggle').bind('core-change', function(event) {
+      save_options();
+    });
+  }, 50);
 });
 
 // Saves options to chrome.storage
@@ -42,8 +48,6 @@ function save_options() {
       calendars.push($(this).attr('value'));
     }
   });
-
-  console.log($('paper-toggle-button[name=GC_status]').attr('aria-pressed'));
 
   formatUrl('FB_url');
   formatUrl('CP_address');

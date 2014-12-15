@@ -4160,13 +4160,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <core-toolbar id="navheader">
         </core-toolbar>
         <core-menu selected="0" selecteditem="{{item}}" selectedindex="{{selected}}">
-          <core-item label="Calendar"></core-item>
-          <core-item label="Gmail"></core-item>
-          <core-item label="Facebook"></core-item>
-          <core-item label="Couchpotato"></core-item>
-          <core-item label="Sickbeard"></core-item>
-          <core-item label="SABnzbd"></core-item>
-          <core-item label="Designernews"></core-item>
+          <core-item label="Calendar"><paper-toggle-button name="GC_status" class="service_toggle"></paper-toggle-button></core-item>
+          <core-item label="Gmail"><paper-toggle-button name="GM_status" class="service_toggle"></paper-toggle-button></core-item>
+          <core-item label="Facebook"><paper-toggle-button name="FB_status" id="FB_status" class="service_toggle"></paper-toggle-button></core-item>
+          <core-item label="Couchpotato"><paper-toggle-button name="CP_status" class="service_toggle"></paper-toggle-button></core-item>
+          <core-item label="Sickbeard"><paper-toggle-button name="SB_status" class="service_toggle"></paper-toggle-button></core-item>
+          <core-item label="SABnzbd"><paper-toggle-button name="SAB_status" class="service_toggle"></paper-toggle-button></core-item>
+          <core-item label="Designernews"><paper-toggle-button name="DN_status" class="service_toggle"></paper-toggle-button></core-item>
         </core-menu>
       </core-header-panel>
 
@@ -4174,10 +4174,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <core-pages selected="{{selected}}">
         <div class="Calendar">
-          <core-label>
-            <paper-toggle-button name="GC_status" for=""></paper-toggle-button>
-            Calendar
-          </core-label><br>
           <core-label>
             Show appointments from:
           </core-label>
@@ -4190,10 +4186,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
         <div class="Gmail">
-          <core-label>
-            <paper-toggle-button name="GM_status" for=""></paper-toggle-button>
-            Gmail
-          </core-label><br>
           <paper-input floatinglabel="" name="GM_email" id="GM_email" label="E-mailadress"></paper-input><br>
           <paper-input floatinglabel="" name="GM_refresh" id="GM_refresh" label="Refresh rate (in minutes)"></paper-input><br>
           <div class="status"></div>
@@ -4201,10 +4193,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
         <div class="Facebook">
-          <core-label>
-            <paper-toggle-button name="FB_status" id="FB_status" for=""></paper-toggle-button>
-            Facebook
-          </core-label><br>
           <paper-input floatinglabel="" name="FB_url" id="FB_url" label="Facebook RSS feed url"></paper-input><br>
           <paper-input floatinglabel="" name="FB_refresh" id="FB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
           <div class="status"></div>
@@ -4212,10 +4200,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
         <div class="Couchpotato">
-          <core-label>
-            <paper-toggle-button name="CP_status" for=""></paper-toggle-button>
-            Couchpotato
-          </core-label><br>
           <paper-input floatinglabel="" name="CP_address" id="CP_address" label="Server address"></paper-input><br>
           <paper-input floatinglabel="" name="CP_port" id="CP_port" label="Server port"></paper-input><br>
           <paper-input floatinglabel="" name="CP_key" id="CP_key" label="API Key"></paper-input><br>
@@ -4225,10 +4209,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
         <div class="Sickbeard">
-          <core-label>
-            <paper-toggle-button name="SB_status" for=""></paper-toggle-button>
-            Sickbeard
-          </core-label><br>
           <paper-input floatinglabel="" name="SB_address" id="SB_address" label="Server address"></paper-input><br>
           <paper-input floatinglabel="" name="SB_port" id="SB_port" label="Server port"></paper-input><br>
           <paper-input floatinglabel="" name="SB_key" id="SB_key" label="API Key"></paper-input><br>
@@ -4238,10 +4218,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
         <div class="SABnzbd">
-          <core-label>
-            <paper-toggle-button name="SAB_status" for=""></paper-toggle-button>
-            Sabnzbd
-          </core-label><br>
           <paper-input floatinglabel="" name="SAB_address" id="SAB_address" label="Server address"></paper-input><br>
           <paper-input floatinglabel="" name="SAB_port" id="SAB_port" label="Server port"></paper-input><br>
           <paper-input floatinglabel="" name="SAB_key" id="SAB_key" label="API Key"></paper-input><br>
@@ -4253,10 +4229,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
         <div class="Couchpotato">
-          <core-label>
-            <paper-toggle-button name="DN_status" for=""></paper-toggle-button>
-            Designernews
-          </core-label><br>
           <paper-input floatinglabel="" name="DN_refresh" id="DN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
           <div class="status"></div>
           <button class="save_settings">Save</button>

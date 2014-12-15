@@ -162,6 +162,12 @@ core-item {
   padding: 0 16px;
 }
 
+/* line 11, ../sass/partials/options.scss */
+.service_toggle {
+  position: absolute;
+  right: 0;
+}
+
 /* line 3, ../sass/partials/calendar.scss */
 #calendar::shadow #headerBg {
   background-image: url('/img/../img/GC_header.svg?1415201607');
