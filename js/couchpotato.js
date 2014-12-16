@@ -134,19 +134,19 @@ function cpAppendData(movie, items, divSelector) {
 
   if ($(divSelector).html().indexOf(movie.title) == -1) {
     $(divSelector).append(
-      "<core-item label='" + movie.title + "' class='cp_item'>" +
-        "<img class='cp_poster' sizing='cover' src='img/poster_fallback.png' data-src='" + posterUrl+ "'></img>" +
-        "<div class='cp_collapse_icon_container'>" +
-          "<core-icon class='cp_collapse_icon' icon='expand-more'></core-icon>" +
-        "</div>" +
-      "</core-item>" +
-      "<core-collapse opened=false class='cp_collapse'>" +
-        "<core-item>" +
-          "<a class='cp_imdb_link' href='http://www.imdb.com/title/" + movie.identifiers.imdb + "' target='_blank'>" +
-            "<paper-icon-button class='cp_imdb_link_icon' icon='info-outline'></paper-icon-button>" +
-          "</a>" +
-        "</core-item>" +
-      "</core-collapse"
+      '<core-item label="' + movie.title + '" class="cp_item">' +
+        '<img class="cp_poster" src="img/poster_fallback.png" data-src="' + posterUrl+ '"></img>' +
+        '<div class="cp_collapse_icon_container">' +
+          '<core-icon class="cp_collapse_icon" icon="expand-more"></core-icon>' +
+        '</div>' +
+      '</core-item>' +
+      '<core-collapse opened=false class="cp_collapse">' +
+        '<core-item>' +
+          '<a class="cp_imdb_link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
+            '<paper-icon-button class="cp_imdb_link_icon" icon="info-outline"></paper-icon-button>' +
+          '</a>' +
+        '</core-item>' +
+      '</core-collapse'
     );
   }
 }
