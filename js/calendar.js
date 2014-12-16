@@ -30,7 +30,7 @@ $(document).ready(function() {
   });
 });
 
-$('body').on('click', '.gc_item', function(event) {
+$('html').on('click', '.gc_item', function(event) {
   var collapseItem = $(this).next('.gc_collapse');
   var collapseIcon = $(this).find('.gc_collapse_icon');
   if (collapseItem.attr('opened') == 'false') {

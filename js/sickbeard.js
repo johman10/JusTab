@@ -37,7 +37,7 @@ $(document).ready(function() {
   });
 });
 
-$("body").on('click', ".sb_item", function(event) {
+$("html").on('click', ".sb_item", function(event) {
   var collapseItem = $(this).next('.sb_collapse');
   var collapseIcon = $(this).find('.sb_collapse_icon');
   if (collapseItem.attr('opened') == 'false') {

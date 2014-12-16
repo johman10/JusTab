@@ -38,8 +38,7 @@ $(document).ready(function() {
   });
 });
 
-$('body').on('click', '.cp_item', function(event) {
-  console.log('hallo');
+$('html').on('click', '.cp_item', function(event) {
   var collapseItem = $(this).next('.cp_collapse');
   var collapseIcon = $(this).find('.cp_collapse_icon');
   if (collapseItem.attr('opened') == 'false') {
