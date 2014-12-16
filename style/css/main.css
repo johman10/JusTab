@@ -149,15 +149,16 @@ body {
 core-toolbar {
   background-color: transparent;
   color: #fff;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
-/* line 81, ../sass/partials/general.scss */
+/* line 82, ../sass/partials/general.scss */
 .middle a {
   color: #fff;
   text-decoration: none;
 }
 
-/* line 87, ../sass/partials/general.scss */
+/* line 88, ../sass/partials/general.scss */
 core-item {
   padding: 0 16px;
 }
