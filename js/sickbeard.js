@@ -141,7 +141,9 @@ function listSeries(data, query, parent) {
       var episodeString = " S" + (season<10?'0':'') + season + "E" + (episode<10?'0':'') + episode;
       $(parent).append(
         "<core-item label='" + showname + episodeString + "' class='sb_item'>" +
-          "<img class='sb_poster' src='img/poster_fallback.png' data-src='" + posterUrl+ "'></core-image>" +
+          "<div class='sb_poster_container'>" +
+            "<img class='sb_poster' src='img/poster_fallback.png' data-src='" + posterUrl+ "'></core-image>" +
+          "</div>" +
           "<div class='sb_collapse_icon_container'>" +
             "<core-icon class='sb_collapse_icon' icon='expand-more'></core-icon>" +
           "</div>" +

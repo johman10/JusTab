@@ -112,13 +112,18 @@
       }
     }
 
-    .cp_poster {
+    .cp_poster_container {
       position: absolute;
       left: 16px;
       top: 9px;
       height: 38px;
       width: 38px;
       border-radius: 100%;
+      overflow: hidden;
+
+      .cp_poster {
+        width: 100%;
+      }
     }
   }
 }

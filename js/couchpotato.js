@@ -134,7 +134,9 @@ function cpAppendData(movie, items, divSelector) {
   if ($(divSelector).html().indexOf(movie.title) == -1) {
     $(divSelector).append(
       '<core-item label="' + movie.title + '" class="cp_item">' +
-        '<img class="cp_poster" src="img/poster_fallback.png" data-src="' + posterUrl+ '"></img>' +
+        '<div class="cp_poster_container">' +
+          '<img class="cp_poster" src="img/poster_fallback.png" data-src="' + posterUrl+ '"></img>' +
+        '</div>' +
         '<div class="cp_collapse_icon_container">' +
           '<core-icon class="cp_collapse_icon" icon="expand-more"></core-icon>' +
         '</div>' +
