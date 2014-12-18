@@ -17,7 +17,7 @@ function getMailId(token, GM_email, callback) {
   $.when($.ajax({
     url: url,
     dataType: 'json',
-    async: true,
+    async: false,
     timeout: 3000,
     success: function(data) {
       $.each(data.messages, function(i, message) {
