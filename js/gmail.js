@@ -44,20 +44,21 @@ function GmailShowData() {
 
   if (localStorage.Gmail) {
     var data = JSON.parse(localStorage.getItem('Gmail'));
-    var messageSubject;
+    var messageSubject, messageFrom, messageSnippet;
     $('.mail_unread').append('<h2>Unread</h2>');
     $('.mail_read').append('<h2>Read</h2>');
 
     $.each(data, function(i, message) {
-      // console.log(message);
+      console.log(message);
       $.each(message.payload.headers, function(i, header) {
         if (header.name == "Subject") {
           messageSubject = header.value;
         }
         if (header.name == "From") {
-          messageFrom = header.value;
+          messageFrom = header.value.replace(/<(.|\n)*?>/, "");
         }
       });
+      messageSnippet = message.snippet;
 
       if (message.labelIds) {
         if (message.labelIds.indexOf("UNREAD") != -1) {
@@ -65,7 +66,7 @@ function GmailShowData() {
             '<core-item class="gm_message">' +
               '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
                 '<div class="gm_message_subject">' + messageSubject + '</div>' +
-                '<div class="gm_message_from">' + messageFrom + '</div>' +
+                '<div class="gm_message_from">' + messageFrom + '  -  ' + messageSnippet + '</div>' +
                 '<paper-ripple fit></paper-ripple>' +
               '</a>' +
             '</core-item>'
@@ -76,7 +77,7 @@ function GmailShowData() {
             '<core-item class="gm_message">' +
               '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
                 '<div class="gm_message_subject">' + messageSubject + '</div>' +
-                '<div class="gm_message_from">' + messageFrom + '</div>' +
+                '<div class="gm_message_from">' + messageFrom + '  -  ' + messageSnippet + '</div>' +
                 '<paper-ripple fit></paper-ripple>' +
               '</a>' +
             '</core-item>'
