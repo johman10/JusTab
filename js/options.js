@@ -59,7 +59,6 @@ function save_options() {
     calendars: calendars,
     GC_refresh: $('#GC_refresh').val(),
     GM_status: $('paper-toggle-button[name=GM_status]').attr('aria-pressed') == "true" ? true : false,
-    GM_email: $('#GM_email').val(),
     GM_refresh: $('#GM_refresh').val(),
     FB_status: $('paper-toggle-button[name=FB_status]').attr('aria-pressed') == "true" ? true : false,
     FB_url: FB_url.var,
@@ -98,7 +97,6 @@ function restore_options() {
     GC_status: '',
     GC_refresh: '15',
     GM_status: '',
-    GM_email: '',
     GM_refresh: '15',
     FB_status: '',
     FB_url: '',
@@ -126,7 +124,6 @@ function restore_options() {
     $('paper-toggle-button[name=GC_status]').attr('checked', items.GC_status);
     $('#GC_refresh').val(items.GC_refresh);
     $('paper-toggle-button[name=GM_status]').attr('checked', items.GM_status);
-    $('#GM_email').val(items.GM_email);
     $('#GM_refresh').val(items.GM_refresh);
     $('paper-toggle-button[name=FB_status]').attr('checked', items.FB_status);
     $('#FB_url').val(items.FB_url);

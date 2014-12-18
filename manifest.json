@@ -17,12 +17,12 @@
   },
   "permissions": [
     "identity",
-    "storage", 
+    "identity.email",
+    "storage",
     "alarms",
     "https://*/*",
     "http://*/*",
-    "tabs",
-    "unlimitedStorage"
+    "tabs"
   ],
   "version": "0.0.1",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
