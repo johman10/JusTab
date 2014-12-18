@@ -243,9 +243,28 @@ core-item {
   padding: 0 16px;
 }
 /* line 21, ../sass/partials/gmail.scss */
+.mail_unread .gm_message,
+.mail_read .gm_message {
+  height: 72px;
+}
+/* line 24, ../sass/partials/gmail.scss */
 .mail_unread .gm_message:hover,
 .mail_read .gm_message:hover {
   background-color: #eee;
+}
+/* line 29, ../sass/partials/gmail.scss */
+.mail_unread .gm_message_subject,
+.mail_read .gm_message_subject {
+  line-height: initial;
+  color: #000;
+  padding: 17px 16px 0;
+}
+/* line 35, ../sass/partials/gmail.scss */
+.mail_unread .gm_message_from,
+.mail_read .gm_message_from {
+  line-height: initial;
+  padding: 0 16px 17px;
+  color: #808080;
 }
 
 /* line 3, ../sass/partials/facebook.scss */

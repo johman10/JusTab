@@ -1,4 +1,4 @@
-  $(document).ready(function() {
+$(document).ready(function() {
   chrome.storage.sync.get({
     GM_status: ''
   }, function(items) {
@@ -49,21 +49,37 @@ function GmailShowData() {
     $('.mail_read').append('<h2>Read</h2>');
 
     $.each(data, function(i, message) {
+      // console.log(message);
       $.each(message.payload.headers, function(i, header) {
         if (header.name == "Subject") {
           messageSubject = header.value;
         }
+        if (header.name == "From") {
+          messageFrom = header.value;
+        }
       });
 
       if (message.labelIds) {
-        if (message.labelIds.indexOf("UNREAD") > -1) {
+        if (message.labelIds.indexOf("UNREAD") != -1) {
           $('.mail_unread').append(
-            '<core-item class="gm_message" label="' + messageSubject + '"><a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '"><paper-ripple fit></paper-ripple></a></core-item>'
+            '<core-item class="gm_message">' +
+              '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
+                '<div class="gm_message_subject">' + messageSubject + '</div>' +
+                '<div class="gm_message_from">' + messageFrom + '</div>' +
+                '<paper-ripple fit></paper-ripple>' +
+              '</a>' +
+            '</core-item>'
           );
         }
         else {
           $('.mail_read').append(
-            '<core-item class="gm_message" label="' + messageSubject + '"><a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '"><paper-ripple fit></paper-ripple></a></core-item>'
+            '<core-item class="gm_message">' +
+              '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
+                '<div class="gm_message_subject">' + messageSubject + '</div>' +
+                '<div class="gm_message_from">' + messageFrom + '</div>' +
+                '<paper-ripple fit></paper-ripple>' +
+              '</a>' +
+            '</core-item>'
           );
         }
       }
