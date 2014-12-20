@@ -5,33 +5,35 @@ function getGmailData(callback) {
 }
 
 function getMailId(token, callback) {
-  var email = encodeURIComponent(GM_email);
-  var query = "&q=" + encodeURIComponent("-in:chats -in:sent -in:notes");
-  var url = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages?&oauth_token=" + token + query;
-  var messages = [];
+  chrome.identity.getProfileUserInfo(function(data) {
+    var email = encodeURIComponent(data.email);
+    var query = "&q=" + encodeURIComponent("-in:chats -in:sent -in:notes");
+    var url = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages?&oauth_token=" + token + query;
+    var messages = [];
 
-  $.when($.ajax({
-    url: url,
-    dataType: 'json',
-    async: false,
-    timeout: 3000,
-    success: function(data) {
-      $.each(data.messages, function(i, message) {
-        console.log(message);
-        getMailContent(token, GM_email, message.id, messages);
-      });
-      localStorage.setItem("Gmail_error", false);
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("Gmail_error", true);
-    }
-  })).done(function() {
-    localStorage.setItem("Gmail", JSON.stringify(messages));
+    $.when($.ajax({
+      url: url,
+      dataType: 'json',
+      async: false,
+      timeout: 3000,
+      success: function(data) {
+        $.each(data.messages, function(i, message) {
+          console.log(message);
+          getMailContent(token, message.id, messages);
+        });
+        localStorage.setItem("Gmail_error", false);
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        console.log(xhr, ajaxOptions, thrownError);
+        localStorage.setItem("Gmail_error", true);
+      }
+    })).done(function() {
+      localStorage.setItem("Gmail", JSON.stringify(messages));
 
-    if (callback) {
-      callback();
-    }
+      if (callback) {
+        callback();
+      }
+    });
   });
 }
 
