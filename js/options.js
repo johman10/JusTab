@@ -31,12 +31,14 @@ $(document).ready(function() {
 
   setTimeout(function() {
     $('.save_settings').bind('click', function() {
+      console.log('save-click');
       save_options();
     });
 
-    $('.service_toggle').bind('core-change', function(event) {
-      save_options();
-    });
+    // $('.service_toggle').bind('core-change', function(event) {
+    //   console.log('save-toggle');
+    //   save_options();
+    // });
   }, 50);
 });
 
@@ -53,6 +55,8 @@ function save_options() {
   formatUrl('CP_address');
   formatUrl('SB_address');
   formatUrl('SAB_address');
+
+  console.log(calendars);
 
   chrome.storage.sync.set({
     GC_status: $('paper-toggle-button[name=GC_status]').attr('aria-pressed') == "true" ? true : false,
