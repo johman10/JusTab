@@ -131,7 +131,7 @@ function cpAppendData(movie, items, divSelector) {
     posterUrl = 'img/poster_fallback.png';
   }
 
-  if ($(divSelector).html().indexOf(movie.title) == -1) {
+  if ($(divSelector).html().indexOf($('<div/>').text(movie.title).html()) == -1) {
     $(divSelector).append(
       '<core-item label="' + movie.title + '" class="cp_item">' +
         '<div class="cp_poster_container">' +

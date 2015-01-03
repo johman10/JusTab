@@ -23,9 +23,5 @@ function getDesignerNewsData(callback) {
     if (callback) {
       callback();
     }
-  }, function() {
-    if (callback) {
-      callback();
-    }
   });
 }

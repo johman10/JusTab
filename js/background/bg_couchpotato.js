@@ -29,10 +29,6 @@ function getCouchPotatoData(callback) {
       if (callback) {
         callback();
       }
-    }, function() {
-      if (callback) {
-        callback();
-      }
     });
   });
 }

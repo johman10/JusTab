@@ -49,7 +49,6 @@ function GmailShowData() {
     $('.mail_read').append('<h2>Read</h2>');
 
     $.each(data, function(i, message) {
-      console.log(message);
       $.each(message.payload.headers, function(i, header) {
         if (header.name == "Subject") {
           messageSubject = header.value;

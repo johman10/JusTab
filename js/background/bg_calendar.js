@@ -44,9 +44,5 @@ function eventArray(url, token, callback) {
     if (callback) {
       callback();
     }
-  }, function() {
-    if (callback) {
-      callback();
-    }
   });
 }

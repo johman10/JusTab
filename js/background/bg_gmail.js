@@ -26,7 +26,7 @@ function getMailId(token, callback) {
         console.log(xhr, ajaxOptions, thrownError);
         localStorage.setItem("Gmail_error", true);
       }
-    })).done(function() {
+    })).then(function() {
       localStorage.setItem("Gmail", JSON.stringify(messages));
 
       if (callback) {
