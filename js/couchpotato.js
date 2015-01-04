@@ -18,7 +18,8 @@ $(document).ready(function() {
         $('.refresh_cp').fadeOut(400, function() {
           $('.loading_cp').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getCouchPotatoData(function() {
+            backgroundPage.getWantedCouchPotato();
+            backgroundPage.getSnatchedCouchPotato(function() {
               $.when(cpShowData()).done(function() {
                 $('.loading_cp').attr('active', false);
                 setTimeout(function() {
@@ -82,39 +83,37 @@ function cpShowData() {
     $('.wanted').empty();
     $('.snatched').empty();
 
-    var error = localStorage.getItem('Couchpotato_error');
+    var wantedError = localStorage.getItem('CouchpotatoWanted_error');
+    var snatchedError = localStorage.getItem('CouchpotatoSnatched_error');
 
-    if (error == "true") {
+    if (wantedError == "true" || snatchedError == "true") {
       $('#couchpotato .error').slideDown('slow');
-    }
-    if (error == "false") {
+    } else {
       $('#couchpotato .error').slideUp('slow');
     }
 
-    if (localStorage.Couchpotato) {
+    if (localStorage.CouchpotatoWanted && localStorage.CouchpotatoSnatched) {
       $('.snatched').append('<h2>Snatched and Available</h2>');
       $('.wanted').append('<h2>Wanted</h2>');
 
-      data = JSON.parse(localStorage.getItem('Couchpotato'));
+      wantedData = JSON.parse(localStorage.getItem('CouchpotatoWanted'));
+      snatchedData = JSON.parse(localStorage.getItem('CouchpotatoSnatched'));
 
-      // console.log(data);
-      var snatched = [];
-      $.each(data.movies, function(i, movie) {
-        $.each(movie.releases, function(l, release) {
-          if (release.status === "snatched" || release.status === "downloaded" || release.status === "available") {
-            cpAppendData(movie, items, '.snatched');
-          }
-        });
+      $.each(wantedData.movies, function(i, movie) {
+        cpAppendData(movie, items, '.wanted');
+      });
 
-        if (movie.status === "active") {
-          cpAppendData(movie, items, '.wanted');
-        }
+      $.each(snatchedData.movies, function(i, movie) {
+        cpAppendData(movie, items, '.snatched');
       });
 
       $('.cp_poster').unveil();
 
       if ($('.snatched core-item').length === 0) {
         $('.snatched').append("<core-item label='No snatched movies at this moment.'></core-item>");
+      }
+      if ($('.wanted core-item').length === 0) {
+        $('.wanted').append("<core-item label='No wanted movies at this moment.'></core-item>");
       }
     }
   });
