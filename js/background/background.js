@@ -63,7 +63,8 @@ chrome.runtime.onStartup.addListener(function() {
     }
     if (items.CP_status == true) {
       console.log('Startup CP_status');
-      getCouchpotatoData();
+      getWantedCouchPotato();
+      getSnatchedCouchPotato();
     }
     if (items.SB_status == true) {
       console.log('Startup SB_status');
@@ -96,7 +97,8 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
   }
   else if (alarm.name == 'couchPotato') {
     console.log(alarm.name);
-    getCouchPotatoData();
+    getWantedCouchPotato();
+    getSnatchedCouchPotato();
   }
   else if (alarm.name == 'sickBeard') {
     console.log(alarm.name);
