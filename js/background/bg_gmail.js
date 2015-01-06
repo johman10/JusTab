@@ -8,7 +8,7 @@ function getMailId(token, callback) {
   chrome.identity.getProfileUserInfo(function(data) {
     var email = encodeURIComponent(data.email);
     var query = "&q=" + encodeURIComponent("-in:chats -in:sent -in:notes");
-    var url = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages?&oauth_token=" + token + query;
+    var url = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages?maxResults=25&oauth_token=" + token + query;
     var messages = [];
 
     $.when($.ajax({
@@ -20,6 +20,7 @@ function getMailId(token, callback) {
         $.each(data.messages, function(i, message) {
           getMailContent(token, message.id, messages, email);
         });
+        localStorage.setItem("Gmail_page", data.nextPageToken);
         localStorage.setItem("Gmail_error", false);
       },
       error: function(xhr, ajaxOptions, thrownError) {

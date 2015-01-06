@@ -26,6 +26,8 @@ $(document).ready(function() {
           });
         });
       });
+
+      $('#gmail').bind('scroll', gmailCheckScroll);
     }
   });
 });
@@ -92,5 +94,13 @@ function GmailShowData() {
     if ($('.mail_read core-item').length < 1) {
       $('.mail_read').append('<core-item label="There are no read e-mails at the moment."></core-item>');
     }
+  }
+}
+
+function gmailCheckScroll(e) {
+  var elem = $(e.currentTarget);
+  var nextPage = localStorage.getItem('Gmail_page');
+  if (elem[0].scroller.scrollHeight - elem[0].scroller.scrollTop == elem.outerHeight()) {
+    console.log(nextPage);
   }
 }
