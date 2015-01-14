@@ -37,6 +37,25 @@ $(document).ready(function() {
       $('body').width($('body').width() + $('#couchpotato').width());
     }
   });
+
+  // chrome.storage.sync.get({
+  //   CP_key: '',
+  //   CP_address: '',
+  //   CP_port: ''
+  // }, function(items) {
+  //   var url = items.CP_address + ":" + items.CP_port  + "/api/" + items.CP_key;
+  //   var searchApiUrl = url + "/movie.search/?q='23 Blast'";
+
+  //   $.ajax({
+  //     url: searchApiUrl,
+  //     success: function(data) {
+  //       console.log(data);
+  //     },
+  //     error: function() {
+  //       console.log("error");
+  //     }
+  //   });
+  // });
 });
 
 $('html').on('click', '.cp_item', function(event) {
