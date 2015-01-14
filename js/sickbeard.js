@@ -181,6 +181,7 @@ function searchEpisode(clickedObject) {
       success: function(data) {
         if (data.result == "failure") {
           clickedObject.attr('icon', 'error');
+          clickedObject.attr('title', data.message);
         } else {
           clickedObject.attr('icon', 'done');
         }
