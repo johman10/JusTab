@@ -149,7 +149,7 @@ function cpAppendData(movie, items, divSelector) {
     posterUrl = 'img/poster_fallback.png';
   }
 
-  if (moment(movie.info.released).year() > moment().year()) {
+  if (moment(movie.info.released).year() != moment().year()) {
     date = moment(movie.info.released).format("MMM D, YYYY");
   }
   else {
