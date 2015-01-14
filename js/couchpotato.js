@@ -130,6 +130,13 @@ function cpAppendData(movie, items, divSelector) {
     posterUrl = 'img/poster_fallback.png';
   }
 
+  if (moment(movie.info.released).year() > moment().year()) {
+    date = moment(movie.info.released).format("MMM D, YYYY");
+  }
+  else {
+    date = moment(movie.info.released).format("MMM D");
+  }
+
   if ($(divSelector).html().indexOf($('<div/>').text(movie.title).html()) == -1) {
     $(divSelector).append(
       '<core-item label="' + movie.title + '" class="cp_item">' +
@@ -142,6 +149,7 @@ function cpAppendData(movie, items, divSelector) {
       '</core-item>' +
       '<core-collapse opened=false class="cp_collapse">' +
         '<core-item>' +
+          date +
           '<a class="cp_imdb_link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
             '<paper-icon-button class="cp_imdb_link_icon" icon="info-outline"></paper-icon-button>' +
           '</a>' +
