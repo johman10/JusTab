@@ -82,7 +82,7 @@ function calenderShowEvents() {
 
     $.each(events, function(i, cEvent) {
       if (cEvent.start.dateTime) {
-        eventDate = moment(cEvent.start.dateTime)
+        eventDate = moment(cEvent.start.dateTime);
         eventStartTime = moment(cEvent.start.dateTime).format("HH:mm");
         eventEndTime = moment(cEvent.end.dateTime).format("HH:mm");
 
@@ -124,5 +124,13 @@ function calenderShowEvents() {
         $('#calendar .tomorrow').append(htmlData);
       }
     });
+
+    if ($('#calendar .today core-item').length < 1) {
+      $('#calendar .today').append('<core-item label="There are no events in your calendar for today."></core-item>');
+    }
+
+    if ($('#calendar .tomorrow core-item').length < 1) {
+      $('#calendar .tomorrow').append('<core-item label="There are no events in your calendar for tomorrow."></core-item>');
+    }
   }
 }
