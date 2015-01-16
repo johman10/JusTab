@@ -81,12 +81,12 @@ function calenderShowEvents() {
     $('#calendar .tomorrow').append("<h2>Tomorrow</h2>");
 
     $.each(events, function(i, cEvent) {
-      if (cEvent.start.dateTime && moment(cEvent.start.dateTime) <= today) {
-        eventStartDate = new Date(cEvent.start.dateTime);
-        eventStartTime = eventStartDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-        eventEndDate = new Date(cEvent.end.dateTime);
-        eventEndTime = eventEndDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-        $('#calendar .today').append(
+      if (cEvent.start.dateTime) {
+        eventDate = moment(cEvent.start.dateTime)
+        eventStartTime = moment(cEvent.start.dateTime).format("HH:mm");
+        eventEndTime = moment(cEvent.end.dateTime).format("HH:mm");
+
+        htmlData =
           '<core-item class="gc_item" label="' + eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary + '">' +
             '<div class="gc_collapse_icon_container">' +
               '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
@@ -98,11 +98,11 @@ function calenderShowEvents() {
                 '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
               '</a>' +
             '</core-item>' +
-          '</core-collapse'
-        );
+          '</core-collapse';
       }
-      else if (cEvent.start.date && moment(cEvent.start.date) <= today) {
-        $('#calendar .today').append(
+      else {
+        eventDate = moment(cEvent.start.date);
+        htmlData =
           '<core-item class="gc_item" label="' + cEvent.summary + '">' +
             '<div class="gc_collapse_icon_container">' +
               '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
@@ -114,44 +114,14 @@ function calenderShowEvents() {
                 '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
               '</a>' +
             '</core-item>' +
-          '</core-collapse'
-        );
+          '</core-collapse';
       }
-      else if (cEvent.start.dateTime && moment(cEvent.start.dateTime) > today) {
-        eventStartDate = new Date(cEvent.start.dateTime);
-        eventStartTime = eventStartDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-        eventEndDate = new Date(cEvent.end.dateTime);
-        eventEndTime = eventEndDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
-        $('#calendar .tomorrow').append(
-          '<core-item class="gc_item" label="' + eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary + '">' +
-            '<div class="gc_collapse_icon_container">' +
-              '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
-            '</div>' +
-          '</core-item>' +
-          '<core-collapse opened=false class="gc_collapse">' +
-            '<core-item>' +
-              '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
-                '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
-              '</a>' +
-            '</core-item>' +
-          '</core-collapse>'
-        );
+
+      if (eventDate.isBefore(today.endOf('day'))) {
+        $('#calendar .today').append(htmlData);
       }
-      else if (cEvent.start.date && moment(cEvent.start.date) > today) {
-        $('#calendar .tomorrow').append(
-          '<core-item class="gc_item" label="' + cEvent.summary + '">' +
-            '<div class="gc_collapse_icon_container">' +
-              '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
-            '</div>' +
-          '</core-item>' +
-          '<core-collapse opened=false class="gc_collapse">' +
-            '<core-item>' +
-              '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
-                '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
-              '</a>' +
-            '</core-item>' +
-          '</core-collapse>'
-        );
+      if (eventDate.isAfter(today, 'day')) {
+        $('#calendar .tomorrow').append(htmlData);
       }
     });
   }
