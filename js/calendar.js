@@ -75,13 +75,13 @@ function calenderShowEvents() {
   }
 
   if (localStorage.Calendar) {
-    var today = new Date();
+    var today = moment();
 
     $('#calendar .today').append("<h2>Today</h2>");
     $('#calendar .tomorrow').append("<h2>Tomorrow</h2>");
 
     $.each(events, function(i, cEvent) {
-      if (cEvent.start.dateTime && new Date(cEvent.start.dateTime).setHours(0,0,0,0) <= today.setHours(0,0,0,0)) {
+      if (cEvent.start.dateTime && moment(cEvent.start.dateTime) <= today) {
         eventStartDate = new Date(cEvent.start.dateTime);
         eventStartTime = eventStartDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
         eventEndDate = new Date(cEvent.end.dateTime);
@@ -101,7 +101,7 @@ function calenderShowEvents() {
           '</core-collapse'
         );
       }
-      else if (cEvent.start.date && new Date(cEvent.start.date) <= today) {
+      else if (cEvent.start.date && moment(cEvent.start.date) <= today) {
         $('#calendar .today').append(
           '<core-item class="gc_item" label="' + cEvent.summary + '">' +
             '<div class="gc_collapse_icon_container">' +
@@ -117,7 +117,7 @@ function calenderShowEvents() {
           '</core-collapse'
         );
       }
-      else if (cEvent.start.dateTime && new Date(cEvent.start.dateTime).setHours(0,0,0,0) > today.setHours(0,0,0,0)) {
+      else if (cEvent.start.dateTime && moment(cEvent.start.dateTime) > today) {
         eventStartDate = new Date(cEvent.start.dateTime);
         eventStartTime = eventStartDate.getHours() + ":" + (eventStartDate.getMinutes()<10?'0':'') + eventStartDate.getMinutes();
         eventEndDate = new Date(cEvent.end.dateTime);
@@ -137,7 +137,7 @@ function calenderShowEvents() {
           '</core-collapse>'
         );
       }
-      else if (cEvent.start.date && new Date(cEvent.start.date) > today) {
+      else if (cEvent.start.date && moment(cEvent.start.date) > today) {
         $('#calendar .tomorrow').append(
           '<core-item class="gc_item" label="' + cEvent.summary + '">' +
             '<div class="gc_collapse_icon_container">' +
