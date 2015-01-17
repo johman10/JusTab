@@ -61,28 +61,21 @@ function GmailShowData() {
       });
       messageSnippet = message.snippet;
 
+      var htmlData =
+        '<core-item class="gm_message">' +
+          '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
+            '<div class="gm_message_subject">' + messageSubject + '</div>' +
+            '<div class="gm_message_from">' + messageFrom + '  -  ' + messageSnippet + '</div>' +
+            '<paper-ripple fit></paper-ripple>' +
+          '</a>' +
+        '</core-item>';
+
       if (message.labelIds) {
         if (message.labelIds.indexOf("UNREAD") != -1) {
-          $('.mail_unread').append(
-            '<core-item class="gm_message">' +
-              '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
-                '<div class="gm_message_subject">' + messageSubject + '</div>' +
-                '<div class="gm_message_from">' + messageFrom + '  -  ' + messageSnippet + '</div>' +
-                '<paper-ripple fit></paper-ripple>' +
-              '</a>' +
-            '</core-item>'
-          );
+          $('.mail_unread').append(htmlData);
         }
         else {
-          $('.mail_read').append(
-            '<core-item class="gm_message">' +
-              '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
-                '<div class="gm_message_subject">' + messageSubject + '</div>' +
-                '<div class="gm_message_from">' + messageFrom + '  -  ' + messageSnippet + '</div>' +
-                '<paper-ripple fit></paper-ripple>' +
-              '</a>' +
-            '</core-item>'
-          );
+          $('.mail_read').append(htmlData);
         }
       }
     });
