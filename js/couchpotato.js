@@ -73,10 +73,6 @@ $('html').on('click', '.cp_item', function(event) {
   }
 });
 
-// function cpButtonContainerPosition() {
-//   $('#couchpotato .cp_button_container').css('top', $('#couchpotato')[0].prevScrollTop + $(window).height() - ($('#couchpotato .cp_button_container').height() + 128));
-// }
-
 function cpShowData() {
   chrome.storage.sync.get({
     CP_key: '',
@@ -187,7 +183,7 @@ function searchMovie(clickedObject) {
         }
       },
       error: function() {
-        console.log("error");
+        clickedObject.attr('icon', 'error');
       }
     });
   });
