@@ -90,6 +90,8 @@ function sbShowData(SB_key, SB_address, SB_port) {
   if (localStorage.Sickbeard) {
     data = JSON.parse(localStorage.getItem('Sickbeard'));
 
+    console.log(data);
+
     // Episodes missed
     if (data.data.missed.length > 0) {
       $('#sickbeard .sb_missed').append('<h2>Missed</h2>');
@@ -151,8 +153,13 @@ function listSeries(data, query, parent) {
         "<core-collapse opened=false class='sb_collapse'>" +
           "<core-item>" +
             date +
-            "<paper-icon-button class='sb_search_episode " + tvdbid + "' icon='search'>Search</paper-icon-button>" +
-            "<paper-spinner class='sb_search_spinner'></paper-spinner>" +
+            "<div class='sb_collapse_buttons'>" +
+              "<paper-icon-button class='sb_search_episode " + tvdbid + "' icon='search'>Search</paper-icon-button>" +
+              "<paper-spinner class='sb_search_spinner'></paper-spinner>" +
+              "<a class='sb_tvdb_link' href='http://thetvdb.com/?tab=series&id=" + tvdbid + "' target='_blank'>" +
+                "<paper-icon-button class='sb_tvdb_link_icon' icon='info-outline'></paper-icon-button>" +
+              "</a>" +
+              "</div>" +
           "</core-item>" +
         "</core-collapse>"
       );

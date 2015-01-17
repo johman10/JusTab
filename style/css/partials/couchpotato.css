@@ -20,16 +20,16 @@
   padding: 0 16px;
 }
 /* line 23, ../../sass/partials/couchpotato.scss */
-.wanted .core-collapse_buttons,
-.snatched .core-collapse_buttons {
+.wanted .cp_collapse_buttons,
+.snatched .cp_collapse_buttons {
   position: absolute;
   right: 8px;
   height: 40px;
   top: 0;
 }
 /* line 29, ../../sass/partials/couchpotato.scss */
-.wanted .core-collapse_buttons a,
-.snatched .core-collapse_buttons a {
+.wanted .cp_collapse_buttons a,
+.snatched .cp_collapse_buttons a {
   color: #000;
 }
 /* line 34, ../../sass/partials/couchpotato.scss */

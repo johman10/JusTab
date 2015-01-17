@@ -150,7 +150,7 @@ function cpAppendData(movie, items, divSelector) {
       '<core-collapse opened=false class="cp_collapse">' +
         '<core-item>' +
           date +
-          '<div class="core-collapse_buttons">' +
+          '<div class="cp_collapse_buttons">' +
             '<paper-icon-button class="cp_search_movie" id="' + movie._id + '" icon="search"></paper-icon-button>' +
             '<a class="cp_imdb_link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
               '<paper-icon-button class="cp_imdb_link_icon" icon="info-outline"></paper-icon-button>' +

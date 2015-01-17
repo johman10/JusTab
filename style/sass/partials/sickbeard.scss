@@ -51,22 +51,38 @@
   }
 }
 
-.sb_search_episode {
+.sb_collapse_buttons {
   position: absolute;
-  right: 0;
+  right: 8px;
+  height: 40px;
+  width: 80px;
   top: 0;
-  margin-right: 8px;
+
+  a {
+    color: $black;
+  }
+}
+
+.sb_search_episode {
+  position: relative;
+  left: 0;
+  top: 0;
 }
 
 .sb_search_spinner {
   position: absolute;
-  right: 0;
+  left: 0;
   top: 0;
-  margin-right: 8px;
   padding: 8px;
   pointer-events: none;
   height: 24px;
   width: 24px;
+}
+
+.sb_tvdb_link {
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .sb_collapse_icon_container {
