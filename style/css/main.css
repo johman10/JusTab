@@ -253,13 +253,18 @@ core-item {
   background-color: #eee;
 }
 /* line 29, ../sass/partials/gmail.scss */
+.mail_unread a,
+.mail_read a {
+  text-decoration: none;
+  color: #000;
+}
+/* line 34, ../sass/partials/gmail.scss */
 .mail_unread .gm_message_subject,
 .mail_read .gm_message_subject {
   line-height: initial;
-  color: #000;
   padding: 17px 16px 0;
 }
-/* line 35, ../sass/partials/gmail.scss */
+/* line 39, ../sass/partials/gmail.scss */
 .mail_unread .gm_message_from,
 .mail_read .gm_message_from {
   line-height: initial;
@@ -380,32 +385,36 @@ core-item {
   padding: 0 16px;
 }
 /* line 94, ../sass/partials/couchpotato.scss */
-.wanted .cp_imdb_link,
-.snatched .cp_imdb_link {
-  color: #000;
+.wanted .core-collapse_buttons,
+.snatched .core-collapse_buttons {
   position: absolute;
   right: 8px;
-  left: auto;
-  width: 40px;
+  height: 40px;
+  top: 0;
 }
-/* line 102, ../sass/partials/couchpotato.scss */
+/* line 100, ../sass/partials/couchpotato.scss */
+.wanted .core-collapse_buttons a,
+.snatched .core-collapse_buttons a {
+  color: #000;
+}
+/* line 105, ../sass/partials/couchpotato.scss */
 .wanted .cp_item,
 .snatched .cp_item {
   cursor: pointer;
   padding-left: 72px;
   height: 56px;
 }
-/* line 107, ../sass/partials/couchpotato.scss */
+/* line 110, ../sass/partials/couchpotato.scss */
 .wanted .cp_item:hover,
 .snatched .cp_item:hover {
   background-color: #eee !important;
 }
-/* line 110, ../sass/partials/couchpotato.scss */
+/* line 113, ../sass/partials/couchpotato.scss */
 .wanted .cp_item:hover .cp_collapse_icon_container,
 .snatched .cp_item:hover .cp_collapse_icon_container {
   background-color: #eee !important;
 }
-/* line 115, ../sass/partials/couchpotato.scss */
+/* line 118, ../sass/partials/couchpotato.scss */
 .wanted .cp_item .cp_poster_container,
 .snatched .cp_item .cp_poster_container {
   position: absolute;
@@ -416,20 +425,20 @@ core-item {
   border-radius: 100%;
   overflow: hidden;
 }
-/* line 124, ../sass/partials/couchpotato.scss */
+/* line 127, ../sass/partials/couchpotato.scss */
 .wanted .cp_item .cp_poster_container .cp_poster,
 .snatched .cp_item .cp_poster_container .cp_poster {
   width: 100%;
 }
 
-/* line 131, ../sass/partials/couchpotato.scss */
+/* line 134, ../sass/partials/couchpotato.scss */
 .cp_collapse_icon_container {
   background-color: #FAFAFA;
   position: absolute;
   right: 0;
   padding: 16px;
 }
-/* line 137, ../sass/partials/couchpotato.scss */
+/* line 140, ../sass/partials/couchpotato.scss */
 .cp_collapse_icon_container .cp_collapse_icon {
   color: #9e9e9e;
 }
@@ -563,16 +572,16 @@ core-item {
 }
 
 /* line 26, ../sass/partials/designernews.scss */
-core-item a {
+.dn_link_container a {
   line-height: 40px;
   text-decoration: none;
   color: #000;
 }
 /* line 31, ../sass/partials/designernews.scss */
-core-item a:hover {
+.dn_link_container a:hover {
   color: #000;
 }
 /* line 35, ../sass/partials/designernews.scss */
-core-item a:visited {
+.dn_link_container a:visited {
   color: #808080;
 }

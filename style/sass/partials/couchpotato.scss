@@ -91,12 +91,15 @@
     padding: 0 16px;
   }
 
-  .cp_imdb_link {
-    color: $black;
+  .core-collapse_buttons {
     position: absolute;
     right: 8px;
-    left: auto;
-    width: 40px;
+    height: 40px;
+    top: 0;
+
+    a {
+      color: $black;
+    }
   }
 
   .cp_item {

@@ -18,20 +18,20 @@
 }
 /* line 20, ../../sass/partials/designernews.scss */
 .dn_links a:hover {
-  background-color: #eeeeee;
+  background-color: #eee;
 }
 
 /* line 26, ../../sass/partials/designernews.scss */
-core-item a {
+.dn_link_container a {
   line-height: 40px;
   text-decoration: none;
-  color: black;
+  color: #000;
 }
 /* line 31, ../../sass/partials/designernews.scss */
-core-item a:hover {
-  color: black;
+.dn_link_container a:hover {
+  color: #000;
 }
 /* line 35, ../../sass/partials/designernews.scss */
-core-item a:visited {
-  color: gray;
+.dn_link_container a:visited {
+  color: #808080;
 }

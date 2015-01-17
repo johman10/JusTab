@@ -51,7 +51,7 @@ function dnShowData() {
     $.each(data.stories, function(i, story) {
       $('.dn_links').append(
         // '<core-item label="' + story.title + '""><a href="' + story.url + '" target="_blank"></a></core-item>'
-        '<core-item><a href="' + story.url + '" target="_blank" fit>' + story.title + '<paper-ripple fit></paper-ripple></a></core-item>'
+        '<core-item class="dn_link_container"><a href="' + story.url + '" target="_blank" fit>' + story.title + '<paper-ripple fit></paper-ripple></a></core-item>'
         // '<p><a href="' + story.url + '" target="_blank">' + story.title + '</a></p>'
       );
     });

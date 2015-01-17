@@ -37,25 +37,10 @@ $(document).ready(function() {
       $('body').width($('body').width() + $('#couchpotato').width());
     }
   });
+});
 
-  // chrome.storage.sync.get({
-  //   CP_key: '',
-  //   CP_address: '',
-  //   CP_port: ''
-  // }, function(items) {
-  //   var url = items.CP_address + ":" + items.CP_port  + "/api/" + items.CP_key;
-  //   var searchApiUrl = url + "/movie.search/?q='23 Blast'";
-
-  //   $.ajax({
-  //     url: searchApiUrl,
-  //     success: function(data) {
-  //       console.log(data);
-  //     },
-  //     error: function() {
-  //       console.log("error");
-  //     }
-  //   });
-  // });
+$('html').on('click', '.cp_search_movie', function(event) {
+  searchMovie($(this));
 });
 
 $('html').on('click', '.cp_item', function(event) {
@@ -88,9 +73,9 @@ $('html').on('click', '.cp_item', function(event) {
   }
 });
 
-function cpButtonContainerPosition() {
-  $('#couchpotato .cp_button_container').css('top', $('#couchpotato')[0].prevScrollTop + $(window).height() - ($('#couchpotato .cp_button_container').height() + 128));
-}
+// function cpButtonContainerPosition() {
+//   $('#couchpotato .cp_button_container').css('top', $('#couchpotato')[0].prevScrollTop + $(window).height() - ($('#couchpotato .cp_button_container').height() + 128));
+// }
 
 function cpShowData() {
   chrome.storage.sync.get({
@@ -169,11 +154,41 @@ function cpAppendData(movie, items, divSelector) {
       '<core-collapse opened=false class="cp_collapse">' +
         '<core-item>' +
           date +
-          '<a class="cp_imdb_link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
-            '<paper-icon-button class="cp_imdb_link_icon" icon="info-outline"></paper-icon-button>' +
-          '</a>' +
+          '<div class="core-collapse_buttons">' +
+            '<paper-icon-button class="cp_search_movie" id="' + movie._id + '" icon="search"></paper-icon-button>' +
+            '<a class="cp_imdb_link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
+              '<paper-icon-button class="cp_imdb_link_icon" icon="info-outline"></paper-icon-button>' +
+            '</a>' +
+          '</div>' +
         '</core-item>' +
       '</core-collapse'
     );
   }
+}
+
+function searchMovie(clickedObject) {
+  var movieId = clickedObject.attr('id');
+
+  chrome.storage.sync.get({
+    CP_key: '',
+    CP_address: '',
+    CP_port: ''
+  }, function(items) {
+    var url = items.CP_address + ":" + items.CP_port  + "/api/" + items.CP_key;
+    var searchApiUrl = url + "/movie.refresh/?id=" + movieId;
+
+    $.ajax({
+      url: searchApiUrl,
+      success: function(data) {
+        if (data.success) {
+          clickedObject.attr('icon', 'done');
+        } else {
+          clickedObject.attr('icon', 'error');
+        }
+      },
+      error: function() {
+        console.log("error");
+      }
+    });
+  });
 }

@@ -26,9 +26,13 @@
     }
   }
 
+  a {
+    text-decoration: none;
+    color: $black;
+  }
+
   .gm_message_subject {
     line-height: initial;
-    color: $black;
     padding: 17px 16px 0;
   }
 

@@ -28,13 +28,18 @@
   background-color: #eee;
 }
 /* line 29, ../../sass/partials/gmail.scss */
+.mail_unread a,
+.mail_read a {
+  text-decoration: none;
+  color: #000;
+}
+/* line 34, ../../sass/partials/gmail.scss */
 .mail_unread .gm_message_subject,
 .mail_read .gm_message_subject {
   line-height: initial;
-  color: #000;
   padding: 17px 16px 0;
 }
-/* line 35, ../../sass/partials/gmail.scss */
+/* line 39, ../../sass/partials/gmail.scss */
 .mail_unread .gm_message_from,
 .mail_read .gm_message_from {
   line-height: initial;
