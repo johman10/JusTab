@@ -30,6 +30,32 @@ $(document).ready(function() {
     var refresh_button = $(this).closest('.content').prev('core-toolbar').find('.refresh_button');
     refresh_button.click();
   });
+
+  $(window).bind('storage', function (e) {
+    if (e.originalEvent.key == 'Calendar') {
+      calenderShowEvents();
+    }
+
+    if (e.originalEvent.key == 'Gmail') {
+      GmailShowData();
+    }
+
+    if (e.originalEvent.key == 'CouchpotatoSnatched' || e.originalEvent.key == 'CouchpotatoWanted') {
+      cpShowData();
+    }
+
+    if (e.originalEvent.key == 'Sickbeard') {
+      sbShowData();
+    }
+
+    if (e.originalEvent.key == 'SabnzbdQueue' || e.originalEvent.key == 'SabnzbdHistory') {
+      sabShowData();
+    }
+
+    if (e.originalEvent.key == 'Designernews') {
+      dnShowData();
+    }
+  });
 });
 
 // addEventListener('drag-start', function(e) {
