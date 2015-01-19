@@ -90,8 +90,6 @@ function sbShowData(SB_key, SB_address, SB_port) {
   if (localStorage.Sickbeard) {
     data = JSON.parse(localStorage.getItem('Sickbeard'));
 
-    console.log(data);
-
     // Episodes missed
     if (data.data.missed.length > 0) {
       $('#sickbeard .sb_missed').append('<h2>Missed</h2>');
