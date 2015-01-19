@@ -74,56 +74,9 @@ function calenderShowEvents() {
     $('#calendar .error').slideUp('slow');
   }
 
-  if (localStorage.Calendar) {
-    var today = moment();
-
-    $('#calendar .today').append("<h2>Today</h2>");
-    $('#calendar .tomorrow').append("<h2>Tomorrow</h2>");
-
-    $.each(events, function(i, cEvent) {
-      if (cEvent.start.dateTime) {
-        eventDate = moment(cEvent.start.dateTime);
-        eventStartTime = moment(cEvent.start.dateTime).format("HH:mm");
-        eventEndTime = moment(cEvent.end.dateTime).format("HH:mm");
-
-        htmlData =
-          '<core-item class="gc_item" label="' + eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary + '">' +
-            '<div class="gc_collapse_icon_container">' +
-              '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
-            '</div>' +
-          '</core-item>' +
-          '<core-collapse opened=false class="gc_collapse">' +
-            '<core-item>' +
-              '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
-                '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
-              '</a>' +
-            '</core-item>' +
-          '</core-collapse';
-      }
-      else {
-        eventDate = moment(cEvent.start.date);
-        htmlData =
-          '<core-item class="gc_item" label="' + cEvent.summary + '">' +
-            '<div class="gc_collapse_icon_container">' +
-              '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
-            '</div>' +
-          '</core-item>' +
-          '<core-collapse opened=false class="gc_collapse">' +
-            '<core-item>' +
-              '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
-                '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
-              '</a>' +
-            '</core-item>' +
-          '</core-collapse';
-      }
-
-      if (eventDate.isBefore(today.endOf('day'))) {
-        $('#calendar .today').append(htmlData);
-      }
-      if (eventDate.isAfter(today, 'day')) {
-        $('#calendar .tomorrow').append(htmlData);
-      }
-    });
+  if (localStorage.CalendarTodayHTML && localStorage.CalendarTomorrowHTML) {
+    $('#calendar .today').append(localStorage.getItem('CalendarTodayHTML'));
+    $('#calendar .tomorrow').append(localStorage.getItem('CalendarTomorrowHTML'));
 
     if ($('#calendar .today core-item').length < 1) {
       $('#calendar .today').append('<core-item label="There are no events in your calendar for today."></core-item>');

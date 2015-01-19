@@ -30,6 +30,8 @@ function getMailId(token, callback) {
     })).then(function() {
       localStorage.setItem("Gmail", JSON.stringify(messages));
 
+      GmailHTML();
+
       if (callback) {
         callback();
       }
@@ -54,4 +56,44 @@ function getMailContent(token, Id, messages, email) {
       localStorage.setItem("Gmail_error", true);
     }
   });
+}
+
+function GmailHTML() {
+  var data = JSON.parse(localStorage.getItem('Gmail'));
+  var messageSubject, messageFrom, messageSnippet;
+  var GmailUnreadHTML = '<h2>Unread</h2>';
+  var GmailReadHTML = '<h2>Read</h2>';
+
+  $.each(data, function(i, message) {
+    $.each(message.payload.headers, function(i, header) {
+      if (header.name == "Subject") {
+        messageSubject = header.value;
+      }
+      if (header.name == "From") {
+        messageFrom = header.value.replace(/<(.|\n)*?>/, "");
+      }
+    });
+    messageSnippet = message.snippet;
+
+    var htmlData =
+      '<core-item class="gm_message">' +
+        '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
+          '<div class="gm_message_subject">' + messageSubject + '</div>' +
+          '<div class="gm_message_from">' + messageFrom + '  -  ' + messageSnippet + '</div>' +
+          '<paper-ripple fit></paper-ripple>' +
+        '</a>' +
+      '</core-item>';
+
+    if (message.labelIds) {
+      if (message.labelIds.indexOf("UNREAD") != -1) {
+        GmailUnreadHTML += htmlData;
+      }
+      else {
+        GmailReadHTML += htmlData;
+      }
+    }
+  });
+
+  localStorage.setItem('GmailUnreadHTML', GmailUnreadHTML);
+  localStorage.setItem('GmailReadHTML', GmailReadHTML);
 }

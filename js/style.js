@@ -32,7 +32,7 @@ $(document).ready(function() {
   });
 
   $(window).bind('storage', function (e) {
-    if (e.originalEvent.key == 'Calendar') {
+    if (e.originalEvent.key == 'CalendarTodayHTML' || e.originalEvent.key == 'CalendarTomorrowHTML') {
       calenderShowEvents();
     }
 

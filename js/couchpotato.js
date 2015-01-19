@@ -92,20 +92,9 @@ function cpShowData() {
       $('#couchpotato .error').slideUp('slow');
     }
 
-    if (localStorage.CouchpotatoWanted && localStorage.CouchpotatoSnatched) {
-      $('.snatched').append('<h2>Snatched and Available</h2>');
-      $('.wanted').append('<h2>Wanted</h2>');
-
-      wantedData = JSON.parse(localStorage.getItem('CouchpotatoWanted'));
-      snatchedData = JSON.parse(localStorage.getItem('CouchpotatoSnatched'));
-
-      $.each(wantedData.movies, function(i, movie) {
-        cpAppendData(movie, items, '.wanted');
-      });
-
-      $.each(snatchedData.movies, function(i, movie) {
-        cpAppendData(movie, items, '.snatched');
-      });
+    if (localStorage.CouchpotatoWantedHTML && localStorage.CouchpotatoSnatchedHTML) {
+      $('.snatched').append(localStorage.getItem('CouchpotatoSnatchedHTML'));
+      $('.wanted').append(localStorage.getItem('CouchpotatoWantedHTML'));
 
       $('.cp_poster').unveil();
 
@@ -117,49 +106,6 @@ function cpShowData() {
       }
     }
   });
-}
-
-function cpAppendData(movie, items, divSelector) {
-  var posterName, posterUrl;
-
-  if (movie.files && movie.files.image_poster && movie.files.image_poster[0]) {
-    posterName = movie.files.image_poster[0].match('[^//]*$')[0];
-    posterUrl = items.CP_address + ':' + items.CP_port + '/api/' + items.CP_key + '/file.cache/' + posterName;
-  }
-  else {
-    posterUrl = 'img/poster_fallback.png';
-  }
-
-  if (moment(movie.info.released).year() != moment().year()) {
-    date = moment(movie.info.released).format("MMM D, YYYY");
-  }
-  else {
-    date = moment(movie.info.released).format("MMM D");
-  }
-
-  if ($(divSelector).html().indexOf($('<div/>').text(movie.title).html()) == -1) {
-    $(divSelector).append(
-      '<core-item label="' + movie.title + '" class="cp_item">' +
-        '<div class="cp_poster_container">' +
-          '<img class="cp_poster" src="img/poster_fallback.png" data-src="' + posterUrl+ '"></img>' +
-        '</div>' +
-        '<div class="cp_collapse_icon_container">' +
-          '<core-icon class="cp_collapse_icon" icon="expand-more"></core-icon>' +
-        '</div>' +
-      '</core-item>' +
-      '<core-collapse opened=false class="cp_collapse">' +
-        '<core-item>' +
-          date +
-          '<div class="cp_collapse_buttons">' +
-            '<paper-icon-button class="cp_search_movie" id="' + movie._id + '" icon="search"></paper-icon-button>' +
-            '<a class="cp_imdb_link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
-              '<paper-icon-button class="cp_imdb_link_icon" icon="info-outline"></paper-icon-button>' +
-            '</a>' +
-          '</div>' +
-        '</core-item>' +
-      '</core-collapse'
-    );
-  }
 }
 
 function searchMovie(clickedObject) {
