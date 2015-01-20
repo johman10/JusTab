@@ -287,13 +287,23 @@ core-item {
 }
 
 /* line 16, ../sass/partials/facebook.scss */
-.notifications h2,
-.notifications a {
+.notifications h2 {
   padding: 0 16px;
 }
-/* line 21, ../sass/partials/facebook.scss */
+/* line 20, ../sass/partials/facebook.scss */
+.notifications a {
+  color: #000;
+  text-decoration: none;
+  padding: 0 16px;
+  line-height: 40px;
+}
+/* line 27, ../sass/partials/facebook.scss */
 .notifications a:hover {
   background-color: #eee;
+}
+/* line 31, ../sass/partials/facebook.scss */
+.notifications a:visited {
+  color: #808080;
 }
 
 /* line 3, ../sass/partials/couchpotato.scss */

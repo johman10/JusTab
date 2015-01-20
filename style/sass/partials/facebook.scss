@@ -13,12 +13,22 @@
 }
 
 .notifications {
-  h2,
-  a {
+  h2 {
     padding: 0 16px;
+  }
+
+  a {
+    color: $black;
+    text-decoration: none;
+    padding: 0 16px;
+    line-height: 40px;
   }
 
   a:hover {
     background-color: $hover-color;
+  }
+
+  a:visited {
+    color: $grey;
   }
 }
