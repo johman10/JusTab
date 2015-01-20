@@ -25,7 +25,8 @@ chrome.storage.sync.get({
     chrome.alarms.create('facebook', {periodInMinutes: parseFloat(items.FB_refresh)});
   }
   if (items.CP_status == true) {
-    chrome.alarms.create('couchPotato', {periodInMinutes: parseFloat(items.CP_refresh)});
+    chrome.alarms.create('couchPotatoWanted', {periodInMinutes: parseFloat(items.CP_refresh)});
+    chrome.alarms.create('couchPotatoSnatched', {periodInMinutes: parseFloat(items.CP_refresh)});
   }
   if (items.SB_status == true) {
     chrome.alarms.create('sickBeard', {periodInMinutes: parseFloat(items.SB_refresh)});
@@ -37,83 +38,48 @@ chrome.storage.sync.get({
   if (items.DN_status == true) {
     chrome.alarms.create('designerNews', {periodInMinutes: parseFloat(items.DN_refresh)});
   }
-});
 
-chrome.runtime.onStartup.addListener(function() {
-  chrome.storage.sync.get({
-    GC_status: '',
-    GM_status: '',
-    FB_status: '',
-    CP_status: '',
-    SB_status: '',
-    SAB_status: '',
-    DN_status: ''
-  }, function(items) {
+  chrome.runtime.onStartup.addListener(function() {
+    console.log('Startup Functions');
     if (items.GC_status == true) {
-      console.log('Startup GC_status');
       getCalendarData();
     }
     if (items.GM_status == true) {
-      console.log('Startup GM_status');
       getGmailData();
     }
     if (items.FB_status == true) {
-      console.log('Startup FB_status');
       getFacebookData();
     }
     if (items.CP_status == true) {
-      console.log('Startup CP_status');
       getWantedCouchPotato();
       getSnatchedCouchPotato();
     }
     if (items.SB_status == true) {
-      console.log('Startup SB_status');
-      getSickbeardData();
+      getSickBeardData();
     }
     if (items.SAB_status == true) {
-      console.log('Startup SAB_status');
       getSabnzbdHistory();
       getSabnzbdQueue();
     }
     if (items.DN_status == true) {
-      console.log('Startup DN_status');
       getDesignerNewsData();
     }
   });
-});
 
-chrome.alarms.onAlarm.addListener(function(alarm) {
-  if (alarm.name == 'googleCalendar') {
+  chrome.alarms.onAlarm.addListener(function(alarm) {
+    var alarmFunctions = {
+      'googleCalendar': getCalendarData,
+      'gmail': getGmailData,
+      'facebook': getFacebookData,
+      'couchPotatoWanted': getWantedCouchPotato,
+      'couchPotatoSnatched': getSnatchedCouchPotato,
+      'sickBeard': getSickBeardData,
+      'sabnzbdQueue': getSabnzbdQueue,
+      'sabnzbdHistory': getSabnzbdHistory,
+      'designerNews': getDesignerNewsData
+    };
+
     console.log(alarm.name);
-    getCalendarData();
-  }
-  else if (alarm.name == 'gmail') {
-    console.log(alarm.name);
-    getGmailData();
-  }
-  else if (alarm.name == 'facebook') {
-    console.log(alarm.name);
-    getFacebookData();
-  }
-  else if (alarm.name == 'couchPotato') {
-    console.log(alarm.name);
-    getWantedCouchPotato();
-    getSnatchedCouchPotato();
-  }
-  else if (alarm.name == 'sickBeard') {
-    console.log(alarm.name);
-    getSickBeardData();
-  }
-  else if (alarm.name == 'sabnzbdQueue') {
-    console.log(alarm.name);
-    getSabnzbdQueue();
-  }
-  else if (alarm.name == 'sabnzbdHistory') {
-    console.log(alarm.name);
-    getSabnzbdHistory();
-  }
-  else if (alarm.name == 'designerNews') {
-    console.log(alarm.name);
-    getDesignerNewsData();
-  }
+    alarmFunctions[alarm.name]();
+  });
 });

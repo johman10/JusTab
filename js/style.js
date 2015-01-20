@@ -32,29 +32,20 @@ $(document).ready(function() {
   });
 
   $(window).bind('storage', function (e) {
-    if (e.originalEvent.key == 'CalendarTodayHTML' || e.originalEvent.key == 'CalendarTomorrowHTML') {
-      calenderShowEvents();
-    }
+    var storageFunctions = {
+      'CalendarTodayHTML': calenderShowEvents,
+      'CalendarTomorrowHTML': calenderShowEvents,
+      'GmailReadHTML': GmailShowData,
+      'GmailUnreadHTML': GmailShowData,
+      'CouchpotatoSnatchedHTML': cpShowData,
+      'CouchpotatoWantedHTML': cpShowData,
+      'Sickbeard': sbShowData,
+      'SabnzbdQueue': sabShowData,
+      'SabnzbdHistory': sabShowData,
+      'Designernews': dnShowData
+    };
 
-    if (e.originalEvent.key == 'GmailReadHTML' || e.originalEvent.key == 'GmailUnreadHTML') {
-      GmailShowData();
-    }
-
-    if (e.originalEvent.key == 'CouchpotatoSnatchedHTML' || e.originalEvent.key == 'CouchpotatoWantedHTML') {
-      cpShowData();
-    }
-
-    if (e.originalEvent.key == 'Sickbeard') {
-      sbShowData();
-    }
-
-    if (e.originalEvent.key == 'SabnzbdQueue' || e.originalEvent.key == 'SabnzbdHistory') {
-      sabShowData();
-    }
-
-    if (e.originalEvent.key == 'Designernews') {
-      dnShowData();
-    }
+    storageFunctions[e.originalEvent.key]();
   });
 });
 
