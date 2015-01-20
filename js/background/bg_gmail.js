@@ -67,7 +67,7 @@ function GmailHTML() {
   $.each(data, function(i, message) {
     $.each(message.payload.headers, function(i, header) {
       if (header.name == "Subject") {
-        messageSubject = header.value;
+        messageSubject = $('<div />').html(header.value).text();
       }
       if (header.name == "From") {
         messageFrom = header.value.replace(/<(.|\n)*?>/, "");
