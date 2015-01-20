@@ -36,11 +36,11 @@ $(document).ready(function() {
       calenderShowEvents();
     }
 
-    if (e.originalEvent.key == 'Gmail') {
+    if (e.originalEvent.key == 'GmailReadHTML' || e.originalEvent.key == 'GmailUnreadHTML') {
       GmailShowData();
     }
 
-    if (e.originalEvent.key == 'CouchpotatoSnatched' || e.originalEvent.key == 'CouchpotatoWanted') {
+    if (e.originalEvent.key == 'CouchpotatoSnatchedHTML' || e.originalEvent.key == 'CouchpotatoWantedHTML') {
       cpShowData();
     }
 
