@@ -43,7 +43,6 @@ function fbShowData() {
 
   if (localStorage.Facebook) {
     data = $.parseXML(localStorage.getItem('Facebook'));
-    $('.notifications').append('<h2>Notifications</h2>');
 
     $(data).find('item').each(function(){
       var title = $(this).find('title').text();
