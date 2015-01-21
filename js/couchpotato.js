@@ -74,38 +74,31 @@ $('html').on('click', '.cp_item', function(event) {
 });
 
 function cpShowData() {
-  chrome.storage.sync.get({
-    CP_key: '',
-    CP_status: '',
-    CP_address: '',
-    CP_port: ''
-  }, function(items) {
-    $('.wanted').empty();
-    $('.snatched').empty();
+  $('.wanted').empty();
+  $('.snatched').empty();
 
-    var wantedError = localStorage.getItem('CouchpotatoWanted_error');
-    var snatchedError = localStorage.getItem('CouchpotatoSnatched_error');
+  var wantedError = localStorage.getItem('CouchpotatoWanted_error');
+  var snatchedError = localStorage.getItem('CouchpotatoSnatched_error');
 
-    if (wantedError == "true" || snatchedError == "true") {
-      $('#couchpotato .error').slideDown('slow');
-    } else {
-      $('#couchpotato .error').slideUp('slow');
+  if (wantedError == "true" || snatchedError == "true") {
+    $('#couchpotato .error').slideDown('slow');
+  } else {
+    $('#couchpotato .error').slideUp('slow');
+  }
+
+  if (localStorage.CouchpotatoWantedHTML && localStorage.CouchpotatoSnatchedHTML) {
+    $('.snatched').append(localStorage.getItem('CouchpotatoSnatchedHTML'));
+    $('.wanted').append(localStorage.getItem('CouchpotatoWantedHTML'));
+
+    $('.cp_poster').unveil();
+
+    if ($('.snatched core-item').length === 0) {
+      $('.snatched').append("<core-item label='No snatched movies at this moment.'></core-item>");
     }
-
-    if (localStorage.CouchpotatoWantedHTML && localStorage.CouchpotatoSnatchedHTML) {
-      $('.snatched').append(localStorage.getItem('CouchpotatoSnatchedHTML'));
-      $('.wanted').append(localStorage.getItem('CouchpotatoWantedHTML'));
-
-      $('.cp_poster').unveil();
-
-      if ($('.snatched core-item').length === 0) {
-        $('.snatched').append("<core-item label='No snatched movies at this moment.'></core-item>");
-      }
-      if ($('.wanted core-item').length === 0) {
-        $('.wanted').append("<core-item label='No wanted movies at this moment.'></core-item>");
-      }
+    if ($('.wanted core-item').length === 0) {
+      $('.wanted').append("<core-item label='No wanted movies at this moment.'></core-item>");
     }
-  });
+  }
 }
 
 function searchMovie(clickedObject) {

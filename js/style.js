@@ -45,7 +45,10 @@ $(document).ready(function() {
       'Designernews': dnShowData
     };
 
-    storageFunctions[e.originalEvent.key]();
+    console.log(e.originalEvent.key);
+    if (storageFunctions[e.originalEvent.key]) {
+      storageFunctions[e.originalEvent.key]();
+    }
   });
 });
 

@@ -78,11 +78,11 @@ function cpHTML() {
     wantedData = JSON.parse(localStorage.getItem('CouchpotatoWanted'));
 
     $.each(snatchedData.movies, function(i, movie) {
-      CouchpotatoSnatchedHTML = cpCreateVar(movie, items, CouchpotatoSnatchedHTML);
+      CouchpotatoSnatchedHTML = cpCreateVar(movie, CouchpotatoSnatchedHTML);
     });
 
     $.each(wantedData.movies, function(i, movie) {
-      CouchpotatoWantedHTML = cpCreateVar(movie, items, CouchpotatoWantedHTML);
+      CouchpotatoWantedHTML = cpCreateVar(movie, CouchpotatoWantedHTML);
     });
 
     localStorage.setItem('CouchpotatoSnatchedHTML', CouchpotatoSnatchedHTML);
@@ -90,16 +90,17 @@ function cpHTML() {
   });
 }
 
-function cpCreateVar(movie, items, cpVar) {
+function cpCreateVar(movie, cpVar) {
   var posterName, posterUrl;
 
-  if (movie.files && movie.files.image_poster && movie.files.image_poster[0]) {
-    posterName = movie.files.image_poster[0].match('[^//]*$')[0];
-    posterUrl = items.CP_address + ':' + items.CP_port + '/api/' + items.CP_key + '/file.cache/' + posterName;
+  if (movie.info.images.poster_original && movie.info.images.poster_original[0] && movie.info.images.poster_original[0].substr(-4) != "None") {
+    posterUrl = movie.info.images.poster[0];
   }
   else {
     posterUrl = 'img/poster_fallback.png';
   }
+
+  console.log(posterUrl);
 
   if (moment(movie.info.released).year() != moment().year()) {
     date = moment(movie.info.released).format("MMM D, YYYY");
@@ -111,7 +112,7 @@ function cpCreateVar(movie, items, cpVar) {
   cpVar +=
     '<core-item label="' + movie.title + '" class="cp_item">' +
       '<div class="cp_poster_container">' +
-        '<img class="cp_poster" src="img/poster_fallback.png" data-src="' + posterUrl+ '"></img>' +
+        '<img class="cp_poster" src="img/poster_fallback.png" data-src="' + posterUrl + '"></img>' +
       '</div>' +
       '<div class="cp_collapse_icon_container">' +
         '<core-icon class="cp_collapse_icon" icon="expand-more"></core-icon>' +

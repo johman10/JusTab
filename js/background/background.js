@@ -56,7 +56,8 @@ chrome.storage.sync.get({
       'designerNews': getDesignerNewsData
     };
 
-    console.log(alarm.name);
-    alarmFunctions[alarm.name]();
+    if (alarmFunctions[alarm.name]) {
+      alarmFunctions[alarm.name]();
+    }
   });
 });

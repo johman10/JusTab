@@ -87,86 +87,23 @@ function sbShowData(SB_key, SB_address, SB_port) {
     $('#sickbeard .error').slideUp('slow');
   }
 
-  if (localStorage.Sickbeard) {
-    data = JSON.parse(localStorage.getItem('Sickbeard'));
-
-    // Episodes missed
-    if (data.data.missed.length > 0) {
-      $('#sickbeard .sb_missed').append('<h2>Missed</h2>');
-      listSeries(data, data.data.missed, ".sb_missed");
-    }
-
-    // Episodes today
-    if (data.data.today.length > 0) {
-      $('#sickbeard .sb_today').append('<h2>Today</h2>');
-      listSeries(data, data.data.today, ".sb_today");
-    }
-
-    // Episodes soon
-    if (data.data.soon.length > 0) {
-      $('#sickbeard .sb_soon').append('<h2>Soon</h2>');
-      listSeries(data, data.data.soon, ".sb_soon");
-    }
-
-    // Episodes later
-    if (data.data.later.length > 0) {
-      $('#sickbeard .sb_later').append('<h2>Later</h2>');
-      listSeries(data, data.data.later, ".sb_later");
-    }
+  if (localStorage.SickbeardMissedHTML) {
+    $('.sb_missed').append(localStorage.getItem('SickbeardMissedHTML'));
   }
-}
 
-function listSeries(data, query, parent) {
-  chrome.storage.sync.get({
-    SB_key: '',
-    SB_address: '',
-    SB_port: ''
-  }, function(items) {
-    $.each(query, function(i, episodeData) {
-      var tvdbid = episodeData.tvdbid,
-          season = episodeData.season,
-          episode = episodeData.episode,
-          airdate = episodeData.airdate,
-          showname = episodeData.show_name,
-          date;
+  if (localStorage.SickbeardTodayHTML) {
+    $('.sb_today').append(localStorage.getItem('SickbeardTodayHTML'));
+  }
 
-      posterUrl = items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/?cmd=show.getposter&tvdbid=" + tvdbid;
+  if (localStorage.SickbeardSoonHTML) {
+    $('.sb_soon').append(localStorage.getItem('SickbeardSoonHTML'));
+  }
 
-      if (moment(airdate).year() > moment().year()) {
-        date = moment(airdate).format("MMM D, YYYY");
-      }
-      else {
-        date = moment(airdate).format("MMM D");
-      }
-      var episodeString = " S" + (season<10?'0':'') + season + "E" + (episode<10?'0':'') + episode;
-      $(parent).append(
-        "<core-item label='" + showname + episodeString + "' class='sb_item'>" +
-          "<div class='sb_poster_container'>" +
-            "<img class='sb_poster' src='img/poster_fallback.png' data-src='" + posterUrl+ "'></core-image>" +
-          "</div>" +
-          "<div class='sb_collapse_icon_container'>" +
-            "<core-icon class='sb_collapse_icon' icon='expand-more'></core-icon>" +
-          "</div>" +
-        "</core-item>" +
-        "<core-collapse opened=false class='sb_collapse'>" +
-          "<core-item>" +
-            date +
-            "<div class='sb_collapse_buttons'>" +
-              "<paper-icon-button class='sb_search_episode " + tvdbid + "' icon='search'>Search</paper-icon-button>" +
-              "<paper-spinner class='sb_search_spinner'></paper-spinner>" +
-              "<a class='sb_tvdb_link' href='http://thetvdb.com/?tab=series&id=" + tvdbid + "' target='_blank'>" +
-                "<paper-icon-button class='sb_tvdb_link_icon' icon='info-outline'></paper-icon-button>" +
-              "</a>" +
-              "</div>" +
-          "</core-item>" +
-        "</core-collapse>"
-      );
+  if (localStorage.SickbeardLaterHTML) {
+    $('.sb_later').append(localStorage.getItem('SickbeardLaterHTML'));
+  }
 
-      $('.' + tvdbid).data("episode", { tvdbid: tvdbid, season: season, episode: episode });
-    });
-
-    $('.sb_poster').unveil();
-  });
+  $('.sb_poster').unveil();
 }
 
 function searchEpisode(clickedObject) {
