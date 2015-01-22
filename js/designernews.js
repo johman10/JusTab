@@ -46,12 +46,5 @@ function dnShowData() {
     $('#designernews .error').slideUp('slow');
   }
 
-  if (localStorage.Designernews) {
-    data = JSON.parse(localStorage.getItem('Designernews'));
-    $.each(data.stories, function(i, story) {
-      $('.dn_links').append(
-        '<core-item class="dn_link_container"><a href="' + story.url + '" target="_blank" fit>' + story.title + '<paper-ripple fit></paper-ripple></a></core-item>'
-      );
-    });
-  }
+  $('.dn_links').append(localStorage.getItem('DesignernewsHTML'));
 }

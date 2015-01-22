@@ -20,8 +20,23 @@ function getDesignerNewsData(callback) {
       localStorage.setItem("Designernews_error", true);
     }
   })).then(function() {
+    dnHTML();
+
     if (callback) {
       callback();
     }
   });
+}
+
+function dnHTML() {
+  if (localStorage.Designernews) {
+    data = JSON.parse(localStorage.getItem('Designernews'));
+    var dn_links = '';
+
+    $.each(data.stories, function(i, story) {
+      dn_links += '<core-item class="dn_link_container"><a href="' + story.url + '" target="_blank" fit>' + story.title + '<paper-ripple fit></paper-ripple></a></core-item>';
+    });
+
+    localStorage.setItem('DesignernewsHTML', dn_links);
+  }
 }
