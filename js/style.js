@@ -39,13 +39,16 @@ $(document).ready(function() {
       'GmailUnreadHTML': GmailShowData,
       'CouchpotatoSnatchedHTML': cpShowData,
       'CouchpotatoWantedHTML': cpShowData,
-      'Sickbeard': sbShowData,
-      'SabnzbdQueue': sabShowData,
-      'SabnzbdHistory': sabShowData,
+      'SickbeardMissedHTML': sbShowData,
+      'SickbeardTodayHTML': sbShowData,
+      'SickbeardSoonHTML': sbShowData,
+      'SickbeardLaterHTML': sbShowData,
+      'SabnzbdQueueHTML': sabShowData,
+      'SabnzbdHistoryHTML': sabShowData,
       'Designernews': dnShowData
     };
 
-    console.log(e.originalEvent.key);
+    console.log(e);
     if (storageFunctions[e.originalEvent.key]) {
       storageFunctions[e.originalEvent.key]();
     }

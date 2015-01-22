@@ -62,8 +62,43 @@ function getSabnzbdQueue(callback) {
       }
     });
 
+    sabHTML();
     if (callback) {
       callback();
     }
   });
+}
+
+function sabHTML() {
+  console.log('sabHTML');
+  var history = '<h2>History</h2>';
+  var queue = '<h2>Queue</h2>';
+
+  if (localStorage.SabnzbdQueue) {
+    var queueJson = JSON.parse(localStorage.getItem('SabnzbdQueue'));
+
+    $.each(queueJson.queue.slots, function(i, qItem) {
+      queue += '<core-item label="' + qItem.filename + '"></core-item>';
+    });
+
+    if (queueJson.queue.slots.length < 1) {
+      queue += '<core-item label="No items in queue at this moment."></core-item>';
+    }
+
+    localStorage.setItem('SabnzbdQueueHTML', queue);
+  }
+
+  if (localStorage.SabnzbdHistory) {
+    var historyJson = JSON.parse(localStorage.getItem('SabnzbdHistory'));
+
+    $.each(historyJson.history.slots, function(i, hItem) {
+      history += '<core-item label="' + hItem.name + '"></core-item>';
+    });
+
+    if (historyJson.history.slots.length < 1) {
+      history += '<core-item label="No items in history at this moment."></core-item>';
+    }
+
+    localStorage.setItem('SabnzbdHistoryHTML', history);
+  }
 }

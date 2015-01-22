@@ -47,9 +47,6 @@ function sabShowData() {
   var queueError = localStorage.getItem('SabnzbdQueue_error');
   var historyError = localStorage.getItem('SabnzbdHistory_error');
 
-  $('.history').append('<h2>History</h2>');
-  $('.queue').append('<h2>Queue</h2>');
-
   if (queueError == "true" || historyError == "true") {
     $('#sabnzbd .error').slideDown('slow');
   }
@@ -57,27 +54,6 @@ function sabShowData() {
     $('#sabnzbd .error').slideUp('slow');
   }
 
-  if (localStorage.SabnzbdQueue) {
-    var queue = JSON.parse(localStorage.getItem('SabnzbdQueue'));
-
-    $.each(queue.queue.slots, function(i, qItem) {
-      $('.queue').append('<core-item label="' + qItem.filename + '"></core-item>');
-    });
-
-    if (queue.queue.slots.length < 1) {
-      $('.queue').append('<core-item label="No items in queue at this moment."></core-item>');
-    }
-  }
-
-  if (localStorage.SabnzbdHistory) {
-    var history = JSON.parse(localStorage.getItem('SabnzbdHistory'));
-
-    $.each(history.history.slots, function(i, hItem) {
-      $('.history').append('<core-item label="' + hItem.name + '"></core-item>');
-    });
-
-    if (history.history.slots.length < 1) {
-      $('.queue').append('<core-item label="No items in history at this moment."></core-item>');
-    }
-  }
+  $('#sabnzbd .queue').append(localStorage.getItem('SabnzbdQueueHTML'));
+  $('#sabnzbd .history').append(localStorage.getItem('SabnzbdHistoryHTML'));
 }
