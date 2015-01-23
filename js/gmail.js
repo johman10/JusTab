@@ -16,12 +16,10 @@ $(document).ready(function() {
           $('.loading_gmail').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getGmailData(function() {
-              $.when(GmailShowData()).done(function() {
-                $('.loading_gmail').attr('active', false);
-                setTimeout(function() {
-                  $('.refresh_gmail').fadeIn(400);
-                }, 400);
-              });
+              $('.loading_gmail').attr('active', false);
+              setTimeout(function() {
+                $('.refresh_gmail').fadeIn(400);
+              }, 400);
             });
           });
         });

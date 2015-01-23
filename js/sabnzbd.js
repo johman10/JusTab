@@ -20,12 +20,10 @@ $(document).ready(function() {
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getSabnzbdHistory(function() {
               backgroundPage.getSabnzbdQueue(function() {
-                $.when(sabShowData()).done(function() {
-                  $('.loading_sab').attr('active', false);
-                  setTimeout(function() {
-                    $('.refresh_sab').fadeIn(400);
-                  }, 400);
-                });
+                $('.loading_sab').attr('active', false);
+                setTimeout(function() {
+                  $('.refresh_sab').fadeIn(400);
+                }, 400);
               });
             });
           });
@@ -41,7 +39,6 @@ $(document).ready(function() {
 });
 
 function sabShowData() {
-  console.log(JSON.parse(localStorage.getItem('SabnzbdQueue')));
   $('.status').empty();
   $('.queue').empty();
   $('.history').empty();

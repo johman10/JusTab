@@ -36,12 +36,13 @@ function eventArray(url, token, callback) {
         localStorage.setItem("Calendar_error", true);
       }
     });
-
+  })).then(function() {
     if (events.length > 0) {
       localStorage.setItem("Calendar", JSON.stringify(events));
     }
-  })).then(function() {
+
     calendarHTML();
+
     if (callback) {
       callback();
     }

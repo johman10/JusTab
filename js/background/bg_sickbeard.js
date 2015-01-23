@@ -116,7 +116,7 @@ function listSeries(query, HTML, storageName) {
           "<core-item>" +
             date +
             "<div class='sb_collapse_buttons'>" +
-              "<paper-icon-button class='sb_search_episode " + tvdbid + "' icon='search'>Search</paper-icon-button>" +
+              "<paper-icon-button class='sb_search_episode' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "' icon='search'>Search</paper-icon-button>" +
               "<paper-spinner class='sb_search_spinner'></paper-spinner>" +
               "<a class='sb_tvdb_link' href='http://thetvdb.com/?tab=series&id=" + tvdbid + "' target='_blank'>" +
                 "<paper-icon-button class='sb_tvdb_link_icon' icon='info-outline'></paper-icon-button>" +

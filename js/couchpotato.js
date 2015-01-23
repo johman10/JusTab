@@ -20,12 +20,10 @@ $(document).ready(function() {
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getWantedCouchPotato();
             backgroundPage.getSnatchedCouchPotato(function() {
-              $.when(cpShowData()).done(function() {
-                $('.loading_cp').attr('active', false);
-                setTimeout(function() {
-                  $('.refresh_cp').fadeIn(400);
-                }, 400);
-              });
+              $('.loading_cp').attr('active', false);
+              setTimeout(function() {
+                $('.refresh_cp').fadeIn(400);
+              }, 400);
             });
           });
         });

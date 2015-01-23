@@ -1,14 +1,15 @@
 // Docs:
 // http://sickbeard.com/api
 
-$(document).ready(function() {
-  chrome.storage.sync.get({
-    SB_status: '',
-    SB_address: '',
-    SB_port: ''
-  }, function(items) {
+chrome.storage.sync.get({
+  SB_status: '',
+  SB_address: '',
+  SB_port: '',
+  SB_key: ''
+}, function(items) {
+  $(document).ready(function() {
     if (items.SB_status === true) {
-      sbShowData(items.SB_key, items.SB_address, items.SB_port);
+      sbShowData();
 
       $('#sickbeard .refresh_sb').click(function(event) {
         if ($('#sickbeard .error:visible')) {
@@ -18,12 +19,10 @@ $(document).ready(function() {
           $('.loading_sb').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getSickBeardData(function() {
-              $.when(sbShowData(items.SB_key, items.SB_address, items.SB_port)).done(function() {
-                $('.loading_sb').attr('active', false);
-                setTimeout(function() {
-                  $('#sickbeard .refresh_sb').fadeIn(400);
-                }, 400);
-              });
+              $('.loading_sb').attr('active', false);
+              setTimeout(function() {
+                $('#sickbeard .refresh_sb').fadeIn(400);
+              }, 400);
             });
           });
         });
@@ -35,88 +34,97 @@ $(document).ready(function() {
       $('body').width($('body').width() + $('#sickbeard').width());
     }
   });
+
+  $("html").on('click', ".sb_item", function(event) {
+    var collapseItem = $(this).next('.sb_collapse');
+    var collapseIcon = $(this).find('.sb_collapse_icon');
+    if (collapseItem.attr('opened') == 'false') {
+      $('.sb_collapse').attr('opened', false);
+      $('.sb_item').css('background-color', '#fafafa');
+      $('.sb_collapse_icon_container').css('background-color', '#fafafa');
+      $('.sb_collapse_icon[icon=expand-less]').fadeOut(165, function() {
+        $(this).attr('icon', 'expand-more');
+        $(this).fadeIn(165);
+      });
+      $(this).css('background-color', '#eee');
+      collapseIcon.parent().css('background-color', '#eee');
+      collapseItem.attr('opened', true);
+      collapseIcon.fadeOut(165, function() {
+        collapseIcon.attr('icon', 'expand-less');
+        collapseIcon.fadeIn(165);
+      });
+    }
+    else {
+      $(this).css('background-color', '#fafafa');
+      collapseIcon.parent().css('background-color', '#fafafa');
+      collapseItem.attr('opened', false);
+      collapseIcon.fadeOut(165, function() {
+        collapseIcon.attr('icon', 'expand-more');
+        collapseIcon.fadeIn(165);
+      });
+    }
+  });
+
+  $("body").on('click', ".sb_search_episode", function(event) {
+    searchEpisode($(this));
+  });
 });
 
-$("html").on('click', ".sb_item", function(event) {
-  var collapseItem = $(this).next('.sb_collapse');
-  var collapseIcon = $(this).find('.sb_collapse_icon');
-  if (collapseItem.attr('opened') == 'false') {
-    $('.sb_collapse').attr('opened', false);
-    $('.sb_item').css('background-color', '#fafafa');
-    $('.sb_collapse_icon_container').css('background-color', '#fafafa');
-    $('.sb_collapse_icon[icon=expand-less]').fadeOut(165, function() {
-      $(this).attr('icon', 'expand-more');
-      $(this).fadeIn(165);
-    });
-    $(this).css('background-color', '#eee');
-    collapseIcon.parent().css('background-color', '#eee');
-    collapseItem.attr('opened', true);
-    collapseIcon.fadeOut(165, function() {
-      collapseIcon.attr('icon', 'expand-less');
-      collapseIcon.fadeIn(165);
-    });
-  }
-  else {
-    $(this).css('background-color', '#fafafa');
-    collapseIcon.parent().css('background-color', '#fafafa');
-    collapseItem.attr('opened', false);
-    collapseIcon.fadeOut(165, function() {
-      collapseIcon.attr('icon', 'expand-more');
-      collapseIcon.fadeIn(165);
-    });
-  }
-});
+function sbShowData() {
+  chrome.storage.sync.get({
+    SB_status: '',
+    SB_address: '',
+    SB_port: '',
+    SB_key: ''
+  }, function(items) {
+    $('#sickbeard .sb_missed').empty();
+    $('#sickbeard .sb_today').empty();
+    $('#sickbeard .sb_soon').empty();
+    $('#sickbeard .sb_later').empty();
 
-$("body").on('click', ".sb_search_episode", function(event) {
-  searchEpisode($(this));
-});
+    var url = items.SB_address + ":" + items.SB_port  + "/api/" + items.SB_key;
+    var error = localStorage.getItem("Sickbeard_error");
 
-function sbShowData(SB_key, SB_address, SB_port) {
-  $('#sickbeard .sb_missed').empty();
-  $('#sickbeard .sb_today').empty();
-  $('#sickbeard .sb_soon').empty();
-  $('#sickbeard .sb_later').empty();
+    if (error == "true") {
+      $('#sickbeard .error').slideDown('slow');
+    }
+    if (error == "false") {
+      $('#sickbeard .error').slideUp('slow');
+    }
 
-  var url = SB_address + ":" + SB_port  + "/api/" + SB_key;
-  var error = localStorage.getItem("Sickbeard_error");
+    if (localStorage.SickbeardMissedHTML) {
+      $('.sb_missed').append(localStorage.getItem('SickbeardMissedHTML'));
+    }
 
-  if (error == "true") {
-    $('#sickbeard .error').slideDown('slow');
-  }
-  if (error == "false") {
-    $('#sickbeard .error').slideUp('slow');
-  }
+    if (localStorage.SickbeardTodayHTML) {
+      $('.sb_today').append(localStorage.getItem('SickbeardTodayHTML'));
+    }
 
-  if (localStorage.SickbeardMissedHTML) {
-    $('.sb_missed').append(localStorage.getItem('SickbeardMissedHTML'));
-  }
+    if (localStorage.SickbeardSoonHTML) {
+      $('.sb_soon').append(localStorage.getItem('SickbeardSoonHTML'));
+    }
 
-  if (localStorage.SickbeardTodayHTML) {
-    $('.sb_today').append(localStorage.getItem('SickbeardTodayHTML'));
-  }
+    if (localStorage.SickbeardLaterHTML) {
+      $('.sb_later').append(localStorage.getItem('SickbeardLaterHTML'));
+    }
 
-  if (localStorage.SickbeardSoonHTML) {
-    $('.sb_soon').append(localStorage.getItem('SickbeardSoonHTML'));
-  }
-
-  if (localStorage.SickbeardLaterHTML) {
-    $('.sb_later').append(localStorage.getItem('SickbeardLaterHTML'));
-  }
-
-  $('.sb_poster').unveil();
+    $('.sb_poster').unveil();
+  });
 }
 
 function searchEpisode(clickedObject) {
-  clickedObject.fadeOut(400, function() {
-    clickedObject.next('paper-spinner').attr('active', true);
-  });
   chrome.storage.sync.get({
-    SB_key: '',
+    SB_status: '',
     SB_address: '',
-    SB_port: ''
+    SB_port: '',
+    SB_key: ''
   }, function(items) {
+    clickedObject.fadeOut(400, function() {
+      clickedObject.next('paper-spinner').attr('active', true);
+    });
+
     var url = items.SB_address + ":" + items.SB_port  + "/api/" + items.SB_key;
-    var searchApiUrl = url + "/?cmd=episode.search&tvdbid=" + clickedObject.data("episode").tvdbid + "&season=" + clickedObject.data("episode").season + "&episode=" + clickedObject.data("episode").episode;
+    var searchApiUrl = url + "/?cmd=episode.search&tvdbid=" + clickedObject.data('tvdbid') + "&season=" + clickedObject.data('season') + "&episode=" + clickedObject.data('episode');
 
     $.ajax({
       url: searchApiUrl,

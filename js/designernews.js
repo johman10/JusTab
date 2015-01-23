@@ -16,12 +16,10 @@ $(document).ready(function() {
           $('.loading_dn').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getDesignerNewsData(function() {
-              $.when(dnShowData()).done(function() {
-                $('.loading_dn').attr('active', false);
-                setTimeout(function() {
-                  $('.refresh_dn').fadeIn(400);
-                }, 400);
-              });
+              $('.loading_dn').attr('active', false);
+              setTimeout(function() {
+                $('.refresh_dn').fadeIn(400);
+              }, 400);
             });
           });
         });

@@ -100,8 +100,6 @@ function cpCreateVar(movie, cpVar) {
     posterUrl = 'img/poster_fallback.png';
   }
 
-  console.log(posterUrl);
-
   if (moment(movie.info.released).year() != moment().year()) {
     date = moment(movie.info.released).format("MMM D, YYYY");
   }

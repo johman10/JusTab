@@ -45,10 +45,9 @@ $(document).ready(function() {
       'SickbeardLaterHTML': sbShowData,
       'SabnzbdQueueHTML': sabShowData,
       'SabnzbdHistoryHTML': sabShowData,
-      'Designernews': dnShowData
+      'DesignernewsHTML': dnShowData
     };
 
-    console.log(e);
     if (storageFunctions[e.originalEvent.key]) {
       storageFunctions[e.originalEvent.key]();
     }

@@ -13,12 +13,10 @@ $(document).ready(function() {
           $('.loading_fb').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getFacebookData(function() {
-              $.when(fbShowData()).done(function() {
-                $('.loading_fb').attr('active', false);
-                setTimeout(function() {
-                  $('.refresh_fb').fadeIn(400);
-                }, 400);
-              });
+              $('.loading_fb').attr('active', false);
+              setTimeout(function() {
+                $('.refresh_fb').fadeIn(400);
+              }, 400);
             });
           });
         });

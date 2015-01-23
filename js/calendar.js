@@ -13,12 +13,10 @@ $(document).ready(function() {
           $('.loading_calendar').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getCalendarData(function() {
-              $.when(calenderShowEvents()).done(function() {
-                $('.loading_calendar').attr('active', false);
-                setTimeout(function() {
-                  $('.refresh_calendar').fadeIn(400);
-                }, 400);
-              });
+              $('.loading_calendar').attr('active', false);
+              setTimeout(function() {
+                $('.refresh_calendar').fadeIn(400);
+              }, 400);
             });
           });
         });
