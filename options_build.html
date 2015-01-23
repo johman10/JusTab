@@ -304,6 +304,9 @@ html /deep/ [segment], html /deep/ segment {
 
 
 
+
+
+
 <!--
 
 `core-transition-pages` represents a page transition, which may include CSS and/or
@@ -778,6 +781,7 @@ Arbitrary HTML is also supported
 
 
 
+
 <!--
 The `core-overlay` element displays overlayed on top of other content. It starts
 out hidden and is displayed by setting its `opened` property to true.
@@ -1009,6 +1013,11 @@ Example:
 
 
 
+
+
+
+
+
 <!--
 Supports sharing a JSONP-based JavaScript library.
 
@@ -1060,6 +1069,8 @@ of where they are in DOM.
 @status stable
 @homepage github.io
 -->
+
+
 
 
 
@@ -1128,6 +1139,7 @@ of where they are in DOM.
 
   
 </polymer-element>
+
 
 <polymer-element name="core-style" hidden="" assetpath="bower_components/core-style/">
 
@@ -2541,7 +2553,7 @@ core-selector > #drawer {
   height: 100%;
   will-change: transform;
   box-sizing: border-box;
-  -mox-box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
 
 .transition > #drawer {
@@ -2869,7 +2881,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 </polymer-element>
 
-<polymer-element name="core-list" on-tap="{{tapHandler}}" tabindex="-1" assetpath="bower_components/core-list/">
+<polymer-element name="core-list" tabindex="-1" assetpath="bower_components/core-list/">
 <template>
   <core-selection id="selection" multi="{{multi}}" on-core-select="{{selectedHandler}}"></core-selection>
   <style>:host {
@@ -3181,6 +3193,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </div>
   
 </template>
+
+</polymer-element>
+
+<polymer-element name="core-scroll-threshold" assetpath="bower_components/core-scroll-threshold/">
+
 
 </polymer-element>
 
@@ -3840,18 +3857,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   background-color: {{g.paperInput.focusedColor}};
 }
 
-.cursor {
-  background-color: {{g.paperInput.cursorColor}};
-}
-
 :host(.invalid) .floated-label .label-text,
 .error {
   color: {{g.paperInput.invalidColor}};
 }
 
 :host(.invalid) .unfocused-underline,
-:host(.invalid) .focused-underline,
-:host(.invalid) .cursor {
+:host(.invalid) .focused-underline {
   background-color: {{g.paperInput.invalidColor}};
 }
 
@@ -3879,7 +3891,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 polyfill-next-selector {
-  content: '.input-body > :not(.label):not(.cursor)';
+  content: '.input-body > :not(.label)';
 }
 ::content > *,
 ::content > input[is="core-input"] {
@@ -3960,26 +3972,6 @@ polyfill-next-selector {
   transform-origin: 0% 0%;
 }
 
-.cursor {
-  position: absolute;
-  top: 0.4em;
-  left: 0;
-  width: 1px;
-  height: 1.4em;
-  opacity: 0.4;
-  -moz-transform-origin: 0%;
-  -webkit-transform-origin: 0%;
-  transform-origin: 0%;
-  -webkit-transform: none;
-  transform: none;
-}
-
-.cursor[invisible] {
-  opacity: 0.75;
-  -webkit-transform: translate3d(3em,0,0) scale3d(50,1,1);
-  transform: translate3d(3em,0,0) scale3d(50,1,1);
-}
-
 .underline {
   height: 0px;
   overflow: visible;
@@ -4027,8 +4019,6 @@ polyfill-next-selector {
         <!-- needed for floating label animation measurement -->
         <span id="labelText" class="label-text" invisible?="{{!_labelVisible}}" animated?="{{labelAnimated}}">{{label}}</span>
       </div>
-
-      <div class="cursor" invisible?="{{!cursorAnimated}}" animated?="{{cursorAnimated}}"></div>
 
       <content></content>
 

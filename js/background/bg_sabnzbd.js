@@ -70,7 +70,7 @@ function getSabnzbdQueue(callback) {
 }
 
 function sabHTML() {
-  console.log('sabHTML');
+  var status = '<h2>Status</h2>';
   var history = '<h2>History</h2>';
   var queue = '<h2>Queue</h2>';
 
@@ -81,11 +81,14 @@ function sabHTML() {
       queue += '<core-item label="' + qItem.filename + '"></core-item>';
     });
 
+    status += '<core-item class="sab_status_container"><div class="sab_status">' + queueJson.queue.status + '</div></core-item>';
+
     if (queueJson.queue.slots.length < 1) {
       queue += '<core-item label="No items in queue at this moment."></core-item>';
     }
 
     localStorage.setItem('SabnzbdQueueHTML', queue);
+    localStorage.setItem('SabnzbdStatusHTML', status);
   }
 
   if (localStorage.SabnzbdHistory) {

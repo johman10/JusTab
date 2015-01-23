@@ -1,5 +1,238 @@
 
 
+(function(scope) {
+
+/**
+  `Polymer.CoreResizable` and `Polymer.CoreResizer` are a set of mixins that can be used
+  in Polymer elements to coordinate the flow of resize events between "resizers" (elements
+  that control the size or hidden state of their children) and "resizables" (elements that
+  need to be notified when they are resized or un-hidden by their parents in order to take
+  action on their new measurements).
+
+  Elements that perform measurement should add the `Core.Resizable` mixin to their 
+  Polymer prototype definition and listen for the `core-resize` event on themselves.
+  This event will be fired when they become showing after having been hidden,
+  when they are resized explicitly by a `CoreResizer`, or when the window has been resized.
+  Note, the `core-resize` event is non-bubbling.
+
+  `CoreResizable`'s must manually call the `resizableAttachedHandler` from the element's
+  `attached` callback and `resizableDetachedHandler` from the element's `detached`
+  callback.
+
+    @element CoreResizable
+    @status beta
+    @homepage github.io
+*/
+
+  scope.CoreResizable = {
+
+    /**
+     * User must call from `attached` callback
+     *
+     * @method resizableAttachedHandler
+     */
+    resizableAttachedHandler: function(cb) {
+      cb = cb || this._notifyResizeSelf;
+      this.async(function() {
+        var detail = {callback: cb, hasParentResizer: false};
+        this.fire('core-request-resize', detail);
+        if (!detail.hasParentResizer) {
+          this._boundWindowResizeHandler = cb.bind(this);
+          // log('adding window resize handler', null, this);
+          window.addEventListener('resize', this._boundWindowResizeHandler);
+        }
+      }.bind(this));
+    },
+
+    /**
+     * User must call from `detached` callback
+     *
+     * @method resizableDetachedHandler
+     */
+    resizableDetachedHandler: function() {
+      this.fire('core-request-resize-cancel', null, this, false);
+      if (this._boundWindowResizeHandler) {
+        window.removeEventListener('resize', this._boundWindowResizeHandler);
+      }
+    },
+
+    // Private: fire non-bubbling resize event to self; returns whether
+    // preventDefault was called, indicating that children should not
+    // be resized
+    _notifyResizeSelf: function() {
+      return this.fire('core-resize', null, this, false).defaultPrevented;
+    }
+
+  };
+
+/**
+  `Polymer.CoreResizable` and `Polymer.CoreResizer` are a set of mixins that can be used
+  in Polymer elements to coordinate the flow of resize events between "resizers" (elements
+  that control the size or hidden state of their children) and "resizables" (elements that
+  need to be notified when they are resized or un-hidden by their parents in order to take
+  action on their new measurements).
+
+  Elements that cause their children to be resized (e.g. a splitter control) or hide/show
+  their children (e.g. overlay) should add the `Core.CoreResizer` mixin to their 
+  Polymer prototype definition and then call `this.notifyResize()` any time the element
+  resizes or un-hides its children.
+
+  `CoreResizer`'s must manually call the `resizerAttachedHandler` from the element's
+  `attached` callback and `resizerDetachedHandler` from the element's `detached`
+  callback.
+
+  Note: `CoreResizer` extends `CoreResizable`, and can listen for the `core-resize` event
+  on itself if it needs to perform resize work on itself before notifying children.
+  In this case, returning `false` from the `core-resize` event handler (or calling
+  `preventDefault` on the event) will prevent notification of children if required.
+
+  @element CoreResizer
+  @extends CoreResizable
+  @status beta
+  @homepage github.io
+*/
+
+  scope.CoreResizer = Polymer.mixin({
+
+    /**
+     * User must call from `attached` callback
+     *
+     * @method resizerAttachedHandler
+     */
+    resizerAttachedHandler: function() {
+      this.resizableAttachedHandler(this.notifyResize);
+      this._boundResizeRequested = this._boundResizeRequested || this._handleResizeRequested.bind(this);
+      var listener;
+      if (this.resizerIsPeer) {
+        listener = this.parentElement || (this.parentNode && this.parentNode.host);
+        listener._resizerPeers = listener._resizerPeers || [];
+        listener._resizerPeers.push(this);
+      } else {
+        listener = this;
+      }
+      listener.addEventListener('core-request-resize', this._boundResizeRequested);
+      this._resizerListener = listener;
+    },
+
+    /**
+     * User must call from `detached` callback
+     *
+     * @method resizerDetachedHandler
+     */
+    resizerDetachedHandler: function() {
+      this.resizableDetachedHandler();
+      this._resizerListener.removeEventListener('core-request-resize', this._boundResizeRequested);
+    },
+
+    /**
+     * User should call when resizing or un-hiding children
+     *
+     * @method notifyResize
+     */
+    notifyResize: function() {
+      // Notify self
+      if (!this._notifyResizeSelf()) {
+        // Notify requestors if default was not prevented
+        var r = this.resizeRequestors;
+        if (r) {
+          for (var i=0; i<r.length; i++) {
+            var ri = r[i];
+            if (!this.resizerShouldNotify || this.resizerShouldNotify(ri.target)) {
+              // log('notifying resize', null, ri.target, true);
+              ri.callback.apply(ri.target);
+              // logEnd();
+            }
+          }
+        }
+      }
+    },
+
+    /**
+     * User should implement to introduce filtering when notifying children.
+     * Generally, children that are hidden by the CoreResizer (e.g. non-active
+     * pages) need not be notified during resize, since they will be notified
+     * again when becoming un-hidden.
+     *
+     * Return `true` if CoreResizable passed as argument should be notified of
+     * resize.
+     *
+     * @method resizeerShouldNotify
+     * @param {Element} el
+     */
+     // resizeerShouldNotify: function(el) { }  // User to implement if needed
+
+    /**
+     * Set to `true` if the resizer is actually a peer to the elements it
+     * resizes (e.g. splitter); in this case it will listen for resize requests
+     * events from its peers on its parent.
+     *
+     * @property resizerIsPeer
+     * @type Boolean
+     * @default false
+     */
+
+    // Private: Handle requests for resize
+    _handleResizeRequested: function(e) {
+      var target = e.path[0];
+      if ((target == this) || 
+          (target == this._resizerListener) || 
+          (this._resizerPeers && this._resizerPeers.indexOf(target) < 0)) {
+        return;
+      }
+      // log('resize requested', target, this);
+      if (!this.resizeRequestors) {
+        this.resizeRequestors = [];
+      }
+      this.resizeRequestors.push({target: target, callback: e.detail.callback});
+      target.addEventListener('core-request-resize-cancel', this._cancelResizeRequested.bind(this));
+      e.detail.hasParentResizer = true;
+      e.stopPropagation();
+    },
+
+    // Private: Handle cancellation requests for resize
+    _cancelResizeRequested: function(e) {
+      // Exit early if we're already out of the DOM (resizeRequestors will already be null)
+      if (this.resizeRequestors) {
+        for (var i=0; i<this.resizeRequestors.length; i++) {
+          if (this.resizeRequestors[i].target == e.target) {
+            // log('resizeCanceled', e.target, this);
+            this.resizeRequestors.splice(i, 1);
+            break;
+          }
+        }
+      }
+    }
+
+  }, Polymer.CoreResizable);
+
+  // function prettyName(el) {
+  //   return el.localName + (el.id ? '#' : '') + el.id;
+  // }
+
+  // function log(what, from, to, group) {
+  //   var args = [what];
+  //   if (from) {
+  //     args.push('from ' + prettyName(from));
+  //   }
+  //   if (to) {
+  //     args.push('to ' + prettyName(to));
+  //   }
+  //   if (group) {
+  //     console.group.apply(console, args);
+  //   } else {
+  //     console.log.apply(console, args);
+  //   }
+  // }
+
+  // function logEnd() {
+  //   console.groupEnd();
+  // }
+
+})(Polymer);
+
+;
+
+
     Polymer('core-xhr', {
 
       /**
@@ -420,7 +653,12 @@
       var hasContentType = Object.keys(args.headers).some(function (header) {
         return header.toLowerCase() === 'content-type';
       });
-      if (!hasContentType && this.contentType) {
+      // No Content-Type should be specified if sending `FormData`.  
+      // The UA must set the Content-Type w/ a calculated  multipart boundary ID.
+      if (args.body instanceof FormData) {
+        delete args.headers['Content-Type'];
+      } 
+      else if (!hasContentType && this.contentType) {
         args.headers['Content-Type'] = this.contentType;
       }
       if (this.handleAs === 'arraybuffer' || this.handleAs === 'blob' ||
@@ -1789,7 +2027,7 @@ Polymer('core-transition-pages',{
 ;
 
 
-  Polymer('core-animated-pages',{
+  Polymer('core-animated-pages',Polymer.mixin({
 
     eventDelegates: {
       'core-transitionend': 'transitionEnd'
@@ -1825,6 +2063,14 @@ Polymer('core-transition-pages',{
     created: function() {
       this._transitions = [];
       this.transitioning = [];
+    },
+
+    attached: function() {
+      this.resizerAttachedHandler();
+    },
+
+    detached: function() {
+      this.resizerDetachedHandler();
     },
 
     transitionsChanged: function() {
@@ -1960,6 +2206,7 @@ Polymer('core-transition-pages',{
       if (this.hasAttribute('no-transition') || !this._transitionElements || !this._transitionElements.length) {
         this.applySelection(oldItem, false);
         this.applySelection(this.selectedItem, true);
+        this.notifyResize();
         return;
       }
 
@@ -1969,11 +2216,22 @@ Polymer('core-transition-pages',{
         Polymer.flush();
         Polymer.endOfMicrotask(function() {
           self.applyTransition(oldItem, self.selectedItem);
+          self.notifyResize();
         });
+      }
+    },
+
+    resizerShouldNotify: function(el) {
+      // Only notify descendents of selected item
+      while (el && (el != this)) {
+        if (el == this.selectedItem) {
+          return true;
+        }
+        el = el.parentElement || (el.parentNode && el.parentNode.host);
       }
     }
 
-  });
+  }, Polymer.CoreResizer));
 
 ;
 
@@ -2739,7 +2997,7 @@ Polymer('core-transition-pages',{
       if (old) {
         bar.removeAttribute(this.toLayoutAttrName(old));
       }
-      if (this.justify) {
+      if (justify) {
         bar.setAttribute(this.toLayoutAttrName(justify), '');
       }
     },
@@ -3332,6 +3590,19 @@ Polymer('core-menu');;
      * @param {Object} detail
      * @param {boolean} detail.narrow true if the panel is in narrow layout.
      */
+     
+    /**
+     * Fired when the selected panel changes.
+     * 
+     * Listening for this event is an alternative to observing changes in the `selected` attribute.
+     * This event is fired both when a panel is selected and deselected.
+     * The `isSelected` detail property contains the selection state.
+     * 
+     * @event core-select
+     * @param {Object} detail
+     * @param {boolean} detail.isSelected true for selection and false for deselection
+     * @param {Object} detail.item the panel that the event refers to
+     */
 
     publish: {
 
@@ -3707,7 +3978,7 @@ Polymer('core-menu');;
 
 (function() {
 
-  Polymer('core-overlay', {
+  Polymer('core-overlay',Polymer.mixin({
 
     publish: {
       /**
@@ -3828,7 +4099,19 @@ Polymer('core-menu');;
       'keydown': 'keydownHandler',
       'core-transitionend': 'transitionend'
     },
-    
+
+    attached: function() {
+      this.resizerAttachedHandler();
+    },
+
+    detached: function() {
+      this.resizerDetachedHandler();
+    },
+
+    resizerShouldNotify: function() {
+      return this.opened;
+    },
+
     registerCallback: function(element) {
       this.layer = document.createElement('core-overlay-layer');
       this.keyHelper = document.createElement('core-key-helper');
@@ -3979,6 +4262,7 @@ Polymer('core-menu');;
     // tasks which cause the overlay to actually open; typically play an
     // animation
     renderOpened: function() {
+      this.notifyResize();
       var transition = this.getTransition();
       if (transition) {
         transition.go(this.target, {opened: this.opened});
@@ -4267,8 +4551,9 @@ Polymer('core-menu');;
         };
       }
       return this[bound];
-    },
-  });
+    }
+
+  }, Polymer.CoreResizer));
 
   // TODO(sorvell): This should be an element with private state so it can
   // be independent of overlay.
@@ -4448,6 +4733,8 @@ Polymer('core-menu');;
         style[dims.position.v] = null;
         dims.position.v_by = null;
       }
+      style.width = null;
+      style.height = null;
       this.super();
     },
 
@@ -4698,8 +4985,8 @@ Polymer('core-menu');;
     }
 
     function keyboardEventToKey(ev) {
-      // fall back from .key, to .keyIdentifier, and then to .keyCode
-      var normalizedKey = transformKey(ev.key) || transformKeyIdentifier(ev.keyIdentifier) || transformKeyCode(ev.keyCode) || '';
+      // fall back from .key, to .keyIdentifier, to .keyCode, and then to .detail.key to support artificial keyboard events
+      var normalizedKey = transformKey(ev.key) || transformKeyIdentifier(ev.keyIdentifier) || transformKeyCode(ev.keyCode) || transformKey(ev.detail.key) || '';
       return {
         shift: ev.shiftKey,
         ctrl: ev.ctrlKey,
@@ -5759,7 +6046,7 @@ Polymer('core-field');;
   var IOS = navigator.userAgent.match(/iP(?:hone|ad;(?: U;)? CPU) OS (\d+)/);
   var IOS_TOUCH_SCROLLING = IOS && IOS[1] >= 8;
 
-  Polymer('core-list', {
+  Polymer('core-list',Polymer.mixin({
     
     publish: {
       /**
@@ -5909,11 +6196,16 @@ Polymer('core-field');;
 
     },
 
+    eventDelegates: {
+      tap: 'tapHandler',
+      'core-resize': 'updateSize'
+    },
+
     // Local cache of scrollTop
     _scrollTop: 0,
     
     observe: {
-      'data grid width template scrollTarget': 'initialize',
+      'isAttached data grid width template scrollTarget': 'initialize',
       'multi selectionEnabled': '_resetSelection'
     },
 
@@ -5938,33 +6230,36 @@ Polymer('core-field');;
       this._nestedGroups = false;
       this._groupStart = 0;
       this._groupStartIndex = 0;
-
-      this._boundResizeHandler = this.updateSize.bind(this);
-      window.addEventListener('resize', this._boundResizeHandler);
     },
 
     attached: function() {
+      this.isAttached = true;
       this.template = this.querySelector('template');
       if (!this.template.bindingDelegate) {
         this.template.bindingDelegate = this.element.syntax;
       }
+      this.resizableAttachedHandler();
     },
 
     detached: function() {
-      this.removeEventListener(this._boundScrollHandler);
-      this.removeEventListener(this._boundResizeHandler);
+      this.isAttached = false;
+      if (this._target) {
+        this._target.removeEventListener('scroll', this._boundScrollHandler);
+      }
+      this.resizableDetachedHandler();
     },
 
     /**
-     * To be called by the user when the list is resized or shown
-     * after being hidden.  Note, `core-list` calls this automatically
-     * when the window is resized.
+     * To be called by the user when the list is manually resized
+     * or shown after being hidden.
      *
      * @method updateSize
      */
     updateSize: function() {
-      this._resetIndex(this._getFirstVisibleIndex());
-      this.initializeData();
+      if (!this._positionPending && !this._needItemInit) {
+        this._resetIndex(this._getFirstVisibleIndex() || 0);
+        this.initialize();
+      }
     },
 
     _resetSelection: function() {
@@ -6017,7 +6312,7 @@ Polymer('core-field');;
       }
       // Adjust offset/scroll position based on total number of items changed
       if (this._virtualStart < this._physicalCount) {
-        this._resetIndex(this._getFirstVisibleIndex());
+        this._resetIndex(this._getFirstVisibleIndex() || 0);
       } else {
         totalDelta = Math.max((totalDelta / this._rowFactor) * this._physicalAverage, -this._physicalOffset);
         this._physicalOffset += totalDelta;
@@ -6037,13 +6332,12 @@ Polymer('core-field');;
 
     groupsChanged: function() {
       if (!!this.groups != this._grouped) {
-        this.initialize();
-        this._resetIndex(this._getFirstVisibleIndex() || this._virtualStart);
+        this.updateSize();
       }
     },
 
     initialize: function() {
-      if (!this.template) {
+      if (!this.template || !this.isAttached) {
         return;
       }
 
@@ -6180,7 +6474,9 @@ Polymer('core-field');;
           throw 'Grid requires the `width` property to be set';
         }
         this._rowFactor = Math.floor(this._target.offsetWidth / this.width) || 1;
-        this._rowMargin = (this._target.offsetWidth - (this._rowFactor * this.width)) / 2;
+        var cs = getComputedStyle(this._target);
+        var padding = parseInt(cs.paddingLeft || 0) + parseInt(cs.paddingRight || 0);
+        this._rowMargin = (this._target.offsetWidth - (this._rowFactor * this.width) - padding) / 2;
       } else {
         this._rowFactor = 1;
         this._rowMargin = 0;
@@ -6228,7 +6524,11 @@ Polymer('core-field');;
       
       // Add physical items up to a max based on data length, viewport size, and extra item overhang
       var currentCount = this._physicalCount || 0;
-      this._physicalCount = Math.min(Math.ceil(this._target.offsetHeight / (this._physicalAverage || this.height)) * this.runwayFactor * this._rowFactor, this._virtualCount);
+      var height = this._target.offsetHeight;
+      if (!height && this._target.offsetParent) {
+        console.warn('core-list must either be sized or be inside an overflow:auto div that is sized');
+      }
+      this._physicalCount = Math.min(Math.ceil(height / (this._physicalAverage || this.height)) * this.runwayFactor * this._rowFactor, this._virtualCount);
       this._physicalCount = Math.max(currentCount, this._physicalCount);
       this._physicalData = this._physicalData || new Array(this._physicalCount);
       var needItemInit = false;
@@ -6360,10 +6660,9 @@ Polymer('core-field');;
 
       // Measure content in scroller before virtualized items
       if (this._target != this) {
-        el1 = this.previousElementSibling;
-        this._aboveSize = el1 ? el1.offsetTop + el1.offsetHeight : 0;
+        this._aboveSize = this.offsetTop;
       } else {
-        this._aboveSize = 0;
+        this._aboveSize = parseInt(getComputedStyle(this._target).paddingTop);
       }
 
       // Calculate average height
@@ -6813,7 +7112,7 @@ Polymer('core-field');;
         var virtualIndex = this._virtualStart + i;
         var physicalIndex = this._virtualToPhysical(virtualIndex);
         var item = this._physicalItems[physicalIndex];
-        if (item._translateY >= this._scrollTop) {
+        if (!item.hidden && item._translateY >= this._scrollTop - this._aboveSize) {
           return virtualIndex;
         }
       }
@@ -6823,8 +7122,8 @@ Polymer('core-field');;
       index = Math.min(index, this._virtualCount-1);
       index = Math.max(index, 0);
       this.changeStartIndex(index - this._virtualStart);
-      this._scrollTop = this.setScrollTop((index / this._rowFactor) * this._physicalAverage);
-      this._physicalOffset = this._scrollTop;
+      this._scrollTop = this.setScrollTop(this._aboveSize + (index / this._rowFactor) * this._physicalAverage);
+      this._physicalOffset = this._scrollTop - this._aboveSize;
       this._dir = 0;
     },
 
@@ -6867,7 +7166,7 @@ Polymer('core-field');;
       this.refresh();
     }
 
-  });
+  }, Polymer.CoreResizable));
 
 })();
 ;
@@ -6916,15 +7215,14 @@ Polymer('core-field');;
      */
     autoSaveDisabled: false,
     
-    attached: function() {
-      // wait for bindings are all setup
-      this.async('load');
-    },
-    
     valueChanged: function() {
       if (this.loaded && !this.autoSaveDisabled) {
         this.save();
       }
+    },
+
+    nameChanged: function() {
+      this.load();
     },
     
     load: function() {
@@ -7237,7 +7535,7 @@ Polymer('core-pages');;
 
 (function() {
 
-  Polymer('core-scroll-header-panel', {
+  Polymer('core-scroll-header-panel',Polymer.mixin({
     
     /**
      * Fired when the content has been scrolled.
@@ -7344,7 +7642,15 @@ Polymer('core-pages');;
     observe: {
       'headerMargin fixed': 'setup'
     },
-    
+
+    eventDelegates: {
+      'core-resize': 'measureHeaderHeight'
+    },
+
+    attached: function() {
+      this.resizableAttachedHandler();
+    },
+
     ready: function() {
       this._scrollHandler = this.scroll.bind(this);
       this.scroller.addEventListener('scroll', this._scrollHandler);
@@ -7352,6 +7658,7 @@ Polymer('core-pages');;
     
     detached: function() {
       this.scroller.removeEventListener('scroll', this._scrollHandler);
+      this.resizableDetachedHandler();
     },
     
     domReady: function() {
@@ -7490,7 +7797,7 @@ Polymer('core-pages');;
       }
     }
 
-  });
+  }, Polymer.CoreResizable));
   
   //determine proper transform mechanizm
   if (document.documentElement.style.transform !== undefined) {
@@ -7504,6 +7811,174 @@ Polymer('core-pages');;
   }
 
 })();
+
+;
+
+
+  Polymer('core-scroll-threshold',{
+    
+    publish: {
+
+      /**
+       * When set, the given element is observed for scroll position.  When undefined,
+       * children can be placed inside and element itself can be used as the scrollable
+       * element.
+       *
+       * @attribute scrollTarget
+       * @type string
+       * @default null
+       */
+      scrollTarget: null,
+
+      /**
+       * Orientation of the scroller to be observed (`v` for vertical, `h` for horizontal)
+       *
+       * @attribute orient
+       * @type boolean
+       * @default 'v'
+       */
+      orient: 'v',
+
+      /**
+       * Distance from the top (or left, for horizontal) bound of the scroller
+       * where the "upper trigger" will fire.
+       *
+       * @attribute upperThreshold
+       * @type integer
+       * @default null
+       */
+      upperThreshold: null,
+
+      /**
+       * Distance from the bottom (or right, for horizontal) bound of the scroller
+       * where the "lower trigger" will fire.
+       *
+       * @attribute lowerThreshold
+       * @type integer
+       * @default false
+       */
+      lowerThreshold: null,
+
+      /**
+       * Read-only value that tracks the triggered state of the upper threshold
+       *
+       * @attribute upperTriggered
+       * @type boolean
+       * @default false
+       */
+      upperTriggered: false,
+
+      /**
+       * Read-only value that tracks the triggered state of the lower threshold
+       *
+       * @attribute lowerTriggered
+       * @type boolean
+       * @default false
+       */
+      lowerTriggered: false
+
+    },
+
+    observe: {
+      'upperThreshold lowerThreshold scrollTarget orient': 'setup'
+    },
+
+    ready: function() {
+      this._boundScrollHandler = this.checkThreshold.bind(this);
+    },
+
+    setup: function() {
+      // Remove listener for any previous scroll target
+      if (this._scrollTarget && (this._scrollTarget != this.target)) {
+        this._scrollTarget.removeEventListener(this._boundScrollHandler);
+      }
+
+      // Add listener for new scroll target
+      var target = this.scrollTarget || this;
+      if (target) {
+        this._scrollTarget = target;
+        this._scrollTarget.addEventListener('scroll', this._boundScrollHandler);
+      }
+
+      // If we're listening on ourself, make us auto in case someone put
+      // content inside
+      this.style.overflow = (target == this) ? 'auto' : null;
+
+      // Setup extents based on orientation
+      this.scrollPosition = (this.orient == 'v') ? 'scrollTop' : 'scrollLeft';
+      this.sizeExtent = (this.orient == 'v') ? 'offsetHeight' : 'offsetWidth';
+      this.scrollExtent = (this.orient == 'v') ? 'scrollHeight' : 'scrollWidth';
+
+      // Clear trigger state if user has cleared the threshold
+      if (!this.upperThreshold) {
+        this.upperTriggered = false;
+      }
+      if (!this.lowerThreshold) {
+        this.lowerTriggered = false;
+      }      
+    },
+
+    checkThreshold: function(e) {
+      var top = this._scrollTarget[this.scrollPosition];
+      if (!this.upperTriggered && this.upperThreshold != null) {
+        if (top < this.upperThreshold) {
+          this.upperTriggered = true;
+          this.fire('upper-trigger');
+        }
+      }
+      if (this.lowerThreshold != null) {
+        var bottom = top + this._scrollTarget[this.sizeExtent];
+        var size = this._scrollTarget[this.scrollExtent];
+        if (!this.lowerTriggered && (size - bottom) < this.lowerThreshold) {
+          this.lowerTriggered = true;
+          this.fire('lower-trigger');
+        }
+      }
+    },
+
+    /**
+     * Clear the upper threshold, following an `upper-trigger` event.
+     *
+     * @method clearUpper
+     */
+    clearUpper: function(waitForMutation) {
+      if (waitForMutation) {
+        this._waitForMutation(function() {
+          this.clearUpper();
+        }.bind(this));
+      } else {
+        requestAnimationFrame(function() {
+          this.upperTriggered = false;
+        }.bind(this));
+      }
+    },
+
+    /**
+     * Clear the lower threshold, following a `lower-trigger` event.
+     *
+     * @method clearLower
+     */
+    clearLower: function(waitForMutation) {
+      if (waitForMutation) {
+        this._waitForMutation(function() {
+          this.clearLower();
+        }.bind(this));
+      } else {
+        requestAnimationFrame(function() {
+          this.lowerTriggered = false;
+        }.bind(this));
+      }
+    },
+
+    _waitForMutation: function(listener) {
+      var observer = new MutationObserver(function(mutations) {
+        listener.call(this, observer, mutations);
+        observer.disconnect();
+      }.bind(this));
+      observer.observe(this._scrollTarget, {attributes:true, childList: true, subtree: true});
+    }
+
+  });
 
 ;
 
@@ -7671,7 +8146,7 @@ Polymer('core-pages');;
 ;
 
 
-  Polymer('core-splitter', {
+  Polymer('core-splitter',Polymer.mixin({
 
     /**
      * Possible values are `left`, `right`, `up` and `down`.
@@ -7712,8 +8187,19 @@ Polymer('core-pages');;
      */
     allowOverflow: false,
 
+    // Listen for resize requests on parent, since splitter is peer to resizables
+    resizerIsPeer: true,
+
     ready: function() {
       this.directionChanged();
+    },
+
+    attached: function() {
+      this.resizerAttachedHandler();
+    },
+
+    detached: function() {
+      this.resizerDetachedHandler();
     },
 
     domReady: function() {
@@ -7755,12 +8241,14 @@ Polymer('core-pages');;
       var d = e[this.horizontal ? 'dy' : 'dx'];
       this.target.style[this.dimension] =
           this.size + (this.isNext ? -d : d) + 'px';
+      this.notifyResize();
     },
 
     preventSelection: function(e) {
       e.preventDefault();
     }
-  });
+
+  }, Polymer.CoreResizer));
 
 ;
 
@@ -7778,6 +8266,10 @@ Polymer('core-pages');;
        * @default null
        */
       label: null,
+
+      eventDelegates: {
+        'core-resize': 'positionChanged'
+      },
 
       computed: {
         // Indicates whether the tooltip has a set label propety or
@@ -7826,6 +8318,11 @@ Polymer('core-pages');;
 
       attached: function() {
         this.updatedChildren();
+        this.resizableAttachedHandler();
+      },
+
+      detached: function() {
+        this.resizableDetachedHandler();
       },
 
       updatedChildren: function () {
@@ -7876,6 +8373,7 @@ Polymer('core-pages');;
     };
 
     Polymer.mixin2(proto, Polymer.CoreFocusable);
+    Polymer.mixin(proto, Polymer.CoreResizable);
     Polymer('core-tooltip',proto);
   })();
 
@@ -7887,7 +8385,6 @@ Polymer('core-pages');;
     var paperInput = CoreStyle.g.paperInput = CoreStyle.g.paperInput || {};
 
     paperInput.labelColor = '#757575';
-    paperInput.cursorColor = '#4059a9';
     paperInput.focusedColor = '#4059a9';
     paperInput.invalidColor = '#d34336';
 
@@ -7997,7 +8494,7 @@ Polymer('core-pages');;
 
       animateFloatingLabel: function() {
         if (!this.floatingLabel || this.labelAnimated) {
-          return;
+          return false;
         }
 
         if (!this.$.labelText.cachedTransform) {
@@ -8007,7 +8504,7 @@ Polymer('core-pages');;
         // If there's still no cached transform, the input is invisible so don't
         // do the animation.
         if (!this.$.labelText.cachedTransform) {
-          return;
+          return false;
         }
 
         this.labelAnimated = true;
@@ -8031,12 +8528,23 @@ Polymer('core-pages');;
           this.input.placeholder = '';
         }
 
+        return true;
       },
 
       _labelVisibleChanged: function(old) {
         // do not do the animation on first render
         if (old !== undefined) {
-          this.animateFloatingLabel();
+          if (!this.animateFloatingLabel()) {
+            this.updateInputLabel(this.input, this.label);
+          }
+        }
+      },
+
+      labelVisibleChanged: function() {
+        if (this.labelVisible === 'true') {
+          this.labelVisible = true;
+        } else if (this.labelVisible === 'false') {
+          this.labelVisible = false;
         }
       },
 
@@ -8126,10 +8634,6 @@ Polymer('core-pages');;
         // Animations only run when the user interacts with the input
         this.underlineAnimated = true;
 
-        // Cursor animation only runs if the input is empty
-        if (this._labelVisible) {
-          this.cursorAnimated = true;
-        }
         // Handle interrupted animation
         this.async(function() {
           this.transitionEndAction();
@@ -8138,7 +8642,6 @@ Polymer('core-pages');;
 
       transitionEndAction: function() {
         this.underlineAnimated = false;
-        this.cursorAnimated = false;
         this.labelAnimated = false;
         if (this._labelVisible) {
           this.input.placeholder = this.label;
@@ -8184,8 +8687,22 @@ Polymer('core-pages');;
        */
       disabled: {value: false, reflect: true},
 
+      /**
+       * The current value of the input.
+       * 
+       * @attribute value
+       * @type String
+       * @default ''
+       */
       value: '',
-
+      
+      /**
+       * The most recently committed value of the input.
+       * 
+       * @attribute committedValue
+       * @type String
+       * @default ''
+       */
       committedValue: ''
 
     },
@@ -8202,101 +8719,6 @@ Polymer('core-pages');;
     }
 
   });
-
-;
-
-
-  (function() {
-
-    var p = {
-
-      eventDelegates: {
-        down: 'downAction'
-      },
-
-      activeChanged: function() {
-        this.super();
-
-        if (this.$.ripple) {
-          if (this.active) {
-            // FIXME: remove when paper-ripple can have a default 'down' state.
-            if (!this.lastEvent) {
-              var rect = this.getBoundingClientRect();
-              this.lastEvent = {
-                x: rect.left + rect.width / 2,
-                y: rect.top + rect.height / 2
-              }
-            }
-            this.$.ripple.downAction(this.lastEvent);
-          } else {
-            this.$.ripple.upAction();
-          }
-        }
-
-        this.adjustZ();
-      },
-
-      disabledChanged: function() {
-        this._disabledChanged();
-        this.adjustZ();
-      },
-
-      recenteringTouchChanged: function() {
-        if (this.$.ripple) {
-          this.$.ripple.classList.toggle('recenteringTouch', this.recenteringTouch);
-        }
-      },
-
-      fillChanged: function() {
-        if (this.$.ripple) {
-          this.$.ripple.classList.toggle('fill', this.fill);
-        }
-      },
-
-      adjustZ: function() {
-        if (!this.$.shadow) {
-          return;
-        }
-        if (this.active) {
-          this.$.shadow.setZ(2);
-        } else if (this.disabled) {
-          this.$.shadow.setZ(0);
-        } else {
-          this.$.shadow.setZ(1);
-        }
-      },
-
-      downAction: function(e) {
-        this._downAction();
-
-        if (this.hasAttribute('noink')) {
-          return;
-        }
-
-        this.lastEvent = e;
-        if (!this.$.ripple) {
-          var ripple = document.createElement('paper-ripple');
-          ripple.setAttribute('id', 'ripple');
-          ripple.setAttribute('fit', '');
-          if (this.recenteringTouch) {
-            ripple.classList.add('recenteringTouch');
-          }
-          if (!this.fill) {
-            ripple.classList.add('circle');
-          }
-          this.$.ripple = ripple;
-          this.shadowRoot.insertBefore(ripple, this.shadowRoot.firstChild);
-          // No need to forward the event to the ripple because the ripple
-          // is triggered in activeChanged
-        }
-      }
-
-    };
-
-    Polymer.mixin2(p, Polymer.CoreFocusable);
-    Polymer('paper-button-base',p);
-
-  })();
 
 ;
 
@@ -8652,6 +9074,101 @@ Polymer('core-pages');;
 
 ;
 
+
+  (function() {
+
+    var p = {
+
+      eventDelegates: {
+        down: 'downAction'
+      },
+
+      activeChanged: function() {
+        this.super();
+
+        if (this.$.ripple) {
+          if (this.active) {
+            // FIXME: remove when paper-ripple can have a default 'down' state.
+            if (!this.lastEvent) {
+              var rect = this.getBoundingClientRect();
+              this.lastEvent = {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
+              }
+            }
+            this.$.ripple.downAction(this.lastEvent);
+          } else {
+            this.$.ripple.upAction();
+          }
+        }
+
+        this.adjustZ();
+      },
+
+      disabledChanged: function() {
+        this._disabledChanged();
+        this.adjustZ();
+      },
+
+      recenteringTouchChanged: function() {
+        if (this.$.ripple) {
+          this.$.ripple.classList.toggle('recenteringTouch', this.recenteringTouch);
+        }
+      },
+
+      fillChanged: function() {
+        if (this.$.ripple) {
+          this.$.ripple.classList.toggle('fill', this.fill);
+        }
+      },
+
+      adjustZ: function() {
+        if (!this.$.shadow) {
+          return;
+        }
+        if (this.active) {
+          this.$.shadow.setZ(2);
+        } else if (this.disabled) {
+          this.$.shadow.setZ(0);
+        } else {
+          this.$.shadow.setZ(1);
+        }
+      },
+
+      downAction: function(e) {
+        this._downAction();
+
+        if (this.hasAttribute('noink')) {
+          return;
+        }
+
+        this.lastEvent = e;
+        if (!this.$.ripple) {
+          var ripple = document.createElement('paper-ripple');
+          ripple.setAttribute('id', 'ripple');
+          ripple.setAttribute('fit', '');
+          if (this.recenteringTouch) {
+            ripple.classList.add('recenteringTouch');
+          }
+          if (!this.fill) {
+            ripple.classList.add('circle');
+          }
+          this.$.ripple = ripple;
+          this.shadowRoot.insertBefore(ripple, this.shadowRoot.firstChild);
+          // No need to forward the event to the ripple because the ripple
+          // is triggered in activeChanged
+        }
+      }
+
+    };
+
+    Polymer.mixin2(p, Polymer.CoreFocusable);
+    Polymer('paper-button-base',p);
+
+  })();
+
+;
+
     Polymer('paper-icon-button',{
 
       publish: {
@@ -8719,6 +9236,13 @@ Polymer('core-pages');;
 
     },
 
+    /**
+     * Set the z-depth of the shadow. This should be used after element
+     * creation instead of setting the z property directly.
+     *
+     * @method setZ
+     * @param {Number} newZ
+     */
     setZ: function(newZ) {
       if (this.z !== newZ) {
         this.$['shadow-bottom'].classList.remove('paper-shadow-bottom-z-' + this.z);
@@ -8783,19 +9307,53 @@ Polymer('core-pages');;
          * @type boolean
          * @default false
          */
-        active: {value: false, reflect: true}
+        active: {value: false, reflect: true},
+
+        /**
+         * Alternative text content for accessibility support.
+         * If alt is present, it will add an aria-label whose content matches alt when active.
+         * If alt is not present, it will default to 'loading' as the alt value.
+         * @attribute alt
+         * @type string
+         * @default 'loading'
+         */
+        alt: {value: 'loading', reflect: true}
+      },
+
+      ready: function() {
+        // Allow user-provided `aria-label` take preference to any other text alternative.
+        if (this.hasAttribute('aria-label')) {
+          this.alt = this.getAttribute('aria-label');
+        } else {
+          this.setAttribute('aria-label', this.alt);
+        }
+        if (!this.active) {
+          this.setAttribute('aria-hidden', 'true');
+        }
       },
 
       activeChanged: function() {
         if (this.active) {
+          this.$.spinnerContainer.classList.remove('cooldown');
           this.$.spinnerContainer.classList.add('active');
+          this.removeAttribute('aria-hidden');
         } else {
-          this.$.spinnerContainer.classList.add('warmdown');
+          this.$.spinnerContainer.classList.add('cooldown');
+          this.setAttribute('aria-hidden', 'true');
         }
       },
 
+      altChanged: function() {
+        if (this.alt === '') {
+          this.setAttribute('aria-hidden', 'true');
+        } else {
+          this.removeAttribute('aria-hidden');
+        }
+        this.setAttribute('aria-label', this.alt);
+      },
+
       reset: function() {
-        this.$.spinnerContainer.classList.remove('active', 'warmdown');
+        this.$.spinnerContainer.classList.remove('active', 'cooldown');
       }
     });
   

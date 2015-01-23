@@ -12,12 +12,14 @@
   background-color: #ffeb3b;
 }
 
-/* line 18, ../../sass/partials/sabnzbd.scss */
+/* line 19, ../../sass/partials/sabnzbd.scss */
+.status h2,
 .queue h2,
 .history h2 {
   padding: 0 16px;
 }
-/* line 22, ../../sass/partials/sabnzbd.scss */
+/* line 23, ../../sass/partials/sabnzbd.scss */
+.status core-item::shadow #label,
 .queue core-item::shadow #label,
 .history core-item::shadow #label {
   overflow: hidden;

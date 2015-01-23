@@ -41,6 +41,8 @@ $(document).ready(function() {
 });
 
 function sabShowData() {
+  console.log(JSON.parse(localStorage.getItem('SabnzbdQueue')));
+  $('.status').empty();
   $('.queue').empty();
   $('.history').empty();
 
@@ -54,6 +56,7 @@ function sabShowData() {
     $('#sabnzbd .error').slideUp('slow');
   }
 
+  $('#sabnzbd .status').append(localStorage.getItem('SabnzbdStatusHTML'));
   $('#sabnzbd .queue').append(localStorage.getItem('SabnzbdQueueHTML'));
   $('#sabnzbd .history').append(localStorage.getItem('SabnzbdHistoryHTML'));
 }
