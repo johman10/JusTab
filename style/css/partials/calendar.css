@@ -1,4 +1,4 @@
-/* line 3, ../../sass/partials/calendar.scss */
+/* line 4, ../../sass/partials/calendar.scss */
 #calendar::shadow #headerBg {
   background-image: url('/img/../img/GC_header.svg?1415201607');
   background-size: auto 60%;
@@ -6,18 +6,18 @@
   background-color: #4285f4;
 }
 
-/* line 10, ../../sass/partials/calendar.scss */
+/* line 11, ../../sass/partials/calendar.scss */
 #calendar::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #4285f4;
 }
 
-/* line 17, ../../sass/partials/calendar.scss */
+/* line 18, ../../sass/partials/calendar.scss */
 .today h2,
 .tomorrow h2 {
   padding: 0 16px;
 }
-/* line 21, ../../sass/partials/calendar.scss */
+/* line 22, ../../sass/partials/calendar.scss */
 .today .gc_event_link,
 .tomorrow .gc_event_link {
   color: #000;
@@ -27,27 +27,34 @@
   width: 40px;
 }
 
-/* line 30, ../../sass/partials/calendar.scss */
+/* line 31, ../../sass/partials/calendar.scss */
 .gc_item {
   cursor: pointer;
 }
-/* line 33, ../../sass/partials/calendar.scss */
+/* line 34, ../../sass/partials/calendar.scss */
+.gc_item::shadow #label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 344px;
+}
+/* line 39, ../../sass/partials/calendar.scss */
 .gc_item:hover {
   background-color: #eee !important;
 }
-/* line 36, ../../sass/partials/calendar.scss */
+/* line 42, ../../sass/partials/calendar.scss */
 .gc_item:hover .gc_collapse_icon_container {
   background-color: #eee !important;
 }
 
-/* line 42, ../../sass/partials/calendar.scss */
+/* line 48, ../../sass/partials/calendar.scss */
 .gc_collapse_icon_container {
   background-color: #FAFAFA;
   position: absolute;
   right: 0;
   padding: 8px;
 }
-/* line 48, ../../sass/partials/calendar.scss */
+/* line 54, ../../sass/partials/calendar.scss */
 .gc_collapse_icon_container .gc_collapse_icon {
   color: #9e9e9e;
 }

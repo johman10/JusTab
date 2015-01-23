@@ -1,4 +1,5 @@
 @import 'modules/colors';
+@import 'modules/mixins';
 
 #calendar::shadow #headerBg {
   background-image: image-url('../img/GC_header.svg');
@@ -29,6 +30,11 @@
 
 .gc_item {
   cursor: pointer;
+
+  &::shadow #label {
+    @include text-truncate;
+    width: 344px;
+  }
 
   &:hover {
     background-color: $hover-color !important;

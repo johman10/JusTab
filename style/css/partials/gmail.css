@@ -1,4 +1,4 @@
-/* line 3, ../../sass/partials/gmail.scss */
+/* line 4, ../../sass/partials/gmail.scss */
 #gmail::shadow #headerBg {
   background-image: url('/img/../img/GM_header.svg?1417534157');
   background-size: auto 60%;
@@ -6,42 +6,49 @@
   background-color: #e04a3f;
 }
 
-/* line 10, ../../sass/partials/gmail.scss */
+/* line 11, ../../sass/partials/gmail.scss */
 #gmail::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #e04a3f;
 }
 
-/* line 17, ../../sass/partials/gmail.scss */
+/* line 18, ../../sass/partials/gmail.scss */
 .mail_unread h2,
 .mail_read h2 {
   padding: 0 16px;
 }
-/* line 21, ../../sass/partials/gmail.scss */
+/* line 22, ../../sass/partials/gmail.scss */
 .mail_unread .gm_message,
 .mail_read .gm_message {
+  overflow: hidden;
   height: 72px;
 }
-/* line 24, ../../sass/partials/gmail.scss */
+/* line 26, ../../sass/partials/gmail.scss */
 .mail_unread .gm_message:hover,
 .mail_read .gm_message:hover {
   background-color: #eee;
 }
-/* line 29, ../../sass/partials/gmail.scss */
+/* line 31, ../../sass/partials/gmail.scss */
 .mail_unread a,
 .mail_read a {
   text-decoration: none;
   color: #000;
 }
-/* line 34, ../../sass/partials/gmail.scss */
+/* line 36, ../../sass/partials/gmail.scss */
 .mail_unread .gm_message_subject,
 .mail_read .gm_message_subject {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   line-height: initial;
   padding: 17px 16px 0;
 }
-/* line 39, ../../sass/partials/gmail.scss */
+/* line 42, ../../sass/partials/gmail.scss */
 .mail_unread .gm_message_from,
 .mail_read .gm_message_from {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   line-height: initial;
   padding: 0 16px 17px;
   color: #808080;

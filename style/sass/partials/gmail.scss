@@ -1,4 +1,5 @@
 @import 'modules/colors';
+@import 'modules/mixins';
 
 #gmail::shadow #headerBg {
   background-image: image-url('../img/GM_header.svg');
@@ -19,6 +20,7 @@
   }
 
   .gm_message {
+    overflow: hidden;
     height: 72px;
 
     &:hover {
@@ -32,11 +34,13 @@
   }
 
   .gm_message_subject {
+    @include text-truncate;
     line-height: initial;
     padding: 17px 16px 0;
   }
 
   .gm_message_from {
+    @include text-truncate;
     line-height: initial;
     padding: 0 16px 17px;
     color: $grey;

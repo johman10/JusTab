@@ -169,7 +169,7 @@ core-item {
   right: 0;
 }
 
-/* line 3, ../sass/partials/calendar.scss */
+/* line 4, ../sass/partials/calendar.scss */
 #calendar::shadow #headerBg {
   background-image: url('/img/../img/GC_header.svg?1415201607');
   background-size: auto 60%;
@@ -177,18 +177,18 @@ core-item {
   background-color: #4285f4;
 }
 
-/* line 10, ../sass/partials/calendar.scss */
+/* line 11, ../sass/partials/calendar.scss */
 #calendar::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #4285f4;
 }
 
-/* line 17, ../sass/partials/calendar.scss */
+/* line 18, ../sass/partials/calendar.scss */
 .today h2,
 .tomorrow h2 {
   padding: 0 16px;
 }
-/* line 21, ../sass/partials/calendar.scss */
+/* line 22, ../sass/partials/calendar.scss */
 .today .gc_event_link,
 .tomorrow .gc_event_link {
   color: #000;
@@ -198,32 +198,39 @@ core-item {
   width: 40px;
 }
 
-/* line 30, ../sass/partials/calendar.scss */
+/* line 31, ../sass/partials/calendar.scss */
 .gc_item {
   cursor: pointer;
 }
-/* line 33, ../sass/partials/calendar.scss */
+/* line 34, ../sass/partials/calendar.scss */
+.gc_item::shadow #label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 344px;
+}
+/* line 39, ../sass/partials/calendar.scss */
 .gc_item:hover {
   background-color: #eee !important;
 }
-/* line 36, ../sass/partials/calendar.scss */
+/* line 42, ../sass/partials/calendar.scss */
 .gc_item:hover .gc_collapse_icon_container {
   background-color: #eee !important;
 }
 
-/* line 42, ../sass/partials/calendar.scss */
+/* line 48, ../sass/partials/calendar.scss */
 .gc_collapse_icon_container {
   background-color: #FAFAFA;
   position: absolute;
   right: 0;
   padding: 8px;
 }
-/* line 48, ../sass/partials/calendar.scss */
+/* line 54, ../sass/partials/calendar.scss */
 .gc_collapse_icon_container .gc_collapse_icon {
   color: #9e9e9e;
 }
 
-/* line 3, ../sass/partials/gmail.scss */
+/* line 4, ../sass/partials/gmail.scss */
 #gmail::shadow #headerBg {
   background-image: url('/img/../img/GM_header.svg?1417534157');
   background-size: auto 60%;
@@ -231,42 +238,49 @@ core-item {
   background-color: #e04a3f;
 }
 
-/* line 10, ../sass/partials/gmail.scss */
+/* line 11, ../sass/partials/gmail.scss */
 #gmail::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #e04a3f;
 }
 
-/* line 17, ../sass/partials/gmail.scss */
+/* line 18, ../sass/partials/gmail.scss */
 .mail_unread h2,
 .mail_read h2 {
   padding: 0 16px;
 }
-/* line 21, ../sass/partials/gmail.scss */
+/* line 22, ../sass/partials/gmail.scss */
 .mail_unread .gm_message,
 .mail_read .gm_message {
+  overflow: hidden;
   height: 72px;
 }
-/* line 24, ../sass/partials/gmail.scss */
+/* line 26, ../sass/partials/gmail.scss */
 .mail_unread .gm_message:hover,
 .mail_read .gm_message:hover {
   background-color: #eee;
 }
-/* line 29, ../sass/partials/gmail.scss */
+/* line 31, ../sass/partials/gmail.scss */
 .mail_unread a,
 .mail_read a {
   text-decoration: none;
   color: #000;
 }
-/* line 34, ../sass/partials/gmail.scss */
+/* line 36, ../sass/partials/gmail.scss */
 .mail_unread .gm_message_subject,
 .mail_read .gm_message_subject {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   line-height: initial;
   padding: 17px 16px 0;
 }
-/* line 39, ../sass/partials/gmail.scss */
+/* line 42, ../sass/partials/gmail.scss */
 .mail_unread .gm_message_from,
 .mail_read .gm_message_from {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   line-height: initial;
   padding: 0 16px 17px;
   color: #808080;
@@ -306,7 +320,7 @@ core-item {
   color: #808080;
 }
 
-/* line 3, ../sass/partials/couchpotato.scss */
+/* line 4, ../sass/partials/couchpotato.scss */
 #couchpotato::shadow #headerBg {
   background-image: url('/img/../img/CP_header.png?1415198327');
   background-size: auto 60%;
@@ -314,20 +328,20 @@ core-item {
   background-color: #4e5969;
 }
 
-/* line 10, ../sass/partials/couchpotato.scss */
+/* line 11, ../sass/partials/couchpotato.scss */
 #couchpotato::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #4e5969;
 }
 
-/* line 17, ../sass/partials/couchpotato.scss */
+/* line 18, ../sass/partials/couchpotato.scss */
 .wanted h2,
 .snatched h2 {
   height: 48px;
   line-height: 48px;
   padding: 0 16px;
 }
-/* line 23, ../sass/partials/couchpotato.scss */
+/* line 24, ../sass/partials/couchpotato.scss */
 .wanted .cp_collapse_buttons,
 .snatched .cp_collapse_buttons {
   position: absolute;
@@ -335,29 +349,37 @@ core-item {
   height: 40px;
   top: 0;
 }
-/* line 29, ../sass/partials/couchpotato.scss */
+/* line 30, ../sass/partials/couchpotato.scss */
 .wanted .cp_collapse_buttons a,
 .snatched .cp_collapse_buttons a {
   color: #000;
 }
-/* line 34, ../sass/partials/couchpotato.scss */
+/* line 35, ../sass/partials/couchpotato.scss */
 .wanted .cp_item,
 .snatched .cp_item {
   cursor: pointer;
   padding-left: 72px;
   height: 56px;
 }
-/* line 39, ../sass/partials/couchpotato.scss */
+/* line 40, ../sass/partials/couchpotato.scss */
+.wanted .cp_item::shadow #label,
+.snatched .cp_item::shadow #label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 272px;
+}
+/* line 45, ../sass/partials/couchpotato.scss */
 .wanted .cp_item:hover,
 .snatched .cp_item:hover {
   background-color: #eee !important;
 }
-/* line 42, ../sass/partials/couchpotato.scss */
+/* line 48, ../sass/partials/couchpotato.scss */
 .wanted .cp_item:hover .cp_collapse_icon_container,
 .snatched .cp_item:hover .cp_collapse_icon_container {
   background-color: #eee !important;
 }
-/* line 47, ../sass/partials/couchpotato.scss */
+/* line 53, ../sass/partials/couchpotato.scss */
 .wanted .cp_item .cp_poster_container,
 .snatched .cp_item .cp_poster_container {
   position: absolute;
@@ -368,25 +390,25 @@ core-item {
   border-radius: 100%;
   overflow: hidden;
 }
-/* line 56, ../sass/partials/couchpotato.scss */
+/* line 62, ../sass/partials/couchpotato.scss */
 .wanted .cp_item .cp_poster_container .cp_poster,
 .snatched .cp_item .cp_poster_container .cp_poster {
   width: 100%;
 }
 
-/* line 63, ../sass/partials/couchpotato.scss */
+/* line 69, ../sass/partials/couchpotato.scss */
 .cp_collapse_icon_container {
   background-color: #FAFAFA;
   position: absolute;
   right: 0;
   padding: 16px;
 }
-/* line 69, ../sass/partials/couchpotato.scss */
+/* line 75, ../sass/partials/couchpotato.scss */
 .cp_collapse_icon_container .cp_collapse_icon {
   color: #9e9e9e;
 }
 
-/* line 3, ../sass/partials/sickbeard.scss */
+/* line 4, ../sass/partials/sickbeard.scss */
 #sickbeard::shadow #headerBg {
   background-image: url('/img/../img/SB_header.png?1415792707');
   background-size: auto 60%;
@@ -394,13 +416,13 @@ core-item {
   background-color: #C7DB40;
 }
 
-/* line 10, ../sass/partials/sickbeard.scss */
+/* line 11, ../sass/partials/sickbeard.scss */
 #sickbeard::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #C7DB40;
 }
 
-/* line 19, ../sass/partials/sickbeard.scss */
+/* line 20, ../sass/partials/sickbeard.scss */
 .sb_missed h2,
 .sb_today h2,
 .sb_soon h2,
@@ -410,21 +432,28 @@ core-item {
   padding: 0 16px;
 }
 
-/* line 26, ../sass/partials/sickbeard.scss */
+/* line 27, ../sass/partials/sickbeard.scss */
 .sb_item {
   cursor: pointer;
   padding-left: 72px;
   height: 56px;
 }
-/* line 31, ../sass/partials/sickbeard.scss */
+/* line 32, ../sass/partials/sickbeard.scss */
+.sb_item::shadow #label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 272px;
+}
+/* line 37, ../sass/partials/sickbeard.scss */
 .sb_item:hover {
   background-color: #eee !important;
 }
-/* line 34, ../sass/partials/sickbeard.scss */
+/* line 40, ../sass/partials/sickbeard.scss */
 .sb_item:hover .sb_collapse_icon_container {
   background-color: #eee !important;
 }
-/* line 39, ../sass/partials/sickbeard.scss */
+/* line 45, ../sass/partials/sickbeard.scss */
 .sb_item .sb_poster_container {
   position: absolute;
   left: 16px;
@@ -434,12 +463,12 @@ core-item {
   border-radius: 100%;
   overflow: hidden;
 }
-/* line 48, ../sass/partials/sickbeard.scss */
+/* line 54, ../sass/partials/sickbeard.scss */
 .sb_item .sb_poster_container .sb_poster {
   width: 100%;
 }
 
-/* line 54, ../sass/partials/sickbeard.scss */
+/* line 60, ../sass/partials/sickbeard.scss */
 .sb_collapse_buttons {
   position: absolute;
   right: 8px;
@@ -447,19 +476,19 @@ core-item {
   width: 80px;
   top: 0;
 }
-/* line 61, ../sass/partials/sickbeard.scss */
+/* line 67, ../sass/partials/sickbeard.scss */
 .sb_collapse_buttons a {
   color: #000;
 }
 
-/* line 66, ../sass/partials/sickbeard.scss */
+/* line 72, ../sass/partials/sickbeard.scss */
 .sb_search_episode {
   position: relative;
   left: 0;
   top: 0;
 }
 
-/* line 72, ../sass/partials/sickbeard.scss */
+/* line 78, ../sass/partials/sickbeard.scss */
 .sb_search_spinner {
   position: absolute;
   left: 0;
@@ -470,26 +499,26 @@ core-item {
   width: 24px;
 }
 
-/* line 82, ../sass/partials/sickbeard.scss */
+/* line 88, ../sass/partials/sickbeard.scss */
 .sb_tvdb_link {
   position: absolute;
   right: 0;
   top: 0;
 }
 
-/* line 88, ../sass/partials/sickbeard.scss */
+/* line 94, ../sass/partials/sickbeard.scss */
 .sb_collapse_icon_container {
   background-color: #FAFAFA;
   position: absolute;
   right: 0;
   padding: 16px;
 }
-/* line 94, ../sass/partials/sickbeard.scss */
+/* line 100, ../sass/partials/sickbeard.scss */
 .sb_collapse_icon_container .sb_collapse_icon {
   color: #9e9e9e;
 }
 
-/* line 3, ../sass/partials/sabnzbd.scss */
+/* line 4, ../sass/partials/sabnzbd.scss */
 #sabnzbd::shadow #headerBg {
   background-image: url('/img/../img/SAB_header.png?1415198382');
   background-size: auto 60%;
@@ -497,19 +526,26 @@ core-item {
   background-color: #ffeb3b;
 }
 
-/* line 10, ../sass/partials/sabnzbd.scss */
+/* line 11, ../sass/partials/sabnzbd.scss */
 #sabnzbd::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #ffeb3b;
 }
 
-/* line 17, ../sass/partials/sabnzbd.scss */
+/* line 18, ../sass/partials/sabnzbd.scss */
 .queue h2,
 .history h2 {
   padding: 0 16px;
 }
+/* line 22, ../sass/partials/sabnzbd.scss */
+.queue core-item::shadow #label,
+.history core-item::shadow #label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-/* line 3, ../sass/partials/designernews.scss */
+/* line 4, ../sass/partials/designernews.scss */
 #designernews::shadow #headerBg {
   background-image: url('/img/../img/DN_header.png?1415210857');
   background-size: auto 60%;
@@ -517,32 +553,35 @@ core-item {
   background-color: #1c52a2;
 }
 
-/* line 10, ../sass/partials/designernews.scss */
+/* line 11, ../sass/partials/designernews.scss */
 #designernews::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #1c52a2;
 }
 
-/* line 16, ../sass/partials/designernews.scss */
+/* line 17, ../sass/partials/designernews.scss */
 .dn_links a {
   padding: 0 16px;
 }
-/* line 20, ../sass/partials/designernews.scss */
+/* line 21, ../sass/partials/designernews.scss */
 .dn_links a:hover {
   background-color: #eee;
 }
 
-/* line 26, ../sass/partials/designernews.scss */
+/* line 27, ../sass/partials/designernews.scss */
 .dn_link_container a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   line-height: 40px;
   text-decoration: none;
   color: #000;
 }
-/* line 31, ../sass/partials/designernews.scss */
+/* line 33, ../sass/partials/designernews.scss */
 .dn_link_container a:hover {
   color: #000;
 }
-/* line 35, ../sass/partials/designernews.scss */
+/* line 37, ../sass/partials/designernews.scss */
 .dn_link_container a:visited {
   color: #808080;
 }

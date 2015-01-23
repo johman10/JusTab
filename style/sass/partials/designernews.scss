@@ -1,4 +1,5 @@
 @import 'modules/colors';
+@import 'modules/mixins';
 
 #designernews::shadow #headerBg {
   background-image: image-url('../img/DN_header.png');
@@ -24,6 +25,7 @@
 
 .dn_link_container {
   a {
+    @include text-truncate;
     line-height: 40px;
     text-decoration: none;
     color: $black;

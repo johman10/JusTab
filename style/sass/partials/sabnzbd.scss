@@ -1,4 +1,5 @@
 @import 'modules/colors';
+@import 'modules/mixins';
 
 #sabnzbd::shadow #headerBg {
   background-image: image-url('../img/SAB_header.png');
@@ -16,5 +17,9 @@
 .history {
   h2 {
     padding: 0 16px;
+  }
+
+  core-item::shadow #label {
+    @include text-truncate;
   }
 }

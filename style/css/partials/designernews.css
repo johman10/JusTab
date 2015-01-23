@@ -1,4 +1,4 @@
-/* line 3, ../../sass/partials/designernews.scss */
+/* line 4, ../../sass/partials/designernews.scss */
 #designernews::shadow #headerBg {
   background-image: url('/img/../img/DN_header.png?1415210857');
   background-size: auto 60%;
@@ -6,32 +6,35 @@
   background-color: #1c52a2;
 }
 
-/* line 10, ../../sass/partials/designernews.scss */
+/* line 11, ../../sass/partials/designernews.scss */
 #designernews::shadow #condensedHeaderBg {
   background-image: none;
   background-color: #1c52a2;
 }
 
-/* line 16, ../../sass/partials/designernews.scss */
+/* line 17, ../../sass/partials/designernews.scss */
 .dn_links a {
   padding: 0 16px;
 }
-/* line 20, ../../sass/partials/designernews.scss */
+/* line 21, ../../sass/partials/designernews.scss */
 .dn_links a:hover {
   background-color: #eee;
 }
 
-/* line 26, ../../sass/partials/designernews.scss */
+/* line 27, ../../sass/partials/designernews.scss */
 .dn_link_container a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   line-height: 40px;
   text-decoration: none;
   color: #000;
 }
-/* line 31, ../../sass/partials/designernews.scss */
+/* line 33, ../../sass/partials/designernews.scss */
 .dn_link_container a:hover {
   color: #000;
 }
-/* line 35, ../../sass/partials/designernews.scss */
+/* line 37, ../../sass/partials/designernews.scss */
 .dn_link_container a:visited {
   color: #808080;
 }

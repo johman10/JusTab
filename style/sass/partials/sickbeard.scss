@@ -1,4 +1,5 @@
 @import 'modules/colors';
+@import 'modules/mixins';
 
 #sickbeard::shadow #headerBg {
   background-image: image-url('../img/SB_header.png');
@@ -27,6 +28,11 @@
   cursor: pointer;
   padding-left: 72px;
   height: 56px;
+
+  &::shadow #label {
+    @include text-truncate;
+    width: 272px;
+  }
 
   &:hover {
     background-color: $hover-color !important;
