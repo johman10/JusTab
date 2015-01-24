@@ -95,7 +95,16 @@ function listSeries(query, HTML, storageName) {
 
       posterUrl = items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/?cmd=show.getposter&tvdbid=" + tvdbid;
 
-      if (moment(airdate).year() > moment().year()) {
+      if (moment(airdate).day() == moment().day()) {
+        date = 'Today';
+      }
+      else if (moment(airdate).day() == moment().add(1, 'day').day()) {
+        date = 'Tomorrow';
+      }
+      else if (moment(airdate).day() == moment().subtract(1, 'day').day()) {
+        date = 'Yesterday';
+      }
+      else if (moment(airdate).year() > moment().year()) {
         date = moment(airdate).format("MMM D, YYYY");
       }
       else {
