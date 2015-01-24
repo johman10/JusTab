@@ -28,8 +28,8 @@ chrome.storage.sync.get({
   ];
 
   $.each(serviceData, function(index, val) {
-    if (val[status]) {
-      chrome.alarms.create(val[alarmName], {periodInMinutes: parseFloat(val[refresh])});
+    if (val.status) {
+      chrome.alarms.create(val.alarmName, {periodInMinutes: parseFloat(val.refresh)});
     }
   });
 
@@ -37,13 +37,14 @@ chrome.storage.sync.get({
     console.log('Startup functions...');
 
     $.each(serviceData, function(index, val) {
-      if (val[status]) {
-        val[functionName]();
+      if (val.status) {
+        val.functionName();
       }
     });
   });
 
   chrome.alarms.onAlarm.addListener(function(alarm) {
+    console.log(alarm);
     var alarmFunctions = {
       'googleCalendar': getCalendarData,
       'gmail': getGmailData,

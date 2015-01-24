@@ -15,15 +15,13 @@ function getCalendarData(callback) {
 }
 
 function eventArray(url, token, callback) {
-  dateNow = new Date();
-  dateTomorrow = new Date();
-  dateTomorrow.setDate(dateTomorrow.getDate() + 2);
-  dateTomorrow.setHours(0,0,0,0);
+  dateNow = new Date().toISOString();
+  dateTomorrow = moment(new Date()).add(1, 'days').endOf("day").toISOString();
   events = [];
 
   $.when($.each(url, function(i) {
     $.ajax({
-      url: url[i] + "?&oauth_token=" + token + "&timeMin=" + dateNow.toISOString() + "&timeMax=" + dateTomorrow.toISOString() + "&orderBy=startTime&singleEvents=true",
+      url: url[i] + "?&oauth_token=" + token + "&timeMin=" + dateNow + "&timeMax=" + dateTomorrow + "&orderBy=startTime&singleEvents=true",
       dataType: 'json',
       async: false,
       timeout: 3000,
@@ -97,9 +95,11 @@ function calendarHTML() {
 
       if (eventDate.isBefore(today.endOf('day'))) {
         todayHTML += htmlData;
+        console.log(htmlData);
       }
       if (eventDate.isAfter(today, 'day')) {
         tomorrowHTML += htmlData;
+        console.log(htmlData);
       }
     });
 
