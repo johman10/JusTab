@@ -95,11 +95,9 @@ function calendarHTML() {
 
       if (eventDate.isBefore(today.endOf('day'))) {
         todayHTML += htmlData;
-        console.log(htmlData);
       }
       if (eventDate.isAfter(today, 'day')) {
         tomorrowHTML += htmlData;
-        console.log(htmlData);
       }
     });
 

@@ -15,6 +15,7 @@ chrome.storage.sync.get({
   DN_status: '',
   DN_refresh: ''
 }, function(items) {
+  chrome.alarms.clearAll();
   var serviceData = [
     {status: items.GC_status, alarmName: 'googleCalendar', refresh: items.GC_refresh, functionName: getCalendarData},
     {status: items.GM_status, alarmName: 'gmail', refresh: items.GM_refresh, functionName: getGmailData},
@@ -44,7 +45,6 @@ chrome.storage.sync.get({
   });
 
   chrome.alarms.onAlarm.addListener(function(alarm) {
-    console.log(alarm);
     var alarmFunctions = {
       'googleCalendar': getCalendarData,
       'gmail': getGmailData,
