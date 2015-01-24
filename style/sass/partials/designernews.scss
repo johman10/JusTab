@@ -13,20 +13,13 @@
   background-color: $designernews-color;
 }
 
-.dn_links {
-  a {
-    padding: 0 16px;
-  }
-
-  a:hover {
-    background-color: $hover-color;
-  }
-}
-
 .dn_link_container {
-  a {
+  height: 72px;
+
+  .dn_story_url {
+    padding: 17px 16px 0;
+    height: auto;
     @include text-truncate;
-    line-height: 40px;
     text-decoration: none;
     color: $black;
 
@@ -36,6 +29,29 @@
 
     &:visited {
       color: $grey;
+    }
+  }
+
+  .dn_comments_url {
+    margin: 0 0 17px;
+    @include text-truncate;
+    text-decoration: none;
+    color: $grey;
+    top: initial;
+    left: initial;
+    right: initial;
+    bottom: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &:hover {
+    background-color: $hover-color;
+
+    .dn_story_url {
+      color: $black;
     }
   }
 }

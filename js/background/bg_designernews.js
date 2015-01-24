@@ -34,7 +34,16 @@ function dnHTML() {
     var dn_links = '';
 
     $.each(data.stories, function(i, story) {
-      dn_links += '<core-item class="dn_link_container"><a href="' + story.url + '" target="_blank" fit>' + story.title + '<paper-ripple fit></paper-ripple></a></core-item>';
+      dn_links +=
+        '<core-item class="dn_link_container">' +
+          '<a href="' + story.url + '" class="dn_story_url" target="_blank">' +
+            story.title +
+            '<paper-ripple fit></paper-ripple>' +
+          '</a>' +
+          '<a href="' + story.site_url + '" class="dn_comments_url" target="_blank">' +
+            story.comment_count + ' comments - ' + story.vote_count + ' points' +
+          '</a>' +
+        '</core-item>';
     });
 
     localStorage.setItem('DesignernewsHTML', dn_links);
