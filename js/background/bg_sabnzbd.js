@@ -76,7 +76,16 @@ function sabHTML() {
 
   if (localStorage.SabnzbdQueue) {
     var queueJson = JSON.parse(localStorage.getItem('SabnzbdQueue')),
-        percentage = Math.round(100-(parseFloat(queueJson.queue.mbleft)/(parseFloat(queueJson.queue.mb)/100)));
+        percentage = '',
+        timeLeft = '';
+
+    if (queueJson.queue.mb != '0.00' && queueJson.queue.mbleft != '0.00') {
+      percentage = ' - ' + Math.round(100-(parseFloat(queueJson.queue.mbleft)/(parseFloat(queueJson.queue.mb)/100))).toString() + '%';
+    }
+
+    if (queueJson.queue.timeleft != '0:00:00') {
+      timeLeft = queueJson.queue.timeleft;
+    }
 
     $.each(queueJson.queue.slots, function(i, qItem) {
       queue += '<core-item label="' + qItem.filename + '"></core-item>';
@@ -84,10 +93,10 @@ function sabHTML() {
     status +=
       '<core-item class="sab_status_container">' +
         '<div class="sab_status">' +
-          queueJson.queue.status + ' - ' + percentage.toString() + '%' +
+          queueJson.queue.status + percentage +
         '</div>' +
         '<div class="sab_time">' +
-          queueJson.queue.timeleft +
+          timeLeft +
         '</div>' +
       '</core-item>';
 
