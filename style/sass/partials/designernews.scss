@@ -22,6 +22,7 @@
     @include text-truncate;
     text-decoration: none;
     color: $black;
+    width: 312px;
 
     &:hover {
       color: $black;
@@ -47,11 +48,26 @@
     }
   }
 
+  .dn_upvote_container {
+    background-color: $panel-background;
+    position: absolute;
+    right: 0;
+    padding: 24px 16px;
+
+    .dn_upvote {
+      color: $clr-grey-500;
+    }
+  }
+
   &:hover {
     background-color: $hover-color;
 
     .dn_story_url {
       color: $black;
+    }
+
+    .dn_upvote_container {
+      background-color: $hover-color;
     }
   }
 }

@@ -25,16 +25,17 @@
   white-space: nowrap;
   text-decoration: none;
   color: #000;
+  width: 312px;
 }
-/* line 26, ../../sass/partials/designernews.scss */
+/* line 27, ../../sass/partials/designernews.scss */
 .dn_link_container .dn_story_url:hover {
   color: #000;
 }
-/* line 30, ../../sass/partials/designernews.scss */
+/* line 31, ../../sass/partials/designernews.scss */
 .dn_link_container .dn_story_url:visited {
   color: #808080;
 }
-/* line 35, ../../sass/partials/designernews.scss */
+/* line 36, ../../sass/partials/designernews.scss */
 .dn_link_container .dn_comments_url {
   margin: 0 0 17px;
   overflow: hidden;
@@ -47,15 +48,30 @@
   right: initial;
   bottom: 0;
 }
-/* line 45, ../../sass/partials/designernews.scss */
+/* line 46, ../../sass/partials/designernews.scss */
 .dn_link_container .dn_comments_url:hover {
   text-decoration: underline;
 }
-/* line 50, ../../sass/partials/designernews.scss */
+/* line 51, ../../sass/partials/designernews.scss */
+.dn_link_container .dn_upvote_container {
+  background-color: #FAFAFA;
+  position: absolute;
+  right: 0;
+  padding: 24px 16px;
+}
+/* line 57, ../../sass/partials/designernews.scss */
+.dn_link_container .dn_upvote_container .dn_upvote {
+  color: #9e9e9e;
+}
+/* line 62, ../../sass/partials/designernews.scss */
 .dn_link_container:hover {
   background-color: #eee;
 }
-/* line 53, ../../sass/partials/designernews.scss */
+/* line 65, ../../sass/partials/designernews.scss */
 .dn_link_container:hover .dn_story_url {
   color: #000;
+}
+/* line 69, ../../sass/partials/designernews.scss */
+.dn_link_container:hover .dn_upvote_container {
+  background-color: #eee;
 }

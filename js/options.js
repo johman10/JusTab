@@ -31,7 +31,6 @@ $(document).ready(function() {
 
   setTimeout(function() {
     $('.save_settings').bind('click', function() {
-      console.log('save-click');
       save_options();
     });
 
@@ -55,8 +54,6 @@ function save_options() {
   formatUrl('CP_address');
   formatUrl('SB_address');
   formatUrl('SAB_address');
-
-  console.log(calendars);
 
   chrome.storage.sync.set({
     GC_status: $('paper-toggle-button[name=GC_status]').attr('aria-pressed') == "true" ? true : false,
@@ -85,6 +82,8 @@ function save_options() {
     SABQ_refresh: $('#SABQ_refresh').val(),
     SABH_refresh: $('#SABH_refresh').val(),
     DN_status: $('paper-toggle-button[name=DN_status]').attr('aria-pressed') == "true" ? true : false,
+    DN_username: $('#DN_username').val(),
+    DN_password: $('#DN_password').val(),
     DN_refresh: $('#DN_refresh').val(),
   }, function() {
     // Update status to let user know options were saved.
@@ -123,6 +122,8 @@ function restore_options() {
     SABQ_refresh: '1',
     SABH_refresh: '15',
     DN_status: '',
+    DN_username: '',
+    DN_password: '',
     DN_refresh: '15'
   }, function(items) {
     $('paper-toggle-button[name=GC_status]').attr('checked', items.GC_status);
@@ -150,6 +151,8 @@ function restore_options() {
     $('#SABQ_refresh').val(items.SABQ_refresh);
     $('#SABH_refresh').val(items.SABH_refresh);
     $('paper-toggle-button[name=DN_status]').attr('checked', items.DN_status);
+    $('#DN_username').val(items.DN_username);
+    $('#DN_password').val(items.DN_password);
     $('#DN_refresh').val(items.DN_refresh);
   });
 }
