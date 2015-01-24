@@ -43,6 +43,7 @@ $(document).ready(function() {
       'SickbeardTodayHTML': sbShowData,
       'SickbeardSoonHTML': sbShowData,
       'SickbeardLaterHTML': sbShowData,
+      'SabnzbdStatusHTML': sabShowData,
       'SabnzbdQueueHTML': sabShowData,
       'SabnzbdHistoryHTML': sabShowData,
       'DesignernewsHTML': dnShowData

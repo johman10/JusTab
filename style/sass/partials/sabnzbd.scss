@@ -13,7 +13,6 @@
   background-color: $sabnzbd-color;
 }
 
-.status,
 .queue,
 .history {
   h2 {
@@ -23,4 +22,10 @@
   core-item::shadow #label {
     @include text-truncate;
   }
+}
+
+.sab_time {
+  right: 16px;
+  position: absolute;
+  line-height: 40px;
 }

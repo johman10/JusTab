@@ -70,18 +70,26 @@ function getSabnzbdQueue(callback) {
 }
 
 function sabHTML() {
-  var status = '<h2>Status</h2>';
-  var history = '<h2>History</h2>';
-  var queue = '<h2>Queue</h2>';
+  var status = '',
+      history = '<h2>History</h2>',
+      queue = '<h2>Queue</h2>';
 
   if (localStorage.SabnzbdQueue) {
-    var queueJson = JSON.parse(localStorage.getItem('SabnzbdQueue'));
+    var queueJson = JSON.parse(localStorage.getItem('SabnzbdQueue')),
+        percentage = Math.round(100-(parseFloat(queueJson.queue.mbleft)/(parseFloat(queueJson.queue.mb)/100)));
 
     $.each(queueJson.queue.slots, function(i, qItem) {
       queue += '<core-item label="' + qItem.filename + '"></core-item>';
     });
-
-    status += '<core-item class="sab_status_container"><div class="sab_status">' + queueJson.queue.status + '</div></core-item>';
+    status +=
+      '<core-item class="sab_status_container">' +
+        '<div class="sab_status">' +
+          queueJson.queue.status + ' - ' + percentage.toString() + '%' +
+        '</div>' +
+        '<div class="sab_time">' +
+          queueJson.queue.timeleft +
+        '</div>' +
+      '</core-item>';
 
     if (queueJson.queue.slots.length < 1) {
       queue += '<core-item label="No items in queue at this moment."></core-item>';
