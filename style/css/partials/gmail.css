@@ -42,8 +42,16 @@
   white-space: nowrap;
   line-height: initial;
   padding: 17px 16px 0;
+  width: 244px;
 }
-/* line 42, ../../sass/partials/gmail.scss */
+/* line 43, ../../sass/partials/gmail.scss */
+.mail_unread .gm_message_date,
+.mail_read .gm_message_date {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+/* line 49, ../../sass/partials/gmail.scss */
 .mail_unread .gm_message_from,
 .mail_read .gm_message_from {
   overflow: hidden;

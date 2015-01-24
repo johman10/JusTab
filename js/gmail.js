@@ -31,6 +31,8 @@ $(document).ready(function() {
 });
 
 function GmailShowData() {
+  console.log(JSON.parse(localStorage.getItem('Gmail')));
+
   $('.mail_unread').empty();
   $('.mail_read').empty();
   var error = localStorage.getItem('Gmail_error');

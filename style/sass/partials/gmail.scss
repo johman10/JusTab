@@ -37,6 +37,13 @@
     @include text-truncate;
     line-height: initial;
     padding: 17px 16px 0;
+    width: 244px;
+  }
+
+  .gm_message_date {
+    position: absolute;
+    right: 16px;
+    top: 16px;
   }
 
   .gm_message_from {

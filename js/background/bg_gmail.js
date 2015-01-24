@@ -60,7 +60,7 @@ function getMailContent(token, Id, messages, email) {
 
 function GmailHTML() {
   var data = JSON.parse(localStorage.getItem('Gmail'));
-  var messageSubject, messageFrom, messageSnippet;
+  var messageSubject, messageFrom, messageDate, messageSnippet;
   var GmailUnreadHTML = '<h2>Unread</h2>';
   var GmailReadHTML = '<h2>Read</h2>';
 
@@ -72,6 +72,14 @@ function GmailHTML() {
       if (header.name == "From") {
         messageFrom = header.value.replace(/<(.|\n)*?>/, "");
       }
+      if (header.name == "Date") {
+        if (moment(header.value).day() == moment().day()) {
+          messageDate = moment(header.value).format("hh:mm A");
+        }
+        else {
+          messageDate = moment(header.value).format("MMM D, hh:mm A");
+        }
+      }
     });
     messageSnippet = message.snippet;
 
@@ -79,6 +87,7 @@ function GmailHTML() {
       '<core-item class="gm_message">' +
         '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
           '<div class="gm_message_subject">' + messageSubject + '</div>' +
+          '<div class="gm_message_date">' + messageDate + '</div>' +
           '<div class="gm_message_from">' + messageFrom + '  -  ' + messageSnippet + '</div>' +
           '<paper-ripple fit></paper-ripple>' +
         '</a>' +
