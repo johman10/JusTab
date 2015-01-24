@@ -39,7 +39,6 @@ $(document).ready(function() {
 });
 
 function sabShowData() {
-  console.log(JSON.parse(localStorage.getItem('SabnzbdQueue')));
   $('.status').empty();
   $('.queue').empty();
   $('.history').empty();
