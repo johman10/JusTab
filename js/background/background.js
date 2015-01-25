@@ -34,8 +34,10 @@ chrome.storage.sync.get({
     }
   });
 
-  chrome.runtime.onStartup.addListener(function() {
+  chrome.windows.onCreated.addListener(function() {
     console.log('Startup functions...');
+
+    dnAuthToken();
 
     $.each(serviceData, function(index, val) {
       if (val.status) {
@@ -62,3 +64,29 @@ chrome.storage.sync.get({
     }
   });
 });
+
+function dnAuthToken() {
+  chrome.storage.sync.get({
+    DN_username: '',
+    DN_password: ''
+  }, function(items) {
+    $.ajax({
+      url: 'https://api-news.layervault.com/oauth/token',
+      data: {
+        username: items.DN_username,
+        password: items.DN_password,
+        client_id: 'e7c9f9422feb744c661cc25a248d3b7206962f0605e174ae30aab12a05fb107a',
+        client_secret: '64945f7fefea5e0fb33fe064a053cc7375286ef32589b3b3367c7b339fe6fbe4',
+        redirect_uri: window.location.href,
+        grant_type: "password"
+      },
+      type: 'POST',
+      success: function(data){
+        localStorage.setItem('DesignernewsAuth', data.access_token);
+      },
+      error: function(xhr, ajaxOptions, thrownError){
+        console.log(xhr, ajaxOptions, thrownError);
+      }
+    });
+  });
+}

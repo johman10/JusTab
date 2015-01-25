@@ -53,38 +53,19 @@ function dnShowData() {
 }
 
 function dnUpvote(clickedObject) {
-  chrome.storage.sync.get({
-    DN_username: '',
-    DN_password: ''
-  }, function(items) {
-    $.ajax({
-      url: 'https://api-news.layervault.com/oauth/token',
-      data: {
-        username: items.DN_username,
-        password: items.DN_password,
-        client_id: 'e7c9f9422feb744c661cc25a248d3b7206962f0605e174ae30aab12a05fb107a',
-        client_secret: '64945f7fefea5e0fb33fe064a053cc7375286ef32589b3b3367c7b339fe6fbe4',
-        redirect_uri: window.location.href,
-        grant_type: "password"
-      },
-      type: 'POST',
-      success: function(data){
-        $.ajax({
-          url: 'https://api-news.layervault.com/api/v1/stories/' + clickedObject.attr('id') + '/upvote',
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader('Authorization', 'Bearer ' + data.access_token);
-          },
-          type: 'POST',
-          success: function(data){
-          },
-          error: function(xhr, ajaxOptions, thrownError){
-            console.log(xhr, ajaxOptions, thrownError);
-          }
-        });
-      },
-      error: function(xhr, ajaxOptions, thrownError){
-        console.log(xhr, ajaxOptions, thrownError);
-      }
-    });
+  $.ajax({
+    url: 'https://api-news.layervault.com/api/v1/stories/' + clickedObject.attr('id') + '/upvote',
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('DesignernewsAuth'));
+    },
+    type: 'POST',
+    success: function(data){
+      clickedObject.attr('icon', 'done');
+    },
+    error: function(xhr, ajaxOptions, thrownError){
+      clickedObject.attr('icon', 'error');
+      clickedObject.attr('title', thrownError);
+      console.log(xhr, ajaxOptions, thrownError);
+    }
   });
 }
