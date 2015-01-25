@@ -625,15 +625,19 @@ core-item {
 .dn_link_container .dn_upvote_container .dn_upvote {
   color: #9e9e9e;
 }
-/* line 62, ../sass/partials/designernews.scss */
+/* line 60, ../sass/partials/designernews.scss */
+.dn_link_container .dn_upvote_container .dn_upvote:hover {
+  color: #000;
+}
+/* line 66, ../sass/partials/designernews.scss */
 .dn_link_container:hover {
   background-color: #eee;
 }
-/* line 65, ../sass/partials/designernews.scss */
+/* line 69, ../sass/partials/designernews.scss */
 .dn_link_container:hover .dn_story_url {
   color: #000;
 }
-/* line 69, ../sass/partials/designernews.scss */
+/* line 73, ../sass/partials/designernews.scss */
 .dn_link_container:hover .dn_upvote_container {
   background-color: #eee;
 }

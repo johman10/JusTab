@@ -56,6 +56,10 @@
 
     .dn_upvote {
       color: $clr-grey-500;
+
+      &:hover {
+        color: $black;
+      }
     }
   }
 

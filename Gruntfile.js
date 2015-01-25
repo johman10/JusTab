@@ -41,5 +41,5 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['shell', 'sass']);
+  grunt.registerTask('default', 'watch');
 };
