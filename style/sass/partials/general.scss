@@ -88,3 +88,16 @@ core-toolbar {
 core-item {
   padding: 0 16px;
 }
+
+.bottom_bar_container {
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+
+  .bottom_bar_part {
+    display: none;
+    float: left;
+    width: 400px;
+    height: 50px;
+  }
+}

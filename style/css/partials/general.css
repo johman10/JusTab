@@ -96,3 +96,17 @@ core-toolbar {
 core-item {
   padding: 0 16px;
 }
+
+/* line 92, ../../sass/partials/general.scss */
+.bottom_bar_container {
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+}
+/* line 97, ../../sass/partials/general.scss */
+.bottom_bar_container .bottom_bar_part {
+  display: none;
+  float: left;
+  width: 400px;
+  height: 50px;
+}

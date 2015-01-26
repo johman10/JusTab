@@ -30,8 +30,9 @@ chrome.storage.sync.get({
 
       $('#sickbeard core-toolbar a').attr('href', items.SB_address + ':' + items.SB_port);
 
-      $('#sickbeard').show();
+      $('#sickbeard, .sickbeard_info').show();
       $('body').width($('body').width() + $('#sickbeard').width());
+      $('.bottom_bar_container').width($('.panel_container').width());
     }
   });
 

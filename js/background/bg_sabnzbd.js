@@ -79,6 +79,10 @@ function sabHTML() {
         percentage = '',
         timeLeft = '';
 
+    // console.log(queueJson.queue.kbpersec);
+    // console.log(queueJson.queue.slots[x].percentage);
+    // console.log(queueJson.queue.slots[x].timeleft);
+
     if (queueJson.queue.mb != '0.00' && queueJson.queue.mbleft != '0.00') {
       percentage = ' - ' + Math.round(100-(parseFloat(queueJson.queue.mbleft)/(parseFloat(queueJson.queue.mb)/100))).toString() + '%';
     }

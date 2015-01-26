@@ -3,9 +3,6 @@ $(document).ready(function() {
     GM_status: ''
   }, function(items) {
     if (items.GM_status === true) {
-      $('#gmail').show();
-      $('body').width($('body').width() + $('#gmail').width());
-
       GmailShowData();
 
       $('.refresh_gmail').click(function() {
@@ -26,6 +23,10 @@ $(document).ready(function() {
       });
 
       $('#gmail').bind('scroll', gmailCheckScroll);
+
+      $('#gmail, .gmail_info').show();
+      $('body').width($('body').width() + $('#gmail').width());
+      $('.bottom_bar_container').width($('.panel_container').width());
     }
   });
 });

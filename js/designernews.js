@@ -27,8 +27,9 @@ $(document).ready(function() {
 
       $('#designernews core-toolbar a').attr('href', 'http://news.layervault.com');
 
-      $('#designernews').show();
+      $('#designernews, .designernews_info').show();
       $('body').width($('body').width() + $('#designernews').width());
+      $('.bottom_bar_container').width($('.panel_container').width());
 
       $('.dn_upvote').on('click', function(event) {
         dnUpvote($(this));

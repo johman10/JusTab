@@ -32,13 +32,15 @@ $(document).ready(function() {
 
       $('#sabnzbd core-toolbar a').attr('href', items.SAB_address + ':' + items.SAB_port);
 
-      $('#sabnzbd').show();
+      $('#sabnzbd, .sabnzbd_info').show();
       $('body').width($('body').width() + $('#sabnzbd').width());
+      $('.bottom_bar_container').width($('.panel_container').width());
     }
   });
 });
 
 function sabShowData() {
+  console.log(JSON.parse(localStorage.getItem('SabnzbdQueue')));
   $('.status').empty();
   $('.queue').empty();
   $('.history').empty();

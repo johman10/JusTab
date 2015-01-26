@@ -31,8 +31,9 @@ $(document).ready(function() {
 
       $('#couchpotato core-toolbar a').attr('href', items.CP_address + ':' + items.CP_port);
 
-      $('#couchpotato').show();
+      $('#couchpotato, .couchpotato_info').show();
       $('body').width($('body').width() + $('#couchpotato').width());
+      $('.bottom_bar_container').width($('.panel_container').width());
     }
   });
 });
