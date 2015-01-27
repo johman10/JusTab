@@ -93,6 +93,30 @@ function save_options() {
       status.html('');
     }, 750);
   });
+
+  chrome.storage.sync.get({
+    DN_status: '',
+    DN_username: '',
+    DN_password: '',
+  }, function(items) {
+    if (items.DN_status) {
+      $.ajax({
+        url: 'https://api-news.layervault.com/oauth/token',
+        data: {
+          username: items.DN_username,
+          password: items.DN_password,
+          grant_type: "password"
+        },
+        type: 'POST',
+        success: function(data){
+          localStorage.setItem('DesignernewsAuth', data.access_token);
+        },
+        error: function(xhr, ajaxOptions, thrownError){
+          console.log(xhr, ajaxOptions, thrownError);
+        }
+      });
+    }
+  });
 }
 
 function restore_options() {

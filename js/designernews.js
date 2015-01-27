@@ -55,10 +55,12 @@ function dnShowData() {
 
 function dnUpvote(clickedObject) {
   $.ajax({
-    url: 'https://api-news.layervault.com/api/v1/stories/' + clickedObject.attr('id') + '/upvote',
+    url: 'https://api-news.layervault.com/api/v2/upvotes',
     beforeSend: function (xhr) {
       xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('DesignernewsAuth'));
+      xhr.setRequestHeader('Content-Type', 'application/vnd.api+json');
     },
+    data: '{ "upvotes": { "links": { "story": ' + JSON.stringify(clickedObject.attr('id')) + ', "user": ' + JSON.parse(localStorage.getItem('DesignernewsMe')).id + '} } }',
     type: 'POST',
     success: function(data){
       clickedObject.attr('icon', 'done');
