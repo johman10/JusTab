@@ -60,10 +60,10 @@ function dnUpvote(clickedObject) {
       xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('DesignernewsAuth'));
       xhr.setRequestHeader('Content-Type', 'application/vnd.api+json');
     },
-    data: '{ "upvotes": { "links": { "story": ' + JSON.stringify(clickedObject.attr('id')) + ', "user": ' + JSON.parse(localStorage.getItem('DesignernewsMe')).id + '} } }',
+    data: '{ "upvotes": { "links": { "story": "' + clickedObject.attr('id') + '", "user": ' + JSON.parse(localStorage.getItem('DesignernewsMe')).id + '} } }',
     type: 'POST',
     success: function(data){
-      clickedObject.attr('icon', 'done');
+      clickedObject.attr('class', 'dn_upvote_done');
     },
     error: function(xhr, ajaxOptions, thrownError){
       clickedObject.attr('icon', 'error');

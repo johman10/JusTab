@@ -55,8 +55,7 @@ function dnHTML() {
     var dn_links = '';
 
     $.each(data.stories, function(i, story) {
-      console.log(upvotes.indexOf(story.id), story.id, upvotes);
-      if (upvotes.indexOf(story.id) == -1)
+      if (upvotes.indexOf(story.id) == -1) {
         dn_links +=
           '<core-item class="dn_link_container">' +
             '<a href="' + story.url + '" class="dn_story_url" target="_blank">' +
@@ -70,6 +69,7 @@ function dnHTML() {
               '<core-icon icon="thumb-up" class="dn_upvote" id="' + story.id + '"></core-icon>' +
             '</div>' +
           '</core-item>';
+      }
       else {
         dn_links +=
           '<core-item class="dn_link_container">' +
