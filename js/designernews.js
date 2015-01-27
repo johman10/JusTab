@@ -31,7 +31,7 @@ $(document).ready(function() {
       $('body').width($('body').width() + $('#designernews').width());
       $('.bottom_bar_container').width($('.panel_container').width());
 
-      $('.dn_upvote').on('click', function(event) {
+      $('html').on('click', '.dn_upvote', function(event) {
         dnUpvote($(this));
       });
     }
@@ -39,7 +39,6 @@ $(document).ready(function() {
 });
 
 function dnShowData() {
-  console.log(JSON.parse(localStorage.getItem('Designernews')));
   $('.dn_links').empty();
   var error = localStorage.getItem('Designernews_error');
 

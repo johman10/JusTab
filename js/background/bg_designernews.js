@@ -62,7 +62,7 @@ function dnHTML() {
               story.title +
               '<paper-ripple fit></paper-ripple>' +
             '</a>' +
-            '<a href="' + story.site_url + '" class="dn_comments_url" target="_blank">' +
+            '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn_comments_url" target="_blank">' +
               story.comment_count + ' comments - ' + story.vote_count + ' points' +
             '</a>' +
             '<div class="dn_upvote_container">' +
@@ -77,7 +77,7 @@ function dnHTML() {
               story.title +
               '<paper-ripple fit></paper-ripple>' +
             '</a>' +
-            '<a href="' + story.site_url + '" class="dn_comments_url" target="_blank">' +
+            '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn_comments_url" target="_blank">' +
               story.comment_count + ' comments - ' + story.vote_count + ' points' +
             '</a>' +
             '<div class="dn_upvote_container">' +
