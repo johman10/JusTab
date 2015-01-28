@@ -258,7 +258,7 @@
         var async = !options.sync;
         //
         var params = this.toQueryString(options.params);
-        if (params && method == 'GET') {
+        if (params && method.toUpperCase() == 'GET') {
           url += (url.indexOf('?') > 0 ? '&' : '?') + params;
         }
         var xhrParams = this.isBodyMethod(method) ? (options.body || params) : null;
@@ -386,7 +386,7 @@
      * Parameters to send to the specified URL, as JSON.
      *
      * @attribute params
-     * @type string (JSON)
+     * @type string
      * @default ''
      */
     params: '',
@@ -633,6 +633,14 @@
       }
     },
 
+    getParams: function(params) {
+      params = this.params || params;
+      if (params && typeof(params) == 'string') {
+        params = JSON.parse(params);
+      }
+      return params;
+    },
+
     /**
      * Performs an Ajax request to the specified URL.
      *
@@ -642,10 +650,7 @@
       var args = this.xhrArgs || {};
       // TODO(sjmiles): we may want XHR to default to POST if body is set
       args.body = this.body || args.body;
-      args.params = this.params || args.params;
-      if (args.params && typeof(args.params) == 'string') {
-        args.params = JSON.parse(args.params);
-      }
+      args.params = this.getParams(args.params);
       args.headers = this.headers || args.headers || {};
       if (args.headers && typeof(args.headers) == 'string') {
         args.headers = JSON.parse(args.headers);
@@ -689,6 +694,20 @@
         }
       }
       return this.activeRequest;
+    },
+
+    /**
+     * Aborts the current active request if there is one and resets internal
+     * state appropriately.
+     *
+     * @method abort
+     */
+    abort: function() {
+      if (!this.activeRequest) return;
+      this.activeRequest.abort();
+      this.activeRequest = null;
+      this.progress = {};
+      this.loading = false;
     }
 
   });
@@ -1283,7 +1302,7 @@ Polymer('core-style', {
    * inside another.
    *
    * @attribute list
-   * @type object (readonly)
+   * @type object
    * @default {map of all `core-style` producers}
    */
   list: CoreStyle.list,
@@ -2200,6 +2219,7 @@ Polymer('core-transition-pages',{
 
       if (!oldItem) {
         this.applySelection(this.selectedItem, true);
+        this.async(this.notifyResize);
         return;
       }
 
@@ -3276,12 +3296,266 @@ Polymer('core-transition-pages',{
           if (elementToFocus) {
             elementToFocus.scrollIntoView();
           }
+          else {
+            var viewer = this.$.panel.scroller;
+            viewer.scrollTop = 0;
+            viewer.scrollLeft = 0;
+          }
         });
       }
 
     });
 
   ;
+
+  (function() {
+    /*
+     * Chrome uses an older version of DOM Level 3 Keyboard Events
+     *
+     * Most keys are labeled as text, but some are Unicode codepoints.
+     * Values taken from: http://www.w3.org/TR/2007/WD-DOM-Level-3-Events-20071221/keyset.html#KeySet-Set
+     */
+    var KEY_IDENTIFIER = {
+      'U+0009': 'tab',
+      'U+001B': 'esc',
+      'U+0020': 'space',
+      'U+002A': '*',
+      'U+0030': '0',
+      'U+0031': '1',
+      'U+0032': '2',
+      'U+0033': '3',
+      'U+0034': '4',
+      'U+0035': '5',
+      'U+0036': '6',
+      'U+0037': '7',
+      'U+0038': '8',
+      'U+0039': '9',
+      'U+0041': 'a',
+      'U+0042': 'b',
+      'U+0043': 'c',
+      'U+0044': 'd',
+      'U+0045': 'e',
+      'U+0046': 'f',
+      'U+0047': 'g',
+      'U+0048': 'h',
+      'U+0049': 'i',
+      'U+004A': 'j',
+      'U+004B': 'k',
+      'U+004C': 'l',
+      'U+004D': 'm',
+      'U+004E': 'n',
+      'U+004F': 'o',
+      'U+0050': 'p',
+      'U+0051': 'q',
+      'U+0052': 'r',
+      'U+0053': 's',
+      'U+0054': 't',
+      'U+0055': 'u',
+      'U+0056': 'v',
+      'U+0057': 'w',
+      'U+0058': 'x',
+      'U+0059': 'y',
+      'U+005A': 'z',
+      'U+007F': 'del'
+    };
+
+    /*
+     * Special table for KeyboardEvent.keyCode.
+     * KeyboardEvent.keyIdentifier is better, and KeyBoardEvent.key is even better than that
+     *
+     * Values from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent.keyCode#Value_of_keyCode
+     */
+    var KEY_CODE = {
+      9: 'tab',
+      13: 'enter',
+      27: 'esc',
+      33: 'pageup',
+      34: 'pagedown',
+      35: 'end',
+      36: 'home',
+      32: 'space',
+      37: 'left',
+      38: 'up',
+      39: 'right',
+      40: 'down',
+      46: 'del',
+      106: '*'
+    };
+
+    /*
+     * KeyboardEvent.key is mostly represented by printable character made by the keyboard, with unprintable keys labeled
+     * nicely.
+     *
+     * However, on OS X, Alt+char can make a Unicode character that follows an Apple-specific mapping. In this case, we
+     * fall back to .keyCode.
+     */
+    var KEY_CHAR = /[a-z0-9*]/;
+
+    function transformKey(key) {
+      var validKey = '';
+      if (key) {
+        var lKey = key.toLowerCase();
+        if (lKey.length == 1) {
+          if (KEY_CHAR.test(lKey)) {
+            validKey = lKey;
+          }
+        } else if (lKey == 'multiply') {
+          // numpad '*' can map to Multiply on IE/Windows
+          validKey = '*';
+        } else {
+          validKey = lKey;
+        }
+      }
+      return validKey;
+    }
+
+    var IDENT_CHAR = /U\+/;
+    function transformKeyIdentifier(keyIdent) {
+      var validKey = '';
+      if (keyIdent) {
+        if (IDENT_CHAR.test(keyIdent)) {
+          validKey = KEY_IDENTIFIER[keyIdent];
+        } else {
+          validKey = keyIdent.toLowerCase();
+        }
+      }
+      return validKey;
+    }
+
+    function transformKeyCode(keyCode) {
+      var validKey = '';
+      if (Number(keyCode)) {
+        if (keyCode >= 65 && keyCode <= 90) {
+          // ascii a-z
+          // lowercase is 32 offset from uppercase
+          validKey = String.fromCharCode(32 + keyCode);
+        } else if (keyCode >= 112 && keyCode <= 123) {
+          // function keys f1-f12
+          validKey = 'f' + (keyCode - 112);
+        } else if (keyCode >= 48 && keyCode <= 57) {
+          // top 0-9 keys
+          validKey = String(48 - keyCode);
+        } else if (keyCode >= 96 && keyCode <= 105) {
+          // num pad 0-9
+          validKey = String(96 - keyCode);
+        } else {
+          validKey = KEY_CODE[keyCode];
+        }
+      }
+      return validKey;
+    }
+
+    function keyboardEventToKey(ev) {
+      // fall back from .key, to .keyIdentifier, to .keyCode, and then to .detail.key to support artificial keyboard events
+      var normalizedKey = transformKey(ev.key) || transformKeyIdentifier(ev.keyIdentifier) || transformKeyCode(ev.keyCode) || transformKey(ev.detail.key) || '';
+      return {
+        shift: ev.shiftKey,
+        ctrl: ev.ctrlKey,
+        meta: ev.metaKey,
+        alt: ev.altKey,
+        key: normalizedKey
+      };
+    }
+
+    /*
+     * Input: ctrl+shift+f7 => {ctrl: true, shift: true, key: 'f7'}
+     * ctrl/space => {ctrl: true} || {key: space}
+     */
+    function stringToKey(keyCombo) {
+      var keys = keyCombo.split('+');
+      var keyObj = Object.create(null);
+      keys.forEach(function(key) {
+        if (key == 'shift') {
+          keyObj.shift = true;
+        } else if (key == 'ctrl') {
+          keyObj.ctrl = true;
+        } else if (key == 'alt') {
+          keyObj.alt = true;
+        } else {
+          keyObj.key = key;
+        }
+      });
+      return keyObj;
+    }
+
+    function keyMatches(a, b) {
+      return Boolean(a.alt) == Boolean(b.alt) && Boolean(a.ctrl) == Boolean(b.ctrl) && Boolean(a.shift) == Boolean(b.shift) && a.key === b.key;
+    }
+
+    /**
+     * Fired when a keycombo in `keys` is pressed.
+     *
+     * @event keys-pressed
+     */
+    function processKeys(ev) {
+      var current = keyboardEventToKey(ev);
+      for (var i = 0, dk; i < this._desiredKeys.length; i++) {
+        dk = this._desiredKeys[i];
+        if (keyMatches(dk, current)) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          this.fire('keys-pressed', current, this, false);
+          break;
+        }
+      }
+    }
+
+    function listen(node, handler) {
+      if (node && node.addEventListener) {
+        node.addEventListener('keydown', handler);
+      }
+    }
+
+    function unlisten(node, handler) {
+      if (node && node.removeEventListener) {
+        node.removeEventListener('keydown', handler);
+      }
+    }
+
+    Polymer('core-a11y-keys', {
+      created: function() {
+        this._keyHandler = processKeys.bind(this);
+      },
+      attached: function() {
+        if (!this.target) {
+          this.target = this.parentNode;
+        }
+        listen(this.target, this._keyHandler);
+      },
+      detached: function() {
+        unlisten(this.target, this._keyHandler);
+      },
+      publish: {
+        /**
+         * The set of key combinations that will be matched (in keys syntax).
+         *
+         * @attribute keys
+         * @type string
+         * @default ''
+         */
+        keys: '',
+        /**
+         * The node that will fire keyboard events.
+         * Default to this element's parentNode unless one is assigned
+         *
+         * @attribute target
+         * @type Node
+         * @default this.parentNode
+         */
+        target: null
+      },
+      keysChanged: function() {
+        // * can have multiple mappings: shift+8, * on numpad or Multiply on numpad
+        var normalized = this.keys.replace('*', '* shift+*');
+        this._desiredKeys = normalized.toLowerCase().split(' ').map(stringToKey);
+      },
+      targetChanged: function(oldTarget) {
+        unlisten(oldTarget, this._keyHandler);
+        listen(this.target, this._keyHandler);
+      }
+    });
+  })();
+;
 Polymer('core-menu');;
 
 
@@ -3679,7 +3953,16 @@ Polymer('core-menu');;
        * @type boolean
        * @default false
        */
-      forceNarrow: false
+      forceNarrow: false,
+      
+      /**
+       * If true, swipe from the edge is disable.
+       *
+       * @attribute disableEdgeSwipe
+       * @type boolean
+       * @default false
+       */
+      disableEdgeSwipe: false
     },
 
     eventDelegates: {
@@ -3807,9 +4090,10 @@ Polymer('core-menu');;
     },
 
     isEdgeTouch: function(e) {
-      return this.swipeAllowed() && (this.rightDrawer ?
-        e.pageX >= this.offsetWidth - this.edgeSwipeSensitivity :
-        e.pageX <= this.edgeSwipeSensitivity);
+      return !this.disableEdgeSwipe && this.swipeAllowed() &&
+        (this.rightDrawer ?
+          e.pageX >= this.offsetWidth - this.edgeSwipeSensitivity :
+          e.pageX <= this.edgeSwipeSensitivity);
     },
 
     trackStart : function(e) {
@@ -4682,9 +4966,11 @@ Polymer('core-menu');;
        * The horizontal alignment of the popup relative to `relatedTarget`. `left`
        * means the left edges are aligned together. `right` means the right edges
        * are aligned together.
+       * 
+       * Accepted values: 'left', 'right'
        *
        * @attribute halign
-       * @type 'left' | 'right'
+       * @type String
        * @default 'left'
        */
       halign: 'left',
@@ -4694,8 +4980,10 @@ Polymer('core-menu');;
        * the top edges are aligned together. `bottom` means the bottom edges are
        * aligned together.
        *
+       * Accepted values: 'top', 'bottom'
+       *
        * @attribute valign
-       * @type 'top' | 'bottom'
+       * @type String
        * @default 'top'
        */
       valign: 'top',
@@ -4845,255 +5133,6 @@ Polymer('core-menu');;
 
 })();
 
-;
-
-  (function() {
-    /*
-     * Chrome uses an older version of DOM Level 3 Keyboard Events
-     *
-     * Most keys are labeled as text, but some are Unicode codepoints.
-     * Values taken from: http://www.w3.org/TR/2007/WD-DOM-Level-3-Events-20071221/keyset.html#KeySet-Set
-     */
-    var KEY_IDENTIFIER = {
-      'U+0009': 'tab',
-      'U+001B': 'esc',
-      'U+0020': 'space',
-      'U+002A': '*',
-      'U+0030': '0',
-      'U+0031': '1',
-      'U+0032': '2',
-      'U+0033': '3',
-      'U+0034': '4',
-      'U+0035': '5',
-      'U+0036': '6',
-      'U+0037': '7',
-      'U+0038': '8',
-      'U+0039': '9',
-      'U+0041': 'a',
-      'U+0042': 'b',
-      'U+0043': 'c',
-      'U+0044': 'd',
-      'U+0045': 'e',
-      'U+0046': 'f',
-      'U+0047': 'g',
-      'U+0048': 'h',
-      'U+0049': 'i',
-      'U+004A': 'j',
-      'U+004B': 'k',
-      'U+004C': 'l',
-      'U+004D': 'm',
-      'U+004E': 'n',
-      'U+004F': 'o',
-      'U+0050': 'p',
-      'U+0051': 'q',
-      'U+0052': 'r',
-      'U+0053': 's',
-      'U+0054': 't',
-      'U+0055': 'u',
-      'U+0056': 'v',
-      'U+0057': 'w',
-      'U+0058': 'x',
-      'U+0059': 'y',
-      'U+005A': 'z',
-      'U+007F': 'del'
-    };
-
-    /*
-     * Special table for KeyboardEvent.keyCode.
-     * KeyboardEvent.keyIdentifier is better, and KeyBoardEvent.key is even better than that
-     *
-     * Values from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent.keyCode#Value_of_keyCode
-     */
-    var KEY_CODE = {
-      9: 'tab',
-      13: 'enter',
-      27: 'esc',
-      33: 'pageup',
-      34: 'pagedown',
-      35: 'end',
-      36: 'home',
-      32: 'space',
-      37: 'left',
-      38: 'up',
-      39: 'right',
-      40: 'down',
-      46: 'del',
-      106: '*'
-    };
-
-    /*
-     * KeyboardEvent.key is mostly represented by printable character made by the keyboard, with unprintable keys labeled
-     * nicely.
-     *
-     * However, on OS X, Alt+char can make a Unicode character that follows an Apple-specific mapping. In this case, we
-     * fall back to .keyCode.
-     */
-    var KEY_CHAR = /[a-z0-9*]/;
-
-    function transformKey(key) {
-      var validKey = '';
-      if (key) {
-        var lKey = key.toLowerCase();
-        if (lKey.length == 1) {
-          if (KEY_CHAR.test(lKey)) {
-            validKey = lKey;
-          }
-        } else if (lKey == 'multiply') {
-          // numpad '*' can map to Multiply on IE/Windows
-          validKey = '*';
-        } else {
-          validKey = lKey;
-        }
-      }
-      return validKey;
-    }
-
-    var IDENT_CHAR = /U\+/;
-    function transformKeyIdentifier(keyIdent) {
-      var validKey = '';
-      if (keyIdent) {
-        if (IDENT_CHAR.test(keyIdent)) {
-          validKey = KEY_IDENTIFIER[keyIdent];
-        } else {
-          validKey = keyIdent.toLowerCase();
-        }
-      }
-      return validKey;
-    }
-
-    function transformKeyCode(keyCode) {
-      var validKey = '';
-      if (Number(keyCode)) {
-        if (keyCode >= 65 && keyCode <= 90) {
-          // ascii a-z
-          // lowercase is 32 offset from uppercase
-          validKey = String.fromCharCode(32 + keyCode);
-        } else if (keyCode >= 112 && keyCode <= 123) {
-          // function keys f1-f12
-          validKey = 'f' + (keyCode - 112);
-        } else if (keyCode >= 48 && keyCode <= 57) {
-          // top 0-9 keys
-          validKey = String(48 - keyCode);
-        } else if (keyCode >= 96 && keyCode <= 105) {
-          // num pad 0-9
-          validKey = String(96 - keyCode);
-        } else {
-          validKey = KEY_CODE[keyCode];
-        }
-      }
-      return validKey;
-    }
-
-    function keyboardEventToKey(ev) {
-      // fall back from .key, to .keyIdentifier, to .keyCode, and then to .detail.key to support artificial keyboard events
-      var normalizedKey = transformKey(ev.key) || transformKeyIdentifier(ev.keyIdentifier) || transformKeyCode(ev.keyCode) || transformKey(ev.detail.key) || '';
-      return {
-        shift: ev.shiftKey,
-        ctrl: ev.ctrlKey,
-        meta: ev.metaKey,
-        alt: ev.altKey,
-        key: normalizedKey
-      };
-    }
-
-    /*
-     * Input: ctrl+shift+f7 => {ctrl: true, shift: true, key: 'f7'}
-     * ctrl/space => {ctrl: true} || {key: space}
-     */
-    function stringToKey(keyCombo) {
-      var keys = keyCombo.split('+');
-      var keyObj = Object.create(null);
-      keys.forEach(function(key) {
-        if (key == 'shift') {
-          keyObj.shift = true;
-        } else if (key == 'ctrl') {
-          keyObj.ctrl = true;
-        } else if (key == 'alt') {
-          keyObj.alt = true;
-        } else {
-          keyObj.key = key;
-        }
-      });
-      return keyObj;
-    }
-
-    function keyMatches(a, b) {
-      return Boolean(a.alt) == Boolean(b.alt) && Boolean(a.ctrl) == Boolean(b.ctrl) && Boolean(a.shift) == Boolean(b.shift) && a.key === b.key;
-    }
-
-    /**
-     * Fired when a keycombo in `keys` is pressed.
-     *
-     * @event keys-pressed
-     */
-    function processKeys(ev) {
-      var current = keyboardEventToKey(ev);
-      for (var i = 0, dk; i < this._desiredKeys.length; i++) {
-        dk = this._desiredKeys[i];
-        if (keyMatches(dk, current)) {
-          ev.preventDefault();
-          ev.stopPropagation();
-          this.fire('keys-pressed', current, this, false);
-          break;
-        }
-      }
-    }
-
-    function listen(node, handler) {
-      if (node && node.addEventListener) {
-        node.addEventListener('keydown', handler);
-      }
-    }
-
-    function unlisten(node, handler) {
-      if (node && node.removeEventListener) {
-        node.removeEventListener('keydown', handler);
-      }
-    }
-
-    Polymer('core-a11y-keys', {
-      created: function() {
-        this._keyHandler = processKeys.bind(this);
-      },
-      attached: function() {
-        if (!this.target) {
-          this.target = this.parentNode;
-        }
-        listen(this.target, this._keyHandler);
-      },
-      detached: function() {
-        unlisten(this.target, this._keyHandler);
-      },
-      publish: {
-        /**
-         * The set of key combinations to listen for.
-         *
-         * @attribute keys
-         * @type string (keys syntax)
-         * @default ''
-         */
-        keys: '',
-        /**
-         * The node that will fire keyboard events.
-         * Default to this element's parentNode unless one is assigned
-         *
-         * @attribute target
-         * @type Node
-         * @default this.parentNode
-         */
-        target: null
-      },
-      keysChanged: function() {
-        // * can have multiple mappings: shift+8, * on numpad or Multiply on numpad
-        var normalized = this.keys.replace('*', '* shift+*');
-        this._desiredKeys = normalized.toLowerCase().split(' ').map(stringToKey);
-      },
-      targetChanged: function(oldTarget) {
-        unlisten(oldTarget, this._keyHandler);
-        listen(this.target, this._keyHandler);
-      }
-    });
-  })();
 ;
 
 
@@ -5272,9 +5311,9 @@ Polymer('core-field');;
        * shown.  This may be useful when a binding to the src property is known to
        * be invalid, to prevent 404 requests.
        *
-       * @attribute src
-       * @type string
-       * @default null
+       * @attribute load
+       * @type boolean
+       * @default true
        */
       load: true,
 
@@ -7825,7 +7864,7 @@ Polymer('core-pages');;
        * element.
        *
        * @attribute scrollTarget
-       * @type string
+       * @type Element
        * @default null
        */
       scrollTarget: null,
@@ -7855,7 +7894,7 @@ Polymer('core-pages');;
        *
        * @attribute lowerThreshold
        * @type integer
-       * @default false
+       * @default null
        */
       lowerThreshold: null,
 
@@ -8443,6 +8482,17 @@ Polymer('core-pages');;
         isInvalid: false,
 
         /**
+         * Set this property to true to validate the input as the user types.
+         * This will not validate when changing the input programmatically; call
+         * `validate()` instead.
+         *
+         * @attribute autoValidate
+         * @type boolean
+         * @default false
+         */
+        autoValidate: false,
+
+        /**
          * The message to display if the input value fails validation. If this
          * is unset or the empty string, a default message is displayed depending
          * on the type of validation error.
@@ -8531,6 +8581,30 @@ Polymer('core-pages');;
         return true;
       },
 
+      animateUnderline: function(e) {
+        if (this.focused) {
+          var rect = this.$.underline.getBoundingClientRect();
+          var right = e.x - rect.left;
+          this.$.focusedUnderline.style.mozTransformOrigin = right + 'px';
+          this.$.focusedUnderline.style.webkitTransformOrigin = right + 'px ';
+          this.$.focusedUnderline.style.transformOriginX = right + 'px';
+
+          // Animations only run when the user interacts with the input
+          this.underlineAnimated = true;
+        }
+      },
+
+      /**
+       * Validate the input using HTML5 Constraints.
+       *
+       * @method validate
+       * @return {boolean} True if the input is valid.
+       */
+      validate: function() {
+        this.isInvalid = !this.input.validity.valid;
+        return this.input.validity.valid;
+      },
+
       _labelVisibleChanged: function(old) {
         // do not do the animation on first render
         if (old !== undefined) {
@@ -8560,12 +8634,21 @@ Polymer('core-pages');;
 
       focusedChanged: function() {
         this.updateLabelVisibility(this.input && this.input.value);
+        if (this.lastEvent) {
+          this.animateUnderline(this.lastEvent);
+          this.lastEvent = null;
+        }
+        this.underlineVisible = this.focused;
       },
 
       inputChanged: function(old) {
         if (this.input) {
           this.updateLabelVisibility(this.input.value);
           this.updateInputLabel(this.input, this.label);
+
+          if (this.autoValidate) {
+            this.validate();
+          }
         }
         if (old) {
           this.updateInputLabel(old, '');
@@ -8576,7 +8659,7 @@ Polymer('core-pages');;
         this.focused = true;
       },
 
-      blurAction: function(e) {
+      blurAction: function() {
         this.focused = false;
       },
 
@@ -8606,11 +8689,25 @@ Polymer('core-pages');;
         }
       },
 
-      inputAction: function(e) {
-        this.updateLabelVisibility(e.target.value);
+      inputAction: function() {
+        this.updateLabelVisibility(this.input.value);
+        if (this.autoValidate) {
+          this.validate();
+        }
       },
 
       downAction: function(e) {
+        // eat the event and do nothing if already focused
+        if (e.target !== this.input && this.focused) {
+          e.preventDefault();
+          return;
+        }
+        // cache the event here because "down" fires before "focus" when tapping on
+        // the input and the underline animation runs on focus change
+        this.lastEvent = e;
+      },
+
+      tapAction: function(e) {
         if (this.disabled) {
           return;
         }
@@ -8623,21 +8720,6 @@ Polymer('core-pages');;
           this.input.focus();
           e.preventDefault();
         }
-
-        // The underline spills from the tap location
-        var rect = this.$.underline.getBoundingClientRect();
-        var right = e.x - rect.left;
-        this.$.focusedUnderline.style.mozTransformOrigin = right + 'px';
-        this.$.focusedUnderline.style.webkitTransformOrigin = right + 'px ';
-        this.$.focusedUnderline.style.transformOriginX = right + 'px';
-
-        // Animations only run when the user interacts with the input
-        this.underlineAnimated = true;
-
-        // Handle interrupted animation
-        this.async(function() {
-          this.transitionEndAction();
-        }, null, 250);
       },
 
       transitionEndAction: function() {
@@ -8689,16 +8771,16 @@ Polymer('core-pages');;
 
       /**
        * The current value of the input.
-       * 
+       *
        * @attribute value
        * @type String
        * @default ''
        */
       value: '',
-      
+
       /**
        * The most recently committed value of the input.
-       * 
+       *
        * @attribute committedValue
        * @type String
        * @default ''
@@ -8707,15 +8789,22 @@ Polymer('core-pages');;
 
     },
 
+    /**
+     * Focuses the `input`.
+     *
+     * @method focus
+     */
+    focus: function() {
+      this.$.input.focus();
+    },
+
     valueChanged: function() {
       this.$.decorator.updateLabelVisibility(this.value);
     },
 
     changeAction: function(e) {
-      if (!window.ShadowDOMPolyfill) {
-        // re-fire event that does not bubble across shadow roots
-        this.fire('change', null, this);
-      }
+      // re-fire event that does not bubble across shadow roots
+      this.fire('change', null, this);
     }
 
   });
@@ -9080,28 +9169,58 @@ Polymer('core-pages');;
     var p = {
 
       eventDelegates: {
-        down: 'downAction'
+        down: 'downAction',
+        up: 'upAction'
+      },
+
+      toggleBackground: function() {
+        if (this.active) {
+
+          if (!this.$.bg) {
+            var bg = document.createElement('div');
+            bg.setAttribute('id', 'bg');
+            bg.setAttribute('fit', '');
+            bg.style.opacity = 0.25;
+            this.$.bg = bg;
+            this.shadowRoot.insertBefore(bg, this.shadowRoot.firstChild);
+          }
+          this.$.bg.style.backgroundColor = getComputedStyle(this).color;
+
+        } else {
+
+          if (this.$.bg) {
+            this.$.bg.style.backgroundColor = '';
+          }
+        }
       },
 
       activeChanged: function() {
         this.super();
 
-        if (this.$.ripple) {
-          if (this.active) {
-            // FIXME: remove when paper-ripple can have a default 'down' state.
-            if (!this.lastEvent) {
-              var rect = this.getBoundingClientRect();
-              this.lastEvent = {
-                x: rect.left + rect.width / 2,
-                y: rect.top + rect.height / 2
-              }
-            }
+        if (this.toggle && (!this.lastEvent || this.matches(':host-context([noink])'))) {
+          this.toggleBackground();
+        }
+      },
+
+      pressedChanged: function() {
+        this.super();
+
+        if (!this.lastEvent) {
+          return;
+        }
+
+        if (this.$.ripple && !this.hasAttribute('noink')) {
+          if (this.pressed) {
             this.$.ripple.downAction(this.lastEvent);
           } else {
             this.$.ripple.upAction();
           }
         }
 
+        this.adjustZ();
+      },
+
+      focusedChanged: function() {
         this.adjustZ();
       },
 
@@ -9130,6 +9249,8 @@ Polymer('core-pages');;
           this.$.shadow.setZ(2);
         } else if (this.disabled) {
           this.$.shadow.setZ(0);
+        } else if (this.focused) {
+          this.$.shadow.setZ(3);
         } else {
           this.$.shadow.setZ(1);
         }
@@ -9157,6 +9278,17 @@ Polymer('core-pages');;
           this.shadowRoot.insertBefore(ripple, this.shadowRoot.firstChild);
           // No need to forward the event to the ripple because the ripple
           // is triggered in activeChanged
+        }
+      },
+
+      upAction: function() {
+        this._upAction();
+
+        if (this.toggle) {
+          this.toggleBackground();
+          if (this.$.ripple) {
+            this.$.ripple.cancel();
+          }
         }
       }
 
@@ -9289,6 +9421,22 @@ Polymer('core-pages');;
          */
         fill: true
 
+      },
+
+      _activate: function() {
+        this.click();
+        this.fire('tap');
+        if (!this.pressed) {
+          var bcr = this.getBoundingClientRect();
+          var x = bcr.left + (bcr.width / 2);
+          var y = bcr.top + (bcr.height / 2);
+          this.downAction({x: x, y: y});
+          var fn = function fn() {
+            this.upAction();
+            this.removeEventListener('keyup', fn);
+          }.bind(this);
+          this.addEventListener('keyup', fn);
+        }
       }
 
     });

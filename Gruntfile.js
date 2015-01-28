@@ -1,20 +1,17 @@
 module.exports = function(grunt) {
-  require('load-grunt-tasks')(grunt); // npm install --save-dev load-grunt-tasks
+  require('load-grunt-tasks')(grunt);
 
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-compass');
 
   grunt.initConfig({
-    shell: {
+    concurrent: {
+      watch: {
+        tasks: ['watch', 'compass'],
         options: {
-            stderr: false
-        },
-        target: {
-            command: [
-              'vulcanize --csp -o build.html index.html',
-              'vulcanize --csp -o options_build.html options.html',
-            ].join('&&')
+            logConcurrentOutput: true
         }
+      }
     },
     watch: {
       html: {
@@ -23,26 +20,34 @@ module.exports = function(grunt) {
         options: {
           spawn: false,
         },
-      },
-      css: {
-        files: '**/*.scss',
-        tasks: ['compass']
       }
     },
-    compass: {                  // Task
-      dist: {                   // Target
-        options: {              // Target options
+    compass: {
+      dist: {
+        options: {
           sassDir: 'style/sass',
           specify: 'style/sass/main.scss',
           cssDir: 'style/css',
           imagesDir: 'img',
           javascriptsDir: 'js',
           fontsDir: 'style/fonts',
-          outputStyle: 'compressed'
+          outputStyle: 'compressed',
+          watch: true
         }
+      }
+    },
+    shell: {
+      options: {
+          stderr: false
+      },
+      target: {
+          command: [
+            'vulcanize --csp -o build.html index.html',
+            'vulcanize --csp -o options_build.html options.html',
+          ].join('&&')
       }
     }
   });
 
-  grunt.registerTask('default', 'watch');
+  grunt.registerTask('default', 'concurrent');
 };
