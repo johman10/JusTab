@@ -37,8 +37,6 @@ chrome.storage.sync.get({
   chrome.windows.onCreated.addListener(function() {
     console.log('Startup functions...');
 
-    dnAuthToken();
-
     $.each(serviceData, function(index, val) {
       if (val.status) {
         val.functionName();
