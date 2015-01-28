@@ -46,7 +46,6 @@
   }
 
   .dn_upvote_container {
-    background-color: $panel-background;
     position: absolute;
     right: 0;
     padding: 24px 16px;
@@ -66,10 +65,6 @@
 
     .dn_story_url {
       color: $black;
-    }
-
-    .dn_upvote_container {
-      background-color: $hover-color;
     }
   }
 }

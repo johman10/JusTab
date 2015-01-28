@@ -4,6 +4,10 @@ html a {
   text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
 }
 
+a {
+  outline: none;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -86,6 +90,7 @@ core-toolbar {
   a {
     color: $white;
     text-decoration: none;
+    font-weight: 500;
   }
 }
 
