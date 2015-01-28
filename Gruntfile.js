@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt); // npm install --save-dev load-grunt-tasks
 
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-compass');
 
   grunt.initConfig({
     shell: {
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
         }
     },
     watch: {
-      scripts: {
+      html: {
         files: ['index.html', 'options.html'],
         tasks: ['shell'],
         options: {
@@ -33,9 +33,12 @@ module.exports = function(grunt) {
       dist: {                   // Target
         options: {              // Target options
           sassDir: 'style/sass',
+          specify: 'style/sass/main.scss',
           cssDir: 'style/css',
           imagesDir: 'img',
           javascriptsDir: 'js',
+          fontsDir: 'style/fonts',
+          outputStyle: 'compressed'
         }
       }
     }
