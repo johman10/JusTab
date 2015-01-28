@@ -288,316 +288,6 @@ html /deep/ [segment], html /deep/ segment {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-
-`core-transition-pages` represents a page transition, which may include CSS and/or
-script. It will look for a `core-style` element with the same `id` to install in the
-scope of the `core-animated-pages` that's using the transition.
-
-Example:
-
-    <core-style id="fooTransition">
-        // some CSS here
-    </core-style>
-    <core-transition-pages id="fooTransition"></core-transition-pages>
-
-There are three stages to a page transition:
-
-1. `prepare`: Called to set up the incoming and outgoing pages to the "before" state,
-  e.g. setting the incoming page to `opacity: 0` for `cross-fade` or find and
-  measure hero elements for `hero-transition`.
-
-2. `go`: Called to run the transition. For CSS-based transitions, this generally
-  applies a CSS `transition` property.
-
-3. `complete`: Called when the elements are finished transitioning.
-
-See the individual transition documentation for specific details.
-
-@element core-transition-pages
-@extends core-transition
-@status beta
-@homepage github.io
--->
-<!--
-Fired when the transition completes.
-
-@event core-transitionend
--->
-
-
-
-
-
-
-
-<!--
-
-`core-animated-pages` selects one of its children "pages" to show and runs a transition
-when switching between them. The transitions are designed to be pluggable, and can
-accept any object that is an instance of a `core-transition-pages`. Transitions to run
-are specified in the `transitions` attribute as a space-delimited string of `id`s of
-transition elements. Several transitions are available with `core-animated-pages` by
-default, including `hero-transition`, `cross-fade`, and `tile-cascade`.
-
-Example:
-
-    <style>
-      #hero1 {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 300px;
-        height: 300px;
-        background-color: orange;
-      }
-      #hero2 {
-        position: absolute;
-        top: 200px;
-        left: 300px;
-        width: 300px;
-        height: 300px;
-        background-color: orange;
-      }
-      #bottom1, #bottom2 {
-        position: absolute;
-        bottom: 0;
-        top: 0;
-        left: 0;
-        height: 50px;
-      }
-      #bottom1 {
-        background-color: blue;
-      }
-      #bottom2 {
-        background-color: green;
-      }
-    </style>
-    // hero-transition and cross-fade are declared elsewhere
-    <core-animated-pages transitions="hero-transition cross-fade">
-      <section id="page1">
-        <div id="hero1" hero-id="hero" hero></div>
-        <div id="bottom1" cross-fade></div>
-      </section>
-      <section id="page2">
-        <div id="hero2" hero-id="hero" hero></div>
-        <div id="bottom2" cross-fade></div>
-      </section>
-    </core-animated-pages>
-
-In the above example, two transitions (`hero-transition` and `cross-fade`) are run when switching
-between `page1` and `page2`. `hero-transition` transforms elements with the same `hero-id` such
-that they appear to be shared across different pages. `cross-fade` fades out the elements marked
-`cross-fade` in the outgoing page, and fades in those in the incoming page. See the individual
-transition's documentation for specific details.
-
-Finding elements to transition
-------------------------------
-
-In general, a transition is applied to elements marked with a certain attribute. For example,
-`hero-transition` applies the transition on elements with the `hero` and `hero-id` attribute.
-Among the transitions included with `core-animated-pages`, script-based transitions such as
-`hero-transition` generally look for elements up to one level of shadowRoot from the
-`core-animated-pages` element, and CSS-based transitions such as `cross-fade` look for elements
-within any shadowRoot within the `core-animated-pages` element. This means you can use 
-custom elements as pages and mark elements in their shadowRoots as heroes, or mark 
-elements in deeper shadowRoots with other transitions.
-
-Example:
-
-    <polymer-element name="x-el" noscript>
-    <template>
-      <style>
-        #hero {
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 50px;
-          height: 300px;
-          background-color: blue;
-        }
-      </style>
-      <div id="hero" hero-id="bar" hero></div>
-    </template>
-    </polymer-element>
-
-    <polymer-element name="x-page-1" noscript>
-    <template>
-      <style>
-        #hero1 {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 300px;
-          height: 300px;
-          background-color: orange;
-        }
-      </style>
-      <div id="hero1" hero-id="foo" hero></div>
-      <div id="hero2" hero-id="bar" hero></div>
-    </template>
-    </polymer-element>
-
-    <polymer-element name="x-page-2" noscript>
-    <template>
-      <style>
-        #hero1 {
-          position: absolute;
-          top: 200px;
-          left: 300px;
-          width: 300px;
-          height: 300px;
-          background-color: orange;
-        }
-        #hero2 {
-          background-color: blue;
-          height: 150px;
-          width: 400px;
-        }
-      </style>
-      // The below element is one level of shadow from the core-animated-pages and will
-      // be transitioned.
-      <div id="hero1" hero-id="foo" hero></div>
-      // The below element contains a hero inside its shadowRoot making it two levels away
-      // from the core-animated-pages, and will not be transitioned.
-      <x-el></x-el>
-    </template>
-    </polymer-element>
-
-    <core-animated-pages transitions="hero-transition">
-      <x-page-1></x-page-1>
-      <x-page-2></x-page-2>
-    </core-animated-pages>
-
-Note that the container element of the page does not participate in the transition.
-
-    // This does not work
-    <core-animated-pages transitions="cross-fade">
-      <section cross-fade></section>
-      <section cross-fade></section>
-    </core-animated-pages>
-
-    // This works
-    <core-animated-pages transitions="cross-fade">
-      <section>
-        <div cross-fade></div>
-      </section>
-      <section>
-        <div cross-fade></div>
-      </section>
-    </core-animated-pages>
-
-Dynamically setting up transitions
-----------------------------------
-
-An easy way to set up transitions dynamically is to use property binding on
-the transition attributes. 
-
-Example:
-
-    <core-animated-pages selected="{{selected}}">
-      <section id="page1">
-        <div hero-id="hero" hero></div>
-      </section>
-      <section id="page2">
-        <div id="foo" hero-id="hero" hero?="{{selected === 1 || selected === 0}}" cross-fade="{{selected === 2}}"></div>
-      </section>
-      <section id="page3">
-      </section>
-    </core-animated-pages>
-
-In the above example, the "foo" element only behaves as a hero element if transitioning between
-`#page1` and `#page2`. It gets cross-faded when transition to or from `#page3`.
-
-Nesting pages
--------------
-
-It is possible to nest core-animated-pages elements for organization. Excessive nesting is
-not encouraged, however, since it makes setting up the transition more complex.
-
-To nest core-animated-pages, the page containing the nested core-animated-pages element should
-have a `selectedItem` property bound to the `selectedItem` property of the nested element. This
-will allow the outer core-animated-pages to know which nested page it is actually transitioning
-to.
-
-Example:
-
-    <polymer-element name="nested-page" attributes="selectedItem">
-    <template>
-      <core-animated-pages selectedItem="{{selectedItem}}">
-        ...
-      </core-animated-pages>
-    </template>
-    </polymer-element>
-
-    <core-animated-pages>
-      <section id="page1"></section>
-      <nested-page id="page2"></nested-page>
-    </core-animated-pages>
-
-@element core-animated-pages
-@extends core-selector
-@mixins Polymer.CoreResizer https://github.com/polymer/core-resizable
-@status beta
-@homepage github.io
--->
-<!--
-Fired before a page transition occurs. Both pages involved in the transition are visible when
-this event fires. This is useful if there is something the client needs to do when a page becomes
-visible.
-
-@event core-animated-pages-transition-prepare
--->
-<!--
-Fired when a page transition completes.
-
-@event core-animated-pages-transition-end
--->
-
-
-
-<style shim-shadowdom="">/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-html /deep/ core-collapse {
-  display: block;
-}
-
-html /deep/ .core-collapse-closed {
-  display: none;
-}
-</style>
-
-
-
-
-
-
 <style shim-shadowdom="">/* Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
@@ -618,337 +308,46 @@ html /deep/ core-icon {
 
 
 
+  
 
 
 
 
 
+  
 
+<style shim-shadowdom="">/*
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
 
+html /deep/ core-collapse {
+  display: block;
+}
 
-
-
-
-
-
-<script src="bower_components/marked/lib/marked.js"></script>
-
-
-<!--
-Element wrapper for the `marked` (http://marked.org/) library.
-
-@class marked-element
-@blurb Element wrapper for the marked library.
-@status alpha
-@snap snap.png
--->
-
-<script src="bower_components/google-code-prettify/src/prettify.js"></script>
-
-<script src="bower_components/context-free-parser/context-free-parser.js"></script>
-
-
-<!--
-Scrapes source documentation data from input text or url.
-
-@class context-free-parser
--->
-
-
-<link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500,700|Source+Code+Pro" rel="stylesheet" type="text/css">
-
-<!--
-
-Displays formatted source documentation scraped from input urls.
-
-@element core-doc-page
--->
-
-
-
-
-
-
-
-
-<style shim-shadowdom="">
-  html /deep/ core-a11y-keys {
-    display: none;
-  }
+html /deep/ .core-collapse-closed {
+  display: none;
+}
 </style>
 
 
+  
+  
 
 
 
 
 
 
-<!--
-@class core-doc-toc
--->
 
+  
 
 
-
-<!--
-Displays formatted source documentation scraped from input urls.
-
-Documentation can be encoded into html comments (&lt;!-- ... --&gt;) or using JsDoc notation (/&#42;&#42; ... &#42;/).
-
-When using JsDoc notation, remember that the left-margin includes an asterisk and a single space.
-This is important for markdown constructs that count spaces. Code blocks for example, must be
-five spaces from the first asterisk.
-
-## Markdown
-
-Markdown format is supported.
-
-### Links
-
-Arbitrary links can be encoded using [standard markdown format](http://daringfireball.net/projects/markdown/syntax). 
-[GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown) is also supported.
-
-Links to other topics can be made with hash-links [core-doc-viewer](#core-doc-viewer).
-
-### Code
-
-Example
-
-    Four space indents indicate code blocks.
-    
-    <code>blocks are syntax highlighted</code>
-    
-    <script>
-      while(true) {
-        javascript('is highlighted also');
-      }
-    </script>
-
-### Blockquote
-
- > Blockquote is supported for long text that needs to wrap with a common left side indent.
- > Blockquote is supported for long text that needs to wrap with a common left side indent.  
-
-### Lists
- 
-1.  enumerated
-1.  lists
- 
-Use - or + for bullet points:
- 
-- bullet
-- lists
-
-### Tables
-
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
-
-### HTML
-
-Arbitrary HTML is also supported
-
-<input><button>Button</button><hr/>
-
-@class core-doc-viewer
-@homepage github.io
--->
-
-
-
-
-<style>
-  core-drag-avatar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    display: block;
-    pointer-events: none;
-  }
-</style>
-
-<!--
-@group Polymer Core Elements
-@element core-drag-drop
-@homepage github.io
--->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-@element core-key-helper
--->
-
-
-
-<!--
-@element core-overlay-layer
--->
-
-
-<!--
-The `core-overlay` element displays overlayed on top of other content. It starts
-out hidden and is displayed by setting its `opened` property to true.
-A `core-overlay's` opened state can be toggled by calling the `toggle`
-method.
-
-The `core-overlay` will, by default, show/hide itself when it's opened. The 
-`target` property may be set to another element to cause that element to 
-be shown when the overlay is opened.
-
-It's common to want a `core-overlay` to animate to its opened
-position. The `core-overlay` element uses a `core-transition` to handle
-animation. The default transition is `core-transition-fade` which 
-causes the overlay to fade in when displayed. See 
-<a href="../core-transition/">`core-transition`</a> for more
-information about customizing a `core-overlay's` opening animation. The
-`backdrop` property can be set to true to show a backdrop behind the overlay
-that will darken the rest of the window.
-
-An element that should close the `core-overlay` will automatically
-do so if it's given the `core-overlay-toggle` attribute. This attribute
-can be customized with the `closeAttribute` property. You can also use
-`closeSelector` if more general matching is needed.
-
-By default  `core-overlay` will close whenever the user taps outside it or
-presses the escape key. This behavior can be turned off via the
-`autoCloseDisabled` property.
-
-    <core-overlay>
-      <h2>Dialog</h2>
-      <input placeholder="say something..." autofocus>
-      <div>I agree with this wholeheartedly.</div>
-      <button core-overlay-toggle>OK</button>
-    </core-overlay>
-
-`core-overlay` will automatically size and position itself according to the 
-following rules. The overlay's size is constrained such that it does not
-overflow the screen. This is done by setting maxHeight/maxWidth on the 
-`sizingTarget`. If the `sizingTarget` already has a setting for one of these
-properties, it will not be overridden. The overlay should
-be positioned via css or imperatively using the `core-overlay-position` event.
-If the overlay is not positioned vertically via setting `top` or `bottom`, it
-will be centered vertically. The same is true horizontally via a setting to 
-`left` or `right`. In addition, css `margin` can be used to provide some space
-around the overlay. This can be used to ensure
-that, for example, a drop shadow is always visible around the overlay.
-
-@group Core Elements
-@element core-overlay
-@mixins Polymer.CoreResizer https://github.com/polymer/core-resizable
-@homepage github.io
--->
-<!--
-Fired when the `core-overlay`'s `opened` property changes.
-
-@event core-overlay-open
-@param {Object} detail
-@param {Object} detail.opened the opened state
--->
-<!--
-Fired when the `core-overlay` has completely opened.
-
-@event core-overlay-open-completed
--->
-<!--
-Fired when the `core-overlay` has completely closed.
-
-@event core-overlay-close-completed
--->
-<!--
-Fired when the `core-overlay` needs to position itself. Optionally, implement
-in order to position an overlay via code. If the overlay was not otherwise
-positioned, it's important to indicate how the overlay has been positioned by
-setting the `dimensions.position` object. For example, if the overlay has been
-positioned via setting `right` and `top`, set dimensions.position to an
-object like this: `{v: 'top', h: 'right'}`.
-
-@event core-overlay-position
-@param {Object} detail
-@param {Object} detail.target the overlay target
-@param {Object} detail.sizingTarget the overlay sizing target
-@param {Object} detail.opened the opened state
--->
-<style>
-  .core-overlay-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: black;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
-  .core-overlay-backdrop.core-opened {
-    opacity: 0.6;
-  }
-</style>
-
-
-
-<style shim-shadowdom="">
-  html /deep/ core-dropdown {
-    position: absolute;
-    overflow: auto;
-    background-color: #fff;
-  }
-</style>
-
-
-
-
-
-
-
-
-
-<script src="bower_components/core-focusable/polymer-mixin.js"></script>
-<script src="bower_components/core-focusable/core-focusable.js"></script>
-
-
-
-
-
-
-
-<!--
-The `core-field` supplies a horizontal layout, anticipating an input.
-
-Example:
-
-    <core-field>
-      <core-icon icon="menu"></core-icon>
-      <label>I'm a label!</label>
-      <input placeholder="I have a label" flex>
-    </core-field>
-
-@group Polymer Core Elements
-@element core-field
-@homepage github.io
--->
-
-
-
-
-
-
-
+  
 
 
 <style shim-shadowdom="">
@@ -969,140 +368,6 @@ Example:
 
 
 
-<!-- Native <label> has cursor: default -->
-<style>
-  html /deep/ core-label {
-    cursor: default;
-  }
-</style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-Supports sharing a JSONP-based JavaScript library.
-
-    <core-shared-lib on-core-shared-lib-load="{{load}}" url="https://apis.google.com/js/plusone.js?onload=%%callback%%">
-
-Multiple components can request a library using a `core-shared-lib` component and only one copy of that library will
-loaded from the network.
-
-Currently, the library must support JSONP to work as a shared-lib. 
-
-Some libraries require a specific global function be defined. If this is the case, specify the `callbackName` property.
-
-Where possible, you should use an HTML Import to load library dependencies. Rather than using this element,
-create an import (`<link rel="import" href="lib.html">`) that wraps loading the .js file:
-
-lib.html:
-
-    <script src="lib.js"></script>
-
-@group Polymer Core Elements
-@element core-shared-lib
--->
-
-
-
-<!--
-`core-signals` provides basic publish-subscribe functionality.
-
-Note: avoid using `core-signals` whenever you can use
-a controller (parent element) to mediate communication
-instead.
-
-To send a signal, fire a custom event of type `core-signal`, with
-a detail object containing `name` and `data` fields.
-
-    this.fire('core-signal', {name: 'hello', data: null});
-    
-To receive a signal, listen for `core-signal-<name>` event on a 
-`core-signals` element.
-
-  <core-signals on-core-signal-hello="{{helloSignal}}">
-
-You can fire a signal event from anywhere, and all 
-`core-signals` elements will receive the event, regardless
-of where they are in DOM.
-
-@group Polymer Core Elements
-@element core-signals
-@status stable
-@homepage github.io
--->
-
-
-
-
-
-
-
-
-
-
-
-<!-- TODO: would be nice to inherit from label to get .htmlFor, and .control,
-           but the latter is readonly. -->
-<!-- TODO: support off center arrows. -->
-<!-- TODO: detect mobile and apply the .large class, instead of manual
-           control. -->
-<!-- TODO: possibly reuse core-overlay. -->
-
-
-
-  
-
-
 
 
 
@@ -1116,6 +381,10 @@ of where they are in DOM.
 
 
 
+
+
+<script src="bower_components/core-focusable/polymer-mixin.js"></script>
+<script src="bower_components/core-focusable/core-focusable.js"></script>
 
 
 
@@ -1198,6 +467,14 @@ html /deep/ .paper-shadow-bottom-z-5 {
 
 
 
+<style shim-shadowdom="">
+  html /deep/ core-a11y-keys {
+    display: none;
+  }
+</style>
+
+
+
 
 
 
@@ -1252,332 +529,155 @@ in another form (e.g. a text block following the spinner).
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
 </head>
 <body unresolved=""><div hidden="">
-<polymer-element name="core-xhr" hidden="" assetpath="bower_components/core-ajax/">
-
-  
-  
-</polymer-element>
-<polymer-element name="core-ajax" hidden="" attributes="url handleAs auto params response error method headers body contentType withCredentials progress loading" assetpath="bower_components/core-ajax/">
-
-</polymer-element>
-
-<polymer-element name="core-selection" attributes="multi" hidden="" assetpath="bower_components/core-selection/">
-  
-</polymer-element>
-<polymer-element name="core-selector" attributes="selected multi valueattr selectedClass selectedProperty selectedAttribute selectedItem selectedModel selectedIndex notap excludedLocalNames target itemsSelector activateEvent" assetpath="bower_components/core-selector/">
-
-  <template>
-    <core-selection id="selection" multi="{{multi}}" on-core-select="{{selectionSelect}}"></core-selection>
-    <content id="items" select="*"></content>
-  </template>
-
-  
-</polymer-element>
-
-
-<polymer-element name="core-style" hidden="" assetpath="bower_components/core-style/">
-
-</polymer-element>
-
 <polymer-element name="core-meta" attributes="label type" hidden="" assetpath="bower_components/core-meta/">
 
 </polymer-element>
-<polymer-element name="core-transition" extends="core-meta" assetpath="bower_components/core-transition/">
+<polymer-element name="core-iconset" extends="core-meta" attributes="src width icons iconSize" assetpath="bower_components/core-iconset/">
   
   
-</polymer-element>
-<polymer-element name="core-transition-pages" extends="core-transition" assetpath="bower_components/core-animated-pages/transitions/">
 
 </polymer-element>
-<core-style id="hero-transition">
-  /* Hide heroes that are not currently transitioning */
-  polyfill-next-selector { content: ':host &gt; [animate]:not(.core-selected) [hero]'; }
-  ::content &gt; [animate]:not(.core-selected) /deep/ [hero] {
-    opacity: 0;
-  }
+<polymer-element name="core-icon" attributes="src icon alt" assetpath="bower_components/core-icon/">
 
-  polyfill-next-selector { content: ':host &gt; .core-selected[animate] [hero]'; }
-  ::content &gt; .core-selected[animate] /deep/ [hero] {
-    opacity: 1;
-    z-index: 10000;
-  }
-
-  polyfill-next-selector { content: ':host &gt; * [hero-p]'; }
-  ::content &gt; * /deep/ [hero-p] {
-    -webkit-transition: box-shadow 100ms ease-out;
-    transition: box-shadow 100ms ease-out;
-  }
-
-  polyfill-next-selector { content: ':host &gt; [animate] [hero-p]'; }
-  ::content &gt; [animate] /deep/ [hero-p] {
-    box-shadow: none !important;
-  }
-</core-style>
-
-
-<!--
-
-`hero-transition` transforms two elements in different pages such that they appear
-to be shared across the pages.
-
-Example:
-
-    <core-animated-pages transition="hero-transition">
-      <section layout horizontal>
-        <div id="div1" flex></div>
-        <div id="div2" flex hero-id="shared" hero></div>
-      </section>
-      <section>
-      <section layout horizontal>
-        <div id="div3" flex hero-id="shared" hero></div>
-        <div id="div4" flex></div>
-      </section>
-      </section>
-    </core-animated-pages>
-
-In the above example, the elements `#div2` and `#div3` shares the same `hero-id`
-attribute and a single element appears to translate and scale smoothly between
-the two positions during a page transition.
-
-Both elements from the source and destination pages must share the same `hero-id`
-and must both contain the `hero` attribute to trigger the transition. The separate
-`hero` attribute allows you to use binding to configure the transition:
-
-Example:
-
-    <core-animated-pages transition="hero-transition">
-      <section layout horizontal>
-        <div id="div1" flex hero-id="shared" hero?="{{selected == 0}}"></div>
-        <div id="div2" flex hero-id="shared" hero?="{{selected == 1}}"></div>
-      </section>
-      <section>
-      <section layout horizontal>
-        <div id="div3" flex hero-id="shared" hero></div>
-      </section>
-      </section>
-    </core-animated-pages>
-
-In the above example, either `#div1` or `#div2` scales to `#div3` during a page transition,
-depending on the value of `selected`.
-
-Because it is common to share elements with different `border-radius` values, by default
-this transition will also animate the `border-radius` property.
-
-You can configure the duration of the hero transition with the global variable
-`CoreStyle.g.transitions.heroDuration`.
-
-@class hero-transition
-@extends core-transition-pages
-@status beta
-@homepage github.io
--->
-<polymer-element name="hero-transition" extends="core-transition-pages" assetpath="bower_components/core-animated-pages/transitions/">
 
 </polymer-element>
-
-<hero-transition id="hero-transition"></hero-transition>
-
-<core-style id="cross-fade">
-  polyfill-next-selector { content: ':host &gt; * [cross-fade]'; }
-  ::content &gt; * /deep/ [cross-fade] {
-    -webkit-transition: opacity {{g.transitions.xfadeDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-    transition: opacity {{g.transitions.xfadeDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  polyfill-next-selector { content: ':host &gt; * [cross-fade][bg]'; }
-  ::content &gt; * /deep/ [cross-fade][bg] {
-    -webkit-transition: background-color {{g.transitions.xfadeDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-    transition: background-color {{g.transitions.xfadeDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  polyfill-next-selector { content: ':host &gt; * [cross-fade][hero-p]'; }
-  ::content &gt; * /deep/ [cross-fade][hero-p] {
-    -webkit-transition: background-color {{g.transitions.xfadeDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-    transition: background-color {{g.transitions.xfadeDuration || g.transitions.duration}} cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  polyfill-next-selector { content: ':host &gt; .core-selected [cross-fade]'; }
-  ::content &gt; .core-selected /deep/ [cross-fade] {
-    opacity: 1;
-  }
-
-  polyfill-next-selector { content: ':host &gt; [animate]:not(.core-selected) [cross-fade]:not([hero-p]):not([bg])'; }
-  ::content &gt; [animate]:not(.core-selected) /deep/ [cross-fade]:not([hero-p]):not([bg]) {
-    opacity: 0;
-  }
-
-  polyfill-next-selector { content: ':host &gt; [animate]:not(.core-selected) [cross-fade][bg]'; }
-  ::content &gt; [animate]:not(.core-selected) /deep/ [cross-fade][bg] {
-    background-color: rgba(0, 0, 0, 0);
-  }
-
-  polyfill-next-selector { content: ':host &gt; [animate]:not(.core-selected) [cross-fade][hero-p]'; }
-  ::content &gt; [animate]:not(.core-selected) /deep/ [cross-fade][hero-p] {
-    background-color: rgba(0, 0, 0, 0);
-  }
-</core-style>
-
-<core-style id="cross-fade-delayed">
-  polyfill-next-selector { content: ':host &gt; * [cross-fade-delayed]'; }
-  ::content &gt; * /deep/ [cross-fade-delayed] {
-    -webkit-transition: opacity {{g.transitions.xfadeDuration || g.transitions.duration}} ease-out;
-    transition: opacity {{g.transitions.xfadeDuration || g.transitions.duration}} ease-out;
-  }
-
-  polyfill-next-selector { content: ':host &gt; .core-selected [cross-fade-delayed]'; }
-  ::content &gt; .core-selected /deep/ [cross-fade-delayed] {
-    -webkit-transition: opacity {{g.transitions.xfadeDuration || g.transitions.duration}} ease-out {{g.transitions.xfadeDelay || g.transitions.xfadeDuration || g.transitions.duration}};
-    transition: opacity {{g.transitions.xfadeDuration || g.transitions.duration}} ease-out {{g.transitions.xfadeDelay || g.transitions.xfadeDuration || g.transitions.duration}};
-  }
-
-  polyfill-next-selector { content: ':host &gt; [animate]:not(.core-selected) [cross-fade-delayed]'; }
-  ::content &gt; [animate]:not(.core-selected) /deep/ [cross-fade-delayed] {
-    opacity: 0;
-  }
-
-  polyfill-next-selector { content: ':host &gt; .core-selected [cross-fade-delayed]'; }
-  ::content &gt; .core-selected /deep/ [cross-fade-delayed] {
-    opacity: 1;
-  }
-
-</core-style>
-
-<core-style id="cross-fade-all">
-  /* cross-fade-all: cross fade everything except for heroes and their parents */
-  polyfill-next-selector { content: ':host(.cross-fade-all) &gt; * *:not([hero]):not([hero-p]):not([cross-fade])'; }
-  :host(.cross-fade-all) ::content &gt; * /deep/ *:not([hero]):not([hero-p]):not([cross-fade]) {
-    -webkit-transition: opacity {{g.transitions.xfadeDuration || g.transitions.duration}} ease-out;
-    transition: opacity {{g.transitions.xfadeDuration || g.transitions.duration}} ease-out;
-  }
-
-  polyfill-next-selector { content: ':host(.cross-fade-all) &gt; [animate]:not(.core-selected) *:not([hero]):not([hero-p]):not([cross-fade])'; }
-  :host(.cross-fade-all) ::content &gt; [animate]:not(.core-selected) /deep/ *:not([hero]):not([hero-p]):not([cross-fade]) {
-    opacity: 0;
-  }
-
-  polyfill-next-selector { content: ':host(.cross-fade-all) &gt; .core-selected *:not([hero])'; }
-  .host(.cross-fade-all) ::content &gt; .core-selected /deep/ * {
-    opacity: 1;
-  }
-
-  /* Only background-color is allowed for the hero's parents, no opacity transitions */
-  polyfill-next-selector { content: ':host(.cross-fade-all) &gt; * [hero-p]'; }
-  :host(.cross-fade-all) ::content &gt; * /deep/ [hero-p] {
-    -webkit-transition: background-color {{g.transitions.xfadeDuration || g.transitions.duration}} ease-out;
-    transition: background-color {{g.transitions.xfadeDuration || g.transitions.duration}} ease-out;
-    opacity: 1;
-  }
-
-  polyfill-next-selector { content: ':host(.cross-fade-all) &gt; [animate]:not(.core-selected) [hero-p]'; }
-  :host(.cross-fade-all) ::content &gt; [animate]:not(.core-selected) /deep/ [hero-p] {
-    background-color: rgba(0, 0, 0, 0);
-  }
-</core-style>
-
-<!--
-
-`cross-fade` fades out elements in the outgoing page and fades in elements in the
-incoming page during a page transition. You can configure the duration of the
-transition with the global variable `CoreStyle.g.transitions.xfadeDuration`.
-
-Example:
-
-    <core-animated-pages transition="cross-fade">
-      <section>
-        <div id="div1" cross-fade></div>
-      </section>
-      <section>
-        <div id="div2" cross-fade bg>
-          <div id="div3" cross-fade></div>
-          <div id="div4"></div>
-        </div>
-      </section>
-    </core-animated-pages>
-
-In the above example, `#div1` and `#div3` has the `cross-fade` attribute. `#div1`
-will fade out and `#div3` will fade in with opacity transitions when the page switches
-from 0 to 1. Sometimes, you may want to only fade the background color of an element
-but not its children, and you can use the `bg` attribute along with the `#div1`
-attribute as in `#div2`.
-
-@class cross-fade
-@extends core-transition-pages
-@status beta
-@homepage github.io
-
--->
-
-<!--
-
-`cross-fade-delayed` performs a cross-fade after some delay, either specified in
-the global variable `CoreStyle.g.transitions.xfadeDelay` or the duration of the
-transition.
-
-Example:
-
-    <core-animated-pages transition="hero-transition cross-fade-delayed">
-      <section>
-        <div id="div1" hero-id hero></div>
-      </section>
-      <section>
-        <div id="div2" hero-id hero>
-          <div id="div3" cross-fade-delayed></div>
-        </div>
-      </section>
-    </core-animated-pages>
-
-In the above example, `#div3` fades in after the hero transition from `#div1` to
-`#div2` completes.
-
-@class cross-fade-delayed
-@extends core-transition-pages
-@status beta
-@homepage github.io
-
--->
-
-<core-transition-pages id="cross-fade"></core-transition-pages>
-<core-transition-pages id="cross-fade-delayed"></core-transition-pages>
-<core-transition-pages id="cross-fade-all" scopeclass="cross-fade-all"></core-transition-pages>
-<polymer-element name="core-animated-pages" extends="core-selector" notap="" attributes="transitions" assetpath="bower_components/core-animated-pages/">
-
+<polymer-element name="core-item" attributes="label icon src" horizontal="" center="" layout="" assetpath="bower_components/core-item/">
 <template>
-
   <style>/*
- * @license
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
 
 :host {
   display: block;
   position: relative;
+  min-height: 40px;
+  white-space: nowrap;
 }
 
-polyfill-next-selector { content: ':host > *'; }
-::content > * {
+:host(.font-scalable) {
+  min-height: 2.5em;
+}
+
+:host(.core-selected) {
+  font-weight: bold;
+}
+
+#icon {
+  margin: 0 16px 0 4px;
+}
+
+:host(.font-scalable) #icon {
+  margin: 0 1em 0 0.25em;
+  height: 1.5em;
+  width: 1.5em;
+}
+
+polyfill-next-selector { content: ':host > a'; }
+::content > a {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-}
-
-polyfill-next-selector { content: ':host > *:not(.core-selected):not([animate])'; }
-::content > *:not(.core-selected):not([animate]) {
-  display: none !important;
+  /* IE10 styling to ensure link is clickable. Cannot be completely
+  transparent or minifiers change it to `transparent` which does not work. */
+  background-color: rgba(0, 0, 0, 0.000001);
 }
 </style>
-
-  <shadow></shadow>
-
+  <template if="{{icon || src}}">
+    <core-icon src="{{src}}" id="icon" icon="{{icon}}" hidden?="{{!src &amp;&amp; !icon}}"></core-icon>
+  </template>
+  <div id="label">{{label}}</div>
+  <content></content>
 </template>
 
+</polymer-element>
 
+<polymer-element name="core-scroll-header-panel" assetpath="bower_components/core-scroll-header-panel/">
+<template>
+
+  <style>/*
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+:host {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+#mainContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#headerContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#headerBg, #condensedHeaderBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+#condensedHeaderBg {
+  opacity: 0;
+}</style>
+
+  <div id="mainContainer">
+  
+    <content id="mainContent" select=":not(core-toolbar):not(.core-header)"></content>
+    
+  </div>
+  
+  <div id="headerContainer">
+  
+    <div class="bg-container">
+      <div id="condensedHeaderBg"></div>
+      <div id="headerBg"></div>
+    </div>
+    
+    <content id="headerContent" select="core-toolbar, .core-header"></content>
+    
+  </div>
+  
+</template>
 
 </polymer-element>
 
@@ -1587,16 +687,6 @@ polyfill-next-selector { content: ':host > *:not(.core-selected):not([animate])'
   <content></content>
 
 </template>
-
-</polymer-element>
-
-<polymer-element name="core-iconset" extends="core-meta" attributes="src width icons iconSize" assetpath="bower_components/core-iconset/">
-  
-  
-
-</polymer-element>
-<polymer-element name="core-icon" attributes="src icon alt" assetpath="bower_components/core-icon/">
-
 
 </polymer-element>
 
@@ -1849,7 +939,6 @@ polyfill-next-selector { content: ':host > *:not(.core-selected):not([animate])'
 <g id="work"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"></path></g>
 </defs></svg>
 </core-iconset-svg>
-
 <polymer-element name="core-icon-button" attributes="src icon active" assetpath="bower_components/core-icon-button/">
 
   <template>
@@ -2074,1492 +1163,15 @@ polyfill-next-selector { content: ':host .indent'; }
 
 </polymer-element>
 
-<polymer-element name="core-header-panel" assetpath="bower_components/core-header-panel/">
-<template>
-
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-:host {
-  display: block;
-  position: relative;
-}
-
-#outerContainer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-#mainPanel {
-  position: relative;
-}
-
-#mainContainer {
-  position: relative;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-}
-
-#dropShadow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
-}
-
-#dropShadow.hidden {
-  display: none;
-}
-
-/* 
-mode: scroll 
-*/
-:host([mode=scroll]) #mainContainer {
-  overflow: visible;
-}
-
-:host([mode=scroll]) #outerContainer {
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-}
-
-/*
-mode: cover
-*/
-:host([mode=cover]) #mainPanel {
-  position: static;
-}
-
-:host([mode=cover]) #mainContainer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-:host([mode=cover]) #dropShadow {
-  position: static;
-  width: 100%;
-}
-</style>
-
-  <div id="outerContainer" vertical="" layout="">
-
-    <content id="headerContent" select="core-toolbar, .core-header"></content>
-
-    <div id="mainPanel" flex="" vertical="" layout="">
-
-      <div id="mainContainer" flex?="{{mode !== 'cover'}}">
-        <content id="mainContent" select="*"></content>
-      </div>
-
-      <div id="dropShadow"></div>
-
-    </div>
-
-  </div>
-
-</template>
-
-</polymer-element>
-
-<polymer-element name="marked-element" attributes="text" assetpath="bower_components/marked-element/">
-
-</polymer-element>
-
-
-
-<polymer-element name="context-free-parser" attributes="url text data" assetpath="bower_components/context-free-parser/">
-<template>
-
-  <core-ajax url="{{url}}" response="{{text}}" auto=""></core-ajax>
-
-</template>
-
-</polymer-element>
-<polymer-element name="core-doc-page" attributes="data" relative="" assetpath="bower_components/core-doc-viewer/elements/">
-
-  <template>
-
-    <style>/*
- * @license
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
-
-:host {
-  display: block;
-  font-family: Roboto;
-}
-
-#info > * {
-  margin-right: 20px;
-}
-
-core-icon {
-  margin-right: 5px;
-}
-
-.main {
-  padding: 0 72px;
-  max-width: 832px;
-  margin: 0 auto;
-}
-
-marked-element {
-  display: block;
-}
-
-h1 {
-  color: #E91E63;
-  font-size: 52px;
-  line-height: 60px;
-  font-weight: 300;
-}
-
-h3 {
-  font-weight: 500;
-}
-
-.box {
-  margin-bottom: 40px;
-}
-.box:not(.top) .details {
-  padding: 16px;
-}
-.box:not(.top) .details .params {
-  margin-top: 40px;
-}
-
-.box:not(.top) h3 {
-  padding: 16px;
-  color: white;
-  font-weight: inherit;
-  font-size: 20px;
-  line-height: 48px;
-  margin: 0;
-}
-
-.box:not(.top) pre {
-  padding: initial;
-  background-color: transparent;
-  margin: initial;
-  font-size: 12px;
-}
-
-.box code {
-  color: currentcolor;
-  font-weight: 500;
-}
-
-.inheritance {
-  border-bottom: 1px solid #eee;
-  border-top: 1px solid #eee;
-  padding: 16px 0;
-}
-
-.inheritance h3 {
-  margin: 0 10px 0 0;
-}
-
-.inheritance .top > * {
-  margin-right: 7px;
-}
-
-.top b,
-.top strong {
-  text-transform: uppercase;
-  font-size: 14px;
-}
-
-.top pre {
-  background-color: rgb(250, 250, 250);
-  padding: 16px;
-}
-
-pre {
-  max-width: 832px;
-  white-space: pre-wrap;
-  overflow: hidden;
-  border: none;
-}
-
-.attribute-box .details {
-  background-color: #ffcbbb;
-  border-bottom: 1px solid rgba(255, 86, 33, 0.5);
-}
-.attribute-box h3 {
-  background-color: #ff5621;
-}
-
-.property-box .details {
-  background-color: #fbe7b1;
-  border-bottom: 1px solid rgba(243, 179, 0, 0.5);
-}
-.property-box h3 {
-  background-color: #f3b300;
-}
-
-.method-box .details {
-  background-color: #a6ffea;
-  border-bottom: 1px solid rgba(0, 190, 164, 0.5);
-}
-.method-box h3 {
-  background-color: #00bea4;
-}
-
-.event-box .details {
-  background-color: #c5d9fb;
-  border-bottom: 1px solid rgba(65, 132, 243, 0.5);
-}
-.event-box h3 {
-  background-color: #4184f3;
-}
-
-.badge {
-  color: currentcolor;
-}
-
-code, pre {
-  color: #9f499b;
-  font-family: "Source Code Pro",Monaco,Menlo,Consolas,"Courier New",monospace;
-}
-
-pre .typ,pre .inline,.prettyprint .typ,.prettyprint .inline {
-  color: #6b499f
-}
-pre .pun,.prettyprint .pun {
-  color: #5c6bc0
-}
-pre .str,pre .string,.prettyprint .str,.prettyprint .string {
-  color: #ff4081
-}
-pre .pln,.prettyprint .pln {
-  color: #7986cb
-}
-pre .kwd,.prettyprint .kwd {
-  color: #d61a7f
-}
-pre .atn,pre .attribute-name,.prettyprint .atn,.prettyprint .attribute-name {
-  color: #6b499f
-}
-pre .atv,pre .attribute-value,.prettyprint .atv,.prettyprint .attribute-value {
-  color: #7986cb
-}
-pre .com,pre .comment,.prettyprint .com,.prettyprint .comment {
-  color: #8a8a8a
-}</style>
-
-    <core-header-panel id="panel" mode="waterfall" fit="">
-
-      <!--<core-toolbar>
-        <span style="margin: 0 72px;">{{data.name}}</span>
-      </core-toolbar>-->
-
-      <div class="main" on-marked-js-highlight="{{hilight}}">
-
-        <h1>{{data.name}}</h1>
-
-        <p id="info" layout="" horizontal="" center="">
-          <span layout="" horizontal="" center=""><core-icon icon="home"></core-icon><a href="{{data | homepageFilter}}">Home Page</a></span>
-          <span layout="" horizontal="" center="" hidden?="{{!data.version}}"><core-icon icon="info-outline"></core-icon>Version: {{data.version}}</span>
-        </p>
-
-        <template bind="{{data as data}}" if="{{data.extends || data.mixins}}">
-          <div class="inheritance">
-            <template if="{{data.extends}}">
-              <section class="top extends" layout="" horizontal="" center="">
-                <h3 id="{{data.name}}.extends">Extends:</h3>
-                <template repeat="{{e, i in data.extends}}">
-                  <div>
-                    <template if="{{e.url}}">
-                      <a href="{{e.url}}">{{e.name}}</a>
-                    </template>
-                    <template if="{{!e.url}}"><a href="#{{e.name}}">{{e.name}}</a></template>
-                    <span hidden?="{{i == data.extends.length - 1}}">,</span>
-                  </div>
-                </template>
-              </section>
-            </template>
-
-            <template if="{{data.mixins}}">
-              <section class="top mixins" layout="" horizontal="" center="">
-                <h3 id="{{data.name}}.mixins">Mixins:</h3>
-                <template repeat="{{e, i in data.mixins}}">
-                  <div>
-                    <template if="{{e.url}}">
-                      <a href="{{e.url ? e.url : e.name}}">{{e.name}}</a>
-                    </template>
-                    <template if="{{!e.url}}"><span>{{e.name}}</span></template>
-                    <span hidden?="{{i == data.mixins.length - 1}}">,</span>
-                  </div>
-                </template>
-              </section>
-            </template>
-          </div>
-        </template>
-
-        <template if="{{data.description}}">
-          <section class="box top">
-            <h3 id="{{data.name}}.summary">Summary</h3>
-            <marked-element text="{{data.description}}"></marked-element>
-          </section>
-        </template>
-
-        <template if="{{data.attributes.length}}">
-          <section class="box attribute-box">
-            <h3 id="{{data.name}}.attributes">Attributes</h3>
-            <template repeat="{{attribute in data.attributes}}">
-              <div class="details" horizontal="" layout="">
-                <div class="details-name" flex="" id="{{data.name}}.attributes.{{attribute.name}}">
-                  <p><code>{{attribute.name}}</code></p>
-                </div>
-                <div class="details-info" flex="" three="">
-                  <p layout="" horizontal="" center="" justified="">
-                    <code>&lt;<em>{{attribute.type}}</em>&gt;</code><span class="default" hidden?="{{!attribute.default}}">default: <code>{{attribute.default}}</code></span>
-                  </p>
-                  <marked-element text="{{attribute.description}}"></marked-element>
-                </div>
-              </div>
-            </template>
-          </section>
-        </template>
-
-        <template if="{{data.properties.length}}">
-          <section class="box property-box">
-            <h3 id="{{data.name}}.properties">Properties</h3>
-            <template repeat="{{property in data.properties}}">
-              <div class="details" horizontal="" layout="">
-                <div class="details-name" flex="" id="{{data.name}}.properties.{{property.name}}">
-                  <p><code>{{property.name}}</code></p>
-                </div>
-                <div class="details-info" flex="" three="">
-                  <p layout="" horizontal="" center="" justified="">
-                    <code>&lt;<em>{{property.type}}</em>&gt;</code><span class="default" hidden?="{{!property.default}}">default: <code>{{property.default}}</code></span>
-                  </p>
-                  <marked-element text="{{property.description}}"></marked-element>
-                </div>
-              </div>
-            </template>
-          </section>
-        </template>
-
-        <template if="{{data.events.length}}">
-          <section class="box event-box">
-            <h3 id="{{data.name}}.events">Events</h3>
-            <template repeat="{{event in data.events}}">
-              <div class="details" horizontal="" layout="">
-                <div class="details-name" flex="" id="{{data.name}}.events.{{event.name}}">
-                  <p><code>{{event.name}}</code></p>
-                </div>
-                <div class="details-info" flex="" three="">
-                  <marked-element text="{{event.description}}"></marked-element>
-                  <template if="{{event.params.length}}">
-                    <div class="params">
-                      <p>Event details:</p>
-                      <template repeat="{{param in event.params}}">
-                        <p><code>&lt;<em>{{param.type}}</em>&gt; {{param.name}}</code></p>
-                        <p><span>{{param.description}}</span></p>
-                      </template>
-                    </div>
-                  </template>
-                </div>
-              </div>
-            </template>
-          </section>
-        </template>
-
-        <template if="{{data.methods.length}}">
-          <section class="box method-box">
-            <h3 id="{{data.name}}.methods">Methods</h3>
-            <template repeat="{{method in data.methods}}">
-              <div class="details" horizontal="" layout="">
-                <div class="details-name" flex="" id="{{data.name}}.methods.{{method.name}}">
-                  <p><code>{{method.name}}</code></p>
-                </div>
-                <div class="details-info" flex="" three="">
-                  <marked-element text="{{method.description}}"></marked-element>
-                  <template if="{{method.params.length}}">
-                    <div class="params">
-                      <p>Method parameters:</p>
-                      <template repeat="{{param in method.params}}">
-                        <p><code>&lt;<em>{{param.type}}</em>&gt; {{param.name}}</code></p>
-                        <p><span>{{param.description}}</span></p>
-                      </template>
-                    </div>
-                  </template>
-                </div>
-              </div>
-            </template>
-          </section>
-        </template>
-
-      </div>
-
-    </core-header-panel>
-
-  </template>
-
-  
-
-</polymer-element>
-
-<polymer-element name="core-a11y-keys" assetpath="bower_components/core-a11y-keys/">
-
-</polymer-element>
-<polymer-element name="core-menu" extends="core-selector" assetpath="bower_components/core-menu/">
-<template>
-
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-:host {
-  display: block;
-  margin: 12px;
-}
-
-polyfill-next-selector { content: ':host > core-item'; }
-::content > core-item {
-  cursor: default;
-}
-</style>
-
-  <core-a11y-keys target="{{}}" keys="up" on-keys-pressed="{{ selectPrevious }}"></core-a11y-keys>
-  <core-a11y-keys target="{{}}" keys="down" on-keys-pressed="{{ selectNext }}"></core-a11y-keys>
-  <core-a11y-keys target="{{}}" keys="enter" on-keys-pressed="{{ validateSelected }}"></core-a11y-keys>
-
-  <shadow></shadow>
-
-</template>
-</polymer-element>
-
-<polymer-element name="core-item" attributes="label icon src" horizontal="" center="" layout="" assetpath="bower_components/core-item/">
-<template>
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-:host {
-  display: block;
-  position: relative;
-  min-height: 40px;
-  white-space: nowrap;
-}
-
-:host(.font-scalable) {
-  min-height: 2.5em;
-}
-
-:host(.core-selected) {
-  font-weight: bold;
-}
-
-#icon {
-  margin: 0 16px 0 4px;
-}
-
-:host(.font-scalable) #icon {
-  margin: 0 1em 0 0.25em;
-  height: 1.5em;
-  width: 1.5em;
-}
-
-polyfill-next-selector { content: ':host > a'; }
-::content > a {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  /* IE10 styling to ensure link is clickable. Cannot be completely
-  transparent or minifiers change it to `transparent` which does not work. */
-  background-color: rgba(0, 0, 0, 0.000001);
-}
-</style>
-  <template if="{{icon || src}}">
-    <core-icon src="{{src}}" id="icon" icon="{{icon}}" hidden?="{{!src &amp;&amp; !icon}}"></core-icon>
-  </template>
-  <div id="label">{{label}}</div>
-  <content></content>
-</template>
-
-</polymer-element>
-<polymer-element name="core-doc-toc" attributes="data selected" assetpath="bower_components/core-doc-viewer/elements/">
-
-  <template>
-
-    <style>/*
- * @license
- * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
- * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
- * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
- * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
- * Code distributed by Google as part of the polymer project is also
- * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
-
-:host {
-  display: block;
-  position: relative;
-  border-right: 1px solid silver;
-}
-
-core-header-panel {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-}
-
-core-toolbar {
-  background-color: #eeeeee;
-}
-</style>
-
-    <core-header-panel mode="waterfall">
-
-<!--      <core-toolbar theme="core-light-theme">
-        <core-icon-button icon="menu"></core-icon-button>
-        <span core-flex>Topics</span>
-        <core-icon-button icon="search" on-tap="{{searchAction}}"></core-icon-button>
-      </core-toolbar>
-
-      <core-toolbar id="searchBar" style="background-color: #C2185B; position: absolute; top: 0; left: 0; right: 0; opacity: 0; display: none;" class="seamed" theme="core-dark-theme">
-        <core-icon-button icon="search"></core-icon-button>
-        <core-icon-button icon="close" on-tap="{{closeSearchAction}}"></core-icon-button>
-      </core-toolbar>-->
-
-      <core-menu selected="{{selected}}">
-        <template repeat="{{data}}">
-          <core-item><a href="#{{name}}">{{name}}</a></core-item>
-        </template>
-      </core-menu>
-
-    </core-header-panel>
-
-  </template>
-
-  
-
-</polymer-element>
-<polymer-element name="core-doc-viewer" attributes="sources route url" horizontal="" layout="" assetpath="bower_components/core-doc-viewer/">
-
-  <template>
-
-    <style>
-
-      core-doc-toc {
-        display: none;
-        width: 332px;
-        overflow-x: hidden;
-      }
-
-    </style>
-
-    <context-free-parser url="{{url}}" on-data-ready="{{parserDataReady}}"></context-free-parser>
-
-    <template repeat="{{sources}}">
-      <context-free-parser url="{{}}" on-data-ready="{{parserDataReady}}"></context-free-parser>
-    </template>
-
-    <core-doc-toc id="toc" data="{{classes}}" selected="{{selected}}"></core-doc-toc>
-    <core-doc-page flex="" data="{{data}}"></core-doc-page>
-
-  </template>
-
-  
-
-</polymer-element>
-
-<polymer-element name="core-drag-drop" assetpath="bower_components/core-drag-drop/">
-
-</polymer-element>
-
-<polymer-element name="core-media-query" attributes="query queryMatches" assetpath="bower_components/core-media-query/">
-  <template>
-    <style>
-      :host {
-        display: none;
-      }
-    </style>
-  </template>
-  
-</polymer-element>
-<polymer-element name="core-drawer-panel" touch-action="auto" assetpath="bower_components/core-drawer-panel/">
-<template>
-
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-:host {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-core-selector > #drawer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  will-change: transform;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-}
-
-.transition > #drawer {
-  transition: -webkit-transform ease-in-out 0.3s, width ease-in-out 0.3s;
-  transition: transform ease-in-out 0.3s, width ease-in-out 0.3s;
-}
-
-/*
-right-drawer: make drawer on the right side
-*/
-.right-drawer > #drawer {
-  left: auto;
-  right: 0;
-}
-
-polyfill-next-selector { content: ':host [drawer]'; }
-::content[select="[drawer]"] > * {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-}
-
-core-selector > #main {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.transition > #main {
-  transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
-}
-
-.right-drawer > #main {
-  left: 0;
-}
-
-.right-drawer.transition > #main {
-  transition: right ease-in-out 0.3s, padding ease-in-out 0.3s;
-}
-
-polyfill-next-selector { content: '#main > [main]'; }
-::content[select="[main]"] > * {
-  height: 100%;
-}
-
-#scrim {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.3);
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity ease-in-out 0.38s, visibility ease-in-out 0.38s;
-}
-
-#edgeSwipeOverlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 20px;
-}
-
-.right-drawer > #main > #edgeSwipeOverlay {
-  right: 0;
-  left: auto;
-}
-
-/*
-narrow layout
-*/
-.narrow-layout > #drawer.core-selected {
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-.right-drawer.narrow-layout > #drawer.core-selected {
-  box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-polyfill-next-selector { content: ':host .narrow-layout > #drawer > [drawer]'; }
-.narrow-layout > #drawer > ::content[select="[drawer]"] > * {
-  border: 0;
-}
-
-.narrow-layout > #drawer:not(.core-selected) {
-  -webkit-transform: translateX(-100%);
-  transform: translateX(-100%);
-}
-
-.right-drawer.narrow-layout > #drawer:not(.core-selected) {
-  left: auto;
-  -webkit-transform: translateX(100%);
-  transform: translateX(100%);
-}
-
-.narrow-layout > #main {
-  left: 0 !important;
-  padding: 0;
-}
-
-.right-drawer.narrow-layout > #main {
-  left: 0;
-  right: 0;
-  padding: 0;
-}
-
-.narrow-layout > #main:not(.core-selected) > #scrim,
-.dragging #scrim {
-  visibility: visible;
-  opacity: 1;
-}
-
-polyfill-next-selector { content: ':host .narrow-layout > #main > [main]'; }
-.narrow-layout > #main > ::content[select="[main]"] > * {
-  margin: 0;
-  min-height: 100%;
-  left: 0;
-  right: 0;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-}
-
-polyfill-next-selector { content: 'core-selector:not(.narrow-layout) [core-drawer-toggle]'; }
-core-selector:not(.narrow-layout) ::content [core-drawer-toggle] {
-  display: none;
-}
-</style>
-
-  <core-media-query query="max-width: {{forceNarrow ? '' : responsiveWidth}}" querymatches="{{queryMatches}}"></core-media-query>
-
-  <core-selector class="{{ {'narrow-layout' : narrow, transition : transition, dragging : dragging, 'right-drawer': rightDrawer} | tokenList }}" valueattr="id" selected="{{selected}}">
-
-    <div id="main" _style="left: {{ narrow || rightDrawer ? '0' : drawerWidth }}; right: {{ rightDrawer ? (narrow ? '' : drawerWidth) : '' }};">
-      <content select="[main]"></content>
-      <div id="scrim" on-tap="{{togglePanel}}"></div>
-      <div id="edgeSwipeOverlay" hidden?="{{!narrow || disableEdgeSwipe}}"></div>
-    </div>
-
-    <div id="drawer" _style="width: {{ drawerWidth }}">
-      <content select="[drawer]"></content>
-    </div>
-
-  </core-selector>
-
-</template>
-
-</polymer-element>
-
-<polymer-element name="core-key-helper" assetpath="bower_components/core-overlay/">
-  
-</polymer-element>
-
-<polymer-element name="core-overlay-layer" assetpath="bower_components/core-overlay/">
-<template>
-  <style>
-    :host {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      display: none;
-    }
-
-    :host(.core-opened) {
-      display: block;
-    }
-  </style>
-  <content></content>
-</template>
-
-</polymer-element>
-<polymer-element name="core-overlay" assetpath="bower_components/core-overlay/">
-
-</polymer-element>
-<polymer-element name="core-dropdown" extends="core-overlay" assetpath="bower_components/core-dropdown/">
-
-</polymer-element>
-
-<polymer-element name="core-dropdown-base" tabindex="0" assetpath="bower_components/core-dropdown/">
-
-</polymer-element>
-
-<polymer-element name="core-dropdown-menu" extends="core-dropdown-base" relative="" layout="" inline="" horizontal="" center="" tabindex="0" assetpath="bower_components/core-dropdown-menu/">
-<template>
-
-  <style>
-    :host {
-      background-color: #fff;
-    }
-
-    :host([disabled]) {
-      color: #a8a8a8;
-    }
-
-    #label {
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-  </style>
-
-  <core-a11y-keys target="{{}}" keys="enter space" on-keys-pressed="{{toggleOverlay}}"></core-a11y-keys>
-
-  <div flex="" auto="" id="label">{{selectedItemLabel || label}}</div>
-  <core-icon id="arrow" icon="{{opened ? openedIcon : closedIcon}}"></core-icon>
-
-  <content></content>
-
-</template>
-
-</polymer-element>
-
-<polymer-element name="core-field" center="" horizontal="" layout="" assetpath="bower_components/core-field/">
-<template>
-
-  <style>/* Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt */
-
-
-:host {
-  display: block;
-  color: #333;
-  font-size: 14px;
-}
-
-polyfill-next-selector { content: ':host > core-icon'; }
-::content > core-icon {
-  margin: 8px;
-}
-
-polyfill-next-selector { content: ':host input'; }
-::content input {
-  background: transparent;
-  border: 0;
-  padding: 0;
-  margin: 0 4px;
-  color: #333;
-  font-size: 14px;
-}
-
-polyfill-next-selector { content: ':host input:focus'; }
-::content input:focus {
-  outline: none;
-}
-
-polyfill-next-selector { content: ':host input::placeholder'; }
-::content input::placeholder {
-  color: #b3b3b3;
-}</style>
-
-  <content select="*"></content>
-
-</template>
-</polymer-element>
-
-<polymer-element name="core-image" assetpath="bower_components/core-image/">
-<template>
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-:host {
-  display: inline-block;
-  overflow: hidden;
-  position: relative;
-}
-
-#placeholder {
-  background-color: inherit;
-  opacity: 1;
-}
-#placeholder.fadein {
-  transition: opacity 0.5s linear;
-  opacity: 0;
-}</style>
-  <template if="{{!sizing}}">
-    <img id="img">
-  </template>
-  <template if="{{preload &amp;&amp; fade}}">
-    <div id="placeholder" fit=""></div>
-  </template>
-  <content></content>
-</template>
-
-</polymer-element>
-
 <polymer-element name="core-input" extends="input" assetpath="bower_components/core-input/">
 
 
 
 </polymer-element>
 
-<polymer-element name="core-label" assetpath="bower_components/core-label/">
-  
-</polymer-element>
-
-<polymer-element name="core-layout-grid" attributes="nodes layout auto" assetpath="bower_components/core-layout-grid/">
+<polymer-element name="core-style" hidden="" assetpath="bower_components/core-style/">
 
 </polymer-element>
-
-<polymer-element name="core-layout-trbl" attributes="vertical" assetpath="bower_components/core-layout-trbl/">
-
-  <template>
-
-    <style>
-      :host {
-        display: none;
-      }
-    </style>
-
-  </template>
-
-  
-
-</polymer-element>
-
-<polymer-element name="core-list" tabindex="-1" assetpath="bower_components/core-list/">
-<template>
-  <core-selection id="selection" multi="{{multi}}" on-core-select="{{selectedHandler}}"></core-selection>
-  <style>:host {
-  display: block;
-  outline: none;
-  position: relative;
-}
-
-polyfill-next-selector { content: '.core-list-viewport > *'; }
-::content > * {
-  position: absolute;
-  top: 0;
-  box-sizing: border-box;
-  opacity: 0;
-}
-
-polyfill-next-selector { content: ':host(:not([grid])) .core-list-viewport > *'; }
-:host(:not([grid])) ::content > * {
-  width: 100%;
-}
-
-.core-list-items.horizontal {
-  height: 100%;
-  white-space: nowrap;
-}
-
-.core-list-items.horizontal > * {
-  display: inline-block;
-}
-</style>
-  <div id="viewport" class="core-list-viewport"><content></content></div>
-</template>
-
-</polymer-element>
-
-<polymer-element name="core-localstorage" attributes="name value useRaw autoSaveDisabled" hidden="" assetpath="bower_components/core-localstorage/">
-
-</polymer-element>
-
-<polymer-element name="core-submenu" attributes="selected selectedItem selectedAttribute label icon src valueattr" assetpath="bower_components/core-menu/">
-<template>
-
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE
-The complete set of authors may be found at http://polymer.github.io/AUTHORS
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
-*/
-
-:host { 
-  display: block;
-  height: auto;
-}
-
-:host(.core-selected, [active]) {
-  font-weight: initial;
-}
-
-core-item {
-  cursor: default;
-}
-
-::content > core-item {
- cursor: default; 
-}
-
-:host(.font-scalable) > core-item {
-  min-height: 2.5em;
-}
-
-:host(.font-scalable) > core-item::shadow core-icon {
-  margin: 0 1em 0 0.25em;
-  height: 1.5em;
-  width: 1.5em;
-}
-
-#submenu {
-  margin: 0 0 0 44px;
-}
-
-:host(.font-scalable) > #submenu {
-  margin: 0 0 0 2.75em;
-}
-</style>
-
-  <core-item id="submenuItem" src="{{src}}" label="{{label}}" icon="{{icon}}" class="{{ {'core-selected' : active} | tokenList}}" on-tap="{{activate}}">
-    <content select=".item-content"></content>
-  </core-item>
-
-  <core-menu id="submenu" selected="{{selected}}" selecteditem="{{selectedItem}}" selectedattribute="{{selectedAttribute}}" valueattr="{{valueattr}}">
-    <content></content>
-  </core-menu>
-
-  <core-collapse target="{{$.submenu}}" opened="{{opened}}"></core-collapse>
-
-</template>
-
-</polymer-element>
-
-<polymer-element name="core-menu-button" extends="core-dropdown-base" relative="" assetpath="bower_components/core-menu-button/">
-<template>
-
-  <style>
-    :host {
-      display: inline-block;
-    }
-
-    :host([disabled]) {
-      pointer-events: none;
-      color: #a8a8a8;
-    }
-
-    polyfill-next-selector { content: ':host([disabled]) *'; }
-    :host([disabled]) ::content * {
-      pointer-events: none;
-    }
-  </style>
-
-  <core-a11y-keys target="{{}}" keys="enter space" on-keys-pressed="{{toggleOverlay}}"></core-a11y-keys>
-
-  <content></content>
-
-</template>
-
-</polymer-element>
-
-<polymer-element name="core-pages" extends="core-selector" selected="0" notap="" assetpath="bower_components/core-pages/">
-<template>
-
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-:host {
-  display: block;
-  position: relative;
-}
-
-polyfill-next-selector { content: ':host > *'; }
-::content > * {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  visibility: hidden;
-  z-index: -1000;
-}
-
-polyfill-next-selector { content: ':host > .core-selected'; }
-::content > .core-selected {
-  visibility: visible;
-  z-index: auto;
-}</style>
-
-  <shadow></shadow>
-
-</template>
-</polymer-element>
-
-<polymer-element name="core-range" attributes="value min max step ratio" assetpath="bower_components/core-range/">
-
-</polymer-element>
-
-<polymer-element name="core-scaffold" assetpath="bower_components/core-scaffold/">
-<template>
-
-  <style>
-    
-    :host {
-      display: block;
-    }
-    
-    [drawer] {
-      background-color: #fff;
-      box-shadow: 1px 0 1px rgba(0, 0, 0, 0.1);
-    }
-    
-    [main] {
-      height: 100%;
-      background-color: #eee;
-    }
-    
-    core-toolbar {
-      background-color: #526E9C;
-      color: #fff;
-    }
-    
-    #drawerPanel:not([narrow]) #menuButton {
-      display: none;
-    }
-    
-  </style>
-
-  <core-drawer-panel id="drawerPanel" narrow="{{narrow}}" drawerwidth="{{drawerWidth}}" rightdrawer="{{rightDrawer}}" responsivewidth="{{responsiveWidth}}" disableswipe="{{disableSwipe}}">
-
-    <div vertical="" layout="" drawer="">
-
-      <content select="[navigation], nav"></content>
-
-    </div>
-    
-    <core-header-panel id="headerPanel" main="" mode="{{mode}}">
-
-      <core-toolbar>
-        <template if="{{!rightDrawer}}">
-          <core-icon-button id="menuButton" icon="menu" on-tap="{{togglePanel}}"></core-icon-button>
-        </template>
-        <content select="[tool]"></content>
-        <template if="{{rightDrawer}}">
-          <core-icon-button id="menuButton" icon="menu" on-tap="{{togglePanel}}"></core-icon-button>
-        </template>
-      </core-toolbar>
-      
-      <content select="*"></content>
-      
-    </core-header-panel>
-
-  </core-drawer-panel>
-
-</template>
-
-</polymer-element>
-
-<polymer-element name="core-scroll-header-panel" assetpath="bower_components/core-scroll-header-panel/">
-<template>
-
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-:host {
-  display: block;
-  position: relative;
-  overflow: hidden;
-}
-
-#mainContainer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-overflow-scrolling: touch;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-#headerContainer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-}
-
-.bg-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-#headerBg, #condensedHeaderBg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
-#condensedHeaderBg {
-  opacity: 0;
-}</style>
-
-  <div id="mainContainer">
-  
-    <content id="mainContent" select=":not(core-toolbar):not(.core-header)"></content>
-    
-  </div>
-  
-  <div id="headerContainer">
-  
-    <div class="bg-container">
-      <div id="condensedHeaderBg"></div>
-      <div id="headerBg"></div>
-    </div>
-    
-    <content id="headerContent" select="core-toolbar, .core-header"></content>
-    
-  </div>
-  
-</template>
-
-</polymer-element>
-
-<polymer-element name="core-scroll-threshold" assetpath="bower_components/core-scroll-threshold/">
-
-
-</polymer-element>
-
-<polymer-element name="core-shared-lib" attributes="url notifyEvent callbackName" assetpath="bower_components/core-shared-lib/">
-
-</polymer-element>
-
-<polymer-element name="core-signals" assetpath="bower_components/core-signals/">
-
-</polymer-element>
-
-<polymer-element name="core-splitter" attributes="direction locked minSize allowOverflow" on-trackstart="{{trackStart}}" on-track="{{track}}" on-down="{{preventSelection}}" assetpath="bower_components/core-splitter/">
-
-<template>
-
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-:host {
-  display: block;
-  width: 12px;
-  background: #efefef url("bower_components/core-splitter/handle.svg") no-repeat center;
-  box-shadow: inset 0 0 2px 1px #ccc;
-  cursor: col-resize;
-}
-
-:host(.horizontal) {
-  width: auto;
-  height: 12px;
-  cursor: row-resize;
-  background-image: url("bower_components/core-splitter/handle-h.svg");
-}
-
-:host(:hover, :active) {
-  background-color: #ddd;
-}
-</style>
-
-</template>
-
-</polymer-element>
-
-<polymer-element name="core-tooltip" attributes="noarrow position label show tipAttribute" role="tooltip" tabindex="0" assetpath="bower_components/core-tooltip/">
-<template>
-
-  <style>/* Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt */
-
-:host {
-  box-sizing: border-box;
-  position: relative;
-  display: inline-block;
-  outline: none;
-}
-
-:host(:hover:not([disabled])) .core-tooltip {
-  visibility: visible !important;
-}
-
-:host([focused]) .core-tooltip {
-  visibility: visible !important;
-}
-
-.core-tooltip:not(.show) {
-  visibility: hidden;
-}
-
-.core-tooltip {
-  position: absolute;
-  font-size: 10px;
-  font-weight: 500;
-  padding: 8px;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.9);
-  box-sizing: border-box;
-  border-radius: 3px; /* TODO: not in spec. */
-  white-space: nowrap;
-  line-height: 6px;
-  z-index: 1002; /* TODO: this is brittle. */
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-:host([large]) .core-tooltip {
-  line-height: 14px;
-  font-size: 14px;
-  padding: 16px;
-}
-
-.core-tooltip.noarrow::after {
-  display: none;
-}
-
-.core-tooltip::after {
-  position: absolute;
-  border: solid transparent;
-  content: '';
-  height: 0;
-  width: 0;
-  border-width: 4px;
-}
-
-.top {
-  margin-bottom: 10px; /* TODO: not specified in spec */
-  bottom: 100%;
-}
-
-.right {
-  margin-left: 10px; /* TODO: not specified in spec */
-  left: 100%;
-}
-
-.bottom {
-  top: 100%;
-  margin-top: 10px; /* TODO: not specified in spec */
-}
-
-.left {
-  margin-right: 10px; /* TODO: not specified in spec */
-  right: 100%;
-}
-
-.core-tooltip.bottom::after {
-  bottom: 100%;
-  left: calc(50% - 4px);
-  border-bottom-color: rgba(0,0,0,0.8);
-}
-
-.core-tooltip.left::after {
-  left: 100%;
-  top: calc(50% - 4px);
-  border-left-color: rgba(0,0,0,0.8);
-}
-
-.core-tooltip.top::after {
-  top: 100%;
-  left: calc(50% - 4px);
-  border-top-color: rgba(0,0,0,0.8);
-}
-
-.core-tooltip.right::after {
-  right: 100%;
-  top: calc(50% - 4px);
-  border-right-color: rgba(0,0,0,0.8);
-}
-</style>
-  <div id="tooltip" hidden?="{{!hasTooltipContent}}" class="core-tooltip {{position}} {{ {noarrow: noarrow, show: show &amp;&amp; !disabled} | tokenList}}">
-    <content id="c" select="[{{tipAttribute}}]">{{label}}</content>
-  </div>
-
-  <content></content>
-
-</template>
-
-</polymer-element>
-
 <core-style id="paper-input-decorator">
 
 .label-text,
@@ -3793,6 +1405,7 @@ polyfill-next-selector {
 
 </polymer-element>
 
+
 <polymer-element name="paper-ripple" attributes="initialOpacity opacityDecayVelocity" assetpath="bower_components/paper-ripple/">
 <template>
 
@@ -3907,6 +1520,10 @@ polyfill-next-selector {
 
 </template>
 
+
+</polymer-element>
+
+<polymer-element name="core-a11y-keys" assetpath="bower_components/core-a11y-keys/">
 
 </polymer-element>
 <polymer-element name="paper-button" extends="paper-button-base" attributes="raised recenteringTouch fill" role="button" assetpath="bower_components/paper-button/">
