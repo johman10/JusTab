@@ -16,21 +16,10 @@ chrome.storage.sync.get({
   DN_refresh: ''
 }, function(items) {
   chrome.alarms.clearAll();
-  var serviceData = [
-    {status: items.GC_status, alarmName: 'googleCalendar', refresh: items.GC_refresh, functionName: getCalendarData},
-    {status: items.GM_status, alarmName: 'gmail', refresh: items.GM_refresh, functionName: getGmailData},
-    {status: items.FB_status, alarmName: 'facebook', refresh: items.FB_refresh, functionName: getFacebookData},
-    {status: items.CP_status, alarmName: 'couchPotatoWanted', refresh: items.CP_refresh, functionName: getWantedCouchPotato},
-    {status: items.CP_status, alarmName: 'couchPotatoSnatched', refresh: items.CP_refresh, functionName: getSnatchedCouchPotato},
-    {status: items.SB_status, alarmName: 'sickBeard', refresh: items.SB_refresh, functionName: getSickBeardData},
-    {status: items.SAB_status, alarmName: 'sabnzbdQueue', refresh: items.SABQ_refresh, functionName: getSabnzbdQueue},
-    {status: items.SAB_status, alarmName: 'sabnzbdHistory', refresh: items.SABH_refresh, functionName: getSabnzbdHistory},
-    {status: items.DN_status, alarmName: 'designerNews', refresh: items.DN_refresh, functionName: getDesignerNewsData},
-  ];
 
   $.each(serviceData, function(index, val) {
     if (val.status) {
-      chrome.alarms.create(val.alarmName, {periodInMinutes: parseFloat(val.refresh)});
+      chrome.alarms.create(val.alarmName, {periodInMinutes: val.refresh});
     }
   });
 
@@ -39,7 +28,7 @@ chrome.storage.sync.get({
 
     $.each(serviceData, function(index, val) {
       if (val.status) {
-        val.functionName();
+        window[val.bgFunctionName]();
       }
     });
   });
@@ -47,7 +36,7 @@ chrome.storage.sync.get({
   chrome.alarms.onAlarm.addListener(function(alarm) {
     $.each(serviceData, function(index, val) {
       if (val.alarmName == alarm.name) {
-        val.functionName();
+        window[val.bgFunctionName]();
       }
     });
   });
