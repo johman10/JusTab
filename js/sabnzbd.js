@@ -3,11 +3,7 @@
 
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
 $(document).ready(function() {
-  chrome.storage.sync.get({
-    SAB_status: '',
-    SAB_address: '',
-    SAB_port: ''
-  }, function(items) {
+  SABChromeData(function(items) {
     if (items.SAB_status === true) {
       sabShowData();
 
@@ -57,4 +53,14 @@ function sabShowData() {
   $('#sabnzbd .status').append(localStorage.getItem('SabnzbdStatusHTML'));
   $('#sabnzbd .queue').append(localStorage.getItem('SabnzbdQueueHTML'));
   $('#sabnzbd .history').append(localStorage.getItem('SabnzbdHistoryHTML'));
+}
+
+function SABChromeData(callback) {
+  chrome.storage.sync.get({
+    SAB_address: '',
+    SAB_port: '',
+    SAB_key: '',
+    SAB_history: '',
+    SAB_status: ''
+  },callback);
 }

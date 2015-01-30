@@ -1,14 +1,8 @@
 // Docs:
 // http://wiki.sabnzbd.org/api
 
-
 function getSabnzbdHistory(callback) {
-  chrome.storage.sync.get({
-    SAB_address: '',
-    SAB_port: '',
-    SAB_key: '',
-    SAB_history: ''
-  }, function(items) {
+  SABChromeData(function(items) {
     var url = items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?";
     var historyMode = "mode=history&limit=" + items.SAB_history;
     var output = "&output=json";
@@ -36,12 +30,7 @@ function getSabnzbdHistory(callback) {
 }
 
 function getSabnzbdQueue(callback) {
-  chrome.storage.sync.get({
-    SAB_address: '',
-    SAB_port: '',
-    SAB_key: '',
-    SAB_history: ''
-  }, function(items) {
+  SABChromeData(function(items) {
     var url = items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?";
     var queueMode = "mode=queue";
     var output = "&output=json";
@@ -125,4 +114,14 @@ function sabHTML() {
 
     localStorage.setItem('SabnzbdHistoryHTML', history);
   }
+}
+
+function SABChromeData(callback) {
+  chrome.storage.sync.get({
+    SAB_address: '',
+    SAB_port: '',
+    SAB_key: '',
+    SAB_history: '',
+    SAB_status: ''
+  },callback);
 }

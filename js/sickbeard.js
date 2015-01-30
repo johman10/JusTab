@@ -1,12 +1,7 @@
 // Docs:
 // http://sickbeard.com/api
 
-chrome.storage.sync.get({
-  SB_status: '',
-  SB_address: '',
-  SB_port: '',
-  SB_key: ''
-}, function(items) {
+SBChromeData(function(items) {
   $(document).ready(function() {
     if (items.SB_status === true) {
       sbShowData();
@@ -76,12 +71,7 @@ chrome.storage.sync.get({
 });
 
 function sbShowData() {
-  chrome.storage.sync.get({
-    SB_status: '',
-    SB_address: '',
-    SB_port: '',
-    SB_key: ''
-  }, function(items) {
+  SBChromeData(function(items) {
     $('#sickbeard .sb_missed').empty();
     $('#sickbeard .sb_today').empty();
     $('#sickbeard .sb_soon').empty();
@@ -118,12 +108,7 @@ function sbShowData() {
 }
 
 function searchEpisode(clickedObject) {
-  chrome.storage.sync.get({
-    SB_status: '',
-    SB_address: '',
-    SB_port: '',
-    SB_key: ''
-  }, function(items) {
+  SBChromeData(function(items) {
     clickedObject.fadeOut(400, function() {
       clickedObject.next('paper-spinner').attr('active', true);
     });
@@ -153,12 +138,7 @@ function searchEpisode(clickedObject) {
 }
 
 function markEpisode(clickedObject) {
-  chrome.storage.sync.get({
-    SB_status: '',
-    SB_address: '',
-    SB_port: '',
-    SB_key: ''
-  }, function(items) {
+  SBChromeData(function(items) {
     var url = items.SB_address + ":" + items.SB_port  + "/api/" + items.SB_key;
     var markApiUrl = url + "/?cmd=episode.setstatus&tvdbid=" + clickedObject.data('tvdbid') + "&season=" + clickedObject.data('season') + "&episode=" + clickedObject.data('episode') + "&status=skipped";
 
@@ -178,4 +158,13 @@ function markEpisode(clickedObject) {
       }
     });
   });
+}
+
+function SBChromeData(callback) {
+  chrome.storage.sync.get({
+    SB_status: '',
+    SB_address: '',
+    SB_port: '',
+    SB_key: ''
+  }, callback);
 }

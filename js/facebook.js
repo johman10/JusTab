@@ -1,7 +1,5 @@
 $(document).ready(function() {
-  chrome.storage.sync.get({
-    FB_status: ''
-  }, function(items) {
+  FBChromeData(function(items) {
     if (items.FB_status === true) {
       fbShowData();
 
@@ -52,4 +50,11 @@ function fbShowData() {
       );
     });
   }
+}
+
+function FBChromeData(callback) {
+  chrome.storage.sync.get({
+    FB_status: '',
+    FB_url: ''
+  }, callback);
 }

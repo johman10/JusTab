@@ -1,8 +1,6 @@
 function getCalendarData(callback) {
   chrome.identity.getAuthToken({'interactive': true},function (token) {
-    chrome.storage.sync.get({
-      calendars: ''
-    }, function(items) {
+    GCChromeData(function(items) {
       var url = [];
       var encodedUrl;
       $.each(items.calendars, function(i) {
@@ -104,4 +102,11 @@ function calendarHTML() {
     localStorage.setItem('CalendarTodayHTML', todayHTML);
     localStorage.setItem('CalendarTomorrowHTML', tomorrowHTML);
   }
+}
+
+function GCChromeData(callback) {
+  chrome.storage.sync.get({
+    GC_status: '',
+    calendars: ''
+  }, callback);
 }

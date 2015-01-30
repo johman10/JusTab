@@ -2,11 +2,7 @@
 // http://sickbeard.com/api/
 
 function getSickBeardData(callback) {
-  chrome.storage.sync.get({
-    SB_address: '',
-    SB_port: '',
-    SB_key: ''
-  }, function(items) {
+  SBChromeData(function(items) {
     var url = items.SB_address + ":" + items.SB_port + "/";
     var apiKey = "api/" + items.SB_key + "/";
     var apiCall = "?cmd=future&sort=date&type=today|missed|soon|later";
@@ -34,11 +30,7 @@ function getSickBeardData(callback) {
 }
 
 function sbHTML() {
-  chrome.storage.sync.get({
-    SB_address: '',
-    SB_port: '',
-    SB_key: ''
-  }, function(items) {
+  SBChromeData(function(items) {
     var url = items.SB_address + ":" + items.SB_port  + "/api/" + items.SB_key;
 
     if (localStorage.Sickbeard) {
@@ -80,11 +72,7 @@ function sbHTML() {
 }
 
 function listSeries(query, HTML, storageName) {
-  chrome.storage.sync.get({
-    SB_address: '',
-    SB_port: '',
-    SB_key: ''
-  }, function(items) {
+  SBChromeData(function(items) {
     $.each(query, function(i, episodeData) {
       var tvdbid = episodeData.tvdbid,
           season = episodeData.season,
@@ -139,4 +127,13 @@ function listSeries(query, HTML, storageName) {
 
     localStorage.setItem(storageName, HTML);
   });
+}
+
+function SBChromeData(callback) {
+  chrome.storage.sync.get({
+    SB_status: '',
+    SB_address: '',
+    SB_port: '',
+    SB_key: ''
+  }, callback);
 }

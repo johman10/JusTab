@@ -2,11 +2,7 @@
 // http://nas.pxdesign.nl:5050/docs
 
 function getWantedCouchPotato(callback) {
-  chrome.storage.sync.get({
-    CP_address: '',
-    CP_port: '',
-    CP_key: ''
-  }, function(items) {
+  CPChromeData(function(items) {
     var url = items.CP_address + ":" + items.CP_port + "/";
     var apiKey = "api/" + items.CP_key + "/";
     var apiCall = "movie.list/?status=active";
@@ -33,11 +29,7 @@ function getWantedCouchPotato(callback) {
 }
 
 function getSnatchedCouchPotato(callback) {
-  chrome.storage.sync.get({
-    CP_address: '',
-    CP_port: '',
-    CP_key: ''
-  }, function(items) {
+  CPChromeData(function(items) {
     var url = items.CP_address + ":" + items.CP_port + "/";
     var apiKey = "api/" + items.CP_key + "/";
     var apiCall = "movie.list/?release_status=snatched,downloaded,available";
@@ -66,11 +58,7 @@ function getSnatchedCouchPotato(callback) {
 }
 
 function cpHTML() {
-  chrome.storage.sync.get({
-    CP_address: '',
-    CP_port: '',
-    CP_key: ''
-  }, function(items) {
+  CPChromeData(function(items) {
     var CouchpotatoSnatchedHTML = '<h2>Snatched and Available</h2>';
     var CouchpotatoWantedHTML = '<h2>Wanted</h2>';
 
@@ -129,4 +117,13 @@ function cpCreateVar(movie, cpVar) {
     '</core-collapse>';
 
   return cpVar;
+}
+
+function CPChromeData(callback) {
+  chrome.storage.sync.get({
+    CP_status: '',
+    CP_address: '',
+    CP_port: '',
+    CP_key: ''
+  }, callback);
 }

@@ -1,7 +1,5 @@
 function getFacebookData(callback) {
-  chrome.storage.sync.get({
-    FB_url: ''
-  }, function(items) {
+  FBChromeData(function(items) {
     var url = items.FB_url;
 
     $.when($.ajax({

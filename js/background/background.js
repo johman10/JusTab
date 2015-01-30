@@ -45,20 +45,10 @@ chrome.storage.sync.get({
   });
 
   chrome.alarms.onAlarm.addListener(function(alarm) {
-    var alarmFunctions = {
-      'googleCalendar': getCalendarData,
-      'gmail': getGmailData,
-      'facebook': getFacebookData,
-      'couchPotatoWanted': getWantedCouchPotato,
-      'couchPotatoSnatched': getSnatchedCouchPotato,
-      'sickBeard': getSickBeardData,
-      'sabnzbdQueue': getSabnzbdQueue,
-      'sabnzbdHistory': getSabnzbdHistory,
-      'designerNews': getDesignerNewsData
-    };
-
-    if (alarmFunctions[alarm.name]) {
-      alarmFunctions[alarm.name]();
-    }
+    $.each(serviceData, function(index, val) {
+      if (val.alarmName == alarm.name) {
+        val.functionName();
+      }
+    });
   });
 });

@@ -3,11 +3,7 @@
 
 // "media.list" lists all movies, "movie.status" returns the status of the movie
 $(document).ready(function() {
-  chrome.storage.sync.get({
-    CP_status: '',
-    CP_address: '',
-    CP_port: ''
-  }, function(items) {
+  CPChromeData(function(items) {
     if (items.CP_status === true) {
       cpShowData();
 
@@ -103,11 +99,7 @@ function cpShowData() {
 function searchMovie(clickedObject) {
   var movieId = clickedObject.attr('id');
 
-  chrome.storage.sync.get({
-    CP_key: '',
-    CP_address: '',
-    CP_port: ''
-  }, function(items) {
+  CPChromeData(function(items) {
     var url = items.CP_address + ":" + items.CP_port  + "/api/" + items.CP_key;
     var searchApiUrl = url + "/movie.refresh/?id=" + movieId;
 
@@ -125,4 +117,13 @@ function searchMovie(clickedObject) {
       }
     });
   });
+}
+
+function CPChromeData(callback) {
+  chrome.storage.sync.get({
+    CP_status: '',
+    CP_address: '',
+    CP_port: '',
+    CP_key: ''
+  }, callback);
 }

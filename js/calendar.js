@@ -1,7 +1,5 @@
 $(document).ready(function() {
-  chrome.storage.sync.get({
-    GC_status: ''
-  }, function(items) {
+  GCChromeData(function(items) {
     if (items.GC_status === true) {
       calenderShowEvents();
 
@@ -85,4 +83,11 @@ function calenderShowEvents() {
       $('#calendar .tomorrow').append('<core-item label="There are no events in your calendar for tomorrow."></core-item>');
     }
   }
+}
+
+function GCChromeData(callback) {
+  chrome.storage.sync.get({
+    GC_status: '',
+    calendars: ''
+  }, callback);
 }

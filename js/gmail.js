@@ -1,7 +1,5 @@
 $(document).ready(function() {
-  chrome.storage.sync.get({
-    GM_status: ''
-  }, function(items) {
+  GMChromeData(function(items) {
     if (items.GM_status === true) {
       GmailShowData();
 
@@ -63,4 +61,10 @@ function gmailCheckScroll(e) {
   if (elem[0].scroller.scrollHeight - elem[0].scroller.scrollTop == elem.outerHeight()) {
     console.log(nextPage);
   }
+}
+
+function GMChromeData(callback) {
+  chrome.storage.sync.get({
+    GM_status: ''
+  }, callback);
 }
