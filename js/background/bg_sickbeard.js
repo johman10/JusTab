@@ -130,6 +130,7 @@ function listSeries(query, HTML, storageName) {
               "<a class='sb_tvdb_link' href='http://thetvdb.com/?tab=series&id=" + tvdbid + "' target='_blank'>" +
                 "<paper-icon-button class='sb_tvdb_link_icon' icon='info-outline'></paper-icon-button>" +
               "</a>" +
+              "<paper-icon-button class='sb_mark_episode' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "' icon='done'>Mark Done</paper-icon-button>" +
               "</div>" +
           "</core-item>" +
         "</core-collapse>"

@@ -69,6 +69,10 @@ chrome.storage.sync.get({
   $("body").on('click', ".sb_search_episode", function(event) {
     searchEpisode($(this));
   });
+
+  $("body").on('click', ".sb_mark_episode", function(event) {
+    markEpisode($(this));
+  });
 });
 
 function sbShowData() {
@@ -140,6 +144,34 @@ function searchEpisode(clickedObject) {
         setTimeout(function() {
           clickedObject.show();
         }, 400);
+      },
+      error: function() {
+        console.log("error");
+      }
+    });
+  });
+}
+
+function markEpisode(clickedObject) {
+  chrome.storage.sync.get({
+    SB_status: '',
+    SB_address: '',
+    SB_port: '',
+    SB_key: ''
+  }, function(items) {
+    var url = items.SB_address + ":" + items.SB_port  + "/api/" + items.SB_key;
+    var markApiUrl = url + "/?cmd=episode.setstatus&tvdbid=" + clickedObject.data('tvdbid') + "&season=" + clickedObject.data('season') + "&episode=" + clickedObject.data('episode') + "&status=skipped";
+
+    $.ajax({
+      url: markApiUrl,
+      success: function(data) {
+        console.log(data);
+        if (data.result == "failure") {
+          clickedObject.attr('icon', 'error');
+          clickedObject.attr('title', data.message);
+        } else {
+          clickedObject.attr('icon', 'done-all');
+        }
       },
       error: function() {
         console.log("error");
