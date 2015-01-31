@@ -24,3 +24,10 @@ function getFacebookData(callback) {
     });
   });
 }
+
+function FBChromeData(callback) {
+  chrome.storage.sync.get({
+    FB_status: '',
+    FB_url: ''
+  }, callback);
+}

@@ -1,7 +1,7 @@
 $(document).ready(function() {
   GCChromeData(function(items) {
     if (items.GC_status === true) {
-      calenderShowEvents();
+      window[serviceData.GC.feFunctionName]();
 
       $('.refresh_calendar').click(function() {
         if ($('#calendar .error:visible')) {
@@ -10,7 +10,7 @@ $(document).ready(function() {
         $('.refresh_calendar').fadeOut(400, function() {
           $('.loading_calendar').attr('active', true);
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getCalendarData(function() {
+            window[backgroundPage.serviceData.bgFunctionName](function() {
               $('.loading_calendar').attr('active', false);
               setTimeout(function() {
                 $('.refresh_calendar').fadeIn(400);
@@ -61,7 +61,7 @@ function calenderShowEvents() {
   $('#calendar .today').empty();
   $('#calendar .tomorrow').empty();
 
-  var events = JSON.parse(localStorage.getItem('Calendar'));
+  var events = serviceData.GC.JSON;
   var error = localStorage.getItem('Calendar_error');
 
   if (error == "true") {
@@ -71,9 +71,9 @@ function calenderShowEvents() {
     $('#calendar .error').slideUp('slow');
   }
 
-  if (localStorage.CalendarTodayHTML && localStorage.CalendarTomorrowHTML) {
-    $('#calendar .today').append(localStorage.getItem('CalendarTodayHTML'));
-    $('#calendar .tomorrow').append(localStorage.getItem('CalendarTomorrowHTML'));
+  if (serviceData.GC.TodayHTML && serviceData.GC.TomorrowHTML) {
+    $('#calendar .today').append(serviceData.GC.TodayHTML);
+    $('#calendar .tomorrow').append(serviceData.GC.TomorrowHTML);
 
     if ($('#calendar .today core-item').length < 1) {
       $('#calendar .today').append('<core-item label="There are no events in your calendar for today."></core-item>');
