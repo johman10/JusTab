@@ -60,11 +60,11 @@ $("html").on('click', ".sb_item", function(event) {
   }
 });
 
-$("body").on('click', ".sb_search_episode", function(event) {
+$("html").on('click', ".sb_search_episode", function(event) {
   searchEpisode($(this));
 });
 
-$("body").on('click', ".sb_mark_episode", function(event) {
+$("html").on('click', ".sb_mark_episode", function(event) {
   markEpisode($(this));
 });
 
