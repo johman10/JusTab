@@ -1,35 +1,33 @@
 function getFacebookData(callback) {
-  FBChromeData(function(items) {
-    var url = items.FB_url;
+  var url = serviceData.FB.url;
 
-    $.when($.ajax({
-      type: "GET",
-      url: url,
-      dataType: 'xml',
-      contentType: 'application/rss+xml',
-      async: false,
-      timeout: 3000,
-      success: function(xml) {
-        localStorage.setItem("Facebook_error", false);
-        localStorage.setItem("Facebook", (new XMLSerializer()).serializeToString(xml));
-      },
-      error: function(xhr, ajaxOptions, thrownError) {
-        console.log(xhr, ajaxOptions, thrownError);
-        localStorage.setItem("Facebook_error", true);
-      }
-    })).then(function() {
-      FBHTML();
+  $.when($.ajax({
+    type: "GET",
+    url: url,
+    dataType: 'xml',
+    contentType: 'application/rss+xml',
+    async: false,
+    timeout: 3000,
+    success: function(xml) {
+      localStorage.setItem("Facebook_error", false);
+      localStorage.setItem("Facebook", (new XMLSerializer()).serializeToString(xml));
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      console.log(xhr, ajaxOptions, thrownError);
+      localStorage.setItem("Facebook_error", true);
+    }
+  })).then(function() {
+    FBHTML();
 
-      if (callback) {
-        callback();
-      }
-    });
+    if (callback) {
+      callback();
+    }
   });
 }
 
 function FBHTML() {
-  if (localStorage.Facebook) {
-    data = $.parseXML(localStorage.getItem('Facebook'));
+  if (serviceData.FB.JSON) {
+    data = serviceData.FB.JSON;
     var FacebookHTML = '';
 
     $(data).find('item').each(function(){
@@ -41,11 +39,4 @@ function FBHTML() {
 
     localStorage.setItem('FacebookHTML', FacebookHTML);
   }
-}
-
-function FBChromeData(callback) {
-  chrome.storage.sync.get({
-    FB_status: '',
-    FB_url: ''
-  }, callback);
 }

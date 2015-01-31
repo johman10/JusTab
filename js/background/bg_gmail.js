@@ -59,7 +59,7 @@ function getMailContent(token, Id, messages, email) {
 }
 
 function GmailHTML() {
-  var data = JSON.parse(localStorage.getItem('Gmail'));
+  var data = serviceData.GM.JSON;
   var messageSubject, messageFrom, messageDate, messageSnippet;
   var GmailUnreadHTML = '<h2>Unread</h2>';
   var GmailReadHTML = '<h2>Read</h2>';

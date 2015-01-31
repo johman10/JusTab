@@ -1,7 +1,6 @@
 var serviceDataDone = $.Deferred();
 
 chrome.storage.sync.get(function(items) {
-  console.log(items);
   serviceData = {
     "GC": {
       "error": localStorage.getItem('Calendar_error'),
