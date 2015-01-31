@@ -1,30 +1,28 @@
-$(document).ready(function() {
-  GCChromeData(function(items) {
-    if (items.GC_status === true) {
-      window[serviceData.GC.feFunctionName]();
+serviceDataDone.done(function() {
+  if (serviceData.GC.status) {
+    window[serviceData.GC.feFunctionName]();
 
-      $('.refresh_calendar').click(function() {
-        if ($('#calendar .error:visible')) {
-          $('#calendar .error:visible').slideUp(400);
-        }
-        $('.refresh_calendar').fadeOut(400, function() {
-          $('.loading_calendar').attr('active', true);
-          chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            window[backgroundPage.serviceData.bgFunctionName](function() {
-              $('.loading_calendar').attr('active', false);
-              setTimeout(function() {
-                $('.refresh_calendar').fadeIn(400);
-              }, 400);
-            });
+    $('.refresh_calendar').click(function() {
+      if ($('#calendar .error:visible')) {
+        $('#calendar .error:visible').slideUp(400);
+      }
+      $('.refresh_calendar').fadeOut(400, function() {
+        $('.loading_calendar').attr('active', true);
+        chrome.runtime.getBackgroundPage(function(backgroundPage) {
+          backgroundPage.getCalendarData(function() {
+            $('.loading_calendar').attr('active', false);
+            setTimeout(function() {
+              $('.refresh_calendar').fadeIn(400);
+            }, 400);
           });
         });
       });
+    });
 
-      $('#calendar, .calendar_info').show();
-      $('body').width($('body').width() + $('#calendar').width());
-      $('.bottom_bar_container').width($('.panel_container').width());
-    }
-  });
+    $('#calendar, .calendar_info').show();
+    $('body').width($('body').width() + $('#calendar').width());
+    $('.bottom_bar_container').width($('.panel_container').width());
+  }
 });
 
 $('html').on('click', '.gc_item', function(event) {
@@ -62,7 +60,7 @@ function calenderShowEvents() {
   $('#calendar .tomorrow').empty();
 
   var events = serviceData.GC.JSON;
-  var error = localStorage.getItem('Calendar_error');
+  var error = serviceData.GC.error;
 
   if (error == "true") {
     $('#calendar .error').slideDown('slow');
@@ -83,11 +81,4 @@ function calenderShowEvents() {
       $('#calendar .tomorrow').append('<core-item label="There are no events in your calendar for tomorrow."></core-item>');
     }
   }
-}
-
-function GCChromeData(callback) {
-  chrome.storage.sync.get({
-    GC_status: '',
-    calendars: ''
-  }, callback);
 }

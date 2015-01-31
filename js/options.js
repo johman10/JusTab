@@ -50,10 +50,10 @@ function save_options() {
     }
   });
 
-  formatUrl('FB_url');
-  formatUrl('CP_address');
-  formatUrl('SB_address');
-  formatUrl('SAB_address');
+  FB_url = formatUrl('FB_url');
+  CP_address = formatUrl('CP_address');
+  SB_address = formatUrl('SB_address');
+  SAB_address = formatUrl('SAB_address');
 
   chrome.storage.sync.set({
     GC_status: $('paper-toggle-button[name=GC_status]').attr('aria-pressed') == "true" ? true : false,
@@ -62,20 +62,20 @@ function save_options() {
     GM_status: $('paper-toggle-button[name=GM_status]').attr('aria-pressed') == "true" ? true : false,
     GM_refresh: $('#GM_refresh').val(),
     FB_status: $('paper-toggle-button[name=FB_status]').attr('aria-pressed') == "true" ? true : false,
-    FB_url: FB_url.var,
+    FB_url: FB_url,
     FB_refresh: $('#FB_refresh').val(),
     CP_status: $('paper-toggle-button[name=CP_status]').attr('aria-pressed') == "true" ? true : false,
-    CP_address: CP_address.var,
+    CP_address: CP_address,
     CP_port: $('#CP_port').val(),
     CP_key: $('#CP_key').val(),
     CP_refresh: $('#CP_refresh').val(),
     SB_status: $('paper-toggle-button[name=SB_status]').attr('aria-pressed') == "true" ? true : false,
-    SB_address: SB_address.var,
+    SB_address: SB_address,
     SB_port: $('#SB_port').val(),
     SB_key: $('#SB_key').val(),
     SB_refresh: $('#SB_refresh').val(),
     SAB_status: $('paper-toggle-button[name=SAB_status]').attr('aria-pressed') == "true" ? true : false,
-    SAB_address: SAB_address.var,
+    SAB_address: SAB_address,
     SAB_port: $('#SAB_port').val(),
     SAB_key: $('#SAB_key').val(),
     SAB_history: $('#SAB_history').val(),
@@ -182,10 +182,10 @@ function restore_options() {
 }
 
 function formatUrl(fieldname) {
-  if ($('#' + fieldname).val().slice(0,8) == "https://") {
-    fieldname.var = $('#' + fieldname).val();
+  if ($('#' + fieldname).val().slice(0,8) == "https://" || $('#' + fieldname).val().slice(0,7) == "http://") {
+    return $('#' + fieldname).val();
   }
   else {
-    fieldname.var = "http://" + $('#' + fieldname).val();
+    return "http://" + $('#' + fieldname).val();
   }
 }

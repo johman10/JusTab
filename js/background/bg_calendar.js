@@ -1,14 +1,12 @@
 function getCalendarData(callback) {
   chrome.identity.getAuthToken({'interactive': true},function (token) {
-    GCChromeData(function(items) {
-      var url = [];
-      var encodedUrl;
-      $.each(items.calendars, function(i) {
-        encodedUrl = encodeURIComponent(items.calendars[i]);
-        url.push("https://www.googleapis.com/calendar/v3/calendars/" + encodedUrl + "/events");
-      });
-      eventArray(url, token, callback);
+    var url = [];
+    var encodedUrl;
+    $.each(serviceData.GC.calendars, function(i, val) {
+      encodedUrl = encodeURIComponent(val);
+      url.push("https://www.googleapis.com/calendar/v3/calendars/" + encodedUrl + "/events");
     });
+    eventArray(url, token, callback);
   });
 }
 
@@ -46,9 +44,9 @@ function eventArray(url, token, callback) {
 }
 
 function calendarHTML() {
-  var events = JSON.parse(localStorage.getItem('Calendar'));
+  var events = serviceData.GC.JSON;
 
-  if (localStorage.Calendar) {
+  if (serviceData.GC.status) {
     var today = moment();
 
     var todayHTML = "<h2>Today</h2>";
@@ -102,11 +100,4 @@ function calendarHTML() {
     localStorage.setItem('CalendarTodayHTML', todayHTML);
     localStorage.setItem('CalendarTomorrowHTML', tomorrowHTML);
   }
-}
-
-function GCChromeData(callback) {
-  chrome.storage.sync.get({
-    GC_status: '',
-    calendars: ''
-  }, callback);
 }

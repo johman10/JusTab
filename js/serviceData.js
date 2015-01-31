@@ -1,4 +1,7 @@
+var serviceDataDone = $.Deferred();
+
 chrome.storage.sync.get(function(items) {
+  console.log(items);
   serviceData = {
     "GC": {
       "error": localStorage.getItem('Calendar_error'),
@@ -9,7 +12,8 @@ chrome.storage.sync.get(function(items) {
       "feFunctionName": 'calenderShowEvents',
       "JSON": JSON.parse(localStorage.getItem('Calendar')),
       "TodayHTML": localStorage.getItem('CalendarTodayHTML'),
-      "TomorrowHTML": localStorage.getItem('CalendarTomorrowHTML')
+      "TomorrowHTML": localStorage.getItem('CalendarTomorrowHTML'),
+      "calendars": items.calendars
     },
     "GM": {
       "error": localStorage.getItem('Gmail_error'),
@@ -110,4 +114,6 @@ chrome.storage.sync.get(function(items) {
       "upvotes": localStorage.getItem('DesignernewsUpvotes')
     }
   };
+
+  serviceDataDone.resolve();
 });
