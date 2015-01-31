@@ -16,6 +16,7 @@
   }
 
   a {
+    @include text-truncate;
     color: $black;
     text-decoration: none;
     padding: 0 16px;
