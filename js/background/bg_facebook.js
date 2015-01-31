@@ -18,11 +18,29 @@ function getFacebookData(callback) {
         localStorage.setItem("Facebook_error", true);
       }
     })).then(function() {
+      FBHTML();
+
       if (callback) {
         callback();
       }
     });
   });
+}
+
+function FBHTML() {
+  if (localStorage.Facebook) {
+    data = $.parseXML(localStorage.getItem('Facebook'));
+    var FacebookHTML = '';
+
+    $(data).find('item').each(function(){
+      var title = $(this).find('title').text();
+      var link = $(this).find('link').text();
+
+      FacebookHTML += '<core-item><a href="' + link + '" target="_blank" fit>' + title + '<paper-ripple fit></paper-ripple></a></core-item>';
+    });
+
+    localStorage.setItem('FacebookHTML', FacebookHTML);
+  }
 }
 
 function FBChromeData(callback) {
