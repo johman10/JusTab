@@ -46,7 +46,8 @@ chrome.storage.sync.get(function(items) {
       "feFunctionName": 'cpShowData',
       "JSON": JSON.parse(localStorage.getItem('CouchpotatoSnatched')),
       "HTML": localStorage.getItem('couchpotatoSnatchedHTML'),
-      "url": items.CP_address + ":" + items.CP_port + "/api/" + items.CP_key + "/"
+      "apiUrl": items.CP_address + ":" + items.CP_port + "/api/" + items.CP_key + "/",
+      "url": items.CP_address + ":" + items.CP_port
     },
     "CPW": {
       "error": localStorage.getItem('CouchpotatoWanted_error'),
@@ -57,7 +58,8 @@ chrome.storage.sync.get(function(items) {
       "feFunctionName": 'cpShowData',
       "JSON": JSON.parse(localStorage.getItem('CouchpotatoWanted')),
       "HTML": localStorage.getItem('CouchpotatoWantedHTML'),
-      "url": items.CP_address + ":" + items.CP_port + "/api/" + items.CP_key + "/",
+      "apiUrl": items.CP_address + ":" + items.CP_port + "/api/" + items.CP_key + "/",
+      "url": items.CP_address + ":" + items.CP_port
     },
     "SB": {
       "error": localStorage.getItem('Sickbeard_error'),
@@ -71,7 +73,8 @@ chrome.storage.sync.get(function(items) {
       "TodayHTML": localStorage.getItem('SickbeardTodayHTML'),
       "SoonHTML": localStorage.getItem('SickbeardSoonHTML'),
       "LaterHTML": localStorage.getItem('SickbeardLaterHTML'),
-      "url": items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/"
+      "apiUrl": items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/",
+      "url": items.SB_address + ":" + items.SB_port
     },
     "SABQ": {
       "error": localStorage.getItem('SabnzbdQueue_error'),
@@ -82,7 +85,8 @@ chrome.storage.sync.get(function(items) {
       "feFunctionName": 'sabShowData',
       "JSON": JSON.parse(localStorage.getItem('SabnzbdQueue')),
       "HTML": localStorage.getItem('SabnzbdQueueHTML'),
-      "url": items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?apikey=" + items.SAB_key,
+      "url": items.SAB_address + ":" + items.SAB_port,
+      "apiUrl": items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?apikey=" + items.SAB_key,
       "downloadStatus": localStorage.getItem('SabnzbdStatusHTML')
     },
     "SABH": {
@@ -94,7 +98,8 @@ chrome.storage.sync.get(function(items) {
       "feFunctionName": 'sabShowData',
       "JSON": JSON.parse(localStorage.getItem('SabnzbdHistory')),
       "HTML": localStorage.getItem('SabnzbdHistoryHTML'),
-      "url": items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?apikey=" + items.SAB_key,
+      "url": items.SAB_address + ":" + items.SAB_port,
+      "apiUrl": items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?apikey=" + items.SAB_key,
       "length": items.SAB_history
     },
     "DN": {

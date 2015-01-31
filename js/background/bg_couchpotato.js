@@ -2,80 +2,72 @@
 // http://nas.pxdesign.nl:5050/docs
 
 function getWantedCouchPotato(callback) {
-  CPChromeData(function(items) {
-    var url = items.CP_address + ":" + items.CP_port + "/";
-    var apiKey = "api/" + items.CP_key + "/";
-    var apiCall = "movie.list/?status=active";
+  var url = serviceData.CPW.apiUrl;
+  var apiCall = "movie.list/?status=active";
 
-    $.when($.ajax({
-      url: url + apiKey + apiCall,
-      dataType: 'json',
-      async: false,
-      timeout: 3000,
-      success: function(data) {
-        localStorage.setItem("CouchpotatoWanted_error", false);
-        localStorage.setItem("CouchpotatoWanted", JSON.stringify(data));
-      },
-      error: function(xhr, ajaxOptions, thrownError) {
-        console.log(xhr, ajaxOptions, thrownError);
-        localStorage.setItem("CouchpotatoWanted_error", true);
-      }
-    })).then(function() {
-      if (callback) {
-        callback();
-      }
-    });
+  $.when($.ajax({
+    url: url + apiCall,
+    dataType: 'json',
+    async: false,
+    timeout: 3000,
+    success: function(data) {
+      localStorage.setItem("CouchpotatoWanted_error", false);
+      localStorage.setItem("CouchpotatoWanted", JSON.stringify(data));
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      console.log(xhr, ajaxOptions, thrownError);
+      localStorage.setItem("CouchpotatoWanted_error", true);
+    }
+  })).then(function() {
+    if (callback) {
+      callback();
+    }
   });
 }
 
 function getSnatchedCouchPotato(callback) {
-  CPChromeData(function(items) {
-    var url = items.CP_address + ":" + items.CP_port + "/";
-    var apiKey = "api/" + items.CP_key + "/";
-    var apiCall = "movie.list/?release_status=snatched,downloaded,available";
+  var url = serviceData.CPS.apiUrl;
+  var apiCall = "movie.list/?release_status=snatched,downloaded,available";
 
-    $.when($.ajax({
-      url: url + apiKey + apiCall,
-      dataType: 'json',
-      async: false,
-      timeout: 3000,
-      success: function(data) {
-        localStorage.setItem("CouchpotatoSnatched_error", false);
-        localStorage.setItem("CouchpotatoSnatched", JSON.stringify(data));
-      },
-      error: function(xhr, ajaxOptions, thrownError) {
-        console.log(xhr, ajaxOptions, thrownError);
-        localStorage.setItem("CouchpotatoSnatched_error", true);
-      }
-    })).then(function() {
-      cpHTML();
+  $.when($.ajax({
+    url: url + apiCall,
+    dataType: 'json',
+    async: false,
+    timeout: 3000,
+    success: function(data) {
+      localStorage.setItem("CouchpotatoSnatched_error", false);
+      localStorage.setItem("CouchpotatoSnatched", JSON.stringify(data));
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      console.log(xhr, ajaxOptions, thrownError);
+      localStorage.setItem("CouchpotatoSnatched_error", true);
+    }
+  })).then(function() {
+    cpHTML();
 
-      if (callback) {
-        callback();
-      }
-    });
+    if (callback) {
+      callback();
+    }
   });
 }
 
 function cpHTML() {
-  CPChromeData(function(items) {
-    var CouchpotatoSnatchedHTML = '<h2>Snatched and Available</h2>';
-    var CouchpotatoWantedHTML = '<h2>Wanted</h2>';
+  var CouchpotatoSnatchedHTML = '<h2>Snatched and Available</h2>';
+  var CouchpotatoWantedHTML = '<h2>Wanted</h2>';
 
-    snatchedData = JSON.parse(localStorage.getItem('CouchpotatoSnatched'));
-    wantedData = JSON.parse(localStorage.getItem('CouchpotatoWanted'));
+  snatchedData = serviceData.CPS.JSON;
+  wantedData = serviceData.CPW.JSON;
 
-    $.each(snatchedData.movies, function(i, movie) {
-      CouchpotatoSnatchedHTML = cpCreateVar(movie, CouchpotatoSnatchedHTML);
-    });
-
-    $.each(wantedData.movies, function(i, movie) {
-      CouchpotatoWantedHTML = cpCreateVar(movie, CouchpotatoWantedHTML);
-    });
-
-    localStorage.setItem('CouchpotatoSnatchedHTML', CouchpotatoSnatchedHTML);
-    localStorage.setItem('CouchpotatoWantedHTML', CouchpotatoWantedHTML);
+  $.each(snatchedData.movies, function(i, movie) {
+    CouchpotatoSnatchedHTML = cpCreateVar(movie, CouchpotatoSnatchedHTML);
   });
+
+  $.each(wantedData.movies, function(i, movie) {
+    CouchpotatoWantedHTML = cpCreateVar(movie, CouchpotatoWantedHTML);
+  });
+
+  localStorage.setItem('CouchpotatoSnatchedHTML', CouchpotatoSnatchedHTML);
+  localStorage.setItem('CouchpotatoWantedHTML', CouchpotatoWantedHTML);
 }
 
 function cpCreateVar(movie, cpVar) {
@@ -117,13 +109,4 @@ function cpCreateVar(movie, cpVar) {
     '</core-collapse>';
 
   return cpVar;
-}
-
-function CPChromeData(callback) {
-  chrome.storage.sync.get({
-    CP_status: '',
-    CP_address: '',
-    CP_port: '',
-    CP_key: ''
-  }, callback);
 }
