@@ -45,7 +45,7 @@ chrome.storage.sync.get(function(items) {
       "bgFunctionName": 'getSnatchedCouchPotato',
       "feFunctionName": 'cpShowData',
       "JSON": JSON.parse(localStorage.getItem('CouchpotatoSnatched')),
-      "HTML": localStorage.getItem('couchpotatoSnatchedHTML'),
+      "HTML": localStorage.getItem('CouchpotatoSnatchedHTML'),
       "apiUrl": items.CP_address + ":" + items.CP_port + "/api/" + items.CP_key + "/",
       "url": items.CP_address + ":" + items.CP_port
     },

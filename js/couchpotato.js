@@ -79,7 +79,7 @@ function cpShowData() {
     $('#couchpotato .error').slideUp('slow');
   }
 
-  // if (serviceData.CPW.HTML && serviceData.CPS.HTML) {
+  if (serviceData.CPW.HTML && serviceData.CPS.HTML) {
     $('.snatched').append(serviceData.CPS.HTML);
     $('.wanted').append(serviceData.CPW.HTML);
 
@@ -91,7 +91,7 @@ function cpShowData() {
     if ($('.wanted core-item').length === 0) {
       $('.wanted').append("<core-item label='No wanted movies at this moment.'></core-item>");
     }
-  // }
+  }
 }
 
 function searchMovie(clickedObject) {
