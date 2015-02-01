@@ -16,13 +16,42 @@
     padding: 0 16px;
   }
 
-  core-item::shadow #label {
+  core-item::shadow #label,
+  .sab_item_name,
+  .sab_item_error {
     @include text-truncate;
   }
+}
+
+.history {
+  padding-bottom: 50px;
+}
+
+.sab_item_container {
+  height: 72px;
+}
+
+.sab_item_name {
+  position: absolute;
+  top: 0;
+  padding-top: 17px;
+
+}
+
+.sab_item_error {
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 17px;
+  color: $grey;
 }
 
 .sab_time {
   right: 16px;
   position: absolute;
   line-height: 40px;
+}
+
+.sabnzbd_info {
+  line-height: 50px;
+  background-color: $panel-background;
 }
