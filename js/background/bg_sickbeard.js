@@ -73,9 +73,21 @@ function listSeries(query, HTML, storageName) {
         episode = episodeData.episode,
         airdate = episodeData.airdate,
         showname = episodeData.show_name,
-        date;
+        date, posterUrl;
 
-    posterUrl = serviceData.SB.apiUrl + "/?cmd=show.getposter&tvdbid=" + tvdbid;
+    $.ajax({
+      url:'http://thetvdb.com/banners/posters/' + tvdbid + '-1.jpg',
+      type:'HEAD',
+      async: false,
+      error: function()
+      {
+        posterUrl = 'img/poster_fallback.png';
+      },
+      success: function()
+      {
+        posterUrl = 'http://thetvdb.com/banners/posters/' + tvdbid + '-1.jpg';
+      }
+    });
 
     if (moment(airdate).isSame(moment(), 'day')) {
       date = 'Today';
