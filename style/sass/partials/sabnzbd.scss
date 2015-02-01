@@ -16,9 +16,9 @@
     padding: 0 16px;
   }
 
-  core-item::shadow #label,
   .sab_item_name,
   .sab_item_error {
+    width: 368px;
     @include text-truncate;
   }
 }
