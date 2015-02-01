@@ -51,7 +51,11 @@ $(document).ready(function() {
     };
 
     if (storageFunctions[e.originalEvent.key]) {
-      storageFunctions[e.originalEvent.key]();
+        serviceDataFunction();
+
+        serviceDataDone.done(function() {
+          storageFunctions[e.originalEvent.key]();
+        });
     }
   });
 });
