@@ -23,7 +23,7 @@ function getDesignerNewsData(callback) {
     $.ajax({
       url: 'https://api-news.layervault.com/api/v2/me?include=upvotes',
       beforeSend: function (xhr) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('DesignernewsAuth'));
+        xhr.setRequestHeader('Authorization', 'Bearer ' + serviceData.DN.token);
       },
       type: 'GET',
       success: function(data){
@@ -49,9 +49,9 @@ function getDesignerNewsData(callback) {
 }
 
 function dnHTML() {
-  if (localStorage.Designernews) {
-    data = JSON.parse(localStorage.getItem('Designernews'));
-    upvotes = localStorage.getItem('DesignernewsUpvotes');
+  if (serviceData.DN.JSON) {
+    data = serviceData.DN.JSON;
+    upvotes = serviceData.DN.upvotes;
     var dn_links = '';
 
     $.each(data.stories, function(i, story) {

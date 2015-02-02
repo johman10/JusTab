@@ -1,46 +1,42 @@
 // Docs:
 // http://developers.news.layervault.com/
 
-$(document).ready(function() {
-  chrome.storage.sync.get({
-    DN_status: ''
-  }, function(items) {
-    if (items.DN_status === true) {
-      dnShowData();
+serviceDataDone.done(function() {
+  if (serviceData.DN.status) {
+    window[serviceData.DN.feFunctionName]();
 
-      $('.refresh_dn').click(function() {
-        if ($('#designernews .error:visible')) {
-          $('#designernews .error:visible').slideUp(400);
-        }
-        $('.refresh_dn').fadeOut(400, function() {
-          $('.loading_dn').attr('active', true);
-          chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getDesignerNewsData(function() {
-              $('.loading_dn').attr('active', false);
-              setTimeout(function() {
-                $('.refresh_dn').fadeIn(400);
-              }, 400);
-            });
+    $('.refresh_dn').click(function() {
+      if ($('#designernews .error:visible')) {
+        $('#designernews .error:visible').slideUp(400);
+      }
+      $('.refresh_dn').fadeOut(400, function() {
+        $('.loading_dn').attr('active', true);
+        chrome.runtime.getBackgroundPage(function(backgroundPage) {
+          backgroundPage.getDesignerNewsData(function() {
+            $('.loading_dn').attr('active', false);
+            setTimeout(function() {
+              $('.refresh_dn').fadeIn(400);
+            }, 400);
           });
         });
       });
+    });
 
-      $('#designernews core-toolbar a').attr('href', 'http://news.layervault.com');
+    $('#designernews core-toolbar a').attr('href', 'http://news.layervault.com');
 
-      $('#designernews, .designernews_info').show();
-      $('body').width($('body').width() + $('#designernews').width());
-      $('.bottom_bar_container').width($('.panel_container').width());
+    $('#designernews, .designernews_info').show();
+    $('body').width($('body').width() + $('#designernews').width());
+    $('.bottom_bar_container').width($('.panel_container').width());
 
-      $('html').on('click', '.dn_upvote', function(event) {
-        dnUpvote($(this));
-      });
-    }
-  });
+    $('html').on('click', '.dn_upvote', function(event) {
+      dnUpvote($(this));
+    });
+  }
 });
 
 function dnShowData() {
   $('.dn_links').empty();
-  var error = localStorage.getItem('Designernews_error');
+  var error = serviceData.DN.error;
 
   if (error == "true") {
     $('#designernews .error').slideDown('slow');
@@ -49,17 +45,17 @@ function dnShowData() {
     $('#designernews .error').slideUp('slow');
   }
 
-  $('.dn_links').append(localStorage.getItem('DesignernewsHTML'));
+  $('.dn_links').append(serviceData.DN.HTML);
 }
 
 function dnUpvote(clickedObject) {
   $.ajax({
     url: 'https://api-news.layervault.com/api/v2/upvotes',
     beforeSend: function (xhr) {
-      xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('DesignernewsAuth'));
+      xhr.setRequestHeader('Authorization', 'Bearer ' + serviceData.DN.token);
       xhr.setRequestHeader('Content-Type', 'application/vnd.api+json');
     },
-    data: '{ "upvotes": { "links": { "story": "' + clickedObject.attr('id') + '", "user": ' + JSON.parse(localStorage.getItem('DesignernewsMe')).id + '} } }',
+    data: '{ "upvotes": { "links": { "story": "' + clickedObject.attr('id') + '", "user": ' + serviceData.DN.personal.id + '} } }',
     type: 'POST',
     success: function(data){
       clickedObject.attr('class', 'dn_upvote_done');
