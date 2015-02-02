@@ -99,7 +99,6 @@ function sabHTML() {
     var historyJson = serviceData.SABH.JSON;
 
     $.each(historyJson.history.slots, function(i, hItem) {
-      console.log(hItem);
       if (hItem.fail_message === "") {
         history +=
           '<core-item class="sab_item_container">' +

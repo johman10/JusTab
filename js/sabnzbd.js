@@ -34,7 +34,7 @@ serviceDataDone.done(function() {
 });
 
 function sabShowData() {
-  $('.status').empty();
+  $('.bottom_bar_container .sabnzbd_info').empty();
   $('.queue').empty();
   $('.history').empty();
 
