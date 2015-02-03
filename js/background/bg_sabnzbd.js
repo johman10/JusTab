@@ -13,6 +13,7 @@ function getSabnzbdHistory(callback) {
     timeout: 3000,
     success: function(history) {
       localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
+      serviceData.SABH.JSON = history;
       localStorage.setItem("SabnzbdHistory_error", false);
     },
     error: function(xhr, ajaxOptions, thrownError) {
@@ -38,6 +39,7 @@ function getSabnzbdQueue(callback) {
     timeout: 3000,
     success: function(queue) {
       localStorage.setItem("SabnzbdQueue", JSON.stringify(queue));
+      serviceData.SABQ.JSON = queue;
       localStorage.setItem("SabnzbdQueue_error", false);
     },
     error: function(xhr, ajaxOptions, thrownError) {

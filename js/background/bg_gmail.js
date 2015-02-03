@@ -29,6 +29,7 @@ function getMailId(token, callback) {
       }
     })).then(function() {
       localStorage.setItem("Gmail", JSON.stringify(messages));
+      serviceData.GM.JSON = messages;
 
       GmailHTML();
 

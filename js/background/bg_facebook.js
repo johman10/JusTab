@@ -11,6 +11,7 @@ function getFacebookData(callback) {
     success: function(xml) {
       localStorage.setItem("Facebook_error", false);
       localStorage.setItem("Facebook", (new XMLSerializer()).serializeToString(xml));
+      serviceData.FB.JSON = xml;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);

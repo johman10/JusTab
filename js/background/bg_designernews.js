@@ -14,6 +14,7 @@ function getDesignerNewsData(callback) {
     success: function(data) {
       localStorage.setItem("Designernews_error", false);
       localStorage.setItem("Designernews", JSON.stringify(data));
+      serviceData.DN.JSON = data;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
@@ -34,6 +35,7 @@ function getDesignerNewsData(callback) {
            upvotes.push(val.links.story);
         });
         localStorage.setItem('DesignernewsUpvotes', upvotes);
+        serviceData.DN.upvotes = upvotes;
       },
       error: function(xhr, ajaxOptions, thrownError){
         console.log(xhr, ajaxOptions, thrownError);

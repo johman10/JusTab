@@ -13,6 +13,7 @@ function getWantedCouchPotato(callback) {
     success: function(data) {
       localStorage.setItem("CouchpotatoWanted_error", false);
       localStorage.setItem("CouchpotatoWanted", JSON.stringify(data));
+      serviceData.CPW.JSON = data;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
@@ -37,6 +38,7 @@ function getSnatchedCouchPotato(callback) {
     success: function(data) {
       localStorage.setItem("CouchpotatoSnatched_error", false);
       localStorage.setItem("CouchpotatoSnatched", JSON.stringify(data));
+      serviceData.CPS.JSON = data;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);

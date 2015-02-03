@@ -13,6 +13,7 @@ function getSickBeardData(callback) {
     success: function(data) {
       localStorage.setItem("Sickbeard_error", false);
       localStorage.setItem("Sickbeard", JSON.stringify(data));
+      serviceData.SB.JSON = data;
       sbHTML();
     },
     error: function(xhr, ajaxOptions, thrownError) {

@@ -33,6 +33,7 @@ function eventArray(url, token, callback) {
   })).then(function() {
     if (events.length > 0) {
       localStorage.setItem("Calendar", JSON.stringify(events));
+      serviceData.GC.JSON = events;
     }
 
     calendarHTML();
@@ -43,7 +44,7 @@ function eventArray(url, token, callback) {
   });
 }
 
-function calendarHTML() {
+function calendarHTML(test) {
   var events = serviceData.GC.JSON;
 
   if (serviceData.GC.status) {
