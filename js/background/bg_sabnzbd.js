@@ -1,9 +1,9 @@
 // Docs:
 // http://wiki.sabnzbd.org/api
 
-function getSabnzbdHistory(callback) {
+function getSabnzbdHistory(from, callback) {
   var url = serviceData.SABH.apiUrl;
-  var historyMode = "&mode=history&limit=" + serviceData.SABH.length;
+  var historyMode = "&mode=history&limit=" + from;
   var output = "&output=json";
 
   $.ajax({
@@ -24,6 +24,7 @@ function getSabnzbdHistory(callback) {
     }
   });
 
+  sabHTML();
   if (callback) {
     callback();
   }

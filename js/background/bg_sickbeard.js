@@ -41,7 +41,7 @@ function sbHTML() {
       listSeries(data.data.missed, SB_missed, 'SickbeardMissedHTML', 'MissedHTML');
     } else {
       localStorage.removeItem('SickbeardMissedHTML');
-      delete servieData.SB.MissedHTML;
+      delete serviceData.SB.MissedHTML;
     }
 
     // Episodes today

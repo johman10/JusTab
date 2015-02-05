@@ -13,7 +13,7 @@ $(document).ready(function() {
       $('.refresh_sab').fadeOut(400, function() {
         $('.loading_sab').attr('active', true);
         chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getSabnzbdHistory(function() {
+          backgroundPage.getSabnzbdHistory(serviceData.SABH.length, function() {
             backgroundPage.getSabnzbdQueue(function() {
               $('.loading_sab').attr('active', false);
               setTimeout(function() {
@@ -25,6 +25,7 @@ $(document).ready(function() {
       });
     });
 
+    $('#sabnzbd').bind('scroll', sabCheckScroll);
     $('#sabnzbd core-toolbar a').attr('href', serviceData.SABQ.url);
 
     $('#sabnzbd, .sabnzbd_info').show();
@@ -51,4 +52,15 @@ function sabShowData() {
   $('.bottom_bar_container .sabnzbd_info').append(serviceData.SABQ.downloadStatus);
   $('#sabnzbd .queue').append(serviceData.SABQ.HTML);
   $('#sabnzbd .history').append(serviceData.SABH.HTML);
+}
+
+function sabCheckScroll(e) {
+  var elem = $(e.currentTarget);
+  var currentLength = parseFloat($('#sabnzbd .sab_item_container').length);
+  var newLength = currentLength + parseFloat(serviceData.SABH.length);
+  if (elem[0].scroller.scrollHeight - elem[0].scroller.scrollTop == elem.outerHeight()) {
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      backgroundPage.getSabnzbdHistory(newLength);
+    });
+  }
 }
