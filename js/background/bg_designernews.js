@@ -13,12 +13,14 @@ function getDesignerNewsData(callback) {
     timeout: 3000,
     success: function(data) {
       localStorage.setItem("Designernews_error", false);
+      serviceData.DN.error = false;
       localStorage.setItem("Designernews", JSON.stringify(data));
       serviceData.DN.JSON = data;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
       localStorage.setItem("Designernews_error", true);
+      serviceData.DN.error = true;
     }
   })).then(function() {
     $.ajax({
@@ -29,10 +31,11 @@ function getDesignerNewsData(callback) {
       type: 'GET',
       success: function(data){
         localStorage.setItem('DesignernewsMe', JSON.stringify(data.users[0]));
+        serviceData.DN.personal = data.users[0];
 
         var upvotes = [];
         $.each(data.linked.upvotes, function(index, val) {
-           upvotes.push(val.links.story);
+          upvotes.push(val.links.story);
         });
         localStorage.setItem('DesignernewsUpvotes', upvotes);
         serviceData.DN.upvotes = upvotes;
@@ -90,5 +93,6 @@ function dnHTML() {
     });
 
     localStorage.setItem('DesignernewsHTML', dn_links);
+    serviceData.DN.HTML = dn_links;
   }
 }

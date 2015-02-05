@@ -1,7 +1,7 @@
 // Docs:
 // http://developers.news.layervault.com/
 
-serviceDataDone.done(function() {
+$(document).ready(function() {
   if (serviceData.DN.status) {
     window[serviceData.DN.feFunctionName]();
 

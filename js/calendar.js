@@ -1,4 +1,4 @@
-serviceDataDone.done(function() {
+$(document).ready(function() {
   if (serviceData.GC.status) {
     window[serviceData.GC.feFunctionName]();
 

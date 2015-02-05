@@ -23,11 +23,13 @@ function eventArray(url, token, callback) {
       timeout: 3000,
       success: function(data) {
         localStorage.setItem("Calendar_error", false);
+        serviceData.GC.error = false;
         events = $.merge(events, data.items);
       },
       error: function(xhr, ajaxOptions, thrownError) {
         console.log(xhr, ajaxOptions, thrownError);
         localStorage.setItem("Calendar_error", true);
+        serviceData.GC.error = true;
       }
     });
   })).then(function() {
@@ -99,6 +101,8 @@ function calendarHTML(test) {
     });
 
     localStorage.setItem('CalendarTodayHTML', todayHTML);
+    serviceData.GC.TodayHTML = todayHTML;
     localStorage.setItem('CalendarTomorrowHTML', tomorrowHTML);
+    serviceData.GC.TomorrowHTML = tomorrowHTML;
   }
 }

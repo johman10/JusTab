@@ -22,10 +22,12 @@ function getMailId(token, callback) {
         });
         localStorage.setItem("Gmail_page", data.nextPageToken);
         localStorage.setItem("Gmail_error", false);
+        serviceData.GM.error = false;
       },
       error: function(xhr, ajaxOptions, thrownError) {
         console.log(xhr, ajaxOptions, thrownError);
         localStorage.setItem("Gmail_error", true);
+        serviceData.GM.error = true;
       }
     })).then(function() {
       localStorage.setItem("Gmail", JSON.stringify(messages));
@@ -51,10 +53,12 @@ function getMailContent(token, Id, messages, email) {
     success: function(data) {
       messages.push(data);
       localStorage.setItem("Gmail_error", false);
+      serviceData.GM.error = false;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
       localStorage.setItem("Gmail_error", true);
+      serviceData.GM.error = true;
     }
   });
 }
@@ -105,5 +109,7 @@ function GmailHTML() {
   });
 
   localStorage.setItem('GmailUnreadHTML', GmailUnreadHTML);
+  serviceData.GM.UnreadHTML = GmailUnreadHTML;
   localStorage.setItem('GmailReadHTML', GmailReadHTML);
+  serviceData.GM.ReadHTML = GmailReadHTML;
 }

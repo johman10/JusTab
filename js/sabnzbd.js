@@ -2,7 +2,7 @@
 // ttp://wiki.sabnzbd.org/api
 
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
-serviceDataDone.done(function() {
+$(document).ready(function() {
   if (serviceData.SABQ.status) {
     window[serviceData.SABQ.feFunctionName]();
 

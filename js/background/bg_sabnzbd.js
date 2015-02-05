@@ -15,10 +15,12 @@ function getSabnzbdHistory(callback) {
       localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
       serviceData.SABH.JSON = history;
       localStorage.setItem("SabnzbdHistory_error", false);
+      serviceData.SABH.error = false;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
       localStorage.setItem("SabnzbdHistory_error", true);
+      serviceData.SABH.error = true;
     }
   });
 
@@ -41,10 +43,12 @@ function getSabnzbdQueue(callback) {
       localStorage.setItem("SabnzbdQueue", JSON.stringify(queue));
       serviceData.SABQ.JSON = queue;
       localStorage.setItem("SabnzbdQueue_error", false);
+      serviceData.SABQ.error = false;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
       localStorage.setItem("SabnzbdQueue_error", true);
+      serviceData.SABQ.error = true;
     }
   });
 
@@ -94,7 +98,9 @@ function sabHTML() {
     }
 
     localStorage.setItem('SabnzbdQueueHTML', queue);
+    serviceData.SABQ.HTML = queue;
     localStorage.setItem('SabnzbdStatusHTML', status);
+    serviceData.SABQ.downloadStatus = status;
   }
 
   if (serviceData.SABH.JSON) {
@@ -130,5 +136,6 @@ function sabHTML() {
     }
 
     localStorage.setItem('SabnzbdHistoryHTML', history);
+    serviceData.SABH.HTML = history;
   }
 }

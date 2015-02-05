@@ -12,6 +12,7 @@ function getSickBeardData(callback) {
     timeout: 3000,
     success: function(data) {
       localStorage.setItem("Sickbeard_error", false);
+      serviceData.SB.error = false;
       localStorage.setItem("Sickbeard", JSON.stringify(data));
       serviceData.SB.JSON = data;
       sbHTML();
@@ -19,6 +20,7 @@ function getSickBeardData(callback) {
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
       localStorage.setItem("Sickbeard_error", true);
+      serviceData.SB.error = true;
     }
   })).then(function() {
     if (callback) {
@@ -36,38 +38,42 @@ function sbHTML() {
     // Episodes missed
     if (data.data.missed.length > 0) {
       var SB_missed = '<h2>Missed</h2>';
-      listSeries(data.data.missed, SB_missed, 'SickbeardMissedHTML');
+      listSeries(data.data.missed, SB_missed, 'SickbeardMissedHTML', 'MissedHTML');
     } else {
       localStorage.removeItem('SickbeardMissedHTML');
+      delete servieData.SB.MissedHTML;
     }
 
     // Episodes today
     if (data.data.today.length > 0) {
       var SB_today = '<h2>Today</h2>';
-      listSeries(data.data.today, SB_today, 'SickbeardTodayHTML');
+      listSeries(data.data.today, SB_today, 'SickbeardTodayHTML', 'TodayHTML');
     } else {
       localStorage.removeItem('SickbeardTodayHTML');
+      delete servieData.SB.TodayHTML;
     }
 
     // Episodes soon
     if (data.data.soon.length > 0) {
       var SB_soon = '<h2>Soon</h2>';
-      listSeries(data.data.soon, SB_soon, 'SickbeardSoonHTML');
+      listSeries(data.data.soon, SB_soon, 'SickbeardSoonHTML', 'SoonHTML');
     } else {
       localStorage.removeItem('SickbeardSoonHTML');
+      delete servieData.SB.SoonHTML;
     }
 
     // Episodes later
     if (data.data.later.length > 0) {
       var SB_later = '<h2>Later</h2>';
-      listSeries(data.data.later, SB_later, 'SickbeardLaterHTML');
+      listSeries(data.data.later, SB_later, 'SickbeardLaterHTML', 'LaterHTML');
     } else {
       localStorage.removeItem('SickbeardLaterHTML');
+      delete servieData.SB.LaterHTML;
     }
   }
 }
 
-function listSeries(query, HTML, storageName) {
+function listSeries(query, HTML, storageName, serviceDataTag) {
   $.each(query, function(i, episodeData) {
     var tvdbid = episodeData.tvdbid,
         season = episodeData.season,
@@ -133,4 +139,5 @@ function listSeries(query, HTML, storageName) {
   });
 
   localStorage.setItem(storageName, HTML);
+  serviceData.SB[serviceDataTag] = HTML;
 }

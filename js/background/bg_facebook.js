@@ -10,12 +10,14 @@ function getFacebookData(callback) {
     timeout: 3000,
     success: function(xml) {
       localStorage.setItem("Facebook_error", false);
+      serviceData.FB.error = false;
       localStorage.setItem("Facebook", (new XMLSerializer()).serializeToString(xml));
       serviceData.FB.JSON = xml;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
       localStorage.setItem("Facebook_error", true);
+      serviceData.FB.error = true;
     }
   })).then(function() {
     FBHTML();
@@ -39,5 +41,6 @@ function FBHTML() {
     });
 
     localStorage.setItem('FacebookHTML', FacebookHTML);
+    serviceData.FB.HTML = FacebookHTML;
   }
 }

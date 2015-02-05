@@ -52,6 +52,7 @@
 }
 
 .sabnzbd_info {
+  @include paper-shadow(1);
   line-height: 50px;
   background-color: $panel-background;
 }

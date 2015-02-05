@@ -12,12 +12,14 @@ function getWantedCouchPotato(callback) {
     timeout: 3000,
     success: function(data) {
       localStorage.setItem("CouchpotatoWanted_error", false);
+      serviceData.CPW.error = false;
       localStorage.setItem("CouchpotatoWanted", JSON.stringify(data));
       serviceData.CPW.JSON = data;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
       localStorage.setItem("CouchpotatoWanted_error", true);
+      serviceData.CPW.error = true;
     }
   })).then(function() {
     if (callback) {
@@ -37,12 +39,14 @@ function getSnatchedCouchPotato(callback) {
     timeout: 3000,
     success: function(data) {
       localStorage.setItem("CouchpotatoSnatched_error", false);
+      serviceData.CPS.error = false;
       localStorage.setItem("CouchpotatoSnatched", JSON.stringify(data));
       serviceData.CPS.JSON = data;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
       localStorage.setItem("CouchpotatoSnatched_error", true);
+      serviceData.CPS.error = true;
     }
   })).then(function() {
     cpHTML();
@@ -69,7 +73,9 @@ function cpHTML() {
   });
 
   localStorage.setItem('CouchpotatoSnatchedHTML', CouchpotatoSnatchedHTML);
+  serviceData.CPS.HTML = CouchpotatoSnatchedHTML;
   localStorage.setItem('CouchpotatoWantedHTML', CouchpotatoWantedHTML);
+  serviceData.CPW.HTML = CouchpotatoWantedHTML;
 }
 
 function cpCreateVar(movie, cpVar) {
