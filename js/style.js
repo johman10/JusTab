@@ -53,7 +53,6 @@ $(document).ready(function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.serviceDataFunction();
       $.when(backgroundPage.serviceDataDone).then(function() {
-        refreshServiceData();
         if (storageFunctions[e.originalEvent.key]) {
           $.when(serviceDataRefreshDone).then(function() {
             storageFunctions[e.originalEvent.key]();
