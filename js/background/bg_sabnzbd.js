@@ -12,7 +12,9 @@ function getSabnzbdHistory(from, callback) {
     async: false,
     timeout: 3000,
     success: function(history) {
-      localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
+      if (from == serviceData.SABH.length) {
+        localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
+      }
       serviceData.SABH.JSON = history;
       localStorage.setItem("SabnzbdHistory_error", false);
       serviceData.SABH.error = false;
