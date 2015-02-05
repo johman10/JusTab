@@ -60,6 +60,10 @@ function dnHTML() {
     var dn_links = '';
 
     $.each(data.stories, function(i, story) {
+      if (!story.url) {
+        story.url = 'https://news.layervault.com/stories/' + story.id;
+      }
+
       if (upvotes.indexOf(story.id) == -1) {
         dn_links +=
           '<core-item class="dn_link_container">' +

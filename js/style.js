@@ -54,8 +54,8 @@ $(document).ready(function() {
       backgroundPage.serviceDataFunction();
       $.when(backgroundPage.serviceDataDone).then(function() {
         if (storageFunctions[e.originalEvent.key]) {
-          serviceDataFunction();
-          $.when(serviceDataDone).then(function() {
+          refreshServiceData();
+          $.when(serviceDataRefreshDone).then(function() {
             storageFunctions[e.originalEvent.key]();
           });
         }
