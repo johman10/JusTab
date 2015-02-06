@@ -50,15 +50,13 @@ $(document).ready(function() {
       'DesignernewsHTML': dnShowData
     };
 
-    chrome.runtime.getBackgroundPage(function(backgroundPage) {
-      backgroundPage.serviceDataFunction();
-      $.when(backgroundPage.serviceDataDone).then(function() {
-        if (storageFunctions[e.originalEvent.key]) {
-          $.when(serviceDataRefreshDone).then(function() {
-            storageFunctions[e.originalEvent.key]();
-          });
-        }
+    if (storageFunctions[e.originalEvent.key]) {
+      chrome.runtime.getBackgroundPage(function(backgroundPage) {
+        backgroundPage.serviceDataFunction();
+        $.when(backgroundPage.serviceDataDone).then(function() {
+          storageFunctions[e.originalEvent.key]();
+        });
       });
-    });
+    }
   });
 });

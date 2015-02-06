@@ -2,6 +2,7 @@
 // http://wiki.sabnzbd.org/api
 
 function getSabnzbdHistory(from, callback) {
+  console.log('getJSON');
   var url = serviceData.SABH.apiUrl;
   var historyMode = "&mode=history&limit=" + from;
   var output = "&output=json";
@@ -26,7 +27,7 @@ function getSabnzbdHistory(from, callback) {
     }
   });
 
-  sabHTML();
+  sabhHTML();
   if (callback) {
     callback();
   }
@@ -55,25 +56,20 @@ function getSabnzbdQueue(callback) {
     }
   });
 
-  sabHTML();
+  sabqHTML();
   if (callback) {
     callback();
   }
 }
 
-function sabHTML() {
+function sabqHTML() {
   var status = '',
-      history = '<h2>History</h2>',
       queue = '<h2>Queue</h2>';
 
   if (serviceData.SABQ.JSON) {
     var queueJson = serviceData.SABQ.JSON,
         percentage = '',
         timeLeft = '';
-
-    // console.log(queueJson.queue.kbpersec);
-    // console.log(queueJson.queue.slots[x].percentage);
-    // console.log(queueJson.queue.slots[x].timeleft);
 
     if (queueJson.queue.mb != '0.00' && queueJson.queue.mbleft != '0.00') {
       percentage = ' - ' + Math.round(100-(parseFloat(queueJson.queue.mbleft)/(parseFloat(queueJson.queue.mb)/100))).toString() + '%';
@@ -105,9 +101,12 @@ function sabHTML() {
     localStorage.setItem('SabnzbdStatusHTML', status);
     serviceData.SABQ.downloadStatus = status;
   }
+}
 
+function sabhHTML() {
   if (serviceData.SABH.JSON) {
     var historyJson = serviceData.SABH.JSON;
+    var history = '<h2>History</h2>';
 
     $.each(historyJson.history.slots, function(i, hItem) {
       if (hItem.fail_message === "") {

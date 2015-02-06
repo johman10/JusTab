@@ -56,8 +56,7 @@ function sabShowData() {
 
 function sabCheckScroll(e) {
   var elem = $(e.currentTarget);
-  var currentLength = parseFloat($('#sabnzbd .sab_item_container').length);
-  var newLength = currentLength + parseFloat(serviceData.SABH.length);
+  var newLength = parseFloat($('#sabnzbd .sab_item_container').length) + parseFloat(serviceData.SABH.length);
   if (elem[0].scroller.scrollHeight - elem[0].scroller.scrollTop == elem.outerHeight()) {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.getSabnzbdHistory(newLength);

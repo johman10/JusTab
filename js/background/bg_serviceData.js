@@ -124,11 +124,11 @@ function serviceDataFunction() {
 
     currentTabs = chrome.extension.getViews({type: 'tab'});
     if (currentTabs.length > 0) {
-        $.each(currentTabs, function(index, tab) {
-            if (tab.refreshServiceData) {
-                tab.refreshServiceData();
-            }
-        });
+      $.each(currentTabs, function(index, tab) {
+        if (tab.refreshServiceData) {
+          tab.refreshServiceData();
+        }
+      });
     }
 
     serviceDataDone.resolve();
