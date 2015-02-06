@@ -1,8 +1,63 @@
+* {
+  box-sizing: border-box;
+}
+
+.refresh_button {
+  @include spinner;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+  margin: 20px 0;
+}
+
+.panel {
+  height: 100vh;
+
+  .panel_header {
+    @include paper-shadow(1);
+    height: 128px;
+    position: relative;
+  }
+
+  .panel_header_background {
+    position: absolute;
+    left: 0; top: 0;
+    height: 100%;
+    width: 100%;
+    background-image: image-url('GC_header.svg');
+    background-size: auto 60%;
+    background-position: 110%;
+    background-color: $calendar-color;
+    background-repeat: no-repeat;
+  }
+
+  .panel_header_foreground {
+    position: absolute;
+    left: 0; top: 0;
+    height: 100%;
+    width: 100%;
+    color: $white;
+    z-index: 1;
+
+    .top,
+    .bottom {
+      width: 100%;
+      height: 50%;
+      padding: 0 18px;
+    }
+
+    a {
+      line-height: 64px;
+      color: $white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 18px;
+    }
+  }
+}
+
 #calendar::shadow #headerBg {
-  background-image: image-url('../img/GC_header.svg');
-  background-size: auto 60%;
-  background-position: 110%;
-  background-color: $calendar-color;
+
 }
 
 #calendar::shadow #condensedHeaderBg {

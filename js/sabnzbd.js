@@ -49,9 +49,9 @@ function sabShowData() {
     $('#sabnzbd .error').slideUp('slow');
   }
 
-  $('.bottom_bar_container .sabnzbd_info').append(serviceData.SABQ.downloadStatus);
-  $('#sabnzbd .queue').append(serviceData.SABQ.HTML);
-  $('#sabnzbd .history').append(serviceData.SABH.HTML);
+  $('.bottom_bar_container .sabnzbd_info').html(serviceData.SABQ.downloadStatus);
+  $('#sabnzbd .queue').html(serviceData.SABQ.HTML);
+  $('#sabnzbd .history').html(serviceData.SABH.HTML);
 }
 
 function sabCheckScroll(e) {

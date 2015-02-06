@@ -7,13 +7,13 @@ $(document).ready(function() {
         $('#calendar .error:visible').slideUp(400);
       }
       $('.refresh_calendar').fadeOut(400, function() {
-        $('.loading_calendar').attr('active', true);
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getCalendarData(function() {
-            $('.loading_calendar').attr('active', false);
-            setTimeout(function() {
-              $('.refresh_calendar').fadeIn(400);
-            }, 400);
+        $(this).html(spinner);
+        $(this).fadeIn(400, function() {
+          chrome.extension.getBackgroundPage().getCalendarData(function() {
+            $('.refresh_calendar').fadeOut(400, function() {
+              $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Calendar">');
+              $(this).fadeIn(400);
+            });
           });
         });
       });

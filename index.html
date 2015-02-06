@@ -20,40 +20,42 @@
   <script src="js/serviceData.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/calendar.js" type="text/javascript" charset="utf-8" async></script>
   <script src="js/gmail.js" type="text/javascript" charset="utf-8" async></script>
-  <script src="js/sabnzbd.js" type="text/javascript" charset="utf-8" async></script>
+  <!-- <script src="js/sabnzbd.js" type="text/javascript" charset="utf-8" async></script>
   <script src="js/couchpotato.js" type="text/javascript" charset="utf-8" async></script>
   <script src="js/sickbeard.js" type="text/javascript" charset="utf-8" async></script>
   <script src="js/designernews.js" type="text/javascript" charset="utf-8" async></script>
-  <script src="js/facebook.js" type="text/javascript" charset="utf-8" async></script>
+  <script src="js/facebook.js" type="text/javascript" charset="utf-8" async></script> -->
   <script src="js/style.js" type="text/javascript" charset="utf-8"></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
 </head>
 <body unresolved>
   <paper-icon-button class="settings_button" icon="settings"></paper-icon-button>
   <div class="panel_container">
-    <core-scroll-header-panel id="calendar" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
-      <core-toolbar class="medium-tall" animate>
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_calendar" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_calendar"></paper-spinner>
-        </div>
-        <div class="middle">
-          <a href="http://www.google.com/calendar">Calendar</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z=1>
-          <div class="error">
-            <p>There was an error connecting to Google Calendar. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+    <div id="calendar" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_calendar">
+              <img src="img/icons/refresh.svg" alt="Refresh Calendar">
+            </div>
           </div>
-        </paper-shadow>
+          <div class="bottom">
+            <a href="http://www.google.com/calendar">Calendar</a>
+          </div>
+        </div>
+      </div>
+      <div class="panel_content">
+        <div class="error">
+          <p>There was an error connecting to Google Calendar. Please check your connection and your settings.</p>
+          <paper-button class="error_settings_button">Settings</paper-button>
+          <paper-button class="error_retry_button">Retry</paper-button>
+          <div class="cleardiv"></div>
+        </div>
         <div class="today"></div>
         <div class="tomorrow"></div>
       </div>
-    </core-scroll-header-panel>
+    </div>
 
     <core-scroll-header-panel id="gmail" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
       <core-toolbar class="medium-tall" animate>
@@ -79,7 +81,7 @@
       </div>
     </core-scroll-header-panel>
 
-    <core-scroll-header-panel id="facebook" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
+    <!-- <core-scroll-header-panel id="facebook" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
       <core-toolbar class="medium-tall" animate>
         <div class="top">
           <paper-icon-button class="refresh_button refresh_fb" icon="refresh"></paper-icon-button>
@@ -206,7 +208,7 @@
         <div class="dn_links">
         </div>
       </div>
-    </core-scroll-header-panel>
+    </core-scroll-header-panel> -->
 
     <div class="cleardiv"></div>
   </div>
