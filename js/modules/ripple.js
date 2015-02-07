@@ -1,34 +1,6 @@
 (function(window) {
   var Waves = Waves || {};
 
-  function isWindow(obj) {
-    return obj !== null && obj === obj.window;
-  }
-
-  function getWindow(elem) {
-    return isWindow(elem) ? elem : elem.nodeType === 9 && elem.defaultView;
-  }
-
-  function offset(elem) {
-    var docElem, win,
-      box = {
-        top: 0,
-        left: 0
-      },
-      doc = elem && elem.ownerDocument;
-
-    docElem = doc.documentElement;
-
-    if (typeof elem.getBoundingClientRect !== typeof undefined) {
-      box = elem.getBoundingClientRect();
-    }
-    win = getWindow(doc);
-    return {
-      top: box.top + win.pageYOffset - docElem.clientTop,
-      left: box.left + win.pageXOffset - docElem.clientLeft
-    };
-  }
-
   function convertStyle(obj) {
     var style = '';
 
@@ -42,7 +14,7 @@
   }
 
   var Effect = {
-    duration: 750,
+    duration: 400,
 
     show: function(e, element) {
 
@@ -50,56 +22,54 @@
         return false;
       }
 
-      var el = element || this;
+      var el = $(element) || $(this);
 
-      var ripple = document.createElement('div');
-      ripple.className = 'waves-ripple';
-      el.appendChild(ripple);
+      var ripple = $('<div></div>');
+      ripple.addClass('waves-ripple');
+      el.append(ripple);
 
-      var pos = offset(el);
+      var pos = el.offset();
       var relativeY = (e.pageY - pos.top);
       var relativeX = (e.pageX - pos.left);
-      var scale = 'scale(' + ((el.clientWidth / 100) * 10) + ')';
+      var scale = 'scale(' + ((el.innerWidth() / 100) * 10) + ')';
 
-      ripple.setAttribute('data-hold', Date.now());
-      ripple.setAttribute('data-scale', scale);
-      ripple.setAttribute('data-x', relativeX);
-      ripple.setAttribute('data-y', relativeY);
+      ripple.data('hold', Date.now());
+      ripple.data('scale', scale);
+      ripple.data('x', relativeX);
+      ripple.data('y', relativeY);
 
-      var rippleStyle = {
+      ripple.addClass('waves-notransition');
+      ripple.css({
         'top': relativeY + 'px',
         'left': relativeX + 'px'
-      };
-
-      ripple.className = ripple.className + ' waves-notransition';
-      ripple.setAttribute('style', convertStyle(rippleStyle));
-      ripple.className = ripple.className.replace('waves-notransition', '');
-      rippleStyle['-webkit-transform'] = scale;
-      rippleStyle.transform = scale;
-      rippleStyle.opacity = '1';
-      rippleStyle['-webkit-transition-duration'] = Effect.duration + 'ms';
-      rippleStyle['-webkit-transition-timing-function'] = 'cubic-bezier(0.250, 0.460, 0.450, 0.940)';
-
-      ripple.setAttribute('style', convertStyle(rippleStyle));
+      });
+      ripple.removeClass('waves-notransition');
+      ripple.css({
+        '-webkit-transform': scale,
+        'transform': scale,
+        'opacity': 1,
+        '-webkit-transition-duration': Effect.duration + 'ms',
+        '-webkit-transition-timing-function': 'cubic-bezier(0.250, 0.460, 0.450, 0.940)'
+      });
     },
 
     hide: function(e) {
-      var el = this;
-      var width = el.clientWidth * 1.4;
+      var el = $(this);
+      var width = el.innerWidth() * 1.4;
 
       var ripple = null;
-      var ripples = el.getElementsByClassName('waves-ripple');
+      var ripples = el.children('.waves-ripple');
       if (ripples.length > 0) {
-        ripple = ripples[ripples.length - 1];
+        ripple = ripples.last();
       } else {
         return false;
       }
 
-      var relativeX = ripple.getAttribute('data-x');
-      var relativeY = ripple.getAttribute('data-y');
-      var scale = ripple.getAttribute('data-scale');
+      var relativeX = ripple.data('x');
+      var relativeY = ripple.data('y');
+      var scale = ripple.data('scale');
 
-      var diff = Date.now() - Number(ripple.getAttribute('data-hold'));
+      var diff = Date.now() - Number(ripple.data('hold'));
       var delay = 350 - diff;
 
       if (delay < 0) {
@@ -107,15 +77,13 @@
       }
 
       setTimeout(function() {
-        var style = {
+        ripple.css({
           'top': relativeY + 'px',
           'left': relativeX + 'px',
           'opacity': '0',
           '-webkit-transition-duration': Effect.duration + 'ms',
           '-webkit-transform': scale,
-        };
-
-        ripple.setAttribute('style', convertStyle(style));
+        });
 
         setTimeout(function() {
           try {
@@ -129,33 +97,33 @@
 
     wrapInput: function(elements) {
       for (var a = 0; a < elements.length; a++) {
-        var el = elements[a];
+        var el = $(elements[a]);
 
-        if (el.tagName.toLowerCase() === 'input') {
-          var parent = el.parentNode;
+        if (el.prop("tagName").toLowerCase() === 'input') {
+          var parent = el.parent();
 
-
-          if (parent.tagName.toLowerCase() === 'i' && parent.className.indexOf('waves-effect') !== -1) {
+          if (parent.prop("tagName").toLowerCase() === 'i' && parent.hasClass('waves-effect')) {
             continue;
           }
 
-          var wrapper = document.createElement('i');
-          wrapper.className = el.className + ' waves-input-wrapper';
+          var wrapper = $('<i></i>');
+          wrapper.addClass(el.attr('class') + ' waves-input-wrapper');
 
-          var elementStyle = el.getAttribute('style');
+          var elementStyle = el.attr('style');
 
           if (!elementStyle) {
             elementStyle = '';
           }
 
-          wrapper.setAttribute('style', elementStyle);
+          wrapper.attr('style', elementStyle);
 
-          el.className = 'waves-button-input';
-          el.removeAttribute('style');
+          el.attr('class', 'waves-button-input');
+          if (el.attr('style')) {
+            el.removeAttr('style');
+          }
 
-
-          parent.replaceChild(wrapper, el);
-          wrapper.appendChild(el);
+          el.replaceWith(wrapper);
+          wrapper.append(el);
         }
       }
     }
@@ -163,15 +131,13 @@
 
   function getWavesEffectElement(e) {
     var element = null;
-    var target = e.target || e.srcElement;
+    var target = $(e.target) || $(e.srcElement);
 
-    while (target.parentElement !== null) {
-      if (target.className.indexOf('waves-effect') !== -1) {
-        element = target;
-        break;
-      }
-      target = target.parentElement;
+    if (target.parents('.waves-effect').length > 0) {
+      element = target.parent('.waves-effect');
     }
+
+    target = target.parent('.waves-effect');
 
     return element;
   }
@@ -181,8 +147,8 @@
 
     if (element !== null) {
       Effect.show(e, element);
-      element.addEventListener('mouseup', Effect.hide, false);
-      element.addEventListener('mouseleave', Effect.hide, false);
+      element.bind('mouseup', Effect.hide);
+      element.bind('mouseleave', Effect.hide);
     }
   }
 
@@ -194,22 +160,22 @@
     }
 
     Effect.wrapInput($('.waves-effect'));
-    document.body.addEventListener('mousedown', showEffect, false);
+    $('body').bind('mousedown', showEffect);
   };
 
   Waves.attach = function(element) {
-    if (element.tagName.toLowerCase() === 'input') {
+    if (element.prop("tagName").toLowerCase() === 'input') {
       Effect.wrapInput([element]);
-      element = element.parentElement;
+      element = $(element).parent();
     }
 
-    element.addEventListener('mousedown', showEffect, false);
+    element.bind('mousedown', showEffect);
   };
 
   window.Waves = Waves;
 
-  document.addEventListener('DOMContentLoaded', function() {
+  $(document).ready(function() {
     Waves.displayEffect();
-  }, false);
+  });
 
 })(window);

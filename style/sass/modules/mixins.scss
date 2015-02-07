@@ -166,7 +166,7 @@
   }
 }
 
-@mixin ripple($color: rgba(255, 255, 255, 0.45)) {
+@mixin ripple($color: rgba(255, 255, 255, 0.25)) {
   &.waves-effect {
     position: relative;
     cursor: pointer;
@@ -185,8 +185,6 @@
       height: 20px;
       margin-top:-10px;
       margin-left:-10px;
-      opacity: 0;
-      background: rgba(0,0,0,0.2);
       -webkit-transition: all 0.7s ease-out;
       -webkit-transition-property: -webkit-transform, opacity;
       -webkit-transform: scale(0);

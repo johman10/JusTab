@@ -50,7 +50,7 @@ function sbHTML() {
       listSeries(data.data.today, SB_today, 'SickbeardTodayHTML', 'TodayHTML');
     } else {
       localStorage.removeItem('SickbeardTodayHTML');
-      delete servieData.SB.TodayHTML;
+      delete serviceData.SB.TodayHTML;
     }
 
     // Episodes soon

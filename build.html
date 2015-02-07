@@ -522,11 +522,11 @@ in another form (e.g. a text block following the spinner).
   <script src="js/serviceData.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/calendar.js" type="text/javascript" charset="utf-8" async=""></script>
   <script src="js/gmail.js" type="text/javascript" charset="utf-8" async=""></script>
-  <!-- <script src="js/sabnzbd.js" type="text/javascript" charset="utf-8" async></script>
-  <script src="js/couchpotato.js" type="text/javascript" charset="utf-8" async></script>
-  <script src="js/sickbeard.js" type="text/javascript" charset="utf-8" async></script>
-  <script src="js/designernews.js" type="text/javascript" charset="utf-8" async></script>
-  <script src="js/facebook.js" type="text/javascript" charset="utf-8" async></script> -->
+  <script src="js/sabnzbd.js" type="text/javascript" charset="utf-8" async=""></script>
+  <script src="js/couchpotato.js" type="text/javascript" charset="utf-8" async=""></script>
+  <script src="js/sickbeard.js" type="text/javascript" charset="utf-8" async=""></script>
+  <script src="js/designernews.js" type="text/javascript" charset="utf-8" async=""></script>
+  <script src="js/facebook.js" type="text/javascript" charset="utf-8" async=""></script>
   <script src="js/style.js" type="text/javascript" charset="utf-8"></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
 </head>
@@ -2034,8 +2034,8 @@ polyfill-next-selector {
       </div>
     </core-scroll-header-panel>
 
-    <!-- <core-scroll-header-panel id="facebook" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
-      <core-toolbar class="medium-tall" animate>
+    <core-scroll-header-panel id="facebook" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
+      <core-toolbar class="medium-tall" animate="">
         <div class="top">
           <paper-icon-button class="refresh_button refresh_fb" icon="refresh"></paper-icon-button>
           <paper-spinner class="refresh_loading_icon loading_fb"></paper-spinner>
@@ -2045,7 +2045,7 @@ polyfill-next-selector {
         </div>
       </core-toolbar>
       <div class="content">
-        <paper-shadow z=1>
+        <paper-shadow z="1">
           <div class="error">
             <p>There was an error connecting to Facebook. Please check your connection and your settings.</p>
             <paper-button class="error_settings_button">Settings</paper-button>
@@ -2059,8 +2059,8 @@ polyfill-next-selector {
       </div>
     </core-scroll-header-panel>
 
-    <core-scroll-header-panel id="couchpotato" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
-      <core-toolbar class="medium-tall" animate>
+    <core-scroll-header-panel id="couchpotato" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
+      <core-toolbar class="medium-tall" animate="">
         <div class="top">
           <paper-icon-button class="refresh_button refresh_cp" icon="refresh"></paper-icon-button>
           <paper-spinner class="refresh_loading_icon loading_cp"></paper-spinner>
@@ -2070,7 +2070,7 @@ polyfill-next-selector {
         </div>
       </core-toolbar>
       <div class="content">
-        <paper-shadow z=1>
+        <paper-shadow z="1">
           <div class="error">
             <p>There was an error connecting to Couchpotato. Please check your connection and your settings.</p>
             <paper-button class="error_settings_button">Settings</paper-button>
@@ -2085,8 +2085,8 @@ polyfill-next-selector {
       </div>
     </core-scroll-header-panel>
 
-    <core-scroll-header-panel id="sickbeard" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
-      <core-toolbar class="medium-tall" animate>
+    <core-scroll-header-panel id="sickbeard" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
+      <core-toolbar class="medium-tall" animate="">
         <div class="top">
           <paper-icon-button class="refresh_button refresh_sb" icon="refresh"></paper-icon-button>
           <paper-spinner class="refresh_loading_icon loading_sb"></paper-spinner>
@@ -2096,7 +2096,7 @@ polyfill-next-selector {
         </div>
       </core-toolbar>
       <div class="content">
-        <paper-shadow z=1>
+        <paper-shadow z="1">
           <div class="error">
             <p>There was an error connecting to Sickbeard. Please check your connection and your settings.</p>
             <paper-button class="error_settings_button">Settings</paper-button>
@@ -2111,8 +2111,8 @@ polyfill-next-selector {
       </div>
     </core-scroll-header-panel>
 
-    <core-scroll-header-panel id="sabnzbd" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
-      <core-toolbar class="medium-tall" animate>
+    <core-scroll-header-panel id="sabnzbd" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
+      <core-toolbar class="medium-tall" animate="">
         <div class="top">
           <paper-icon-button class="refresh_button refresh_sab" icon="refresh"></paper-icon-button>
           <paper-spinner class="refresh_loading_icon loading_sab"></paper-spinner>
@@ -2122,7 +2122,7 @@ polyfill-next-selector {
         </div>
       </core-toolbar>
       <div class="content">
-        <paper-shadow z=1>
+        <paper-shadow z="1">
           <div class="error">
             <p>There was an error connecting to SABnzbd. Please check your connection and your settings.</p>
             <paper-button class="error_settings_button">Settings</paper-button>
@@ -2139,8 +2139,8 @@ polyfill-next-selector {
       </div>
     </core-scroll-header-panel>
 
-    <core-scroll-header-panel id="designernews" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
-      <core-toolbar class="medium-tall" animate>
+    <core-scroll-header-panel id="designernews" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
+      <core-toolbar class="medium-tall" animate="">
         <div class="top">
           <paper-icon-button class="refresh_button refresh_dn" icon="refresh"></paper-icon-button>
           <paper-spinner class="refresh_loading_icon loading_dn"></paper-spinner>
@@ -2150,7 +2150,7 @@ polyfill-next-selector {
         </div>
       </core-toolbar>
       <div class="content">
-        <paper-shadow z=1>
+        <paper-shadow z="1">
           <div class="error">
             <p>There was an error connecting to Designer News. Please check your connection and your settings.</p>
             <paper-button class="error_settings_button">Settings</paper-button>
@@ -2161,7 +2161,7 @@ polyfill-next-selector {
         <div class="dn_links">
         </div>
       </div>
-    </core-scroll-header-panel> -->
+    </core-scroll-header-panel>
 
     <div class="cleardiv"></div>
   </div>
