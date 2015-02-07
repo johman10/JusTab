@@ -1,6 +1,7 @@
 $(document).ready(function() {
   var panelWidth = $('.panel:visible').outerWidth() * $('.panel:visible').length;
   $('body').width(panelWidth);
+  $('img').attr('draggable', false);
 
   $('.panel').on('core-header-transform', function(e) {
     var refreshButton = $(this).find('.refresh_button');
@@ -27,7 +28,7 @@ $(document).ready(function() {
   });
 
   $('.error_retry_button').click(function(event) {
-    var refresh_button = $(this).closest('.content').prev('core-toolbar').find('.refresh_button');
+    var refresh_button = $(this).closest('.panel_content').prev('.panel_header').find('.refresh_button');
     refresh_button.click();
   });
 

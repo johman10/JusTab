@@ -75,19 +75,10 @@
       ripple.setAttribute('style', convertStyle(rippleStyle));
       ripple.className = ripple.className.replace('waves-notransition', '');
       rippleStyle['-webkit-transform'] = scale;
-      rippleStyle['-moz-transform'] = scale;
-      rippleStyle['-ms-transform'] = scale;
-      rippleStyle['-o-transform'] = scale;
       rippleStyle.transform = scale;
       rippleStyle.opacity = '1';
       rippleStyle['-webkit-transition-duration'] = Effect.duration + 'ms';
-      rippleStyle['-moz-transition-duration'] = Effect.duration + 'ms';
-      rippleStyle['-o-transition-duration'] = Effect.duration + 'ms';
-      rippleStyle['transition-duration'] = Effect.duration + 'ms';
       rippleStyle['-webkit-transition-timing-function'] = 'cubic-bezier(0.250, 0.460, 0.450, 0.940)';
-      rippleStyle['-moz-transition-timing-function'] = 'cubic-bezier(0.250, 0.460, 0.450, 0.940)';
-      rippleStyle['-o-transition-timing-function'] = 'cubic-bezier(0.250, 0.460, 0.450, 0.940)';
-      rippleStyle['transition-timing-function'] = 'cubic-bezier(0.250, 0.460, 0.450, 0.940)';
 
       ripple.setAttribute('style', convertStyle(rippleStyle));
     },
@@ -121,14 +112,7 @@
           'left': relativeX + 'px',
           'opacity': '0',
           '-webkit-transition-duration': Effect.duration + 'ms',
-          '-moz-transition-duration': Effect.duration + 'ms',
-          '-o-transition-duration': Effect.duration + 'ms',
-          'transition-duration': Effect.duration + 'ms',
           '-webkit-transform': scale,
-          '-moz-transform': scale,
-          '-ms-transform': scale,
-          '-o-transform': scale,
-          'transform': scale,
         };
 
         ripple.setAttribute('style', convertStyle(style));

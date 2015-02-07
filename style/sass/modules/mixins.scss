@@ -167,35 +167,37 @@
 }
 
 @mixin ripple($color: rgba(255, 255, 255, 0.45)) {
-  position: relative;
-  cursor: pointer;
-  display: inline-block;
-  overflow: hidden;
-  -webkit-user-select: none;
-  user-select: none;
-  z-index: 1;
-  will-change: opacity, transform;
-  -webkit-transition: all .3s ease-out;
+  &.waves-effect {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+    z-index: 1;
+    will-change: opacity, transform;
+    -webkit-transition: all .3s ease-out;
 
-  .waves-ripple {
-    position: absolute;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    margin-top:-10px;
-    margin-left:-10px;
-    opacity: 0;
-    background: rgba(0,0,0,0.2);
-    -webkit-transition: all 0.7s ease-out;
-    -webkit-transition-property: -webkit-transform, opacity;
-    -webkit-transform: scale(0);
-    pointer-events: none;
-    background-color: $color;
+    .waves-ripple {
+      position: absolute;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      margin-top:-10px;
+      margin-left:-10px;
+      opacity: 0;
+      background: rgba(0,0,0,0.2);
+      -webkit-transition: all 0.7s ease-out;
+      -webkit-transition-property: -webkit-transform, opacity;
+      -webkit-transform: scale(0);
+      pointer-events: none;
+      background-color: $color;
+    }
   }
 
-  // .waves-notransition {
-  //   -webkit-transition: none #{"!important"};
-  // }
+  .waves-notransition {
+    -webkit-transition: none #{"!important"};
+  }
 
   .waves-circle {
     -webkit-transform: translateZ(0);
