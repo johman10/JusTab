@@ -16,4 +16,4 @@ node_modules
 *.css.map
 
 # .DS_Store ignoring for Mac users
-*/**.DS_Store
+.DS_Store

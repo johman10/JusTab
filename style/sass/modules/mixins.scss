@@ -87,6 +87,8 @@
       border-bottom-color: transparent !important;
       border-radius: 50%;
       -webkit-animation: none;
+      position: absolute;
+      top:0;right:0;bottom:0;left:0;
     }
 
     &.left .circle {
@@ -161,5 +163,67 @@
     from { -webkit-transform: rotate(-130deg); }
     50% { -webkit-transform: rotate(5deg); }
     to { -webkit-transform: rotate(-130deg); }
+  }
+}
+
+@mixin ripple($color: rgba(255, 255, 255, 0.45)) {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+  z-index: 1;
+  will-change: opacity, transform;
+  -webkit-transition: all .3s ease-out;
+
+  .waves-ripple {
+    position: absolute;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top:-10px;
+    margin-left:-10px;
+    opacity: 0;
+    background: rgba(0,0,0,0.2);
+    -webkit-transition: all 0.7s ease-out;
+    -webkit-transition-property: -webkit-transform, opacity;
+    -webkit-transform: scale(0);
+    pointer-events: none;
+    background-color: $color;
+  }
+
+  // .waves-notransition {
+  //   -webkit-transition: none #{"!important"};
+  // }
+
+  .waves-circle {
+    -webkit-transform: translateZ(0);
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+  }
+
+  .waves-input-wrapper {
+    border-radius: 0.2em;
+    vertical-align: bottom;
+
+    .waves-button-input {
+      position: relative;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  }
+
+  .waves-circle {
+    text-align: center;
+    width: 2.5em;
+    height: 2.5em;
+    line-height: 2.5em;
+    border-radius: 50%;
+    -webkit-mask-image: none;
+  }
+
+  .waves-block {
+    display: block;
   }
 }
