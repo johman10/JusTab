@@ -55,18 +55,6 @@ body {
   float: left;
 }
 
-.panel {
-  background-color: $panel-background;
-  display: none;
-  float: left;
-  width: 400px;
-  height: 100vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .content {
   position: relative;
 }
@@ -118,12 +106,22 @@ core-toolbar {
 }
 
 .panel {
+  background-color: $panel-background;
+  display: none;
+  float: left;
+  width: 400px;
   height: 100vh;
+  overflow: hidden;
+  position: relative;
 
   .panel_header {
     @include paper-shadow(1);
     height: 128px;
-    position: relative;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
   }
 
   .panel_header_background {
@@ -131,7 +129,14 @@ core-toolbar {
     left: 0; top: 0;
     height: 100%;
     width: 100%;
-    background-repeat: no-repeat;
+
+    &1,
+    &2 {
+      background-repeat: no-repeat;
+      position:absolute;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .panel_header_foreground {
@@ -145,7 +150,7 @@ core-toolbar {
     .top,
     .bottom {
       width: 100%;
-      height: 50%;
+      height: 64px;
     }
 
     .bottom {
@@ -160,13 +165,11 @@ core-toolbar {
       font-size: 18px;
     }
   }
-}
 
-.middle {
-  a {
-    color: $white;
-    text-decoration: none;
-    font-weight: 500;
+  .panel_content {
+    height: 100%;
+    overflow-y: scroll;
+    padding-top: 128px;
   }
 }
 

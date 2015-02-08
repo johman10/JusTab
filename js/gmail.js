@@ -56,7 +56,7 @@ function GmailShowData() {
 function gmailCheckScroll(e) {
   var elem = $(e.currentTarget);
   var nextPage = localStorage.getItem('Gmail_page');
-  if (elem[0].scroller.scrollHeight - elem[0].scroller.scrollTop == elem.outerHeight()) {
+  if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight()) {
     console.log(nextPage);
   }
 }

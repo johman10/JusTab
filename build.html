@@ -519,6 +519,7 @@ in another form (e.g. a text block following the spinner).
   <script src="bower_components/moment/min/moment.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="bower_components/unveil/jquery.unveil.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/modules/ripple.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/modules/header.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/serviceData.js" type="text/javascript" charset="utf-8"></script>
   <script src="js/calendar.js" type="text/javascript" charset="utf-8" async=""></script>
   <script src="js/gmail.js" type="text/javascript" charset="utf-8" async=""></script>
@@ -1986,7 +1987,10 @@ polyfill-next-selector {
   <div class="panel_container">
     <div id="calendar" class="panel">
       <div class="panel_header">
-        <div class="panel_header_background panel_calendar_background"></div>
+        <div class="panel_header_background panel_calendar_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
+        </div>
         <div class="panel_header_foreground">
           <div class="top">
             <div class="refresh_button refresh_calendar waves-effect">
@@ -2010,29 +2014,34 @@ polyfill-next-selector {
       </div>
     </div>
 
-    <core-scroll-header-panel id="gmail" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_gmail" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_gmail"></paper-spinner>
+    <div id="gmail" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background panel_gmail_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
         </div>
-        <div class="middle">
-          <a href="http://www.gmail.com">Gmail</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z="1">
-          <div class="error">
-            <p>There was an error connecting to Gmail. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_gmail waves-effect">
+              <img src="img/icons/refresh.svg" alt="Refresh Gmail">
+            </div>
           </div>
-        </paper-shadow>
+          <div class="bottom">
+            <a href="http://www.gmail.com">Gmail</a>
+          </div>
+        </div>
+      </div>
+      <div class="panel_content">
+        <div class="error">
+          <p>TThere was an error connecting to Gmail. Please check your connection and your settings.</p>
+          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+          <div class="cleardiv"></div>
+        </div>
         <div class="mail_unread"></div>
         <div class="mail_read"></div>
       </div>
-    </core-scroll-header-panel>
+    </div>
 
     <core-scroll-header-panel id="facebook" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
       <core-toolbar class="medium-tall" animate="">

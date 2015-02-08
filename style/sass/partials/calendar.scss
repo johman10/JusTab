@@ -1,8 +1,14 @@
 .panel_calendar_background {
-  background-image: image-url('GC_header.svg');
-  background-size: auto 60%;
-  background-position: 110%;
-  background-color: $calendar-color;
+  .panel_header_background1 {
+    background-color: $calendar-color;
+  }
+
+  .panel_header_background2 {
+    background-image: image-url('GC_header.svg');
+    background-size: auto 76.8px;
+    background-position: 110%;
+    background-color: $calendar-color;
+  }
 }
 
 .today,

@@ -1,13 +1,14 @@
-#gmail::shadow #headerBg {
-  background-image: image-url('../img/GM_header.svg');
-  background-size: auto 60%;
-  background-position: 118%;
-  background-color: $gmail-color;
-}
+.panel_gmail_background {
+  .panel_header_background1 {
+    background-color: $gmail-color;
+  }
 
-#gmail::shadow #condensedHeaderBg {
-  background-image: none;
-  background-color: $gmail-color;
+  .panel_header_background2 {
+    background-image: image-url('GM_header.svg');
+    background-size: auto 76.8px;
+    background-position: 118%;
+    background-color: $gmail-color;
+  }
 }
 
 .mail_unread,
