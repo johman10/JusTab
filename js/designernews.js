@@ -22,7 +22,7 @@ $(document).ready(function() {
       });
     });
 
-    $('#designernews core-toolbar a').attr('href', 'http://news.layervault.com');
+    $('#designernews .panel_header .panel_header_foreground .bottom a').attr('href', 'http://news.layervault.com');
 
     $('#designernews, .designernews_info').show();
     $('body').width($('body').width() + $('#designernews').width());

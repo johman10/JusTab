@@ -24,7 +24,7 @@ $(document).ready(function() {
       });
     });
 
-    $('#couchpotato core-toolbar a').attr('href', serviceData.CPW.url);
+    $('#couchpotato .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.CPW.url);
 
     $('#couchpotato, .couchpotato_info').show();
     $('body').width($('body').width() + $('#couchpotato').width());

@@ -26,7 +26,7 @@ $(document).ready(function() {
     });
 
     $('#sabnzbd').bind('scroll', sabCheckScroll);
-    $('#sabnzbd core-toolbar a').attr('href', serviceData.SABQ.url);
+    $('#sabnzbd .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.SABQ.url);
 
     $('#sabnzbd, .sabnzbd_info').show();
     $('body').width($('body').width() + $('#sabnzbd').width());
