@@ -96,7 +96,6 @@ body {
 }
 
 .panel {
-  background-color: $panel-background;
   display: none;
   float: left;
   width: 400px;
@@ -175,7 +174,6 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    background-color: $panel-background;
     height: 100%;
     width: 48px;
     padding: 12px;
@@ -193,7 +191,7 @@ body {
     }
   }
 
-  &:hover {
+  &:not(.without_hover):hover {
     background-color: $hover-color !important;
 
     .core_item_icon {

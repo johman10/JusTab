@@ -25,36 +25,6 @@ $(document).ready(function() {
   }
 });
 
-// $('html').on('click', '.gc_item', function(event) {
-//   var collapseItem = $(this).next('.gc_collapse');
-//   var collapseIcon = $(this).find('.gc_collapse_icon');
-//   if (collapseItem.attr('opened') == 'false') {
-//     $('.gc_collapse').attr('opened', false);
-//     $('.gc_item').css('background-color', '#fafafa');
-//     $('.gc_collapse_icon_container').css('background-color', '#fafafa');
-//     $('.gc_collapse_icon[icon=expand-less]').fadeOut(165, function() {
-//       $(this).attr('icon', 'expand-more');
-//       $(this).fadeIn(165);
-//     });
-//     $(this).css('background-color', '#eee');
-//     collapseIcon.parent().css('background-color', '#eee');
-//     collapseItem.attr('opened', true);
-//     collapseIcon.fadeOut(165, function() {
-//       collapseIcon.attr('icon', 'expand-less');
-//       collapseIcon.fadeIn(165);
-//     });
-//   }
-//   else {
-//     $(this).css('background-color', '#fafafa');
-//     collapseIcon.parent().css('background-color', '#fafafa');
-//     collapseItem.attr('opened', false);
-//     collapseIcon.fadeOut(165, function() {
-//       collapseIcon.attr('icon', 'expand-more');
-//       collapseIcon.fadeIn(165);
-//     });
-//   }
-// });
-
 function calenderShowEvents() {
   $('#calendar .today').empty();
   $('#calendar .tomorrow').empty();
@@ -73,12 +43,12 @@ function calenderShowEvents() {
     $('#calendar .today').append(serviceData.GC.TodayHTML);
     $('#calendar .tomorrow').append(serviceData.GC.TomorrowHTML);
 
-    if ($('#calendar .today core-item').length < 1) {
-      $('#calendar .today').append('<core-item label="There are no events in your calendar for today."></core-item>');
+    if ($('#calendar .today .core_item').length < 1) {
+      $('#calendar .today').append('<div class="core_item without_hover">There are no events in your calendar for today.</div>');
     }
 
-    if ($('#calendar .tomorrow core-item').length < 1) {
-      $('#calendar .tomorrow').append('<core-item label="There are no events in your calendar for tomorrow."></core-item>');
+    if ($('#calendar .tomorrow .core_item').length < 1) {
+      $('#calendar .tomorrow').append('<div class="core_item without_hover">There are no events in your calendar for tomorrow.</div>');
     }
   }
 }
