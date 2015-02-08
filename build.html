@@ -1,6 +1,5 @@
 <!DOCTYPE html><html><head>
   <title>New Tab</title>
-  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
   <style shim-shadowdom="">
 /*******************************
           Flex Layout
@@ -282,7 +281,6 @@ html /deep/ [segment], html /deep/ segment {
 
 <script src="bower_components/polymer/polymer.js"></script>
 
-  
 
 
 
@@ -304,12 +302,6 @@ html /deep/ core-icon {
   height: 24px;
   width: 24px;
 }</style>
-
-
-
-
-  
-
 
 
 
@@ -342,9 +334,6 @@ html /deep/ .core-collapse-closed {
 
 
 
-
-
-  
 
 
   
@@ -478,43 +467,6 @@ html /deep/ .paper-shadow-bottom-z-5 {
 
 
 
-  
-
-<!--
-Element providing material design circular spinner.
-
-##### Example
-
-    <paper-spinner active></paper-spinner>
-
-The default spinner cycles between blue, red, yellow and green. It can be customized so
-that it uses one color only.
-
-##### Example
-
-    <style shim-shadowdom>
-      paper-spinner.blue::shadow .circle {
-        border-color: #4285f4;
-      }
-    </style>
-
-    <paper-spinner class="blue" active></paper-spinner>
-
-Alt attribute should be set to provide adequate context for accessibility. If not provided,
-it defaults to 'loading'.
-Empty alt can be provided to mark the element as decorative if alternative content is provided
-in another form (e.g. a text block following the spinner).
-
-##### Example
-  <paper-spinner alt="Loading contacts list" active></paper-spinner>
-
-@element paper-spinner
-@blurb Element providing material design circular spinner.
-@status alpha
-@homepage http://polymerlabs.github.io/paper-spinner
--->
-
-
   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="bower_components/moment/min/moment.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="bower_components/unveil/jquery.unveil.min.js" type="text/javascript" charset="utf-8"></script>
@@ -531,8 +483,7 @@ in another form (e.g. a text block following the spinner).
   <script src="js/style.js" type="text/javascript" charset="utf-8"></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
 </head>
-<body unresolved=""><div hidden="">
-<polymer-element name="core-meta" attributes="label type" hidden="" assetpath="bower_components/core-meta/">
+<body unresolved=""><div hidden=""><polymer-element name="core-meta" attributes="label type" hidden="" assetpath="bower_components/core-meta/">
 
 </polymer-element>
 <polymer-element name="core-iconset" extends="core-meta" attributes="src width icons iconSize" assetpath="bower_components/core-iconset/">
@@ -597,89 +548,6 @@ polyfill-next-selector { content: ':host > a'; }
   </template>
   <div id="label">{{label}}</div>
   <content></content>
-</template>
-
-</polymer-element>
-
-<polymer-element name="core-scroll-header-panel" assetpath="bower_components/core-scroll-header-panel/">
-<template>
-
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-:host {
-  display: block;
-  position: relative;
-  overflow: hidden;
-}
-
-#mainContainer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-overflow-scrolling: touch;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-#headerContainer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-}
-
-.bg-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-#headerBg, #condensedHeaderBg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;
-}
-
-#condensedHeaderBg {
-  opacity: 0;
-}</style>
-
-  <div id="mainContainer">
-  
-    <content id="mainContent" select=":not(core-toolbar):not(.core-header)"></content>
-    
-  </div>
-  
-  <div id="headerContainer">
-  
-    <div class="bg-container">
-      <div id="condensedHeaderBg"></div>
-      <div id="headerBg"></div>
-    </div>
-    
-    <content id="headerContent" select="core-toolbar, .core-header"></content>
-    
-  </div>
-  
 </template>
 
 </polymer-element>
@@ -1025,144 +893,6 @@ core-icon {
   </template>
 
   
-
-</polymer-element>
-
-<polymer-element name="core-toolbar" attributes="justify middleJustify bottomJustify" assetpath="bower_components/core-toolbar/">
-<template>
-
-  <style>/*
-Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
-*/
-
-:host {
-  /* technical */
-  display: block;
-  position: relative;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  /* size */
-  height: 64px;
-  /* typography */
-  font-size: 1.3em;
-  /* background */
-  background-color: #CFD8DC;
-}
-
-:host(.animate) {
-  /* transition */
-  transition: height 0.18s ease-in;
-}
-
-:host(.medium-tall) {
-  height: 128px;
-}
-
-:host(.tall) {
-  height: 192px;
-}
-
-.toolbar-tools {
-  position: relative;
-  height: 64px;
-  padding: 0 8px;
-  pointer-events: none;
-}
-
-/* narrow layout */
-:host(.core-narrow),
-:host-context(.core-narrow) {
-  height: 56px;
-}
-
-polyfill-next-selector { content: ':host.core-narrow.medium-tall, .core-narrow :host.medium-tall'; }
-:host(.core-narrow.medium-tall),
-:host-context(.core-narrow):host(.medium-tall) {
-  height: 112px;
-}
-
-polyfill-next-selector { content: ':host.core-narrow.tall, .core-narrow :host.tall'; }
-:host(.core-narrow.tall),
-:host-context(.core-narrow):host(.tall) {
-  height: 168px;
-}
-
-polyfill-next-selector { content: ':host.core-narrow .toolbar-tools, .core-narrow :host .toolbar-tools'; }
-:host(.core-narrow) .toolbar-tools,
-:host-context(.core-narrow) .toolbar-tools {
-  height: 56px;
-  padding: 0;
-}
-
-/* middle bar */
-#middleBar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-}
-
-:host(.tall, .medium-tall) #middleBar {
-  -webkit-transform: translateY(100%);
-  transform: translateY(100%);
-}
-
-/* bottom bar */
-#bottomBar {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-/* make elements (e.g. buttons) respond to mouse/touch events */
-polyfill-next-selector { content: '.toolbar-tools > *:not([disabled])'; }
-::content > *:not([disabled]) {
-  pointer-events: auto;
-}
-
-/* elements spacing */
-polyfill-next-selector { content: '.toolbar-tools > *'; }
-::content > * {
-  margin: 0 8px;
-}
-
-/* misc helpers */
-polyfill-next-selector { content: '.toolbar-tools > .fit'; }
-::content > .fit {
-  position: absolute;
-  top: auto;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: auto;
-  margin: 0;
-}
-
-polyfill-next-selector { content: ':host .indent'; }
-::content > .indent {
-  margin-left: 60px;
-}
-</style>
-
-  <div id="bottomBar" class="toolbar-tools" center="" horizontal="" layout="">
-    <content select=".bottom"></content>
-  </div>
-
-  <div id="middleBar" class="toolbar-tools" center="" horizontal="" layout="">
-    <content select=".middle"></content>
-  </div>
-
-  <div id="topBar" class="toolbar-tools" center="" horizontal="" layout="">
-    <content></content>
-  </div>
-
-</template>
 
 </polymer-element>
 
@@ -1609,379 +1339,6 @@ polyfill-next-selector {
 
   
 </polymer-element>
-
-<polymer-element name="paper-spinner" attributes="active alt" role="progressbar" assetpath="bower_components/paper-spinner/">
-  <template>
-    <style>/*
-    @license
-    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
-    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-    Code distributed by Google as part of the polymer project is also
-    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
- */
-
-/**************************/
-/* STYLES FOR THE SPINNER */
-/**************************/
-
-/*
- * Constants:
- *      STROKEWIDTH = 3px
- *      ARCSIZE     = 270 degrees (amount of circle the arc takes up)
- *      ARCTIME     = 1333ms (time it takes to expand and contract arc)
- *      ARCSTARTROT = 216 degrees (how much the start location of the arc
- *                                should rotate each time, 216 gives us a
- *                                5 pointed star shape (it's 360/5 * 3).
- *                                For a 7 pointed star, we might do
- *                                360/7 * 3 = 154.286)
- *      CONTAINERWIDTH = 28px
- *      SHRINK_TIME = 400ms
- */
-
-:host {
-  display: inline-block;
-  position: relative;
-  width: 28px; /* CONTAINERWIDTH */
-  height: 28px; /* CONTAINERWIDTH */
-}
-
-#spinnerContainer {
-  width: 100%;
-  height: 100%;
-}
-
-#spinnerContainer.active {
-  /* duration: 360 * ARCTIME / (ARCSTARTROT + (360-ARCSIZE)) */
-  -webkit-animation: container-rotate 1568ms linear infinite;
-  animation: container-rotate 1568ms linear infinite;
-}
-
-@-webkit-keyframes container-rotate {
-  to { -webkit-transform: rotate(360deg) }
-}
-
-@keyframes container-rotate {
-  to { transform: rotate(360deg) }
-}
-
-.spinner-layer {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-}
-
-.blue {
-  border-color: #4285f4;
-}
-
-.red {
-  border-color: #db4437;
-}
-
-.yellow {
-  border-color: #f4b400;
-}
-
-.green {
-  border-color: #0f9d58;
-}
-
-/**
- * IMPORTANT NOTE ABOUT CSS ANIMATION PROPERTIES (keanulee):
- *
- * iOS Safari (tested on iOS 8.1) does not handle animation-delay very well - it doesn't
- * guarantee that the animation will start _exactly_ after that value. So we avoid using
- * animation-delay and instead set custom keyframes for each color (as redundant as it
- * seems).
- *
- * We write out each animation in full (instead of separating animation-name,
- * animation-duration, etc.) because under the polyfill, Safari does not recognize those
- * specific properties properly, treats them as -webkit-animation, and overrides the
- * other animation rules. See https://github.com/Polymer/platform/issues/53.
- */
-.active .spinner-layer.blue {
-  /* durations: 4 * ARCTIME */
-  -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, blue-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-  animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, blue-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-}
-
-.active .spinner-layer.red {
-  /* durations: 4 * ARCTIME */
-  -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, red-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-  animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, red-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-}
-
-.active .spinner-layer.yellow {
-  /* durations: 4 * ARCTIME */
-  -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, yellow-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-  animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, yellow-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-}
-
-.active .spinner-layer.green {
-  /* durations: 4 * ARCTIME */
-  -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, green-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-  animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, green-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-}
-
-@-webkit-keyframes fill-unfill-rotate {
-  12.5% { -webkit-transform: rotate(135deg);  } /* 0.5 * ARCSIZE */
-  25%   { -webkit-transform: rotate(270deg);  } /* 1   * ARCSIZE */
-  37.5% { -webkit-transform: rotate(405deg);  } /* 1.5 * ARCSIZE */
-  50%   { -webkit-transform: rotate(540deg);  } /* 2   * ARCSIZE */
-  62.5% { -webkit-transform: rotate(675deg);  } /* 2.5 * ARCSIZE */
-  75%   { -webkit-transform: rotate(810deg);  } /* 3   * ARCSIZE */
-  87.5% { -webkit-transform: rotate(945deg);  } /* 3.5 * ARCSIZE */
-  to    { -webkit-transform: rotate(1080deg); } /* 4   * ARCSIZE */
-}
-
-@keyframes fill-unfill-rotate {
-  12.5% { transform: rotate(135deg);  } /* 0.5 * ARCSIZE */
-  25%   { transform: rotate(270deg);  } /* 1   * ARCSIZE */
-  37.5% { transform: rotate(405deg);  } /* 1.5 * ARCSIZE */
-  50%   { transform: rotate(540deg);  } /* 2   * ARCSIZE */
-  62.5% { transform: rotate(675deg);  } /* 2.5 * ARCSIZE */
-  75%   { transform: rotate(810deg);  } /* 3   * ARCSIZE */
-  87.5% { transform: rotate(945deg);  } /* 3.5 * ARCSIZE */
-  to    { transform: rotate(1080deg); } /* 4   * ARCSIZE */
-}
-
-/**
- * HACK: Even though the intention is to have the current .spinner-layer at
- * `opacity: 1`, we set it to `opacity: 0.99` instead since this forces Chrome
- * to do proper subpixel rendering for the elements being animated. This is
- * especially visible in Chrome 39 on Ubuntu 14.04. See:
- *
- * - https://github.com/Polymer/paper-spinner/issues/9
- * - https://code.google.com/p/chromium/issues/detail?id=436255
- */
-@-webkit-keyframes blue-fade-in-out {
-  from { opacity: 0.99; }
-  25% { opacity: 0.99; }
-  26% { opacity: 0; }
-  89% { opacity: 0; }
-  90% { opacity: 0.99; }
-  100% { opacity: 0.99; }
-}
-
-@keyframes blue-fade-in-out {
-  from { opacity: 0.99; }
-  25% { opacity: 0.99; }
-  26% { opacity: 0; }
-  89% { opacity: 0; }
-  90% { opacity: 0.99; }
-  100% { opacity: 0.99; }
-}
-
-@-webkit-keyframes red-fade-in-out {
-  from { opacity: 0; }
-  15% { opacity: 0; }
-  25% { opacity: 0.99; }
-  50% { opacity: 0.99; }
-  51% { opacity: 0; }
-}
-
-@keyframes red-fade-in-out {
-  from { opacity: 0; }
-  15% { opacity: 0; }
-  25% { opacity: 0.99; }
-  50% { opacity: 0.99; }
-  51% { opacity: 0; }
-}
-
-@-webkit-keyframes yellow-fade-in-out {
-  from { opacity: 0; }
-  40% { opacity: 0; }
-  50% { opacity: 0.99; }
-  75% { opacity: 0.99; }
-  76% { opacity: 0; }
-}
-
-@keyframes yellow-fade-in-out {
-  from { opacity: 0; }
-  40% { opacity: 0; }
-  50% { opacity: 0.99; }
-  75% { opacity: 0.99; }
-  76% { opacity: 0; }
-}
-
-@-webkit-keyframes green-fade-in-out {
-  from { opacity: 0; }
-  65% { opacity: 0; }
-  75% { opacity: 0.99; }
-  90% { opacity: 0.99; }
-  100% { opacity: 0; }
-}
-
-@keyframes green-fade-in-out {
-  from { opacity: 0; }
-  65% { opacity: 0; }
-  75% { opacity: 0.99; }
-  90% { opacity: 0.99; }
-  100% { opacity: 0; }
-}
-
-/**
- * Patch the gap that appear between the two adjacent div.circle-clipper while the
- * spinner is rotating (appears on Chrome 38, Safari 7.1, and IE 11).
- *
- * Update: the gap no longer appears on Chrome when .spinner-layer's opacity is 0.99,
- * but still does on Safari and IE.
- */
-.gap-patch {
-  position: absolute;
-  box-sizing: border-box;
-  top: 0;
-  left: 45%;
-  width: 10%;
-  height: 100%;
-  overflow: hidden;
-  border-color: inherit;
-}
-
-.gap-patch .circle {
-  width: 1000%;
-  left: -450%;
-}
-
-.circle-clipper {
-  display: inline-block;
-  position: relative;
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-  border-color: inherit;
-}
-
-.circle-clipper .circle {
-  width: 200%;
-}
-
-.circle {
-  box-sizing: border-box;
-  height: 100%;
-  border-width: 3px; /* STROKEWIDTH */
-  border-style: solid;
-  border-color: inherit;
-  border-bottom-color: transparent !important;
-  border-radius: 50%;
-  -webkit-animation: none;
-  animation: none;
-}
-
-.circle-clipper.left .circle {
-  border-right-color: transparent !important;
-  -webkit-transform: rotate(129deg);
-  transform: rotate(129deg);
-}
-
-.circle-clipper.right .circle {
-  left: -100%;
-  border-left-color: transparent !important;
-  -webkit-transform: rotate(-129deg);
-  transform: rotate(-129deg);
-}
-
-.active .circle-clipper.left .circle {
-  /* duration: ARCTIME */
-  -webkit-animation: left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-  animation: left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-}
-
-.active .circle-clipper.right .circle {
-  /* duration: ARCTIME */
-  -webkit-animation: right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-  animation: right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-}
-
-@-webkit-keyframes left-spin {
-  from { -webkit-transform: rotate(130deg); }
-  50% { -webkit-transform: rotate(-5deg); }
-  to { -webkit-transform: rotate(130deg); }
-}
-
-@keyframes left-spin {
-  from { transform: rotate(130deg); }
-  50% { transform: rotate(-5deg); }
-  to { transform: rotate(130deg); }
-}
-
-@-webkit-keyframes right-spin {
-  from { -webkit-transform: rotate(-130deg); }
-  50% { -webkit-transform: rotate(5deg); }
-  to { -webkit-transform: rotate(-130deg); }
-}
-
-@keyframes right-spin {
-  from { transform: rotate(-130deg); }
-  50% { transform: rotate(5deg); }
-  to { transform: rotate(-130deg); }
-}
-
-#spinnerContainer.cooldown {
-  /* duration: SHRINK_TIME */
-  -webkit-animation: container-rotate 1568ms linear infinite, fade-out 400ms cubic-bezier(0.4, 0.0, 0.2, 1);
-  animation: container-rotate 1568ms linear infinite, fade-out 400ms cubic-bezier(0.4, 0.0, 0.2, 1);
-}
-
-@-webkit-keyframes fade-out {
-  from { opacity: 0.99; }
-  to { opacity: 0; }
-}
-
-@keyframes fade-out {
-  from { opacity: 0.99; }
-  to { opacity: 0; }
-}
-</style>
-
-    <div id="spinnerContainer">
-      <div class="spinner-layer blue">
-        <div class="circle-clipper left">
-          <div class="circle" fit=""></div>
-        </div><div class="gap-patch">
-          <div class="circle" fit=""></div>
-        </div><div class="circle-clipper right">
-          <div class="circle" fit=""></div>
-        </div>
-      </div>
-
-      <div class="spinner-layer red">
-        <div class="circle-clipper left">
-          <div class="circle" fit=""></div>
-        </div><div class="gap-patch">
-          <div class="circle" fit=""></div>
-        </div><div class="circle-clipper right">
-          <div class="circle" fit=""></div>
-        </div>
-      </div>
-
-      <div class="spinner-layer yellow">
-        <div class="circle-clipper left">
-          <div class="circle" fit=""></div>
-        </div><div class="gap-patch">
-          <div class="circle" fit=""></div>
-        </div><div class="circle-clipper right">
-          <div class="circle" fit=""></div>
-        </div>
-      </div>
-
-      <div class="spinner-layer green">
-        <div class="circle-clipper left">
-          <div class="circle" fit=""></div>
-        </div><div class="gap-patch">
-          <div class="circle" fit=""></div>
-        </div><div class="circle-clipper right">
-          <div class="circle" fit=""></div>
-        </div>
-      </div>
-    </div>
-  </template>
-
-  
-</polymer-element>
 </div>
   <paper-icon-button class="settings_button" icon="settings"></paper-icon-button>
   <div class="panel_container">
@@ -2043,135 +1400,156 @@ polyfill-next-selector {
       </div>
     </div>
 
-    <core-scroll-header-panel id="facebook" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_fb" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_fb"></paper-spinner>
+    <div id="facebook" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background panel_facebook_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
         </div>
-        <div class="middle">
-          <a href="http://www.facebook.com">Facebook</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z="1">
-          <div class="error">
-            <p>There was an error connecting to Facebook. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_fb waves-effect">
+              <img src="img/icons/refresh.svg" alt="Refresh Facebook">
+            </div>
           </div>
-        </paper-shadow>
-        <div class="notifications">
-
+          <div class="bottom">
+            <a href="http://www.facebook.com">Facebook</a>
+          </div>
         </div>
       </div>
-    </core-scroll-header-panel>
+      <div class="panel_content">
+        <div class="error">
+          <p>There was an error connecting to Facebook. Please check your connection and your settings.</p>
+          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+          <div class="cleardiv"></div>
+        </div>
+        <div class="notifications">
+        </div>
+      </div>
+    </div>
 
-    <core-scroll-header-panel id="couchpotato" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_cp" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_cp"></paper-spinner>
+    <div id="couchpotato" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background panel_couchpotato_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
         </div>
-        <div class="middle">
-          <a>Couchpotato</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z="1">
-          <div class="error">
-            <p>There was an error connecting to Couchpotato. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_cp waves-effect">
+              <img src="img/icons/refresh.svg" alt="Refresh Couchpotato">
+            </div>
           </div>
-        </paper-shadow>
+          <div class="bottom">
+            <a>Couchpotato</a>
+          </div>
+        </div>
+      </div>
+      <div class="panel_content">
+        <div class="error">
+          <p>There was an error connecting to Couchpotato. Please check your connection and your settings.</p>
+          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+          <div class="cleardiv"></div>
+        </div>
         <div class="snatched">
         </div>
         <div class="wanted">
         </div>
       </div>
-    </core-scroll-header-panel>
+    </div>
 
-    <core-scroll-header-panel id="sickbeard" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_sb" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_sb"></paper-spinner>
+    <div id="sickbeard" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background panel_sickbeard_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
         </div>
-        <div class="middle">
-          <a>Sickbeard</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z="1">
-          <div class="error">
-            <p>There was an error connecting to Sickbeard. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_sb waves-effect">
+              <img src="img/icons/refresh.svg" alt="Refresh Sickbeard">
+            </div>
           </div>
-        </paper-shadow>
+          <div class="bottom">
+            <a>Sickbeard</a>
+          </div>
+        </div>
+      </div>
+      <div class="panel_content">
+        <div class="error">
+          <p>There was an error connecting to Sickbeard. Please check your connection and your settings.</p>
+          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+          <div class="cleardiv"></div>
+        </div>
         <div class="sb_missed"></div>
         <div class="sb_today"></div>
         <div class="sb_soon"></div>
         <div class="sb_later"></div>
+        </div>
       </div>
-    </core-scroll-header-panel>
+    </div>
 
-    <core-scroll-header-panel id="sabnzbd" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_sab" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_sab"></paper-spinner>
+    <div id="sabnzbd" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background panel_sabnzbd_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
         </div>
-        <div class="middle">
-          <a>SABnzbd</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z="1">
-          <div class="error">
-            <p>There was an error connecting to SABnzbd. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_sab waves-effect">
+              <img src="img/icons/refresh.svg" alt="Refresh Sabnzbd">
+            </div>
           </div>
-        </paper-shadow>
-        <div class="status">
+          <div class="bottom">
+            <a>SABnzbd</a>
+          </div>
+        </div>
+      </div>
+      <div class="panel_content">
+        <div class="error">
+          <p>There was an error connecting to SABnzbd. Please check your connection and your settings.</p>
+          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+          <div class="cleardiv"></div>
         </div>
         <div class="queue">
         </div>
         <div class="history">
         </div>
       </div>
-    </core-scroll-header-panel>
+    </div>
 
-    <core-scroll-header-panel id="designernews" class="panel" keepcondensedheader="true" noreveal="true" condensedheaderheight="64" condenses="" draggable="false">
-      <core-toolbar class="medium-tall" animate="">
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_dn" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_dn"></paper-spinner>
+    <div id="designernews" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background panel_designernews_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
         </div>
-        <div class="middle">
-          <a>Designer News</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z="1">
-          <div class="error">
-            <p>There was an error connecting to Designer News. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_dn waves-effect">
+              <img src="img/icons/refresh.svg" alt="Refresh Designer News">
+            </div>
           </div>
-        </paper-shadow>
-        <div class="dn_links">
+          <div class="bottom">
+            <a>Designer News</a>
+          </div>
         </div>
       </div>
-    </core-scroll-header-panel>
-
+      <div class="panel_content">
+        <div class="error">
+          <p>There was an error connecting to Designer News. Please check your connection and your settings.</p>
+          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+          <div class="cleardiv"></div>
+        </div>
+        <div class="dn_links">
+      </div>
+    </div>
     <div class="cleardiv"></div>
   </div>
 

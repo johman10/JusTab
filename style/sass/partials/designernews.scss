@@ -1,13 +1,14 @@
-#designernews::shadow #headerBg {
-  background-image: image-url('../img/DN_header.png');
-  background-size: auto 60%;
-  background-position: 110%;
-  background-color: $designernews-color;
-}
+.panel_designernews_background {
+  .panel_header_background1 {
+    background-color: $designernews-color;
+  }
 
-#designernews::shadow #condensedHeaderBg {
-  background-image: none;
-  background-color: $designernews-color;
+  .panel_header_background2 {
+    background-image: image-url('DN_header.png');
+    background-size: auto 76.8px;
+    background-position: 110%;
+    background-color: $designernews-color;
+  }
 }
 
 .dn_link_container {

@@ -1,13 +1,14 @@
-#couchpotato::shadow #headerBg {
-  background-image: image-url('../img/CP_header.png');
-  background-size: auto 60%;
-  background-position: 115%;
-  background-color: $couchpotato-color;
-}
+.panel_couchpotato_background {
+  .panel_header_background1 {
+    background-color: $couchpotato-color;
+  }
 
-#couchpotato::shadow #condensedHeaderBg {
-  background-image: none;
-  background-color: $couchpotato-color;
+  .panel_header_background2 {
+    background-image: image-url('CP_header.png');
+    background-size: auto 76.8px;
+    background-position: 115%;
+    background-color: $couchpotato-color;
+  }
 }
 
 .wanted,

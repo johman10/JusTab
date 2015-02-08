@@ -1,13 +1,14 @@
-#sabnzbd::shadow #headerBg {
-  background-image: image-url('../img/SAB_header.png');
-  background-size: auto 60%;
-  background-position: 110%;
-  background-color: $sabnzbd-color;
-}
+.panel_sabnzbd_background {
+  .panel_header_background1 {
+    background-color: $sabnzbd-color;
+  }
 
-#sabnzbd::shadow #condensedHeaderBg {
-  background-image: none;
-  background-color: $sabnzbd-color;
+  .panel_header_background2 {
+    background-image: image-url('SAB_header.png');
+    background-size: auto 76.8px;
+    background-position: 110%;
+    background-color: $sabnzbd-color;
+  }
 }
 
 .queue,

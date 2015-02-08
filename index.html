@@ -2,18 +2,13 @@
 <html>
 <head>
   <title>New Tab</title>
-  <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
-  <link rel="import" href="bower_components/polymer/polymer.html">
   <link rel="import" href="bower_components/core-item/core-item.html">
-  <link rel="import" href="bower_components/core-scroll-header-panel/core-scroll-header-panel.html">
   <link rel="import" href="bower_components/core-collapse/core-collapse.html">
   <link rel="import" href="bower_components/core-icon/core-icon.html">
   <link rel="import" href="bower_components/core-icon-button/core-icon-button.html">
-  <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
   <link rel="import" href="bower_components/paper-input/paper-input.html">
   <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
   <link rel="import" href="bower_components/paper-button/paper-button.html">
-  <link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="bower_components/moment/min/moment.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="bower_components/unveil/jquery.unveil.min.js" type="text/javascript" charset="utf-8"></script>
@@ -91,135 +86,156 @@
       </div>
     </div>
 
-    <core-scroll-header-panel id="facebook" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
-      <core-toolbar class="medium-tall" animate>
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_fb" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_fb"></paper-spinner>
+    <div id="facebook" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background panel_facebook_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
         </div>
-        <div class="middle">
-          <a href="http://www.facebook.com">Facebook</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z=1>
-          <div class="error">
-            <p>There was an error connecting to Facebook. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_fb waves-effect">
+              <img src="img/icons/refresh.svg" alt="Refresh Facebook">
+            </div>
           </div>
-        </paper-shadow>
-        <div class="notifications">
-
+          <div class="bottom">
+            <a href="http://www.facebook.com">Facebook</a>
+          </div>
         </div>
       </div>
-    </core-scroll-header-panel>
+      <div class="panel_content">
+        <div class="error">
+          <p>There was an error connecting to Facebook. Please check your connection and your settings.</p>
+          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+          <div class="cleardiv"></div>
+        </div>
+        <div class="notifications">
+        </div>
+      </div>
+    </div>
 
-    <core-scroll-header-panel id="couchpotato" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
-      <core-toolbar class="medium-tall" animate>
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_cp" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_cp"></paper-spinner>
+    <div id="couchpotato" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background panel_couchpotato_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
         </div>
-        <div class="middle">
-          <a>Couchpotato</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z=1>
-          <div class="error">
-            <p>There was an error connecting to Couchpotato. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_cp waves-effect">
+              <img src="img/icons/refresh.svg" alt="Refresh Couchpotato">
+            </div>
           </div>
-        </paper-shadow>
+          <div class="bottom">
+            <a>Couchpotato</a>
+          </div>
+        </div>
+      </div>
+      <div class="panel_content">
+        <div class="error">
+          <p>There was an error connecting to Couchpotato. Please check your connection and your settings.</p>
+          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+          <div class="cleardiv"></div>
+        </div>
         <div class="snatched">
         </div>
         <div class="wanted">
         </div>
       </div>
-    </core-scroll-header-panel>
+    </div>
 
-    <core-scroll-header-panel id="sickbeard" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
-      <core-toolbar class="medium-tall" animate>
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_sb" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_sb"></paper-spinner>
+    <div id="sickbeard" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background panel_sickbeard_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
         </div>
-        <div class="middle">
-          <a>Sickbeard</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z=1>
-          <div class="error">
-            <p>There was an error connecting to Sickbeard. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_sb waves-effect">
+              <img src="img/icons/refresh.svg" alt="Refresh Sickbeard">
+            </div>
           </div>
-        </paper-shadow>
+          <div class="bottom">
+            <a>Sickbeard</a>
+          </div>
+        </div>
+      </div>
+      <div class="panel_content">
+        <div class="error">
+          <p>There was an error connecting to Sickbeard. Please check your connection and your settings.</p>
+          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+          <div class="cleardiv"></div>
+        </div>
         <div class="sb_missed"></div>
         <div class="sb_today"></div>
         <div class="sb_soon"></div>
         <div class="sb_later"></div>
+        </div>
       </div>
-    </core-scroll-header-panel>
+    </div>
 
-    <core-scroll-header-panel id="sabnzbd" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
-      <core-toolbar class="medium-tall" animate>
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_sab" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_sab"></paper-spinner>
+    <div id="sabnzbd" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background panel_sabnzbd_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
         </div>
-        <div class="middle">
-          <a>SABnzbd</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z=1>
-          <div class="error">
-            <p>There was an error connecting to SABnzbd. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_sab waves-effect">
+              <img src="img/icons/refresh.svg" alt="Refresh Sabnzbd">
+            </div>
           </div>
-        </paper-shadow>
-        <div class="status">
+          <div class="bottom">
+            <a>SABnzbd</a>
+          </div>
+        </div>
+      </div>
+      <div class="panel_content">
+        <div class="error">
+          <p>There was an error connecting to SABnzbd. Please check your connection and your settings.</p>
+          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+          <div class="cleardiv"></div>
         </div>
         <div class="queue">
         </div>
         <div class="history">
         </div>
       </div>
-    </core-scroll-header-panel>
+    </div>
 
-    <core-scroll-header-panel id="designernews" class="panel" keepCondensedHeader="true" noReveal="true" condensedHeaderHeight="64" condenses draggable="false">
-      <core-toolbar class="medium-tall" animate>
-        <div class="top">
-          <paper-icon-button class="refresh_button refresh_dn" icon="refresh"></paper-icon-button>
-          <paper-spinner class="refresh_loading_icon loading_dn"></paper-spinner>
+    <div id="designernews" class="panel">
+      <div class="panel_header">
+        <div class="panel_header_background panel_designernews_background">
+          <div class="panel_header_background1"></div>
+          <div class="panel_header_background2"></div>
         </div>
-        <div class="middle">
-          <a>Designer News</a>
-        </div>
-      </core-toolbar>
-      <div class="content">
-        <paper-shadow z=1>
-          <div class="error">
-            <p>There was an error connecting to Designer News. Please check your connection and your settings.</p>
-            <paper-button class="error_settings_button">Settings</paper-button>
-            <paper-button class="error_retry_button">Retry</paper-button>
-            <div class="cleardiv"></div>
+        <div class="panel_header_foreground">
+          <div class="top">
+            <div class="refresh_button refresh_dn waves-effect">
+              <img src="img/icons/refresh.svg" alt="Refresh Designer News">
+            </div>
           </div>
-        </paper-shadow>
-        <div class="dn_links">
+          <div class="bottom">
+            <a>Designer News</a>
+          </div>
         </div>
       </div>
-    </core-scroll-header-panel>
-
+      <div class="panel_content">
+        <div class="error">
+          <p>There was an error connecting to Designer News. Please check your connection and your settings.</p>
+          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+          <div class="cleardiv"></div>
+        </div>
+        <div class="dn_links">
+      </div>
+    </div>
     <div class="cleardiv"></div>
   </div>
 

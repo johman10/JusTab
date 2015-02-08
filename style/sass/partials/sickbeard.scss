@@ -1,13 +1,14 @@
-#sickbeard::shadow #headerBg {
-  background-image: image-url('../img/SB_header.png');
-  background-size: auto 60%;
-  background-position: 110%;
-  background-color: $sickbeard-color;
-}
+.panel_sickbeard_background {
+  .panel_header_background1 {
+    background-color: $sickbeard-color;
+  }
 
-#sickbeard::shadow #condensedHeaderBg {
-  background-image: none;
-  background-color: $sickbeard-color;
+  .panel_header_background2 {
+    background-image: image-url('SB_header.png');
+    background-size: auto 76.8px;
+    background-position: 110%;
+    background-color: $sickbeard-color;
+  }
 }
 
 .sb_missed,

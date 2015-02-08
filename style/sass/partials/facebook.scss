@@ -1,13 +1,14 @@
-#facebook::shadow #headerBg {
-  background-image: image-url('../img/FB_header.png');
-  background-size: auto 60%;
-  background-position: 100%;
-  background-color: $facebook-color;
-}
+.panel_facebook_background {
+  .panel_header_background1 {
+    background-color: $facebook-color;
+  }
 
-#facebook::shadow #condensedHeaderBg {
-  background-image: none;
-  background-color: $facebook-color;
+  .panel_header_background2 {
+    background-image: image-url('FB_header.png');
+    background-size: auto 76.8px;
+    background-position: 100%;
+    background-color: $facebook-color;
+  }
 }
 
 .notifications {
