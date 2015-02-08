@@ -55,10 +55,6 @@ body {
   float: left;
 }
 
-.content {
-  position: relative;
-}
-
 .error {
   @include paper-shadow(1);
   white-space: normal;
@@ -71,12 +67,6 @@ body {
     font-weight: 500;
     float: right;
   }
-}
-
-core-toolbar {
-  background-color: transparent;
-  color: $white;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.3);
 }
 
 .paper-flat-button {
@@ -173,8 +163,61 @@ core-toolbar {
   }
 }
 
-core-item {
+.core_item {
+  @include text-truncate;
+  min-height: 48px;
+  width: 100%;
   padding: 0 16px;
+  position: relative;
+  line-height: 48px;
+
+  .core_item_icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: $panel-background;
+    height: 100%;
+    width: 48px;
+    padding: 12px;
+
+    .expand_more_icon {
+      height: 24px;
+      width: 24px;
+      background-image: image-url('icons/expand_more.svg');
+    }
+
+    .expand_less_icon {
+      height: 24px;
+      width: 24px;
+      background-image: image-url('icons/expand_less.svg');
+    }
+  }
+
+  &:hover {
+    background-color: $hover-color !important;
+
+    .core_item_icon {
+      background-color: $hover-color !important;
+    }
+  }
+}
+
+.core_collapse {
+  @include text-truncate;
+  display: none;
+  overflow-y: hidden;
+  height: 100%;
+
+  .edit_icon {
+    @include ripple(#000);
+    border-radius: 100%;
+    float: right;
+    height: 48px;
+    width: 48px;
+    background-image: image-url('icons/edit.svg');
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
 }
 
 .bottom_bar_container {

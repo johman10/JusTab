@@ -16,40 +16,4 @@
   h2 {
     padding: 0 16px;
   }
-
-  .gc_event_link {
-    color: $black;
-    position: absolute;
-    right: 0;
-    left: auto;
-    width: 40px;
-  }
-}
-
-.gc_item {
-  cursor: pointer;
-
-  &::shadow #label {
-    @include text-truncate;
-    width: 344px;
-  }
-
-  &:hover {
-    background-color: $hover-color !important;
-
-    .gc_collapse_icon_container {
-      background-color: $hover-color !important;
-    }
-  }
-}
-
-.gc_collapse_icon_container {
-  background-color: $panel-background;
-  position: absolute;
-  right: 0;
-  padding: 8px;
-
-  .gc_collapse_icon {
-    color: $clr-grey-500;
-  }
 }

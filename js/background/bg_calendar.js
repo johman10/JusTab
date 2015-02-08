@@ -62,34 +62,32 @@ function calendarHTML(test) {
         eventEndTime = moment(cEvent.end.dateTime).format("HH:mm");
 
         htmlData =
-          '<core-item class="gc_item" label="' + eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary + '">' +
-            '<div class="gc_collapse_icon_container">' +
-              '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
+          '<div class="core_item gc_item">' +
+            eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary +
+            '<div class="core_item_icon">' +
+              '<div class="expand_more_icon"></div>' +
             '</div>' +
-          '</core-item>' +
-          '<core-collapse opened=false class="gc_collapse">' +
-            '<core-item>' +
-              '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
-                '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
-              '</a>' +
-            '</core-item>' +
-          '</core-collapse>';
+          '</div>' +
+          '<div class="gc_collapse core_collapse">' +
+            '<a class="gc_event_link waves-effect" href="' + cEvent.htmlLink + '" target="_blank">' +
+              '<div class="gc_event_link_icon edit_icon"></div>' +
+            '</a>' +
+          '</div>';
       }
       else {
         eventDate = moment(cEvent.start.date);
         htmlData =
-          '<core-item class="gc_item" label="' + cEvent.summary + '">' +
-            '<div class="gc_collapse_icon_container">' +
-              '<core-icon class="gc_collapse_icon" icon="expand-more"></core-icon>' +
+          '<div class="gc_item core_item">' +
+            cEvent.summary +
+            '<div class="core_item_icon">' +
+              '<div class="expand_more_icon"></div>' +
             '</div>' +
-          '</core-item>' +
-          '<core-collapse opened=false class="gc_collapse">' +
-            '<core-item>' +
-              '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
-                '<paper-icon-button class="gc_event_link_icon" icon="create"></paper-icon-button>' +
-              '</a>' +
-            '</core-item>' +
-          '</core-collapse>';
+          '</div>' +
+          '<div class="gc_collapse core_collapse">' +
+            '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
+              '<div class="waves-effect gc_event_link_icon edit_icon"></div>' +
+            '</a>' +
+          '</div>';
       }
 
       if (eventDate.isBefore(today.endOf('day'))) {
