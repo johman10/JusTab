@@ -166,7 +166,7 @@
   }
 }
 
-@mixin ripple($color: rgba(255, 255, 255, 0.25)) {
+@mixin ripple($color: #FFF) {
   &.waves-effect {
     position: relative;
     cursor: pointer;
@@ -189,7 +189,7 @@
       -webkit-transition-property: -webkit-transform, opacity;
       -webkit-transform: scale(0);
       pointer-events: none;
-      background-color: $color;
+      background-color: rgba($color, 0.25);
     }
   }
 

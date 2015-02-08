@@ -87,7 +87,7 @@
 
         setTimeout(function() {
           try {
-            el.removeChild(ripple);
+            ripple.remove();
           } catch (e) {
             return false;
           }
@@ -133,11 +133,14 @@
     var element = null;
     var target = $(e.target) || $(e.srcElement);
 
-    if (target.parents('.waves-effect').length > 0) {
-      element = target.parent('.waves-effect');
+    if (target.hasClass('waves-effect')) {
+      element = target;
+      target = target;
     }
-
-    target = target.parent('.waves-effect');
+    else if (target.parents('.waves-effect').length > 0) {
+      element = target.parent('.waves-effect');
+      target = target.parent('.waves-effect');
+    }
 
     return element;
   }
