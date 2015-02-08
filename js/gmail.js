@@ -19,7 +19,7 @@ $(document).ready(function() {
       });
     });
 
-    $('#gmail').bind('scroll', gmailCheckScroll);
+    $('#gmail .panel_content').bind('scroll', gmailCheckScroll);
 
     $('#gmail, .gmail_info').show();
     $('body').width($('body').width() + $('#gmail').width());

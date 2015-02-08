@@ -25,7 +25,7 @@ $(document).ready(function() {
       });
     });
 
-    $('#sabnzbd').bind('scroll', sabCheckScroll);
+    $('#sabnzbd .panel_content').bind('scroll', sabCheckScroll);
     $('#sabnzbd .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.SABQ.url);
 
     $('#sabnzbd, .sabnzbd_info').show();
@@ -57,7 +57,7 @@ function sabShowData() {
 function sabCheckScroll(e) {
   var elem = $(e.currentTarget);
   var newLength = parseFloat($('#sabnzbd .sab_item_container').length) + parseFloat(serviceData.SABH.length);
-  if (elem[0].scroller.scrollHeight - elem[0].scroller.scrollTop == elem.outerHeight()) {
+  if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight()) {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.getSabnzbdHistory(newLength);
     });
