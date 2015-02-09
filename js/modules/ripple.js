@@ -138,7 +138,7 @@
       target = target;
     }
     else if (target.parents('.waves-effect').length > 0) {
-      element = target.parent('.waves-effect');
+      element = target.parents('.waves-effect').first();
       target = target.parent('.waves-effect');
     }
 

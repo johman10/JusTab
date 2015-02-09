@@ -3,9 +3,7 @@ $(document).ready(function() {
     window[serviceData.GC.feFunctionName]();
 
     $('.refresh_calendar').click(function() {
-      if ($('#calendar .error:visible')) {
-        $('#calendar .error:visible').slideUp(400);
-      }
+      $('#calendar .error:visible').slideUp(400);
       $('.refresh_calendar').fadeOut(400, function() {
         $(this).html(spinner);
         $(this).fadeIn(400, function() {

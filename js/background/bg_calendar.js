@@ -77,7 +77,7 @@ function calendarHTML(test) {
       else {
         eventDate = moment(cEvent.start.date);
         htmlData =
-          '<div class="gc_item core_item">' +
+          '<div class="gc_item core_item waves-effect">' +
             cEvent.summary +
             '<div class="core_item_icon">' +
               '<div class="expand_more_icon"></div>' +

@@ -28,6 +28,10 @@ function getMailId(token, callback) {
         console.log(xhr, ajaxOptions, thrownError);
         localStorage.setItem("Gmail_error", true);
         serviceData.GM.error = true;
+
+        if (callback) {
+          callback();
+        }
       }
     })).then(function() {
       localStorage.setItem("Gmail", JSON.stringify(messages));
@@ -89,14 +93,13 @@ function GmailHTML() {
     messageSnippet = message.snippet;
 
     var htmlData =
-      '<core-item class="gm_message">' +
+      '<div class="gm_message core_item waves-effect">' +
         '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
           '<div class="gm_message_subject">' + messageSubject + '</div>' +
           '<div class="gm_message_date">' + messageDate + '</div>' +
           '<div class="gm_message_from">' + messageFrom + '  -  ' + messageSnippet + '</div>' +
-          '<paper-ripple fit></paper-ripple>' +
         '</a>' +
-      '</core-item>';
+      '</div>';
 
     if (message.labelIds) {
       if (message.labelIds.indexOf("UNREAD") != -1) {

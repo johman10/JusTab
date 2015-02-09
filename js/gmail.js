@@ -3,17 +3,15 @@ $(document).ready(function() {
     window[serviceData.GM.feFunctionName]();
 
     $('.refresh_gmail').click(function() {
-      if ($('#gmail .error:visible')) {
-        $('#gmail .error:visible').slideUp(400);
-      }
+      $('#gmail .error:visible').slideUp(400);
       $('.refresh_gmail').fadeOut(400, function() {
-        $('.loading_gmail').attr('active', true);
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getGmailData(function() {
-            $('.loading_gmail').attr('active', false);
-            setTimeout(function() {
-              $('.refresh_gmail').fadeIn(400);
-            }, 400);
+        $(this).html(spinner);
+        $(this).fadeIn(400, function() {
+          chrome.extension.getBackgroundPage().getGmailData(function() {
+            $('.refresh_gmail').fadeOut(400, function() {
+              $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Gmail" draggable=false>');
+              $(this).fadeIn(400);
+            });
           });
         });
       });
@@ -43,12 +41,12 @@ function GmailShowData() {
     $('.mail_unread').append(serviceData.GM.UnreadHTML);
     $('.mail_read').append(serviceData.GM.ReadHTML);
 
-    if ($('.mail_unread core-item').length < 1) {
-      $('.mail_unread').append('<core-item label="There are no unread e-mails at the moment."></core-item>');
+    if ($('.mail_unread .core_item').length < 1) {
+      $('.mail_unread').append('<div class="core_item without_hover">There are no unread e-mails at the moment.</div>');
     }
 
-    if ($('.mail_read core-item').length < 1) {
-      $('.mail_read').append('<core-item label="There are no read e-mails at the moment."></core-item>');
+    if ($('.mail_read .core_item').length < 1) {
+      $('.mail_read').append('<div class="core_item without_hover">There are no read e-mails at the moment.</div>');
     }
   }
 }

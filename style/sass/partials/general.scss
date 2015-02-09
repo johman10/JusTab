@@ -164,6 +164,7 @@ body {
 
 .core_item {
   @include text-truncate;
+  @include ripple(#000);
   min-height: 48px;
   width: 100%;
   padding: 0 16px;
