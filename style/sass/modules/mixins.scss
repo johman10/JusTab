@@ -168,9 +168,13 @@
 
 @mixin ripple($color: #FFF) {
   &.waves-effect {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
     -webkit-user-select: none;
     user-select: none;
-    // will-change: opacity, transform;
+    will-change: opacity, transform;
     // -webkit-transition: all .3s ease-out;
 
     .waves-ripple {
