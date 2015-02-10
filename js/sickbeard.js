@@ -6,17 +6,15 @@ $(document).ready(function() {
     window[serviceData.SB.feFunctionName]();
 
     $('#sickbeard .refresh_sb').click(function(event) {
-      if ($('#sickbeard .error:visible')) {
-        $('#sickbeard .error:visible').slideUp(400);
-      }
-      $('#sickbeard .refresh_sb').fadeOut(400, function() {
-        $('.loading_sb').attr('active', true);
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getSickBeardData(function() {
-            $('.loading_sb').attr('active', false);
-            setTimeout(function() {
-              $('#sickbeard .refresh_sb').fadeIn(400);
-            }, 400);
+      $('#sickbeard .error:visible').slideUp(400);
+      $('.refresh_sb').fadeOut(400, function() {
+        $(this).html(spinner);
+        $(this).fadeIn(400, function() {
+          chrome.extension.getBackgroundPage().getSickBeardData(function() {
+            $('.refresh_sb').fadeOut(400, function() {
+              $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sickbeard" draggable=false>');
+              $(this).fadeIn(400);
+            });
           });
         });
       });
@@ -27,36 +25,6 @@ $(document).ready(function() {
     $('#sickbeard, .sickbeard_info').show();
     $('body').width($('body').width() + $('#sickbeard').width());
     $('.bottom_bar_container').width($('.panel_container').width());
-  }
-});
-
-$("html").on('click', ".sb_item", function(event) {
-  var collapseItem = $(this).next('.sb_collapse');
-  var collapseIcon = $(this).find('.sb_collapse_icon');
-  if (collapseItem.attr('opened') == 'false') {
-    $('.sb_collapse').attr('opened', false);
-    $('.sb_item').css('background-color', '#fafafa');
-    $('.sb_collapse_icon_container').css('background-color', '#fafafa');
-    $('.sb_collapse_icon[icon=expand-less]').fadeOut(165, function() {
-      $(this).attr('icon', 'expand-more');
-      $(this).fadeIn(165);
-    });
-    $(this).css('background-color', '#eee');
-    collapseIcon.parent().css('background-color', '#eee');
-    collapseItem.attr('opened', true);
-    collapseIcon.fadeOut(165, function() {
-      collapseIcon.attr('icon', 'expand-less');
-      collapseIcon.fadeIn(165);
-    });
-  }
-  else {
-    $(this).css('background-color', '#fafafa');
-    collapseIcon.parent().css('background-color', '#fafafa');
-    collapseItem.attr('opened', false);
-    collapseIcon.fadeOut(165, function() {
-      collapseIcon.attr('icon', 'expand-more');
-      collapseIcon.fadeIn(165);
-    });
   }
 });
 
@@ -105,7 +73,10 @@ function sbShowData() {
 
 function searchEpisode(clickedObject) {
   clickedObject.fadeOut(400, function() {
-    clickedObject.next('paper-spinner').attr('active', true);
+    clickedObject.removeClass('search_icon');
+    clickedObject.removeClass('error_icon');
+    clickedObject.html(spinner);
+    clickedObject.fadeIn(400);
   });
 
   var url = serviceData.SB.apiUrl;
@@ -114,39 +85,56 @@ function searchEpisode(clickedObject) {
   $.ajax({
     url: searchApiUrl,
     success: function(data) {
-      if (data.result == "failure") {
-        clickedObject.attr('icon', 'error');
-        clickedObject.attr('title', data.message);
-      } else {
-        clickedObject.attr('icon', 'done');
-      }
-      clickedObject.next('paper-spinner').attr('active', false);
-      setTimeout(function() {
-        clickedObject.show();
-      }, 400);
+      clickedObject.fadeOut(400, function() {
+        if (data.result == "failure") {
+          clickedObject.addClass('error_icon');
+          clickedObject.attr('title', data.message);
+        } else {
+          clickedObject.addClass('done_icon');
+        }
+        clickedObject.html('');
+        clickedObject.fadeIn(400);
+      });
     },
     error: function() {
-      console.log("error");
+      clickedObject.fadeOut(400, function() {
+        clickedObject.addClass('error_icon');
+        clickedObject.attr('title', 'There was an error');
+      });
     }
   });
 }
 
 function markEpisode(clickedObject) {
+  clickedObject.fadeOut(400, function() {
+    clickedObject.removeClass('search_icon');
+    clickedObject.removeClass('error_icon');
+    clickedObject.html(spinner);
+    clickedObject.fadeIn(400);
+  });
+
   var url = serviceData.SB.apiUrl;
   var markApiUrl = url + "/?cmd=episode.setstatus&tvdbid=" + clickedObject.data('tvdbid') + "&season=" + clickedObject.data('season') + "&episode=" + clickedObject.data('episode') + "&status=skipped";
 
   $.ajax({
     url: markApiUrl,
     success: function(data) {
-      if (data.result == "failure") {
-        clickedObject.attr('icon', 'error');
-        clickedObject.attr('title', data.message);
-      } else {
-        clickedObject.attr('icon', 'done-all');
-      }
+      clickedObject.fadeOut(400, function() {
+        if (data.result == "failure") {
+          clickedObject.addClass('error_icon');
+          clickedObject.attr('title', data.message);
+        } else {
+          clickedObject.addClass('done_all_icon');
+        }
+        clickedObject.html('');
+        clickedObject.fadeIn(400);
+      });
     },
     error: function() {
-      console.log("error");
+      clickedObject.fadeOut(400, function() {
+        clickedObject.addClass('error_icon');
+        clickedObject.attr('title', 'There was an error');
+      });
     }
   });
 }

@@ -23,22 +23,9 @@
 }
 
 .sb_item {
-  cursor: pointer;
   padding-left: 72px;
   height: 56px;
-
-  &::shadow #label {
-    @include text-truncate;
-    width: 272px;
-  }
-
-  &:hover {
-    background-color: $hover-color !important;
-
-    .sb_collapse_icon_container {
-      background-color: $hover-color !important;
-    }
-  }
+  line-height: 56px;
 
   .sb_poster_container {
     position: absolute;
@@ -53,56 +40,45 @@
       width: 100%;
     }
   }
-}
 
-.sb_collapse_icon_container {
-  background-color: $panel-background;
-  position: absolute;
-  right: 0;
-  padding: 16px;
+  .core_item_content {
+    width: 272px;
+  }
 
-  .sb_collapse_icon {
-    color: $clr-grey-500;
+  .core_item_icon {
+    height: 56px;
+    padding: 16px;
   }
 }
 
-
-.sb_collapse_buttons {
-  position: absolute;
-  right: 8px;
-  height: 40px;
-  width: 120px;
-  top: 0;
-
-  a {
-    color: $black;
-  }
-}
-
-.sb_tvdb_link {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
-.sb_mark_episode {
-  position: absolute;
-  right: 40px;
-  top: 0;
-}
-
-.sb_search_episode {
+.sb_collapse {
   position: relative;
-  left: 0;
-  top: 0;
-}
+  line-height: 48px;
+  padding-left: 16px;
 
-.sb_search_spinner {
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 8px;
-  pointer-events: none;
-  height: 24px;
-  width: 24px;
+  .sb_collapse_buttons {
+    position: absolute;
+    right: 0;
+    height: 48px;
+    top: 0;
+  }
+
+  .sb_search_episode {
+    @include spinner(#000);
+    margin: 0 4px;
+  }
+
+  .sb_tvdb_link_icon,
+  .sb_mark_episode,
+  .sb_search_episode {
+    @include ripple(#000);
+    border-radius: 100%;
+    float: right;
+    height: 48px;
+    width: 48px;
+    line-height: initial;
+    padding: 12px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
 }

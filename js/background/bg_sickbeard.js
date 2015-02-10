@@ -114,28 +114,27 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
     var episodeString = " S" + (season<10?'0':'') + season + "E" + (episode<10?'0':'') + episode;
 
     HTML +=
-      "<core-item label='" + showname + episodeString + "' class='sb_item'>" +
-        "<div class='sb_poster_container'>" +
-          "<img class='sb_poster' src='img/poster_fallback.png' data-src='" + posterUrl+ "'></core-image>" +
+      '<div class="sb_item core_item">' +
+        '<div class="sb_poster_container">' +
+          '<img class="sb_poster" src="img/poster_fallback.png" data-src="' + posterUrl+ '">' +
+        '</div>' +
+        '<div class="core_item_content">' +
+          showname + episodeString +
+        '</div>' +
+        '<div class="core_item_icon">' +
+          '<div class="expand_more_icon"></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="sb_collapse core_collapse">' +
+        date +
+        "<div class='sb_collapse_buttons'>" +
+          "<div class='search_icon sb_search_episode waves-effect' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "'></div>" +
+          "<a class='sb_tvdb_link' href='http://thetvdb.com/?tab=series&id=" + tvdbid + "' target='_blank'>" +
+            "<div class='info_icon sb_tvdb_link_icon waves-effect'></div>" +
+          "</a>" +
+          "<div class='done_icon sb_mark_episode waves-effect' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "'></div>" +
         "</div>" +
-        "<div class='sb_collapse_icon_container'>" +
-          "<core-icon class='sb_collapse_icon' icon='expand-more'></core-icon>" +
-        "</div>" +
-      "</core-item>" +
-      "<core-collapse opened=false class='sb_collapse'>" +
-        "<core-item>" +
-          date +
-          "<div class='sb_collapse_buttons'>" +
-            "<paper-icon-button class='sb_search_episode' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "' icon='search'>Search</paper-icon-button>" +
-            "<paper-spinner class='sb_search_spinner'></paper-spinner>" +
-            "<a class='sb_tvdb_link' href='http://thetvdb.com/?tab=series&id=" + tvdbid + "' target='_blank'>" +
-              "<paper-icon-button class='sb_tvdb_link_icon' icon='info-outline'></paper-icon-button>" +
-            "</a>" +
-            "<paper-icon-button class='sb_mark_episode' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "' icon='done'>Mark Done</paper-icon-button>" +
-            "</div>" +
-        "</core-item>" +
-      "</core-collapse>"
-    ;
+      '</div>';
   });
 
   localStorage.setItem(storageName, HTML);

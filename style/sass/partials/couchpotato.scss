@@ -19,6 +19,35 @@
     padding: 0 16px;
   }
 
+  .cp_item {
+    padding-left: 72px;
+    height: 56px;
+    line-height: 56px;
+
+    .cp_poster_container {
+      position: absolute;
+      left: 16px;
+      top: 9px;
+      height: 38px;
+      width: 38px;
+      border-radius: 100%;
+      overflow: hidden;
+
+      .cp_poster {
+        width: 100%;
+      }
+    }
+
+    .core_item_content {
+      width: 272px;
+    }
+
+    .core_item_icon {
+      height: 56px;
+      padding: 16px;
+    }
+  }
+
   .cp_collapse {
     position: relative;
     line-height: 48px;
@@ -46,35 +75,6 @@
       padding: 12px;
       background-repeat: no-repeat;
       background-position: 50%;
-    }
-  }
-
-  .cp_item {
-    padding-left: 72px;
-    height: 56px;
-    line-height: 56px;
-
-    .cp_poster_container {
-      position: absolute;
-      left: 16px;
-      top: 9px;
-      height: 38px;
-      width: 38px;
-      border-radius: 100%;
-      overflow: hidden;
-
-      .cp_poster {
-        width: 100%;
-      }
-    }
-
-    .core_item_content {
-      width: 272px;
-    }
-
-    .core_item_icon {
-      height: 56px;
-      padding: 16px;
     }
   }
 }

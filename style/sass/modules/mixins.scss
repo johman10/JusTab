@@ -18,7 +18,7 @@
   }
 }
 
-@mixin spinner {
+@mixin spinner($color: #FFF) {
   $fill-unfill-rotate: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
 
   #spinnerContainer {
@@ -34,7 +34,7 @@
     width: 100%;
     height: 100%;
     opacity: 0;
-    border-color: $white;
+    border-color: $color;
 
     &.blue {
       -webkit-animation: $fill-unfill-rotate, blue-fade-in-out 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;

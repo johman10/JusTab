@@ -7,9 +7,7 @@ $(document).ready(function() {
     window[serviceData.CPS.feFunctionName]();
 
     $('.refresh_cp').click(function() {
-      if ($('#couchpotato .error:visible')) {
-        $('#couchpotato .error:visible').slideUp(400);
-      }
+      $('#couchpotato .error:visible').slideUp(400);
 
       $('.refresh_cp').fadeOut(400, function() {
         $(this).html(spinner);

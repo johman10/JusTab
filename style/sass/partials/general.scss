@@ -85,7 +85,7 @@ body {
 }
 
 .refresh_button {
-  @include spinner;
+  @include spinner();
   @include ripple();
   display: inline-block;
   height: 40px;
