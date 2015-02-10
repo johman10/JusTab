@@ -16,4 +16,20 @@
   h2 {
     padding: 0 16px;
   }
+
+  .core_item_content {
+    width: 328px;
+  }
+
+  .gc_event_link_icon {
+    @include ripple(#000);
+    border-radius: 100%;
+    float: right;
+    height: 48px;
+    width: 48px;
+    padding: 12px;
+    margin: 0 4px;
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
 }

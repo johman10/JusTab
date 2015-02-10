@@ -63,7 +63,9 @@ function calendarHTML(test) {
 
         htmlData =
           '<div class="core_item gc_item">' +
-            eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary +
+            '<div class="core_item_content">' +
+              eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary +
+            '</div>' +
             '<div class="core_item_icon">' +
               '<div class="expand_more_icon"></div>' +
             '</div>' +
@@ -77,8 +79,10 @@ function calendarHTML(test) {
       else {
         eventDate = moment(cEvent.start.date);
         htmlData =
-          '<div class="gc_item core_item waves-effect">' +
-            cEvent.summary +
+          '<div class="gc_item core_item">' +
+            '<div class="core_item_content">' +
+              cEvent.summary +
+            '</div>' +
             '<div class="core_item_icon">' +
               '<div class="expand_more_icon"></div>' +
             '</div>' +

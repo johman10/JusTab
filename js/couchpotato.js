@@ -10,15 +10,16 @@ $(document).ready(function() {
       if ($('#couchpotato .error:visible')) {
         $('#couchpotato .error:visible').slideUp(400);
       }
+
       $('.refresh_cp').fadeOut(400, function() {
-        $('.loading_cp').attr('active', true);
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getWantedCouchPotato();
-          backgroundPage.getSnatchedCouchPotato(function() {
-            $('.loading_cp').attr('active', false);
-            setTimeout(function() {
-              $('.refresh_cp').fadeIn(400);
-            }, 400);
+        $(this).html(spinner);
+        $(this).fadeIn(400, function() {
+          chrome.extension.getBackgroundPage().getWantedCouchPotato();
+          chrome.extension.getBackgroundPage().getWantedCouchPotato(function() {
+            $('.refresh_cp').fadeOut(400, function() {
+              $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Couchpotato" draggable=false>');
+              $(this).fadeIn(400);
+            });
           });
         });
       });
@@ -34,36 +35,6 @@ $(document).ready(function() {
 
 $('html').on('click', '.cp_search_movie', function(event) {
   searchMovie($(this));
-});
-
-$('html').on('click', '.cp_item', function(event) {
-  var collapseItem = $(this).next('.cp_collapse');
-  var collapseIcon = $(this).find('.cp_collapse_icon');
-  if (collapseItem.attr('opened') == 'false') {
-    $('.cp_collapse').attr('opened', false);
-    $('.cp_item').css('background-color', '#fafafa');
-    $('.cp_collapse_icon_container').css('background-color', '#fafafa');
-    $('.cp_collapse_icon[icon=expand-less]').fadeOut(165, function() {
-      $(this).attr('icon', 'expand-more');
-      $(this).fadeIn(165);
-    });
-    $(this).css('background-color', '#eee');
-    collapseIcon.parent().css('background-color', '#eee');
-    collapseItem.attr('opened', true);
-    collapseIcon.fadeOut(165, function() {
-      collapseIcon.attr('icon', 'expand-less');
-      collapseIcon.fadeIn(165);
-    });
-  }
-  else {
-    $(this).css('background-color', '#fafafa');
-    collapseIcon.parent().css('background-color', '#fafafa');
-    collapseItem.attr('opened', false);
-    collapseIcon.fadeOut(165, function() {
-      collapseIcon.attr('icon', 'expand-more');
-      collapseIcon.fadeIn(165);
-    });
-  }
 });
 
 function cpShowData() {
@@ -85,11 +56,11 @@ function cpShowData() {
 
     $('.cp_poster').unveil();
 
-    if ($('.snatched core-item').length === 0) {
-      $('.snatched').append("<core-item label='No snatched movies at this moment.'></core-item>");
+    if ($('.snatched .core_item').length === 0) {
+      $('.snatched').append('<div class="core_item without_hover">No snatched movies at this moment.</div>');
     }
-    if ($('.wanted core-item').length === 0) {
-      $('.wanted').append("<core-item label='No wanted movies at this moment.'></core-item>");
+    if ($('.wanted .core_item').length === 0) {
+      $('.wanted').append('<div class="core_item without_hover">No wanted movies at this moment.</div>');
     }
   }
 }
@@ -104,13 +75,13 @@ function searchMovie(clickedObject) {
     url: searchApiUrl,
     success: function(data) {
       if (data.success) {
-        clickedObject.attr('icon', 'done');
+        clickedObject.attr('class', 'done_icon cp_search_movie waves-effect');
       } else {
-        clickedObject.attr('icon', 'error');
+        clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
       }
     },
     error: function() {
-      clickedObject.attr('icon', 'error');
+      clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
     }
   });
 }

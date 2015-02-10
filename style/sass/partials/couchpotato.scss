@@ -19,34 +19,40 @@
     padding: 0 16px;
   }
 
-  .cp_collapse_buttons {
-    position: absolute;
-    right: 8px;
-    height: 40px;
-    top: 0;
+  .cp_collapse {
+    position: relative;
+    line-height: 48px;
+    padding-left: 16px;
 
-    a {
-      color: $black;
+    .cp_collapse_buttons {
+      position: absolute;
+      right: 0;
+      height: 48px;
+      width: 104px;
+      top: 0;
+    }
+
+    .cp_search_movie {
+      margin: 0 4px;
+    }
+
+    .cp_search_movie,
+    .cp_imdb_link_icon {
+      @include ripple(#000);
+      border-radius: 100%;
+      float: right;
+      height: 48px;
+      width: 48px;
+      padding: 12px;
+      background-repeat: no-repeat;
+      background-position: 50%;
     }
   }
 
   .cp_item {
-    cursor: pointer;
     padding-left: 72px;
     height: 56px;
-
-    &::shadow #label {
-      @include text-truncate;
-      width: 272px;
-    }
-
-    &:hover {
-      background-color: $hover-color !important;
-
-      .cp_collapse_icon_container {
-        background-color: $hover-color !important;
-      }
-    }
+    line-height: 56px;
 
     .cp_poster_container {
       position: absolute;
@@ -61,16 +67,14 @@
         width: 100%;
       }
     }
-  }
-}
 
-.cp_collapse_icon_container {
-  background-color: $panel-background;
-  position: absolute;
-  right: 0;
-  padding: 16px;
+    .core_item_content {
+      width: 272px;
+    }
 
-  .cp_collapse_icon {
-    color: $clr-grey-500;
+    .core_item_icon {
+      height: 56px;
+      padding: 16px;
+    }
   }
 }

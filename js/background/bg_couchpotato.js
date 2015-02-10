@@ -96,25 +96,26 @@ function cpCreateVar(movie, cpVar) {
   }
 
   cpVar +=
-    '<core-item label="' + movie.title + '" class="cp_item">' +
+    '<div class="core_item cp_item">' +
       '<div class="cp_poster_container">' +
         '<img class="cp_poster" src="img/poster_fallback.png" data-src="' + posterUrl + '"></img>' +
       '</div>' +
-      '<div class="cp_collapse_icon_container">' +
-        '<core-icon class="cp_collapse_icon" icon="expand-more"></core-icon>' +
+      '<div class="core_item_content">' +
+        movie.title +
       '</div>' +
-    '</core-item>' +
-    '<core-collapse opened=false class="cp_collapse">' +
-      '<core-item>' +
-        date +
-        '<div class="cp_collapse_buttons">' +
-          '<paper-icon-button class="cp_search_movie" id="' + movie._id + '" icon="search"></paper-icon-button>' +
-          '<a class="cp_imdb_link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
-            '<paper-icon-button class="cp_imdb_link_icon" icon="info-outline"></paper-icon-button>' +
-          '</a>' +
-        '</div>' +
-      '</core-item>' +
-    '</core-collapse>';
+      '<div class="core_item_icon">' +
+        '<div class="expand_more_icon"></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="cp_collapse core_collapse">' +
+      date +
+      '<div class="cp_collapse_buttons">' +
+        '<div class="search_icon cp_search_movie waves-effect" id="' + movie._id + '"></div>' +
+        '<a class="cp_imdb_link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
+          '<div class="info_icon cp_imdb_link_icon waves-effect"></div>' +
+        '</a>' +
+      '</div>' +
+    '</div>';
 
   return cpVar;
 }
