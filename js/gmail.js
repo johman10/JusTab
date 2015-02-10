@@ -38,15 +38,15 @@ function GmailShowData() {
   }
 
   if (serviceData.GM.UnreadHTML && serviceData.GM.ReadHTML) {
-    $('.mail_unread').append(serviceData.GM.UnreadHTML);
-    $('.mail_read').append(serviceData.GM.ReadHTML);
+    $('.mail_unread').html(serviceData.GM.UnreadHTML);
+    $('.mail_read').html(serviceData.GM.ReadHTML);
 
     if ($('.mail_unread .core_item').length < 1) {
-      $('.mail_unread').append('<div class="core_item without_hover">There are no unread e-mails at the moment.</div>');
+      $('.mail_unread').html('<h2>Unread</h2><div class="core_item without_hover">There are no unread e-mails at the moment.</div>');
     }
 
     if ($('.mail_read .core_item').length < 1) {
-      $('.mail_read').append('<div class="core_item without_hover">There are no read e-mails at the moment.</div>');
+      $('.mail_read').html('<h2>Read</h2><div class="core_item without_hover">There are no read e-mails at the moment.</div>');
     }
   }
 }

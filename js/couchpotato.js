@@ -49,16 +49,16 @@ function cpShowData() {
   }
 
   if (serviceData.CPW.HTML && serviceData.CPS.HTML) {
-    $('.snatched').append(serviceData.CPS.HTML);
-    $('.wanted').append(serviceData.CPW.HTML);
+    $('.snatched').html(serviceData.CPS.HTML);
+    $('.wanted').html(serviceData.CPW.HTML);
 
     $('.cp_poster').unveil();
 
     if ($('.snatched .core_item').length === 0) {
-      $('.snatched').append('<div class="core_item without_hover">No snatched movies at this moment.</div>');
+      $('.snatched').html('<h2>Snatched</h2><div class="core_item without_hover">No snatched movies at this moment.</div>');
     }
     if ($('.wanted .core_item').length === 0) {
-      $('.wanted').append('<div class="core_item without_hover">No wanted movies at this moment.</div>');
+      $('.wanted').html('<h2>Wanted</h2><div class="core_item without_hover">No wanted movies at this moment.</div>');
     }
   }
 }

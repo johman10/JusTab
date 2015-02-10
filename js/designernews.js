@@ -45,7 +45,7 @@ function dnShowData() {
     $('#designernews .error').slideUp('slow');
   }
 
-  $('.dn_links').append(serviceData.DN.HTML);
+  $('.dn_links').html(serviceData.DN.HTML);
 }
 
 function dnUpvote(clickedObject) {

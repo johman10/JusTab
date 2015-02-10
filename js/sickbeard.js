@@ -53,19 +53,19 @@ function sbShowData() {
   }
 
   if (serviceData.SB.MissedHTML) {
-    $('.sb_missed').append(serviceData.SB.MissedHTML);
+    $('.sb_missed').html(serviceData.SB.MissedHTML);
   }
 
   if (serviceData.SB.TodayHTML) {
-    $('.sb_today').append(serviceData.SB.TodayHTML);
+    $('.sb_today').html(serviceData.SB.TodayHTML);
   }
 
   if (serviceData.SB.SoonHTML) {
-    $('.sb_soon').append(serviceData.SB.SoonHTML);
+    $('.sb_soon').html(serviceData.SB.SoonHTML);
   }
 
   if (serviceData.SB.LaterHTML) {
-    $('.sb_later').append(serviceData.SB.LaterHTML);
+    $('.sb_later').html(serviceData.SB.LaterHTML);
   }
 
   $('.sb_poster').unveil();

@@ -38,15 +38,15 @@ function calenderShowEvents() {
   }
 
   if (serviceData.GC.TodayHTML && serviceData.GC.TomorrowHTML) {
-    $('#calendar .today').append(serviceData.GC.TodayHTML);
-    $('#calendar .tomorrow').append(serviceData.GC.TomorrowHTML);
+    $('#calendar .today').html(serviceData.GC.TodayHTML);
+    $('#calendar .tomorrow').html(serviceData.GC.TomorrowHTML);
 
     if ($('#calendar .today .core_item').length < 1) {
-      $('#calendar .today').append('<div class="core_item without_hover">There are no events in your calendar for today.</div>');
+      $('#calendar .today').html('<h2>Today</h2><div class="core_item without_hover">There are no events in your calendar for today.</div>');
     }
 
     if ($('#calendar .tomorrow .core_item').length < 1) {
-      $('#calendar .tomorrow').append('<div class="core_item without_hover">There are no events in your calendar for tomorrow.</div>');
+      $('#calendar .tomorrow').html('<h2>Tomorrow</h2><div class="core_item without_hover">There are no events in your calendar for tomorrow.</div>');
     }
   }
 }

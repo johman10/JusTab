@@ -36,5 +36,5 @@ function fbShowData() {
     $('#facebook .error').slideUp('slow');
   }
 
-  $('.notifications').append(serviceData.FB.HTML);
+  $('.notifications').html(serviceData.FB.HTML);
 }
