@@ -1,0 +1,66 @@
+.panel {
+  display: none;
+  float: left;
+  width: 400px;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+
+  .panel_header {
+    @include paper-shadow(1);
+    height: 128px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  .panel_header_background {
+    position: absolute;
+    left: 0; top: 0;
+    height: 100%;
+    width: 100%;
+
+    &1,
+    &2 {
+      background-repeat: no-repeat;
+      position:absolute;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .panel_header_foreground {
+    position: absolute;
+    left: 0; top: 0;
+    height: 100%;
+    width: 100%;
+    color: $white;
+    z-index: 1;
+
+    .top,
+    .bottom {
+      width: 100%;
+      height: 64px;
+    }
+
+    .bottom {
+      padding: 0 18px;
+    }
+
+    a {
+      line-height: 64px;
+      color: $white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 18px;
+    }
+  }
+
+  .panel_content {
+    height: 100%;
+    overflow-y: scroll;
+    padding-top: 128px;
+  }
+}
