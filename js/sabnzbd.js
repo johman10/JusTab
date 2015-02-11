@@ -7,18 +7,16 @@ $(document).ready(function() {
     window[serviceData.SABQ.feFunctionName]();
 
     $('.refresh_sab').click(function() {
-      if ($('#sabnzbd .error:visible')) {
-        $('#sabnzbd .error:visible').slideUp(400);
-      }
+      $('#sabnzbd .error:visible').slideUp(400);
       $('.refresh_sab').fadeOut(400, function() {
-        $('.loading_sab').attr('active', true);
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getSabnzbdHistory(serviceData.SABH.length, function() {
-            backgroundPage.getSabnzbdQueue(function() {
-              $('.loading_sab').attr('active', false);
-              setTimeout(function() {
-                $('.refresh_sab').fadeIn(400);
-              }, 400);
+        $(this).html(spinner);
+        $(this).fadeIn(400, function() {
+          chrome.extension.getBackgroundPage().getSabnzbdHistory(serviceData.SABH.length, function() {
+            chrome.extension.getBackgroundPage().getSabnzbdQueue(function() {
+              $('.refresh_sab').fadeOut(400, function() {
+                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sabnzbd" draggable=false>');
+                $(this).fadeIn(400);
+              });
             });
           });
         });

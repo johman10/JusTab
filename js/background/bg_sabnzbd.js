@@ -13,9 +13,7 @@ function getSabnzbdHistory(from, callback) {
     async: false,
     timeout: 3000,
     success: function(history) {
-      if (from == serviceData.SABH.length) {
-        localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
-      }
+      localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
       serviceData.SABH.JSON = history;
       localStorage.setItem("SabnzbdHistory_error", false);
       serviceData.SABH.error = false;
@@ -80,20 +78,20 @@ function sabqHTML() {
     }
 
     $.each(queueJson.queue.slots, function(i, qItem) {
-      queue += '<core-item label="' + qItem.filename + '"></core-item>';
+      queue += '<div class="core_item without_hover">' + qItem.filename + '</div>';
     });
     status +=
-      '<core-item class="sab_status_container">' +
+      '<div class="core_item without_hover sab_status_container">' +
         '<div class="sab_status">' +
           queueJson.queue.status + percentage +
         '</div>' +
         '<div class="sab_time">' +
           timeLeft +
         '</div>' +
-      '</core-item>';
+      '</div>';
 
     if (queueJson.queue.slots.length < 1) {
-      queue += '<core-item label="No items in queue at this moment."></core-item>';
+      queue += '<div class="core_item without_hover">No items in queue at this moment.</div>';
     }
 
     localStorage.setItem('SabnzbdQueueHTML', queue);
@@ -111,30 +109,30 @@ function sabhHTML() {
     $.each(historyJson.history.slots, function(i, hItem) {
       if (hItem.fail_message === "") {
         history +=
-          '<core-item class="sab_item_container">' +
+          '<div class="core_item without_hover sab_item_container">' +
             '<div class="sab_item_name">' +
               hItem.name +
             '</div>' +
             '<div class="sab_item_error">' +
               hItem.status +
             '</div>' +
-          '</core-item>';
+          '</div>';
       }
       else {
         history +=
-        '<core-item class="sab_item_container">' +
-          '<div class="sab_item_name">' +
-            hItem.name +
-          '</div>' +
-          '<div class="sab_item_error">' +
-            hItem.fail_message +
-          '</div>' +
-        '</core-item>';
+          '<div class="core_item without_hover sab_item_container">' +
+            '<div class="sab_item_name">' +
+              hItem.name +
+            '</div>' +
+            '<div class="sab_item_error">' +
+              hItem.fail_message +
+            '</div>' +
+          '</div>';
       }
     });
 
     if (historyJson.history.slots.length < 1) {
-      history += '<core-item label="No items in history at this moment."></core-item>';
+      history += '<div class="core_item without_hover">No items in history at this moment.</div>';
     }
 
     localStorage.setItem('SabnzbdHistoryHTML', history);
