@@ -1,19 +1,18 @@
 $(document).ready(function() {
   if (serviceData.FB.status) {
-    fbShowData();
+    window[serviceData.FB.feFunctionName]();
 
     $('.refresh_fb').click(function() {
-      if ($('#facebook .error:visible')) {
-        $('#facebook .error:visible').slideUp(400);
-      }
+      $('#facebook .error:visible').slideUp(400);
+
       $('.refresh_fb').fadeOut(400, function() {
-        $('.loading_fb').attr('active', true);
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getFacebookData(function() {
-            $('.loading_fb').attr('active', false);
-            setTimeout(function() {
-              $('.refresh_fb').fadeIn(400);
-            }, 400);
+        $(this).html(spinner);
+        $(this).fadeIn(400, function() {
+          chrome.extension.getBackgroundPage().getFacebookData(function() {
+            $('.refresh_fb').fadeOut(400, function() {
+              $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Designernews" draggable=false>');
+              $(this).fadeIn(400);
+            });
           });
         });
       });

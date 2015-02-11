@@ -37,9 +37,10 @@ function FBHTML() {
       var title = $(this).find('title').text();
       var link = $(this).find('link').text();
 
-      FacebookHTML += '<core-item><a href="' + link + '" target="_blank" fit>' + title + '<paper-ripple fit></paper-ripple></a></core-item>';
+      FacebookHTML += '<div class="core_item waves-effect"><a href="' + link + '" target="_blank">' + title + '</a></div>';
     });
 
+    console.log(FacebookHTML);
     localStorage.setItem('FacebookHTML', FacebookHTML);
     serviceData.FB.HTML = FacebookHTML;
   }

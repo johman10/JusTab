@@ -20,8 +20,8 @@
     @include text-truncate;
     color: $black;
     text-decoration: none;
-    padding: 0 16px;
-    line-height: 40px;
+    line-height: 48px;
+    display: block;
   }
 
   a:hover {

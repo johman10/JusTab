@@ -38,7 +38,7 @@ $(document).ready(function() {
       'CalendarTomorrowHTML': calenderShowEvents,
       'GmailReadHTML': GmailShowData,
       'GmailUnreadHTML': GmailShowData,
-      'FBHTML': fbShowData,
+      'FacebookHTML': fbShowData,
       'CouchpotatoSnatchedHTML': cpShowData,
       'CouchpotatoWantedHTML': cpShowData,
       'SickbeardMissedHTML': sbShowData,
