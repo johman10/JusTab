@@ -91,33 +91,27 @@ function dnHTML() {
 
       if (upvotes.indexOf(story.id) == -1) {
         dn_links +=
-          '<core-item class="dn_link_container">' +
+          '<div class="core_item waves-effect dn_link_container">' +
             '<a href="' + story.url + '" class="dn_story_url" target="_blank">' +
               story.title +
-              '<paper-ripple fit></paper-ripple>' +
             '</a>' +
             '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn_comments_url" target="_blank">' +
               story.comment_count + ' comments - ' + story.vote_count + ' points' +
             '</a>' +
-            '<div class="dn_upvote_container">' +
-              '<core-icon icon="thumb-up" class="dn_upvote" id="' + story.id + '"></core-icon>' +
-            '</div>' +
-          '</core-item>';
+            '<div class="thumb_up_icon dn_upvote waves-effect" id="' + story.id + '"></div>' +
+          '</div>';
       }
       else {
         dn_links +=
-          '<core-item class="dn_link_container">' +
+          '<div class="core_item waves-effect dn_link_container">' +
             '<a href="' + story.url + '" class="dn_story_url" target="_blank">' +
               story.title +
-              '<paper-ripple fit></paper-ripple>' +
             '</a>' +
             '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn_comments_url" target="_blank">' +
               story.comment_count + ' comments - ' + story.vote_count + ' points' +
             '</a>' +
-            '<div class="dn_upvote_container">' +
-              '<core-icon icon="thumb-up" class="dn_upvote_done" id="' + story.id + '"></core-icon>' +
-            '</div>' +
-          '</core-item>';
+            '<div class="thumb_up_voted_icon dn_upvote" id="' + story.id + '"></div>' +
+          '</div>';
       }
     });
 

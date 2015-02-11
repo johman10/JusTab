@@ -31,7 +31,7 @@
       var pos = el.offset();
       var relativeY = (e.pageY - pos.top);
       var relativeX = (e.pageX - pos.left);
-      var scale = 'scale(' + ((el.innerWidth() / 100) * 10) + ')';
+      var scale = 'scale(10)';
 
       ripple.data('hold', Date.now());
       ripple.data('scale', scale);

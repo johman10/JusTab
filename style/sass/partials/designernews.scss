@@ -13,14 +13,17 @@
 
 .dn_link_container {
   height: 72px;
+  line-height: initial;
 
   .dn_story_url {
-    padding: 17px 16px 0;
-    height: auto;
+    display: block;
     @include text-truncate;
+    padding: 17px 0 0;
+    height: auto;
     text-decoration: none;
     color: $black;
-    width: 312px;
+    width: 328px;
+    height: 100%;
 
     &:hover {
       color: $black;
@@ -32,32 +35,35 @@
   }
 
   .dn_comments_url {
-    margin: 0 0 17px;
+    position: absolute;
     @include text-truncate;
     text-decoration: none;
     color: $grey;
     top: initial;
     left: initial;
     right: initial;
-    bottom: 0;
+    bottom: 17px;
 
     &:hover {
       text-decoration: underline;
     }
   }
 
-  .dn_upvote_container {
-    position: absolute;
+  .dn_upvote {
+    @include ripple(#000);
+    position: absolute !important;
     right: 0;
-    padding: 24px 16px;
+    top: 0;
+    padding: 16px;
+    width: 56px;
+    height: 56px;
+    margin: 8px 0;
+    border-radius: 100%;
+    background-repeat: no-repeat;
+    background-position: 50%;
 
-    .dn_upvote {
-      color: $clr-grey-500;
-      cursor: pointer;
-
-      &:hover {
-        color: $black;
-      }
+    &:hover {
+      background-image: image-url("icons/thumb_up_voted.svg");
     }
   }
 

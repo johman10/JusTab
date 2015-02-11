@@ -6,17 +6,16 @@ $(document).ready(function() {
     window[serviceData.DN.feFunctionName]();
 
     $('.refresh_dn').click(function() {
-      if ($('#designernews .error:visible')) {
-        $('#designernews .error:visible').slideUp(400);
-      }
+      $('#designernews .error:visible').slideUp(400);
+
       $('.refresh_dn').fadeOut(400, function() {
-        $('.loading_dn').attr('active', true);
-        chrome.runtime.getBackgroundPage(function(backgroundPage) {
-          backgroundPage.getDesignerNewsData(function() {
-            $('.loading_dn').attr('active', false);
-            setTimeout(function() {
-              $('.refresh_dn').fadeIn(400);
-            }, 400);
+        $(this).html(spinner);
+        $(this).fadeIn(400, function() {
+          chrome.extension.getBackgroundPage().getDesignerNewsData(function() {
+            $('.refresh_dn').fadeOut(400, function() {
+              $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Designernews" draggable=false>');
+              $(this).fadeIn(400);
+            });
           });
         });
       });
@@ -58,7 +57,7 @@ function dnUpvote(clickedObject) {
     data: '{ "upvotes": { "links": { "story": "' + clickedObject.attr('id') + '", "user": ' + serviceData.DN.personal.id + '} } }',
     type: 'POST',
     success: function(data){
-      clickedObject.attr('class', 'dn_upvote_done');
+      clickedObject.attr('class', 'thumb_up_voted_icon dn_upvote');
     },
     error: function(xhr, ajaxOptions, thrownError){
       clickedObject.attr('icon', 'error');
