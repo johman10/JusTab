@@ -20,16 +20,19 @@ body {
 }
 
 .settings_button {
-  position: fixed;
+  @include ripple(#000);
+  position: fixed !important;
+  border-radius: 100%;
   right: 0;
   bottom: 0;
   color: $black;
   z-index: 1;
-
-  &::shadow #icon {
-    height: 30px;
-    width: 30px;
-  }
+  padding: 16px;
+  height: 62px;
+  width: 62px;
+  background-position: 50%;
+  background-size: 36px;
+  background-repeat: no-repeat;
 }
 
 .refresh_loading_icon {
