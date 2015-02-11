@@ -2,7 +2,9 @@
 // http://wiki.sabnzbd.org/api
 
 function getSabnzbdHistory(from, callback) {
-  console.log('getJSON');
+  if (!from) {
+    from = serviceData.SABH.length;
+  }
   var url = serviceData.SABH.apiUrl;
   var historyMode = "&mode=history&limit=" + from;
   var output = "&output=json";
