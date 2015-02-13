@@ -3,32 +3,34 @@
 
 // "media.list" lists all movies, "movie.status" returns the status of the movie
 $(document).ready(function() {
-  if (serviceData.CPS.status) {
-    window[serviceData.CPS.feFunctionName]();
+  $.when(serviceDataRefreshDone).done(function() {
+    if (serviceData.CPS.status) {
+      window[serviceData.CPS.feFunctionName]();
 
-    $('.refresh_cp').click(function() {
-      $('#couchpotato .error:visible').slideUp(400);
+      $('.refresh_cp').click(function() {
+        $('#couchpotato .error:visible').slideUp(400);
 
-      $('.refresh_cp').fadeOut(400, function() {
-        $(this).html(spinner);
-        $(this).fadeIn(400, function() {
-          chrome.extension.getBackgroundPage().getWantedCouchPotato();
-          chrome.extension.getBackgroundPage().getWantedCouchPotato(function() {
-            $('.refresh_cp').fadeOut(400, function() {
-              $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Couchpotato" draggable=false>');
-              $(this).fadeIn(400);
+        $('.refresh_cp').fadeOut(400, function() {
+          $(this).html(spinner);
+          $(this).fadeIn(400, function() {
+            chrome.extension.getBackgroundPage().getWantedCouchPotato();
+            chrome.extension.getBackgroundPage().getWantedCouchPotato(function() {
+              $('.refresh_cp').fadeOut(400, function() {
+                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Couchpotato" draggable=false>');
+                $(this).fadeIn(400);
+              });
             });
           });
         });
       });
-    });
 
-    $('#couchpotato .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.CPW.url);
+      $('#couchpotato .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.CPW.url);
 
-    $('#couchpotato, .couchpotato_info').show();
-    $('body').width($('body').width() + $('#couchpotato').width());
-    $('.bottom_bar_container').width($('.panel_container').width());
-  }
+      $('#couchpotato, .couchpotato_info').show();
+      $('body').width($('body').width() + $('#couchpotato').width());
+      $('.bottom_bar_container').width($('.panel_container').width());
+    }
+  });
 });
 
 $('html').on('click', '.cp_search_movie', function(event) {

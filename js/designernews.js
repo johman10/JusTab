@@ -2,35 +2,37 @@
 // http://developers.news.layervault.com/
 
 $(document).ready(function() {
-  if (serviceData.DN.status) {
-    window[serviceData.DN.feFunctionName]();
+  $.when(serviceDataRefreshDone).done(function() {
+    if (serviceData.DN.status) {
+      window[serviceData.DN.feFunctionName]();
 
-    $('.refresh_dn').click(function() {
-      $('#designernews .error:visible').slideUp(400);
+      $('.refresh_dn').click(function() {
+        $('#designernews .error:visible').slideUp(400);
 
-      $('.refresh_dn').fadeOut(400, function() {
-        $(this).html(spinner);
-        $(this).fadeIn(400, function() {
-          chrome.extension.getBackgroundPage().getDesignerNewsData(function() {
-            $('.refresh_dn').fadeOut(400, function() {
-              $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Designernews" draggable=false>');
-              $(this).fadeIn(400);
+        $('.refresh_dn').fadeOut(400, function() {
+          $(this).html(spinner);
+          $(this).fadeIn(400, function() {
+            chrome.extension.getBackgroundPage().getDesignerNewsData(function() {
+              $('.refresh_dn').fadeOut(400, function() {
+                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Designernews" draggable=false>');
+                $(this).fadeIn(400);
+              });
             });
           });
         });
       });
-    });
 
-    $('#designernews .panel_header .panel_header_foreground .bottom a').attr('href', 'http://news.layervault.com');
+      $('#designernews .panel_header .panel_header_foreground .bottom a').attr('href', 'http://news.layervault.com');
 
-    $('#designernews, .designernews_info').show();
-    $('body').width($('body').width() + $('#designernews').width());
-    $('.bottom_bar_container').width($('.panel_container').width());
+      $('#designernews, .designernews_info').show();
+      $('body').width($('body').width() + $('#designernews').width());
+      $('.bottom_bar_container').width($('.panel_container').width());
 
-    $('html').on('click', '.dn_upvote', function(event) {
-      dnUpvote($(this));
-    });
-  }
+      $('html').on('click', '.dn_upvote', function(event) {
+        dnUpvote($(this));
+      });
+    }
+  });
 });
 
 function dnShowData() {
