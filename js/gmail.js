@@ -8,7 +8,7 @@ $(document).ready(function() {
         $('.refresh_gmail').fadeOut(400, function() {
           $(this).html(spinner);
           $(this).fadeIn(400, function() {
-            chrome.extension.getBackgroundPage().getGmailData(function() {
+            chrome.extension.getBackgroundPage().getGmailData(25, function() {
               $('.refresh_gmail').fadeOut(400, function() {
                 $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Gmail" draggable=false>');
                 $(this).fadeIn(400);
@@ -56,7 +56,9 @@ function GmailShowData() {
 function gmailCheckScroll(e) {
   var elem = $(e.currentTarget);
   var nextPage = localStorage.getItem('Gmail_page');
+  var length = $('#gmail .gm_message').length;
   if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight()) {
-    console.log(nextPage);
+    chrome.extension.getBackgroundPage().getGmailData(length + 25);
+    console.log(length, nextPage);
   }
 }

@@ -1,14 +1,14 @@
-function getGmailData(callback) {
+function getGmailData(length, callback) {
   chrome.identity.getAuthToken({'interactive': true},function (token) {
-    getMailId(token, callback);
+    getMailId(token, length, callback);
   });
 }
 
-function getMailId(token, callback) {
+function getMailId(token, length, callback) {
   chrome.identity.getProfileUserInfo(function(data) {
     var email = encodeURIComponent(data.email);
     var query = "&q=" + encodeURIComponent("-in:chats -in:sent -in:notes");
-    var url = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages?maxResults=25&oauth_token=" + token + query;
+    var url = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages?maxResults=" + length + "&oauth_token=" + token + query;
     var messages = [];
 
     $.when($.ajax({
