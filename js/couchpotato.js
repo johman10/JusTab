@@ -13,11 +13,12 @@ $(document).ready(function() {
         $('.refresh_cp').fadeOut(400, function() {
           $(this).html(spinner);
           $(this).fadeIn(400, function() {
-            chrome.extension.getBackgroundPage().getWantedCouchPotato();
             chrome.extension.getBackgroundPage().getWantedCouchPotato(function() {
-              $('.refresh_cp').fadeOut(400, function() {
-                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Couchpotato" draggable=false>');
-                $(this).fadeIn(400);
+              chrome.extension.getBackgroundPage().getSnatchedCouchPotato(function() {
+                $('.refresh_cp').fadeOut(400, function() {
+                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Couchpotato" draggable=false>');
+                  $(this).fadeIn(400);
+                });
               });
             });
           });
