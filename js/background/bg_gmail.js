@@ -1,5 +1,8 @@
 function getGmailData(length, callback) {
   chrome.identity.getAuthToken({'interactive': true},function (token) {
+    if (!length) {
+      length = 25;
+    }
     getMailId(token, length, callback);
   });
 }
