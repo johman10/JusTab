@@ -21,18 +21,19 @@ body {
 
 .settings_button {
   @include ripple(#000);
+  @include paper-shadow(1);
   position: fixed !important;
   border-radius: 100%;
   right: 0;
   bottom: 0;
-  color: $black;
   z-index: 1;
   padding: 16px;
-  height: 62px;
-  width: 62px;
+  margin: 16px;
+  height: 56px;
+  width: 56px;
   background-position: 50%;
-  background-size: 36px;
   background-repeat: no-repeat;
+  background-color: $white;
 }
 
 .refresh_loading_icon {
