@@ -5,7 +5,6 @@ function refreshServiceData() {
   backgroundPage = chrome.extension.getBackgroundPage();
   serviceDataRefreshDone = $.Deferred();
   if (backgroundPage) {
-    console.log('refresh');
     serviceData = chrome.extension.getBackgroundPage().serviceData;
     serviceDataRefreshDone.resolve();
   } else {
