@@ -1,6 +1,4 @@
 $(document).ready(function() {
-  var panelWidth = $('.panel:visible').outerWidth() * $('.panel:visible').length;
-  $('body').width(panelWidth);
   $('img').attr('draggable', false);
 
   $('.settings_button, .error_settings_button').click(function(event) {
