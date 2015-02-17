@@ -12,10 +12,6 @@
 }
 
 .notifications {
-  h2 {
-    padding: 0 16px;
-  }
-
   a {
     @include text-truncate;
     color: $black;

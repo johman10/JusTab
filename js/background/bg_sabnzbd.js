@@ -80,7 +80,7 @@ function sabqHTML() {
     }
 
     $.each(queueJson.queue.slots, function(i, qItem) {
-      queue += '<div class="core_item without_hover">' + qItem.filename + '</div>';
+      queue += '<div class="core_item without_hover sab_item_container">' + qItem.filename + '</div>';
     });
     status +=
       '<div class="core_item without_hover sab_status_container">' +
