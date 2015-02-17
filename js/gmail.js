@@ -8,10 +8,12 @@ $(document).ready(function() {
         $('.refresh_gmail').fadeOut(400, function() {
           $(this).html(spinner);
           $(this).fadeIn(400, function() {
-            chrome.extension.getBackgroundPage().getGmailData(25, function() {
-              $('.refresh_gmail').fadeOut(400, function() {
-                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Gmail" draggable=false>');
-                $(this).fadeIn(400);
+            chrome.runtime.getBackgroundPage(function(backgroundPage) {
+              backgroundPage.getGmailData(25, function() {
+                $('.refresh_gmail').fadeOut(400, function() {
+                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Gmail" draggable=false>');
+                  $(this).fadeIn(400);
+                });
               });
             });
           });

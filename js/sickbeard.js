@@ -17,6 +17,15 @@ $(document).ready(function() {
                 $(this).fadeIn(400);
               });
             });
+
+            chrome.runtime.getBackgroundPage(function(backgroundPage) {
+              backgroundPage.getSickBeardData(function() {
+                $('.refresh_sb').fadeOut(400, function() {
+                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sickbeard" draggable=false>');
+                  $(this).fadeIn(400);
+                });
+              });
+            });
           });
         });
       });

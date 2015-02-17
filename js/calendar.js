@@ -8,10 +8,12 @@ $(document).ready(function() {
         $('.refresh_calendar').fadeOut(400, function() {
           $(this).html(spinner);
           $(this).fadeIn(400, function() {
-            chrome.extension.getBackgroundPage().getCalendarData(function() {
-              $('.refresh_calendar').fadeOut(400, function() {
-                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Calendar" draggable=false>');
-                $(this).fadeIn(400);
+            chrome.runtime.getBackgroundPage(function(backgroundPage) {
+              backgroundPage.getCalendarData(function() {
+                $('.refresh_calendar').fadeOut(400, function() {
+                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Calendar" draggable=false>');
+                  $(this).fadeIn(400);
+                });
               });
             });
           });

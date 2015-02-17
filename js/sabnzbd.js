@@ -12,11 +12,13 @@ $(document).ready(function() {
         $('.refresh_sab').fadeOut(400, function() {
           $(this).html(spinner);
           $(this).fadeIn(400, function() {
-            chrome.extension.getBackgroundPage().getSabnzbdHistory(serviceData.SABH.length, function() {
-              chrome.extension.getBackgroundPage().getSabnzbdQueue(function() {
-                $('.refresh_sab').fadeOut(400, function() {
-                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sabnzbd" draggable=false>');
-                  $(this).fadeIn(400);
+            chrome.runtime.getBackgroundPage(function(backgroundPage) {
+              backgroundPage.getSabnzbdHistory(serviceData.SABH.length, function() {
+                backgroundPage.getSabnzbdQueue(function() {
+                  $('.refresh_sab').fadeOut(400, function() {
+                    $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sabnzbd" draggable=false>');
+                    $(this).fadeIn(400);
+                  });
                 });
               });
             });

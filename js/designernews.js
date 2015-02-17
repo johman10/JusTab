@@ -12,10 +12,12 @@ $(document).ready(function() {
         $('.refresh_dn').fadeOut(400, function() {
           $(this).html(spinner);
           $(this).fadeIn(400, function() {
-            chrome.extension.getBackgroundPage().getDesignerNewsData(function() {
-              $('.refresh_dn').fadeOut(400, function() {
-                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Designernews" draggable=false>');
-                $(this).fadeIn(400);
+            chrome.runtime.getBackgroundPage(function(backgroundPage) {
+              backgroundPage.getDesignerNewsData(function() {
+                $('.refresh_dn').fadeOut(400, function() {
+                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Designernews" draggable=false>');
+                  $(this).fadeIn(400);
+                });
               });
             });
           });
