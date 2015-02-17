@@ -19,237 +19,237 @@
   <script src="js/style.js" type="text/javascript" charset="utf-8"></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
 </head>
-<body>
-  <div class="panel_container">
-    <div class="settings_button settings_icon waves-effect"></div>
-    <div id="calendar" class="panel">
-      <div class="panel_header">
-        <div class="panel_header_background panel_calendar_background">
-          <div class="panel_header_background1"></div>
-          <div class="panel_header_background2"></div>
-        </div>
-        <div class="panel_header_foreground">
-          <div class="top">
-            <div class="refresh_button refresh_calendar waves-effect">
-              <img src="img/icons/refresh.svg" alt="Refresh Calendar">
+  <body>
+    <div class="panel_container">
+      <div class="settings_button settings_icon waves-effect"></div>
+      <div id="calendar" class="panel">
+        <div class="panel_header">
+          <div class="panel_header_background panel_calendar_background">
+            <div class="panel_header_background1"></div>
+            <div class="panel_header_background2"></div>
+          </div>
+          <div class="panel_header_foreground">
+            <div class="top">
+              <div class="refresh_button refresh_calendar waves-effect">
+                <img src="img/icons/refresh.svg" alt="Refresh Calendar">
+              </div>
+            </div>
+            <div class="bottom">
+              <a href="http://www.google.com/calendar">Calendar</a>
             </div>
           </div>
-          <div class="bottom">
-            <a href="http://www.google.com/calendar">Calendar</a>
+        </div>
+        <div class="panel_content">
+          <div class="error">
+            <p>There was an error connecting to Google Calendar. Please check your connection and your settings.</p>
+            <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+            <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+            <div class="cleardiv"></div>
           </div>
+          <div class="today"></div>
+          <div class="tomorrow"></div>
         </div>
       </div>
-      <div class="panel_content">
-        <div class="error">
-          <p>There was an error connecting to Google Calendar. Please check your connection and your settings.</p>
-          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
-          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
-          <div class="cleardiv"></div>
-        </div>
-        <div class="today"></div>
-        <div class="tomorrow"></div>
-      </div>
-    </div>
 
-    <div id="gmail" class="panel">
-      <div class="panel_header">
-        <div class="panel_header_background panel_gmail_background">
-          <div class="panel_header_background1"></div>
-          <div class="panel_header_background2"></div>
-        </div>
-        <div class="panel_header_foreground">
-          <div class="top">
-            <div class="refresh_button refresh_gmail waves-effect">
-              <img src="img/icons/refresh.svg" alt="Refresh Gmail">
+      <div id="gmail" class="panel">
+        <div class="panel_header">
+          <div class="panel_header_background panel_gmail_background">
+            <div class="panel_header_background1"></div>
+            <div class="panel_header_background2"></div>
+          </div>
+          <div class="panel_header_foreground">
+            <div class="top">
+              <div class="refresh_button refresh_gmail waves-effect">
+                <img src="img/icons/refresh.svg" alt="Refresh Gmail">
+              </div>
+            </div>
+            <div class="bottom">
+              <a href="http://www.gmail.com">Gmail</a>
             </div>
           </div>
-          <div class="bottom">
-            <a href="http://www.gmail.com">Gmail</a>
+        </div>
+        <div class="panel_content">
+          <div class="error">
+            <p>There was an error connecting to Gmail. Please check your connection and your settings.</p>
+            <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+            <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+            <div class="cleardiv"></div>
           </div>
+          <div class="mail_unread"></div>
+          <div class="mail_read"></div>
         </div>
       </div>
-      <div class="panel_content">
-        <div class="error">
-          <p>There was an error connecting to Gmail. Please check your connection and your settings.</p>
-          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
-          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
-          <div class="cleardiv"></div>
-        </div>
-        <div class="mail_unread"></div>
-        <div class="mail_read"></div>
-      </div>
-    </div>
 
-    <div id="facebook" class="panel">
-      <div class="panel_header">
-        <div class="panel_header_background panel_facebook_background">
-          <div class="panel_header_background1"></div>
-          <div class="panel_header_background2"></div>
-        </div>
-        <div class="panel_header_foreground">
-          <div class="top">
-            <div class="refresh_button refresh_fb waves-effect">
-              <img src="img/icons/refresh.svg" alt="Refresh Facebook">
+      <div id="facebook" class="panel">
+        <div class="panel_header">
+          <div class="panel_header_background panel_facebook_background">
+            <div class="panel_header_background1"></div>
+            <div class="panel_header_background2"></div>
+          </div>
+          <div class="panel_header_foreground">
+            <div class="top">
+              <div class="refresh_button refresh_fb waves-effect">
+                <img src="img/icons/refresh.svg" alt="Refresh Facebook">
+              </div>
+            </div>
+            <div class="bottom">
+              <a href="http://www.facebook.com">Facebook</a>
             </div>
           </div>
-          <div class="bottom">
-            <a href="http://www.facebook.com">Facebook</a>
+        </div>
+        <div class="panel_content">
+          <div class="error">
+            <p>There was an error connecting to Facebook. Please check your connection and your settings.</p>
+            <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+            <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+            <div class="cleardiv"></div>
+          </div>
+          <div class="notifications">
           </div>
         </div>
       </div>
-      <div class="panel_content">
-        <div class="error">
-          <p>There was an error connecting to Facebook. Please check your connection and your settings.</p>
-          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
-          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
-          <div class="cleardiv"></div>
-        </div>
-        <div class="notifications">
-        </div>
-      </div>
-    </div>
 
-    <div id="couchpotato" class="panel">
-      <div class="panel_header">
-        <div class="panel_header_background panel_couchpotato_background">
-          <div class="panel_header_background1"></div>
-          <div class="panel_header_background2"></div>
-        </div>
-        <div class="panel_header_foreground">
-          <div class="top">
-            <div class="refresh_button refresh_cp waves-effect">
-              <img src="img/icons/refresh.svg" alt="Refresh Couchpotato">
+      <div id="couchpotato" class="panel">
+        <div class="panel_header">
+          <div class="panel_header_background panel_couchpotato_background">
+            <div class="panel_header_background1"></div>
+            <div class="panel_header_background2"></div>
+          </div>
+          <div class="panel_header_foreground">
+            <div class="top">
+              <div class="refresh_button refresh_cp waves-effect">
+                <img src="img/icons/refresh.svg" alt="Refresh Couchpotato">
+              </div>
+            </div>
+            <div class="bottom">
+              <a>Couchpotato</a>
             </div>
           </div>
-          <div class="bottom">
-            <a>Couchpotato</a>
+        </div>
+        <div class="panel_content">
+          <div class="error">
+            <p>There was an error connecting to Couchpotato. Please check your connection and your settings.</p>
+            <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+            <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+            <div class="cleardiv"></div>
+          </div>
+          <div class="snatched">
+          </div>
+          <div class="wanted">
           </div>
         </div>
       </div>
-      <div class="panel_content">
-        <div class="error">
-          <p>There was an error connecting to Couchpotato. Please check your connection and your settings.</p>
-          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
-          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
-          <div class="cleardiv"></div>
-        </div>
-        <div class="snatched">
-        </div>
-        <div class="wanted">
-        </div>
-      </div>
-    </div>
 
-    <div id="sickbeard" class="panel">
-      <div class="panel_header">
-        <div class="panel_header_background panel_sickbeard_background">
-          <div class="panel_header_background1"></div>
-          <div class="panel_header_background2"></div>
-        </div>
-        <div class="panel_header_foreground">
-          <div class="top">
-            <div class="refresh_button refresh_sb waves-effect">
-              <img src="img/icons/refresh.svg" alt="Refresh Sickbeard">
+      <div id="sickbeard" class="panel">
+        <div class="panel_header">
+          <div class="panel_header_background panel_sickbeard_background">
+            <div class="panel_header_background1"></div>
+            <div class="panel_header_background2"></div>
+          </div>
+          <div class="panel_header_foreground">
+            <div class="top">
+              <div class="refresh_button refresh_sb waves-effect">
+                <img src="img/icons/refresh.svg" alt="Refresh Sickbeard">
+              </div>
+            </div>
+            <div class="bottom">
+              <a>Sickbeard</a>
             </div>
           </div>
-          <div class="bottom">
-            <a>Sickbeard</a>
+        </div>
+        <div class="panel_content">
+          <div class="error">
+            <p>There was an error connecting to Sickbeard. Please check your connection and your settings.</p>
+            <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+            <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+            <div class="cleardiv"></div>
           </div>
+          <div class="sb_missed"></div>
+          <div class="sb_today"></div>
+          <div class="sb_soon"></div>
+          <div class="sb_later"></div>
         </div>
       </div>
-      <div class="panel_content">
-        <div class="error">
-          <p>There was an error connecting to Sickbeard. Please check your connection and your settings.</p>
-          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
-          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
-          <div class="cleardiv"></div>
-        </div>
-        <div class="sb_missed"></div>
-        <div class="sb_today"></div>
-        <div class="sb_soon"></div>
-        <div class="sb_later"></div>
-      </div>
-    </div>
 
-    <div id="sabnzbd" class="panel">
-      <div class="panel_header">
-        <div class="panel_header_background panel_sabnzbd_background">
-          <div class="panel_header_background1"></div>
-          <div class="panel_header_background2"></div>
-        </div>
-        <div class="panel_header_foreground">
-          <div class="top">
-            <div class="refresh_button refresh_sab waves-effect">
-              <img src="img/icons/refresh.svg" alt="Refresh Sabnzbd">
+      <div id="sabnzbd" class="panel">
+        <div class="panel_header">
+          <div class="panel_header_background panel_sabnzbd_background">
+            <div class="panel_header_background1"></div>
+            <div class="panel_header_background2"></div>
+          </div>
+          <div class="panel_header_foreground">
+            <div class="top">
+              <div class="refresh_button refresh_sab waves-effect">
+                <img src="img/icons/refresh.svg" alt="Refresh Sabnzbd">
+              </div>
+            </div>
+            <div class="bottom">
+              <a>SABnzbd</a>
             </div>
           </div>
-          <div class="bottom">
-            <a>SABnzbd</a>
+        </div>
+        <div class="panel_content">
+          <div class="error">
+            <p>There was an error connecting to SABnzbd. Please check your connection and your settings.</p>
+            <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+            <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+            <div class="cleardiv"></div>
+          </div>
+          <div class="queue">
+          </div>
+          <div class="history">
           </div>
         </div>
       </div>
-      <div class="panel_content">
-        <div class="error">
-          <p>There was an error connecting to SABnzbd. Please check your connection and your settings.</p>
-          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
-          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
-          <div class="cleardiv"></div>
-        </div>
-        <div class="queue">
-        </div>
-        <div class="history">
-        </div>
-      </div>
-    </div>
 
-    <div id="designernews" class="panel">
-      <div class="panel_header">
-        <div class="panel_header_background panel_designernews_background">
-          <div class="panel_header_background1"></div>
-          <div class="panel_header_background2"></div>
-        </div>
-        <div class="panel_header_foreground">
-          <div class="top">
-            <div class="refresh_button refresh_dn waves-effect">
-              <img src="img/icons/refresh.svg" alt="Refresh Designer News">
+      <div id="designernews" class="panel">
+        <div class="panel_header">
+          <div class="panel_header_background panel_designernews_background">
+            <div class="panel_header_background1"></div>
+            <div class="panel_header_background2"></div>
+          </div>
+          <div class="panel_header_foreground">
+            <div class="top">
+              <div class="refresh_button refresh_dn waves-effect">
+                <img src="img/icons/refresh.svg" alt="Refresh Designer News">
+              </div>
+            </div>
+            <div class="bottom">
+              <a>Designer News</a>
             </div>
           </div>
-          <div class="bottom">
-            <a>Designer News</a>
+        </div>
+        <div class="panel_content">
+          <div class="error">
+            <p>There was an error connecting to Designer News. Please check your connection and your settings.</p>
+            <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+            <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+            <div class="cleardiv"></div>
+          </div>
+          <div class="dn_links">
           </div>
         </div>
+        <div class="cleardiv"></div>
       </div>
-      <div class="panel_content">
-        <div class="error">
-          <p>There was an error connecting to Designer News. Please check your connection and your settings.</p>
-          <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
-          <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
-          <div class="cleardiv"></div>
-        </div>
-        <div class="dn_links">
-        </div>
+    </div>
+
+    <div class="bottom_bar_container">
+      <div class="calendar_info bottom_bar_part">
       </div>
-      <div class="cleardiv"></div>
+      <div class="gmail_info bottom_bar_part">
+      </div>
+      <div class="facebook_info bottom_bar_part">
+      </div>
+      <div class="couchpotato_info bottom_bar_part">
+      </div>
+      <div class="sickbeard_info bottom_bar_part">
+      </div>
+      <div class="sabnzbd_info bottom_bar_part">
+      </div>
+      <div class="designernews_info bottom_bar_part">
+      </div>
     </div>
-  </div>
 
-  <div class="bottom_bar_container">
-    <div class="calendar_info bottom_bar_part">
-    </div>
-    <div class="gmail_info bottom_bar_part">
-    </div>
-    <div class="facebook_info bottom_bar_part">
-    </div>
-    <div class="couchpotato_info bottom_bar_part">
-    </div>
-    <div class="sickbeard_info bottom_bar_part">
-    </div>
-    <div class="sabnzbd_info bottom_bar_part">
-    </div>
-    <div class="designernews_info bottom_bar_part">
-    </div>
-  </div>
-
-  <div class="cleardiv"></div>
-</body>
+    <div class="cleardiv"></div>
+  </body>
 </html>
