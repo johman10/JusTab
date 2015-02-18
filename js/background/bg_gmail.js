@@ -85,7 +85,7 @@ function GmailHTML() {
         messageFrom = header.value.replace(/<(.|\n)*?>/, "");
       }
       if (header.name == "Date") {
-        if (moment(header.value).day() == moment().day()) {
+        if (moment(header.value).isSame(moment(), 'day')) {
           messageDate = moment(header.value).format("hh:mm A");
         }
         else {
