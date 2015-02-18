@@ -6,7 +6,7 @@ $(document).ready(function() {
       $('.refresh_gmail').click(function() {
         $('#gmail .error:visible').slideUp(400);
         $('.refresh_gmail').fadeOut(400, function() {
-          $(this).html(spinner);
+          $(this).html(serviceData.spinner);
           $(this).fadeIn(400, function() {
             chrome.runtime.getBackgroundPage(function(backgroundPage) {
               backgroundPage.getGmailData(25, function() {
@@ -61,7 +61,7 @@ function gmailCheckScroll(e) {
   var length = $('#gmail .gm_message').length;
   if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight()) {
     if ($('#gmail .mail_read .loading_bar').length === 0) {
-      $('#gmail .mail_read').append('<div class="core_item loading_bar">' + spinner + '</div>');
+      $('#gmail .mail_read').append('<div class="core_item loading_bar">' + serviceData.spinner + '</div>');
     }
     chrome.extension.getBackgroundPage().getGmailData(length + 25);
   }

@@ -11,7 +11,7 @@ $(document).ready(function() {
         $('#couchpotato .error:visible').slideUp(400);
 
         $('.refresh_cp').fadeOut(400, function() {
-          $(this).html(spinner);
+          $(this).html(serviceData.spinner);
           $(this).fadeIn(400, function() {
             chrome.runtime.getBackgroundPage(function(backgroundPage) {
               backgroundPage.getWantedCouchPotato(function() {

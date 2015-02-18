@@ -10,7 +10,7 @@ $(document).ready(function() {
         $('#designernews .error:visible').slideUp(400);
 
         $('.refresh_dn').fadeOut(400, function() {
-          $(this).html(spinner);
+          $(this).html(serviceData.spinner);
           $(this).fadeIn(400, function() {
             chrome.runtime.getBackgroundPage(function(backgroundPage) {
               backgroundPage.getDesignerNewsData(function() {

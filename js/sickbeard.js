@@ -9,7 +9,7 @@ $(document).ready(function() {
       $('#sickbeard .refresh_sb').click(function(event) {
         $('#sickbeard .error:visible').slideUp(400);
         $('.refresh_sb').fadeOut(400, function() {
-          $(this).html(spinner);
+          $(this).html(serviceData.spinner);
           $(this).fadeIn(400, function() {
             chrome.runtime.getBackgroundPage(function(backgroundPage) {
               backgroundPage.getSickBeardData(function() {
@@ -79,7 +79,7 @@ function searchEpisode(clickedObject) {
   clickedObject.fadeOut(400, function() {
     clickedObject.removeClass('search_icon');
     clickedObject.removeClass('error_icon');
-    clickedObject.html(spinner);
+    clickedObject.html(serviceData.spinner);
     clickedObject.fadeIn(400);
   });
 
@@ -113,7 +113,7 @@ function markEpisode(clickedObject) {
   clickedObject.fadeOut(400, function() {
     clickedObject.removeClass('search_icon');
     clickedObject.removeClass('error_icon');
-    clickedObject.html(spinner);
+    clickedObject.html(serviceData.spinner);
     clickedObject.fadeIn(400);
   });
 

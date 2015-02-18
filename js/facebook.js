@@ -7,7 +7,7 @@ $(document).ready(function() {
         $('#facebook .error:visible').slideUp(400);
 
         $('.refresh_fb').fadeOut(400, function() {
-          $(this).html(spinner);
+          $(this).html(serviceData.spinner);
           $(this).fadeIn(400, function() {
             chrome.runtime.getBackgroundPage(function(backgroundPage) {
               backgroundPage.getFacebookData(function() {
