@@ -1,3 +1,9 @@
+.loading_bar {
+  @include spinner(#000);
+  line-height: initial;
+  text-align: center;
+}
+
 * {
   box-sizing: border-box;
 }

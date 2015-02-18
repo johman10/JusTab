@@ -60,7 +60,9 @@ function gmailCheckScroll(e) {
   var nextPage = localStorage.getItem('Gmail_page');
   var length = $('#gmail .gm_message').length;
   if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight()) {
+    if ($('#gmail .mail_read .loading_bar').length === 0) {
+      $('#gmail .mail_read').append('<div class="core_item loading_bar">' + spinner + '</div>');
+    }
     chrome.extension.getBackgroundPage().getGmailData(length + 25);
-    console.log(length, nextPage);
   }
 }
