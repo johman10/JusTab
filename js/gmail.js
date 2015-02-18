@@ -63,6 +63,8 @@ function gmailCheckScroll(e) {
     if ($('#gmail .mail_read .loading_bar').length === 0) {
       $('#gmail .mail_read').append('<div class="core_item loading_bar">' + serviceData.spinner + '</div>');
     }
-    chrome.extension.getBackgroundPage().getGmailData(length + 25);
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      backgroundPage.getGmailData(length + 25);
+    });
   }
 }
