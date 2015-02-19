@@ -7,15 +7,15 @@ serviceDataDone.done(function() {
     }
   });
 
-  chrome.windows.onCreated.addListener(function() {
-    console.log('Startup functions...');
+  // chrome.windows.onCreated.addListener(function() {
+  //   console.log('Startup functions...');
 
-    $.each(serviceData, function(index, val) {
-      if (val.status) {
-        window[val.bgFunctionName]();
-      }
-    });
-  });
+  //   $.each(serviceData, function(index, val) {
+  //     if (val.status) {
+  //       window[val.bgFunctionName]();
+  //     }
+  //   });
+  // });
 
   chrome.alarms.onAlarm.addListener(function(alarm) {
     $.each(serviceData, function(index, val) {

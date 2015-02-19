@@ -1,9 +1,12 @@
 // Docs:
 // http://nas.pxdesign.nl:5050/docs
 
-function getWantedCouchPotato(callback) {
+function getWantedCouchPotato(length, callback) {
+  if (!length) {
+    length = 25;
+  }
   var url = serviceData.CPW.apiUrl;
-  var apiCall = "movie.list/?status=active";
+  var apiCall = "movie.list/?status=active&limit_offset=" + length;
 
   $.when($.ajax({
     url: url + apiCall,
@@ -22,6 +25,8 @@ function getWantedCouchPotato(callback) {
       serviceData.CPW.error = true;
     }
   })).then(function() {
+    cpwHTML();
+
     if (callback) {
       callback();
     }
@@ -49,7 +54,7 @@ function getSnatchedCouchPotato(callback) {
       serviceData.CPS.error = true;
     }
   })).then(function() {
-    cpHTML();
+    cpsHTML();
 
     if (callback) {
       callback();
@@ -57,25 +62,30 @@ function getSnatchedCouchPotato(callback) {
   });
 }
 
-function cpHTML() {
-  var CouchpotatoSnatchedHTML = '<h2>Snatched and Available</h2>';
+function cpwHTML() {
   var CouchpotatoWantedHTML = '<h2>Wanted</h2>';
 
-  snatchedData = serviceData.CPS.JSON;
   wantedData = serviceData.CPW.JSON;
-
-  $.each(snatchedData.movies, function(i, movie) {
-    CouchpotatoSnatchedHTML = cpCreateVar(movie, CouchpotatoSnatchedHTML);
-  });
 
   $.each(wantedData.movies, function(i, movie) {
     CouchpotatoWantedHTML = cpCreateVar(movie, CouchpotatoWantedHTML);
   });
 
-  localStorage.setItem('CouchpotatoSnatchedHTML', CouchpotatoSnatchedHTML);
-  serviceData.CPS.HTML = CouchpotatoSnatchedHTML;
   localStorage.setItem('CouchpotatoWantedHTML', CouchpotatoWantedHTML);
   serviceData.CPW.HTML = CouchpotatoWantedHTML;
+}
+
+function cpsHTML() {
+  var CouchpotatoSnatchedHTML = '<h2>Snatched and Available</h2>';
+
+  snatchedData = serviceData.CPS.JSON;
+
+  $.each(snatchedData.movies, function(i, movie) {
+    CouchpotatoSnatchedHTML = cpCreateVar(movie, CouchpotatoSnatchedHTML);
+  });
+
+  localStorage.setItem('CouchpotatoSnatchedHTML', CouchpotatoSnatchedHTML);
+  serviceData.CPS.HTML = CouchpotatoSnatchedHTML;
 }
 
 function cpCreateVar(movie, cpVar) {

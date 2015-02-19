@@ -14,7 +14,7 @@ $(document).ready(function() {
           $(this).html(serviceData.spinner);
           $(this).fadeIn(400, function() {
             chrome.runtime.getBackgroundPage(function(backgroundPage) {
-              backgroundPage.getWantedCouchPotato(function() {
+              backgroundPage.getWantedCouchPotato(25, function() {
                 backgroundPage.getSnatchedCouchPotato(function() {
                   $('.refresh_cp').fadeOut(400, function() {
                     $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Couchpotato" draggable=false>');
@@ -26,6 +26,8 @@ $(document).ready(function() {
           });
         });
       });
+
+      $('#couchpotato .panel_content').bind('scroll', couchpotatoCheckScroll);
 
       $('#couchpotato .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.CPW.url);
 
@@ -87,4 +89,17 @@ function searchMovie(clickedObject) {
       clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
     }
   });
+}
+
+function couchpotatoCheckScroll(e) {
+  var elem = $(e.currentTarget);
+  var length = $('#couchpotato .wanted .cp_item').length;
+  if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight()) {
+    if ($('#couchpotato .wanted .loading_bar').length === 0) {
+      $('#couchpotato .wanted').append('<div class="core_item loading_bar">' + serviceData.spinner + '</div>');
+    }
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      backgroundPage.getWantedCouchPotato(length + 25);
+    });
+  }
 }
