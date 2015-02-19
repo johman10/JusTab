@@ -80,7 +80,16 @@ function sabqHTML() {
     }
 
     $.each(queueJson.queue.slots, function(i, qItem) {
-      queue += '<div class="core_item without_hover sab_item_container">' + qItem.filename + '</div>';
+      console.log(qItem);
+      queue +=
+        '<div class="core_item without_hover sab_item_container">' +
+          '<div class="sab_item_name">' +
+            qItem.filename +
+          '</div>' +
+          '<div class="sab_item_status">' +
+            qItem.status + ' - ' + qItem.percentage + '%' +
+          '</div>' +
+        '</div>';
     });
     status +=
       '<div class="core_item without_hover sab_status_container">' +
@@ -115,7 +124,7 @@ function sabhHTML() {
             '<div class="sab_item_name">' +
               hItem.name +
             '</div>' +
-            '<div class="sab_item_error">' +
+            '<div class="sab_item_status">' +
               hItem.status +
             '</div>' +
           '</div>';
@@ -126,7 +135,7 @@ function sabhHTML() {
             '<div class="sab_item_name">' +
               hItem.name +
             '</div>' +
-            '<div class="sab_item_error">' +
+            '<div class="sab_item_status">' +
               hItem.fail_message +
             '</div>' +
           '</div>';
