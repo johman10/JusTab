@@ -94,7 +94,7 @@ function searchMovie(clickedObject) {
 function couchpotatoCheckScroll(e) {
   var elem = $(e.currentTarget);
   var length = $('#couchpotato .wanted .cp_item').length;
-  if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight()) {
+  if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight() && length < serviceData.CPW.JSON.total) {
     if ($('#couchpotato .wanted .loading_bar').length === 0) {
       $('#couchpotato .wanted').append('<div class="core_item loading_bar">' + serviceData.spinner + '</div>');
     }
