@@ -32,13 +32,19 @@ $(document).ready(function() {
     };
 
     if (storageFunctions[e.originalEvent.key]) {
+      currentTabs = chrome.extension.getViews({type: 'tab'});
+      console.log(e.originalEvent.key);
       chrome.runtime.getBackgroundPage(function(backgroundPage) {
         backgroundPage.serviceDataFunction();
         $.when(backgroundPage.serviceDataDone).then(function() {
-          refreshServiceData();
-          $.when(serviceDataRefreshDone).then(function() {
-            storageFunctions[e.originalEvent.key]();
+          $.each(currentTabs, function(index, tab) {
+            tab.refreshServiceData();
+            $.when(tab.serviceDataRefreshDone).then(function() {
+              storageFunction = storageFunctions[e.originalEvent.key];
+              tab.storageFunction();
+            });
           });
+
         });
       });
     }
