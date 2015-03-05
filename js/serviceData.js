@@ -1,4 +1,3 @@
-var spinner =
 refreshServiceData();
 
 function refreshServiceData() {
@@ -119,10 +118,10 @@ function refreshServiceData() {
         "username": items.DN_username,
         "password": items.DN_password,
         "token": localStorage.getItem('DesignernewsAuth'),
-        "personal": localStorage.getItem('DesignernewsMe'),
+        "personal": JSON.parse(localStorage.getItem('DesignernewsMe')),
         "upvotes": localStorage.getItem('DesignernewsUpvotes')
       }
-    }
+    };
     serviceDataRefreshDone.resolve();
   });
 }

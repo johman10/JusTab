@@ -1,5 +1,5 @@
 // Docs:
-// http://developers.news.layervault.com/
+// http://developers.news.layervault.com/v2
 
 $(document).ready(function() {
   $.when(serviceDataRefreshDone).done(function() {
