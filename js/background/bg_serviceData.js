@@ -119,6 +119,17 @@ function serviceDataFunction() {
         "token": localStorage.getItem('DesignernewsAuth'),
         "personal": localStorage.getItem('DesignernewsMe'),
         "upvotes": localStorage.getItem('DesignernewsUpvotes')
+      },
+      "HN": {
+        "error": localStorage.getItem('Hackernews_error'),
+        "status": items.HN_status,
+        "alarmName": 'hackernews',
+        "refresh": parseFloat(items.HN_refresh),
+        "bgFunctionName": 'getHackerNewsData',
+        "feFunctionName": 'hnShowData',
+        "IDs": localStorage.getItem('HackernewsIDs'),
+        "JSON": JSON.parse(localStorage.getItem('Hackernews')),
+        "HTML": localStorage.getItem('HackernewsHTML')
       }
     };
 

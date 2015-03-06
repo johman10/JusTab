@@ -28,6 +28,7 @@
           <core-item label="Sickbeard"><paper-toggle-button name="SB_status" class="service_toggle"></paper-toggle-button></core-item>
           <core-item label="SABnzbd"><paper-toggle-button name="SAB_status" class="service_toggle"></paper-toggle-button></core-item>
           <core-item label="Designernews"><paper-toggle-button name="DN_status" class="service_toggle"></paper-toggle-button></core-item>
+          <core-item label="Hackernews"><paper-toggle-button name="HN_status" class="service_toggle"></paper-toggle-button></core-item>
         </core-menu>
       </core-header-panel>
 
@@ -92,6 +93,12 @@
           <paper-input floatingLabel name="DN_username" id="DN_username" label="Designer News Username"></paper-input><br>
           <paper-input floatingLabel name="DN_password" id="DN_password" label="Designer News Password"></paper-input><br>
           <paper-input floatingLabel name="DN_refresh" id="DN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+          <div class="status"></div>
+          <button class="save_settings">Save</button>
+        </div>
+
+        <div class="HackerNews">
+          <paper-input floatingLabel name="HN_refresh" id="HN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
           <div class="status"></div>
           <button class="save_settings">Save</button>
         </div>

@@ -1,0 +1,77 @@
+.panel_hackernews_background {
+  .panel_header_background1 {
+    background-color: $hackernews-color;
+  }
+
+  .panel_header_background2 {
+    background-image: image-url('HN_header.png');
+    background-size: auto 76.8px;
+    background-position: 105%;
+    background-color: $hackernews-color;
+  }
+}
+
+.hn_link_container {
+  height: 72px;
+  line-height: initial;
+
+  .hn_story_url {
+    display: block;
+    @include text-truncate;
+    padding: 17px 0 0;
+    height: auto;
+    text-decoration: none;
+    color: $black;
+    width: 328px;
+    height: 100%;
+
+    &:hover {
+      color: $black;
+    }
+
+    &:visited {
+      color: $grey;
+    }
+  }
+
+  .hn_comments_url {
+    position: absolute;
+    @include text-truncate;
+    text-decoration: none;
+    color: $grey;
+    top: initial;
+    left: initial;
+    right: initial;
+    bottom: 17px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .hn_upvote {
+    @include ripple(#000);
+    position: absolute !important;
+    right: 0;
+    top: 0;
+    padding: 16px;
+    width: 56px;
+    height: 56px;
+    margin: 8px 0;
+    border-radius: 100%;
+    background-repeat: no-repeat;
+    background-position: 50%;
+
+    &:hover {
+      background-image: image-url("icons/thumb_up_voted.svg");
+    }
+  }
+
+  &:hover {
+    background-color: $hover-color;
+
+    .hn_story_url {
+      color: $black;
+    }
+  }
+}

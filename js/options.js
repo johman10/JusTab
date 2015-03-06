@@ -85,6 +85,8 @@ function save_options() {
     DN_username: $('#DN_username').val(),
     DN_password: $('#DN_password').val(),
     DN_refresh: $('#DN_refresh').val(),
+    HN_status: $('paper-toggle-button[name=HN_status]').attr('aria-pressed') == "true" ? true : false,
+    HN_refresh: $('#HN_refresh').val()
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.serviceDataFunction();
@@ -128,7 +130,9 @@ function restore_options() {
     DN_status: '',
     DN_username: '',
     DN_password: '',
-    DN_refresh: '15'
+    DN_refresh: '15',
+    HN_status: '',
+    HN_refresh: '15'
   }, function(items) {
     $('paper-toggle-button[name=GC_status]').attr('checked', items.GC_status);
     $('#GC_refresh').val(items.GC_refresh);
@@ -158,6 +162,8 @@ function restore_options() {
     $('#DN_username').val(items.DN_username);
     $('#DN_password').val(items.DN_password);
     $('#DN_refresh').val(items.DN_refresh);
+    $('paper-toggle-button[name=HN_status]').attr('checked', items.HN_status);
+    $('#HN_refresh').val(items.HN_refresh);
   });
 }
 

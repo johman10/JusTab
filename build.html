@@ -13,6 +13,7 @@
   <script src="js/couchpotato.js" type="text/javascript" charset="utf-8" async=""></script>
   <script src="js/sickbeard.js" type="text/javascript" charset="utf-8" async=""></script>
   <script src="js/designernews.js" type="text/javascript" charset="utf-8" async=""></script>
+  <script src="js/hackernews.js" type="text/javascript" charset="utf-8" async=""></script>
   <script src="js/facebook.js" type="text/javascript" charset="utf-8" async=""></script>
   <script src="js/style.js" type="text/javascript" charset="utf-8"></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
@@ -229,6 +230,36 @@
         </div>
         <div class="cleardiv"></div>
       </div>
+
+      <div id="hackernews" class="panel">
+        <div class="panel_header">
+          <div class="panel_header_background panel_hackernews_background">
+            <div class="panel_header_background1"></div>
+            <div class="panel_header_background2"></div>
+          </div>
+          <div class="panel_header_foreground">
+            <div class="top">
+              <div class="refresh_button refresh_hn waves-effect">
+                <img src="img/icons/refresh.svg" alt="Refresh Hacker News">
+              </div>
+            </div>
+            <div class="bottom">
+              <a>Hacker News</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel_content">
+          <div class="error">
+            <p>There was an error connecting to Hacker News. Please check your connection and your settings.</p>
+            <a class="paper-flat-button error_settings_button waves-effect">Settings</a>
+            <a class="paper-flat-button error_retry_button waves-effect">Retry</a>
+            <div class="cleardiv"></div>
+          </div>
+          <div class="hn_links">
+          </div>
+        </div>
+        <div class="cleardiv"></div>
+      </div>
     </div>
 
     <div class="bottom_bar_container">
@@ -245,6 +276,8 @@
       <div class="sabnzbd_info bottom_bar_part">
       </div>
       <div class="designernews_info bottom_bar_part">
+      </div>
+      <div class="hackernews_info bottom_bar_part">
       </div>
     </div>
 

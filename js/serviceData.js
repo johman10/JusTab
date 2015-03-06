@@ -120,6 +120,16 @@ function refreshServiceData() {
         "token": localStorage.getItem('DesignernewsAuth'),
         "personal": JSON.parse(localStorage.getItem('DesignernewsMe')),
         "upvotes": localStorage.getItem('DesignernewsUpvotes')
+      },
+      "HN": {
+        "error": localStorage.getItem('Hackernews_error'),
+        "status": items.HN_status,
+        "alarmName": 'hackernews',
+        "refresh": parseFloat(items.HN_refresh),
+        "bgFunctionName": 'getHackerNewsData',
+        "feFunctionName": 'hnShowData',
+        "JSON": JSON.parse(localStorage.getItem('Hackernews')),
+        "HTML": localStorage.getItem('HackernewsHTML')
       }
     };
     serviceDataRefreshDone.resolve();
