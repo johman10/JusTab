@@ -8,13 +8,34 @@ function getHackerNewsData(callback) {
   $.when($.ajax({
     url: url + apiCall,
     dataType: 'json',
-    async: false,
+    async: true,
     timeout: 3000,
     success: function(data) {
       localStorage.setItem("Hackernews_error", false);
       serviceData.HN.error = false;
-      localStorage.setItem("HackernewsIDs", JSON.stringify(data.slice(0,25)));
-      serviceData.HN.IDs = data.slice(0,25);
+
+      var hnJSON = [];
+      $.each(data.slice(0,25), function(index, val) {
+        apiCall = "item/" + val + ".json";
+
+        $.ajax({
+          url: url + apiCall,
+          dataType: 'json',
+          async: false,
+          timeout: 3000,
+          success: function(data) {
+            hnJSON = hnJSON.concat(data);
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            console.log(xhr, ajaxOptions, thrownError);
+            localStorage.setItem("Hackernews_error", true);
+            serviceData.HN.error = true;
+          }
+        });
+      });
+
+      localStorage.setItem("Hackernews", JSON.stringify(hnJSON));
+      serviceData.HN.JSON = hnJSON;
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
@@ -22,29 +43,6 @@ function getHackerNewsData(callback) {
       serviceData.HN.error = true;
     }
   })).then(function() {
-    var hnJSON = [];
-    $.each(serviceData.HN.IDs, function(index, val) {
-      apiCall = "item/" + val + ".json";
-
-      $.ajax({
-        url: url + apiCall,
-        dataType: 'json',
-        async: false,
-        timeout: 3000,
-        success: function(data) {
-          hnJSON = hnJSON.concat(data);
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-          console.log(xhr, ajaxOptions, thrownError);
-          localStorage.setItem("Hackernews_error", true);
-          serviceData.HN.error = true;
-        }
-      });
-    });
-
-    localStorage.setItem("Hackernews", JSON.stringify(hnJSON));
-    serviceData.HN.JSON = hnJSON;
-
     hnHTML();
 
     if (callback) {

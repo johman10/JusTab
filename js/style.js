@@ -28,7 +28,8 @@ $(document).ready(function() {
       'SabnzbdStatusHTML': sabShowData,
       'SabnzbdQueueHTML': sabShowData,
       'SabnzbdHistoryHTML': sabShowData,
-      'DesignernewsHTML': dnShowData
+      'DesignernewsHTML': dnShowData,
+      'HackernewsHTML': dnShowData
     };
 
     if (storageFunctions[e.originalEvent.key]) {
