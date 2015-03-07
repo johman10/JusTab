@@ -53,4 +53,5 @@
   @include paper-shadow(1);
   line-height: 50px;
   background-color: $white;
+  pointer-events: auto;
 }

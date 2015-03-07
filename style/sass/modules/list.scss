@@ -45,6 +45,7 @@
   height: 50px;
   position: absolute;
   bottom: 0;
+  pointer-events: none;
 
   .bottom_bar_part {
     display: none;
