@@ -29,7 +29,7 @@ $(document).ready(function() {
       'SabnzbdQueueHTML': sabShowData,
       'SabnzbdHistoryHTML': sabShowData,
       'DesignernewsHTML': dnShowData,
-      'HackernewsHTML': dnShowData
+      'HackernewsHTML': hnShowData
     };
 
     if (storageFunctions[e.originalEvent.key]) {

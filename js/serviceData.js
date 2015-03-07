@@ -128,6 +128,7 @@ function refreshServiceData() {
         "refresh": parseFloat(items.HN_refresh),
         "bgFunctionName": 'getHackerNewsData',
         "feFunctionName": 'hnShowData',
+        "IDs": localStorage.getItem('HackernewsIDs'),
         "JSON": JSON.parse(localStorage.getItem('Hackernews')),
         "HTML": localStorage.getItem('HackernewsHTML')
       }
