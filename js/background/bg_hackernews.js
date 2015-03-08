@@ -9,7 +9,7 @@ function getHackerNewsData(callback) {
     url: url + apiCall,
     dataType: 'json',
     async: true,
-    timeout: 3000,
+    timeout: 5000,
     success: function(data) {
       localStorage.setItem("Hackernews_error", false);
       serviceData.HN.error = false;
@@ -22,7 +22,7 @@ function getHackerNewsData(callback) {
           url: url + apiCall,
           dataType: 'json',
           async: false,
-          timeout: 3000,
+          timeout: 5000,
           success: function(data) {
             hnJSON = hnJSON.concat(data);
           },
