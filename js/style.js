@@ -40,11 +40,13 @@ $(document).ready(function() {
         backgroundPage.serviceDataFunction();
         $.when(backgroundPage.serviceDataDone).then(function() {
           $.each(currentTabs, function(index, tab) {
-            tab.refreshServiceData();
-            $.when(tab.serviceDataRefreshDone).then(function() {
-              storageFunction = storageFunctions[e.originalEvent.key];
-              tab.storageFunction();
-            });
+            if (tab.refreshServiceData) {
+              tab.refreshServiceData();
+              $.when(tab.serviceDataRefreshDone).then(function() {
+                storageFunction = storageFunctions[e.originalEvent.key];
+                tab.storageFunction();
+              });
+            }
           });
 
         });
