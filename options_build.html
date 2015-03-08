@@ -4144,7 +4144,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </polymer-element>
 </div>
   <nav class="options_menu">
-    <div class="options_menu_link waves-effect">
+    <div class="options_menu_link waves-effect" data-title="Calendar">
       Calendar
       <div class="switch service_toggle">
         <label>
@@ -4153,7 +4153,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect">
+    <div class="options_menu_link waves-effect" data-title="Gmail">
       Gmail
       <div class="switch service_toggle">
         <label>
@@ -4162,7 +4162,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect">
+    <div class="options_menu_link waves-effect" data-title="Facebook">
       Facebook
       <div class="switch service_toggle">
         <label>
@@ -4171,7 +4171,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect">
+    <div class="options_menu_link waves-effect" data-title="Couchpotato">
       Couchpotato
       <div class="switch service_toggle">
         <label>
@@ -4180,7 +4180,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect">
+    <div class="options_menu_link waves-effect" data-title="Sickbeard">
       Sickbeard
       <div class="switch service_toggle">
         <label>
@@ -4189,7 +4189,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect">
+    <div class="options_menu_link waves-effect" data-title="SABnzbd">
       SABnzbd
       <div class="switch service_toggle">
         <label>
@@ -4198,7 +4198,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect">
+    <div class="options_menu_link waves-effect" data-title="DesignerNews">
       Designernews
       <div class="switch service_toggle">
         <label>
@@ -4207,7 +4207,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect">
+    <div class="options_menu_link waves-effect" data-title="HackerNews">
       Hackernews
       <div class="switch service_toggle">
         <label>
@@ -4217,7 +4217,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </div>
 
-    <div class="options_menu_link waves-effect">
+    <div class="options_menu_link waves-effect" data-title="Github">
       Github
       <div class="switch service_toggle">
         <label>
@@ -4229,7 +4229,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </nav>
 
   <div class="options_content">
-    <div class="Calendar">
+    <div class="options_window Calendar">
       <core-label>
         Show appointments from:
       </core-label>
@@ -4241,19 +4241,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button class="save_settings">Save</button>
     </div>
 
-    <div class="Gmail">
+    <div class="options_window Gmail">
       <paper-input floatinglabel="" name="GM_refresh" id="GM_refresh" label="Refresh rate (in minutes)"></paper-input><br>
       <div class="status"></div>
       <button class="save_settings">Save</button>
     </div>
 
-    <div class="Facebook">
+    <div class="options_window Facebook">
       <paper-input floatinglabel="" name="FB_url" id="FB_url" label="Facebook RSS feed url"></paper-input><br>
-      <paper-input floatinglabel="" name="FB_refresh" id="FB_refresh" label="Refresh rate (in minutes)"></paper-input><br <div="" class="status"></div>
+      <paper-input floatinglabel="" name="FB_refresh" id="FB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <div class="status"></div>
       <button class="save_settings">Save</button>
     </div>
 
-    <div class="Couchpotato">
+    <div class="options_window Couchpotato">
       <paper-input floatinglabel="" name="CP_address" id="CP_address" label="Server address"></paper-input><br>
       <paper-input floatinglabel="" name="CP_port" id="CP_port" label="Server port"></paper-input><br>
       <paper-input floatinglabel="" name="CP_key" id="CP_key" label="API Key"></paper-input><br>
@@ -4262,7 +4263,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button class="save_settings">Save</button>
     </div>
 
-    <div class="Sickbeard">
+    <div class="options_window Sickbeard">
       <paper-input floatinglabel="" name="SB_address" id="SB_address" label="Server address"></paper-input><br>
       <paper-input floatinglabel="" name="SB_port" id="SB_port" label="Server port"></paper-input><br>
       <paper-input floatinglabel="" name="SB_key" id="SB_key" label="API Key"></paper-input><br>
@@ -4271,7 +4272,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button class="save_settings">Save</button>
     </div>
 
-    <div class="SABnzbd">
+    <div class="options_window SABnzbd">
       <paper-input floatinglabel="" name="SAB_address" id="SAB_address" label="Server address"></paper-input><br>
       <paper-input floatinglabel="" name="SAB_port" id="SAB_port" label="Server port"></paper-input><br>
       <paper-input floatinglabel="" name="SAB_key" id="SAB_key" label="API Key"></paper-input><br>
@@ -4282,7 +4283,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button class="save_settings">Save</button>
     </div>
 
-    <div class="DesignerNews">
+    <div class="options_window DesignerNews">
       <paper-input floatinglabel="" name="DN_username" id="DN_username" label="Designer News Username"></paper-input><br>
       <paper-input floatinglabel="" name="DN_password" id="DN_password" label="Designer News Password"></paper-input><br>
       <paper-input floatinglabel="" name="DN_refresh" id="DN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
@@ -4290,17 +4291,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <button class="save_settings">Save</button>
     </div>
 
-    <div class="HackerNews">
+    <div class="options_window HackerNews">
       <paper-input floatinglabel="" name="HN_refresh" id="HN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
       <div class="status"></div>
       <button class="save_settings">Save</button>
     </div>
-  
 
-  <div class="Github">
-    <paper-input floatinglabel="" name="GH_refresh" id="GH_refresh" label="Refresh rate (in minutes)"></paper-input><br>
-    <div class="status"></div>
-    <button class="save_settings">Save</button>
+    <div class="options_window Github">
+      <paper-input floatinglabel="" name="GH_refresh" id="GH_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <div class="status"></div>
+      <button class="save_settings">Save</button>
+    </div>
   </div>
 
 

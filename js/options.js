@@ -1,45 +1,66 @@
 $(document).ready(function() {
-  restore_options();
+  $.when(restore_options()).then(function() {
+    chrome.identity.getAuthToken({ 'interactive': false },function (token) {
+      var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
+      var events = "";
 
-  chrome.identity.getAuthToken({ 'interactive': false },function (token) {
-    var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
-    var events = "";
+      $.ajax({
+        url: url + '?oauth_token=' + token,
+        dataType: 'json',
+        async: false,
+        success: function(data) {
+          $('#loading').hide();
 
-    $.ajax({
-      url: url + '?oauth_token=' + token,
-      dataType: 'json',
-      async: false,
-      success: function(data) {
-        $('#loading').hide();
+          chrome.storage.sync.get(function(items) {
+            var calendars_storage = items.calendars;
 
-        chrome.storage.sync.get(function(items) {
-          var calendars_storage = items.calendars;
-
-          $.each(data.items, function(l) {
-            var calendar = data.items[l];
-            if ($.inArray(calendar.id, calendars_storage) > -1) {
-              $('.calendar_select_container').append("<core-label><paper-checkbox checked class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
-            }
-            else {
-              $('.calendar_select_container').append("<core-label><paper-checkbox class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
-            }
+            $.each(data.items, function(l) {
+              var calendar = data.items[l];
+              if ($.inArray(calendar.id, calendars_storage) > -1) {
+                $('.calendar_select_container').append("<core-label><paper-checkbox checked class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
+              }
+              else {
+                $('.calendar_select_container').append("<core-label><paper-checkbox class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
+              }
+            });
           });
-        });
-      }
+        }
+      });
     });
-  });
 
-  setTimeout(function() {
+    $('.options_menu_link').bind('click', function() {
+      var serviceName = $(this).data("title");
+      $('.options_window').hide();
+      $('.' + serviceName).show();
+    });
+
     $('.save_settings').bind('click', function() {
       save_options();
     });
 
-    // $('.service_toggle').bind('core-change', function(event) {
-    //   console.log('save-toggle');
-    //   save_options();
-    // });
-  }, 50);
+    $('.switch input[type=checkbox]').bind('change', function() {
+      save_status_options();
+    });
+  });
 });
+
+function save_status_options() {
+  chrome.storage.sync.set({
+    GC_status: $('input[type=checkbox][name=GC_status]').is(':checked'),
+    GM_status: $('input[type=checkbox][name=GM_status]').is(':checked'),
+    FB_status: $('input[type=checkbox][name=FB_status]').is(':checked'),
+    CP_status: $('input[type=checkbox][name=CP_status]').is(':checked'),
+    SB_status: $('input[type=checkbox][name=SB_status]').is(':checked'),
+    SAB_status: $('input[type=checkbox][name=SAB_status]').is(':checked'),
+    DN_status: $('input[type=checkbox][name=DN_status]').is(':checked'),
+    HN_status: $('input[type=checkbox][name=HN_status]').is(':checked'),
+    GH_status: $('input[type=checkbox][name=GH_status]').is(':checked'),
+  }, function() {
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      backgroundPage.serviceDataFunction();
+    });
+  });
+}
 
 // Saves options to chrome.storage
 function save_options() {
