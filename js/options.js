@@ -86,7 +86,9 @@ function save_options() {
     DN_password: $('#DN_password').val(),
     DN_refresh: $('#DN_refresh').val(),
     HN_status: $('paper-toggle-button[name=HN_status]').attr('aria-pressed') == "true" ? true : false,
-    HN_refresh: $('#HN_refresh').val()
+    HN_refresh: $('#HN_refresh').val(),
+    GH_status: $('paper-toggle-button[name=GH_status]').attr('aria-pressed') == "true" ? true : false,
+    GH_refresh: $('#GH_refresh').val()
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.serviceDataFunction();
@@ -132,7 +134,9 @@ function restore_options() {
     DN_password: '',
     DN_refresh: '15',
     HN_status: '',
-    HN_refresh: '15'
+    HN_refresh: '15',
+    GH_status: '',
+    GH_refresh: '15'
   }, function(items) {
     $('paper-toggle-button[name=GC_status]').attr('checked', items.GC_status);
     $('#GC_refresh').val(items.GC_refresh);
@@ -164,6 +168,8 @@ function restore_options() {
     $('#DN_refresh').val(items.DN_refresh);
     $('paper-toggle-button[name=HN_status]').attr('checked', items.HN_status);
     $('#HN_refresh').val(items.HN_refresh);
+    $('paper-toggle-button[name=GH_status]').attr('checked', items.GH_status);
+    $('#GH_refresh').val(items.GH_refresh);
   });
 }
 

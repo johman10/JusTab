@@ -29,6 +29,7 @@
           <core-item label="SABnzbd"><paper-toggle-button name="SAB_status" class="service_toggle"></paper-toggle-button></core-item>
           <core-item label="Designernews"><paper-toggle-button name="DN_status" class="service_toggle"></paper-toggle-button></core-item>
           <core-item label="Hackernews"><paper-toggle-button name="HN_status" class="service_toggle"></paper-toggle-button></core-item>
+          <core-item label="Github"><paper-toggle-button name="GH_status" class="service_toggle"></paper-toggle-button></core-item>
         </core-menu>
       </core-header-panel>
 
@@ -99,6 +100,12 @@
 
         <div class="HackerNews">
           <paper-input floatingLabel name="HN_refresh" id="HN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+          <div class="status"></div>
+          <button class="save_settings">Save</button>
+        </div>
+
+        <div class="Github">
+          <paper-input floatingLabel name="GH_refresh" id="GH_refresh" label="Refresh rate (in minutes)"></paper-input><br>
           <div class="status"></div>
           <button class="save_settings">Save</button>
         </div>

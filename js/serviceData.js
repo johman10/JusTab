@@ -131,6 +131,16 @@ function refreshServiceData() {
         "IDs": localStorage.getItem('HackernewsIDs'),
         "JSON": JSON.parse(localStorage.getItem('Hackernews')),
         "HTML": localStorage.getItem('HackernewsHTML')
+      },
+      "GH": {
+        "error": localStorage.getItem('Github_error'),
+        "status": items.GH_status,
+        "alarmName": 'github',
+        "refresh": parseFloat(items.GH_refresh),
+        "bgFunctionName": 'getGithubData',
+        "feFunctionName": 'ghShowData',
+        "JSON": $.parseXML(localStorage.getItem('Github')),
+        "HTML": localStorage.getItem('GithubHTML')
       }
     };
     serviceDataRefreshDone.resolve();

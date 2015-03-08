@@ -29,7 +29,8 @@ $(document).ready(function() {
       'SabnzbdQueueHTML': sabShowData,
       'SabnzbdHistoryHTML': sabShowData,
       'DesignernewsHTML': dnShowData,
-      'HackernewsHTML': hnShowData
+      'HackernewsHTML': hnShowData,
+      'GithubHTML': ghShowData
     };
 
     if (storageFunctions[e.originalEvent.key]) {

@@ -1,0 +1,46 @@
+.panel_github_background {
+  .panel_header_background1 {
+    background-color: $github-color;
+  }
+
+  .panel_header_background2 {
+    background-image: image-url('GH_header.png');
+    background-size: auto 76.8px;
+    background-position: 112%;
+    background-color: $github-color;
+  }
+}
+
+.gh_links {
+  .core_item {
+    height: 72px;
+  }
+
+  a {
+    @include text-truncate;
+    color: $black;
+    text-decoration: none;
+    display: block;
+  }
+
+  a:hover {
+    background-color: $hover-color;
+  }
+
+  a:visited {
+    color: $grey;
+  }
+
+  .gh_title {
+    @include text-truncate;
+    line-height: initial;
+    padding: 17px 0 0;
+  }
+
+  .gh_description {
+    @include text-truncate;
+    line-height: initial;
+    padding: 0 0 17px;
+    color: gray;
+  }
+}
