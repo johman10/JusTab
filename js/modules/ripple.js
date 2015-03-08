@@ -120,7 +120,7 @@ function getWavesEffectElement(e) {
   if (target.hasClass('waves-effect')) {
     element = target;
   }
-  else if (target.parents('.waves-effect').length > 0) {
+  else if (target.parents('.switch').length === 0 && target.parents('.waves-effect').length > 0) {
     element = target.parents('.waves-effect').first();
   }
 

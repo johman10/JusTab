@@ -1,21 +1,29 @@
-// core-label {
-//   display: block;
-//   font-size: 18px;
-//   font-weight: 600;
-//   color: $header-grey;
-//   margin-top: 10px;
-// }
+.options_body {
+  width: auto;
+}
 
 .options_menu {
+  @include paper-shadow();
   width: 256px;
+  padding: 8px 0;
+  float: left;
+  height: 100vh;
+
   .options_menu_link {
+    @include ripple(#000);
     position: relative;
     width: 100%;
-
-    .service_toggle {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
+    height: 48px;
+    line-height: 48px;
+    cursor: pointer;
+    padding: 0 16px;
   }
+  .service_toggle {
+      float: right;
+    }
+}
+
+.options_content {
+  width: 100%;
+  padding: 8px 0 0 272px;
 }
