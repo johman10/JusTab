@@ -6,7 +6,16 @@
 //   margin-top: 10px;
 // }
 
-.service_toggle {
-  position: absolute;
-  right: 0;
+.options_menu {
+  width: 256px;
+  .options_menu_link {
+    position: relative;
+    width: 100%;
+
+    .service_toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
 }
