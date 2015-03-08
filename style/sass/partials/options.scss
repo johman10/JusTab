@@ -2,6 +2,16 @@
   width: auto;
 }
 
+.options_window_title {
+  @include paper-shadow();
+  width: 100vw;
+  height: 50px;
+  padding-left: 272px;
+  line-height: 50px;
+  color: $white;
+  background-color: $calendar-color;
+}
+
 .options_menu {
   @include paper-shadow();
   width: 256px;

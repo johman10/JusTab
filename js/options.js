@@ -30,10 +30,14 @@ $(document).ready(function() {
 
     $('.options_menu_link').bind('click', function() {
       var serviceName = $(this).data("title");
+      var serviceColor = '#' + $(this).data("color");
+
       $('.options_window').hide();
       $('.' + serviceName).show();
       $('.options_menu_link').removeClass('active');
       $(this).addClass('active');
+      $('.options_window_title').css('background-color', serviceColor);
+      $('.options_window_title').text(serviceName);
     });
 
     $('.save_settings').bind('click', function() {
