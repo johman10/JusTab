@@ -5,12 +5,14 @@
 .options_window_title {
   @include paper-shadow();
   width: 100vw;
-  height: 50px;
+  height: 64px;
   padding-left: 272px;
-  line-height: 50px;
+  line-height: 64px;
   color: $white;
   background-color: $calendar-color;
   transition: background .3s;
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .options_menu {
