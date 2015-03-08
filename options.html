@@ -11,11 +11,12 @@
   <link rel="import" href="bower_components/paper-toggle-button/paper-toggle-button.html">
   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/options.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="js/modules/ripple.js" type="text/javascript" charset="utf-8" defer></script>
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
 </head>
-<body>
+<body class="options_body">
   <nav class="options_menu">
-    <div class="options_menu_link">
+    <div class="options_menu_link waves-effect">
       Calendar
       <div class="switch service_toggle">
         <label>
@@ -24,7 +25,7 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link">
+    <div class="options_menu_link waves-effect">
       Gmail
       <div class="switch service_toggle">
         <label>
@@ -33,7 +34,7 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link">
+    <div class="options_menu_link waves-effect">
       Facebook
       <div class="switch service_toggle">
         <label>
@@ -42,7 +43,7 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link">
+    <div class="options_menu_link waves-effect">
       Couchpotato
       <div class="switch service_toggle">
         <label>
@@ -51,7 +52,7 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link">
+    <div class="options_menu_link waves-effect">
       Sickbeard
       <div class="switch service_toggle">
         <label>
@@ -60,7 +61,7 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link">
+    <div class="options_menu_link waves-effect">
       SABnzbd
       <div class="switch service_toggle">
         <label>
@@ -69,7 +70,7 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link">
+    <div class="options_menu_link waves-effect">
       Designernews
       <div class="switch service_toggle">
         <label>
@@ -78,7 +79,7 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link">
+    <div class="options_menu_link waves-effect">
       Hackernews
       <div class="switch service_toggle">
         <label>
@@ -89,72 +90,74 @@
     </div>
   </nav>
 
-  <div class="Calendar">
-    <core-label>
-      Show appointments from:
-    </core-label>
-    <div class="calendar_select_container">
-      <div id="loading">Loading...</div>
+  <div class="options_content">
+    <div class="Calendar">
+      <core-label>
+        Show appointments from:
+      </core-label>
+      <div class="calendar_select_container">
+        <div id="loading">Loading...</div>
+      </div>
+      <paper-input floatingLabel name="GC_refresh" id="GC_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <div class="status"></div>
+      <button class="save_settings">Save</button>
     </div>
-    <paper-input floatingLabel name="GC_refresh" id="GC_refresh" label="Refresh rate (in minutes)"></paper-input><br>
-    <div class="status"></div>
-    <button class="save_settings">Save</button>
-  </div>
 
-  <div class="Gmail">
-    <paper-input floatingLabel name="GM_refresh" id="GM_refresh" label="Refresh rate (in minutes)"></paper-input><br>
-    <div class="status"></div>
-    <button class="save_settings">Save</button>
-  </div>
+    <div class="Gmail">
+      <paper-input floatingLabel name="GM_refresh" id="GM_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <div class="status"></div>
+      <button class="save_settings">Save</button>
+    </div>
 
-  <div class="Facebook">
-    <paper-input floatingLabel name="FB_url" id="FB_url" label="Facebook RSS feed url"></paper-input><br>
-    <paper-input floatingLabel name="FB_refresh" id="FB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
-    <div class="status"></div>
-    <button class="save_settings">Save</button>
-  </div>
+    <div class="Facebook">
+      <paper-input floatingLabel name="FB_url" id="FB_url" label="Facebook RSS feed url"></paper-input><br>
+      <paper-input floatingLabel name="FB_refresh" id="FB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <div class="status"></div>
+      <button class="save_settings">Save</button>
+    </div>
 
-  <div class="Couchpotato">
-    <paper-input floatingLabel name="CP_address" id="CP_address" label="Server address"></paper-input><br>
-    <paper-input floatingLabel name="CP_port" id="CP_port" label="Server port"></paper-input><br>
-    <paper-input floatingLabel name="CP_key" id="CP_key" label="API Key"></paper-input><br>
-    <paper-input floatingLabel name="CP_refresh" id="CP_refresh" label="Refresh rate (in minutes)"></paper-input><br>
-    <div class="status"></div>
-    <button class="save_settings">Save</button>
-  </div>
+    <div class="Couchpotato">
+      <paper-input floatingLabel name="CP_address" id="CP_address" label="Server address"></paper-input><br>
+      <paper-input floatingLabel name="CP_port" id="CP_port" label="Server port"></paper-input><br>
+      <paper-input floatingLabel name="CP_key" id="CP_key" label="API Key"></paper-input><br>
+      <paper-input floatingLabel name="CP_refresh" id="CP_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <div class="status"></div>
+      <button class="save_settings">Save</button>
+    </div>
 
-  <div class="Sickbeard">
-    <paper-input floatingLabel name="SB_address" id="SB_address" label="Server address"></paper-input><br>
-    <paper-input floatingLabel name="SB_port" id="SB_port" label="Server port"></paper-input><br>
-    <paper-input floatingLabel name="SB_key" id="SB_key" label="API Key"></paper-input><br>
-    <paper-input floatingLabel name="SB_refresh" id="SB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
-    <div class="status"></div>
-    <button class="save_settings">Save</button>
-  </div>
+    <div class="Sickbeard">
+      <paper-input floatingLabel name="SB_address" id="SB_address" label="Server address"></paper-input><br>
+      <paper-input floatingLabel name="SB_port" id="SB_port" label="Server port"></paper-input><br>
+      <paper-input floatingLabel name="SB_key" id="SB_key" label="API Key"></paper-input><br>
+      <paper-input floatingLabel name="SB_refresh" id="SB_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <div class="status"></div>
+      <button class="save_settings">Save</button>
+    </div>
 
-  <div class="SABnzbd">
-    <paper-input floatingLabel name="SAB_address" id="SAB_address" label="Server address"></paper-input><br>
-    <paper-input floatingLabel name="SAB_port" id="SAB_port" label="Server port"></paper-input><br>
-    <paper-input floatingLabel name="SAB_key" id="SAB_key" label="API Key"></paper-input><br>
-    <paper-input floatingLabel name="SAB_history" id="SAB_history" label="History limit"></paper-input><br>
-    <paper-input floatingLabel name="SABQ_refresh" id="SABQ_refresh" label="Refresh rate queue (in minutes)"></paper-input><br>
-    <paper-input floatingLabel name="SABH_refresh" id="SABH_refresh" label="Refresh rate history (in minutes)"></paper-input><br>
-    <div class="status"></div>
-    <button class="save_settings">Save</button>
-  </div>
+    <div class="SABnzbd">
+      <paper-input floatingLabel name="SAB_address" id="SAB_address" label="Server address"></paper-input><br>
+      <paper-input floatingLabel name="SAB_port" id="SAB_port" label="Server port"></paper-input><br>
+      <paper-input floatingLabel name="SAB_key" id="SAB_key" label="API Key"></paper-input><br>
+      <paper-input floatingLabel name="SAB_history" id="SAB_history" label="History limit"></paper-input><br>
+      <paper-input floatingLabel name="SABQ_refresh" id="SABQ_refresh" label="Refresh rate queue (in minutes)"></paper-input><br>
+      <paper-input floatingLabel name="SABH_refresh" id="SABH_refresh" label="Refresh rate history (in minutes)"></paper-input><br>
+      <div class="status"></div>
+      <button class="save_settings">Save</button>
+    </div>
 
-  <div class="DesignerNews">
-    <paper-input floatingLabel name="DN_username" id="DN_username" label="Designer News Username"></paper-input><br>
-    <paper-input floatingLabel name="DN_password" id="DN_password" label="Designer News Password"></paper-input><br>
-    <paper-input floatingLabel name="DN_refresh" id="DN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
-    <div class="status"></div>
-    <button class="save_settings">Save</button>
-  </div>
+    <div class="DesignerNews">
+      <paper-input floatingLabel name="DN_username" id="DN_username" label="Designer News Username"></paper-input><br>
+      <paper-input floatingLabel name="DN_password" id="DN_password" label="Designer News Password"></paper-input><br>
+      <paper-input floatingLabel name="DN_refresh" id="DN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <div class="status"></div>
+      <button class="save_settings">Save</button>
+    </div>
 
-  <div class="HackerNews">
-    <paper-input floatingLabel name="HN_refresh" id="HN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
-    <div class="status"></div>
-    <button class="save_settings">Save</button>
+    <div class="HackerNews">
+      <paper-input floatingLabel name="HN_refresh" id="HN_refresh" label="Refresh rate (in minutes)"></paper-input><br>
+      <div class="status"></div>
+      <button class="save_settings">Save</button>
+    </div>
   </div>
 
   <div class="Github">
