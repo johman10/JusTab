@@ -33,14 +33,13 @@ function FBHTML() {
     data = serviceData.FB.JSON;
     var FacebookHTML = '';
 
-    $(data).find('item').each(function(){
+    $(data).find('item').slice(0,25).each(function(){
       var title = $(this).find('title').text();
       var link = $(this).find('link').text();
 
       FacebookHTML += '<div class="core_item waves-effect"><a href="' + link + '" target="_blank">' + title + '</a></div>';
     });
 
-    console.log(FacebookHTML);
     localStorage.setItem('FacebookHTML', FacebookHTML);
     serviceData.FB.HTML = FacebookHTML;
   }
