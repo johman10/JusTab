@@ -9,6 +9,8 @@ At this moment it supports:
 - [Sickbeard](https://github.com/midgetspy/Sick-Beard)
 - [Sabnzbd](https://github.com/sabnzbd/sabnzbd)
 - [Designer News](news.layervault.com)
+- [Hacker News](https://news.ycombinator.com/)
+- [Github Trending RSS](http://ghtrendingrss.appspot.com/)
 
 ## Installation
 If you want to install this extension
