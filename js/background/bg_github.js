@@ -36,7 +36,12 @@ function ghHTML() {
     $(data).find('item').each(function(){
       var title = $(this).find('title').text();
       var link = $(this).find('link').text();
-      var description = $(this).find('description').text();
+      var description = $(this).find('description').text()
+
+      if (description === '') {
+        description = "No description for this repository.";
+      }
+
 
       GithubHTML +=
         '<div class="core_item waves-effect">' +
@@ -51,7 +56,6 @@ function ghHTML() {
         '</div>';
     });
 
-    console.log(GithubHTML);
     localStorage.setItem('GithubHTML', GithubHTML);
     serviceData.GH.HTML = GithubHTML;
   }
