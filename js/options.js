@@ -32,6 +32,8 @@ $(document).ready(function() {
       var serviceName = $(this).data("title");
       $('.options_window').hide();
       $('.' + serviceName).show();
+      $('.options_menu_link').removeClass('active');
+      $(this).addClass('active');
     });
 
     $('.save_settings').bind('click', function() {

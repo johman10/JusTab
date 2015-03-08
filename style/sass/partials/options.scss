@@ -17,7 +17,14 @@
     line-height: 48px;
     cursor: pointer;
     padding: 0 16px;
+    transition: background .5s;
+
+    &:hover,
+    &.active {
+      background-color: rgb(238, 238, 238);
+    }
   }
+
   .service_toggle {
       float: right;
     }
