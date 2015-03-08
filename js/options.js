@@ -1,52 +1,52 @@
 $(document).ready(function() {
-  $.when(restore_options()).then(function() {
-    chrome.identity.getAuthToken({ 'interactive': false },function (token) {
-      var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
-      var events = "";
+  restore_options();
 
-      $.ajax({
-        url: url + '?oauth_token=' + token,
-        dataType: 'json',
-        async: false,
-        success: function(data) {
-          $('#loading').hide();
+  chrome.identity.getAuthToken({ 'interactive': true },function (token) {
+    var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
+    var events = "";
 
-          chrome.storage.sync.get(function(items) {
-            var calendars_storage = items.calendars;
+    $.ajax({
+      url: url + '?oauth_token=' + token,
+      dataType: 'json',
+      async: false,
+      success: function(data) {
+        $('#loading').hide();
 
-            $.each(data.items, function(l) {
-              var calendar = data.items[l];
-              if ($.inArray(calendar.id, calendars_storage) > -1) {
-                $('.calendar_select_container').append("<core-label><paper-checkbox checked class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
-              }
-              else {
-                $('.calendar_select_container').append("<core-label><paper-checkbox class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
-              }
-            });
+        chrome.storage.sync.get(function(items) {
+          var calendars_storage = items.calendars;
+
+          $.each(data.items, function(l) {
+            var calendar = data.items[l];
+            if ($.inArray(calendar.id, calendars_storage) > -1) {
+              $('.calendar_select_container').append("<core-label><paper-checkbox checked class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
+            }
+            else {
+              $('.calendar_select_container').append("<core-label><paper-checkbox class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
+            }
           });
-        }
-      });
+        });
+      }
     });
+  });
 
-    $('.options_menu_link').bind('click', function() {
-      var serviceName = $(this).data("title");
-      var serviceColor = '#' + $(this).data("color");
+  $('.options_menu_link').bind('click', function() {
+    var serviceName = $(this).data("title");
+    var serviceColor = '#' + $(this).data("color");
 
-      $('.options_window').hide();
-      $('.' + serviceName).show();
-      $('.options_menu_link').removeClass('active');
-      $(this).addClass('active');
-      $('.options_window_title').css('background-color', serviceColor);
-      $('.options_window_title').text(serviceName);
-    });
+    $('.options_window').hide();
+    $('.' + serviceName).show();
+    $('.options_menu_link').removeClass('active');
+    $(this).addClass('active');
+    $('.options_window_title').css('background-color', serviceColor);
+    $('.options_window_title').text(serviceName);
+  });
 
-    $('.save_settings').bind('click', function() {
-      save_options();
-    });
+  $('.save_settings').bind('click', function() {
+    save_options();
+  });
 
-    $('.switch input[type=checkbox]').bind('change', function() {
-      save_status_options();
-    });
+  $('.switch input[type=checkbox]').bind('change', function() {
+    save_status_options();
   });
 });
 
