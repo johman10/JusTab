@@ -12,6 +12,7 @@ function getDesignerNewsData(callback) {
     async: false,
     timeout: 3000,
     success: function(data) {
+      console.log(data);
       localStorage.setItem("Designernews_error", false);
       serviceData.DN.error = false;
       localStorage.setItem("Designernews", JSON.stringify(data));
@@ -45,30 +46,24 @@ function getDesignerNewsData(callback) {
       }
     });
 
-    chrome.storage.sync.get({
-      DN_status: '',
-      DN_username: '',
-      DN_password: '',
-    }, function(items) {
-      if (items.DN_status) {
-        $.ajax({
-          url: 'https://api-news.layervault.com/oauth/token',
-          data: {
-            username: items.DN_username,
-            password: items.DN_password,
-            grant_type: "password"
-          },
-          type: 'POST',
-          success: function(data){
-            localStorage.setItem('DesignernewsAuth', data.access_token);
-            serviceData.DN.token = data.access_token;
-          },
-          error: function(xhr, ajaxOptions, thrownError){
-            console.log(xhr, ajaxOptions, thrownError);
-          }
-        });
-      }
-    });
+    if (serviceData.DN.status) {
+      $.ajax({
+        url: 'https://api-news.layervault.com/oauth/token',
+        data: {
+          username: serviceData.DN.username,
+          password: serviceData.DN.password,
+          grant_type: "password"
+        },
+        type: 'POST',
+        success: function(data){
+          localStorage.setItem('DesignernewsAuth', data.access_token);
+          serviceData.DN.token = data.access_token;
+        },
+        error: function(xhr, ajaxOptions, thrownError){
+          console.log(xhr, ajaxOptions, thrownError);
+        }
+      });
+    }
 
     dnHTML();
 
@@ -89,30 +84,32 @@ function dnHTML() {
         story.url = 'https://news.layervault.com/stories/' + story.id;
       }
 
-      if (upvotes.indexOf(story.id) == -1) {
+      if (story.badge) {
         dn_links +=
-          '<div class="core_item waves-effect dn_link_container">' +
-            '<a href="' + story.url + '" class="dn_story_url" target="_blank">' +
-              story.title +
-            '</a>' +
-            '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn_comments_url" target="_blank">' +
-              story.comment_count + ' comments - ' + story.vote_count + ' points' +
-            '</a>' +
-            '<div class="thumb_up_icon dn_upvote waves-effect" id="' + story.id + '"></div>' +
-          '</div>';
+          '<div class="core_item waves-effect dn_link_container dn_link_with_badge">' +
+            '<img src="/img/dn_badges/badge_' + story.badge + '.png" class="dn_badge">';
       }
       else {
-        dn_links +=
-          '<div class="core_item waves-effect dn_link_container">' +
-            '<a href="' + story.url + '" class="dn_story_url" target="_blank">' +
-              story.title +
-            '</a>' +
-            '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn_comments_url" target="_blank">' +
-              story.comment_count + ' comments - ' + story.vote_count + ' points' +
-            '</a>' +
-            '<div class="thumb_up_voted_icon dn_upvote" id="' + story.id + '"></div>' +
-          '</div>';
+        dn_links += '<div class="core_item waves-effect dn_link_container">';
       }
+
+      dn_links +=
+        '<a href="' + story.url + '" class="dn_story_url" target="_blank">' +
+          story.title +
+        '</a>' +
+        '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn_comments_url" target="_blank">' +
+          story.comment_count + ' comments - ' + story.vote_count + ' points' +
+        '</a>';
+
+      if (upvotes.indexOf(story.id) == -1) {
+        dn_links += '<div class="thumb_up_icon dn_upvote waves-effect" id="' + story.id + '"></div>';
+      } else {
+        dn_links += '<div class="thumb_up_voted_icon dn_upvote" id="' + story.id + '"></div>';
+      }
+
+      dn_links += '</div>';
+
+      console.log(dn_links);
     });
 
     localStorage.setItem('DesignernewsHTML', dn_links);
