@@ -46,6 +46,11 @@
 .options_content {
   width: 100%;
   padding: 8px 0 0 272px;
+
+  #loading {
+    @include spinner(#000);
+    margin: 15px;
+  }
 }
 
 .options_window:not(.Calendar) {

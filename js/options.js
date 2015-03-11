@@ -1,22 +1,23 @@
 $(document).ready(function() {
-  restore_options();
+  $.when(serviceDataRefreshDone).then(function() {
+    $('#loading').html(serviceData.spinner);
 
-  chrome.identity.getAuthToken({ 'interactive': true },function (token) {
-    var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
-    var events = "";
+    restore_options();
 
-    $.ajax({
-      url: url + '?oauth_token=' + token,
-      dataType: 'json',
-      async: false,
-      success: function(data) {
-        $('#loading').hide();
+    chrome.identity.getAuthToken({ 'interactive': true },function (token) {
+      var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
+      var events = "";
 
-        chrome.storage.sync.get(function(items) {
-          var calendars_storage = items.calendars;
+      $.ajax({
+        url: url + '?oauth_token=' + token,
+        dataType: 'json',
+        async: false,
+        success: function(data) {
+          $('#loading').hide();
 
-          $.each(data.items, function(l) {
-            var calendar = data.items[l];
+          var calendars_storage = serviceData.GC.calendars;
+
+          $.each(data.items, function(l, calendar) {
             if ($.inArray(calendar.id, calendars_storage) > -1) {
               $('.calendar_select_container').append(
                 "<div class='calendar_checkbox checkbox_container checked' data-id=" + calendar.id + ">" +
@@ -38,29 +39,29 @@ $(document).ready(function() {
               );
             }
           });
-        });
-      }
+        }
+      });
     });
-  });
 
-  $('.options_menu_link').bind('click', function() {
-    var serviceName = $(this).data("title");
-    var serviceColor = '#' + $(this).data("color");
+    $('.options_menu_link').bind('click', function() {
+      var serviceName = $(this).data("title");
+      var serviceColor = '#' + $(this).data("color");
 
-    $('.options_window').hide();
-    $('.' + serviceName).show();
-    $('.options_menu_link').removeClass('active');
-    $(this).addClass('active');
-    $('.options_window_title').css('background-color', serviceColor);
-    $('.options_window_title').text(serviceName);
-  });
+      $('.options_window').hide();
+      $('.' + serviceName).show();
+      $('.options_menu_link').removeClass('active');
+      $(this).addClass('active');
+      $('.options_window_title').css('background-color', serviceColor);
+      $('.options_window_title').text(serviceName);
+    });
 
-  $('.save_settings').bind('click', function() {
-    save_options();
-  });
+    $('.save_settings').bind('click', function() {
+      save_options();
+    });
 
-  $('.switch input[type=checkbox]').bind('change', function() {
-    save_status_options();
+    $('.switch input[type=checkbox]').bind('change', function() {
+      save_status_options();
+    });
   });
 });
 
@@ -144,73 +145,38 @@ function save_options() {
 }
 
 function restore_options() {
-  chrome.storage.sync.get({
-    GC_status: '',
-    GC_refresh: '15',
-    GM_status: '',
-    GM_refresh: '15',
-    FB_status: '',
-    FB_url: '',
-    FB_refresh: '15',
-    CP_status: '',
-    CP_address: '',
-    CP_port: '',
-    CP_key: '',
-    CP_refresh: '15',
-    SB_status: '',
-    SB_address: '',
-    SB_port: '',
-    SB_key: '',
-    SB_refresh: '15',
-    SAB_status: '',
-    SAB_address: '',
-    SAB_port: '',
-    SAB_key: '',
-    SAB_history: '',
-    SABQ_refresh: '1',
-    SABH_refresh: '15',
-    DN_status: '',
-    DN_username: '',
-    DN_password: '',
-    DN_refresh: '15',
-    HN_status: '',
-    HN_refresh: '15',
-    GH_status: '',
-    GH_refresh: '15'
-  }, function(items) {
-    $('input[type=checkbox][name=GC_status]').attr('checked', items.GC_status);
-    $('#GC_refresh').val(items.GC_refresh);
-    $('input[type=checkbox][name=GM_status]').attr('checked', items.GM_status);
-    $('#GM_refresh').val(items.GM_refresh);
-    $('input[type=checkbox][name=FB_status]').attr('checked', items.FB_status);
-    $('#FB_url').val(items.FB_url);
-    $('#FB_refresh').val(items.FB_refresh);
-    $('input[type=checkbox][name=CP_status]').attr('checked', items.CP_status);
-    $('#CP_address').val(items.CP_address);
-    $('#CP_port').val(items.CP_port);
-    $('#CP_key').val(items.CP_key);
-    $('#CP_refresh').val(items.CP_refresh);
-    $('input[type=checkbox][name=SB_status]').attr('checked', items.SB_status);
-    $('#SB_address').val(items.SB_address);
-    $('#SB_port').val(items.SB_port);
-    $('#SB_key').val(items.SB_key);
-    $('#SB_refresh').val(items.SB_refresh);
-    $('input[type=checkbox][name=SAB_status]').attr('checked', items.SAB_status);
-    $('#SAB_address').val(items.SAB_address);
-    $('#SAB_port').val(items.SAB_port);
-    $('#SAB_key').val(items.SAB_key);
-    $('#SAB_history').val(items.SAB_history);
-    $('#SABQ_refresh').val(items.SABQ_refresh);
-    $('#SABH_refresh').val(items.SABH_refresh);
-    $('input[type=checkbox][name=DN_status]').attr('checked', items.DN_status);
-    $('#DN_username').val(items.DN_username);
-    $('#DN_password').val(items.DN_password);
-    $('#DN_refresh').val(items.DN_refresh);
-    $('input[type=checkbox][name=HN_status]').attr('checked', items.HN_status);
-    $('#HN_refresh').val(items.HN_refresh);
-    $('input[type=checkbox][name=GH_status]').attr('checked', items.GH_status);
-    $('#GH_refresh').val(items.GH_refresh);
-  });
+  $('input[type=checkbox][name=GC_status]').attr('checked', serviceData.GC.status);
+  $('#GC_refresh').val(serviceData.GC.refresh);
+  $('input[type=checkbox][name=GM_status]').attr('checked', serviceData.GM.status);
+  $('#GM_refresh').val(serviceData.GM.refresh);
+  $('input[type=checkbox][name=FB_status]').attr('checked', serviceData.FB.status);
+  $('#FB_url').val(serviceData.FB.url);
+  $('#FB_refresh').val(serviceData.FB.refresh);
+  $('input[type=checkbox][name=CP_status]').attr('checked', serviceData.CPS.status);
+  $('#CP_address').val(serviceData.CPS.address);
+  $('#CP_port').val(serviceData.CPS.port);
+  $('#CP_key').val(serviceData.CPS.key);
+  $('#CP_refresh').val(serviceData.CPS.refresh);
+  $('input[type=checkbox][name=SB_status]').attr('checked', serviceData.SB.status);
+  $('#SB_address').val(serviceData.SB.address);
+  $('#SB_port').val(serviceData.SB.port);
+  $('#SB_key').val(serviceData.SB.key);
+  $('#SB_refresh').val(serviceData.SB.refresh);
+  $('input[type=checkbox][name=SAB_status]').attr('checked', serviceData.SABQ.status);
+  $('#SAB_address').val(serviceData.SABQ.address);
+  $('#SAB_port').val(serviceData.SABQ.port);
+  $('#SAB_key').val(serviceData.SABQ.key);
+  $('#SAB_history').val(serviceData.SABH.length);
+  $('#SABQ_refresh').val(serviceData.SABQ.refresh);
+  $('#SABH_refresh').val(serviceData.SABH.refresh);
+  $('input[type=checkbox][name=DN_status]').attr('checked', serviceData.DN.status);
+  $('#DN_username').val(serviceData.DN.username);
+  $('#DN_password').val(serviceData.DN.password);
+  $('#DN_refresh').val(serviceData.DN.refresh);
+  $('input[type=checkbox][name=HN_status]').attr('checked', serviceData.HN.status);
+  $('#HN_refresh').val(serviceData.HN.refresh);
+  $('input[type=checkbox][name=GH_status]').attr('checked', serviceData.GH.status);
+  $('#GH_refresh').val(serviceData.GH.refresh);
 }
 
 function formatUrl(fieldname) {

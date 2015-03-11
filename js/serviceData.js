@@ -5,7 +5,7 @@ function refreshServiceData() {
 
   chrome.storage.sync.get(function(items) {
     serviceData = {
-      "spinner": '<div id="spinnerContainer"><div class="spinner-layer blue"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div><div class="spinner-layer red"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div><div class="spinner-layer yellow"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div><div class="spinner-layer green"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>',
+      "spinner": "<div id='spinnerContainer'><div class='spinner-layer blue'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer red'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer yellow'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer green'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div></div>",
       "GC": {
         "error": localStorage.getItem('Calendar_error'),
         "status": items.GC_status,
@@ -51,7 +51,10 @@ function refreshServiceData() {
         "JSON": JSON.parse(localStorage.getItem('CouchpotatoSnatched')),
         "HTML": localStorage.getItem('CouchpotatoSnatchedHTML'),
         "apiUrl": items.CP_address + ":" + items.CP_port + "/api/" + items.CP_key + "/",
-        "url": items.CP_address + ":" + items.CP_port
+        "url": items.CP_address + ":" + items.CP_port,
+        "address": items.CP_address,
+        "port": items.CP_port,
+        "key": items.CP_key
       },
       "CPW": {
         "error": localStorage.getItem('CouchpotatoWanted_error'),
@@ -63,7 +66,10 @@ function refreshServiceData() {
         "JSON": JSON.parse(localStorage.getItem('CouchpotatoWanted')),
         "HTML": localStorage.getItem('CouchpotatoWantedHTML'),
         "apiUrl": items.CP_address + ":" + items.CP_port + "/api/" + items.CP_key + "/",
-        "url": items.CP_address + ":" + items.CP_port
+        "url": items.CP_address + ":" + items.CP_port,
+        "address": items.CP_address,
+        "port": items.CP_port,
+        "key": items.CP_key
       },
       "SB": {
         "error": localStorage.getItem('Sickbeard_error'),
@@ -78,7 +84,10 @@ function refreshServiceData() {
         "SoonHTML": localStorage.getItem('SickbeardSoonHTML'),
         "LaterHTML": localStorage.getItem('SickbeardLaterHTML'),
         "apiUrl": items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/",
-        "url": items.SB_address + ":" + items.SB_port
+        "url": items.SB_address + ":" + items.SB_port,
+        "address": items.SB_address,
+        "port": items.SB_port,
+        "key": items.SB_key
       },
       "SABQ": {
         "error": localStorage.getItem('SabnzbdQueue_error'),
@@ -91,7 +100,10 @@ function refreshServiceData() {
         "HTML": localStorage.getItem('SabnzbdQueueHTML'),
         "url": items.SAB_address + ":" + items.SAB_port,
         "apiUrl": items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?apikey=" + items.SAB_key,
-        "downloadStatus": localStorage.getItem('SabnzbdStatusHTML')
+        "downloadStatus": localStorage.getItem('SabnzbdStatusHTML'),
+        "address": items.SAB_address,
+        "port": items.SAB_port,
+        "key": items.SAB_key
       },
       "SABH": {
         "error": localStorage.getItem('SabnzbdHistory_error'),
@@ -104,7 +116,10 @@ function refreshServiceData() {
         "HTML": localStorage.getItem('SabnzbdHistoryHTML'),
         "url": items.SAB_address + ":" + items.SAB_port,
         "apiUrl": items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?apikey=" + items.SAB_key,
-        "length": items.SAB_history
+        "length": items.SAB_history,
+        "address": items.SAB_address,
+        "port": items.SAB_port,
+        "key": items.SAB_key
       },
       "DN": {
         "error": localStorage.getItem('Designernews_error'),
