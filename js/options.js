@@ -18,10 +18,24 @@ $(document).ready(function() {
           $.each(data.items, function(l) {
             var calendar = data.items[l];
             if ($.inArray(calendar.id, calendars_storage) > -1) {
-              $('.calendar_select_container').append("<core-label><paper-checkbox checked class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
+              $('.calendar_select_container').append(
+                "<div class='calendar_checkbox checkbox_container checked' data-id=" + calendar.id + ">" +
+                  "<div class='checkbox'>" +
+                    "<div class='checkbox_mark'></div>" +
+                  "</div>" +
+                  "<span class='checkbox_label'>" + calendar.summary + "</span>" +
+                "</div>"
+              );
             }
             else {
-              $('.calendar_select_container').append("<core-label><paper-checkbox class='calendar' name='" + calendar.summary + "' value='" + calendar.id + "' for></paper-checkbox>" + calendar.summary + "</core-label>");
+              $('.calendar_select_container').append(
+                "<div class='calendar_checkbox checkbox_container' data-id=" + calendar.id + ">" +
+                  "<div class='checkbox'>" +
+                    "<div class='checkbox_mark'></div>" +
+                  "</div>" +
+                  "<span class='checkbox_label'>" + calendar.summary + "</span>" +
+                "</div>"
+              );
             }
           });
         });
@@ -71,10 +85,9 @@ function save_status_options() {
 // Saves options to chrome.storage
 function save_options() {
   var calendars = [];
-  $.each($('.calendar'), function(i, val) {
-    if (val.checked) {
-      calendars.push($(this).attr('value'));
-    }
+  $.each($('.calendar_checkbox.checked'), function(i, val) {
+    console.log($(this).data('id'));
+    calendars.push($(this).data('id'));
   });
 
   FB_url = formatUrl('FB_url');

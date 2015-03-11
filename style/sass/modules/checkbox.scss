@@ -1,0 +1,88 @@
+.checkbox_container {
+  cursor: pointer;
+
+  .checkbox {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    height: 18px;
+    width: 18px;
+    margin: 5px;
+    border: solid 2px #5a5a5a;
+    border-radius: 2px;
+    transition: background-color 140ms, border-color 140ms;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: -2px;
+      top: -2px;
+      height: 18px;
+      width: 18px;
+      border-radius: 100%;
+      transition: box-shadow 0.15s ease
+    }
+
+    &:active:after {
+      box-shadow: 0 0 0 15px transparentize(#000, .9);
+    }
+
+    .checkbox_mark {
+      transform: rotate(45deg);
+      position: absolute;
+      top: 9px;
+      left: 6px;
+      width: 0px;
+      height: 0px;
+      border-style: solid;
+      border-top: none;
+      border-left: none;
+      border-right-width: 2px;
+      border-bottom-width: 2px;
+      border-color: white;
+      box-sizing: initial;
+    }
+  }
+
+  &.checked {
+    .checkbox {
+      border-color: #009688;
+      background-color: #009688;
+    }
+
+    .checkbox_mark {
+      -webkit-animation: checkmark-expand 140ms ease-out forwards;
+    }
+  }
+}
+
+@-webkit-keyframes checkmark-expand {
+  0% {
+    top: 9px;
+    left: 6px;
+    width: 0px;
+    height: 0px;
+  }
+  100% {
+    top: -1px;
+    left: 4px;
+    width: 5px;
+    height: 10px;
+  }
+}
+
+@keyframes checkmark-expand {
+  0% {
+    top: 9px;
+    left: 6px;
+    width: 0px;
+    height: 0px;
+  }
+  100% {
+    top: -1px;
+    left: 4px;
+    width: 5px;
+    height: 10px;
+  }
+}
