@@ -12,7 +12,6 @@ function getDesignerNewsData(callback) {
     async: false,
     timeout: 3000,
     success: function(data) {
-      console.log(data);
       localStorage.setItem("Designernews_error", false);
       serviceData.DN.error = false;
       localStorage.setItem("Designernews", JSON.stringify(data));
@@ -108,8 +107,6 @@ function dnHTML() {
       }
 
       dn_links += '</div>';
-
-      console.log(dn_links);
     });
 
     localStorage.setItem('DesignernewsHTML', dn_links);
