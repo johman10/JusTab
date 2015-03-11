@@ -7,13 +7,13 @@ chrome.runtime.onStartup.addListener(function() {
         chrome.alarms.create(val.alarmName, {periodInMinutes: val.refresh});
       }
     });
+  });
+});
 
-    chrome.alarms.onAlarm.addListener(function(alarm) {
-      $.each(serviceData, function(index, val) {
-        if (val.alarmName == alarm.name) {
-          window[val.bgFunctionName]();
-        }
-      });
-    });
+chrome.alarms.onAlarm.addListener(function(alarm) {
+  $.each(serviceData, function(index, val) {
+    if (val.alarmName == alarm.name) {
+      window[val.bgFunctionName]();
+    }
   });
 });
