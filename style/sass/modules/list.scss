@@ -6,6 +6,8 @@
   position: relative;
   line-height: 48px;
   overflow: hidden;
+  transition: border-color 330ms;
+  border-top: solid 1px transparent;
 
   .core_item_content {
     @include text-truncate;
@@ -19,6 +21,11 @@
     height: 48px;
     width: 56px;
     padding: 12px 16px;
+  }
+
+  &.expanded {
+    color: #9E9E9E;
+    border-top-color: #ECECEC;
   }
 
   &:not(.without_hover) {
@@ -36,9 +43,15 @@
 
 .core_collapse {
   @include text-truncate;
-  display: none;
   overflow-y: hidden;
-  height: 100%;
+  height: 0;
+  border-bottom: solid 1px transparent;
+  transition: height 330ms, border-color 330ms;
+
+  &.expanded {
+    height: 48px;
+    border-bottom-color: #ECECEC;
+  }
 }
 
 .bottom_bar_container {
