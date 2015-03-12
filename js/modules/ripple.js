@@ -1,8 +1,8 @@
 $(document).ready(function() {
   duration = 400;
 
-  $('body').bind('mousedown', function(e) {
-    var element = getWavesEffectElement(e);
+  $('body').on('mousedown', '.waves-effect', function(e) {
+    var element = $(e.currentTarget);
 
     if (element !== null) {
       startEffect(e, element);
@@ -11,20 +11,6 @@ $(document).ready(function() {
     }
   });
 });
-
-function getWavesEffectElement(e) {
-  var element = null;
-  var target = $(e.target);
-
-  if (target.hasClass('waves-effect')) {
-    element = target;
-  }
-  else if (target.parents('.switch').length === 0 && target.parents('.waves-effect').length > 0) {
-    element = target.parents('.waves-effect').first();
-  }
-
-  return element;
-}
 
 function startEffect(e, element) {
   var el = element;
