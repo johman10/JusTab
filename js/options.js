@@ -87,7 +87,6 @@ function save_status_options() {
 function save_options() {
   var calendars = [];
   $.each($('.calendar_checkbox.checked'), function(i, val) {
-    console.log($(this).data('id'));
     calendars.push($(this).data('id'));
   });
 
