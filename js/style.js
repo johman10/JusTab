@@ -3,7 +3,7 @@ $(document).ready(function() {
 
   $('.settings_button, .error_settings_button').click(function(event) {
     chrome.tabs.create({
-      'url': chrome.extension.getURL("options_build.html")
+      'url': chrome.extension.getURL("options.html")
     });
   });
 
