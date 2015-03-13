@@ -120,9 +120,9 @@ function cpCreateVar(movie, cpVar) {
     '<div class="cp_collapse core_collapse">' +
       date +
       '<div class="cp_collapse_buttons">' +
-        '<div class="search_icon cp_search_movie waves-effect" id="' + movie._id + '"></div>' +
+        '<div class="icon_button search_icon cp_search_movie waves-effect" id="' + movie._id + '"></div>' +
         '<a class="cp_imdb_link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
-          '<div class="info_icon cp_imdb_link_icon waves-effect"></div>' +
+          '<div class="icon_button info_icon cp_imdb_link_icon waves-effect"></div>' +
         '</a>' +
       '</div>' +
     '</div>';

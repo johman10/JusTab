@@ -71,8 +71,8 @@ function calendarHTML(test) {
             '</div>' +
           '</div>' +
           '<div class="gc_collapse core_collapse">' +
-            '<a class="gc_event_link waves-effect" href="' + cEvent.htmlLink + '" target="_blank">' +
-              '<div class="gc_event_link_icon edit_icon"></div>' +
+            '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
+              '<div class="icon_button waves-effect gc_event_link_icon edit_icon"></div>' +
             '</a>' +
           '</div>';
       }

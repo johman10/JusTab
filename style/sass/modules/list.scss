@@ -6,7 +6,7 @@
   position: relative;
   line-height: 48px;
   overflow: hidden;
-  transition: border-color 330ms;
+  transition: border-color 330ms, background-color 150ms;
   border-top: solid 1px transparent;
 
   .core_item_content {
@@ -24,7 +24,6 @@
   }
 
   &.expanded {
-    color: #9E9E9E;
     border-top-color: #ECECEC;
   }
 
@@ -32,11 +31,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: $hover-color !important;
-
-      .core_item_icon {
-        background-color: $hover-color !important;
-      }
+      background-color: $hover-color;
     }
   }
 }

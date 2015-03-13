@@ -128,11 +128,11 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
       '<div class="sb_collapse core_collapse">' +
         date +
         "<div class='sb_collapse_buttons'>" +
-          "<div class='search_icon sb_search_episode waves-effect' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "'></div>" +
+          "<div class='icon_button search_icon sb_search_episode waves-effect' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "'></div>" +
           "<a class='sb_tvdb_link' href='http://thetvdb.com/?tab=series&id=" + tvdbid + "' target='_blank'>" +
-            "<div class='info_icon sb_tvdb_link_icon waves-effect'></div>" +
+            "<div class='icon_button info_icon sb_tvdb_link_icon waves-effect'></div>" +
           "</a>" +
-          "<div class='done_icon sb_mark_episode waves-effect' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "'></div>" +
+          "<div class='icon_button done_icon sb_mark_episode waves-effect' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "'></div>" +
         "</div>" +
       '</div>';
   });
