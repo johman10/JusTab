@@ -1,5 +1,6 @@
 .options_body {
   width: auto;
+  overflow: auto;
 }
 
 .options_window_title {
@@ -16,11 +17,14 @@
 }
 
 .options_menu {
+  overflow: scroll;
   @include paper-shadow();
   width: 256px;
   padding: 8px 0;
   float: left;
-  height: 100vh;
+  height: calc(100vh - 64px);
+  z-index: 100;
+  position:relative;
 
   .options_menu_link {
     @include ripple(#000);
@@ -30,11 +34,11 @@
     line-height: 48px;
     cursor: pointer;
     padding: 0 16px;
-    transition: background .5s;
+    transition: background-color 150ms;
 
     &:hover,
     &.active {
-      background-color: rgb(238, 238, 238);
+      background-color: $hover-color;
     }
   }
 
@@ -44,7 +48,8 @@
 }
 
 .options_content {
-  width: 100%;
+  width: 100vw;
+  height: calc(100vh - 64px);
   padding: 8px 0 0 272px;
 
   #loading {
@@ -53,6 +58,24 @@
   }
 }
 
-.options_window:not(.Calendar) {
-  display: none;
+.options_window {
+  position: relative;
+  height: 100%;
+  overflow: scroll;
+  padding-bottom: 48px;
+
+  &:not(.Calendar) {
+    display: none;
+  }
+}
+
+.button_bar {
+  background-color: $white;
+  position: absolute;
+  width: calc(100% - 256px);
+  height: 48px;
+  padding-left: 272px;
+  bottom: 0;
+  right: 0;
+  border-top: solid 1px #ECECEC;
 }
