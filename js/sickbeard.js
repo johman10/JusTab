@@ -125,10 +125,10 @@ function markEpisode(clickedObject) {
     success: function(data) {
       clickedObject.fadeOut(400, function() {
         if (data.result == "failure") {
-          clickedObject.addClass('error_icon');
+          clickedObject.attr('class', 'icon_button error_icon sb_mark_episode waves-effect');
           clickedObject.attr('title', data.message);
         } else {
-          clickedObject.addClass('done_all_icon');
+          clickedObject.attr('class', 'icon_button done_all_icon sb_mark_episode waves-effect');
         }
         clickedObject.html('');
         clickedObject.fadeIn(400);
