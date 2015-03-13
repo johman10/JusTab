@@ -14,6 +14,18 @@
   transition: background .3s;
   font-weight: 500;
   font-size: 18px;
+  transition: padding 400ms;
+
+  .options_menu_icon {
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 8px;
+    display: none;
+  }
+
+  .options_window_title_text {
+    display: inline;
+  }
 }
 
 .options_menu {
@@ -25,6 +37,11 @@
   height: calc(100vh - 64px);
   z-index: 100;
   position:relative;
+  transition: width 400ms;
+
+  &.expanded {
+    width: 256px;
+  }
 
   .options_menu_link {
     @include ripple(#000);
@@ -50,7 +67,8 @@
 .options_content {
   width: 100vw;
   height: calc(100vh - 64px);
-  padding: 8px 0 0 272px;
+  padding-left: 272px;
+  transition: padding 400ms;
 
   #loading {
     @include spinner(#000);
@@ -62,6 +80,7 @@
   position: relative;
   height: 100%;
   overflow: scroll;
+  padding-top: 8px;
   padding-bottom: 48px;
 
   &:not(.Calendar) {
@@ -78,4 +97,36 @@
   bottom: 0;
   right: 0;
   border-top: solid 1px #ECECEC;
+  transition: padding 400ms;
+
+  .save_settings {
+    color: $calendar-color;
+    transition: color 150ms;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .options_menu {
+    width: 0;
+    position: absolute;
+    left: 0;
+    top: 64px;
+    background-color: $white;
+  }
+
+  .options_window_title {
+    padding-left: 8px;
+
+    .options_menu_icon {
+      display: inline;
+    }
+  }
+
+  .options_content {
+    padding: 8px 0 0 8px;
+  }
+
+  .button_bar {
+    width: 100%;
+  }
 }
