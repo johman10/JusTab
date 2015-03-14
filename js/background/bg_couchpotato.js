@@ -11,7 +11,6 @@ function getWantedCouchPotato(length, callback) {
   $.when($.ajax({
     url: url + apiCall,
     dataType: 'json',
-    timeout: 3000,
     success: function(data) {
       localStorage.setItem("CouchpotatoWanted_error", false);
       serviceData.CPW.error = false;
@@ -39,7 +38,6 @@ function getSnatchedCouchPotato(callback) {
   $.when($.ajax({
     url: url + apiCall,
     dataType: 'json',
-    timeout: 3000,
     success: function(data) {
       localStorage.setItem("CouchpotatoSnatched_error", false);
       serviceData.CPS.error = false;

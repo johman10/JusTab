@@ -17,7 +17,6 @@ function getMailId(token, length, callback) {
     $.when($.ajax({
       url: url,
       dataType: 'json',
-      timeout: 3000,
       success: function(data) {
         $.each(data.messages, function(i, message) {
           getMailContent(token, message.id, messages, email);
@@ -55,7 +54,6 @@ function getMailContent(token, Id, messages, email) {
     url: url,
     dataType: 'json',
     async: false,
-    timeout: 3000,
     success: function(data) {
       messages.push(data);
       localStorage.setItem("Gmail_error", false);

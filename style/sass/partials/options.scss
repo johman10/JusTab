@@ -11,10 +11,9 @@
   line-height: 64px;
   color: $white;
   background-color: $calendar-color;
-  transition: background .3s;
   font-weight: 500;
   font-size: 18px;
-  transition: padding 400ms;
+  transition: padding 400ms, background .3s;
 
   .options_menu_icon {
     cursor: pointer;
@@ -32,7 +31,7 @@
   overflow: scroll;
   @include paper-shadow();
   width: 256px;
-  padding: 8px 0;
+  padding: 8px 0 48px;
   float: left;
   height: calc(100vh - 64px);
   z-index: 100;
@@ -52,6 +51,14 @@
     cursor: pointer;
     padding: 0 16px;
     transition: background-color 150ms;
+
+    &.support {
+      position: fixed;
+      bottom: 0;
+      background-color: $white;
+      width: 256px;
+      border-top: solid 1px #ECECEC;
+    }
 
     &:hover,
     &.active {
@@ -103,6 +110,23 @@
     color: $calendar-color;
     transition: color 150ms;
   }
+}
+
+.toast_message {
+  height: 48px;
+  min-width: 288px;
+  max-width: 568px;
+  border-radius: 2px;
+  line-height: 48px;
+  padding: 0 24px;
+  position: absolute;
+  transition: bottom 200ms;
+  background-color: #323232;
+  bottom: -48px;
+  color: $white;
+  left: 272px;
+  z-index: 100;
+  display: none;
 }
 
 @media screen and (max-width: 580px) {

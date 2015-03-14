@@ -19,7 +19,6 @@ function eventArray(url, token, callback) {
     $.ajax({
       url: url[i] + "?&oauth_token=" + token + "&timeMin=" + dateNow + "&timeMax=" + dateTomorrow + "&orderBy=startTime&singleEvents=true",
       dataType: 'json',
-      timeout: 3000,
       success: function(data) {
         localStorage.setItem("Calendar_error", false);
         serviceData.GC.error = false;

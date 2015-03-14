@@ -55,6 +55,13 @@ $(document).ready(function() {
       var serviceName = $(this).data("title");
       var serviceColor = '#' + $(this).data("color");
 
+      if (serviceName == "Support") {
+        $('.button_bar').hide();
+      }
+      else {
+        $('.button_bar').show();
+      }
+
       $('.options_window').hide();
       $('.' + serviceName).show();
       $('.options_menu_link').removeClass('active');
@@ -145,10 +152,16 @@ function save_options() {
 
     // Update status to let user know options were saved.
     var status = $('.status');
+
+    status.fadeIn('200');
     status.html('Options saved.');
+    status.css('bottom', '16px');
     setTimeout(function() {
-      status.html('');
-    }, 750);
+      status.fadeOut('200', function() {
+        status.html('');
+      });
+      status.css('bottom', '-48px');
+    }, 1000);
   });
 }
 

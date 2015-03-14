@@ -8,7 +8,6 @@ function getHackerNewsData(callback) {
   $.when($.ajax({
     url: url + apiCall,
     dataType: 'json',
-    timeout: 5000,
     success: function(data) {
       localStorage.setItem("Hackernews_error", false);
       serviceData.HN.error = false;
@@ -21,7 +20,6 @@ function getHackerNewsData(callback) {
           url: url + apiCall,
           dataType: 'json',
           async: false,
-          timeout: 5000,
           success: function(data) {
             hnJSON = hnJSON.concat(data);
           },
