@@ -12,7 +12,6 @@ function getSabnzbdHistory(from, callback) {
   $.ajax({
     url: url + historyMode + output,
     dataType: 'json',
-    async: false,
     timeout: 3000,
     success: function(history) {
       localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
@@ -41,7 +40,6 @@ function getSabnzbdQueue(callback) {
   $.ajax({
     url: url + queueMode + output,
     dataType: 'json',
-    async: false,
     timeout: 3000,
     success: function(queue) {
       localStorage.setItem("SabnzbdQueue", JSON.stringify(queue));

@@ -9,7 +9,6 @@ function getDesignerNewsData(callback) {
   $.when($.ajax({
     url: url + apiCall + apiKey,
     dataType: 'json',
-    async: false,
     timeout: 3000,
     success: function(data) {
       localStorage.setItem("Designernews_error", false);

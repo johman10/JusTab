@@ -8,7 +8,6 @@ function getHackerNewsData(callback) {
   $.when($.ajax({
     url: url + apiCall,
     dataType: 'json',
-    async: true,
     timeout: 5000,
     success: function(data) {
       localStorage.setItem("Hackernews_error", false);

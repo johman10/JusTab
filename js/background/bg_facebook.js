@@ -6,7 +6,6 @@ function getFacebookData(callback) {
     url: url,
     dataType: 'xml',
     contentType: 'application/rss+xml',
-    async: false,
     timeout: 3000,
     success: function(xml) {
       localStorage.setItem("Facebook_error", false);

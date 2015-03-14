@@ -8,7 +8,6 @@ function getSickBeardData(callback) {
   $.when($.ajax({
     url: url + apiCall,
     dataType: 'json',
-    async: false,
     timeout: 3000,
     success: function(data) {
       localStorage.setItem("Sickbeard_error", false);

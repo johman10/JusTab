@@ -17,7 +17,6 @@ function getMailId(token, length, callback) {
     $.when($.ajax({
       url: url,
       dataType: 'json',
-      async: false,
       timeout: 3000,
       success: function(data) {
         $.each(data.messages, function(i, message) {

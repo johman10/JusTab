@@ -6,7 +6,6 @@ function getGithubData(callback) {
     url: url,
     dataType: 'xml',
     contentType: 'application/rss+xml',
-    async: false,
     timeout: 3000,
     success: function(xml) {
       localStorage.setItem("Github_error", false);
