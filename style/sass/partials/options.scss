@@ -62,7 +62,7 @@
 
     &:hover,
     &.active {
-      background-color: $hover-color;
+      background-color: #EBEBEB;
     }
   }
 
@@ -127,6 +127,14 @@
   left: 272px;
   z-index: 100;
   display: none;
+}
+
+.paypal_button {
+  img {
+    height: 70%;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
 }
 
 @media screen and (max-width: 580px) {

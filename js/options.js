@@ -62,6 +62,7 @@ $(document).ready(function() {
         $('.button_bar').show();
       }
 
+      $('.options_menu').removeClass('expanded');
       $('.options_window').hide();
       $('.' + serviceName).show();
       $('.options_menu_link').removeClass('active');

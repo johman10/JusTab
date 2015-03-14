@@ -4,13 +4,17 @@
   background-color: $white;
   border: 0;
   height: 36px;
+  line-height: 36px;
   min-width: 72px;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: medium;
   font-size: 14px;
   margin: 6px 4px;
   padding: 0 8px;
   outline: none;
+  color: $black;
+  text-decoration: none;
+  display: block;
 
   &:hover {
     background-color: $hover-color;
@@ -19,7 +23,7 @@
 
 .raised_button {
   @include paper-shadow();
-  transition: box-shadow 400ms;
+  transition: box-shadow 200ms;
 
   &:active {
     @include paper-shadow(2);
