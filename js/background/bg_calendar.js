@@ -33,7 +33,7 @@ function eventArray(url, token, callback) {
     }));
   });
 
-  $.when($, promises).done(function() {
+  $.when.apply($, promises).done(function() {
     if (events.length > 0) {
       localStorage.setItem("Calendar", JSON.stringify(events));
       serviceData.GC.JSON = events;
