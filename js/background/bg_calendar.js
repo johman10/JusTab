@@ -14,9 +14,10 @@ function eventArray(url, token, callback) {
   dateNow = new Date().toISOString();
   dateTomorrow = moment(new Date()).add(1, 'days').endOf("day").toISOString();
   events = [];
+  promises = [];
 
-  $.when($.each(url, function(i) {
-    $.ajax({
+  $.each(url, function(i) {
+    promises.push($.ajax({
       url: url[i] + "?&oauth_token=" + token + "&timeMin=" + dateNow + "&timeMax=" + dateTomorrow + "&orderBy=startTime&singleEvents=true",
       dataType: 'json',
       success: function(data) {
@@ -29,8 +30,10 @@ function eventArray(url, token, callback) {
         localStorage.setItem("Calendar_error", true);
         serviceData.GC.error = true;
       }
-    });
-  })).then(function() {
+    }));
+  });
+
+  $.when($, promises).done(function() {
     if (events.length > 0) {
       localStorage.setItem("Calendar", JSON.stringify(events));
       serviceData.GC.JSON = events;
