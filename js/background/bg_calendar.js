@@ -48,7 +48,7 @@ function eventArray(url, token, callback) {
 }
 
 function calendarHTML(test) {
-  var events = serviceData.GC.JSON;
+  var events = serviceData.GC.JSON.sort(sortResults);
 
   if (serviceData.GC.status) {
     var today = moment();
@@ -108,4 +108,8 @@ function calendarHTML(test) {
     localStorage.setItem('CalendarTomorrowHTML', tomorrowHTML);
     serviceData.GC.TomorrowHTML = tomorrowHTML;
   }
+}
+
+function sortResults(a, b) {
+  return new Date(a.start.dateTime || a.start.date).getTime() - new Date(b.start.dateTime || b.start.date).getTime();
 }
