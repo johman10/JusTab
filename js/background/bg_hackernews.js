@@ -12,34 +12,42 @@ function getHackerNewsData(callback) {
       localStorage.setItem("Hackernews_error", false);
       serviceData.HN.error = false;
 
-      var hnJSON = [];
-      $.each(data.slice(0,25), function(index, val) {
-        apiCall = "item/" + val + ".json";
-
-        $.ajax({
-          url: url + apiCall,
-          dataType: 'json',
-          async: false,
-          success: function(data) {
-            hnJSON = hnJSON.concat(data);
-          },
-          error: function(xhr, ajaxOptions, thrownError) {
-            console.log(xhr, ajaxOptions, thrownError);
-            localStorage.setItem("Hackernews_error", true);
-            serviceData.HN.error = true;
-          }
-        });
-      });
-
-      localStorage.setItem("Hackernews", JSON.stringify(hnJSON));
-      serviceData.HN.JSON = hnJSON;
+      getHackerNewsStories(data.slice(0,25), callback);
     },
     error: function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
       localStorage.setItem("Hackernews_error", true);
       serviceData.HN.error = true;
     }
-  })).then(function() {
+  }));
+}
+
+function getHackerNewsStories(data, callback) {
+  var hnJSON = [];
+  var promises = [];
+
+  $.each(data, function(index, val) {
+    var url = 'https://hacker-news.firebaseio.com/v0/';
+    var apiCall = "item/" + val + ".json";
+
+    promises.push($.ajax({
+      url: url + apiCall,
+      dataType: 'json',
+      success: function(data) {
+        hnJSON = hnJSON.concat(data);
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+        console.log(xhr, ajaxOptions, thrownError);
+        localStorage.setItem("Hackernews_error", true);
+        serviceData.HN.error = true;
+      }
+    }));
+  });
+
+  $.when.apply($, promises).done(function() {
+    localStorage.setItem("Hackernews", JSON.stringify(hnJSON));
+    serviceData.HN.JSON = hnJSON;
+
     hnHTML();
 
     if (callback) {
