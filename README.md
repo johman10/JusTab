@@ -1,4 +1,4 @@
-# Chrome New Tab (needs a new name..)
+# JusTab
 This Chrome Extenstion gives you the ability to keep track of multiple services from every new tab you open.
 
 At this moment it supports:
@@ -25,4 +25,4 @@ If you want to install this extension
 - Browse to the git clone folder
 - Press open.
 
-After that the extension is installed. Now go into the settings and fill them in to have access to all the services.
+After that the extension is installed. Get into the settings and fill them in to have access to all the services.
