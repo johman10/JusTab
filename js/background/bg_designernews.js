@@ -21,47 +21,6 @@ function getDesignerNewsData(callback) {
       serviceData.DN.error = true;
     }
   })).then(function() {
-    $.ajax({
-      url: 'https://api-news.layervault.com/api/v2/me?include=upvotes',
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader('Authorization', 'Bearer ' + serviceData.DN.token);
-      },
-      type: 'GET',
-      success: function(data){
-        localStorage.setItem('DesignernewsMe', JSON.stringify(data.users[0]));
-        serviceData.DN.personal = data.users[0];
-
-        var upvotes = [];
-        $.each(data.linked.upvotes, function(index, val) {
-          upvotes.push(val.links.story);
-        });
-        localStorage.setItem('DesignernewsUpvotes', upvotes);
-        serviceData.DN.upvotes = upvotes;
-      },
-      error: function(xhr, ajaxOptions, thrownError){
-        console.log(xhr, ajaxOptions, thrownError);
-      }
-    });
-
-    if (serviceData.DN.status) {
-      $.ajax({
-        url: 'https://api-news.layervault.com/oauth/token',
-        data: {
-          username: serviceData.DN.username,
-          password: serviceData.DN.password,
-          grant_type: "password"
-        },
-        type: 'POST',
-        success: function(data){
-          localStorage.setItem('DesignernewsAuth', data.access_token);
-          serviceData.DN.token = data.access_token;
-        },
-        error: function(xhr, ajaxOptions, thrownError){
-          console.log(xhr, ajaxOptions, thrownError);
-        }
-      });
-    }
-
     dnHTML();
 
     if (callback) {
@@ -91,20 +50,13 @@ function dnHTML() {
       }
 
       dn_links +=
-        '<a href="' + story.url + '" class="dn_story_url" target="_blank">' +
-          story.title +
-        '</a>' +
-        '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn_comments_url" target="_blank">' +
-          story.comment_count + ' comments - ' + story.vote_count + ' points' +
-        '</a>';
-
-      if (upvotes.indexOf(story.id) == -1) {
-        dn_links += '<div class="thumb_up_icon dn_upvote waves-effect" id="' + story.id + '"></div>';
-      } else {
-        dn_links += '<div class="thumb_up_voted_icon dn_upvote" id="' + story.id + '"></div>';
-      }
-
-      dn_links += '</div>';
+          '<a href="' + story.url + '" class="dn_story_url" target="_blank">' +
+            story.title +
+          '</a>' +
+          '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn_comments_url" target="_blank">' +
+            story.comment_count + ' comments - ' + story.vote_count + ' points' +
+          '</a>' +
+        '</div>';
     });
 
     localStorage.setItem('DesignernewsHTML', dn_links);

@@ -76,7 +76,7 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
     var tvdbid = episodeData.tvdbid,
         season = episodeData.season,
         episode = episodeData.episode,
-        airdate = new Date(episodeData.airdate),
+        airdate = episodeData.airdate,
         showname = episodeData.show_name,
         date, posterUrl;
 
