@@ -48,7 +48,7 @@ function eventArray(url, token, callback) {
 }
 
 function calendarHTML(test) {
-  var events = serviceData.GC.JSON.sort(sortResults);
+  var events = serviceData.GC.JSON.sort(sortCalendarResults);
 
   if (serviceData.GC.status) {
     var today = moment();
@@ -110,6 +110,6 @@ function calendarHTML(test) {
   }
 }
 
-function sortResults(a, b) {
+function sortCalendarResults(a, b) {
   return new Date(a.start.dateTime || a.start.date).getTime() - new Date(b.start.dateTime || b.start.date).getTime();
 }
