@@ -1,17 +1,32 @@
 {
+  "manifest_version": 2,
+  "name": "JusTab",
+  "version": "0.2.0",
+  "author": "Johan van Eck",
+  "description": "Keep track of all your online services. With just a tab you see what's going on!",
+  "icons": {
+    "16": "/img/app_icons/JusTab-16x16.png",
+    "32": "/img/app_icons/JusTab-32x32.png",
+    "48": "/img/app_icons/JusTab-48x48.png",
+    "128": "/img/app_icons/JusTab-128x128.png",
+    "256": "/img/app_icons/JusTab-256x256.png",
+    "512": "/img/app_icons/JusTab-512x512.png"
+  },
+  
+  "background": {
+    "page": "background.html",
+    "persistent": false
+  },
+  "options_page": "options.html",
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "description": "Creates a new tab with calendar items from Google Calendar.",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlZZlwQmCKtvekpSFcndcYXMNoDLekr2cUTK4IP2ldujm128FXBt4Ql8h1Ntri/wgSO10uCpLzYc8czcOsusQL7c3KYS/87UPx/KvR1ZnxnQbtaAw9avdHMbrpwKRibVWZMOEQD2XZCj0HrMfbDBjzIakHNDuI1hQeWtFjPEGrN6TsUxQ/2wVSifL7ZvbTAlhJBXufBpJlhiT5J1oQOdlWANQz9sYQTCS2zUO1RCdgyJRKtiTWB7RHMofPeUkTbs3A7d7+DRdilhEQpj8E8aMEF8IDyixyl39BtdTzpAEGDGXWHz/N60YPnV85UkbW4uu0786AXJ4Njl0mZi5dLlCaQIDAQAB",
-  "manifest_version": 2,
-  "name": "CalendarNewTab",
   "oauth2": {
     "client_id": "597229797223-em315o6neelklo2k7e9uv3ahtuo54lue.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/calendar",
       "https://mail.google.com/",
-      "https://www.googleapis.com/auth/gmail.modify",
       "https://www.googleapis.com/auth/gmail.readonly"
     ]
   },
@@ -23,12 +38,5 @@
     "https://*/*",
     "http://*/*",
     "tabs"
-  ],
-  "version": "0.1.0",
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-  "options_page": "options.html",
-  "background": {
-    "page": "background.html",
-    "persistent": false
-  }
+  ]
 }
