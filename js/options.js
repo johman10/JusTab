@@ -11,7 +11,6 @@ $(document).ready(function() {
       $.ajax({
         url: url + '?oauth_token=' + token,
         dataType: 'json',
-        async: false,
         success: function(data) {
           $('#loading').hide();
 
