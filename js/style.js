@@ -60,13 +60,13 @@ $(document).ready(function() {
 });
 
 function errorChange(e) {
-  console.log(e);
   serviceName = e.key.replace('_error', '').toLowerCase();
+  newValue = e.newValue;
 
-  if (e.newValue == 'true') {
+  if (newValue == 'true') {
     $('#' + serviceName + ' .error').slideDown('slow');
   }
-  else if (e.newValue == 'false') {
+  else if (newValue == 'false') {
     $('#' + serviceName + ' .error').slideUp('slow');
   }
 }
