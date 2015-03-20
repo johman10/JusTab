@@ -71,7 +71,7 @@ $(document).ready(function() {
       $('.options_window_title_text').text(serviceName);
     });
 
-    $('.save_settings').bind('click', function() {
+    $(document).on('change', 'input[type="text"], .calendar_checkbox', function() {
       save_options();
     });
 
@@ -112,47 +112,36 @@ function save_options() {
   SAB_address = formatUrl('SAB_address');
 
   chrome.storage.sync.set({
-    GC_status: $('input[type=checkbox][name=GC_status]').is(':checked'),
     calendars: calendars,
     GC_refresh: $('#GC_refresh').val(),
-    GM_status: $('input[type=checkbox][name=GM_status]').is(':checked'),
     GM_refresh: $('#GM_refresh').val(),
-    FB_status: $('input[type=checkbox][name=FB_status]').is(':checked'),
     FB_url: FB_url,
     FB_refresh: $('#FB_refresh').val(),
-    CP_status: $('input[type=checkbox][name=CP_status]').is(':checked'),
     CP_address: CP_address,
     CP_port: $('#CP_port').val(),
     CP_key: $('#CP_key').val(),
     CP_refresh: $('#CP_refresh').val(),
-    SB_status: $('input[type=checkbox][name=SB_status]').is(':checked'),
     SB_address: SB_address,
     SB_port: $('#SB_port').val(),
     SB_key: $('#SB_key').val(),
     SB_refresh: $('#SB_refresh').val(),
-    SAB_status: $('input[type=checkbox][name=SAB_status]').is(':checked'),
     SAB_address: SAB_address,
     SAB_port: $('#SAB_port').val(),
     SAB_key: $('#SAB_key').val(),
     SAB_history: $('#SAB_history').val(),
     SABQ_refresh: $('#SABQ_refresh').val(),
     SABH_refresh: $('#SABH_refresh').val(),
-    DN_status: $('input[type=checkbox][name=DN_status]').is(':checked'),
     DN_username: $('#DN_username').val(),
     DN_password: $('#DN_password').val(),
     DN_refresh: $('#DN_refresh').val(),
-    HN_status: $('input[type=checkbox][name=HN_status]').is(':checked'),
     HN_refresh: $('#HN_refresh').val(),
-    GH_status: $('input[type=checkbox][name=GH_status]').is(':checked'),
     GH_refresh: $('#GH_refresh').val()
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.serviceDataFunction();
     });
 
-    // Update status to let user know options were saved.
     var status = $('.status');
-
     status.fadeIn('200');
     status.html('Options saved.');
     status.css('bottom', '16px');

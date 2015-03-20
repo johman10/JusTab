@@ -87,28 +87,10 @@
   position: relative;
   height: 100%;
   overflow: scroll;
-  padding-top: 8px;
-  padding-bottom: 48px;
+  padding: 8px 0;
 
   &:not(.Calendar) {
     display: none;
-  }
-}
-
-.button_bar {
-  background-color: $white;
-  position: absolute;
-  width: calc(100% - 256px);
-  height: 48px;
-  padding-left: 272px;
-  bottom: 0;
-  right: 0;
-  border-top: solid 1px #ECECEC;
-  transition: padding 400ms;
-
-  .save_settings {
-    color: $calendar-color;
-    transition: color 150ms;
   }
 }
 
