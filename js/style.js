@@ -33,6 +33,10 @@ $(document).ready(function() {
       'GithubHTML': ghShowData
     };
 
+    if (e.originalEvent.key.indexOf('_error') != -1) {
+      errorChange(e.originalEvent);
+    }
+
     if (storageFunctions[e.originalEvent.key]) {
       currentTabs = chrome.extension.getViews({type: 'tab'});
       console.log(e.originalEvent.key);
@@ -54,3 +58,15 @@ $(document).ready(function() {
     }
   });
 });
+
+function errorChange(e) {
+  console.log(e);
+  serviceName = e.key.replace('_error', '').toLowerCase();
+
+  if (e.newValue == 'true') {
+    $('#' + serviceName + ' .error').slideDown('slow');
+  }
+  else if (e.newValue == 'false') {
+    $('#' + serviceName + ' .error').slideUp('slow');
+  }
+}
