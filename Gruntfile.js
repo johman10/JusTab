@@ -10,25 +10,28 @@ module.exports = function(grunt) {
     compass: {
       dev: {
         options: {
+          environment: 'development',
           sassDir: 'dev/style/sass',
           specify: 'dev/style/sass/main.scss',
           cssDir: 'dev/style/css',
-          imagesDir: 'dev/img',
-          javascriptsDir: 'dev/js',
-          fontsDir: 'dev/style/fonts',
+          imagesDir: 'img',
+          javascriptsDir: 'js',
+          fontsDir: 'style/fonts',
           outputStyle: 'compressed',
           watch: true
         }
       },
       dist: {
         options: {
+          environment: 'production',
           sassDir: 'dev/style/sass',
           specify: 'dev/style/sass/main.scss',
           cssDir: 'dist/style/css',
-          imagesDir: 'dist/img',
-          javascriptsDir: 'dist/js',
-          fontsDir: 'dist/style/fonts',
-          outputStyle: 'compressed'
+          imagesDir: 'img',
+          javascriptsDir: 'js',
+          fontsDir: 'style/fonts',
+          outputStyle: 'compressed',
+          force: true
         }
       }
     },
@@ -39,7 +42,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'dev/js',
           src: '**/*.js',
-          dest: '../dist/js'
+          dest: 'dist/js'
         }]
       }
     },
