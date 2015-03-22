@@ -86,6 +86,7 @@ function cpsHTML() {
 
 function cpCreateVar(movie, cpVar) {
   var posterName, posterUrl;
+  var movieDate = new Date(movie.info.released);
 
   if (movie.info.images.poster_original && movie.info.images.poster_original[0] && movie.info.images.poster_original[0].substr(-4) != "None") {
     posterUrl = movie.info.images.poster[0];
@@ -94,11 +95,11 @@ function cpCreateVar(movie, cpVar) {
     posterUrl = 'img/poster_fallback.png';
   }
 
-  if (moment(movie.info.released).year() != moment().year()) {
-    date = moment(movie.info.released).format("MMM D, YYYY");
+  if (moment(movieDate).year() != moment().year()) {
+    date = moment(movieDate).format("MMM D, YYYY");
   }
   else {
-    date = moment(movie.info.released).format("MMM D");
+    date = moment(movieDate).format("MMM D");
   }
 
   cpVar +=
