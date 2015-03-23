@@ -37,9 +37,9 @@ function refreshServiceData() {
         "refresh": parseFloat(items.FB_refresh),
         "bgFunctionName": 'getFacebookData',
         "feFunctionName": 'fbShowData',
-        "JSON": $.parseXML(localStorage.getItem('Facebook')),
-        "url": items.FB_url,
-        "HTML": localStorage.getItem('FacebookHTML')
+        "JSON": JSON.parse(localStorage.getItem('Facebook')),
+        "HTML": localStorage.getItem('FacebookHTML'),
+        "token": localStorage.getItem('FacebookToken')
       },
       "CPS": {
         "error": localStorage.getItem('CouchpotatoSnatched_error'),

@@ -1,25 +1,21 @@
 function getFacebookData(callback) {
-  var url = serviceData.FB.url;
-
-  $.when($.ajax({
-    type: "GET",
-    url: url,
-    dataType: 'xml',
-    contentType: 'application/rss+xml',
-    success: function(xml) {
-      localStorage.setItem("Facebook_error", false);
-      serviceData.FB.error = false;
-      localStorage.setItem("Facebook", (new XMLSerializer()).serializeToString(xml));
-      serviceData.FB.JSON = xml;
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("Facebook_error", true);
-      serviceData.FB.error = true;
-    }
-  })).then(function() {
+  $.ajax({
+    url: "https://graph.facebook.com/me/notifications?" + serviceData.FB.token,
+    type: 'GET'
+  })
+  .done(function(data) {
+    localStorage.setItem("Facebook_error", false);
+    serviceData.FB.error = false;
+    localStorage.setItem("Facebook", JSON.stringify(data));
+    serviceData.FB.JSON = data;
     FBHTML();
-
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+    localStorage.setItem("Facebook_error", true);
+    serviceData.FB.error = true;
+  })
+  .always(function() {
     if (callback) {
       callback();
     }
@@ -31,9 +27,9 @@ function FBHTML() {
     data = serviceData.FB.JSON;
     var FacebookHTML = '';
 
-    $(data).find('item').slice(0,25).each(function(){
-      var title = $(this).find('title').text();
-      var link = $(this).find('link').text();
+    $.each(data.data, function(i, notification){
+      var title = notification.title;
+      var link = notification.link;
 
       FacebookHTML += '<div class="core_item waves-effect"><a href="' + link + '" target="_blank">' + title + '</a></div>';
     });

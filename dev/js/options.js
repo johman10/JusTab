@@ -42,6 +42,10 @@ $(document).ready(function() {
       });
     });
 
+    $('.facebook_login').click(function(event) {
+      chrome.tabs.onUpdated.addListener(onFacebookLogin);
+    });
+
     $('.options_menu_icon').bind('click', function() {
       if ($('.options_menu').hasClass('expanded')) {
         $('.options_menu').removeClass('expanded');
@@ -106,7 +110,6 @@ function save_options() {
     calendars.push($(this).data('id'));
   });
 
-  FB_url = formatUrl('FB_url');
   CP_address = formatUrl('CP_address');
   SB_address = formatUrl('SB_address');
   SAB_address = formatUrl('SAB_address');
@@ -115,7 +118,6 @@ function save_options() {
     calendars: calendars,
     GC_refresh: $('#GC_refresh').val(),
     GM_refresh: $('#GM_refresh').val(),
-    FB_url: FB_url,
     FB_refresh: $('#FB_refresh').val(),
     CP_address: CP_address,
     CP_port: $('#CP_port').val(),
@@ -160,7 +162,6 @@ function restore_options() {
   $('input[type=checkbox][name=GM_status]').attr('checked', serviceData.GM.status);
   $('#GM_refresh').val(serviceData.GM.refresh);
   $('input[type=checkbox][name=FB_status]').attr('checked', serviceData.FB.status);
-  $('#FB_url').val(serviceData.FB.url);
   $('#FB_refresh').val(serviceData.FB.refresh);
   $('input[type=checkbox][name=CP_status]').attr('checked', serviceData.CPS.status);
   $('#CP_address').val(serviceData.CPS.address);
@@ -196,4 +197,24 @@ function formatUrl(fieldname) {
   else {
     return "http://" + $('#' + fieldname).val();
   }
+}
+
+function onFacebookLogin() {
+  var successURL = 'https://www.facebook.com/connect/login_success.html',
+      access;
+
+  chrome.tabs.getAllInWindow(null, function(tabs) {
+    for (var i = 0; i < tabs.length; i++) {
+      if (tabs[i].url.indexOf(successURL) === 0) {
+        if (!localStorage.FacebookToken) {
+          params = tabs[i].url.split('#')[1];
+          access = params.split('&')[0];
+          localStorage.FacebookToken = access;
+        }
+        chrome.tabs.onUpdated.removeListener(onFacebookLogin);
+        chrome.tabs.remove(tabs[i].id);
+        return;
+      }
+    }
+  });
 }
