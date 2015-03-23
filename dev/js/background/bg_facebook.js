@@ -1,6 +1,6 @@
 function getFacebookData(callback) {
   $.ajax({
-    url: "https://graph.facebook.com/me/notifications?" + serviceData.FB.token,
+    url: "https://graph.facebook.com/me/notifications?include_read=true&" + serviceData.FB.token,
     type: 'GET'
   })
   .done(function(data) {
@@ -26,6 +26,8 @@ function FBHTML() {
   if (serviceData.FB.JSON) {
     data = serviceData.FB.JSON;
     var FacebookHTML = '';
+
+    console.log(data.data.length);
 
     $.each(data.data, function(i, notification){
       var title = notification.title;
