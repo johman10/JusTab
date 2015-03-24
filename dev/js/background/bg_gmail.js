@@ -17,50 +17,50 @@ function getMailId(token, length, callback) {
     var promises = [];
 
     $.ajax({
-      url: url,
-      dataType: 'json',
-      success: function(data) {
-        idData = data;
-        localStorage.setItem("Gmail_page", data.nextPageToken);
-        localStorage.setItem("Gmail_error", false);
-        serviceData.GM.error = false;
-      },
-      error: function(xhr, ajaxOptions, thrownError) {
-        console.log(xhr, ajaxOptions, thrownError);
-        localStorage.setItem("Gmail_error", true);
-        serviceData.GM.error = true;
+      url: url
+    })
+    .done(function(data) {
+      idData = data;
+      localStorage.setItem("Gmail_page", data.nextPageToken);
+      localStorage.setItem("Gmail_error", false);
+      serviceData.GM.error = false;
+    })
+    .fail(function(xhr, ajaxOptions, thrownError) {
+      console.log(xhr, ajaxOptions, thrownError);
+      localStorage.setItem("Gmail_error", true);
+      serviceData.GM.error = true;
 
-        if (callback) {
-          callback();
-        }
+      if (callback) {
+        callback();
       }
-    }).then(function() {
+    })
+    .always(function() {
       $.each(idData.messages, function(i, message) {
         var url = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages/" + message.id + "?&oauth_token=" + token;
 
         promises.push($.ajax({
-          url: url,
-          dataType: 'json',
-          success: function(data) {
-            messages.push(data);
-            localStorage.setItem("Gmail_error", false);
-            serviceData.GM.error = false;
-          },
-          error: function(xhr, ajaxOptions, thrownError) {
-            console.log(xhr, ajaxOptions, thrownError);
-            localStorage.setItem("Gmail_error", true);
-            serviceData.GM.error = true;
-          }
+          url: url
+        })
+        .done(function(data) {
+          messages.push(data);
+          localStorage.setItem("Gmail_error", false);
+          serviceData.GM.error = false;
+        })
+        .fail(function(xhr, ajaxOptions, thrownError) {
+          console.log(xhr, ajaxOptions, thrownError);
+          localStorage.setItem("Gmail_error", true);
+          serviceData.GM.error = true;
         }));
       });
 
-      $.when.apply($, promises).done(function() {
+      $.when.apply($, promises)
+      .done(function() {
         var gmailJSON = rebuildGmailJson(messages);
         localStorage.setItem("Gmail", JSON.stringify(gmailJSON));
         serviceData.GM.JSON = gmailJSON;
-
         GmailHTML();
-
+      })
+      .always(function() {
         if (callback) {
           callback();
         }

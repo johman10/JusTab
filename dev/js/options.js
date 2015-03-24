@@ -9,36 +9,35 @@ $(document).ready(function() {
       var events = "";
 
       $.ajax({
-        url: url + '?oauth_token=' + token,
-        dataType: 'json',
-        success: function(data) {
-          $('#loading').hide();
+        url: url + '?oauth_token=' + token
+      })
+      .done(function(data) {
+        $('#loading').hide();
 
-          var calendars_storage = serviceData.GC.calendars;
+        var calendars_storage = serviceData.GC.calendars;
 
-          $.each(data.items, function(l, calendar) {
-            if ($.inArray(calendar.id, calendars_storage) > -1) {
-              $('.calendar_select_container').append(
-                "<div class='calendar_checkbox checkbox_container checked' data-id=" + calendar.id + ">" +
-                  "<div class='checkbox'>" +
-                    "<div class='checkbox_mark'></div>" +
-                  "</div>" +
-                  "<span class='checkbox_label'>" + calendar.summary + "</span>" +
-                "</div>"
-              );
-            }
-            else {
-              $('.calendar_select_container').append(
-                "<div class='calendar_checkbox checkbox_container' data-id=" + calendar.id + ">" +
-                  "<div class='checkbox'>" +
-                    "<div class='checkbox_mark'></div>" +
-                  "</div>" +
-                  "<span class='checkbox_label'>" + calendar.summary + "</span>" +
-                "</div>"
-              );
-            }
-          });
-        }
+        $.each(data.items, function(l, calendar) {
+          if ($.inArray(calendar.id, calendars_storage) > -1) {
+            $('.calendar_select_container').append(
+              "<div class='calendar_checkbox checkbox_container checked' data-id=" + calendar.id + ">" +
+                "<div class='checkbox'>" +
+                  "<div class='checkbox_mark'></div>" +
+                "</div>" +
+                "<span class='checkbox_label'>" + calendar.summary + "</span>" +
+              "</div>"
+            );
+          }
+          else {
+            $('.calendar_select_container').append(
+              "<div class='calendar_checkbox checkbox_container' data-id=" + calendar.id + ">" +
+                "<div class='checkbox'>" +
+                  "<div class='checkbox_mark'></div>" +
+                "</div>" +
+                "<span class='checkbox_label'>" + calendar.summary + "</span>" +
+              "</div>"
+            );
+          }
+        });
       });
     });
 

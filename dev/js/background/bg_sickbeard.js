@@ -5,22 +5,22 @@ function getSickBeardData(callback) {
   var url = serviceData.SB.apiUrl;
   var apiCall = "?cmd=future&sort=date&type=today|missed|soon|later";
 
-  $.when($.ajax({
-    url: url + apiCall,
-    dataType: 'json',
-    success: function(data) {
-      localStorage.setItem("Sickbeard_error", false);
-      serviceData.SB.error = false;
-      localStorage.setItem("Sickbeard", JSON.stringify(data));
-      serviceData.SB.JSON = data;
-      sbHTML();
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("Sickbeard_error", true);
-      serviceData.SB.error = true;
-    }
-  })).then(function() {
+  $.ajax({
+    url: url + apiCall
+  })
+  .done(function(data) {
+    localStorage.setItem("Sickbeard_error", false);
+    serviceData.SB.error = false;
+    localStorage.setItem("Sickbeard", JSON.stringify(data));
+    serviceData.SB.JSON = data;
+    sbHTML();
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+    localStorage.setItem("Sickbeard_error", true);
+    serviceData.SB.error = true;
+  })
+  .always(function() {
     if (callback) {
       callback();
     }
@@ -83,17 +83,14 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
     promise = $.ajax({
       url:'http://thetvdb.com/banners/posters/' + tvdbid + '-1.jpg',
       type:'HEAD'
-    });
-
-    promise.success(function() {
+    })
+    .success(function() {
       posterUrl = 'http://thetvdb.com/banners/posters/' + tvdbid + '-1.jpg';
-    });
-
-    promise.error(function() {
+    })
+    .fail(function() {
       posterUrl = 'img/poster_fallback.png';
-    });
-
-    promise.always(function() {
+    })
+    .always(function() {
       if (moment(airdate).isSame(moment(), 'day')) {
         date = 'Today';
       }

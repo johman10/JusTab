@@ -87,25 +87,25 @@ function searchEpisode(clickedObject) {
   var searchApiUrl = url + "/?cmd=episode.search&tvdbid=" + clickedObject.data('tvdbid') + "&season=" + clickedObject.data('season') + "&episode=" + clickedObject.data('episode');
 
   $.ajax({
-    url: searchApiUrl,
-    success: function(data) {
-      clickedObject.fadeOut(400, function() {
-        if (data.result == "failure") {
-          clickedObject.addClass('error_icon');
-          clickedObject.attr('title', data.message);
-        } else {
-          clickedObject.addClass('done_icon');
-        }
-        clickedObject.html('');
-        clickedObject.fadeIn(400);
-      });
-    },
-    error: function() {
-      clickedObject.fadeOut(400, function() {
+    url: searchApiUrl
+  })
+  .done(function(data) {
+    clickedObject.fadeOut(400, function() {
+      if (data.result == "failure") {
         clickedObject.addClass('error_icon');
-        clickedObject.attr('title', 'There was an error');
-      });
-    }
+        clickedObject.attr('title', data.message);
+      } else {
+        clickedObject.addClass('done_icon');
+      }
+      clickedObject.html('');
+      clickedObject.fadeIn(400);
+    });
+  })
+  .fail(function() {
+    clickedObject.fadeOut(400, function() {
+      clickedObject.addClass('error_icon');
+      clickedObject.attr('title', 'There was an error');
+    });
   });
 }
 
@@ -122,23 +122,23 @@ function markEpisode(clickedObject) {
 
   $.ajax({
     url: markApiUrl,
-    success: function(data) {
-      clickedObject.fadeOut(400, function() {
-        if (data.result == "failure") {
-          clickedObject.attr('class', 'icon_button error_icon sb_mark_episode waves-effect');
-          clickedObject.attr('title', data.message);
-        } else {
-          clickedObject.attr('class', 'icon_button done_all_icon sb_mark_episode waves-effect');
-        }
-        clickedObject.html('');
-        clickedObject.fadeIn(400);
-      });
-    },
-    error: function() {
-      clickedObject.fadeOut(400, function() {
-        clickedObject.addClass('error_icon');
-        clickedObject.attr('title', 'There was an error');
-      });
-    }
+  })
+  .done(function(data) {
+    clickedObject.fadeOut(400, function() {
+      if (data.result == "failure") {
+        clickedObject.attr('class', 'icon_button error_icon sb_mark_episode waves-effect');
+        clickedObject.attr('title', data.message);
+      } else {
+        clickedObject.attr('class', 'icon_button done_all_icon sb_mark_episode waves-effect');
+      }
+      clickedObject.html('');
+      clickedObject.fadeIn(400);
+    });
+  })
+  .fail(function() {
+    clickedObject.fadeOut(400, function() {
+      clickedObject.addClass('error_icon');
+      clickedObject.attr('title', 'There was an error');
+    });
   });
 }

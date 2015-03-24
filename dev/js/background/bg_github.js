@@ -1,25 +1,22 @@
 function getGithubData(callback) {
   var url = "http://ghtrendingrss.appspot.com/rss?timespan=daily";
 
-  $.when($.ajax({
-    type: "GET",
-    url: url,
-    dataType: 'xml',
-    contentType: 'application/rss+xml',
-    success: function(xml) {
-      localStorage.setItem("Github_error", false);
-      serviceData.GH.error = false;
-      localStorage.setItem("Github", (new XMLSerializer()).serializeToString(xml));
-      serviceData.GH.JSON = xml;
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("Github_error", true);
-      serviceData.GH.error = true;
-    }
-  })).then(function() {
+  $.ajax({
+    url: url
+  })
+  .done(function(xml) {
+    localStorage.setItem("Github_error", false);
+    serviceData.GH.error = false;
+    localStorage.setItem("Github", (new XMLSerializer()).serializeToString(xml));
+    serviceData.GH.JSON = xml;
     ghHTML();
-
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+    localStorage.setItem("Github_error", true);
+    serviceData.GH.error = true;
+  })
+  .always(function() {
     if (callback) {
       callback();
     }
@@ -34,12 +31,11 @@ function ghHTML() {
     $(data).find('item').each(function(){
       var title = $(this).find('title').text();
       var link = $(this).find('link').text();
-      var description = $(this).find('description').text()
+      var description = $(this).find('description').text();
 
       if (description === '') {
         description = "No description for this repository.";
       }
-
 
       GithubHTML +=
         '<div class="core_item waves-effect">' +

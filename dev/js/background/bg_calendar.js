@@ -18,18 +18,17 @@ function eventArray(url, token, callback) {
 
   $.each(url, function(i) {
     promises.push($.ajax({
-      url: url[i] + "?&oauth_token=" + token + "&timeMin=" + dateNow + "&timeMax=" + dateTomorrow + "&orderBy=startTime&singleEvents=true",
-      dataType: 'json',
-      success: function(data) {
-        localStorage.setItem("Calendar_error", false);
-        serviceData.GC.error = false;
-        events = $.merge(events, data.items);
-      },
-      error: function(xhr, ajaxOptions, thrownError) {
-        console.log(xhr, ajaxOptions, thrownError);
-        localStorage.setItem("Calendar_error", true);
-        serviceData.GC.error = true;
-      }
+      url: url[i] + "?&oauth_token=" + token + "&timeMin=" + dateNow + "&timeMax=" + dateTomorrow + "&orderBy=startTime&singleEvents=true"
+    })
+    .done(function(data) {
+      localStorage.setItem("Calendar_error", false);
+      serviceData.GC.error = false;
+      events = $.merge(events, data.items);
+    })
+    .fail(function(xhr, ajaxOptions, thrownError) {
+      console.log(xhr, ajaxOptions, thrownError);
+      localStorage.setItem("Calendar_error", true);
+      serviceData.GC.error = true;
     }));
   });
 

@@ -6,23 +6,22 @@ function getDesignerNewsData(callback) {
   var apiCall = "stories";
   var apiKey = "?client_id=e7c9f9422feb744c661cc25a248d3b7206962f0605e174ae30aab12a05fb107a";
 
-  $.when($.ajax({
-    url: url + apiCall + apiKey,
-    dataType: 'json',
-    success: function(data) {
-      localStorage.setItem("Designernews_error", false);
-      serviceData.DN.error = false;
-      localStorage.setItem("Designernews", JSON.stringify(data));
-      serviceData.DN.JSON = data;
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("Designernews_error", true);
-      serviceData.DN.error = true;
-    }
-  })).then(function() {
+  $.ajax({
+    url: url + apiCall + apiKey
+  })
+  .done(function(data) {
+    localStorage.setItem("Designernews_error", false);
+    serviceData.DN.error = false;
+    localStorage.setItem("Designernews", JSON.stringify(data));
+    serviceData.DN.JSON = data;
     dnHTML();
-
+  })
+  .fail(function() {
+    console.log(xhr, ajaxOptions, thrownError);
+    localStorage.setItem("Designernews_error", true);
+    serviceData.DN.error = true;
+  })
+  .always(function() {
     if (callback) {
       callback();
     }

@@ -77,17 +77,17 @@ function searchMovie(clickedObject) {
   var searchApiUrl = url + "/movie.refresh/?id=" + movieId;
 
   $.ajax({
-    url: searchApiUrl,
-    success: function(data) {
-      if (data.success) {
-        clickedObject.attr('class', 'done_icon cp_search_movie waves-effect');
-      } else {
-        clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
-      }
-    },
-    error: function() {
+    url: searchApiUrl
+  })
+  .done(function(data) {
+    if (data.success) {
+      clickedObject.attr('class', 'done_icon cp_search_movie waves-effect');
+    } else {
       clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
     }
+  })
+  .fail(function() {
+    clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
   });
 }
 

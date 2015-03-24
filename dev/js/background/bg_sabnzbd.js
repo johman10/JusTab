@@ -10,25 +10,25 @@ function getSabnzbdHistory(from, callback) {
   var output = "&output=json";
 
   $.ajax({
-    url: url + historyMode + output,
-    dataType: 'json',
-    success: function(history) {
-      localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
-      serviceData.SABH.JSON = history;
-      localStorage.setItem("SabnzbdHistory_error", false);
-      serviceData.SABH.error = false;
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("SabnzbdHistory_error", true);
-      serviceData.SABH.error = true;
+    url: url + historyMode + output
+  })
+  .done(function(history) {
+    localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
+    serviceData.SABH.JSON = history;
+    localStorage.setItem("SabnzbdHistory_error", false);
+    serviceData.SABH.error = false;
+    sabhHTML();
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+    localStorage.setItem("SabnzbdHistory_error", true);
+    serviceData.SABH.error = true;
+  })
+  .always(function() {
+    if (callback) {
+      callback();
     }
   });
-
-  sabhHTML();
-  if (callback) {
-    callback();
-  }
 }
 
 function getSabnzbdQueue(callback) {
@@ -37,25 +37,25 @@ function getSabnzbdQueue(callback) {
   var output = "&output=json";
 
   $.ajax({
-    url: url + queueMode + output,
-    dataType: 'json',
-    success: function(queue) {
-      localStorage.setItem("SabnzbdQueue", JSON.stringify(queue));
-      serviceData.SABQ.JSON = queue;
-      localStorage.setItem("SabnzbdQueue_error", false);
-      serviceData.SABQ.error = false;
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("SabnzbdQueue_error", true);
-      serviceData.SABQ.error = true;
+    url: url + queueMode + output
+  })
+  .done(function(queue) {
+    localStorage.setItem("SabnzbdQueue", JSON.stringify(queue));
+    serviceData.SABQ.JSON = queue;
+    localStorage.setItem("SabnzbdQueue_error", false);
+    serviceData.SABQ.error = false;
+    sabqHTML();
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+    localStorage.setItem("SabnzbdQueue_error", true);
+    serviceData.SABQ.error = true;
+  })
+  .always(function() {
+    if (callback) {
+      callback();
     }
   });
-
-  sabqHTML();
-  if (callback) {
-    callback();
-  }
 }
 
 function sabqHTML() {

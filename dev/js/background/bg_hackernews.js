@@ -5,21 +5,20 @@ function getHackerNewsData(callback) {
   var url = 'https://hacker-news.firebaseio.com/v0/';
   var apiCall = "topstories.json";
 
-  $.when($.ajax({
-    url: url + apiCall,
-    dataType: 'json',
-    success: function(data) {
-      localStorage.setItem("Hackernews_error", false);
-      serviceData.HN.error = false;
+  $.ajax({
+    url: url + apiCall
+  })
+  .done(function(data) {
+    localStorage.setItem("Hackernews_error", false);
+    serviceData.HN.error = false;
 
-      getHackerNewsStories(data.slice(0,25), callback);
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("Hackernews_error", true);
-      serviceData.HN.error = true;
-    }
-  }));
+    getHackerNewsStories(data.slice(0,25), callback);
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+    localStorage.setItem("Hackernews_error", true);
+    serviceData.HN.error = true;
+  });
 }
 
 function getHackerNewsStories(data, callback) {
@@ -32,24 +31,22 @@ function getHackerNewsStories(data, callback) {
 
     promises.push($.ajax({
       url: url + apiCall,
-      dataType: 'json',
-      success: function(data) {
-        hnJSON = hnJSON.concat(data);
-      },
-      error: function(xhr, ajaxOptions, thrownError) {
-        console.log(xhr, ajaxOptions, thrownError);
-        localStorage.setItem("Hackernews_error", true);
-        serviceData.HN.error = true;
-      }
+    })
+    .done(function(data) {
+      hnJSON = hnJSON.concat(data);
+    })
+    .fail(function(xhr, ajaxOptions, thrownError) {
+      console.log(xhr, ajaxOptions, thrownError);
+      localStorage.setItem("Hackernews_error", true);
+      serviceData.HN.error = true;
     }));
   });
 
   $.when.apply($, promises).done(function() {
     localStorage.setItem("Hackernews", JSON.stringify(hnJSON));
     serviceData.HN.JSON = hnJSON;
-
     hnHTML();
-
+  }).always(function() {
     if (callback) {
       callback();
     }

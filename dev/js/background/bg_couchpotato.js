@@ -8,23 +8,23 @@ function getWantedCouchPotato(length, callback) {
   var url = serviceData.CPW.apiUrl;
   var apiCall = "movie.list/?status=active&limit_offset=" + length;
 
-  $.when($.ajax({
+  $.ajax({
     url: url + apiCall,
-    dataType: 'json',
-    success: function(data) {
-      localStorage.setItem("CouchpotatoWanted_error", false);
-      serviceData.CPW.error = false;
-      localStorage.setItem("CouchpotatoWanted", JSON.stringify(data));
-      serviceData.CPW.JSON = data;
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("CouchpotatoWanted_error", true);
-      serviceData.CPW.error = true;
-    }
-  })).then(function() {
+    dataType: 'json'
+  })
+  .done(function(data) {
+    localStorage.setItem("CouchpotatoWanted_error", false);
+    serviceData.CPW.error = false;
+    localStorage.setItem("CouchpotatoWanted", JSON.stringify(data));
+    serviceData.CPW.JSON = data;
     cpwHTML();
-
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+    localStorage.setItem("CouchpotatoWanted_error", true);
+    serviceData.CPW.error = true;
+  })
+  .always(function() {
     if (callback) {
       callback();
     }
@@ -35,22 +35,22 @@ function getSnatchedCouchPotato(callback) {
   var url = serviceData.CPS.apiUrl;
   var apiCall = "movie.list/?release_status=snatched,downloaded,available";
 
-  $.when($.ajax({
-    url: url + apiCall,
-    dataType: 'json',
-    success: function(data) {
-      localStorage.setItem("CouchpotatoSnatched_error", false);
-      serviceData.CPS.error = false;
-      localStorage.setItem("CouchpotatoSnatched", JSON.stringify(data));
-      serviceData.CPS.JSON = data;
-    },
-    error: function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("CouchpotatoSnatched_error", true);
-      serviceData.CPS.error = true;
-    }
-  })).then(function() {
+  $.ajax({
+    url: url + apiCall
+  })
+  .done(function(data) {
+    localStorage.setItem("CouchpotatoSnatched_error", false);
+    serviceData.CPS.error = false;
+    localStorage.setItem("CouchpotatoSnatched", JSON.stringify(data));
+    serviceData.CPS.JSON = data;
     cpsHTML();
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+    localStorage.setItem("CouchpotatoSnatched_error", true);
+    serviceData.CPS.error = true;
+  })
+  .always(function() {
 
     if (callback) {
       callback();

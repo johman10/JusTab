@@ -50,23 +50,3 @@ function dnShowData() {
 
   $('.dn_links').html(serviceData.DN.HTML);
 }
-
-function dnUpvote(clickedObject) {
-  $.ajax({
-    url: 'https://api-news.layervault.com/api/v2/upvotes',
-    beforeSend: function (xhr) {
-      xhr.setRequestHeader('Authorization', 'Bearer ' + serviceData.DN.token);
-      xhr.setRequestHeader('Content-Type', 'application/vnd.api+json');
-    },
-    data: '{ "upvotes": { "links": { "story": "' + clickedObject.attr('id') + '", "user": ' + serviceData.DN.personal.id + '} } }',
-    type: 'POST',
-    success: function(data){
-      clickedObject.attr('class', 'thumb_up_voted_icon dn_upvote');
-    },
-    error: function(xhr, ajaxOptions, thrownError){
-      clickedObject.attr('icon', 'error');
-      clickedObject.attr('title', thrownError);
-      console.log(xhr, ajaxOptions, thrownError);
-    }
-  });
-}
