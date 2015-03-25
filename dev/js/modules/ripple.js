@@ -33,7 +33,7 @@ function startEffect(e, element) {
 }
 
 function stopEffect(e) {
-  $(this).children('.waves-ripple').first().fadeOut(duration, function() {
+  $(this).children('.waves-ripple').fadeOut(duration, function() {
     $(this).remove();
   });
 }

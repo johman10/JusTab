@@ -14,8 +14,7 @@ $(document).ready(function() {
 
   $(window).bind('storage', function (e) {
     var storageFunctions = {
-      'CalendarTodayHTML': calenderShowEvents,
-      'CalendarTomorrowHTML': calenderShowEvents,
+      'CalendarHTML': calenderShowEvents,
       'GmailReadHTML': GmailShowData,
       'GmailUnreadHTML': GmailShowData,
       'FacebookHTML': fbShowData,

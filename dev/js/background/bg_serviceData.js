@@ -13,9 +13,9 @@ function serviceDataFunction() {
         "bgFunctionName": 'getCalendarData',
         "feFunctionName": 'calenderShowEvents',
         "JSON": JSON.parse(localStorage.getItem('Calendar')),
-        "TodayHTML": localStorage.getItem('CalendarTodayHTML'),
-        "TomorrowHTML": localStorage.getItem('CalendarTomorrowHTML'),
-        "calendars": items.calendars
+        "HTML": localStorage.getItem('CalendarHTML'),
+        "calendars": items.calendars,
+        "days": parseFloat(items.GC_days)
       },
       "GM": {
         "error": localStorage.getItem('Gmail_error'),

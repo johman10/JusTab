@@ -115,6 +115,7 @@ function save_options() {
 
   chrome.storage.sync.set({
     calendars: calendars,
+    GC_days: $('#GC_days').val(),
     GC_refresh: $('#GC_refresh').val(),
     GM_refresh: $('#GM_refresh').val(),
     FB_refresh: $('#FB_refresh').val(),
@@ -157,6 +158,7 @@ function save_options() {
 
 function restore_options() {
   $('input[type=checkbox][name=GC_status]').attr('checked', serviceData.GC.status);
+  $('#GC_days').val(serviceData.GC.days);
   $('#GC_refresh').val(serviceData.GC.refresh);
   $('input[type=checkbox][name=GM_status]').attr('checked', serviceData.GM.status);
   $('#GM_refresh').val(serviceData.GM.refresh);

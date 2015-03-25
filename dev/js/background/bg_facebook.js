@@ -1,7 +1,6 @@
 function getFacebookData(callback) {
   $.ajax({
-    url: "https://graph.facebook.com/me/notifications?include_read=true&" + serviceData.FB.token,
-    type: 'GET'
+    url: "https://graph.facebook.com/me/notifications?include_read=true&" + serviceData.FB.token
   })
   .done(function(data) {
     localStorage.setItem("Facebook_error", false);
@@ -27,13 +26,18 @@ function FBHTML() {
     data = serviceData.FB.JSON;
     var FacebookHTML = '';
 
-    console.log(data.data.length);
-
     $.each(data.data, function(i, notification){
-      var title = notification.title;
-      var link = notification.link;
+      var unread = notification.unread,
+          title = notification.title,
+          link = notification.link;
 
-      FacebookHTML += '<div class="core_item waves-effect"><a href="' + link + '" target="_blank">' + title + '</a></div>';
+      if (unread) {
+        FacebookHTML += '<div class="core_item waves-effect unread">';
+      } else {
+        FacebookHTML += '<div class="core_item waves-effect read">';
+      }
+
+      FacebookHTML += '<a href="' + link + '" target="_blank">' + title + '</a></div>';
     });
 
     localStorage.setItem('FacebookHTML', FacebookHTML);
