@@ -21,6 +21,10 @@ $(document).ready(function() {
         });
       });
 
+      $('#facebook .notifications .unread').click(function(e) {
+        fbMarkRead(e);
+      });
+
       $('#facebook, .facebook_info').show();
       $('body').width($('body').width() + $('#facebook').width());
       $('.bottom_bar_container').width($('.panel_container').width());
@@ -40,4 +44,22 @@ function fbShowData() {
   }
 
   $('.notifications').html(serviceData.FB.HTML);
+}
+
+function fbMarkRead(e) {
+  var clickedElement = $(e.currentTarget);
+  $.ajax({
+    url: 'https://graph.facebook.com/v2.3/' + clickedElement.data('id') + '?unread=false&' + serviceData.FB.token,
+    type: 'POST'
+  })
+  .done(function(data) {
+    clickedElement.removeClass('unread');
+    clickedElement.removeAttr('data-id');
+    clickedElement.addClass('read');
+    serviceData.FB.HTML = $('#facebook .notifications').html();
+
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      backgroundPage.serviceData.FB.HTML = $('#facebook .notifications').html();
+    });
+  });
 }

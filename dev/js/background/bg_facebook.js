@@ -29,7 +29,8 @@ function FBHTML() {
     $.each(data.data, function(i, notification){
       var unread = notification.unread,
           title = notification.title,
-          link = notification.link;
+          link = notification.link,
+          id = notification.id,
           time = moment(new Date(notification.created_time));
 
       if (moment(time).isSame(moment(), 'day')) {
@@ -40,7 +41,7 @@ function FBHTML() {
       }
 
       if (unread) {
-        FacebookHTML += '<div class="core_item waves-effect unread">';
+        FacebookHTML += '<div class="core_item waves-effect unread" data-id=' + id + '>';
       } else {
         FacebookHTML += '<div class="core_item waves-effect read">';
       }
@@ -57,7 +58,6 @@ function FBHTML() {
         '</div>';
     });
 
-    console.log(FacebookHTML);
     localStorage.setItem('FacebookHTML', FacebookHTML);
     serviceData.FB.HTML = FacebookHTML;
   }
