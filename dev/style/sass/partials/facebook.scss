@@ -13,10 +13,19 @@
 
 .notifications {
   a {
-    @include text-truncate;
     text-decoration: none;
     line-height: 48px;
     display: block;
+
+    .notificationTitle {
+      @include text-truncate;
+      float: left;
+      width: 244px;
+    }
+
+    .notificationTime {
+      float: right;
+    }
   }
 
   .unread a {

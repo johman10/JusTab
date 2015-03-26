@@ -30,6 +30,14 @@ function FBHTML() {
       var unread = notification.unread,
           title = notification.title,
           link = notification.link;
+          time = moment(new Date(notification.created_time));
+
+      if (moment(time).isSame(moment(), 'day')) {
+        notificationDate = time.format("hh:mm A");
+      }
+      else {
+        notificationDate = time.format("MMM D, hh:mm A");
+      }
 
       if (unread) {
         FacebookHTML += '<div class="core_item waves-effect unread">';
@@ -37,9 +45,19 @@ function FBHTML() {
         FacebookHTML += '<div class="core_item waves-effect read">';
       }
 
-      FacebookHTML += '<a href="' + link + '" target="_blank">' + title + '</a></div>';
+      FacebookHTML +=
+          '<a href="' + link + '" target="_blank">' +
+            '<div class="notificationTitle">' +
+              title +
+            '</div>' +
+            '<div class="notificationTime">' +
+              notificationDate +
+            '</div>' +
+          '</a>' +
+        '</div>';
     });
 
+    console.log(FacebookHTML);
     localStorage.setItem('FacebookHTML', FacebookHTML);
     serviceData.FB.HTML = FacebookHTML;
   }

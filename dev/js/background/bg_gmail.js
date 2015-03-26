@@ -8,6 +8,9 @@ function getGmailData(length, callback) {
 }
 
 function getMailId(token, length, callback) {
+  // Make multiple e-mail adresses possible, instead of logged in user
+  // $.each(serviceData.GM.emails, function(i, email) {
+  // });
   chrome.identity.getProfileUserInfo(function(data) {
     var email = encodeURIComponent(data.email);
     var query = "&q=" + encodeURIComponent("-in:chats -in:sent -in:notes");
