@@ -1,12 +1,15 @@
 function getFacebookData(callback) {
   $.ajax({
-    url: "https://graph.facebook.com/me/notifications?include_read=true&" + serviceData.FB.token
+    type: "GET",
+    url: serviceData.FB.url,
+    dataType: 'xml',
+    contentType: 'application/rss+xml',
   })
-  .done(function(data) {
+  .done(function(xml) {
     localStorage.setItem("Facebook_error", false);
     serviceData.FB.error = false;
-    localStorage.setItem("Facebook", JSON.stringify(data));
-    serviceData.FB.JSON = data;
+    localStorage.setItem("Facebook", (new XMLSerializer()).serializeToString(xml));
+    serviceData.FB.JSON = xml;
     FBHTML();
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
@@ -15,6 +18,8 @@ function getFacebookData(callback) {
     serviceData.FB.error = true;
   })
   .always(function() {
+    FBHTML();
+
     if (callback) {
       callback();
     }
@@ -26,12 +31,10 @@ function FBHTML() {
     data = serviceData.FB.JSON;
     var FacebookHTML = '';
 
-    $.each(data.data, function(i, notification){
-      var unread = notification.unread,
-          title = notification.title,
-          link = notification.link,
-          id = notification.id,
-          time = moment(new Date(notification.created_time));
+    $(data).find('item').slice(0,25).each(function(){
+      var title = $(this).find('title').text(),
+          link = $(this).find('link').text(),
+          time = moment(new Date($(this).find('pubDate').text()));
 
       if (moment(time).isSame(moment(), 'day')) {
         notificationDate = time.format("hh:mm A");
@@ -40,13 +43,8 @@ function FBHTML() {
         notificationDate = time.format("MMM D, hh:mm A");
       }
 
-      if (unread) {
-        FacebookHTML += '<div class="core_item waves-effect unread" data-id=' + id + '>';
-      } else {
-        FacebookHTML += '<div class="core_item waves-effect read">';
-      }
-
       FacebookHTML +=
+        '<div class="core_item waves-effect">' +
           '<a href="' + link + '" target="_blank">' +
             '<div class="notificationTitle">' +
               title +

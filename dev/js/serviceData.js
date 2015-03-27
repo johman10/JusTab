@@ -4,6 +4,9 @@ function refreshServiceData() {
   serviceDataRefreshDone = $.Deferred();
 
   chrome.storage.sync.get(function(items) {
+    if (!$.isXMLDoc(localStorage.getItem('Facebook'))) {
+        localStorage.setItem('Facebook', '');
+    }
     serviceData = {
       "spinner": "<div id='spinnerContainer'><div class='spinner-layer blue'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer red'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer yellow'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer green'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div></div>",
       "GC": {
@@ -37,9 +40,9 @@ function refreshServiceData() {
         "refresh": parseFloat(items.FB_refresh),
         "bgFunctionName": 'getFacebookData',
         "feFunctionName": 'fbShowData',
-        "JSON": JSON.parse(localStorage.getItem('Facebook')),
-        "HTML": localStorage.getItem('FacebookHTML'),
-        "token": localStorage.getItem('FacebookToken')
+        "JSON": $.parseXML(localStorage.getItem('Facebook')),
+        "url": items.FB_url,
+        "HTML": localStorage.getItem('FacebookHTML')
       },
       "CPS": {
         "error": localStorage.getItem('CouchpotatoSnatched_error'),

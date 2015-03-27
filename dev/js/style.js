@@ -40,8 +40,8 @@ $(document).ready(function() {
       currentTabs = chrome.extension.getViews({type: 'tab'});
       console.log(e.originalEvent.key);
       chrome.runtime.getBackgroundPage(function(backgroundPage) {
-        backgroundPage.serviceDataFunction();
-        $.when(backgroundPage.serviceDataDone).then(function() {
+        backgroundPage.refreshServiceData();
+        $.when(backgroundPage.serviceDataRefreshDone).then(function() {
           $.each(currentTabs, function(index, tab) {
             if (tab.refreshServiceData) {
               tab.refreshServiceData();

@@ -1,5 +1,5 @@
 chrome.runtime.onStartup.addListener(function() {
-  serviceDataDone.done(function() {
+  serviceDataRefreshDone.done(function() {
     chrome.alarms.clearAll();
 
     $.each(serviceData, function(index, val) {
