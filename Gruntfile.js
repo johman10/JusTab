@@ -5,6 +5,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-push-release');
 
   grunt.initConfig({
     compass: {
@@ -47,6 +48,15 @@ module.exports = function(grunt) {
       }
     },
 
+    push: {
+      options: {
+        files: ['package.json', 'bower.json', 'dev/manifest.json'],
+        commitFiles: ['-a'], // '-a' for all files
+        createTag: false,
+        push: false,
+      }
+    },
+
     copy: {
       dist: {
         files: [{
@@ -84,6 +94,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', 'compass:dev');
   grunt.registerTask('dist', [
+    'push',
     'copy:dist',
     'compass:dist',
     'uglify:dist',
