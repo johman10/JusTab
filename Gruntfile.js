@@ -53,7 +53,7 @@ module.exports = function(grunt) {
         files: ['package.json', 'bower.json', 'dev/manifest.json'],
         commitFiles: ['-a'], // '-a' for all files
         createTag: false,
-        push: false,
+        push: true,
       }
     },
 
