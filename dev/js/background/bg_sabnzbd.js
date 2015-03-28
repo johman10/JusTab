@@ -64,7 +64,7 @@ function sabqHTML() {
 
   if (serviceData.SABQ.JSON) {
     var queueJson = serviceData.SABQ.JSON,
-        percentage = '',
+        left = '',
         timeLeft = '';
 
     if (queueJson.queue.mb != '0.00' && queueJson.queue.mbleft != '0.00') {
