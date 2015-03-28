@@ -72,8 +72,6 @@ function sbHTML() {
 }
 
 function listSeries(query, HTML, storageName, serviceDataTag) {
-  var promises = [];
-
   $.each(query, function(i, episodeData) {
     var tvdbid = episodeData.tvdbid,
         season = episodeData.season,
@@ -82,7 +80,7 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
         showname = episodeData.show_name,
         date, posterUrl;
 
-    promises.push($.ajax({
+    $.ajax({
       url: 'http://thetvdb.com/banners/posters/' + tvdbid + '-1.jpg',
       type: 'HEAD'
     })
@@ -132,11 +130,9 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
             "<div class='icon_button done_icon sb_mark_episode waves-effect' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "'></div>" +
           "</div>" +
         '</div>';
-    }));
-  });
-
-  $.when.apply($, promises).always(function() {
-    localStorage.setItem(storageName, HTML);
-    serviceData.SB[storageName] = HTML;
+    }).always(function() {
+      localStorage.setItem(storageName, HTML);
+      serviceData.SB[storageName] = HTML;
+    });
   });
 }
