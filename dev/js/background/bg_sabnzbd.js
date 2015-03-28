@@ -68,7 +68,7 @@ function sabqHTML() {
         timeLeft = '';
 
     if (queueJson.queue.mb != '0.00' && queueJson.queue.mbleft != '0.00') {
-      percentage = ' - ' + Math.round(100-(parseFloat(queueJson.queue.mbleft)/(parseFloat(queueJson.queue.mb)/100))).toString() + '%';
+      left = ' - ' + queueJson.queue.sizeleft + '/' + queueJson.queue.size;
     }
 
     if (queueJson.queue.timeleft != '0:00:00') {
@@ -76,7 +76,6 @@ function sabqHTML() {
     }
 
     $.each(queueJson.queue.slots, function(i, qItem) {
-      console.log(qItem);
       queue +=
         '<div class="core_item without_hover sab_item_container">' +
           '<div class="sab_item_name">' +
@@ -90,7 +89,7 @@ function sabqHTML() {
     status +=
       '<div class="core_item without_hover sab_status_container">' +
         '<div class="sab_status">' +
-          queueJson.queue.status + percentage +
+          queueJson.queue.status + left +
         '</div>' +
         '<div class="sab_time">' +
           timeLeft +

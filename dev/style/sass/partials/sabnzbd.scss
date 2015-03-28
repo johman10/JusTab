@@ -43,15 +43,19 @@
   color: $grey;
 }
 
-.sab_time {
-  right: 16px;
-  position: absolute;
-  line-height: 40px;
-}
-
 .sabnzbd_info {
   @include paper-shadow(1);
   line-height: 50px;
   background-color: $white;
   pointer-events: auto;
+
+  .sab_time {
+    right: 16px;
+    float: right;
+  }
+
+  .sab_status {
+    float: left;
+    width: 321px;
+  }
 }
