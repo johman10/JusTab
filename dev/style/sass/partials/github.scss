@@ -21,10 +21,14 @@
     color: $black;
     text-decoration: none;
     display: block;
-  }
 
-  a:visited {
-    color: $grey;
+    &:visited {
+      color: $grey;
+    }
+
+    &:hover {
+      color: $black;
+    }
   }
 
   .gh_title {

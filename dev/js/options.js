@@ -114,6 +114,7 @@ function save_options() {
     calendars: calendars,
     GC_days: $('#GC_days').val(),
     GC_refresh: $('#GC_refresh').val(),
+    GM_emails: $('#GM_emails').val(),
     GM_refresh: $('#GM_refresh').val(),
     FB_url: FB_url,
     FB_refresh: $('#FB_refresh').val(),
@@ -159,6 +160,7 @@ function restore_options() {
   $('#GC_days').val(serviceData.GC.days);
   $('#GC_refresh').val(serviceData.GC.refresh);
   $('input[type=checkbox][name=GM_status]').attr('checked', serviceData.GM.status);
+  $('#GM_emails').val(serviceData.GM.emails);
   $('#GM_refresh').val(serviceData.GM.refresh);
   $('input[type=checkbox][name=FB_status]').attr('checked', serviceData.FB.status);
   $('#FB_url').val(serviceData.FB.url);
