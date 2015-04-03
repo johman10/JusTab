@@ -18,18 +18,42 @@ $.when(serviceDataRefreshDone).done(function() {
       }
     });
   });
-
-  // chrome.runtime.onInstalled.addListener(function(event) {
-  //   alert(event);
-  // });
 });
+
+chrome.runtime.onInstalled.addListener(function(event) {
+  if (event.reason == "install") {
+    openOptions();
+  }
+  else if (event.reason == "update") {
+    var newVersion = chrome.runtime.getManifest().version;
+    createNotificaton(
+      { type: "basic",
+        title: "JusTab is updated",
+        message: "Go to support within the options page for more info about this update.",
+        iconUrl: "../../img/app_icons/JusTab-128x128.png"
+      },
+      chrome.notifications.onClicked.addListener(function() {
+        openOptions();
+      })
+    );
+  }
+});
+
+function openOptions() {
+  chrome.tabs.create({
+    'url': chrome.extension.getURL("options.html")
+  });
+}
+
+function createNotificaton(options, callback) {
+  if (!callback) {
+    callback = function() {};
+  }
+
+  chrome.notifications.create(getNotificationId(), options, callback);
+}
 
 function getNotificationId() {
   var id = Math.floor(Math.random() * 9007199254740992) + 1;
-  console.log(id.toString());
   return id.toString();
-}
-
-function createNotificaton(options) {
-  chrome.notifications.create(getNotificationId(), options);
 }
