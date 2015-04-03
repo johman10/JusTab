@@ -12,7 +12,6 @@ module.exports = function(grunt) {
     confirm: {
       dist: {
         options: {
-          // Static text.
           question: 'Did you update the changelog on the options page?',
           continue: function(answer) {
             return answer.toLowerCase() === 'y';
@@ -64,9 +63,7 @@ module.exports = function(grunt) {
       options: {
         files: ['package.json', 'bower.json', 'dev/manifest.json'],
         commitFiles: ['-a'], // '-a' for all files
-        createTag: false,
-        commit: false,
-        push: false,
+        createTag: false
       }
     },
 
