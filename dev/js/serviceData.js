@@ -1,4 +1,4 @@
-refreshServiceData();
+$(window).load(refreshServiceData());
 
 function refreshServiceData() {
   serviceDataRefreshDone = $.Deferred();
