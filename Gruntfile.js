@@ -6,6 +6,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-push-release');
+  grunt.loadNpmTasks('grunt-prompt');
 
   grunt.initConfig({
     prompt: {
@@ -112,6 +113,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', 'compass:dev');
   grunt.registerTask('dist', [
+    'prompt:dist',
     'push',
     'copy:dist',
     'compass:dist',
