@@ -26,7 +26,7 @@ function refreshServiceData() {
         "bgFunctionName": 'getGmailData',
         "feFunctionName": 'GmailShowData',
         "JSON": JSON.parse(localStorage.getItem('Gmail')),
-        "emails": new Array(items.GM_emails),
+        "emails": items.GM_emails.replace(/\s+/g, '').split(","),
         "ReadHTML": localStorage.getItem('GmailReadHTML'),
         "UnreadHTML": localStorage.getItem('GmailUnreadHTML'),
         "nextPage": localStorage.getItem('Gmail_page')
