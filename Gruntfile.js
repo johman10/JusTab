@@ -18,6 +18,10 @@ module.exports = function(grunt) {
               type: 'confirm', // list, checkbox, confirm, input, password
               message: 'Did you change the changelog before running Grunt?', // Question to ask the user, function needs to return a string,
               default: 'false', // default value if nothing is entered
+              validate: function(value) {
+                var valid = semver.valid(value);
+                return valid || 'Must be a valid semver, such as 1.2.3-rc1. See http://semver.org/ for more details.';
+              },
             }
           ]
         }
@@ -66,9 +70,9 @@ module.exports = function(grunt) {
     push: {
       options: {
         files: ['package.json', 'bower.json', 'dev/manifest.json'],
-        commitFiles: ['-a'], // '-a' for all files
+        // commitFiles: ['-a'], // '-a' for all files
         createTag: false,
-        push: true,
+        // push: true,
       }
     },
 
