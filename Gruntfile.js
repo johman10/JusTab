@@ -6,20 +6,17 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-push-release');
-  grunt.loadNpmTasks('grunt-prompt');
+  grunt.loadNpmTasks('grunt-confirm');
 
   grunt.initConfig({
-    prompt: {
+    confirm: {
       dist: {
         options: {
-          questions: [
-            {
-              config: 'dist.changelog', // arbitrary name or config for any other grunt task
-              type: 'confirm', // list, checkbox, confirm, input, password
-              message: 'Did you change the changelog before running Grunt?', // Question to ask the user, function needs to return a string,
-              default: 'false', // default value if nothing is entered
-            }
-          ]
+          // Static text.
+          question: 'Did you update the changelog on the options page?',
+          continue: function(answer) {
+            return answer.toLowerCase() === 'y';
+          }
         }
       }
     },
@@ -68,7 +65,8 @@ module.exports = function(grunt) {
         files: ['package.json', 'bower.json', 'dev/manifest.json'],
         commitFiles: ['-a'], // '-a' for all files
         createTag: false,
-        push: true,
+        commit: false,
+        push: false,
       }
     },
 
@@ -109,7 +107,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', 'compass:dev');
   grunt.registerTask('dist', [
-    'prompt:dist',
+    'confirm:dist',
     'push',
     'copy:dist',
     'compass:dist',

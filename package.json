@@ -3,6 +3,7 @@
   "version": "0.2.3",
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-confirm": "^0.1.10",
     "grunt-contrib-compass": "^1.0.1",
     "grunt-contrib-compress": "^0.13.0",
     "grunt-contrib-copy": "^0.8.0",
