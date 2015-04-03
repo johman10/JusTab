@@ -6,8 +6,23 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-push-release');
+  grunt.loadNpmTasks('grunt-prompt');
 
   grunt.initConfig({
+    prompt: {
+      dist: {
+        options: {
+          questions: [
+            {
+              config: 'dist.changelog', // arbitrary name or config for any other grunt task
+              type: 'confirm', // list, checkbox, confirm, input, password
+              message: 'Did you change the changelog before running Grunt?', // Question to ask the user, function needs to return a string,
+              default: 'false', // default value if nothing is entered
+            }
+          ]
+        }
+      }
+    },
     compass: {
       dev: {
         options: {
@@ -94,6 +109,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', 'compass:dev');
   grunt.registerTask('dist', [
+    'prompt:dist',
     'push',
     'copy:dist',
     'compass:dist',
