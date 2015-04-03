@@ -73,14 +73,6 @@ body {
   color: $text-color;
 }
 
-h1 {
-  font-size: 14px;
-  font-family: 'Roboto';
-  font-weight: 600;
-  color: $header-grey;
-  margin: 0;
-}
-
 h2 {
   height: 40px;
   line-height: 40px;
@@ -93,9 +85,5 @@ h2 {
 }
 
 p {
-  margin: 0 0 10px;
-}
-
-ul {
-  margin: 0 0 5px;
+  margin: 10px 0;
 }
