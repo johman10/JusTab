@@ -1,7 +1,7 @@
 // Docs:
 // https://github.com/HackerNews/API
 
-$(document).ready(function() {
+$(window).load(function() {
   $.when(serviceDataRefreshDone).done(function() {
     if (serviceData.HN.status) {
       window[serviceData.HN.feFunctionName]();

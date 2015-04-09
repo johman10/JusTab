@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(window).load(function() {
   $('img').attr('draggable', false);
 
   $('.settings_button, .error_settings_button').click(function(event) {

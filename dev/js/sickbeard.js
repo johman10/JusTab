@@ -1,7 +1,7 @@
 // Docs:
 // http://sickbeard.com/api
 
-$(document).ready(function() {
+$(window).load(function() {
   $.when(serviceDataRefreshDone).done(function() {
     if (serviceData.SB.status) {
       window[serviceData.SB.feFunctionName]();

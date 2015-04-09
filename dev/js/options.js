@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(window).load(function() {
   $.when(serviceDataRefreshDone).then(function() {
     $('#loading').html(serviceData.spinner);
 

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(window).load(function() {
   $.when(serviceDataRefreshDone).done(function() {
     if (serviceData.GC.status) {
       window[serviceData.GC.feFunctionName]();

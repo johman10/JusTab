@@ -2,7 +2,7 @@
 // http://nas.pxdesign.nl:5050/docs
 
 // "media.list" lists all movies, "movie.status" returns the status of the movie
-$(document).ready(function() {
+$(window).load(function() {
   $.when(serviceDataRefreshDone).done(function() {
     if (serviceData.CPS.status) {
       window[serviceData.CPS.feFunctionName]();

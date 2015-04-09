@@ -1,7 +1,7 @@
 // Docs:
 // http://developers.news.layervault.com/v2
 
-$(document).ready(function() {
+$(window).load(function() {
   $.when(serviceDataRefreshDone).done(function() {
     if (serviceData.DN.status) {
       window[serviceData.DN.feFunctionName]();
