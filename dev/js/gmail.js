@@ -1,32 +1,30 @@
-$(window).load(function() {
-  $.when(serviceDataRefreshDone).done(function() {
-    if (serviceData.GM.status) {
-      window[serviceData.GM.feFunctionName]();
+$.when(serviceDataRefreshDone).done(function() {
+  if (serviceData.GM.status) {
+    window[serviceData.GM.feFunctionName]();
 
-      $('.refresh_gmail').click(function() {
-        $('#gmail .error:visible').slideUp(400);
-        $('.refresh_gmail').fadeOut(400, function() {
-          $(this).html(serviceData.spinner);
-          $(this).fadeIn(400, function() {
-            chrome.runtime.getBackgroundPage(function(backgroundPage) {
-              backgroundPage.getGmailData(25, function() {
-                $('.refresh_gmail').fadeOut(400, function() {
-                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Gmail" draggable=false>');
-                  $(this).fadeIn(400);
-                });
+    $('.refresh_gmail').click(function() {
+      $('#gmail .error:visible').slideUp(400);
+      $('.refresh_gmail').fadeOut(400, function() {
+        $(this).html(serviceData.spinner);
+        $(this).fadeIn(400, function() {
+          chrome.runtime.getBackgroundPage(function(backgroundPage) {
+            backgroundPage.getGmailData(25, function() {
+              $('.refresh_gmail').fadeOut(400, function() {
+                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Gmail" draggable=false>');
+                $(this).fadeIn(400);
               });
             });
           });
         });
       });
+    });
 
-      $('#gmail .panel_content').bind('scroll', gmailCheckScroll);
+    $('#gmail .panel_content').bind('scroll', gmailCheckScroll);
 
-      $('#gmail, .gmail_info').show();
-      $('body').width($('body').width() + $('#gmail').width());
-      $('.bottom_bar_container').width($('.panel_container').width());
-    }
-  });
+    $('#gmail, .gmail_info').show();
+    $('body').width($('body').width() + $('#gmail').width());
+    $('.bottom_bar_container').width($('.panel_container').width());
+  }
 });
 
 function GmailShowData() {

@@ -1,82 +1,80 @@
-$(window).load(function() {
-  $.when(serviceDataRefreshDone).then(function() {
-    $('#loading').html(serviceData.spinner);
+$.when(serviceDataRefreshDone).then(function() {
+  $('#loading').html(serviceData.spinner);
 
-    restore_options();
+  restore_options();
 
-    chrome.identity.getAuthToken({ 'interactive': true },function (token) {
-      var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
-      var events = "";
+  chrome.identity.getAuthToken({ 'interactive': true },function (token) {
+    var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
+    var events = "";
 
-      $.ajax({
-        url: url + '?oauth_token=' + token
-      })
-      .done(function(data) {
-        $('#loading').hide();
+    $.ajax({
+      url: url + '?oauth_token=' + token
+    })
+    .done(function(data) {
+      $('#loading').hide();
 
-        var calendars_storage = serviceData.GC.calendars;
+      var calendars_storage = serviceData.GC.calendars;
 
-        $.each(data.items, function(l, calendar) {
-          if ($.inArray(calendar.id, calendars_storage) > -1) {
-            $('.calendar_select_container').append(
-              "<div class='calendar_checkbox checkbox_container checked' data-id=" + calendar.id + ">" +
-                "<div class='checkbox'>" +
-                  "<div class='checkbox_mark'></div>" +
-                "</div>" +
-                "<span class='checkbox_label'>" + calendar.summary + "</span>" +
-              "</div>"
-            );
-          }
-          else {
-            $('.calendar_select_container').append(
-              "<div class='calendar_checkbox checkbox_container' data-id=" + calendar.id + ">" +
-                "<div class='checkbox'>" +
-                  "<div class='checkbox_mark'></div>" +
-                "</div>" +
-                "<span class='checkbox_label'>" + calendar.summary + "</span>" +
-              "</div>"
-            );
-          }
-        });
+      $.each(data.items, function(l, calendar) {
+        if ($.inArray(calendar.id, calendars_storage) > -1) {
+          $('.calendar_select_container').append(
+            "<div class='calendar_checkbox checkbox_container checked' data-id=" + calendar.id + ">" +
+              "<div class='checkbox'>" +
+                "<div class='checkbox_mark'></div>" +
+              "</div>" +
+              "<span class='checkbox_label'>" + calendar.summary + "</span>" +
+            "</div>"
+          );
+        }
+        else {
+          $('.calendar_select_container').append(
+            "<div class='calendar_checkbox checkbox_container' data-id=" + calendar.id + ">" +
+              "<div class='checkbox'>" +
+                "<div class='checkbox_mark'></div>" +
+              "</div>" +
+              "<span class='checkbox_label'>" + calendar.summary + "</span>" +
+            "</div>"
+          );
+        }
       });
     });
+  });
 
-    $('.options_menu_icon').bind('click', function() {
-      if ($('.options_menu').hasClass('expanded')) {
-        $('.options_menu').removeClass('expanded');
-      } else {
-        $('.options_menu').addClass('expanded');
-      }
-    });
-
-    $('.options_menu_link').bind('click', function() {
-      var serviceName = $(this).data("title");
-      var serviceColor = '#' + $(this).data("color");
-
-      if (serviceName == "Support") {
-        $('.button_bar').hide();
-      }
-      else {
-        $('.button_bar').show();
-      }
-
+  $('.options_menu_icon').bind('click', function() {
+    if ($('.options_menu').hasClass('expanded')) {
       $('.options_menu').removeClass('expanded');
-      $('.options_window').hide();
-      $('.' + serviceName).show();
-      $('.options_menu_link').removeClass('active');
-      $(this).addClass('active');
-      $('.options_window_title').css('background-color', serviceColor);
-      $('.save_settings').css('color', serviceColor);
-      $('.options_window_title_text').text(serviceName);
-    });
+    } else {
+      $('.options_menu').addClass('expanded');
+    }
+  });
 
-    $(document).on('change', 'input[type="text"], .calendar_checkbox', function() {
-      save_options();
-    });
+  $('.options_menu_link').bind('click', function() {
+    var serviceName = $(this).data("title");
+    var serviceColor = '#' + $(this).data("color");
 
-    $('.switch input[type=checkbox]').bind('change', function() {
-      save_status_options();
-    });
+    if (serviceName == "Support") {
+      $('.button_bar').hide();
+    }
+    else {
+      $('.button_bar').show();
+    }
+
+    $('.options_menu').removeClass('expanded');
+    $('.options_window').hide();
+    $('.' + serviceName).show();
+    $('.options_menu_link').removeClass('active');
+    $(this).addClass('active');
+    $('.options_window_title').css('background-color', serviceColor);
+    $('.save_settings').css('color', serviceColor);
+    $('.options_window_title_text').text(serviceName);
+  });
+
+  $(document).on('change', 'input[type="text"], .calendar_checkbox', function() {
+    save_options();
+  });
+
+  $('.switch input[type=checkbox]').bind('change', function() {
+    save_status_options();
   });
 });
 

@@ -2,38 +2,36 @@
 // ttp://wiki.sabnzbd.org/api
 
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
-$(window).load(function() {
-  $.when(serviceDataRefreshDone).done(function() {
-    if (serviceData.SABQ.status) {
-      window[serviceData.SABQ.feFunctionName]();
+$.when(serviceDataRefreshDone).done(function() {
+  if (serviceData.SABQ.status) {
+    window[serviceData.SABQ.feFunctionName]();
 
-      $('.refresh_sab').click(function() {
-        $('#sabnzbd .error:visible').slideUp(400);
-        $('.refresh_sab').fadeOut(400, function() {
-          $(this).html(serviceData.spinner);
-          $(this).fadeIn(400, function() {
-            chrome.runtime.getBackgroundPage(function(backgroundPage) {
-              backgroundPage.getSabnzbdHistory(serviceData.SABH.length, function() {
-                backgroundPage.getSabnzbdQueue(function() {
-                  $('.refresh_sab').fadeOut(400, function() {
-                    $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sabnzbd" draggable=false>');
-                    $(this).fadeIn(400);
-                  });
+    $('.refresh_sab').click(function() {
+      $('#sabnzbd .error:visible').slideUp(400);
+      $('.refresh_sab').fadeOut(400, function() {
+        $(this).html(serviceData.spinner);
+        $(this).fadeIn(400, function() {
+          chrome.runtime.getBackgroundPage(function(backgroundPage) {
+            backgroundPage.getSabnzbdHistory(serviceData.SABH.length, function() {
+              backgroundPage.getSabnzbdQueue(function() {
+                $('.refresh_sab').fadeOut(400, function() {
+                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sabnzbd" draggable=false>');
+                  $(this).fadeIn(400);
                 });
               });
             });
           });
         });
       });
+    });
 
-      $('#sabnzbd .panel_content').bind('scroll', sabCheckScroll);
-      $('#sabnzbd .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.SABQ.url);
+    $('#sabnzbd .panel_content').bind('scroll', sabCheckScroll);
+    $('#sabnzbd .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.SABQ.url);
 
-      $('#sabnzbd, .sabnzbd_info').show();
-      $('body').width($('body').width() + $('#sabnzbd').width());
-      $('.bottom_bar_container').width($('.panel_container').width());
-    }
-  });
+    $('#sabnzbd, .sabnzbd_info').show();
+    $('body').width($('body').width() + $('#sabnzbd').width());
+    $('.bottom_bar_container').width($('.panel_container').width());
+  }
 });
 
 function sabShowData() {

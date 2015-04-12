@@ -1,33 +1,31 @@
-$(window).load(function() {
-  $.when(serviceDataRefreshDone).done(function() {
-    if (serviceData.GH.status) {
-      window[serviceData.GH.feFunctionName]();
+$.when(serviceDataRefreshDone).done(function() {
+  if (serviceData.GH.status) {
+    window[serviceData.GH.feFunctionName]();
 
-      $('.refresh_gh').click(function() {
-        $('#github .error:visible').slideUp(400);
+    $('.refresh_gh').click(function() {
+      $('#github .error:visible').slideUp(400);
 
-        $('.refresh_gh').fadeOut(400, function() {
-          $(this).html(serviceData.spinner);
-          $(this).fadeIn(400, function() {
-            chrome.runtime.getBackgroundPage(function(backgroundPage) {
-              backgroundPage.getGithubData(function() {
-                $('.refresh_gh').fadeOut(400, function() {
-                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Github" draggable=false>');
-                  $(this).fadeIn(400);
-                });
+      $('.refresh_gh').fadeOut(400, function() {
+        $(this).html(serviceData.spinner);
+        $(this).fadeIn(400, function() {
+          chrome.runtime.getBackgroundPage(function(backgroundPage) {
+            backgroundPage.getGithubData(function() {
+              $('.refresh_gh').fadeOut(400, function() {
+                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Github" draggable=false>');
+                $(this).fadeIn(400);
               });
             });
           });
         });
       });
+    });
 
-      $('#github .panel_header .panel_header_foreground .bottom a').attr('href', 'https://github.com/trending');
+    $('#github .panel_header .panel_header_foreground .bottom a').attr('href', 'https://github.com/trending');
 
-      $('#github, .github_info').show();
-      $('body').width($('body').width() + $('#github').width());
-      $('.bottom_bar_container').width($('.panel_container').width());
-    }
-  });
+    $('#github, .github_info').show();
+    $('body').width($('body').width() + $('#github').width());
+    $('.bottom_bar_container').width($('.panel_container').width());
+  }
 });
 
 function ghShowData() {

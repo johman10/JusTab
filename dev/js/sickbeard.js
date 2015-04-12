@@ -1,35 +1,33 @@
 // Docs:
 // http://sickbeard.com/api
 
-$(window).load(function() {
-  $.when(serviceDataRefreshDone).done(function() {
-    if (serviceData.SB.status) {
-      window[serviceData.SB.feFunctionName]();
+$.when(serviceDataRefreshDone).done(function() {
+  if (serviceData.SB.status) {
+    window[serviceData.SB.feFunctionName]();
 
-      $('#sickbeard .refresh_sb').click(function(event) {
-        $('#sickbeard .error:visible').slideUp(400);
-        $('.refresh_sb').fadeOut(400, function() {
-          $(this).html(serviceData.spinner);
-          $(this).fadeIn(400, function() {
-            chrome.runtime.getBackgroundPage(function(backgroundPage) {
-              backgroundPage.getSickBeardData(function() {
-                $('.refresh_sb').fadeOut(400, function() {
-                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sickbeard" draggable=false>');
-                  $(this).fadeIn(400);
-                });
+    $('#sickbeard .refresh_sb').click(function(event) {
+      $('#sickbeard .error:visible').slideUp(400);
+      $('.refresh_sb').fadeOut(400, function() {
+        $(this).html(serviceData.spinner);
+        $(this).fadeIn(400, function() {
+          chrome.runtime.getBackgroundPage(function(backgroundPage) {
+            backgroundPage.getSickBeardData(function() {
+              $('.refresh_sb').fadeOut(400, function() {
+                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sickbeard" draggable=false>');
+                $(this).fadeIn(400);
               });
             });
           });
         });
       });
+    });
 
-      $('#sickbeard .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.SB.url);
+    $('#sickbeard .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.SB.url);
 
-      $('#sickbeard, .sickbeard_info').show();
-      $('body').width($('body').width() + $('#sickbeard').width());
-      $('.bottom_bar_container').width($('.panel_container').width());
-    }
-  });
+    $('#sickbeard, .sickbeard_info').show();
+    $('body').width($('body').width() + $('#sickbeard').width());
+    $('.bottom_bar_container').width($('.panel_container').width());
+  }
 });
 
 $("html").on('click', ".sb_search_episode", function(event) {
