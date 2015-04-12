@@ -70,5 +70,9 @@
   .input_description {
     color: #4059a9;
     font-size: 10.5px;
+
+    a {
+      color: inherit;
+    }
   }
 }
