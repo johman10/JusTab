@@ -51,19 +51,25 @@ function calendarHTML() {
   var events = serviceData.GC.JSON.sort(sortCalendarResults);
 
   if (serviceData.GC.status) {
-    var today = moment();
-    var tomorrow = moment(new Date()).add(1, 'days');
     htmlData = '';
     eventDate = '';
 
     $.each(events, function(i, cEvent) {
-      formattedDate = moment(cEvent.start.dateTime || cEvent.start.date).calendar();
+      if (moment(cEvent.start.dateTime || cEvent.start.date).isBefore(moment(), 'day')) {
+        formattedDate = 'Today';
+      } else {
+        formattedDate = moment(cEvent.start.dateTime || cEvent.start.date).calendar();
+      }
 
-      if (moment(cEvent.start.dateTime || cEvent.start.date).isAfter(eventDate, 'day') || eventDate == '') {
+      if (moment(cEvent.start.dateTime || cEvent.start.date).isAfter(eventDate, 'day') || eventDate === '') {
         htmlData += '<h2>' + formattedDate + '</h2>';
       }
 
-      eventDate = moment(cEvent.start.dateTime || cEvent.start.date);
+      if (moment(cEvent.start.dateTime || cEvent.start.date).isBefore(moment(), 'day')) {
+        eventDate = moment();
+      } else {
+        eventDate = moment(cEvent.start.dateTime || cEvent.start.date);
+      }
 
       htmlData +=
         '<div class="core_item gc_item">' +
