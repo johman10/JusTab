@@ -62,8 +62,13 @@
     border-radius: 100%;
     background-repeat: no-repeat;
     background-position: 50%;
+    background-image: image-url("icons/thumb_up.svg");
 
     &:hover {
+      background-image: image-url("icons/thumb_up_voted.svg");
+    }
+
+    &.voted {
       background-image: image-url("icons/thumb_up_voted.svg");
     }
   }

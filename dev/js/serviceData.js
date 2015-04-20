@@ -130,7 +130,11 @@ function refreshServiceData() {
         "bgFunctionName": 'getDesignerNewsData',
         "feFunctionName": 'dnShowData',
         "JSON": JSON.parse(localStorage.getItem('Designernews')),
-        "HTML": localStorage.getItem('DesignernewsHTML')
+        "HTML": localStorage.getItem('DesignernewsHTML'),
+        "username": items.DN_username,
+        "password": items.DN_password,
+        "token": localStorage.getItem('DesignernewsToken'),
+        "me": JSON.parse(localStorage.getItem('DesignernewsMe'))
       },
       "HN": {
         "error": localStorage.getItem('Hackernews_error'),

@@ -18,6 +18,21 @@ $.when(serviceDataRefreshDone).done(function() {
       }
     });
   });
+
+  // Get accesstoken from DesignerNews
+  url = "https://api-news.layervault.com/oauth/token";
+  apiCall = "?grant_type=password&username=" + serviceData.DN.username + "&password=" + serviceData.DN.password;
+  $.ajax({
+    url: url + apiCall,
+    type: 'POST',
+  })
+  .done(function(data) {
+    localStorage.setItem('DesignernewsToken', "Bearer " + data.access_token);
+    serviceData.DN.token = "Bearer " + data.access_token;
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+  });
 });
 
 chrome.runtime.onInstalled.addListener(function(event) {

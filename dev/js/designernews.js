@@ -48,3 +48,23 @@ function dnShowData() {
 
   $('.dn_links').html(serviceData.DN.HTML);
 }
+
+function dnUpvote(object) {
+  var url = "https://api-news.layervault.com/api/v2/upvotes";
+  var user_id = serviceData.DN.me.users[0].id;
+
+  $.ajax({
+    url: url,
+    type: 'POST',
+    data: { "upvotes": { "links": { "story": $(object).data('id'), "user": user_id } } },
+  })
+  .done(function() {
+    console.log("success");
+  })
+  .fail(function() {
+    console.log("error");
+  })
+  .always(function() {
+    console.log("complete");
+  });
+}

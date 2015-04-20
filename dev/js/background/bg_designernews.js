@@ -2,21 +2,32 @@
 // http://developers.news.layervault.com/
 
 function getDesignerNewsData(callback) {
+  // Get stories from DesignerNews
   var url = 'https://api-news.layervault.com/api/v2/';
   var apiCall = "stories";
   var apiKey = "?client_id=e7c9f9422feb744c661cc25a248d3b7206962f0605e174ae30aab12a05fb107a";
 
-  $.ajax({
-    url: url + apiCall + apiKey
-  })
-  .done(function(data) {
+  $.when(
+    $.ajax({
+      url: url + apiCall + apiKey
+    }),
+    $.ajax({
+      url: "https://api-news.layervault.com/api/v2/me",
+      headers: {
+        "Authorization": serviceData.DN.token
+      }
+    })
+  )
+  .done(function(stories, me) {
     localStorage.setItem("Designernews_error", false);
     serviceData.DN.error = false;
-    localStorage.setItem("Designernews", JSON.stringify(data));
-    serviceData.DN.JSON = data;
+    localStorage.setItem("Designernews", JSON.stringify(stories[0]));
+    serviceData.DN.JSON = stories[0];
+    localStorage.setItem("DesignernewsMe", JSON.stringify(me[0].users[0]));
+    serviceData.DN.me = me[0].users[0];
     dnHTML();
   })
-  .fail(function() {
+  .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
     localStorage.setItem("Designernews_error", true);
     serviceData.DN.error = true;
@@ -33,6 +44,7 @@ function dnHTML() {
     data = serviceData.DN.JSON;
     upvotes = serviceData.DN.upvotes;
     var dn_links = '';
+    var upvotes = serviceData.DN.me.links.upvotes;
 
     $.each(data.stories, function(i, story) {
       if (!story.url) {
@@ -54,8 +66,15 @@ function dnHTML() {
           '</a>' +
           '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn_comments_url" target="_blank">' +
             story.comment_count + ' comments - ' + story.vote_count + ' points' +
-          '</a>' +
-        '</div>';
+          '</a>';
+
+      if (upvotes.indexOf(story.id) > -1) {
+        dn_links += '<div class="dn_upvote voted" data-id=' + story.id + '></div>';
+      } else {
+        dn_links += '<div class="dn_upvote" data-id=' + story.id + '></div>';
+      }
+
+      dn_links += '</div>';
     });
 
     localStorage.setItem('DesignernewsHTML', dn_links);

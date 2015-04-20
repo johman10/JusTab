@@ -69,7 +69,7 @@ $.when(serviceDataRefreshDone).then(function() {
     $('.options_window_title_text').text(serviceName);
   });
 
-  $(document).on('change', 'input[type="text"], .calendar_checkbox', function() {
+  $(document).on('change', 'input[type="text"], input[type="password"], .calendar_checkbox', function() {
     save_options();
   });
 
