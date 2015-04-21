@@ -51,20 +51,24 @@ function dnShowData() {
 
 function dnUpvote(object) {
   var url = "https://api-news.layervault.com/api/v2/upvotes";
-  var user_id = serviceData.DN.me.users[0].id;
+  var user_id = serviceData.DN.me.id.toString();
+  var story_id = $(object).data('id').toString();
+
+  console.log(serviceData.DN.token);
 
   $.ajax({
     url: url,
     type: 'POST',
-    data: { "upvotes": { "links": { "story": $(object).data('id'), "user": user_id } } },
+    headers: {
+      "Authorization": serviceData.DN.token,
+      "Content-Type": "application/vnd.api+json"
+    },
+    data: '{ "upvotes": { "links": { "story": ' + story_id + ', "user": ' + user_id + ' } } }'
   })
   .done(function() {
-    console.log("success");
+    $(object).addClass('voted');
   })
-  .fail(function() {
-    console.log("error");
-  })
-  .always(function() {
-    console.log("complete");
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
   });
 }

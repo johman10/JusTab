@@ -12,13 +12,14 @@ function getDesignerNewsData(callback) {
       url: url + apiCall + apiKey
     }),
     $.ajax({
-      url: "https://api-news.layervault.com/api/v2/me",
+      url: "https://api-news.layervault.com/api/v2/me?include=upvotes",
       headers: {
         "Authorization": serviceData.DN.token
       }
     })
   )
   .done(function(stories, me) {
+    console.log(me);
     localStorage.setItem("Designernews_error", false);
     serviceData.DN.error = false;
     localStorage.setItem("Designernews", JSON.stringify(stories[0]));
@@ -41,8 +42,7 @@ function getDesignerNewsData(callback) {
 
 function dnHTML() {
   if (serviceData.DN.JSON) {
-    data = serviceData.DN.JSON;
-    upvotes = serviceData.DN.upvotes;
+    var data = serviceData.DN.JSON;
     var dn_links = '';
     var upvotes = serviceData.DN.me.links.upvotes;
 

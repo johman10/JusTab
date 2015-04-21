@@ -67,8 +67,8 @@
   }
 
   .service_toggle {
-      float: right;
-    }
+    float: right;
+  }
 }
 
 .options_content {
@@ -94,19 +94,8 @@
   }
 }
 
-.facebook_login {
-  display: block;
-  font-size: 14px;
-  color: $white;
-  border-radius: 2px;
-  text-decoration: none;
-  background-color: $facebook-color;
-  width: 75px;
-
-  img {
-    vertical-align: middle;
-    margin: 5px;
-  }
+.DN_login_status {
+  @include spinner(#000);
 }
 
 .toast_message {

@@ -1,7 +1,9 @@
 $.when(serviceDataRefreshDone).then(function() {
-  $('#loading').html(serviceData.spinner);
-
+  // Restore options
   restore_options();
+
+  // Build list of calendars
+  $('#loading').html(serviceData.spinner);
 
   chrome.identity.getAuthToken({ 'interactive': true },function (token) {
     var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
@@ -40,6 +42,7 @@ $.when(serviceDataRefreshDone).then(function() {
     });
   });
 
+  // Responsive menu
   $('.options_menu_icon').bind('click', function() {
     if ($('.options_menu').hasClass('expanded')) {
       $('.options_menu').removeClass('expanded');
@@ -48,6 +51,7 @@ $.when(serviceDataRefreshDone).then(function() {
     }
   });
 
+  // Change view when clicked on object in menu
   $('.options_menu_link').bind('click', function() {
     var serviceName = $(this).data("title");
     var serviceColor = '#' + $(this).data("color");
@@ -69,10 +73,27 @@ $.when(serviceDataRefreshDone).then(function() {
     $('.options_window_title_text').text(serviceName);
   });
 
+  // Save options on change of fields
   $(document).on('change', 'input[type="text"], input[type="password"], .calendar_checkbox', function() {
     save_options();
   });
 
+  // Designernews login on change of field
+  $(document).on('change', '#DN_username, #DN_password', function() {
+    designerNewsLogin();
+  });
+
+  if (serviceData.DN.token) {
+    $('.DN_login_status').html(
+      "<div class='done_all_icon'></div>"
+    );
+  } else {
+    $('.DN_login_status').html(
+      "<div class='error_icon'></div>"
+    );
+  }
+
+  // Switch change function
   $('.switch input[type=checkbox]').bind('change', function() {
     save_status_options();
   });
@@ -197,4 +218,30 @@ function formatUrl(fieldname) {
   else {
     return "http://" + $('#' + fieldname).val();
   }
+}
+
+function designerNewsLogin() {
+  $('.DN_login_status').html(serviceData.spinner);
+  var password = $('#DN_password').val();
+  var username = $('#DN_username').val();
+  var url = "https://api-news.layervault.com/oauth/token";
+  var apiCall = "?grant_type=password&username=" + username + "&password=" + password;
+
+  $.ajax({
+    url: url + apiCall,
+    type: 'POST',
+  })
+  .done(function(data) {
+    localStorage.setItem('DesignernewsToken', "Bearer " + data.access_token);
+    serviceData.DN.token = "Bearer " + data.access_token;
+    $('.DN_login_status').html(
+      "<div class='done_all_icon'></div>"
+    );
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+    $('.DN_login_status').html(
+      "<div class='error_icon'></div>"
+    );
+  });
 }
