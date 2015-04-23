@@ -19,7 +19,6 @@ function getDesignerNewsData(callback) {
     })
   )
   .done(function(stories, me) {
-    console.log(me);
     localStorage.setItem("Designernews_error", false);
     serviceData.DN.error = false;
     localStorage.setItem("Designernews", JSON.stringify(stories[0]));
