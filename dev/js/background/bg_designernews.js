@@ -67,7 +67,8 @@ function dnHTML() {
             story.comment_count + ' comments - ' + story.vote_count + ' points' +
           '</a>';
 
-      if (upvotes.indexOf(story.id) > -1) {
+      //  This is not tested yet
+      if (serviceData.DN.upvotes.indexOf(story.id) > -1) {
         dn_links += '<div class="dn_upvote voted" data-id=' + story.id + '></div>';
       } else {
         dn_links += '<div class="dn_upvote" data-id=' + story.id + '></div>';

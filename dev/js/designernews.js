@@ -54,8 +54,6 @@ function dnUpvote(object) {
   var user_id = serviceData.DN.me.id.toString();
   var story_id = $(object).data('id').toString();
 
-  console.log(serviceData.DN.token);
-
   $.ajax({
     url: url,
     type: 'POST',
@@ -66,6 +64,9 @@ function dnUpvote(object) {
     data: '{ "upvotes": { "links": { "story": ' + story_id + ', "user": ' + user_id + ' } } }'
   })
   .done(function() {
+    // Not sure if this works yet... I guess this is right though.
+    localStorage.setItem('DesignernewsUpvotes');
+    serviceData.DN.upvotes.push(story_id);
     $(object).addClass('voted');
   })
   .fail(function(xhr, ajaxOptions, thrownError) {

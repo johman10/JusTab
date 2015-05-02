@@ -1,6 +1,12 @@
 $(document).ready(refreshServiceData());
 
 function refreshServiceData() {
+
+  // I'm probably gonna need this little fallback for if there is no array of votes
+  if (!localStorage.getItem('DesigernewsUpvotes')) {
+    localStorage.setItem('DesigernewsUpvotes', []);
+  }
+
   serviceDataRefreshDone = $.Deferred();
 
   chrome.storage.sync.get(function(items) {
@@ -134,7 +140,8 @@ function refreshServiceData() {
         "username": items.DN_username,
         "password": items.DN_password,
         "token": localStorage.getItem('DesignernewsToken'),
-        "me": JSON.parse(localStorage.getItem('DesignernewsMe'))
+        "me": JSON.parse(localStorage.getItem('DesignernewsMe')),
+        "upvotes": localStorage.getItem('DesigernewsUpvotes')
       },
       "HN": {
         "error": localStorage.getItem('Hackernews_error'),

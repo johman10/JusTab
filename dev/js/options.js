@@ -162,14 +162,11 @@ function save_options() {
     });
 
     var status = $('.status');
-    status.fadeIn('200');
     status.html('Options saved.');
     status.css('bottom', '16px');
     setTimeout(function() {
-      status.fadeOut('200', function() {
-        status.html('');
-      });
       status.css('bottom', '-48px');
+      status.html('');
     }, 1000);
   });
 }
