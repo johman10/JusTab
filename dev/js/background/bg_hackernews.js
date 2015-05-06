@@ -71,6 +71,6 @@ function hnHTML() {
     });
 
     localStorage.setItem('HackernewsHTML', hn_links);
-    serviceData.DN.HTML = hn_links;
+    serviceData.HN.HTML = hn_links;
   }
 }

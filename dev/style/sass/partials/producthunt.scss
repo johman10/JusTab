@@ -1,0 +1,46 @@
+.panel_producthunt_background {
+  .panel_header_background1 {
+    background-color: $producthunt-color;
+  }
+
+  .panel_header_background2 {
+    background-image: image-url('PH_header.svg');
+    background-size: auto 150px;
+    background-position: 125%;
+    background-color: $producthunt-color;
+  }
+}
+
+.ph_links {
+  .core_item {
+    height: 72px;
+  }
+
+  a {
+    @include text-truncate;
+    color: $black;
+    text-decoration: none;
+    display: block;
+
+    &:visited {
+      color: $grey;
+    }
+
+    &:hover {
+      color: $black;
+    }
+  }
+
+  .ph_story_url {
+    @include text-truncate;
+    line-height: initial;
+    padding: 17px 0 0;
+  }
+
+  .ph_comments_url {
+    @include text-truncate;
+    line-height: initial;
+    padding: 0 0 17px;
+    color: gray;
+  }
+}

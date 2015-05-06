@@ -100,6 +100,15 @@
         </label>
       </div>
     </div>
+    <div class="options_menu_link waves-effect" data-title="ProductHunt" data-color="DF5337">
+      Product Hunt
+      <div class="switch service_toggle">
+        <label>
+          <input type="checkbox" name="PH_status">
+          <span class="lever"></span>
+        </label>
+      </div>
+    </div>
 
     <div class="options_menu_link support waves-effect" data-title="Support" data-color="03A9F4">
       Support
@@ -275,13 +284,23 @@
       </div>
     </div>
 
+    <div class="options_window ProductHunt">
+      <div class="input_container">
+        <input type="text" name="PH_refresh" id="PH_refresh" required>
+        <span class="input_bar"></span>
+        <label>Refresh rate (in minutes)</label>
+      </div>
+    </div>
+
     <div class="options_window Support">
       <p>This application is made by Johan van Eck.</p>
       <h1>Changelog</h1>
       <p>
         The last update contains:
         <ul>
-          <li>Fix for option page problems</li>
+          <li>Added Product Hunt intergration</li>
+          <li>Added upvotes for Designer News</li>
+          <li>Fix for none numeric value refresh rate</li>
         </ul>
       </p>
       <h1>Questions</h1>

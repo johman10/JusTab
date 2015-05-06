@@ -110,6 +110,7 @@ function save_status_options() {
     DN_status: $('input[type=checkbox][name=DN_status]').is(':checked'),
     HN_status: $('input[type=checkbox][name=HN_status]').is(':checked'),
     GH_status: $('input[type=checkbox][name=GH_status]').is(':checked'),
+    PH_status: $('input[type=checkbox][name=PH_status]').is(':checked')
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
@@ -155,7 +156,8 @@ function save_options() {
     DN_password: $('#DN_password').val(),
     DN_refresh: $('#DN_refresh').val(),
     HN_refresh: $('#HN_refresh').val(),
-    GH_refresh: $('#GH_refresh').val()
+    GH_refresh: $('#GH_refresh').val(),
+    PH_refresh: $('#PH_refresh').val()
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
@@ -206,6 +208,8 @@ function restore_options() {
   $('#HN_refresh').val(serviceData.HN.refresh);
   $('input[type=checkbox][name=GH_status]').attr('checked', serviceData.GH.status);
   $('#GH_refresh').val(serviceData.GH.refresh);
+  $('input[type=checkbox][name=PH_status]').attr('checked', serviceData.PH.status);
+  $('#PH_refresh').val(serviceData.PH.refresh);
 }
 
 function formatUrl(fieldname) {
