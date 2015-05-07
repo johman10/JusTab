@@ -29,7 +29,8 @@ $(window).load(function() {
       'SabnzbdHistoryHTML': sabShowData,
       'DesignernewsHTML': dnShowData,
       'HackernewsHTML': hnShowData,
-      'GithubHTML': ghShowData
+      'GithubHTML': ghShowData,
+      'ProductHuntHTML': phShowData
     };
 
     if (e.originalEvent.key.indexOf('_error') != -1) {

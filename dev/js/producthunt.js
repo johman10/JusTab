@@ -9,7 +9,7 @@ $.when(serviceDataRefreshDone).done(function() {
         $(this).html(serviceData.spinner);
         $(this).fadeIn(400, function() {
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getGithubData(function() {
+            backgroundPage.getProductHuntData(function() {
               $('.refresh_ph').fadeOut(400, function() {
                 $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Product Hunt" draggable=false>');
                 $(this).fadeIn(400);
@@ -28,7 +28,7 @@ $.when(serviceDataRefreshDone).done(function() {
   }
 });
 
-function productHuntShowEvents() {
+function phShowData() {
   $('.ph_links').empty();
   var error = serviceData.PH.error;
 

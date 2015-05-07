@@ -170,7 +170,7 @@ function refreshServiceData() {
         "alarmName": 'productHunt',
         "refresh": isNaN(parseFloat(items.PH_refresh)) ? 15 : parseFloat(items.PH_refresh),
         "bgFunctionName": 'getProductHuntData',
-        "feFunctionName": 'productHuntShowEvents',
+        "feFunctionName": 'phShowData',
         "JSON": JSON.parse(localStorage.getItem('ProductHunt')),
         "HTML": localStorage.getItem('ProductHuntHTML')
       },
