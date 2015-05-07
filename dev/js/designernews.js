@@ -54,29 +54,26 @@ function dnUpvote(object) {
   var user_id = serviceData.DN.me.id.toString();
   var story_id = $(object).data('id').toString();
 
-  var upvotes = $.parseJSON(serviceData.DN.upvotes);
-  upvotes.push(parseFloat(story_id));
-  localStorage.setItem('DesignernewsUpvotes', upvotes);
-  serviceData.DN.upvotes = upvotes;
-
-  // $.ajax({
-  //   url: url,
-  //   type: 'POST',
-  //   headers: {
-  //     "Authorization": serviceData.DN.token,
-  //     "Content-Type": "application/vnd.api+json"
-  //   },
-  //   data: '{ "upvotes": { "links": { "story": ' + story_id + ', "user": ' + user_id + ' } } }'
-  // })
-  // .done(function() {
-  //   var currentUpvotes = new Array(serviceData.DN.upvotes);
-  //   console.log(currentUpvotes);
-  //   var newUpvotes = currentUpvotes.push(story_id);
-  //   localStorage.setItem('DesignernewsUpvotes', newUpvotes);
-  //   serviceData.DN.upvotes = newUpvotes;
-  //   $(object).addClass('voted');
-  // })
-  // .fail(function(xhr, ajaxOptions, thrownError) {
-  //   console.log(xhr, ajaxOptions, thrownError);
-  // });
+  $.ajax({
+    url: url,
+    type: 'POST',
+    headers: {
+      "Authorization": serviceData.DN.token,
+      "Content-Type": "application/vnd.api+json"
+    },
+    data: '{ "upvotes": { "links": { "story": ' + story_id + ', "user": ' + user_id + ' } } }'
+  })
+  .done(function() {
+    upvotes = serviceData.DN.upvotes;
+    upvotes += ',' + story_id;
+    localStorage.setItem('DesignernewsUpvotes', upvotes);
+    serviceData.DN.upvotes = upvotes;
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      backgroundPage.serviceData.DN.upvotes = upvotes;
+    });
+    $(object).addClass('voted');
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+  });
 }

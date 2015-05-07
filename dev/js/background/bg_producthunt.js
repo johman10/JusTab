@@ -1,6 +1,6 @@
 function getProductHuntData(callback) {
-  var url = 'https://api.producthunt.com/v1/';
-  var apiCall = "oauth/token";
+  var url = 'https://api.producthunt.com/v1/',
+      apiCall = "oauth/token";
 
   // Need to find out how to send form-data with ajax call
   // See local postman for more info/
@@ -51,8 +51,8 @@ function getProductHuntStories(token, callback) {
 
 function phHTML() {
   if (serviceData.PH.JSON) {
-    data = serviceData.PH.JSON;
-    var ph_links = '';
+    var data = serviceData.PH.JSON,
+        ph_links = '';
 
     $.each(data.posts, function(i, story) {
       ph_links +=

@@ -141,7 +141,7 @@ function refreshServiceData() {
         "password": items.DN_password,
         "token": localStorage.getItem('DesignernewsToken'),
         "me": JSON.parse(localStorage.getItem('DesignernewsMe')),
-        "upvotes": localStorage.getItem('DesigernewsUpvotes')
+        "upvotes": localStorage.getItem('DesignernewsUpvotes')
       },
       "HN": {
         "error": localStorage.getItem('Hackernews_error'),
