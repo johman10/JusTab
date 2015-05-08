@@ -67,10 +67,12 @@ function dnHTML() {
             story.comment_count + ' comments - ' + story.vote_count + ' points' +
           '</a>';
 
-      if (serviceData.DN.upvotes && serviceData.DN.upvotes.indexOf(story.id) > -1) {
-        dn_links += '<div class="dn_upvote voted" data-id=' + story.id + '></div>';
-      } else {
-        dn_links += '<div class="dn_upvote" data-id=' + story.id + '></div>';
+      if (serviceData.DN.token !== '') {
+        if (serviceData.DN.upvotes && serviceData.DN.upvotes.indexOf(story.id) > -1) {
+          dn_links += '<div class="dn_upvote voted" data-id=' + story.id + '></div>';
+        } else {
+          dn_links += '<div class="dn_upvote" data-id=' + story.id + '></div>';
+        }
       }
 
       dn_links += '</div>';

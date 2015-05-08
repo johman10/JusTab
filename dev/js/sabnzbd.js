@@ -59,7 +59,7 @@ function sabCheckScroll(e) {
   var newLength = parseFloat($('#sabnzbd .sab_item_container').length) + parseFloat(serviceData.SABH.length);
   if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight()) {
     if ($('#sabnzbd .history .loading_bar').length === 0) {
-      $('#sabnzbd .history').append('<div class="core_item loading_bar">' + serviceData.spinner + '</div>');
+      $('#sabnzbd .history').append('<div class="core_item without_hover loading_bar">' + serviceData.spinner + '</div>');
     }
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.getSabnzbdHistory(newLength);

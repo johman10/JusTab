@@ -57,7 +57,10 @@ function cpShowData() {
     $('.snatched').html(serviceData.CPS.HTML);
     $('.wanted').html(serviceData.CPW.HTML);
 
-    $('.cp_poster').unveil();
+    $('.cp_poster').unveil(50, function() {
+      var original = 'img/poster_fallback.png';
+      this.onerror = function(e) {this.src = original;};
+    });
 
     if ($('.snatched .core_item').length === 0) {
       $('.snatched').html('<h2>Snatched</h2><div class="core_item without_hover">No snatched movies at this moment.</div>');
@@ -94,7 +97,7 @@ function couchpotatoCheckScroll(e) {
   var length = $('#couchpotato .wanted .cp_item').length;
   if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight() && length < serviceData.CPW.JSON.total) {
     if ($('#couchpotato .wanted .loading_bar').length === 0) {
-      $('#couchpotato .wanted').append('<div class="core_item loading_bar">' + serviceData.spinner + '</div>');
+      $('#couchpotato .wanted').append('<div class="core_item without_hover loading_bar">' + serviceData.spinner + '</div>');
     }
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.getWantedCouchPotato(length + 25);
