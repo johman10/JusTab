@@ -11,36 +11,50 @@
   }
 }
 
-.ph_links {
-  .core_item {
-    height: 72px;
-  }
+.ph_link_container {
+  height: 72px;
+  line-height: initial;
 
-  a {
-    @include text-truncate;
-    color: $black;
-    text-decoration: none;
+  .ph_story_url {
     display: block;
-
-    &:visited {
-      color: $grey;
-    }
+    @include text-truncate;
+    left: 72px;
+    padding: 17px 0 0;
+    height: auto;
+    text-decoration: none;
+    color: $black;
+    width: 328px;
+    height: 100%;
 
     &:hover {
       color: $black;
     }
-  }
 
-  .ph_story_url {
-    @include text-truncate;
-    line-height: initial;
-    padding: 17px 0 0;
+    &:visited {
+      color: $grey;
+    }
   }
 
   .ph_comments_url {
+    position: absolute;
     @include text-truncate;
-    line-height: initial;
-    padding: 0 0 17px;
-    color: gray;
+    text-decoration: none;
+    color: $grey;
+    top: initial;
+    left: initial;
+    right: initial;
+    bottom: 17px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &:hover {
+    background-color: $hover-color;
+
+    .ph_story_url {
+      color: $black;
+    }
   }
 }
