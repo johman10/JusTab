@@ -11,6 +11,7 @@ At this moment it supports:
 - [Designer News](news.layervault.com)
 - [Hacker News](https://news.ycombinator.com/)
 - [Github Trending RSS](http://ghtrendingrss.appspot.com/)
+- [Product Hunt](https://www.producthunt.com)
 
 ## Installation
 If you want to install this extension
