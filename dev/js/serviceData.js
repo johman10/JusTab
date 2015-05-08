@@ -140,7 +140,7 @@ function refreshServiceData() {
         "username": items.DN_username,
         "password": items.DN_password,
         "token": localStorage.getItem('DesignernewsToken'),
-        "me": JSON.parse(localStorage.getItem('DesignernewsMe')),
+        "me": localStorage.getItem('DesignernewsMe') !== undefined ? '' : JSON.parse(localStorage.getItem('DesignernewsMe')),
         "upvotes": localStorage.getItem('DesignernewsUpvotes')
       },
       "HN": {

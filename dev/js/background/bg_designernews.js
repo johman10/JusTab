@@ -43,7 +43,6 @@ function dnHTML() {
   if (serviceData.DN.JSON) {
     var data = serviceData.DN.JSON;
     var dn_links = '';
-    var upvotes = serviceData.DN.me.links.upvotes;
 
     $.each(data.stories, function(i, story) {
       if (!story.url) {
@@ -67,7 +66,7 @@ function dnHTML() {
             story.comment_count + ' comments - ' + story.vote_count + ' points' +
           '</a>';
 
-      if (serviceData.DN.token !== '') {
+      if (serviceData.DN.token !== null) {
         if (serviceData.DN.upvotes && serviceData.DN.upvotes.indexOf(story.id) > -1) {
           dn_links += '<div class="dn_upvote voted" data-id=' + story.id + '></div>';
         } else {
