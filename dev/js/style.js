@@ -1,17 +1,24 @@
 $(window).load(function() {
+  // Sort HTML based on array
+  sortServices($('.panel_container'), $('.bottom_bar_container'));
+
+  // Make images non-draggable
   $('img').attr('draggable', false);
 
+  // Set settings button click action
   $('.settings_button, .error_settings_button').click(function(event) {
     chrome.tabs.create({
       'url': chrome.extension.getURL("options.html")
     });
   });
 
+  // Error retry button call action
   $('.error_retry_button').click(function(event) {
     var refresh_button = $(this).closest('.panel_content').prev('.panel_header').find('.refresh_button');
     refresh_button.click();
   });
 
+  // On storage change functions
   $(window).bind('storage', function (e) {
     var storageFunctions = {
       'CalendarHTML': calenderShowEvents,
@@ -57,6 +64,16 @@ $(window).load(function() {
     }
   });
 });
+
+function sortServices(panelcontainer, bottomcontainer) {
+  var serviceOrder = localStorage.getItem('serviceOrder').split(',');
+  $.each(serviceOrder, function(index, val) {
+    serviceHTML = panelcontainer.find("[data-service-id=" + val + "]");
+    panelcontainer.append(serviceHTML);
+    serviceBottom = bottomcontainer.find("[data-service-id=" + val + "]");
+    bottomcontainer.append(serviceBottom);
+  });
+}
 
 function errorChange(e) {
   serviceName = e.key.replace('_error', '').toLowerCase();

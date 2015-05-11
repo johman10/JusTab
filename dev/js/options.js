@@ -2,6 +2,28 @@ $.when(serviceDataRefreshDone).then(function() {
   // Restore options
   restore_options();
 
+  // Drag services in sidebar
+  dragula(
+    [document.getElementById('services_menu')],
+    {
+      moves: function (el, container, handle) {
+        return handle.className === 'drag_handle';
+      },
+      direction: 'vertical'
+    }
+  ).on('dragend', function(el, container, source) {
+    var serviceOrder = [];
+    $('.options_menu_link').each(function(index, el) {
+      el = $(el);
+      console.log(el.data('title'));
+      if (el.data('service-id')) {
+        serviceOrder.push($(el).data('service-id'));
+        console.log(serviceOrder);
+      }
+    });
+    localStorage.setItem('serviceOrder', serviceOrder);
+  });
+
   // Build list of calendars
   $('#loading').html(serviceData.spinner);
 
@@ -39,6 +61,18 @@ $.when(serviceDataRefreshDone).then(function() {
           );
         }
       });
+    })
+    .fail(function(xhr, ajaxOptions, thrownError) {
+      console.log(xhr, ajaxOptions, thrownError);
+      $('#loading').hide();
+      $('.calendar_select_container').append(
+        '<div>' +
+          '<div class="error_icon"></div>' +
+          '<p>' +
+            'Failed to connect to Google Calendar check your connection and refresh.' +
+          '</p>' +
+        '</div>'
+      );
     });
   });
 

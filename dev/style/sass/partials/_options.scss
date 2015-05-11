@@ -1,6 +1,6 @@
 .options_body {
   width: auto;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .options_window_title {
@@ -58,6 +58,12 @@
       background-color: $white;
       width: 256px;
       border-top: solid 1px #ECECEC;
+    }
+
+    .drag_handle {
+      float: left;
+      width: 20px;
+      height: 100%;
     }
 
     &:hover,

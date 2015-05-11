@@ -3,10 +3,12 @@
 <head>
   <title>NewTab Options</title>
   <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="bower_components/dragula.js/dist/dragula.min.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/serviceData.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/options.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/modules/ripple.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/modules/checkbox.js" type="text/javascript" charset="utf-8" defer></script>
+  <link rel="stylesheet" href="bower_components/dragula.js/dist/dragula.min.css" type="text/css">
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -18,8 +20,9 @@
     </div>
   </div>
 
-  <nav class="options_menu">
-    <div class="options_menu_link waves-effect active" data-title="Calendar" data-color="4285f4">
+  <nav id="services_menu" class="options_menu">
+    <div class="options_menu_link waves-effect active" data-service-id="1" data-title="Calendar" data-color="4285f4">
+      <span class="drag_handle"></span>
       Calendar
       <div class="switch service_toggle">
         <label>
@@ -28,7 +31,8 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect" data-title="Gmail" data-color="e04a3f">
+    <div class="options_menu_link waves-effect" data-service-id="2" data-title="Gmail" data-color="e04a3f">
+      <span class="drag_handle"></span>
       Gmail
       <div class="switch service_toggle">
         <label>
@@ -37,7 +41,8 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect" data-title="Facebook" data-color="3b5998">
+    <div class="options_menu_link waves-effect" data-service-id="3" data-title="Facebook" data-color="3b5998">
+      <span class="drag_handle"></span>
       Facebook
       <div class="switch service_toggle">
         <label>
@@ -46,7 +51,8 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect" data-title="Couchpotato" data-color="4e5969">
+    <div class="options_menu_link waves-effect" data-service-id="4" data-title="Couchpotato" data-color="4e5969">
+      <span class="drag_handle"></span>
       Couchpotato
       <div class="switch service_toggle">
         <label>
@@ -55,7 +61,8 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect" data-title="Sickbeard" data-color="C7DB40">
+    <div class="options_menu_link waves-effect" data-service-id="5" data-title="Sickbeard" data-color="C7DB40">
+      <span class="drag_handle"></span>
       Sickbeard
       <div class="switch service_toggle">
         <label>
@@ -64,7 +71,8 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect" data-title="SABnzbd" data-color="ffeb3b">
+    <div class="options_menu_link waves-effect" data-service-id="6" data-title="SABnzbd" data-color="ffeb3b">
+      <span class="drag_handle"></span>
       SABnzbd
       <div class="switch service_toggle">
         <label>
@@ -73,7 +81,8 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect" data-title="DesignerNews" data-color="1c52a2">
+    <div class="options_menu_link waves-effect" data-service-id="7" data-title="DesignerNews" data-color="1c52a2">
+      <span class="drag_handle"></span>
       Designernews
       <div class="switch service_toggle">
         <label>
@@ -82,7 +91,8 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect" data-title="HackerNews" data-color="FF6600">
+    <div class="options_menu_link waves-effect" data-service-id="8" data-title="HackerNews" data-color="FF6600">
+      <span class="drag_handle"></span>
       Hackernews
       <div class="switch service_toggle">
         <label>
@@ -91,7 +101,8 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect" data-title="Github" data-color="000000">
+    <div class="options_menu_link waves-effect" data-service-id="9" data-title="Github" data-color="000000">
+      <span class="drag_handle"></span>
       Github
       <div class="switch service_toggle">
         <label>
@@ -100,7 +111,8 @@
         </label>
       </div>
     </div>
-    <div class="options_menu_link waves-effect" data-title="ProductHunt" data-color="DF5337">
+    <div class="options_menu_link waves-effect" data-service-id="10" data-title="ProductHunt" data-color="DF5337">
+      <span class="drag_handle"></span>
       Product Hunt
       <div class="switch service_toggle">
         <label>
