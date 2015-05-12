@@ -15,10 +15,8 @@ $.when(serviceDataRefreshDone).then(function() {
     var serviceOrder = [];
     $('.options_menu_link').each(function(index, el) {
       el = $(el);
-      console.log(el.data('title'));
       if (el.data('service-id')) {
         serviceOrder.push($(el).data('service-id'));
-        console.log(serviceOrder);
       }
     });
     localStorage.setItem('serviceOrder', serviceOrder);
