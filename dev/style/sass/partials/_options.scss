@@ -41,39 +41,41 @@
   &.expanded {
     width: 256px;
   }
+}
 
-  .options_menu_link {
-    @include ripple(#000);
-    position: relative;
-    width: 100%;
-    height: 48px;
-    line-height: 48px;
-    cursor: pointer;
-    padding: 0 16px 0 8px;
-    transition: background-color 150ms;
+.options_menu_link {
+  @include ripple(#000);
+  position: relative;
+  width: 256px;
+  height: 48px;
+  line-height: 48px;
+  cursor: pointer;
+  padding: 0 16px 0 8px;
+  transition: background-color 150ms;
 
-    &.support {
-      position: fixed;
-      bottom: 0;
-      background-color: $white;
-      width: 256px;
-      border-top: solid 1px #ECECEC;
-    }
+  &:hover,
+  &.active {
+    background-color: #EBEBEB;
+  }
 
-    .drag_handle {
-      float: left;
-      width: 20px;
-      height: 100%;
-      margin-right: 8px;
-      background-image: image-url('icons/reorder.svg');
-      background-repeat: no-repeat;
-      background-position: 50%;
-    }
+  &.support {
+    position: fixed;
+    bottom: 0;
+    background-color: $white;
+    width: 256px;
+    border-top: solid 1px #ECECEC;
+  }
 
-    &:hover,
-    &.active {
-      background-color: #EBEBEB;
-    }
+  // Left side handle
+  .drag_handle {
+    float: left;
+    width: 20px;
+    height: 100%;
+    margin-right: 8px;
+    background-image: image-url('icons/reorder.svg');
+    background-repeat: no-repeat;
+    background-position: 50%;
+    cursor: ns-resize;
   }
 
   .service_toggle {
