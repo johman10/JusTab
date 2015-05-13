@@ -1,6 +1,8 @@
 $(window).load(function() {
   // Sort HTML based on array
-  sortServices($('.panel_container'), $('.bottom_bar_container'));
+  if (localStorage.getItem('serviceOrder')) {
+    sortServices($('.panel_container'), $('.bottom_bar_container'));
+  }
 
   // Make images non-draggable
   $('img').attr('draggable', false);
