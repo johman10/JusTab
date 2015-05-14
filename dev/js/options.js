@@ -22,6 +22,13 @@ $.when(serviceDataRefreshDone).then(function() {
     localStorage.setItem('serviceOrder', serviceOrder);
   });
 
+  // Sort services in menu on page load
+  var serviceOrder = localStorage.getItem('serviceOrder').split(',');
+  $.each(serviceOrder, function(index, val) {
+    serviceHTML = $('#services_menu').find("[data-service-id=" + val + "]");
+    $('#services_menu').append(serviceHTML);
+  });
+
   // Build list of calendars
   $('#loading').html(serviceData.spinner);
 
