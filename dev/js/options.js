@@ -23,11 +23,14 @@ $.when(serviceDataRefreshDone).then(function() {
   });
 
   // Sort services in menu on page load
-  var serviceOrder = localStorage.getItem('serviceOrder').split(',');
-  $.each(serviceOrder, function(index, val) {
-    serviceHTML = $('#services_menu').find("[data-service-id=" + val + "]");
-    $('#services_menu').append(serviceHTML);
-  });
+  var serviceOrder = localStorage.getItem('serviceOrder');
+  if (serviceOrder) {
+    serviceOrder = serviceOrder.split(',');
+    $.each(serviceOrder, function(index, val) {
+      serviceHTML = $('#services_menu').find("[data-service-id=" + val + "]");
+      $('#services_menu').append(serviceHTML);
+    });
+  }
 
   // Build list of calendars
   $('#loading').html(serviceData.spinner);
