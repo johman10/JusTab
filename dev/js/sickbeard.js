@@ -106,6 +106,7 @@ function searchEpisode(clickedObject) {
     clickedObject.fadeOut(400, function() {
       clickedObject.addClass('error_icon');
       clickedObject.attr('title', 'There was an error');
+      clickedObject.fadeIn(400);
     });
   });
 }
