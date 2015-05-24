@@ -57,7 +57,7 @@ function sbHTML() {
       listSeries(data.data.soon, SB_soon, 'SickbeardSoonHTML', 'SoonHTML');
     } else {
       localStorage.removeItem('SickbeardSoonHTML');
-      delete servieData.SB.SoonHTML;
+      delete serviceData.SB.SoonHTML;
     }
 
     // Episodes later
@@ -66,7 +66,7 @@ function sbHTML() {
       listSeries(data.data.later, SB_later, 'SickbeardLaterHTML', 'LaterHTML');
     } else {
       localStorage.removeItem('SickbeardLaterHTML');
-      delete servieData.SB.LaterHTML;
+      delete serviceData.SB.LaterHTML;
     }
   }
 }
