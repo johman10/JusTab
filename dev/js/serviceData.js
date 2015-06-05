@@ -1,4 +1,4 @@
-$(document).ready(refreshServiceData());
+$(window).load(refreshServiceData());
 
 function refreshServiceData() {
 
