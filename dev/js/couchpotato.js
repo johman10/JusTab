@@ -31,8 +31,6 @@ $.when(serviceDataRefreshDone).done(function() {
     $('#couchpotato .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.CPW.url);
 
     $('#couchpotato, .couchpotato_info').show();
-    $('body').width($('body').width() + $('#couchpotato').width());
-    $('.bottom_bar_container').width($('.panel_container').width());
   }
 });
 

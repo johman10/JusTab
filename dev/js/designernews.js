@@ -26,8 +26,6 @@ $.when(serviceDataRefreshDone).done(function() {
     $('#designernews .panel_header .panel_header_foreground .bottom a').attr('href', 'http://news.layervault.com');
 
     $('#designernews, .designernews_info').show();
-    $('body').width($('body').width() + $('#designernews').width());
-    $('.bottom_bar_container').width($('.panel_container').width());
 
     $('html').on('click', '.dn_upvote', function(event) {
       dnUpvote($(this));

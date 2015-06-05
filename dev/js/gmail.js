@@ -22,8 +22,6 @@ $.when(serviceDataRefreshDone).done(function() {
     $('#gmail .panel_content').bind('scroll', gmailCheckScroll);
 
     $('#gmail, .gmail_info').show();
-    $('body').width($('body').width() + $('#gmail').width());
-    $('.bottom_bar_container').width($('.panel_container').width());
   }
 });
 

@@ -25,8 +25,6 @@ $.when(serviceDataRefreshDone).done(function() {
     $('#sickbeard .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.SB.url);
 
     $('#sickbeard, .sickbeard_info').show();
-    $('body').width($('body').width() + $('#sickbeard').width());
-    $('.bottom_bar_container').width($('.panel_container').width());
   }
 });
 

@@ -23,8 +23,6 @@ $.when(serviceDataRefreshDone).done(function() {
     $('#producthunt .panel_header .panel_header_foreground .bottom a').attr('href', 'https://www.producthunt.com');
 
     $('#producthunt, .producthunt_info').show();
-    $('body').width($('body').width() + $('#producthunt').width());
-    $('.bottom_bar_container').width($('.panel_container').width());
   }
 });
 

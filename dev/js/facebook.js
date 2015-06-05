@@ -25,8 +25,6 @@ $.when(serviceDataRefreshDone).done(function() {
     });
 
     $('#facebook, .facebook_info').show();
-    $('body').width($('body').width() + $('#facebook').width());
-    $('.bottom_bar_container').width($('.panel_container').width());
   }
 });
 

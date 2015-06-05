@@ -20,8 +20,6 @@ $.when(serviceDataRefreshDone).done(function() {
     });
 
     $('#calendar, .calendar_info').show();
-    $('body').width($('body').width() + $('#calendar').width());
-    $('.bottom_bar_container').width($('.panel_container').width());
   }
 });
 
