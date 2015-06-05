@@ -1,8 +1,10 @@
-$(window).load(function() {
+$(document).ready(function() {
   // Resize body
-  $('body').width($('.panel').length * 400);
-  $('.bottom_bar_container').width($('.panel_container').width());
+  $('body').width($('.panel:visible').length * 400);
+  $('.bottom_bar_container').width($('body').width());
+});
 
+$(window).load(function() {
   // Sort HTML based on array
   if (localStorage.getItem('serviceOrder')) {
     sortServices($('.panel_container'), $('.bottom_bar_container'));
