@@ -7,22 +7,7 @@ function getCalendarData(callback) {
       url.push("https://www.googleapis.com/calendar/v3/calendars/" + encodedUrl + "/events");
     });
     eventArray(url, token, callback);
-    colors(token);
   });
-}
-
-function colors(token) {
-  $.ajax({
-      url: "https://www.googleapis.com/calendar/v3/colors?&oauth_token=" + token
-    })
-    .done(function(data) {
-      console.log(data);
-    })
-    .fail(function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("Calendar_error", true);
-      serviceData.GC.error = true;
-    });
 }
 
 function eventArray(url, token, callback) {
