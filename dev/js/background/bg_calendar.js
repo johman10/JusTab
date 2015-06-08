@@ -7,7 +7,22 @@ function getCalendarData(callback) {
       url.push("https://www.googleapis.com/calendar/v3/calendars/" + encodedUrl + "/events");
     });
     eventArray(url, token, callback);
+    colors(token);
   });
+}
+
+function colors(token) {
+  $.ajax({
+      url: "https://www.googleapis.com/calendar/v3/colors?&oauth_token=" + token
+    })
+    .done(function(data) {
+      console.log(data);
+    })
+    .fail(function(xhr, ajaxOptions, thrownError) {
+      console.log(xhr, ajaxOptions, thrownError);
+      localStorage.setItem("Calendar_error", true);
+      serviceData.GC.error = true;
+    });
 }
 
 function eventArray(url, token, callback) {
@@ -90,11 +105,20 @@ function calendarHTML() {
             '<div class="expand_more_icon"></div>' +
           '</div>' +
         '</div>' +
-        '<div class="gc_collapse core_collapse">' +
-          '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
-            '<div class="waves-effect gc_event_link_icon edit_icon"></div>' +
-          '</a>' +
-        '</div>';
+        '<div class="gc_collapse core_collapse">';
+
+      if (cEvent.location) {
+        htmlData +=
+          '<div class="gc_event_location">' +
+            cEvent.location +
+          '</div>';
+      }
+
+      htmlData +=
+        '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
+          '<div class="waves-effect gc_event_link_icon edit_icon"></div>' +
+        '</a>' +
+      '</div>';
     });
 
     localStorage.setItem('CalendarHTML', htmlData);

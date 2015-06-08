@@ -4,7 +4,7 @@
   }
 
   .panel_header_background2 {
-    background-image: image-url('GC_header.svg');
+    background-image: image-url("GC_header.svg");
     background-size: auto 76.8px;
     background-position: 110%;
     background-color: $calendar-color;
@@ -16,8 +16,16 @@
     width: 328px;
   }
 
+  .gc_event_location {
+    @include text-truncate;
+    line-height: 48px;
+    float: left;
+    padding-left: 16px;
+    max-width: 344px;
+  }
+
   .gc_event_link_icon {
-    @include ripple(#000);
+    @include ripple($black);
     border-radius: 100%;
     float: right;
     height: 48px;
