@@ -13,6 +13,7 @@ function refreshServiceData() {
     serviceData = {
       "spinner": "<div id='spinnerContainer'><div class='spinner-layer blue'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer red'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer yellow'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer green'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div></div>",
       "GC": {
+        "containerId": 'calendar',
         "error": localStorage.getItem('Calendar_error'),
         "status": items.GC_status,
         "alarmName": 'googleCalendar',
@@ -25,6 +26,7 @@ function refreshServiceData() {
         "days": parseFloat(items.GC_days)
       },
       "GM": {
+        "containerId": 'gmail',
         "error": localStorage.getItem('Gmail_error'),
         "status": items.GM_status,
         "alarmName": 'gmail',
@@ -38,6 +40,7 @@ function refreshServiceData() {
         "nextPage": localStorage.getItem('Gmail_page')
       },
       "FB": {
+        "containerId": 'facebook',
         "error": localStorage.getItem('Facebook_error'),
         "status": items.FB_status,
         "alarmName": 'facebook',
@@ -49,6 +52,7 @@ function refreshServiceData() {
         "HTML": localStorage.getItem('FacebookHTML')
       },
       "CPS": {
+        "containerId": 'couchpotato',
         "error": localStorage.getItem('CouchpotatoSnatched_error'),
         "status": items.CP_status,
         "alarmName": 'couchPotatoSnatched',
@@ -64,6 +68,7 @@ function refreshServiceData() {
         "key": items.CP_key
       },
       "CPW": {
+        "containerId": 'couchpotato',
         "error": localStorage.getItem('CouchpotatoWanted_error'),
         "status": items.CP_status,
         "alarmName": 'couchPotatoWanted',
@@ -79,6 +84,7 @@ function refreshServiceData() {
         "key": items.CP_key
       },
       "SB": {
+        "containerId": 'sickbeard',
         "error": localStorage.getItem('Sickbeard_error'),
         "status": items.SB_status,
         "alarmName": 'sickBeard',
@@ -97,6 +103,7 @@ function refreshServiceData() {
         "key": items.SB_key
       },
       "SABQ": {
+        "containerId": 'sabnzbd',
         "error": localStorage.getItem('SabnzbdQueue_error'),
         "status": items.SAB_status,
         "alarmName": 'sabnzbdQueue',
@@ -113,6 +120,7 @@ function refreshServiceData() {
         "key": items.SAB_key
       },
       "SABH": {
+        "containerId": 'sabnzbd',
         "error": localStorage.getItem('SabnzbdHistory_error'),
         "status": items.SAB_status,
         "alarmName": 'sabnzbdHistory',
@@ -129,6 +137,7 @@ function refreshServiceData() {
         "key": items.SAB_key
       },
       "DN": {
+        "containerId": 'designernews',
         "error": localStorage.getItem('Designernews_error'),
         "status": items.DN_status,
         "alarmName": 'designerNews',
@@ -144,6 +153,7 @@ function refreshServiceData() {
         "upvotes": localStorage.getItem('DesignernewsUpvotes')
       },
       "HN": {
+        "containerId": 'hackernews',
         "error": localStorage.getItem('Hackernews_error'),
         "status": items.HN_status,
         "alarmName": 'hackernews',
@@ -155,6 +165,7 @@ function refreshServiceData() {
         "HTML": localStorage.getItem('HackernewsHTML')
       },
       "GH": {
+        "containerId": 'github',
         "error": localStorage.getItem('Github_error'),
         "status": items.GH_status,
         "alarmName": 'github',
@@ -165,6 +176,7 @@ function refreshServiceData() {
         "HTML": localStorage.getItem('GithubHTML')
       },
       "PH": {
+        "containerId": 'producthunt',
         "error": localStorage.getItem('ProductHunt_error'),
         "status": items.PH_status,
         "alarmName": 'productHunt',

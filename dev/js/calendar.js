@@ -18,8 +18,6 @@ $.when(serviceDataRefreshDone).done(function() {
         });
       });
     });
-
-    $('#calendar, .calendar_info').show();
   }
 });
 

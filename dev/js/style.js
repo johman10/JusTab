@@ -1,13 +1,24 @@
 $(document).ready(function() {
   $.when(serviceDataRefreshDone).done(function() {
-    // Resize body
-    $('body').width($('.panel:visible').length * 400);
-    $('.bottom_bar_container').width($('body').width());
-
     // Sort HTML based on array
     if (localStorage.getItem('serviceOrder')) {
       sortServices($('.panel_container'), $('.bottom_bar_container'));
     }
+
+    // Show service that are on
+    $.each(serviceData, function(index, service) {
+      serviceStatus = service.status;
+      serviceId = '#' + service.containerId;
+      serviceInfo = '.' + service.containerId + '_info';
+      console.log(service.containerId, serviceStatus);
+      if (serviceStatus) {
+        $(serviceId + ', ' + serviceInfo).show();
+      }
+    });
+
+    // Resize body
+    $('body').width($('.panel:visible').length * 400);
+    $('.bottom_bar_container').width($('body').width());
 
     // Make images non-draggable
     $('img').attr('draggable', false);

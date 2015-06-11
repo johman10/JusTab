@@ -20,8 +20,6 @@ $.when(serviceDataRefreshDone).done(function() {
     });
 
     $('#gmail .panel_content').bind('scroll', gmailCheckScroll);
-
-    $('#gmail, .gmail_info').show();
   }
 });
 

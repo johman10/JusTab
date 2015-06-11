@@ -23,8 +23,6 @@ $.when(serviceDataRefreshDone).done(function() {
     $('#facebook .notifications .unread').click(function(e) {
       fbMarkRead(e);
     });
-
-    $('#facebook, .facebook_info').show();
   }
 });
 

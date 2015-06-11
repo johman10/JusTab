@@ -27,8 +27,6 @@ $.when(serviceDataRefreshDone).done(function() {
 
     $('#sabnzbd .panel_content').bind('scroll', sabCheckScroll);
     $('#sabnzbd .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.SABQ.url);
-
-    $('#sabnzbd, .sabnzbd_info').show();
   }
 });
 

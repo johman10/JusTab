@@ -23,8 +23,6 @@ $.when(serviceDataRefreshDone).done(function() {
     });
 
     $('#sickbeard .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.SB.url);
-
-    $('#sickbeard, .sickbeard_info').show();
   }
 });
 

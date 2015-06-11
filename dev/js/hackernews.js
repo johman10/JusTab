@@ -22,10 +22,6 @@ $.when(serviceDataRefreshDone).done(function() {
         });
       });
     });
-
-    $('#hackernews .panel_header .panel_header_foreground .bottom a').attr('href', 'https://news.ycombinator.com/');
-
-    $('#hackernews, .designernews_info').show();
   }
 });
 

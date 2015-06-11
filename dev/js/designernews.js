@@ -23,10 +23,6 @@ $.when(serviceDataRefreshDone).done(function() {
       });
     });
 
-    $('#designernews .panel_header .panel_header_foreground .bottom a').attr('href', 'http://news.layervault.com');
-
-    $('#designernews, .designernews_info').show();
-
     $('html').on('click', '.dn_upvote', function(event) {
       dnUpvote($(this));
     });

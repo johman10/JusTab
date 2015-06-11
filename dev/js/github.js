@@ -19,10 +19,6 @@ $.when(serviceDataRefreshDone).done(function() {
         });
       });
     });
-
-    $('#github .panel_header .panel_header_foreground .bottom a').attr('href', 'https://github.com/trending');
-
-    $('#github, .github_info').show();
   }
 });
 

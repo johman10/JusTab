@@ -29,8 +29,6 @@ $.when(serviceDataRefreshDone).done(function() {
     $('#couchpotato .panel_content').bind('scroll', couchpotatoCheckScroll);
 
     $('#couchpotato .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.CPW.url);
-
-    $('#couchpotato, .couchpotato_info').show();
   }
 });
 
