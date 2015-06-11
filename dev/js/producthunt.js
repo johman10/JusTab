@@ -1,7 +1,5 @@
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.PH.status) {
-    window[serviceData.PH.feFunctionName]();
-
     $('.refresh_ph').click(function() {
       $('#producthunt .error:visible').slideUp(400);
 

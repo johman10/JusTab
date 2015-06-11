@@ -3,8 +3,6 @@
 
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.HN.status) {
-    window[serviceData.HN.feFunctionName]();
-
     $('.refresh_hn').click(function() {
       $('#hackernews .error:visible').slideUp(400);
 

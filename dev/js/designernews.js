@@ -3,8 +3,6 @@
 
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.DN.status) {
-    window[serviceData.DN.feFunctionName]();
-
     $('.refresh_dn').click(function() {
       $('#designernews .error:visible').slideUp(400);
 

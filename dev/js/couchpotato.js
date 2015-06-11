@@ -4,8 +4,6 @@
 // "media.list" lists all movies, "movie.status" returns the status of the movie
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.CPS.status) {
-    window[serviceData.CPS.feFunctionName]();
-
     $('.refresh_cp').click(function() {
       $('#couchpotato .error:visible').slideUp(400);
 

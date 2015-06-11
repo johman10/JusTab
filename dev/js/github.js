@@ -1,7 +1,5 @@
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.GH.status) {
-    window[serviceData.GH.feFunctionName]();
-
     $('.refresh_gh').click(function() {
       $('#github .error:visible').slideUp(400);
 

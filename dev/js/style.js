@@ -12,6 +12,7 @@ $(document).ready(function() {
       serviceInfo = '.' + service.containerId + '_info';
       console.log(service.containerId, serviceStatus);
       if (serviceStatus) {
+        window[service.feFunctionName]();
         $(serviceId + ', ' + serviceInfo).show();
       }
     });

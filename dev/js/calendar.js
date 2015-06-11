@@ -1,7 +1,5 @@
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.GC.status) {
-    window[serviceData.GC.feFunctionName]();
-
     $('.refresh_calendar').click(function() {
       $('#calendar .error:visible').slideUp(400);
       $('.refresh_calendar').fadeOut(400, function() {

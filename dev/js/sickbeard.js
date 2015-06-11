@@ -3,8 +3,6 @@
 
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.SB.status) {
-    window[serviceData.SB.feFunctionName]();
-
     $('#sickbeard .refresh_sb').click(function(event) {
       $('#sickbeard .error:visible').slideUp(400);
       $('.refresh_sb').fadeOut(400, function() {

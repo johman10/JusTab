@@ -4,8 +4,6 @@
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.SABQ.status) {
-    window[serviceData.SABQ.feFunctionName]();
-
     $('.refresh_sab').click(function() {
       $('#sabnzbd .error:visible').slideUp(400);
       $('.refresh_sab').fadeOut(400, function() {

@@ -1,7 +1,5 @@
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.GM.status) {
-    window[serviceData.GM.feFunctionName]();
-
     $('.refresh_gmail').click(function() {
       $('#gmail .error:visible').slideUp(400);
       $('.refresh_gmail').fadeOut(400, function() {

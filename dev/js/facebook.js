@@ -1,7 +1,5 @@
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.FB.status) {
-    window[serviceData.FB.feFunctionName]();
-
     $('.refresh_fb').click(function() {
       $('#facebook .error:visible').slideUp(400);
 
