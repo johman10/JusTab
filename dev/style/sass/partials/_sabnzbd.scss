@@ -46,19 +46,22 @@
 //   padding-top: 17px;
 // }
 
-.sabh_collapse {
+.sabh_collapse,
+.sabq_collapse {
   position: relative;
   line-height: 48px;
   padding-left: 16px;
 
-  .sabh_collapse_buttons {
+  .sabh_collapse_buttons,
+  .sabq_collapse_buttons {
     position: absolute;
     right: 4px;
     height: 48px;
     width: 48px;
     top: 0;
 
-    .sabh_remove_icon {
+    .sabh_remove_icon,
+    .sabq_remove_icon {
       @include ripple(#000);
       border-radius: 100%;
       float: right;

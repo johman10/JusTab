@@ -60,21 +60,44 @@ function sabRemove(elem) {
       removeUrl;
 
   if (elem.hasClass('sabh_remove_icon')) {
-    removeUrl = url + '&mode=history&name=delete&value=' + id;
+    removeUrl = url + '&mode=history&name=delete&value=' + id + '&del_files=true';
   }
   else {
-    removeUrl = url + 'api?mode=queue&name=delete&value=' + id;
+    removeUrl = url + '&mode=queue&name=delete&value=' + id;
   }
 
   $.ajax({
     url: removeUrl
   })
   .done(function(data) {
-    console.log(data);
-    elem.parents('.core_collapse').prev('.sab_item_container')[0].remove();
-    elem.parents('.core_collapse').remove();
-    localStorage.setItem('SabnzbdHistoryHTML', $('.history').html());
-    localStorage.setItem('SabnzbdQueueHTML', $('.queue').html());
+    data = data.trim();
+    if (data == 'ok') {
+      elem.parents('.core_collapse').prev('.sab_item_container')[0].remove();
+      elem.parents('.core_collapse').remove();
+      if ($('.queue .core_item').length === 0) {
+        $('.queue').append('<div class="core_item without_hover">No items in queue at this moment.</div>');
+      }
+      if ($('.history .core_item').length === 0) {
+        $('.history').append('<div class="core_item without_hover">No items in history at this moment.</div>');
+      }
+      localStorage.setItem('SabnzbdHistoryHTML', $('.history').html());
+      localStorage.setItem('SabnzbdQueueHTML', $('.queue').html());
+    }
+    else {
+      elem.fadeOut(400, function() {
+        elem.removeClass('remove_icon');
+        elem.addClass('error_icon');
+        elem.attr('title', data);
+        elem.fadeIn(400);
+      });
+    }
+  })
+  .fail(function() {
+    elem.fadeOut(400, function() {
+      elem.addClass('error_icon');
+      elem.attr('title', 'There was an error');
+      elem.fadeIn(400);
+    });
   });
 }
 

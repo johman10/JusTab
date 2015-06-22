@@ -16,11 +16,10 @@
 
   .core_item_icon {
     position: absolute;
-    top: 0;
+    top: 50%;
     right: 0;
-    height: 48px;
-    width: 56px;
-    padding: 12px 16px;
+    padding: 0 16px;
+    transform: translateY(-50%);
   }
 
   &.expanded {
