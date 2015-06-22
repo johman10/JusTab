@@ -84,6 +84,14 @@ function sabqHTML() {
           '<div class="sab_item_status">' +
             qItem.status + ' - ' + qItem.percentage + '%' +
           '</div>' +
+          '<div class="core_item_icon">' +
+            '<div class="expand_more_icon"></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="sabq_collapse core_collapse">' +
+          '<div class="sabq_collapse_buttons">' +
+            '<div class="icon_button remove_icon sabq_remove_icon waves-effect" data-id=' + qItem.nzo_id + '></div>' +
+          '</div>' +
         '</div>';
     });
     status +=

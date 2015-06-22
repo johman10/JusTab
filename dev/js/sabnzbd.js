@@ -23,7 +23,7 @@ $.when(serviceDataRefreshDone).done(function() {
       });
     });
 
-    $('html').on('click', '.sabh_remove_icon', function(e) {
+    $('html').on('click', '.sabh_remove_icon, .sabq_remove_icon', function(e) {
       sabRemove(e.currentTarget);
     });
 
@@ -54,24 +54,27 @@ function sabShowData() {
 
 function sabRemove(elem) {
   elem = $(elem);
-  var id = elem.data('id');
+  var elemClasses = elem.first().attr('class'),
+      id = elem.data('id'),
+      url = serviceData.SABH.apiUrl,
+      removeUrl;
 
-  var url = serviceData.SABH.apiUrl;
-  var removeUrl = url + '&mode=history&name=delete&value=' + id;
+  if (elem.hasClass('sabh_remove_icon')) {
+    removeUrl = url + '&mode=history&name=delete&value=' + id;
+  }
+  else {
+    removeUrl = url + 'api?mode=queue&name=delete&value=' + id;
+  }
 
   $.ajax({
     url: removeUrl
   })
   .done(function(data) {
     console.log(data);
-    // if (data.success) {
-    //   clickedObject.attr('class', 'done_icon cp_search_movie waves-effect');
-    // } else {
-    //   clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
-    // }
-  })
-  .fail(function() {
-    // clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
+    elem.parents('.core_collapse').prev('.sab_item_container')[0].remove();
+    elem.parents('.core_collapse').remove();
+    localStorage.setItem('SabnzbdHistoryHTML', $('.history').html());
+    localStorage.setItem('SabnzbdQueueHTML', $('.queue').html());
   });
 }
 
