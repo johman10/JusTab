@@ -113,28 +113,31 @@ function sabhHTML() {
     var history = '<h2>History</h2>';
 
     $.each(historyJson.history.slots, function(i, hItem) {
-      if (hItem.fail_message === "") {
+      console.log(hItem);
+
         history +=
-          '<div class="core_item without_hover sab_item_container">' +
+          '<div class="core_item sab_item_container">' +
             '<div class="sab_item_name">' +
               hItem.name +
             '</div>' +
-            '<div class="sab_item_status">' +
-              hItem.status +
+            '<div class="core_item_icon">' +
+              '<div class="expand_more_icon"></div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="sabh_collapse core_collapse">';
+
+          if (hItem.fail_message === "") {
+            history += hItem.status;
+          }
+          else {
+            history += hItem.fail_message;
+          }
+
+          history +=
+            '<div class="sabh_collapse_buttons">' +
+              '<div class="icon_button remove_icon sabh_remove_icon waves-effect" data-id=' + hItem.nzo_id + '></div>' +
             '</div>' +
           '</div>';
-      }
-      else {
-        history +=
-          '<div class="core_item without_hover sab_item_container">' +
-            '<div class="sab_item_name">' +
-              hItem.name +
-            '</div>' +
-            '<div class="sab_item_status">' +
-              hItem.fail_message +
-            '</div>' +
-          '</div>';
-      }
     });
 
     if (historyJson.history.slots.length < 1) {

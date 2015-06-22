@@ -1,65 +1,71 @@
 .expand_more_icon {
   height: 24px;
   width: 24px;
-  background-image: image-url('icons/expand_more.svg');
+  background-image: image-url("icons/expand_more.svg");
 }
 
 .expand_less_icon {
   height: 24px;
   width: 24px;
-  background-image: image-url('icons/expand_less.svg');
+  background-image: image-url("icons/expand_less.svg");
 }
 
 .search_icon {
   height: 24px;
   width: 24px;
-  background-image: image-url('icons/search.svg')
+  background-image: image-url("icons/search.svg");
+}
+
+.remove_icon {
+  height: 24px;
+  width: 24px;
+  background-image: image-url("icons/delete.svg");
 }
 
 .info_icon {
   height: 24px;
   width: 24px;
-  background-image: image-url('icons/info.svg')
+  background-image: image-url("icons/info.svg");
 }
 
 .edit_icon {
   height: 24px;
   width: 24px;
-  background-image: image-url('icons/edit.svg');
+  background-image: image-url("icons/edit.svg");
 }
 
 .done_icon {
   height: 24px;
   width: 24px;
-  background-image: image-url('icons/done.svg');
+  background-image: image-url("icons/done.svg");
 }
 
 .done_all_icon {
   height: 24px;
   width: 24px;
-  background-image: image-url('icons/done_all.svg');
+  background-image: image-url("icons/done_all.svg");
 }
 
 .error_icon {
   height: 24px;
   width: 24px;
-  background-image: image-url('icons/error.svg');
+  background-image: image-url("icons/error.svg");
 }
 
 .thumb_up_icon {
   height: 24px;
   width: 24px;
-  background-image: image-url('icons/thumb_up.svg');
+  background-image: image-url("icons/thumb_up.svg");
 }
 
 .thumb_up_voted_icon {
   height: 24px;
   width: 24px;
-  background-image: image-url('icons/thumb_up_voted.svg');
+  background-image: image-url("icons/thumb_up_voted.svg");
 }
 
 .settings_icon {
   height: 24px;
   width: 24px;
-  background-image: image-url('icons/settings.svg');
+  background-image: image-url("icons/settings.svg");
 }

@@ -53,14 +53,14 @@
   }
 
   .sb_search_episode {
-    @include spinner(#000);
-    margin: 0 4px;
+    @include spinner($black);
+    margin: 0 4px 0 0;
   }
 
   .sb_tvdb_link_icon,
   .sb_mark_episode,
   .sb_search_episode {
-    @include ripple(#000);
+    @include ripple($black);
     border-radius: 100%;
     float: right;
     height: 48px;

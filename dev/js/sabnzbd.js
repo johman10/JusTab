@@ -23,6 +23,10 @@ $.when(serviceDataRefreshDone).done(function() {
       });
     });
 
+    $('html').on('click', '.sabh_remove_icon', function(e) {
+      sabRemove(e.currentTarget);
+    });
+
     $('#sabnzbd .panel_content').bind('scroll', sabCheckScroll);
     $('#sabnzbd .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.SABQ.url);
   }
@@ -46,6 +50,29 @@ function sabShowData() {
   $('.bottom_bar_container .sabnzbd_info').html(serviceData.SABQ.downloadStatus);
   $('#sabnzbd .queue').html(serviceData.SABQ.HTML);
   $('#sabnzbd .history').html(serviceData.SABH.HTML);
+}
+
+function sabRemove(elem) {
+  elem = $(elem);
+  var id = elem.data('id');
+
+  var url = serviceData.SABH.apiUrl;
+  var removeUrl = url + '&mode=history&name=delete&value=' + id;
+
+  $.ajax({
+    url: removeUrl
+  })
+  .done(function(data) {
+    console.log(data);
+    // if (data.success) {
+    //   clickedObject.attr('class', 'done_icon cp_search_movie waves-effect');
+    // } else {
+    //   clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
+    // }
+  })
+  .fail(function() {
+    // clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
+  });
 }
 
 function sabCheckScroll(e) {

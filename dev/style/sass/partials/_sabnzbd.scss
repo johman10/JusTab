@@ -4,43 +4,71 @@
   }
 
   .panel_header_background2 {
-    background-image: image-url('SAB_header.png');
+    background-image: image-url("SAB_header.png");
     background-size: auto 76.8px;
     background-position: 110%;
     background-color: $sabnzbd-color;
   }
 }
 
-.queue,
-.history {
-  .sab_item_name,
-  .sab_item_error {
-    width: 368px;
-    @include text-truncate;
+.queue {
+  .sab_item_container {
+    height: 72px;
+    line-height: initial;
+
+    .sab_item_name {
+      position: absolute;
+      top: 0;
+      padding-top: 17px;
+    }
+
+    .sab_item_status {
+      position: absolute;
+      bottom: 0;
+      padding-bottom: 17px;
+      color: $grey;
+    }
   }
 }
 
 .history {
   padding-bottom: 50px;
+
+  .sab_item_name {
+    width: 330px;
+    @include text-truncate;
+  }
 }
 
-.sab_item_container {
-  height: 72px;
-  line-height: initial;
-}
+// .sab_item_name {
+//   position: absolute;
+//   top: 0;
+//   padding-top: 17px;
+// }
 
-.sab_item_name {
-  position: absolute;
-  top: 0;
-  padding-top: 17px;
+.sabh_collapse {
+  position: relative;
+  line-height: 48px;
+  padding-left: 16px;
 
-}
+  .sabh_collapse_buttons {
+    position: absolute;
+    right: 4px;
+    height: 48px;
+    width: 48px;
+    top: 0;
 
-.sab_item_status {
-  position: absolute;
-  bottom: 0;
-  padding-bottom: 17px;
-  color: $grey;
+    .sabh_remove_icon {
+      @include ripple(#000);
+      border-radius: 100%;
+      float: right;
+      height: 48px;
+      width: 48px;
+      padding: 12px;
+      background-repeat: no-repeat;
+      background-position: 50%;
+    }
+  }
 }
 
 .sabnzbd_info {
