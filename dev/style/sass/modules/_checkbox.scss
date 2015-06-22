@@ -29,12 +29,12 @@
     }
 
     .checkbox-mark {
-      border-bottom-width: 2px;
-      border-color: $white;
-      border-left: none;
-      border-right-width: 2px;
       border-style: solid;
       border-top: none;
+      border-left: none;
+      border-right-width: 2px;
+      border-bottom-width: 2px;
+      border-color: $white;
       box-sizing: initial;
       height: 0;
       left: 6px;
