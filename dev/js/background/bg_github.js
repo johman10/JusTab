@@ -38,12 +38,12 @@ function ghHTML() {
       }
 
       GithubHTML +=
-        '<div class="core_item waves-effect">' +
+        '<div class="core-item waves-effect">' +
           '<a href="' + link + '" target="_blank">' +
-            '<div class="gh_title">' +
+            '<div class="gh-title">' +
               title +
             '</div>' +
-            '<div class="gh_description">' +
+            '<div class="gh-description">' +
               description +
             '</div>' +
           '</a>' +

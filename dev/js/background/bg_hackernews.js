@@ -60,11 +60,11 @@ function hnHTML() {
 
     $.each(data, function(i, story) {
       hn_links +=
-        '<div class="core_item waves-effect hn_link_container">' +
-          '<a href="' + story.url + '" class="hn_story_url" target="_blank">' +
+        '<div class="core-item waves-effect hn-link-container">' +
+          '<a href="' + story.url + '" class="hn-story-url" target="_blank">' +
             story.title +
           '</a>' +
-          '<a href="https://news.ycombinator.com/item?id=' + story.id + '" class="hn_comments_url" target="_blank">' +
+          '<a href="https://news.ycombinator.com/item?id=' + story.id + '" class="hn-comments-url" target="_blank">' +
             story.descendants + ' comments - ' + story.score + ' points' +
           '</a>' +
         '</div>';

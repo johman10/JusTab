@@ -3,15 +3,15 @@
 
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.HN.status) {
-    $('.refresh_hn').click(function() {
+    $('.refresh-hn').click(function() {
       $('#hackernews .error:visible').slideUp(400);
 
-      $('.refresh_hn').fadeOut(400, function() {
+      $('.refresh-hn').fadeOut(400, function() {
         $(this).html(serviceData.spinner);
         $(this).fadeIn(400, function() {
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getHackerNewsData(function() {
-              $('.refresh_hn').fadeOut(400, function() {
+              $('.refresh-hn').fadeOut(400, function() {
                 $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Hackernews" draggable=false>');
                 $(this).fadeIn(400);
               });
@@ -24,7 +24,7 @@ $.when(serviceDataRefreshDone).done(function() {
 });
 
 function hnShowData() {
-  $('.hn_links').empty();
+  $('.hn-links').empty();
   var error = serviceData.HN.error;
 
   if (error == "true") {
@@ -34,5 +34,5 @@ function hnShowData() {
     $('#hackernews .error').slideUp('slow');
   }
 
-  $('.hn_links').html(serviceData.HN.HTML);
+  $('.hn-links').html(serviceData.HN.HTML);
 }

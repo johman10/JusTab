@@ -4,16 +4,16 @@
 // "media.list" lists all movies, "movie.status" returns the status of the movie
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.CPS.status) {
-    $('.refresh_cp').click(function() {
+    $('.refresh-cp').click(function() {
       $('#couchpotato .error:visible').slideUp(400);
 
-      $('.refresh_cp').fadeOut(400, function() {
+      $('.refresh-cp').fadeOut(400, function() {
         $(this).html(serviceData.spinner);
         $(this).fadeIn(400, function() {
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getWantedCouchPotato(25, function() {
               backgroundPage.getSnatchedCouchPotato(function() {
-                $('.refresh_cp').fadeOut(400, function() {
+                $('.refresh-cp').fadeOut(400, function() {
                   $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Couchpotato" draggable=false>');
                   $(this).fadeIn(400);
                 });
@@ -24,13 +24,13 @@ $.when(serviceDataRefreshDone).done(function() {
       });
     });
 
-    $('#couchpotato .panel_content').bind('scroll', couchpotatoCheckScroll);
+    $('#couchpotato .panel-content').bind('scroll', couchpotatoCheckScroll);
 
-    $('#couchpotato .panel_header .panel_header_foreground .bottom a').attr('href', serviceData.CPW.url);
+    $('#couchpotato .panel-header .panel-header-foreground .bottom a').attr('href', serviceData.CPW.url);
   }
 });
 
-$('html').on('click', '.cp_search_movie', function(event) {
+$('html').on('click', '.cp-search-movie', function(event) {
   searchMovie($(this));
 });
 
@@ -51,16 +51,16 @@ function cpShowData() {
     $('.snatched').html(serviceData.CPS.HTML);
     $('.wanted').html(serviceData.CPW.HTML);
 
-    $('.cp_poster').unveil(50, function() {
+    $('.cp-poster').unveil(50, function() {
       var original = 'img/poster_fallback.png';
       this.onerror = function(e) {this.src = original;};
     });
 
-    if ($('.snatched .core_item').length === 0) {
-      $('.snatched').html('<h2>Snatched</h2><div class="core_item without_hover">No snatched movies at this moment.</div>');
+    if ($('.snatched .core-item').length === 0) {
+      $('.snatched').html('<h2>Snatched</h2><div class="core-item without-hover">No snatched movies at this moment.</div>');
     }
-    if ($('.wanted .core_item').length === 0) {
-      $('.wanted').html('<h2>Wanted</h2><div class="core_item without_hover">No wanted movies at this moment.</div>');
+    if ($('.wanted .core-item').length === 0) {
+      $('.wanted').html('<h2>Wanted</h2><div class="core-item without-hover">No wanted movies at this moment.</div>');
     }
   }
 }
@@ -76,22 +76,22 @@ function searchMovie(clickedObject) {
   })
   .done(function(data) {
     if (data.success) {
-      clickedObject.attr('class', 'done_icon cp_search_movie waves-effect');
+      clickedObject.attr('class', 'done-icon cp-search-movie waves-effect');
     } else {
-      clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
+      clickedObject.attr('class', 'error-icon cp-search-movie waves-effect');
     }
   })
   .fail(function() {
-    clickedObject.attr('class', 'error_icon cp_search_movie waves-effect');
+    clickedObject.attr('class', 'error-icon cp-search-movie waves-effect');
   });
 }
 
 function couchpotatoCheckScroll(e) {
   var elem = $(e.currentTarget);
-  var length = $('#couchpotato .wanted .cp_item').length;
+  var length = $('#couchpotato .wanted .cp-item').length;
   if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight() && length < serviceData.CPW.JSON.total) {
-    if ($('#couchpotato .wanted .loading_bar').length === 0) {
-      $('#couchpotato .wanted').append('<div class="core_item without_hover loading_bar">' + serviceData.spinner + '</div>');
+    if ($('#couchpotato .wanted .loading-bar').length === 0) {
+      $('#couchpotato .wanted').append('<div class="core-item without-hover loading-bar">' + serviceData.spinner + '</div>');
     }
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.getWantedCouchPotato(length + 25);

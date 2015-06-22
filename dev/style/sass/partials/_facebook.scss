@@ -1,9 +1,9 @@
-.panel_facebook_background {
-  .panel_header_background1 {
+.panel-facebook-background {
+  .panel-header-background1 {
     background-color: $facebook-color;
   }
 
-  .panel_header_background2 {
+  .panel-header-background2 {
     background-image: image-url('FB_header.png');
     background-size: auto 76.8px;
     background-position: 100%;
@@ -18,13 +18,13 @@
     display: block;
     color: $black;
 
-    .notificationTitle {
+    .notification-title {
       @include text-truncate;
       float: left;
       width: 244px;
     }
 
-    .notificationTime {
+    .notification-time {
       float: right;
     }
 

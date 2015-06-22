@@ -1,57 +1,57 @@
-.checkbox_container {
+.checkbox-container {
   cursor: pointer;
 
   .checkbox {
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    height: 18px;
-    width: 18px;
-    margin: 5px;
-    border: solid 2px #5a5a5a;
     border-radius: 2px;
+    border: solid 2px #5a5a5a;
+    display: inline-block;
+    height: 18px;
+    margin: 5px;
+    position: relative;
     transition: background-color 140ms, border-color 140ms;
+    vertical-align: middle;
+    width: 18px;
 
     &:after {
+      border-radius: 100%;
       content: '';
       display: block;
-      position: absolute;
-      left: -2px;
-      top: -2px;
       height: 18px;
+      left: -2px;
+      position: absolute;
+      top: -2px;
+      transition: box-shadow 0.15s ease;
       width: 18px;
-      border-radius: 100%;
-      transition: box-shadow 0.15s ease
     }
 
     &:active:after {
-      box-shadow: 0 0 0 15px transparentize(#000, .9);
+      box-shadow: 0 0 0 15px transparentize($black, .9);
     }
 
-    .checkbox_mark {
-      transform: rotate(45deg);
-      position: absolute;
-      top: 9px;
-      left: 6px;
-      width: 0px;
-      height: 0px;
-      border-style: solid;
-      border-top: none;
+    .checkbox-mark {
+      border-bottom-width: 2px;
+      border-color: $white;
       border-left: none;
       border-right-width: 2px;
-      border-bottom-width: 2px;
-      border-color: white;
+      border-style: solid;
+      border-top: none;
       box-sizing: initial;
+      height: 0;
+      left: 6px;
+      position: absolute;
+      top: 9px;
+      transform: rotate(45deg);
+      width: 0;
     }
   }
 
   &.checked {
     .checkbox {
-      border-color: #009688;
       background-color: #009688;
+      border-color: #009688;
     }
 
-    .checkbox_mark {
+    .checkbox-mark {
       -webkit-animation: checkmark-expand 140ms ease-out forwards;
     }
   }
@@ -59,30 +59,30 @@
 
 @-webkit-keyframes checkmark-expand {
   0% {
-    top: 9px;
+    height: 0;
     left: 6px;
-    width: 0px;
-    height: 0px;
+    top: 9px;
+    width: 0;
   }
   100% {
-    top: -1px;
-    left: 4px;
-    width: 5px;
     height: 10px;
+    left: 4px;
+    top: -1px;
+    width: 5px;
   }
 }
 
 @keyframes checkmark-expand {
   0% {
-    top: 9px;
+    height: 0;
     left: 6px;
-    width: 0px;
-    height: 0px;
+    top: 9px;
+    width: 0;
   }
   100% {
-    top: -1px;
-    left: 4px;
-    width: 5px;
     height: 10px;
+    left: 4px;
+    top: -1px;
+    width: 5px;
   }
 }

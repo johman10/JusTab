@@ -1,9 +1,9 @@
 $(document).ready(function() {
-  $('.panel_content').scroll(function(e) {
+  $('.panel-content').scroll(function(e) {
     var scrollTop = e.target.scrollTop;
-    var panel_header = $(this).prev('.panel_header');
+    var panel_header = $(this).prev('.panel-header');
     var topBar = panel_header.find('.top');
-    var panelBackground = panel_header.find('.panel_header_background2');
+    var panelBackground = panel_header.find('.panel-header-background2');
     var opacity = 1-(scrollTop*(1/64));
 
     if (e.target.scrollTop < 64) {

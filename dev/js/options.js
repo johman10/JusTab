@@ -4,16 +4,16 @@ $.when(serviceDataRefreshDone).then(function() {
 
   // Drag services in sidebar
   dragula(
-    [document.getElementById('services_menu')],
+    [document.getElementById('services-menu')],
     {
       moves: function (el, container, handle) {
-        return handle.className === 'drag_handle';
+        return handle.className === 'drag-handle';
       },
       direction: 'vertical'
     }
   ).on('dragend', function(el, container, source) {
     var serviceOrder = [];
-    $('.options_menu_link').each(function(index, el) {
+    $('.options-menu-link').each(function(index, el) {
       el = $(el);
       if (el.data('service-id')) {
         serviceOrder.push($(el).data('service-id'));
@@ -27,8 +27,8 @@ $.when(serviceDataRefreshDone).then(function() {
   if (serviceOrder) {
     serviceOrder = serviceOrder.split(',');
     $.each(serviceOrder, function(index, val) {
-      serviceHTML = $('#services_menu').find("[data-service-id=" + val + "]");
-      $('#services_menu').append(serviceHTML);
+      serviceHTML = $('#services-menu').find("[data-service-id=" + val + "]");
+      $('#services-menu').append(serviceHTML);
     });
   }
 
@@ -49,22 +49,22 @@ $.when(serviceDataRefreshDone).then(function() {
 
       $.each(data.items, function(l, calendar) {
         if ($.inArray(calendar.id, calendars_storage) > -1) {
-          $('.calendar_select_container').append(
-            "<div class='calendar_checkbox checkbox_container checked' data-id=" + calendar.id + ">" +
+          $('.calendar-select-container').append(
+            "<div class='calendar-checkbox checkbox-container checked' data-id=" + calendar.id + ">" +
               "<div class='checkbox'>" +
-                "<div class='checkbox_mark'></div>" +
+                "<div class='checkbox-mark'></div>" +
               "</div>" +
-              "<span class='checkbox_label'>" + calendar.summary + "</span>" +
+              "<span class='checkbox-label'>" + calendar.summary + "</span>" +
             "</div>"
           );
         }
         else {
-          $('.calendar_select_container').append(
-            "<div class='calendar_checkbox checkbox_container' data-id=" + calendar.id + ">" +
+          $('.calendar-select-container').append(
+            "<div class='calendar-checkbox checkbox-container' data-id=" + calendar.id + ">" +
               "<div class='checkbox'>" +
-                "<div class='checkbox_mark'></div>" +
+                "<div class='checkbox-mark'></div>" +
               "</div>" +
-              "<span class='checkbox_label'>" + calendar.summary + "</span>" +
+              "<span class='checkbox-label'>" + calendar.summary + "</span>" +
             "</div>"
           );
         }
@@ -73,9 +73,9 @@ $.when(serviceDataRefreshDone).then(function() {
     .fail(function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
       $('#loading').hide();
-      $('.calendar_select_container').append(
+      $('.calendar-select-container').append(
         '<div>' +
-          '<div class="error_icon"></div>' +
+          '<div class="error-icon"></div>' +
           '<p>' +
             'Failed to connect to Google Calendar check your connection and refresh.' +
           '</p>' +
@@ -85,53 +85,53 @@ $.when(serviceDataRefreshDone).then(function() {
   });
 
   // Responsive menu
-  $('.options_menu_icon').bind('click', function() {
-    if ($('.options_menu').hasClass('expanded')) {
-      $('.options_menu').removeClass('expanded');
+  $('.options-menu-icon').bind('click', function() {
+    if ($('.options-menu').hasClass('expanded')) {
+      $('.options-menu').removeClass('expanded');
     } else {
-      $('.options_menu').addClass('expanded');
+      $('.options-menu').addClass('expanded');
     }
   });
 
   // Change view when clicked on object in menu
-  $('.options_menu_link').bind('click', function() {
+  $('.options-menu-link').bind('click', function() {
     var serviceName = $(this).data("title");
     var serviceColor = '#' + $(this).data("color");
 
     if (serviceName == "Support") {
-      $('.button_bar').hide();
+      $('.button-bar').hide();
     }
     else {
-      $('.button_bar').show();
+      $('.button-bar').show();
     }
 
-    $('.options_menu').removeClass('expanded');
-    $('.options_window').hide();
+    $('.options-menu').removeClass('expanded');
+    $('.options-window').hide();
     $('.' + serviceName).show();
-    $('.options_menu_link').removeClass('active');
+    $('.options-menu-link').removeClass('active');
     $(this).addClass('active');
-    $('.options_window_title').css('background-color', serviceColor);
-    $('.save_settings').css('color', serviceColor);
-    $('.options_window_title_text').text(serviceName);
+    $('.options-window-title').css('background-color', serviceColor);
+    $('.save-settings').css('color', serviceColor);
+    $('.options-window-title-text').text(serviceName);
   });
 
   // Save options on change of fields
-  $(document).on('change', 'input[type="text"], input[type="password"], .calendar_checkbox', function() {
+  $(document).on('change', 'input[type="text"], input[type="password"], .calendar-checkbox', function() {
     save_options();
   });
 
   // Designernews login on change of field
-  $(document).on('change', '#DN_username, #DN_password', function() {
+  $(document).on('change', '#DN-username, #DN-password', function() {
     designerNewsLogin();
   });
 
   if (serviceData.DN.token) {
-    $('.DN_login_status').html(
-      "<div class='done_all_icon'></div>"
+    $('.DN-login-status').html(
+      "<div class='done-all-icon'></div>"
     );
   } else {
-    $('.DN_login_status').html(
-      "<div class='error_icon'></div>"
+    $('.DN-login-status').html(
+      "<div class='error-icon'></div>"
     );
   }
 
@@ -163,7 +163,7 @@ function save_status_options() {
 // Saves options to chrome.storage
 function save_options() {
   var calendars = [];
-  $.each($('.calendar_checkbox.checked'), function(i, val) {
+  $.each($('.calendar-checkbox.checked'), function(i, val) {
     calendars.push($(this).data('id'));
   });
 
@@ -174,32 +174,32 @@ function save_options() {
 
   chrome.storage.sync.set({
     calendars: calendars,
-    GC_days: $('#GC_days').val(),
-    GC_refresh: $('#GC_refresh').val(),
-    GM_emails: $('#GM_emails').val(),
-    GM_refresh: $('#GM_refresh').val(),
+    GC_days: $('#GC-days').val(),
+    GC_refresh: $('#GC-refresh').val(),
+    GM_emails: $('#GM-emails').val(),
+    GM_refresh: $('#GM-refresh').val(),
     FB_url: FB_url,
-    FB_refresh: $('#FB_refresh').val(),
+    FB_refresh: $('#FB-refresh').val(),
     CP_address: CP_address,
-    CP_port: $('#CP_port').val(),
-    CP_key: $('#CP_key').val(),
-    CP_refresh: $('#CP_refresh').val(),
+    CP_port: $('#CP-port').val(),
+    CP_key: $('#CP-key').val(),
+    CP_refresh: $('#CP-refresh').val(),
     SB_address: SB_address,
-    SB_port: $('#SB_port').val(),
-    SB_key: $('#SB_key').val(),
-    SB_refresh: $('#SB_refresh').val(),
+    SB_port: $('#SB-port').val(),
+    SB_key: $('#SB-key').val(),
+    SB_refresh: $('#SB-refresh').val(),
     SAB_address: SAB_address,
-    SAB_port: $('#SAB_port').val(),
-    SAB_key: $('#SAB_key').val(),
-    SAB_history: $('#SAB_history').val(),
-    SABQ_refresh: $('#SABQ_refresh').val(),
-    SABH_refresh: $('#SABH_refresh').val(),
-    DN_username: $('#DN_username').val(),
-    DN_password: $('#DN_password').val(),
-    DN_refresh: $('#DN_refresh').val(),
-    HN_refresh: $('#HN_refresh').val(),
-    GH_refresh: $('#GH_refresh').val(),
-    PH_refresh: $('#PH_refresh').val()
+    SAB_port: $('#SAB-port').val(),
+    SAB_key: $('#SAB-key').val(),
+    SAB_history: $('#SAB-history').val(),
+    SABQ_refresh: $('#SABQ-refresh').val(),
+    SABH_refresh: $('#SABH-refresh').val(),
+    DN_username: $('#DN-username').val(),
+    DN_password: $('#DN-password').val(),
+    DN_refresh: $('#DN-refresh').val(),
+    HN_refresh: $('#HN-refresh').val(),
+    GH_refresh: $('#GH-refresh').val(),
+    PH_refresh: $('#PH-refresh').val()
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
@@ -217,41 +217,41 @@ function save_options() {
 
 function restore_options() {
   $('input[type=checkbox][name=GC_status]').attr('checked', serviceData.GC.status);
-  $('#GC_days').val(serviceData.GC.days);
-  $('#GC_refresh').val(serviceData.GC.refresh);
+  $('#GC-days').val(serviceData.GC.days);
+  $('#GC-refresh').val(serviceData.GC.refresh);
   $('input[type=checkbox][name=GM_status]').attr('checked', serviceData.GM.status);
   // $('#GM_emails').val(serviceData.GM.emails.join(', '));
-  $('#GM_refresh').val(serviceData.GM.refresh);
+  $('#GM-refresh').val(serviceData.GM.refresh);
   $('input[type=checkbox][name=FB_status]').attr('checked', serviceData.FB.status);
-  $('#FB_url').val(serviceData.FB.url);
-  $('#FB_refresh').val(serviceData.FB.refresh);
+  $('#FB-url').val(serviceData.FB.url);
+  $('#FB-refresh').val(serviceData.FB.refresh);
   $('input[type=checkbox][name=CP_status]').attr('checked', serviceData.CPS.status);
-  $('#CP_address').val(serviceData.CPS.address);
-  $('#CP_port').val(serviceData.CPS.port);
-  $('#CP_key').val(serviceData.CPS.key);
-  $('#CP_refresh').val(serviceData.CPS.refresh);
+  $('#CP-address').val(serviceData.CPS.address);
+  $('#CP-port').val(serviceData.CPS.port);
+  $('#CP-key').val(serviceData.CPS.key);
+  $('#CP-refresh').val(serviceData.CPS.refresh);
   $('input[type=checkbox][name=SB_status]').attr('checked', serviceData.SB.status);
-  $('#SB_address').val(serviceData.SB.address);
-  $('#SB_port').val(serviceData.SB.port);
-  $('#SB_key').val(serviceData.SB.key);
-  $('#SB_refresh').val(serviceData.SB.refresh);
+  $('#SB-address').val(serviceData.SB.address);
+  $('#SB-port').val(serviceData.SB.port);
+  $('#SB-key').val(serviceData.SB.key);
+  $('#SB-refresh').val(serviceData.SB.refresh);
   $('input[type=checkbox][name=SAB_status]').attr('checked', serviceData.SABQ.status);
-  $('#SAB_address').val(serviceData.SABQ.address);
-  $('#SAB_port').val(serviceData.SABQ.port);
-  $('#SAB_key').val(serviceData.SABQ.key);
-  $('#SAB_history').val(serviceData.SABH.length);
-  $('#SABQ_refresh').val(serviceData.SABQ.refresh);
-  $('#SABH_refresh').val(serviceData.SABH.refresh);
+  $('#SAB-address').val(serviceData.SABQ.address);
+  $('#SAB-port').val(serviceData.SABQ.port);
+  $('#SAB-key').val(serviceData.SABQ.key);
+  $('#SAB-history').val(serviceData.SABH.length);
+  $('#SABQ-refresh').val(serviceData.SABQ.refresh);
+  $('#SABH-refresh').val(serviceData.SABH.refresh);
   $('input[type=checkbox][name=DN_status]').attr('checked', serviceData.DN.status);
-  $('#DN_username').val(serviceData.DN.username);
-  $('#DN_password').val(serviceData.DN.password);
-  $('#DN_refresh').val(serviceData.DN.refresh);
+  $('#DN-username').val(serviceData.DN.username);
+  $('#DN-password').val(serviceData.DN.password);
+  $('#DN-refresh').val(serviceData.DN.refresh);
   $('input[type=checkbox][name=HN_status]').attr('checked', serviceData.HN.status);
-  $('#HN_refresh').val(serviceData.HN.refresh);
+  $('#HN-refresh').val(serviceData.HN.refresh);
   $('input[type=checkbox][name=GH_status]').attr('checked', serviceData.GH.status);
-  $('#GH_refresh').val(serviceData.GH.refresh);
+  $('#GH-refresh').val(serviceData.GH.refresh);
   $('input[type=checkbox][name=PH_status]').attr('checked', serviceData.PH.status);
-  $('#PH_refresh').val(serviceData.PH.refresh);
+  $('#PH-refresh').val(serviceData.PH.refresh);
 }
 
 function formatUrl(fieldname) {
@@ -264,9 +264,9 @@ function formatUrl(fieldname) {
 }
 
 function designerNewsLogin() {
-  $('.DN_login_status').html(serviceData.spinner);
-  var password = $('#DN_password').val();
-  var username = $('#DN_username').val();
+  $('.DN-login-status').html(serviceData.spinner);
+  var password = $('#DN-password').val();
+  var username = $('#DN-username').val();
   var url = "https://api-news.layervault.com/oauth/token";
   var apiCall = "?grant_type=password&username=" + username + "&password=" + password;
 
@@ -278,13 +278,13 @@ function designerNewsLogin() {
     localStorage.setItem('DesignernewsToken', "Bearer " + data.access_token);
     serviceData.DN.token = "Bearer " + data.access_token;
     $('.DN_login_status').html(
-      "<div class='done_all_icon'></div>"
+      "<div class='done-all-icon'></div>"
     );
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
     $('.DN_login_status').html(
-      "<div class='error_icon'></div>"
+      "<div class='error-icon'></div>"
     );
   });
 }

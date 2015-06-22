@@ -1,74 +1,74 @@
-.panel_couchpotato_background {
-  .panel_header_background1 {
+.panel-couchpotato-background {
+  .panel-header-background1 {
     background-color: $couchpotato-color;
   }
 
-  .panel_header_background2 {
-    background-image: image-url('CP_header.png');
-    background-size: auto 76.8px;
-    background-position: 115%;
+  .panel-header-background2 {
     background-color: $couchpotato-color;
+    background-image: image-url('CP_header.png');
+    background-position: 115%;
+    background-size: auto 76.8px;
   }
 }
 
 .wanted,
 .snatched {
-  .cp_item {
-    padding-left: 72px;
+  .cp-item {
     height: 56px;
     line-height: 56px;
+    padding-left: 72px;
 
-    .cp_poster_container {
-      position: absolute;
-      left: 16px;
-      top: 9px;
-      height: 38px;
-      width: 38px;
+    .cp-poster-container {
       border-radius: 100%;
+      height: 38px;
+      left: 16px;
       overflow: hidden;
+      position: absolute;
+      top: 9px;
+      width: 38px;
 
-      .cp_poster {
+      .cp-poster {
         width: 100%;
       }
     }
 
-    .core_item_content {
+    .core-item-content {
       width: 272px;
     }
 
-    .core_item_icon {
+    .core-item-icon {
       height: 56px;
       padding: 16px;
     }
   }
 
-  .cp_collapse {
-    position: relative;
+  .cp-collapse {
     line-height: 48px;
     padding-left: 16px;
+    position: relative;
 
-    .cp_collapse_buttons {
+    .cp-collapse-buttons {
+      height: 48px;
       position: absolute;
       right: 0;
-      height: 48px;
-      width: 104px;
       top: 0;
+      width: 104px;
     }
 
-    .cp_search_movie {
+    .cp-search-movie {
       margin: 0 4px;
     }
 
-    .cp_search_movie,
-    .cp_imdb_link_icon {
-      @include ripple(#000);
+    .cp-search-movie,
+    .cp-imdb-link-icon {
+      @include ripple($black);
+      background-position: 50%;
+      background-repeat: no-repeat;
       border-radius: 100%;
       float: right;
       height: 48px;
-      width: 48px;
       padding: 12px;
-      background-repeat: no-repeat;
-      background-position: 50%;
+      width: 48px;
     }
   }
 }

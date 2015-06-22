@@ -5,7 +5,7 @@
 html,
 html a {
   -webkit-font-smoothing: antialiased;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0 , .004);
 }
 
 a {
@@ -13,44 +13,44 @@ a {
 }
 
 body {
-  width: 0;
   margin: 0;
-  padding: 0;
   overflow-x: auto;
   overflow-y: hidden;
+  padding: 0;
+  width: 0;
 }
 
-.loading_bar {
-  @include spinner(#000);
+.loading-bar {
+  @include spinner($black);
   line-height: initial;
   text-align: center;
 
-  #spinnerContainer {
+  #spinner-container {
     margin-top: 12px;
   }
 }
 
-.settings_button {
-  @include ripple(#000);
+.settings-button {
   @include paper-shadow(1);
-  position: fixed !important;
-  border-radius: 100%;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  padding: 16px;
-  margin: 16px;
-  height: 56px;
-  width: 56px;
+  @include ripple($black);
+  background-color: $clr-grey-300;
   background-position: 50%;
   background-repeat: no-repeat;
-  background-color: $clr-grey-300;
+  border-radius: 100%;
+  bottom: 0;
+  height: 56px;
+  margin: 16px;
+  padding: 16px;
+  position: fixed !important;
+  right: 0;
+  width: 56px;
+  z-index: 1;
 }
 
-.refresh_loading_icon {
+.refresh-loading-icon {
   height: 24px;
-  width: 24px;
   padding: 8px;
+  width: 24px;
 
   &::shadow .circle {
     border-color: $white;
@@ -62,21 +62,21 @@ body {
   clear: both;
 }
 
-.float_right {
+.float-right {
   float: right;
 }
 
-.float_left {
+.float-left {
   float: left;
 }
 
 .error {
   @include paper-shadow(1);
-  white-space: normal;
   background-color: #eee;
   color: $black;
-  padding: 15px 16px 10px;
   display: none;
+  padding: 15px 16px 10px;
+  white-space: normal;
 
   .paper-button {
     font-weight: 500;
@@ -85,27 +85,27 @@ body {
 }
 
 .paper-flat-button {
-  @include ripple(#000);
+  @include ripple($black);
+  border-radius: 3px;
   display: block;
   float: right;
-  min-width: 5.14em;
+  font-weight: 500;
   height: 40px;
   line-height: 40px;
   margin: 0 4px;
+  min-width: 5.14em;
   padding: 0 7px;
-  text-transform: uppercase;
-  font-weight: 500;
   text-align: center;
-  border-radius: 3px;
+  text-transform: uppercase;
 }
 
-.refresh_button {
-  @include spinner();
+.refresh-button {
   @include ripple();
+  @include spinner();
+  border-radius: 100%;
   display: inline-block;
   height: 40px;
-  width: 40px;
-  padding: 8px;
   margin: 12px 8px;
-  border-radius: 100%;
+  padding: 8px;
+  width: 40px;
 }

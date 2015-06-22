@@ -1,32 +1,32 @@
-.panel_sabnzbd_background {
-  .panel_header_background1 {
+.panel-sabnzbd-background {
+  .panel-header-background1 {
     background-color: $sabnzbd-color;
   }
 
-  .panel_header_background2 {
-    background-image: image-url("SAB_header.png");
-    background-size: auto 76.8px;
-    background-position: 110%;
+  .panel-header-background2 {
     background-color: $sabnzbd-color;
+    background-image: image-url('SAB_header.png');
+    background-position: 110%;
+    background-size: auto 76.8px;
   }
 }
 
 .queue {
-  .sab_item_container {
+  .sab-item-container {
     height: 72px;
     line-height: initial;
 
-    .sab_item_name {
+    .sab-item-name {
+      padding-top: 17px;
       position: absolute;
       top: 0;
-      padding-top: 17px;
     }
 
-    .sab_item_status {
-      position: absolute;
+    .sab-item-status {
       bottom: 0;
-      padding-bottom: 17px;
       color: $grey;
+      padding-bottom: 17px;
+      position: absolute;
     }
   }
 }
@@ -34,58 +34,52 @@
 .history {
   padding-bottom: 50px;
 
-  .sab_item_name {
-    width: 330px;
+  .sab-item-name {
     @include text-truncate;
+    width: 330px;
   }
 }
 
-// .sab_item_name {
-//   position: absolute;
-//   top: 0;
-//   padding-top: 17px;
-// }
-
-.sabh_collapse,
-.sabq_collapse {
-  position: relative;
+.sabh-collapse,
+.sabq-collapse {
   line-height: 48px;
   padding-left: 16px;
+  position: relative;
 
-  .sabh_collapse_buttons,
-  .sabq_collapse_buttons {
+  .sabh-collapse-buttons,
+  .sabq-collapse-buttons {
+    height: 48px;
     position: absolute;
     right: 4px;
-    height: 48px;
-    width: 48px;
     top: 0;
+    width: 48px;
 
-    .sabh_remove_icon,
-    .sabq_remove_icon {
-      @include ripple(#000);
+    .sabh-remove-icon,
+    .sabq-remove-icon {
+      @include ripple($black);
+      background-position: 50%;
+      background-repeat: no-repeat;
       border-radius: 100%;
       float: right;
       height: 48px;
-      width: 48px;
       padding: 12px;
-      background-repeat: no-repeat;
-      background-position: 50%;
+      width: 48px;
     }
   }
 }
 
-.sabnzbd_info {
+.sabnzbd-info {
   @include paper-shadow(1);
-  line-height: 50px;
   background-color: $white;
+  line-height: 50px;
   pointer-events: auto;
 
-  .sab_time {
-    right: 16px;
+  .sab-time {
     float: right;
+    right: 16px;
   }
 
-  .sab_status {
+  .sab-status {
     float: left;
     width: 321px;
   }

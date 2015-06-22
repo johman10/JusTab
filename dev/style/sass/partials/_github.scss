@@ -1,26 +1,26 @@
-.panel_github_background {
-  .panel_header_background1 {
+.panel-github-background {
+  .panel-header-background1 {
     background-color: $github-color;
   }
 
-  .panel_header_background2 {
-    background-image: image-url('GH_header.png');
-    background-size: auto 76.8px;
-    background-position: 112%;
+  .panel-header-background2 {
     background-color: $github-color;
+    background-image: image-url('GH_header.png');
+    background-position: 112%;
+    background-size: auto 76.8px;
   }
 }
 
-.gh_links {
-  .core_item {
+.gh-links {
+  .core-item {
     height: 72px;
   }
 
   a {
     @include text-truncate;
     color: $black;
-    text-decoration: none;
     display: block;
+    text-decoration: none;
 
     &:visited {
       color: $grey;
@@ -31,16 +31,16 @@
     }
   }
 
-  .gh_title {
+  .gh-title {
     @include text-truncate;
     line-height: initial;
     padding: 17px 0 0;
   }
 
-  .gh_description {
+  .gh-description {
     @include text-truncate;
+    color: gray;
     line-height: initial;
     padding: 0 0 17px;
-    color: gray;
   }
 }

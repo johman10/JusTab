@@ -52,21 +52,21 @@ function getProductHuntStories(token, callback) {
 function phHTML() {
   if (serviceData.PH.JSON) {
     var data = serviceData.PH.JSON,
-        ph_links = '';
+        phLinks = '';
 
     $.each(data.posts, function(i, story) {
-      ph_links +=
-        '<div class="core_item waves-effect ph_link_container">' +
-          '<a href="' + story.redirect_url + '" class="ph_story_url" target="_blank">' +
+      phLinks +=
+        '<div class="core-item waves-effect ph-link-container">' +
+          '<a href="' + story.redirect_url + '" class="ph-story-url" target="_blank">' +
             story.name +
           '</a>' +
-          '<a href="' + story.discussion_url + '" class="ph_comments_url" target="_blank">' +
+          '<a href="' + story.discussion_url + '" class="ph-comments-url" target="_blank">' +
             story.comments_count + ' comments - ' + story.votes_count + ' points' +
           '</a>' +
         '</div>';
     });
 
-    localStorage.setItem('ProductHuntHTML', ph_links);
-    serviceData.PH.HTML = ph_links;
+    localStorage.setItem('ProductHuntHTML', phLinks);
+    serviceData.PH.HTML = phLinks;
   }
 }

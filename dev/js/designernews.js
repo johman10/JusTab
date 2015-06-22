@@ -3,15 +3,15 @@
 
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.DN.status) {
-    $('.refresh_dn').click(function() {
+    $('.refresh-dn').click(function() {
       $('#designernews .error:visible').slideUp(400);
 
-      $('.refresh_dn').fadeOut(400, function() {
+      $('.refresh-dn').fadeOut(400, function() {
         $(this).html(serviceData.spinner);
         $(this).fadeIn(400, function() {
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getDesignerNewsData(function() {
-              $('.refresh_dn').fadeOut(400, function() {
+              $('.refresh-dn').fadeOut(400, function() {
                 $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Designernews" draggable=false>');
                 $(this).fadeIn(400);
               });
@@ -21,14 +21,14 @@ $.when(serviceDataRefreshDone).done(function() {
       });
     });
 
-    $('html').on('click', '.dn_upvote', function(event) {
+    $('html').on('click', '.dn-upvote', function(event) {
       dnUpvote($(this));
     });
   }
 });
 
 function dnShowData() {
-  $('.dn_links').empty();
+  $('.dn-links').empty();
   var error = serviceData.DN.error;
 
   if (error == "true") {
@@ -38,7 +38,7 @@ function dnShowData() {
     $('#designernews .error').slideUp('slow');
   }
 
-  $('.dn_links').html(serviceData.DN.HTML);
+  $('.dn-links').html(serviceData.DN.HTML);
 }
 
 function dnUpvote(object) {

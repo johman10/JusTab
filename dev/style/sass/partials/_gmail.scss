@@ -1,22 +1,22 @@
-.panel_gmail_background {
-  .panel_header_background1 {
+.panel-gmail-background {
+  .panel-header-background1 {
     background-color: $gmail-color;
   }
 
-  .panel_header_background2 {
-    background-image: image-url('GM_header.svg');
-    background-size: auto 76.8px;
-    background-position: 118%;
+  .panel-header-background2 {
     background-color: $gmail-color;
+    background-image: image-url('GM_header.svg');
+    background-position: 118%;
+    background-size: auto 76.8px;
   }
 }
 
-.mail_unread,
-.mail_read {
-  .gm_message {
+.mail-unread,
+.mail-read {
+  .gm-message {
+    height: 72px;
     line-height: initial;
     overflow: hidden;
-    height: 72px;
 
     &:hover {
       background-color: $hover-color;
@@ -24,27 +24,28 @@
   }
 
   a {
-    text-decoration: none;
     color: $black;
+    text-decoration: none;
   }
 
-  .gm_message_subject {
+  .gm-message-subject {
     @include text-truncate;
     line-height: initial;
     padding: 17px 0 0;
     width: 244px;
   }
 
-  .gm_message_date {
+  .gm-message-date {
+    line-height: initial;
     position: absolute;
     right: 16px;
     top: 16px;
   }
 
-  .gm_message_from {
+  .gm-message-from {
     @include text-truncate;
+    color: $grey;
     line-height: initial;
     padding: 0 0 17px;
-    color: $grey;
   }
 }

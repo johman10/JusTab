@@ -1,32 +1,32 @@
-.core_item {
-  @include ripple(#000);
+.core-item {
+  @include ripple($black);
+  border-top: solid 1px transparent;
+  line-height: 48px;
   min-height: 48px;
-  width: 100%;
+  overflow: hidden;
   padding: 0 16px;
   position: relative;
-  line-height: 48px;
-  overflow: hidden;
   transition: border-color 330ms, background-color 150ms;
-  border-top: solid 1px transparent;
+  width: 100%;
 
-  .core_item_content {
+  .core-item-content {
     @include text-truncate;
     width: 100%;
   }
 
-  .core_item_icon {
-    position: absolute;
-    top: 50%;
-    right: 0;
+  .core-item-icon {
     padding: 0 16px;
+    position: absolute;
+    right: 0;
+    top: 50%;
     transform: translateY(-50%);
   }
 
   &.expanded {
-    border-top-color: #ECECEC;
+    border-top-color: #ececec;
   }
 
-  &:not(.without_hover) {
+  &:not(.without-hover) {
     cursor: pointer;
 
     &:hover {
@@ -35,29 +35,29 @@
   }
 }
 
-.core_collapse {
+.core-collapse {
   @include text-truncate;
-  overflow-y: hidden;
-  height: 0;
   border-bottom: solid 1px transparent;
+  height: 0;
+  overflow-y: hidden;
   transition: height 330ms, border-color 330ms;
 
   &.expanded {
+    border-bottom-color: #ececec;
     height: 48px;
-    border-bottom-color: #ECECEC;
   }
 }
 
-.bottom_bar_container {
-  height: 50px;
-  position: absolute;
+.bottom-bar-container {
   bottom: 0;
+  height: 50px;
   pointer-events: none;
+  position: absolute;
 
-  .bottom_bar_part {
+  .bottom-bar-part {
     display: none;
     float: left;
-    width: 400px;
     height: 50px;
+    width: 400px;
   }
 }

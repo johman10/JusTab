@@ -42,7 +42,7 @@ function getDesignerNewsData(callback) {
 function dnHTML() {
   if (serviceData.DN.JSON) {
     var data = serviceData.DN.JSON;
-    var dn_links = '';
+    var dnLinks = '';
 
     $.each(data.stories, function(i, story) {
       if (!story.url) {
@@ -50,34 +50,34 @@ function dnHTML() {
       }
 
       if (story.badge) {
-        dn_links +=
-          '<div class="core_item waves-effect dn_link_container dn_link_with_badge">' +
-            '<img src="/img/dn_badges/badge_' + story.badge + '.png" class="dn_badge">';
+        dnLinks +=
+          '<div class="core-item waves-effect dn-link-container dn-link-with-badge">' +
+            '<img src="/img/dn_badges/badge_' + story.badge + '.png" class="dn-badge">';
       }
       else {
-        dn_links += '<div class="core_item waves-effect dn_link_container">';
+        dnLinks += '<div class="core-item waves-effect dn-link-container">';
       }
 
-      dn_links +=
-          '<a href="' + story.url + '" class="dn_story_url" target="_blank">' +
+      dnLinks +=
+          '<a href="' + story.url + '" class="dn-story-url" target="_blank">' +
             story.title +
           '</a>' +
-          '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn_comments_url" target="_blank">' +
+          '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn-comments-url" target="_blank">' +
             story.comment_count + ' comments - ' + story.vote_count + ' points' +
           '</a>';
 
       if (serviceData.DN.token !== null) {
         if (serviceData.DN.upvotes && serviceData.DN.upvotes.indexOf(story.id) > -1) {
-          dn_links += '<div class="dn_upvote voted" data-id=' + story.id + '></div>';
+          dnLinks += '<div class="dn-upvote voted" data-id=' + story.id + '></div>';
         } else {
-          dn_links += '<div class="dn_upvote" data-id=' + story.id + '></div>';
+          dnLinks += '<div class="dn-upvote" data-id=' + story.id + '></div>';
         }
       }
 
-      dn_links += '</div>';
+      dnLinks += '</div>';
     });
 
-    localStorage.setItem('DesignernewsHTML', dn_links);
-    serviceData.DN.HTML = dn_links;
+    localStorage.setItem('DesignernewsHTML', dnLinks);
+    serviceData.DN.HTML = dnLinks;
   }
 }

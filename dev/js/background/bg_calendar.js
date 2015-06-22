@@ -72,8 +72,8 @@ function calendarHTML() {
       }
 
       htmlData +=
-        '<div class="core_item gc_item">' +
-          '<div class="core_item_content">';
+        '<div class="core-item gc-item">' +
+          '<div class="core-item-content">';
 
       if (cEvent.start.dateTime) {
         eventStartTime = moment(cEvent.start.dateTime).format("HH:mm");
@@ -86,22 +86,22 @@ function calendarHTML() {
 
       htmlData +=
           '</div>' +
-          '<div class="core_item_icon">' +
-            '<div class="expand_more_icon"></div>' +
+          '<div class="core-item-icon">' +
+            '<div class="expand-more-icon"></div>' +
           '</div>' +
         '</div>' +
-        '<div class="gc_collapse core_collapse">';
+        '<div class="gc-collapse core-collapse">';
 
       if (cEvent.location) {
         htmlData +=
-          '<div class="gc_event_location">' +
+          '<div class="gc-event-location">' +
             cEvent.location +
           '</div>';
       }
 
       htmlData +=
-        '<a class="gc_event_link" href="' + cEvent.htmlLink + '" target="_blank">' +
-          '<div class="waves-effect gc_event_link_icon edit_icon"></div>' +
+        '<a class="gc-event-link" href="' + cEvent.htmlLink + '" target="_blank">' +
+          '<div class="waves-effect gc-event-link-icon edit-icon"></div>' +
         '</a>' +
       '</div>';
     });

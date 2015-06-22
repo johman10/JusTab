@@ -2,14 +2,14 @@ $(document).ready(function() {
   $.when(serviceDataRefreshDone).done(function() {
     // Sort HTML based on array
     if (localStorage.getItem('serviceOrder')) {
-      sortServices($('.panel_container'), $('.bottom_bar_container'));
+      sortServices($('.panel-container'), $('.bottom-bar-container'));
     }
 
     // Show service that are on
     $.each(serviceData, function(index, service) {
       serviceStatus = service.status;
       serviceId = '#' + service.containerId;
-      serviceInfo = '.' + service.containerId + '_info';
+      serviceInfo = '.' + service.containerId + '-info';
       console.log(service.containerId, serviceStatus);
       if (serviceStatus) {
         window[service.feFunctionName]();
@@ -19,21 +19,21 @@ $(document).ready(function() {
 
     // Resize body
     $('body').width($('.panel:visible').length * 400);
-    $('.bottom_bar_container').width($('body').width());
+    $('.bottom-bar-container').width($('body').width());
 
     // Make images non-draggable
     $('img').attr('draggable', false);
 
     // Set settings button click action
-    $('.settings_button, .error_settings_button').click(function(event) {
+    $('.settings-button, .error-settings-button').click(function(event) {
       chrome.tabs.create({
         'url': chrome.extension.getURL("options.html")
       });
     });
 
     // Error retry button call action
-    $('.error_retry_button').click(function(event) {
-      var refresh_button = $(this).closest('.panel_content').prev('.panel_header').find('.refresh_button');
+    $('.error-retry-button').click(function(event) {
+      var refresh_button = $(this).closest('.panel-content').prev('.panel-header').find('.refresh-button');
       refresh_button.click();
     });
 
@@ -96,7 +96,7 @@ function sortServices(panelcontainer, bottomcontainer) {
 }
 
 function errorChange(e) {
-  serviceName = e.key.replace('_error', '').toLowerCase();
+  serviceName = e.key.replace('-error', '').toLowerCase();
   newValue = e.newValue;
 
   if (newValue == 'true') {

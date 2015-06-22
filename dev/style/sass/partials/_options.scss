@@ -1,167 +1,164 @@
-.options_body {
-  width: auto;
+.options-body {
   overflow: hidden;
+  width: auto;
 }
 
-.options_window_title {
+.options-window-title {
   @include paper-shadow();
-  width: 100vw;
-  height: 64px;
-  padding-left: 272px;
-  line-height: 64px;
-  color: $white;
   background-color: $calendar-color;
-  font-weight: 500;
+  color: $white;
   font-size: 18px;
+  font-weight: 500;
+  height: 64px;
+  line-height: 64px;
+  padding-left: 272px;
   transition: padding 400ms, background .3s;
+  width: 100vw;
 
-  .options_menu_icon {
+  .options-menu-icon {
     cursor: pointer;
-    vertical-align: middle;
-    margin-right: 8px;
     display: none;
+    margin-right: 8px;
+    vertical-align: middle;
   }
 
-  .options_window_title_text {
+  .options-window-title-text {
     display: inline;
   }
 }
 
-.options_menu {
-  overflow: scroll;
+.options-menu {
   @include paper-shadow();
-  width: 256px;
-  padding: 8px 0 48px;
   float: left;
   height: calc(100vh - 64px);
-  z-index: 100;
-  position:relative;
+  overflow: scroll;
+  padding: 8px 0 48px;
+  position: relative;
   transition: width 400ms;
+  width: 256px;
+  z-index: 100;
 
   &.expanded {
     width: 256px;
   }
 }
 
-.options_menu_link {
-  @include ripple(#000);
-  position: relative;
-  width: 256px;
+.options-menu-link {
+  @include ripple($black);
+  cursor: pointer;
   height: 48px;
   line-height: 48px;
-  cursor: pointer;
   padding: 0 16px 0 8px;
+  position: relative;
   transition: background-color 150ms;
+  width: 256px;
 
   &:hover,
   &.active {
-    background-color: #EBEBEB;
+    background-color: #ebebeb;
   }
 
   &.support {
-    position: fixed;
-    bottom: 0;
     background-color: $white;
+    border-top: solid 1px #ececec;
+    bottom: 0;
+    position: fixed;
     width: 256px;
-    border-top: solid 1px #ECECEC;
     z-index: 10;
   }
 
   // Left side handle
-  .drag_handle {
+  .drag-handle {
+    background-image: image-url('icons/reorder.svg');
+    background-position: 50%;
+    background-repeat: no-repeat;
+    cursor: ns-resize;
     float: left;
-    width: 20px;
     height: 100%;
     margin-right: 8px;
-    background-image: image-url('icons/reorder.svg');
-    background-repeat: no-repeat;
-    background-position: 50%;
-    cursor: ns-resize;
+    width: 20px;
   }
 
-  .service_toggle {
+  .service-toggle {
     float: right;
   }
 }
 
-.options_content {
-  width: 100vw;
+.options-content {
   height: calc(100vh - 64px);
   padding-left: 272px;
   transition: padding 400ms;
+  width: 100vw;
 
   #loading {
-    @include spinner(#000);
+    @include spinner($black);
     margin: 15px;
   }
 }
 
-.options_window {
-  position: relative;
+.options-window {
   height: 100%;
   overflow: scroll;
   padding: 8px 0;
+  position: relative;
 
   &:not(.Calendar) {
     display: none;
   }
 }
 
-.DN_login_status {
-  @include spinner(#000);
+.DN-login-status {
+  @include spinner($black);
 }
 
-.toast_message {
-  height: 48px;
-  min-width: 288px;
-  max-width: 568px;
+.toast-message {
+  background-color: #323232;
   border-radius: 2px;
+  bottom: -48px;
+  color: $white;
+  height: 48px;
+  left: 272px;
   line-height: 48px;
+  max-width: 568px;
+  min-width: 288px;
   padding: 0 24px;
   position: absolute;
   transition: bottom 200ms;
-  background-color: #323232;
-  bottom: -48px;
-  color: $white;
-  left: 272px;
   z-index: 100;
-  // display: none;
 }
 
-.options_mail_button {
+.options-mail-button {
   display: inline-block !important;
 }
 
-.paypal_button {
-  img {
-    height: 70%;
-    vertical-align: middle;
-    margin-right: 5px;
-  }
+.paypal-button img {
+  height: 70%;
+  margin-right: 5px;
+  vertical-align: middle;
 }
 
 @media screen and (max-width: 580px) {
-  .options_menu {
-    width: 0;
-    position: absolute;
-    left: 0;
-    top: 64px;
+  .options-menu {
     background-color: $white;
+    left: 0;
+    position: absolute;
+    top: 64px;
+    width: 0;
   }
 
-  .options_window_title {
+  .options-window-title {
     padding-left: 8px;
 
-    .options_menu_icon {
+    .options-menu-icon {
       display: inline;
     }
   }
 
-  .options_content {
+  .options-content {
     padding: 8px 0 0 8px;
   }
 
-  .button_bar {
+  .button-bar {
     width: 100%;
   }
 }

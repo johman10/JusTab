@@ -103,23 +103,23 @@ function cpCreateVar(movie, cpVar) {
   }
 
   cpVar +=
-    '<div class="core_item cp_item">' +
-      '<div class="cp_poster_container">' +
-        '<img class="cp_poster" src="img/poster_fallback.png" data-src="' + posterUrl + '"></img>' +
+    '<div class="core-item cp-item">' +
+      '<div class="cp-poster-container">' +
+        '<img class="cp-poster" src="img/poster_fallback.png" data-src="' + posterUrl + '"></img>' +
       '</div>' +
-      '<div class="core_item_content">' +
+      '<div class="core-item-content">' +
         movie.title +
       '</div>' +
-      '<div class="core_item_icon">' +
-        '<div class="expand_more_icon"></div>' +
+      '<div class="core-item-icon">' +
+        '<div class="expand-more-icon"></div>' +
       '</div>' +
     '</div>' +
-    '<div class="cp_collapse core_collapse">' +
+    '<div class="cp-collapse core-collapse">' +
       date +
-      '<div class="cp_collapse_buttons">' +
-        '<div class="icon_button search_icon cp_search_movie waves-effect" id="' + movie._id + '"></div>' +
-        '<a class="cp_imdb_link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
-          '<div class="icon_button info_icon cp_imdb_link_icon waves-effect"></div>' +
+      '<div class="cp-collapse-buttons">' +
+        '<div class="icon-button search-icon cp-search-movie waves-effect" id="' + movie._id + '"></div>' +
+        '<a class="cp-imdb-link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
+          '<div class="icon-button info-icon cp-imdb-link-icon waves-effect"></div>' +
         '</a>' +
       '</div>' +
     '</div>';

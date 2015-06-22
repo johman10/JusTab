@@ -1,30 +1,29 @@
-.panel_producthunt_background {
-  .panel_header_background1 {
+.panel-producthunt-background {
+  .panel-header-background1 {
     background-color: $producthunt-color;
   }
 
-  .panel_header_background2 {
-    background-image: image-url('PH_header.svg');
-    background-size: auto 150px;
-    background-position: 125%;
+  .panel-header-background2 {
     background-color: $producthunt-color;
+    background-image: image-url('PH_header.svg');
+    background-position: 125%;
+    background-size: auto 150px;
   }
 }
 
-.ph_link_container {
+.ph-link-container {
   height: 72px;
   line-height: initial;
 
-  .ph_story_url {
-    display: block;
+  .ph-story-url {
     @include text-truncate;
+    color: $black;
+    display: block;
+    height: 100%;
     left: 72px;
     padding: 17px 0 0;
-    height: auto;
     text-decoration: none;
-    color: $black;
     width: 328px;
-    height: 100%;
 
     &:hover {
       color: $black;
@@ -35,15 +34,15 @@
     }
   }
 
-  .ph_comments_url {
-    position: absolute;
+  .ph-comments-url {
     @include text-truncate;
-    text-decoration: none;
-    color: $grey;
-    top: initial;
-    left: initial;
-    right: initial;
     bottom: 17px;
+    color: $grey;
+    left: initial;
+    position: absolute;
+    right: initial;
+    text-decoration: none;
+    top: initial;
 
     &:hover {
       text-decoration: underline;
@@ -53,7 +52,7 @@
   &:hover {
     background-color: $hover-color;
 
-    .ph_story_url {
+    .ph-story-url {
       color: $black;
     }
   }

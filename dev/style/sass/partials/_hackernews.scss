@@ -1,29 +1,28 @@
-.panel_hackernews_background {
-  .panel_header_background1 {
+.panel-hackernews-background {
+  .panel-header-background1 {
     background-color: $hackernews-color;
   }
 
-  .panel_header_background2 {
-    background-image: image-url('HN_header.png');
-    background-size: auto 76.8px;
-    background-position: 105%;
+  .panel-header-background2 {
     background-color: $hackernews-color;
+    background-image: image-url('HN_header.png');
+    background-position: 105%;
+    background-size: auto 76.8px;
   }
 }
 
-.hn_link_container {
+.hn-link-container {
   height: 72px;
   line-height: initial;
 
-  .hn_story_url {
-    display: block;
+  .hn-story-url {
     @include text-truncate;
-    padding: 17px 0 0;
-    height: auto;
-    text-decoration: none;
     color: $black;
-    width: 328px;
+    display: block;
     height: 100%;
+    padding: 17px 0 0;
+    text-decoration: none;
+    width: 328px;
 
     &:hover {
       color: $black;
@@ -34,43 +33,43 @@
     }
   }
 
-  .hn_comments_url {
-    position: absolute;
+  .hn-comments-url {
     @include text-truncate;
-    text-decoration: none;
-    color: $grey;
-    top: initial;
-    left: initial;
-    right: initial;
     bottom: 17px;
+    color: $grey;
+    left: initial;
+    position: absolute;
+    right: initial;
+    text-decoration: none;
+    top: initial;
 
     &:hover {
       text-decoration: underline;
     }
   }
 
-  .hn_upvote {
-    @include ripple(#000);
+  .hn-upvote {
+    @include ripple($black);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border-radius: 100%;
+    height: 56px;
+    margin: 8px 0;
+    padding: 16px;
     position: absolute !important;
     right: 0;
     top: 0;
-    padding: 16px;
     width: 56px;
-    height: 56px;
-    margin: 8px 0;
-    border-radius: 100%;
-    background-repeat: no-repeat;
-    background-position: 50%;
 
     &:hover {
-      background-image: image-url("icons/thumb_up_voted.svg");
+      background-image: image-url('icons/thumb_up_voted.svg');
     }
   }
 
   &:hover {
     background-color: $hover-color;
 
-    .hn_story_url {
+    .hn-story-url {
       color: $black;
     }
   }

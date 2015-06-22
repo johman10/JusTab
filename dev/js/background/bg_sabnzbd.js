@@ -77,35 +77,35 @@ function sabqHTML() {
 
     $.each(queueJson.queue.slots, function(i, qItem) {
       queue +=
-        '<div class="core_item sab_item_container">' +
-          '<div class="sab_item_name">' +
+        '<div class="core-item sab-item-container">' +
+          '<div class="sab-item-name">' +
             qItem.filename +
           '</div>' +
-          '<div class="sab_item_status">' +
+          '<div class="sab-item-status">' +
             qItem.status + ' - ' + qItem.percentage + '%' +
           '</div>' +
-          '<div class="core_item_icon">' +
-            '<div class="expand_more_icon"></div>' +
+          '<div class="core-item-icon">' +
+            '<div class="expand-more-icon"></div>' +
           '</div>' +
         '</div>' +
-        '<div class="sabq_collapse core_collapse">' +
-          '<div class="sabq_collapse_buttons">' +
-            '<div class="icon_button remove_icon sabq_remove_icon waves-effect" data-id=' + qItem.nzo_id + '></div>' +
+        '<div class="sabq-collapse core-collapse">' +
+          '<div class="sabq-collapse-buttons">' +
+            '<div class="icon-button remove-icon sabq-remove-icon waves-effect" data-id=' + qItem.nzo_id + '></div>' +
           '</div>' +
         '</div>';
     });
     status +=
-      '<div class="core_item without_hover sab_status_container">' +
-        '<div class="sab_status">' +
+      '<div class="core-item without-hover sab-status-container">' +
+        '<div class="sab-status">' +
           queueJson.queue.status + left +
         '</div>' +
-        '<div class="sab_time">' +
+        '<div class="sab-time">' +
           timeLeft +
         '</div>' +
       '</div>';
 
     if (queueJson.queue.slots.length < 1) {
-      queue += '<div class="core_item without_hover">No items in queue at this moment.</div>';
+      queue += '<div class="core-item without-hover">No items in queue at this moment.</div>';
     }
 
     localStorage.setItem('SabnzbdQueueHTML', queue);
@@ -124,15 +124,15 @@ function sabhHTML() {
       console.log(hItem);
 
         history +=
-          '<div class="core_item sab_item_container">' +
-            '<div class="sab_item_name">' +
+          '<div class="core-item sab-item-container">' +
+            '<div class="sab-item-name">' +
               hItem.name +
             '</div>' +
-            '<div class="core_item_icon">' +
-              '<div class="expand_more_icon"></div>' +
+            '<div class="core-item-icon">' +
+              '<div class="expand-more-icon"></div>' +
             '</div>' +
           '</div>' +
-          '<div class="sabh_collapse core_collapse">';
+          '<div class="sabh-collapse core-collapse">';
 
           if (hItem.fail_message === "") {
             history += hItem.status;
@@ -142,14 +142,14 @@ function sabhHTML() {
           }
 
           history +=
-            '<div class="sabh_collapse_buttons">' +
-              '<div class="icon_button remove_icon sabh_remove_icon waves-effect" data-id=' + hItem.nzo_id + '></div>' +
+            '<div class="sabh-collapse-buttons">' +
+              '<div class="icon-button remove-icon sabh-remove-icon waves-effect" data-id=' + hItem.nzo_id + '></div>' +
             '</div>' +
           '</div>';
     });
 
     if (historyJson.history.slots.length < 1) {
-      history += '<div class="core_item without_hover">No items in history at this moment.</div>';
+      history += '<div class="core-item without-hover">No items in history at this moment.</div>';
     }
 
     localStorage.setItem('SabnzbdHistoryHTML', history);

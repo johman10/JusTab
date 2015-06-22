@@ -1,70 +1,70 @@
 .switch,
 .switch * {
-  -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  -webkit-user-select: none;
 
   label {
     cursor: pointer;
+  }
 
-    input[type=checkbox] {
-      opacity: 0;
-      width: 0;
-      height: 0;
-      display: block;
-      margin: 0;
+  input[type=checkbox] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    display: block;
+    margin: 0;
 
-      &:checked + .lever {
-        background-color: #80CDAE;
-      }
-
-      &:checked + .lever:after {
-        background-color: #009D5F;
-        left: 16px;
-      }
-
-      &:checked:not(:disabled) ~ .lever:active:after {
-        box-shadow: 0 1px 3px 1px rgba(0,0,0,0.4), 0 0 0 15px transparentize(teal, .9);
-      }
-
-      &:not(:disabled) ~ .lever:active:after {
-        box-shadow: 0 1px 3px 1px rgba(0,0,0,0.4), 0 0 0 15px rgba(0, 0, 0, 0.08);
-      }
-
-      &[disabled] + .lever{
-        cursor: default;
-      }
-
-      &[disabled] + .lever:after,
-      &[disabled]:checked + .lever:after {
-        background-color: #BDBDBD;
-      }
+    &:checked + .lever {
+      background-color: #80cdae;
     }
 
-    .lever {
-      content: "";
-      display: inline-block;
-      position: relative;
-      width: 36px;
-      height: 14px;
-      background-color: #BCBCBC;
-      border-radius: 14px;
-      transition: background 0.3s ease;
-      vertical-align: middle;
+    &:checked + .lever:after {
+      background-color: #009d5f;
+      left: 16px;
+    }
 
-      &:after {
-        content: "";
-        position: absolute;
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        background-color: #F1F1F1;
-        border-radius: 20px;
-        box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.4);
-        left: 0;
-        top: -3px;
-        transition: left linear .08s, background linear .08s, box-shadow 0.1s ease;
-      }
+    &:checked:not(:disabled) ~ .lever:active:after {
+      box-shadow: 0 1px 3px 1px rgba(0, 0, 0, .4), 0 0 0 15px transparentize(teal, .9);
+    }
+
+    &:not(:disabled) ~ .lever:active:after {
+      box-shadow: 0 1px 3px 1px rgba(0, 0, 0, .4), 0 0 0 15px rgba(0, 0, 0, .08);
+    }
+
+    &[disabled] + .lever {
+      cursor: default;
+    }
+
+    &[disabled] + .lever:after,
+    &[disabled]:checked + .lever:after {
+      background-color: #bdbdbd;
+    }
+  }
+
+  .lever {
+    background-color: #bcbcbc;
+    border-radius: 14px;
+    content: '';
+    display: inline-block;
+    height: 14px;
+    position: relative;
+    transition: background .3s ease;
+    vertical-align: middle;
+    width: 36px;
+
+    &:after {
+      background-color: #f1f1f1;
+      border-radius: 20px;
+      box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .4);
+      content: '';
+      display: inline-block;
+      height: 20px;
+      left: 0;
+      position: absolute;
+      top: -3px;
+      transition: left linear .08s, background linear .08s, box-shadow .1s ease;
+      width: 20px;
     }
   }
 }

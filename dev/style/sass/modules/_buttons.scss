@@ -1,26 +1,26 @@
-.flat_button,
-.raised_button {
-  @include ripple(#000);
+.flat-button,
+.raised-button {
+  @include ripple($black);
   background-color: $white;
   border: 0;
+  color: $black;
+  font-size: 14px;
+  font-weight: medium;
   height: 36px;
   line-height: 36px;
-  min-width: 72px;
-  text-transform: uppercase;
-  font-weight: medium;
-  font-size: 14px;
   margin: 6px 4px;
-  padding: 0 8px;
+  min-width: 72px;
   outline: none;
-  color: $black;
+  padding: 0 8px;
   text-decoration: none;
+  text-transform: uppercase;
 
   &:hover {
     background-color: $hover-color;
   }
 }
 
-.raised_button {
+.raised-button {
   @include paper-shadow();
   transition: box-shadow 200ms;
 
@@ -29,12 +29,12 @@
   }
 }
 
-.flat_button {
+.flat-button {
   float: right;
 }
 
-.icon_button:hover {
-  cursor: pointer;
+.icon-button:hover {
   background-color: $hover-color;
+  cursor: pointer;
   transition: background-color 150ms;
 }

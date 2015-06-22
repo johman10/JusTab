@@ -1,61 +1,63 @@
-.input_container {
-  position: relative;
+.input-container {
   margin: 30px 0 5px;
+  position: relative;
 
   input {
-    font: inherit;
-    display: block;
-    width: 300px;
-    border: none;
     border-bottom: 1px solid #757575;
+    border: none;
+    display: block;
+    font: inherit;
+    width: 300px;
 
     &:focus {
-      outline:none;
+      outline: none;
 
-      & ~ .input_bar:before,
-      & ~ .input_bar:after {
+      & ~ .input-bar:before,
+      & ~ .input-bar:after {
         width: 50%;
+      }
+
+      & ~ label {
+        color: #4059a9;
+        font-size: 10.5px;
+        top: -20px;
       }
     }
 
     &:focus ~ label,
     &:valid ~ label {
-      top: -20px;
       font-size: 10.5px;
-    }
-
-    &:focus ~ label {
-      color: #4059a9;
+      top: -20px;
     }
   }
 
   label {
+    color: #aaaaaa;
     font-size: 14px;
-    color: #AAAAAA;
-    position: absolute;
     pointer-events: none;
+    position: absolute;
     top: 0;
-    transition: 0.2s ease all;
-    -moz-transition: 0.2s ease all;
-    -webkit-transition: 0.2s ease all;
+    -moz-transition: .2s ease all;
+    -webkit-transition: .2s ease all;
+    transition: .2s ease all;
   }
 
-  .input_bar {
-    position: relative;
+  .input-bar {
     display: block;
+    position: relative;
     width: 300px;
 
     &:before,
     &:after {
+      background: #4059a9;
+      bottom: 0;
       content: '';
       height: 2px;
-      width: 0;
-      bottom: 0;
       position: absolute;
-      background: #4059a9;
-      transition: 0.2s ease all;
-      -moz-transition: 0.2s ease all;
-      -webkit-transition: 0.2s ease all;
+      -moz-transition: .2s ease all;
+      -webkit-transition: .2s ease all;
+      transition: .2s ease all;
+      width: 0;
     }
 
     &:before {
@@ -67,7 +69,7 @@
     }
   }
 
-  .input_description {
+  .input-description {
     color: #4059a9;
     font-size: 10.5px;
 

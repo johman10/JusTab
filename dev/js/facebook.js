@@ -1,14 +1,14 @@
 $.when(serviceDataRefreshDone).done(function() {
   if (serviceData.FB.status) {
-    $('.refresh_fb').click(function() {
+    $('.refresh-fb').click(function() {
       $('#facebook .error:visible').slideUp(400);
 
-      $('.refresh_fb').fadeOut(400, function() {
+      $('.refresh-fb').fadeOut(400, function() {
         $(this).html(serviceData.spinner);
         $(this).fadeIn(400, function() {
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
             backgroundPage.getFacebookData(function() {
-              $('.refresh_fb').fadeOut(400, function() {
+              $('.refresh-fb').fadeOut(400, function() {
                 $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Facebook" draggable=false>');
                 $(this).fadeIn(400);
               });

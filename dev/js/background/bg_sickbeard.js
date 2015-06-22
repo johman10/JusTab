@@ -99,25 +99,25 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
     var episodeString = " S" + (season<10?'0':'') + season + "E" + (episode<10?'0':'') + episode;
 
     HTML +=
-      '<div class="sb_item core_item">' +
-        '<div class="sb_poster_container">' +
-          '<img class="sb_poster" src="img/poster_fallback.png" data-src="' + posterUrl+ '">' +
+      '<div class="sb-item core-item">' +
+        '<div class="sb-poster-container">' +
+          '<img class="sb-poster" src="img/poster_fallback.png" data-src="' + posterUrl+ '">' +
         '</div>' +
-        '<div class="core_item_content">' +
+        '<div class="core-item-content">' +
           showname + episodeString +
         '</div>' +
-        '<div class="core_item_icon">' +
-          '<div class="expand_more_icon"></div>' +
+        '<div class="core-item-icon">' +
+          '<div class="expand-more-icon"></div>' +
         '</div>' +
       '</div>' +
-      '<div class="sb_collapse core_collapse">' +
+      '<div class="sb-collapse core-collapse">' +
         date +
-        "<div class='sb_collapse_buttons'>" +
-          "<div class='icon_button search_icon sb_search_episode waves-effect' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "'></div>" +
-          "<a class='sb_tvdb_link' href='http://thetvdb.com/?tab=series&id=" + tvdbid + "' target='_blank'>" +
-            "<div class='icon_button info_icon sb_tvdb_link_icon waves-effect'></div>" +
+        "<div class='sb-collapse-buttons'>" +
+          "<div class='icon-button search-icon sb-search-episode waves-effect' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "'></div>" +
+          "<a class='sb-tvdb-link' href='http://thetvdb.com/?tab=series&id=" + tvdbid + "' target='_blank'>" +
+            "<div class='icon-button info-icon sb-tvdb-link-icon waves-effect'></div>" +
           "</a>" +
-          "<div class='icon_button done_icon sb_mark_episode waves-effect' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "'></div>" +
+          "<div class='icon-button done-icon sb-mark-episode waves-effect' data-tvdbid='" + tvdbid + "' data-season='" + season + "' data-episode='" + episode + "'></div>" +
         "</div>" +
       '</div>';
   });

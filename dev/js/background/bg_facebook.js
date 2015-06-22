@@ -44,12 +44,12 @@ function FBHTML() {
       }
 
       FacebookHTML +=
-        '<div class="core_item waves-effect">' +
+        '<div class="core-item waves-effect">' +
           '<a href="' + link + '" target="_blank">' +
-            '<div class="notificationTitle">' +
+            '<div class="notification-title">' +
               title +
             '</div>' +
-            '<div class="notificationTime">' +
+            '<div class="notification-time">' +
               notificationDate +
             '</div>' +
           '</a>' +

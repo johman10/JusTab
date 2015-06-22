@@ -1,30 +1,29 @@
-.panel_designernews_background {
-  .panel_header_background1 {
+.panel-designernews-background {
+  .panel-header-background1 {
     background-color: $designernews-color;
   }
 
-  .panel_header_background2 {
-    background-image: image-url('DN_header.png');
-    background-size: auto 76.8px;
-    background-position: 110%;
+  .panel-header-background2 {
     background-color: $designernews-color;
+    background-image: image-url('DN_header.png');
+    background-position: 110%;
+    background-size: auto 76.8px;
   }
 }
 
-.dn_link_container {
+.dn-link-container {
   height: 72px;
   line-height: initial;
 
-  .dn_story_url {
-    display: block;
+  .dn-story-url {
     @include text-truncate;
+    color: $black;
+    display: block;
+    height: 100%;
     left: 72px;
     padding: 17px 0 0;
-    height: auto;
     text-decoration: none;
-    color: $black;
     width: 328px;
-    height: 100%;
 
     &:hover {
       color: $black;
@@ -35,58 +34,58 @@
     }
   }
 
-  .dn_comments_url {
-    position: absolute;
+  .dn-comments-url {
     @include text-truncate;
-    text-decoration: none;
-    color: $grey;
-    top: initial;
-    left: initial;
-    right: initial;
     bottom: 17px;
+    color: $grey;
+    left: initial;
+    position: absolute;
+    right: initial;
+    text-decoration: none;
+    top: initial;
 
     &:hover {
       text-decoration: underline;
     }
   }
 
-  .dn_upvote {
-    @include ripple(#000);
+  .dn-upvote {
+    @include ripple($black);
+    background-image: image-url('icons/thumb_up.svg');
+    background-position: 50%;
+    background-repeat: no-repeat;
+    border-radius: 100%;
+    height: 56px;
+    margin: 8px 0;
+    padding: 16px;
     position: absolute !important;
     right: 0;
     top: 0;
-    padding: 16px;
     width: 56px;
-    height: 56px;
-    margin: 8px 0;
-    border-radius: 100%;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    background-image: image-url("icons/thumb_up.svg");
 
     &:hover {
-      background-image: image-url("icons/thumb_up_voted.svg");
+      background-image: image-url('icons/thumb_up_voted.svg');
     }
 
     &.voted {
-      background-image: image-url("icons/thumb_up_voted.svg");
+      background-image: image-url('icons/thumb_up_voted.svg');
     }
   }
 
-  &.dn_link_with_badge {
+  &.dn-link-with-badge {
     padding-left: 72px;
     position: relative;
 
-    .dn_badge {
+    .dn-badge {
       display: block;
-      position: absolute;
+      height: 38px;
       left: 16px;
+      position: absolute;
       top: 17px;
       width: 38px;
-      height: 38px;
     }
 
-    .dn_story_url {
+    .dn-story-url {
       width: 273px;
     }
   }
@@ -94,7 +93,7 @@
   &:hover {
     background-color: $hover-color;
 
-    .dn_story_url {
+    .dn-story-url {
       color: $black;
     }
   }
