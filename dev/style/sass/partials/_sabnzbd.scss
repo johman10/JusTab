@@ -5,7 +5,7 @@
 
   .panel-header-background2 {
     background-color: $sabnzbd-color;
-    background-image: image-url('SAB_header.png');
+    background-image: image-url("SAB_header.png");
     background-position: 110%;
     background-size: auto 76.8px;
   }
@@ -17,9 +17,11 @@
     line-height: initial;
 
     .sab-item-name {
+      @include text-truncate;
       padding-top: 17px;
       position: absolute;
       top: 0;
+      width: 330px;
     }
 
     .sab-item-status {
