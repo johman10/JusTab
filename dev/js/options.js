@@ -167,10 +167,10 @@ function save_options() {
     calendars.push($(this).data('id'));
   });
 
-  FB_url = formatUrl('FB_url');
-  CP_address = formatUrl('CP_address');
-  SB_address = formatUrl('SB_address');
-  SAB_address = formatUrl('SAB_address');
+  FB_url = formatUrl('FB-url');
+  CP_address = formatUrl('CP-address');
+  SB_address = formatUrl('SB-address');
+  SAB_address = formatUrl('SAB-address');
 
   chrome.storage.sync.set({
     calendars: calendars,
