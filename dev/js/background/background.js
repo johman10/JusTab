@@ -1,13 +1,11 @@
 $.when(serviceDataRefreshDone).done(function() {
   chrome.runtime.onStartup.addListener(function() {
-    serviceDataRefreshDone.done(function() {
-      chrome.alarms.clearAll();
+    chrome.alarms.clearAll();
 
-      $.each(serviceData, function(index, val) {
-        if (val.status) {
-          chrome.alarms.create(val.alarmName, {periodInMinutes: val.refresh});
-        }
-      });
+    $.each(serviceData, function(index, val) {
+      if (val.status) {
+        chrome.alarms.create(val.alarmName, {periodInMinutes: val.refresh});
+      }
     });
   });
 
