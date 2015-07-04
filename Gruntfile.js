@@ -77,6 +77,8 @@ module.exports = function(grunt) {
             'bower_components/jquery/dist/jquery.min.js',
             'bower_components/moment/min/moment.min.js',
             'bower_components/unveil/jquery.unveil.min.js',
+            'bower_components/dragula/dist/dragula.min.js',
+            'bower_components/dragula/dist/dragula.min.css',
             'style/fonts/**',
             'index.html',
             'options.html',
