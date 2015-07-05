@@ -23,7 +23,6 @@ chrome.runtime.onInstalled.addListener(function(event) {
     openOptions();
   }
   else if (event.reason == "update") {
-    var newVersion = chrome.runtime.getManifest().version;
     createNotificaton(
       { type: "basic",
         title: "JusTab is updated",
