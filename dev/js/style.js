@@ -70,13 +70,13 @@ $(document).ready(function() {
           backgroundPage.refreshServiceData();
           $.when(backgroundPage.serviceDataRefreshDone).then(function() {
             $.each(currentTabs, function(index, tab) {
-              if (tab.refreshServiceData) {
-                tab.refreshServiceData();
-                $.when(tab.serviceDataRefreshDone).then(function() {
-                  storageFunction = storageFunctions[e.originalEvent.key];
+              tab.refreshServiceData();
+              $.when(tab.serviceDataRefreshDone).then(function() {
+                storageFunction = storageFunctions[e.originalEvent.key];
+                if (tab.storageFunction) {
                   tab.storageFunction();
-                });
-              }
+                }
+              });
             });
           });
         });
