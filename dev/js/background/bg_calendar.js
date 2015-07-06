@@ -1,36 +1,46 @@
 function getCalendarData(callback) {
-  chrome.identity.getAuthToken({'interactive': true},function (token) {
-    var url = [];
-    var encodedUrl;
-    $.each(serviceData.GC.calendars, function(i, val) {
-      encodedUrl = encodeURIComponent(val);
-      url.push("https://www.googleapis.com/calendar/v3/calendars/" + encodedUrl + "/events");
+  if (serviceData.GC.status) {
+    chrome.identity.getAuthToken({'interactive': true},function (token) {
+      var calendarUrls = [];
+      var calendarIds = [];
+      var encodedUrl;
+      $.each(serviceData.GC.calendars, function(i, val) {
+        encodedUrl = encodeURIComponent(val);
+        calendarUrls.push("https://www.googleapis.com/calendar/v3/calendars/" + encodedUrl + "/events");
+        calendarIds.push(val);
+        console.log(calendarUrls, calendarIds);
+      });
+      eventArray(calendarUrls, calendarIds, token, callback);
     });
-    eventArray(url, token, callback);
-  });
+  }
 }
 
-function eventArray(url, token, callback) {
+function eventArray(calendarUrls, calendarIds, token, callback) {
   dateNow = new Date().toISOString();
   daysShow = serviceData.GC.days;
   dateLast = moment(new Date()).add(daysShow, 'days').endOf("day").toISOString();
   events = [];
   promises = [];
 
-  $.each(url, function(i) {
-    promises.push($.ajax({
-      url: url[i] + "?&oauth_token=" + token + "&timeMin=" + dateNow + "&timeMax=" + dateLast + "&orderBy=startTime&singleEvents=true"
-    })
-    .done(function(data) {
-      localStorage.setItem("Calendar_error", false);
-      serviceData.GC.error = false;
-      events = $.merge(events, data.items);
-    })
-    .fail(function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("Calendar_error", true);
-      serviceData.GC.error = true;
-    }));
+  $.each(calendarUrls, function(i, url) {
+    promises.push(
+      $.ajax({
+        url: url + "?&oauth_token=" + token + "&timeMin=" + dateNow + "&timeMax=" + dateLast + "&orderBy=startTime&singleEvents=true"
+      })
+      .done(function(data) {
+        $.each(data.items, function(t, item) {
+          item.calendarId = calendarIds[i];
+        });
+        localStorage.setItem("Calendar_error", false);
+        serviceData.GC.error = false;
+        events = $.merge(events, data.items);
+      })
+      .fail(function(xhr, ajaxOptions, thrownError) {
+        console.log(xhr, ajaxOptions, thrownError);
+        localStorage.setItem("Calendar_error", true);
+        serviceData.GC.error = true;
+      })
+    );
   });
 
   $.when.apply($, promises).done(function() {
@@ -50,65 +60,67 @@ function eventArray(url, token, callback) {
 function calendarHTML() {
   var events = serviceData.GC.JSON.sort(sortCalendarResults);
 
-  if (serviceData.GC.status) {
-    htmlData = '';
-    eventDate = '';
+  htmlData = '';
+  eventDate = '';
 
-    $.each(events, function(i, cEvent) {
-      if (moment(cEvent.start.dateTime || cEvent.start.date).isBefore(moment(), 'day')) {
-        formattedDate = 'Today';
-      } else {
-        formattedDate = moment(cEvent.start.dateTime || cEvent.start.date).calendar();
-      }
+  $.each(events, function(i, cEvent) {
+    console.log(cEvent);
+    if (moment(cEvent.start.dateTime || cEvent.start.date).isBefore(moment(), 'day')) {
+      formattedDate = 'Today';
+    } else {
+      formattedDate = moment(cEvent.start.dateTime || cEvent.start.date).calendar();
+    }
 
-      if (moment(cEvent.start.dateTime || cEvent.start.date).isAfter(eventDate, 'day') || eventDate === '') {
-        htmlData += '<h2>' + formattedDate + '</h2>';
-      }
+    if (moment(cEvent.start.dateTime || cEvent.start.date).isAfter(eventDate, 'day') || eventDate === '') {
+      htmlData += '<h2>' + formattedDate + '</h2>';
+    }
 
-      if (moment(cEvent.start.dateTime || cEvent.start.date).isBefore(moment(), 'day')) {
-        eventDate = moment();
-      } else {
-        eventDate = moment(cEvent.start.dateTime || cEvent.start.date);
-      }
+    if (moment(cEvent.start.dateTime || cEvent.start.date).isBefore(moment(), 'day')) {
+      eventDate = moment();
+    } else {
+      eventDate = moment(cEvent.start.dateTime || cEvent.start.date);
+    }
 
-      htmlData +=
-        '<div class="core-item gc-item">' +
-          '<div class="core-item-content">';
+    htmlData +=
+      '<div class="core-item gc-item">' +
+        '<div class="core-item-content">';
 
-      if (cEvent.start.dateTime) {
-        eventStartTime = moment(cEvent.start.dateTime).format("HH:mm");
-        eventEndTime = moment(cEvent.end.dateTime).format("HH:mm");
-        htmlData += eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary;
-      }
-      else {
-        htmlData += cEvent.summary;
-      }
+    if (cEvent.start.dateTime) {
+      eventStartTime = moment(cEvent.start.dateTime).format("HH:mm");
+      eventEndTime = moment(cEvent.end.dateTime).format("HH:mm");
+      htmlData += eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary;
+    }
+    else {
+      htmlData += cEvent.summary;
+    }
 
-      htmlData +=
-          '</div>' +
-          '<div class="core-item-icon">' +
-            '<div class="expand-more-icon"></div>' +
-          '</div>' +
+    htmlData +=
         '</div>' +
-        '<div class="gc-collapse core-collapse">';
+        '<div class="core-item-icon">' +
+          '<div class="expand-more-icon"></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="gc-collapse core-collapse">';
 
-      if (cEvent.location) {
-        htmlData +=
-          '<div class="gc-event-location">' +
-            cEvent.location +
-          '</div>';
-      }
-
+    if (cEvent.location) {
       htmlData +=
+        '<div class="gc-event-location">' +
+          cEvent.location +
+        '</div>';
+    }
+
+    htmlData +=
+      '<div class="gc-icon-container">' +
+        '<div class="waves-effect gc-event-remove-icon remove-icon" data-event-id=' + cEvent.id + ' data-calendar-id=' + cEvent.calendarId + '></div>' +
         '<a class="gc-event-link" href="' + cEvent.htmlLink + '" target="_blank">' +
           '<div class="waves-effect gc-event-link-icon edit-icon"></div>' +
         '</a>' +
-      '</div>';
-    });
+      '</div>' +
+    '</div>';
+  });
 
-    localStorage.setItem('CalendarHTML', htmlData);
-    serviceData.GC.HTML = htmlData;
-  }
+  localStorage.setItem('CalendarHTML', htmlData);
+  serviceData.GC.HTML = htmlData;
 }
 
 function sortCalendarResults(a, b) {

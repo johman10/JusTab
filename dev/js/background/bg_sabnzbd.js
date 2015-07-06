@@ -121,31 +121,29 @@ function sabhHTML() {
     var history = '<h2>History</h2>';
 
     $.each(historyJson.history.slots, function(i, hItem) {
-      console.log(hItem);
+      history +=
+        '<div class="core-item sab-item-container">' +
+          '<div class="sab-item-name">' +
+            hItem.name +
+          '</div>' +
+          '<div class="core-item-icon">' +
+            '<div class="expand-more-icon"></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="sabh-collapse core-collapse">';
+
+        if (hItem.fail_message === "") {
+          history += hItem.status;
+        }
+        else {
+          history += hItem.fail_message;
+        }
 
         history +=
-          '<div class="core-item sab-item-container">' +
-            '<div class="sab-item-name">' +
-              hItem.name +
-            '</div>' +
-            '<div class="core-item-icon">' +
-              '<div class="expand-more-icon"></div>' +
-            '</div>' +
+          '<div class="sabh-collapse-buttons">' +
+            '<div class="icon-button remove-icon sabh-remove-icon waves-effect" data-id=' + hItem.nzo_id + '></div>' +
           '</div>' +
-          '<div class="sabh-collapse core-collapse">';
-
-          if (hItem.fail_message === "") {
-            history += hItem.status;
-          }
-          else {
-            history += hItem.fail_message;
-          }
-
-          history +=
-            '<div class="sabh-collapse-buttons">' +
-              '<div class="icon-button remove-icon sabh-remove-icon waves-effect" data-id=' + hItem.nzo_id + '></div>' +
-            '</div>' +
-          '</div>';
+        '</div>';
     });
 
     if (historyJson.history.slots.length < 1) {
