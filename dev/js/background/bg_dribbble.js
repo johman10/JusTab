@@ -41,7 +41,7 @@ function drHTML() {
         drLinks +=
             '<div class="dr-story-gif">GIF</div>';
       }
-      if (serviceData.DR.gifs) {
+      if (serviceData.DR.gifs && story.images.hidpi) {
         drLinks +=
             '<img src="' + story.images.hidpi + '" class="dr-image">';
       }
