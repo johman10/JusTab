@@ -95,7 +95,7 @@ function sortServices(panelcontainer, bottomcontainer) {
 }
 
 function errorChange(e) {
-  serviceName = e.key.replace('-error', '').toLowerCase();
+  serviceName = e.key.replace('_error', '').toLowerCase();
   newValue = e.newValue;
 
   if (newValue == 'true') {
