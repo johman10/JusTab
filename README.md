@@ -2,7 +2,6 @@
 This Chrome Extenstion gives you the ability to keep track of multiple services from every new tab you open.
 
 At this moment it supports:
-
 - [Google Calendar](http://calendar.google.com)
 - [Facebook](https://facebook.com)
 - [Couchpotato](https://github.com/RuudBurger/CouchPotatoServer)
@@ -12,12 +11,16 @@ At this moment it supports:
 - [Hacker News](https://news.ycombinator.com/)
 - [Github Trending RSS](http://ghtrendingrss.appspot.com/)
 - [Product Hunt](https://www.producthunt.com)
+- [Dribbble](https://www.dribbble.com)
 
 ## Installation
-If you want to install this extension
+You can download this extension in the Chrome Webstore go to:
+[https://chrome.google.com/webstore/detail/justab/ahfidkanlmlkhggdgencpoanjkokcfck](https://chrome.google.com/webstore/detail/justab/ahfidkanlmlkhggdgencpoanjkokcfck)
 
-- Clone this repository (`git clone git@github.com:johman10/ChromeNewTab.git`)
-- `cd ChromeNewTab`
+If you want to install this extension from source
+
+- Clone this repository (`git clone git@github.com:johman10/JusTab.git`)
+- `cd JusTab`
 - `bower install`
 - Open Chrome
 - Go to [chrome://extensions](chrome://extensions/)
