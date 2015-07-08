@@ -8,7 +8,6 @@ function getCalendarData(callback) {
         encodedUrl = encodeURIComponent(val);
         calendarUrls.push("https://www.googleapis.com/calendar/v3/calendars/" + encodedUrl + "/events");
         calendarIds.push(val);
-        console.log(calendarUrls, calendarIds);
       });
       eventArray(calendarUrls, calendarIds, token, callback);
     });
@@ -64,7 +63,6 @@ function calendarHTML() {
   eventDate = '';
 
   $.each(events, function(i, cEvent) {
-    console.log(cEvent);
     if (moment(cEvent.start.dateTime || cEvent.start.date).isBefore(moment(), 'day')) {
       formattedDate = 'Today';
     } else {
