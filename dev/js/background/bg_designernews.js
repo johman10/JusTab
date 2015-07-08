@@ -3,28 +3,18 @@
 
 function getDesignerNewsData(callback) {
   // Get stories from DesignerNews
-  var url = 'https://api-news.layervault.com/api/v2/';
+  var url = 'https://www.designernews.co/api/v2/';
   var apiCall = "stories";
   var apiKey = "?client_id=e7c9f9422feb744c661cc25a248d3b7206962f0605e174ae30aab12a05fb107a";
 
-  $.when(
-    $.ajax({
-      url: url + apiCall + apiKey
-    }),
-    $.ajax({
-      url: "https://api-news.layervault.com/api/v2/me?include=upvotes",
-      headers: {
-        "Authorization": serviceData.DN.token
-      }
-    })
-  )
-  .done(function(stories, me) {
+  $.ajax({
+    url: url + apiCall + apiKey
+  })
+  .done(function(data) {
     localStorage.setItem("Designernews_error", false);
     serviceData.DN.error = false;
-    localStorage.setItem("Designernews", JSON.stringify(stories[0]));
-    serviceData.DN.JSON = stories[0];
-    localStorage.setItem("DesignernewsMe", JSON.stringify(me[0].users[0]));
-    serviceData.DN.me = me[0].users[0];
+    localStorage.setItem("Designernews", JSON.stringify(data));
+    serviceData.DN.JSON = data;
     dnHTML();
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
@@ -46,7 +36,7 @@ function dnHTML() {
 
     $.each(data.stories, function(i, story) {
       if (!story.url) {
-        story.url = 'https://news.layervault.com/stories/' + story.id;
+        story.url = 'https://www.designernews.co/stories/' + story.id;
       }
 
       if (story.badge) {
@@ -62,7 +52,7 @@ function dnHTML() {
           '<a href="' + story.url + '" class="dn-story-url" target="_blank">' +
             story.title +
           '</a>' +
-          '<a href="https://news.layervault.com/stories/' + story.id + '" class="dn-comments-url" target="_blank">' +
+          '<a href="https://www.designernews.co/stories/' + story.id + '" class="dn-comments-url" target="_blank">' +
             story.comment_count + ' comments - ' + story.vote_count + ' points' +
           '</a>';
 
