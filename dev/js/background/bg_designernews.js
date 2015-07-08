@@ -54,9 +54,8 @@ function dnHTML() {
           '</a>' +
           '<a href="https://www.designernews.co/stories/' + story.id + '" class="dn-comments-url" target="_blank">' +
             story.comment_count + ' comments - ' + story.vote_count + ' points' +
-          '</a>';
-
-      dnLinks += '</div>';
+          '</a>' +
+        '</div>';
     });
 
     localStorage.setItem('DesignernewsHTML', dnLinks);
