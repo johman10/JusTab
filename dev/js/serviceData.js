@@ -190,7 +190,8 @@ function refreshServiceData() {
         "bgFunctionName": 'getDribbbleData',
         "feFunctionName": 'drShowData',
         "JSON": JSON.parse(localStorage.getItem('Dribbble')),
-        "HTML": localStorage.getItem('DribbbleHTML')
+        "HTML": localStorage.getItem('DribbbleHTML'),
+        "gifs": items.DR_gifs
       }
     };
     serviceDataRefreshDone.resolve();
