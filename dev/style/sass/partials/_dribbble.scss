@@ -11,9 +11,15 @@
   }
 }
 
+.dr-links {
+  padding: 4px;
+}
+
 .dr-link-container {
   line-height: initial;
-  border-bottom: solid 1px #E0E0E0;
+  padding: 0;
+  border-top: none;
+  margin-bottom: 4px;
 
   .dr-story-url {
     @include text-truncate;
@@ -21,7 +27,6 @@
     display: block;
     height: 100%;
     left: 72px;
-    padding: 16px 0;
     text-decoration: none;
   }
 
@@ -30,21 +35,23 @@
     padding: 5px;
     border-radius: 5px;
     position: absolute;
-    right: 26px;
-    top: 26px;
+    right: 16px;
+    top: 16px;
     opacity: .75;
   }
 
   .dr-image {
+    float: left;
     width: 100%;
-    margin-bottom: 8px;
   }
 
-  .dr-title {
-
-  }
-
-  .dr-comments {
-    color: $grey;
+  .dr-info-container {
+    position: absolute;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    width: 100%;
+    height: 68px;
+    padding: 16px;
+    color: $white;
   }
 }

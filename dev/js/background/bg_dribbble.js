@@ -37,11 +37,12 @@ function drHTML() {
         '<div class="core-item waves-effect dr-link-container">' +
           '<a href="' + story.html_url + '" class="dr-story-url" target="_blank">';
 
-      if (story.images.normal.match(/\.(gif)$/) && story.images.hidpi) {
+      if (story.images.normal.match(/\.(gif)$/)) {
         drLinks +=
             '<div class="dr-story-gif">GIF</div>';
       }
-      if (serviceData.DR.gifs && story.images.hidpi) {
+
+      if (serviceData.DR.gifs && story.images.normal.match(/\.(gif)$/) && story.images.hidpi) {
         drLinks +=
             '<img src="img/dribbble_fallback.png" data-src="' + story.images.hidpi + '" class="dr-image">';
       }
@@ -51,11 +52,13 @@ function drHTML() {
       }
 
       drLinks +=
-            '<div class="dr-title" target="_blank">' +
-              story.title +
-            '</div>' +
-            '<div class="dr-comments" target="_blank">' +
-              story.likes_count + ' likes - ' + story.buckets_count + ' buckets' +
+            '<div class="dr-info-container">' +
+              '<div class="dr-title" target="_blank">' +
+                story.title +
+              '</div>' +
+              '<div class="dr-comments" target="_blank">' +
+                story.likes_count + ' likes - ' + story.buckets_count + ' buckets' +
+              '</div>' +
             '</div>' +
           '</a>' +
         '</div>';
