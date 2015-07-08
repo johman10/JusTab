@@ -56,7 +56,8 @@ $(document).ready(function() {
         'DesignernewsHTML': dnShowData,
         'HackernewsHTML': hnShowData,
         'GithubHTML': ghShowData,
-        'ProductHuntHTML': phShowData
+        'ProductHuntHTML': phShowData,
+        'DribbbleHTML': drShowData
       };
 
       if (e.originalEvent.key.indexOf('_error') != -1) {

@@ -181,6 +181,17 @@ function refreshServiceData() {
         "JSON": JSON.parse(localStorage.getItem('ProductHunt')),
         "HTML": localStorage.getItem('ProductHuntHTML')
       },
+      "DR": {
+        "containerId": 'dribbble',
+        "error": localStorage.getItem('Dribbble_error'),
+        "status": items.PH_status,
+        "alarmName": 'dribbble',
+        "refresh": isNaN(parseFloat(items.DR_refresh)) ? 15 : parseFloat(items.DR_refresh),
+        "bgFunctionName": 'getDribbbleData',
+        "feFunctionName": 'drShowData',
+        "JSON": JSON.parse(localStorage.getItem('Dribbble')),
+        "HTML": localStorage.getItem('DribbbleHTML')
+      }
     };
     serviceDataRefreshDone.resolve();
   });

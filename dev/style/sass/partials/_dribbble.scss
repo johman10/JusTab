@@ -1,0 +1,40 @@
+.panel-dribbble-background {
+  .panel-header-background1 {
+    background-color: $dribbble-color;
+  }
+
+  .panel-header-background2 {
+    background-color: $dribbble-color;
+    background-image: image-url('DR_header.png');
+    background-position: 110%;
+    background-size: auto 76.8px;
+  }
+}
+
+.dr-link-container {
+  line-height: initial;
+  border-bottom: solid 1px #E0E0E0;
+
+  .dr-story-url {
+    @include text-truncate;
+    color: $black;
+    display: block;
+    height: 100%;
+    left: 72px;
+    padding: 16px 0;
+    text-decoration: none;
+  }
+
+  .dr-image {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .dr-title {
+
+  }
+
+  .dr-comments {
+    color: $grey;
+  }
+}

@@ -120,11 +120,6 @@ $.when(serviceDataRefreshDone).then(function() {
     save_options();
   });
 
-  // Designernews login on change of field
-  $(document).on('change', '#DN-username, #DN-password', function() {
-    designerNewsLogin();
-  });
-
   if (serviceData.DN.token) {
     $('.DN-login-status').html(
       "<div class='done-all-icon'></div>"
@@ -152,7 +147,8 @@ function save_status_options() {
     DN_status: $('input[type=checkbox][name=DN_status]').is(':checked'),
     HN_status: $('input[type=checkbox][name=HN_status]').is(':checked'),
     GH_status: $('input[type=checkbox][name=GH_status]').is(':checked'),
-    PH_status: $('input[type=checkbox][name=PH_status]').is(':checked')
+    PH_status: $('input[type=checkbox][name=PH_status]').is(':checked'),
+    DR_status: $('input[type=checkbox][name=DR_status]').is(':checked')
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
@@ -199,7 +195,8 @@ function save_options() {
     DN_refresh: $('#DN-refresh').val(),
     HN_refresh: $('#HN-refresh').val(),
     GH_refresh: $('#GH-refresh').val(),
-    PH_refresh: $('#PH-refresh').val()
+    PH_refresh: $('#PH-refresh').val(),
+    DR_refresh: $('#DR-refresh').val()
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
@@ -252,6 +249,8 @@ function restore_options() {
   $('#GH-refresh').val(serviceData.GH.refresh);
   $('input[type=checkbox][name=PH_status]').attr('checked', serviceData.PH.status);
   $('#PH-refresh').val(serviceData.PH.refresh);
+  $('input[type=checkbox][name=DR_status]').attr('checked', serviceData.DR.status);
+  $('#DR-refresh').val(serviceData.DR.refresh);
 }
 
 function formatUrl(fieldname) {
@@ -261,30 +260,4 @@ function formatUrl(fieldname) {
   else {
     return "http://" + $('#' + fieldname).val();
   }
-}
-
-function designerNewsLogin() {
-  $('.DN-login-status').html(serviceData.spinner);
-  var password = $('#DN-password').val();
-  var username = $('#DN-username').val();
-  var url = "https://api-news.layervault.com/oauth/token";
-  var apiCall = "?grant_type=password&username=" + username + "&password=" + password;
-
-  $.ajax({
-    url: url + apiCall,
-    type: 'POST',
-  })
-  .done(function(data) {
-    localStorage.setItem('DesignernewsToken', "Bearer " + data.access_token);
-    serviceData.DN.token = "Bearer " + data.access_token;
-    $('.DN_login_status').html(
-      "<div class='done-all-icon'></div>"
-    );
-  })
-  .fail(function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    $('.DN_login_status').html(
-      "<div class='error-icon'></div>"
-    );
-  });
 }
