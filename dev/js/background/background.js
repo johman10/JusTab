@@ -33,6 +33,7 @@ chrome.runtime.onInstalled.addListener(function(event) {
         openOptions();
       })
     );
+    location.reload();
   }
 });
 
