@@ -32,4 +32,6 @@ function drShowData() {
   }
 
   $('.dr-links').html(serviceData.DR.HTML);
+
+  $('.dr-image').unveil();
 }

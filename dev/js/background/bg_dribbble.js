@@ -43,11 +43,11 @@ function drHTML() {
       }
       if (serviceData.DR.gifs && story.images.hidpi) {
         drLinks +=
-            '<img src="' + story.images.hidpi + '" class="dr-image">';
+            '<img src="img/dribbble_fallback.png" data-src="' + story.images.hidpi + '" class="dr-image">';
       }
       else {
         drLinks +=
-            '<img src="' + story.images.normal + '" class="dr-image">';
+            '<img src="img/dribbble_fallback.png" data-src="' + story.images.normal + '" class="dr-image">';
       }
 
       drLinks +=
