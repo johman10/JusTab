@@ -56,14 +56,6 @@ function dnHTML() {
             story.comment_count + ' comments - ' + story.vote_count + ' points' +
           '</a>';
 
-      // if (serviceData.DN.token !== null) {
-      //   if (serviceData.DN.upvotes && serviceData.DN.upvotes.indexOf(story.id) > -1) {
-      //     dnLinks += '<div class="dn-upvote voted" data-id=' + story.id + '></div>';
-      //   } else {
-      //     dnLinks += '<div class="dn-upvote" data-id=' + story.id + '></div>';
-      //   }
-      // }
-
       dnLinks += '</div>';
     });
 
