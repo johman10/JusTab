@@ -35,7 +35,13 @@ function drHTML() {
     $.each(data, function(i, story) {
       drLinks +=
         '<div class="core-item waves-effect dr-link-container">' +
-          '<a href="' + story.html_url + '" class="dr-story-url" target="_blank">' +
+          '<a href="' + story.html_url + '" class="dr-story-url" target="_blank">';
+
+      if (story.images.normal.match(/\.(gif)$/) !== null) {
+        drLinks += '<div class="dr-story-gif">GIF</div>';
+      }
+
+      drLinks +=
             '<img src="' + story.images.normal + '" class="dr-image">' +
             '<div class="dr-title" target="_blank">' +
               story.title +
