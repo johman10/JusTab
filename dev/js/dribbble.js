@@ -33,5 +33,8 @@ function drShowData() {
 
   $('.dr-links').html(serviceData.DR.HTML);
 
-  $('.dr-image').unveil();
+  $('.dr-image').unveil(0, function() {
+    var original = 'img/dribbble_fallback.png';
+    this.onerror = function(e) {this.src = original;};
+  });
 }
