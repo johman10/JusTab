@@ -37,12 +37,17 @@ function drHTML() {
         '<div class="core-item waves-effect dr-link-container">' +
           '<a href="' + story.html_url + '" class="dr-story-url" target="_blank">';
 
-      if (story.images.normal.match(/\.(gif)$/) !== null) {
-        drLinks += '<div class="dr-story-gif">GIF</div>';
+      if (story.images.normal.match(/\.(gif)$/) !== null && story.images.hidpi !== null) {
+        drLinks +=
+            '<div class="dr-story-gif">GIF</div>' +
+            '<img src="' + story.images.hidpi + '" class="dr-image">';
+      }
+      else {
+        drLinks +=
+            '<img src="' + story.images.normal + '" class="dr-image">';
       }
 
       drLinks +=
-            '<img src="' + story.images.normal + '" class="dr-image">' +
             '<div class="dr-title" target="_blank">' +
               story.title +
             '</div>' +
