@@ -22,6 +22,9 @@ $.when(serviceDataRefreshDone).done(function() {
 
 function drShowData() {
   $('.dr-links').empty();
+  if (serviceData.DR.smallImages) {
+    $('.dr-links').addClass('small-images');
+  }
   var error = serviceData.DR.error;
 
   if (error == "true") {

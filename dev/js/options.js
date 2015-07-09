@@ -196,6 +196,7 @@ function save_options() {
     HN_refresh: $('#HN-refresh').val(),
     GH_refresh: $('#GH-refresh').val(),
     PH_refresh: $('#PH-refresh').val(),
+    DR_small_images: $('.dr-small-images-checkbox').hasClass('checked'),
     DR_gifs: $('.dr-gif-checkbox').hasClass('checked'),
     DR_refresh: $('#DR-refresh').val()
   }, function() {
@@ -251,6 +252,7 @@ function restore_options() {
   $('input[type=checkbox][name=PH_status]').attr('checked', serviceData.PH.status);
   $('#PH-refresh').val(serviceData.PH.refresh);
   $('input[type=checkbox][name=DR_status]').attr('checked', serviceData.DR.status);
+  if (serviceData.DR.smallImages) { $('.dr-small-images-checkbox').addClass('checked'); }
   if (serviceData.DR.gifs) { $('.dr-gif-checkbox').addClass('checked'); }
   $('#DR-refresh').val(serviceData.DR.refresh);
 }

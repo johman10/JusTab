@@ -15,6 +15,21 @@
   padding: 4px;
 }
 
+.small-images {
+  padding: 2px;
+
+  .dr-link-container {
+    width: 194px;
+    float: left;
+    margin: 2px;
+
+    .dr-info-container {
+      height: 54px;
+      padding: 8px 16px;
+    }
+  }
+}
+
 .dr-link-container {
   line-height: initial;
   padding: 0;
@@ -35,8 +50,9 @@
     padding: 5px;
     border-radius: 5px;
     position: absolute;
-    right: 16px;
-    top: 16px;
+    right: 10px;
+    top: 10px;
+    font-size: 10px;
     opacity: .75;
   }
 
@@ -53,5 +69,9 @@
     height: 68px;
     padding: 16px;
     color: $white;
+
+    .dr-title {
+      @include text-truncate;
+    }
   }
 }

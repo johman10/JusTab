@@ -30,8 +30,6 @@ function drHTML() {
     var data = serviceData.DR.JSON;
     var drLinks = '';
 
-    console.log(data);
-
     $.each(data, function(i, story) {
       drLinks +=
         '<div class="core-item waves-effect dr-link-container">' +
@@ -45,6 +43,10 @@ function drHTML() {
       if (serviceData.DR.gifs && story.images.normal.match(/\.(gif)$/) && story.images.hidpi) {
         drLinks +=
             '<img src="img/dribbble_fallback.png" data-src="' + story.images.hidpi + '" class="dr-image">';
+      }
+      else if (serviceData.DR.smallImages) {
+        drLinks +=
+            '<img src="img/dribbble_fallback.png" data-src="' + story.images.teaser + '" class="dr-image">';
       }
       else {
         drLinks +=

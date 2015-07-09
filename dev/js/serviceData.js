@@ -191,6 +191,7 @@ function refreshServiceData() {
         "feFunctionName": 'drShowData',
         "JSON": JSON.parse(localStorage.getItem('Dribbble')),
         "HTML": localStorage.getItem('DribbbleHTML'),
+        "smallImages": items.DR_small_images,
         "gifs": items.DR_gifs
       }
     };
