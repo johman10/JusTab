@@ -12,7 +12,7 @@ $.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(
     console.log(service.containerId, serviceStatus);
     if (serviceStatus) {
       window[service.feFunctionName]();
-      $(serviceId).show();
+      $(serviceId + ', ' + serviceInfo).show();
     }
   });
 
