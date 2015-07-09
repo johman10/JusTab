@@ -1,7 +1,7 @@
 function getDribbbleData(callback) {
-  var url = 'https://api.dribbble.com/v1/';
-  var apiCall = "shots?per_page=25";
-  var apiKey = "&access_token=4236924e13782988c1cee5d251936fe5a985dbe06505a15cd16d0492890d62a4";
+  var url = 'https://api.dribbble.com/v1/',
+      apiCall = "shots?per_page=26",
+      apiKey = "&access_token=4236924e13782988c1cee5d251936fe5a985dbe06505a15cd16d0492890d62a4";
 
   $.ajax({
     url: url + apiCall + apiKey
