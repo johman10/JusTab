@@ -34,7 +34,10 @@
   line-height: initial;
   padding: 0;
   border-top: none;
-  margin-bottom: 4px;
+
+  &:not(:last-of-type) {
+    margin-bottom: 4px;
+  }
 
   .dr-story-url {
     @include text-truncate;
