@@ -90,7 +90,7 @@ function GmailHTML() {
     }
 
     var htmlData =
-      '<div class="gm_message core-item waves-effect">' +
+      '<div class="gm-message core-item waves-effect">' +
         '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
           '<div class="gm-message-subject">' + messageSubject + '</div>' +
           '<div class="gm-message-date">' + messageDate + '</div>' +
