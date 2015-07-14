@@ -76,7 +76,7 @@ module.exports = function(grunt) {
             'img/**',
             'bower_components/jquery/dist/jquery.min.js',
             'bower_components/moment/min/moment.min.js',
-            'bower_components/unveil/jquery.unveil.min.js',
+            'bower_components/jquery.lazyload/jquery.lazyload.min.js',
             'bower_components/dragula.js/dist/dragula.min.js',
             'bower_components/dragula.js/dist/dragula.min.css',
             'style/fonts/**',
@@ -107,7 +107,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', 'compass:dev');
   grunt.registerTask('dist', [
     'confirm:dist',
-    'push',
+    // 'push',
     'copy:dist',
     'compass:dist',
     'uglify:dist',

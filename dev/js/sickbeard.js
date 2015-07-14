@@ -64,9 +64,10 @@ function sbShowData() {
     $('.sb-later').html(serviceData.SB.LaterHTML);
   }
 
-  $('.sb-poster').unveil(50, function() {
-    var original = 'img/poster_fallback.png';
-    this.onerror = function(e) {this.src = original;};
+  $('.sb-poster').lazyload({
+    threshold: 200,
+    effect: "fadeIn",
+    container: $('#sickbeard .panel-content')
   });
 }
 

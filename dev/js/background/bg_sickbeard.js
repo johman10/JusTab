@@ -101,7 +101,7 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
     HTML +=
       '<div class="sb-item core-item">' +
         '<div class="sb-poster-container">' +
-          '<img class="sb-poster" src="img/poster_fallback.png" data-src="' + posterUrl+ '">' +
+          '<img class="sb-poster" src="img/poster_fallback.png" data-original="' + posterUrl+ '">' +
         '</div>' +
         '<div class="core-item-content">' +
           showname + episodeString +

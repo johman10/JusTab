@@ -105,7 +105,7 @@ function cpCreateVar(movie, cpVar) {
   cpVar +=
     '<div class="core-item cp-item">' +
       '<div class="cp-poster-container">' +
-        '<img class="cp-poster" src="img/poster_fallback.png" data-src="' + posterUrl + '"></img>' +
+        '<img class="cp-poster" src="img/poster_fallback.png" data-original="' + posterUrl + '"></img>' +
       '</div>' +
       '<div class="core-item-content">' +
         movie.title +

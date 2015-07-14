@@ -36,8 +36,9 @@ function drShowData() {
 
   $('.dr-links').html(serviceData.DR.HTML);
 
-  $('.dr-image').unveil(200, function() {
-    var original = 'img/dribbble_fallback.png';
-    this.onerror = function(e) {this.src = original;};
+  $('.dr-image').lazyload({
+    threshold: 200,
+    effect: "fadeIn",
+    container: $('#dribbble .panel-content')
   });
 }

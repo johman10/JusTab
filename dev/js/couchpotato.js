@@ -51,9 +51,10 @@ function cpShowData() {
     $('.snatched').html(serviceData.CP.snatched.HTML);
     $('.wanted').html(serviceData.CP.wanted.HTML);
 
-    $('.cp-poster').unveil(50, function() {
-      var original = 'img/poster_fallback.png';
-      this.onerror = function(e) {this.src = original;};
+    $('.cp-poster').lazyload({
+      threshold: 200,
+      effect: "fadeIn",
+      container: $('#couchpotato .panel-content')
     });
 
     if ($('.snatched .core-item').length === 0) {
