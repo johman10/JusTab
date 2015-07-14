@@ -41,27 +41,10 @@
     right: initial;
     text-decoration: none;
     top: initial;
+    max-width: calc(100% - 32px);
 
     &:hover {
       text-decoration: underline;
-    }
-  }
-
-  .hn-upvote {
-    @include ripple($black);
-    background-position: 50%;
-    background-repeat: no-repeat;
-    border-radius: 100%;
-    height: 56px;
-    margin: 8px 0;
-    padding: 16px;
-    position: absolute !important;
-    right: 0;
-    top: 0;
-    width: 56px;
-
-    &:hover {
-      background-image: image-url('icons/thumb_up_voted.svg');
     }
   }
 

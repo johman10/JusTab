@@ -21,7 +21,7 @@
       padding-top: 17px;
       position: absolute;
       top: 0;
-      width: 330px;
+      width: calc(100% - 38px);
     }
 
     .sab-item-status {
@@ -38,7 +38,7 @@
 
   .sab-item-name {
     @include text-truncate;
-    width: 330px;
+    width: calc(100% - 38px);
   }
 }
 
@@ -83,6 +83,6 @@
 
   .sab-status {
     float: left;
-    width: 321px;
+    width: calc(100% - 79px);
   }
 }

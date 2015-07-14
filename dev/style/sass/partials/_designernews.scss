@@ -42,32 +42,10 @@
     right: initial;
     text-decoration: none;
     top: initial;
+    max-width: calc(100% - 32px);
 
     &:hover {
       text-decoration: underline;
-    }
-  }
-
-  .dn-upvote {
-    @include ripple($black);
-    background-image: image-url('icons/thumb_up.svg');
-    background-position: 50%;
-    background-repeat: no-repeat;
-    border-radius: 100%;
-    height: 56px;
-    margin: 8px 0;
-    padding: 16px;
-    position: absolute !important;
-    right: 0;
-    top: 0;
-    width: 56px;
-
-    &:hover {
-      background-image: image-url('icons/thumb_up_voted.svg');
-    }
-
-    &.voted {
-      background-image: image-url('icons/thumb_up_voted.svg');
     }
   }
 
@@ -85,7 +63,11 @@
     }
 
     .dn-story-url {
-      width: 273px;
+      width: 100%;
+    }
+
+    .dn-comments-url {
+      max-width: calc(100% - 88px);
     }
   }
 

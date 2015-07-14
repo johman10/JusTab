@@ -115,7 +115,9 @@ function cpCreateVar(movie, cpVar) {
       '</div>' +
     '</div>' +
     '<div class="cp-collapse core-collapse">' +
-      date +
+      '<div class="cp-collapse-date">' +
+        date +
+      '</div>' +
       '<div class="cp-collapse-buttons">' +
         '<div class="icon-button search-icon cp-search-movie waves-effect" id="' + movie._id + '"></div>' +
         '<a class="cp-imdb-link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +

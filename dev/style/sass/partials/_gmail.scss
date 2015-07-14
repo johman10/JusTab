@@ -32,7 +32,7 @@
     @include text-truncate;
     line-height: initial;
     padding: 17px 0 0;
-    width: 244px;
+    width: calc(100% - 124px);
   }
 
   .gm-message-date {

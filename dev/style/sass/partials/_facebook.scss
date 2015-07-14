@@ -21,7 +21,7 @@
     .notification-title {
       @include text-truncate;
       float: left;
-      width: 244px;
+      width: calc(100% - 124px);
     }
 
     .notification-time {

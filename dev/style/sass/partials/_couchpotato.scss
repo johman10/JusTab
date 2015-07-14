@@ -33,7 +33,7 @@
     }
 
     .core-item-content {
-      width: 272px;
+      width: calc(100% - 38px);
     }
 
     .core-item-icon {
@@ -46,6 +46,11 @@
     line-height: 48px;
     padding-left: 16px;
     position: relative;
+
+    .cp-collapse-date {
+      @include text-truncate;
+      max-width: calc(100% - 104px);
+    }
 
     .cp-collapse-buttons {
       height: 48px;

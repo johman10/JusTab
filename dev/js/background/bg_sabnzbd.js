@@ -130,7 +130,8 @@ function sabhHTML() {
             '<div class="expand-more-icon"></div>' +
           '</div>' +
         '</div>' +
-        '<div class="sabh-collapse core-collapse">';
+        '<div class="sabh-collapse core-collapse">' +
+          '<div class="sabh-collapse-status">';
 
         if (hItem.fail_message === "") {
           history += hItem.status;
@@ -140,6 +141,7 @@ function sabhHTML() {
         }
 
         history +=
+          '</div>' +
           '<div class="sabh-collapse-buttons">' +
             '<div class="icon-button remove-icon sabh-remove-icon waves-effect" data-id=' + hItem.nzo_id + '></div>' +
           '</div>' +

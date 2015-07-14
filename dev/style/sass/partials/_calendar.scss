@@ -13,14 +13,14 @@
 
 .events {
   .core-item-content {
-    width: 328px;
+    width: calc(100% - 40px);
   }
 
   .gc-event-location {
     @include text-truncate;
     float: left;
     line-height: 48px;
-    max-width: 304px;
+    max-width: calc(100% - 96px);
     padding-left: 16px;
   }
 
