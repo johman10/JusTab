@@ -96,6 +96,15 @@ p {
   margin: 0 0 10px;
 }
 
+a {
+  color: $justab-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 ul {
   margin: 0 0 5px;
 }
