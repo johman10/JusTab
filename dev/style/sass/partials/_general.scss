@@ -73,7 +73,7 @@ body {
 .error {
   @include paper-shadow(1);
   background-color: #eee;
-  color: $black;
+  color: $text-color;
   display: none;
   padding: 15px 16px 10px;
   white-space: normal;
@@ -97,6 +97,7 @@ body {
   padding: 0 7px;
   text-align: center;
   text-transform: uppercase;
+  color: $text-color;
 }
 
 .refresh-button {
