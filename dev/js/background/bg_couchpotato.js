@@ -5,7 +5,7 @@ function getWantedCouchPotato(length, callback) {
   if (!length) {
     length = 25;
   }
-  var url = serviceData.CPW.apiUrl;
+  var url = serviceData.CP.apiUrl;
   var apiCall = "movie.list/?status=active&limit_offset=" + length;
 
   $.ajax({
@@ -14,15 +14,15 @@ function getWantedCouchPotato(length, callback) {
   })
   .done(function(data) {
     localStorage.setItem("CouchpotatoWanted_error", false);
-    serviceData.CPW.error = false;
+    serviceData.CP.wanted.error = false;
     localStorage.setItem("CouchpotatoWanted", JSON.stringify(data));
-    serviceData.CPW.JSON = data;
+    serviceData.CP.wanted.JSON = data;
     cpwHTML();
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
     localStorage.setItem("CouchpotatoWanted_error", true);
-    serviceData.CPW.error = true;
+    serviceData.CP.wanted.error = true;
   })
   .always(function() {
     if (callback) {
@@ -32,7 +32,7 @@ function getWantedCouchPotato(length, callback) {
 }
 
 function getSnatchedCouchPotato(callback) {
-  var url = serviceData.CPS.apiUrl;
+  var url = serviceData.CP.apiUrl;
   var apiCall = "movie.list/?release_status=snatched,downloaded,available";
 
   $.ajax({
@@ -40,15 +40,15 @@ function getSnatchedCouchPotato(callback) {
   })
   .done(function(data) {
     localStorage.setItem("CouchpotatoSnatched_error", false);
-    serviceData.CPS.error = false;
+    serviceData.CP.snatched.error = false;
     localStorage.setItem("CouchpotatoSnatched", JSON.stringify(data));
-    serviceData.CPS.JSON = data;
+    serviceData.CP.snatched.JSON = data;
     cpsHTML();
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
     localStorage.setItem("CouchpotatoSnatched_error", true);
-    serviceData.CPS.error = true;
+    serviceData.CP.snatched.error = true;
   })
   .always(function() {
 
@@ -61,27 +61,27 @@ function getSnatchedCouchPotato(callback) {
 function cpwHTML() {
   var CouchpotatoWantedHTML = '<h2>Wanted</h2>';
 
-  wantedData = serviceData.CPW.JSON;
+  wantedData = serviceData.CP.wanted.JSON;
 
   $.each(wantedData.movies, function(i, movie) {
     CouchpotatoWantedHTML = cpCreateVar(movie, CouchpotatoWantedHTML);
   });
 
   localStorage.setItem('CouchpotatoWantedHTML', CouchpotatoWantedHTML);
-  serviceData.CPW.HTML = CouchpotatoWantedHTML;
+  serviceData.CP.wanted.HTML = CouchpotatoWantedHTML;
 }
 
 function cpsHTML() {
   var CouchpotatoSnatchedHTML = '<h2>Snatched and Available</h2>';
 
-  snatchedData = serviceData.CPS.JSON;
+  snatchedData = serviceData.CP.snatched.JSON;
 
   $.each(snatchedData.movies, function(i, movie) {
     CouchpotatoSnatchedHTML = cpCreateVar(movie, CouchpotatoSnatchedHTML);
   });
 
   localStorage.setItem('CouchpotatoSnatchedHTML', CouchpotatoSnatchedHTML);
-  serviceData.CPS.HTML = CouchpotatoSnatchedHTML;
+  serviceData.CP.snatched.HTML = CouchpotatoSnatchedHTML;
 }
 
 function cpCreateVar(movie, cpVar) {

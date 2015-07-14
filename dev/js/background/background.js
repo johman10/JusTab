@@ -3,8 +3,12 @@ $.when(serviceDataRefreshDone).done(function() {
     chrome.alarms.clearAll();
 
     $.each(serviceData, function(index, val) {
-      if (val.status) {
+      if (val.status && val.containerId != "sabnzbd") {
         chrome.alarms.create(val.alarmName, {periodInMinutes: val.refresh});
+      }
+      else if (val.status) {
+        chrome.alarms.create(val.queue.alarmName, {periodInMinutes: val.queue.refresh});
+        chrome.alarms.create(val.history.alarmName, {periodInMinutes: val.history.refresh});
       }
     });
   });

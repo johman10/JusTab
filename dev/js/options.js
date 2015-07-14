@@ -116,7 +116,7 @@ $.when(serviceDataRefreshDone).then(function() {
   });
 
   // Save options on change of fields
-  $(document).on('change', 'input[type="text"], input[type="password"], .checkbox-container', function() {
+  $(document).on('change', 'input, .checkbox-container', function() {
     save_options();
   });
 
@@ -171,33 +171,42 @@ function save_options() {
   chrome.storage.sync.set({
     calendars: calendars,
     GC_days: $('#GC-days').val(),
+    GC_width: $('#GC-width').val(),
     GC_refresh: $('#GC-refresh').val(),
     GM_emails: $('#GM-emails').val(),
+    GM_width: $('#GM-width').val(),
     GM_refresh: $('#GM-refresh').val(),
     FB_url: FB_url,
+    FB_width: $('#FB-width').val(),
     FB_refresh: $('#FB-refresh').val(),
     CP_address: CP_address,
     CP_port: $('#CP-port').val(),
     CP_key: $('#CP-key').val(),
+    CP_width: $('#CP-width').val(),
     CP_refresh: $('#CP-refresh').val(),
     SB_address: SB_address,
     SB_port: $('#SB-port').val(),
     SB_key: $('#SB-key').val(),
+    SB_width: $('#SB-width').val(),
     SB_refresh: $('#SB-refresh').val(),
     SAB_address: SAB_address,
     SAB_port: $('#SAB-port').val(),
     SAB_key: $('#SAB-key').val(),
     SAB_history: $('#SAB-history').val(),
+    SAB_width: $('#SAB-width').val(),
     SABQ_refresh: $('#SABQ-refresh').val(),
     SABH_refresh: $('#SABH-refresh').val(),
-    DN_username: $('#DN-username').val(),
-    DN_password: $('#DN-password').val(),
+    DN_width: $('#DN-width').val(),
     DN_refresh: $('#DN-refresh').val(),
+    HN_width: $('#HN-width').val(),
     HN_refresh: $('#HN-refresh').val(),
+    GH_width: $('#GH-width').val(),
     GH_refresh: $('#GH-refresh').val(),
+    PH_width: $('#PH-width').val(),
     PH_refresh: $('#PH-refresh').val(),
     DR_small_images: $('.dr-small-images-checkbox').hasClass('checked'),
     DR_gifs: $('.dr-gif-checkbox').hasClass('checked'),
+    DR_width: $('#DR-width').val(),
     DR_refresh: $('#DR-refresh').val()
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
@@ -217,43 +226,53 @@ function save_options() {
 function restore_options() {
   $('input[type=checkbox][name=GC_status]').attr('checked', serviceData.GC.status);
   $('#GC-days').val(serviceData.GC.days);
+  $('#GC-width').val(serviceData.GC.panelWidth);
   $('#GC-refresh').val(serviceData.GC.refresh);
   $('input[type=checkbox][name=GM_status]').attr('checked', serviceData.GM.status);
-  // $('#GM_emails').val(serviceData.GM.emails.join(', '));
+  $('#GM-width').val(serviceData.GM.panelWidth);
   $('#GM-refresh').val(serviceData.GM.refresh);
   $('input[type=checkbox][name=FB_status]').attr('checked', serviceData.FB.status);
   $('#FB-url').val(serviceData.FB.url);
+  $('#FB-width').val(serviceData.FB.panelWidth);
   $('#FB-refresh').val(serviceData.FB.refresh);
-  $('input[type=checkbox][name=CP_status]').attr('checked', serviceData.CPS.status);
-  $('#CP-address').val(serviceData.CPS.address);
-  $('#CP-port').val(serviceData.CPS.port);
-  $('#CP-key').val(serviceData.CPS.key);
-  $('#CP-refresh').val(serviceData.CPS.refresh);
+  $('input[type=checkbox][name=CP_status]').attr('checked', serviceData.CP.status);
+  $('#CP-address').val(serviceData.CP.address);
+  $('#CP-port').val(serviceData.CP.port);
+  $('#CP-key').val(serviceData.CP.key);
+  $('#CP-width').val(serviceData.CP.panelWidth);
+  $('#CP-refresh').val(serviceData.CP.refresh);
   $('input[type=checkbox][name=SB_status]').attr('checked', serviceData.SB.status);
   $('#SB-address').val(serviceData.SB.address);
   $('#SB-port').val(serviceData.SB.port);
   $('#SB-key').val(serviceData.SB.key);
+  $('#SB-width').val(serviceData.SB.panelWidth);
   $('#SB-refresh').val(serviceData.SB.refresh);
-  $('input[type=checkbox][name=SAB_status]').attr('checked', serviceData.SABQ.status);
-  $('#SAB-address').val(serviceData.SABQ.address);
-  $('#SAB-port').val(serviceData.SABQ.port);
-  $('#SAB-key').val(serviceData.SABQ.key);
-  $('#SAB-history').val(serviceData.SABH.length);
-  $('#SABQ-refresh').val(serviceData.SABQ.refresh);
-  $('#SABH-refresh').val(serviceData.SABH.refresh);
+  $('input[type=checkbox][name=SAB_status]').attr('checked', serviceData.SAB.status);
+  $('#SAB-address').val(serviceData.SAB.address);
+  $('#SAB-port').val(serviceData.SAB.port);
+  $('#SAB-key').val(serviceData.SAB.key);
+  $('#SAB-history').val(serviceData.SAB.history.length);
+  $('#SAB-width').val(serviceData.SAB.panelWidth);
+  $('#SABQ-refresh').val(serviceData.SAB.queue.refresh);
+  $('#SABH-refresh').val(serviceData.SAB.history.refresh);
   $('input[type=checkbox][name=DN_status]').attr('checked', serviceData.DN.status);
   $('#DN-username').val(serviceData.DN.username);
   $('#DN-password').val(serviceData.DN.password);
+  $('#DN-width').val(serviceData.DN.panelWidth);
   $('#DN-refresh').val(serviceData.DN.refresh);
   $('input[type=checkbox][name=HN_status]').attr('checked', serviceData.HN.status);
+  $('#HN-width').val(serviceData.HN.panelWidth);
   $('#HN-refresh').val(serviceData.HN.refresh);
   $('input[type=checkbox][name=GH_status]').attr('checked', serviceData.GH.status);
+  $('#GH-width').val(serviceData.GH.panelWidth);
   $('#GH-refresh').val(serviceData.GH.refresh);
   $('input[type=checkbox][name=PH_status]').attr('checked', serviceData.PH.status);
+  $('#PH-width').val(serviceData.PH.panelWidth);
   $('#PH-refresh').val(serviceData.PH.refresh);
   $('input[type=checkbox][name=DR_status]').attr('checked', serviceData.DR.status);
   if (serviceData.DR.smallImages) { $('.dr-small-images-checkbox').addClass('checked'); }
   if (serviceData.DR.gifs) { $('.dr-gif-checkbox').addClass('checked'); }
+  $('#DR-width').val(serviceData.DR.panelWidth);
   $('#DR-refresh').val(serviceData.DR.refresh);
 }
 

@@ -3,14 +3,14 @@
 
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
 $.when(serviceDataRefreshDone).done(function() {
-  if (serviceData.SABQ.status) {
+  if (serviceData.SAB.status) {
     $('.refresh-sab').click(function() {
       $('#sabnzbd .error:visible').slideUp(400);
       $('.refresh-sab').fadeOut(400, function() {
         $(this).html(serviceData.spinner);
         $(this).fadeIn(400, function() {
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getSabnzbdHistory(serviceData.SABH.length, function() {
+            backgroundPage.getSabnzbdHistory(serviceData.SAB.history.length, function() {
               backgroundPage.getSabnzbdQueue(function() {
                 $('.refresh-sab').fadeOut(400, function() {
                   $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sabnzbd" draggable=false>');
@@ -28,7 +28,7 @@ $.when(serviceDataRefreshDone).done(function() {
     });
 
     $('#sabnzbd .panel-content').bind('scroll', sabCheckScroll);
-    $('#sabnzbd .panel-header .panel-header-foreground .bottom a').attr('href', serviceData.SABQ.url);
+    $('#sabnzbd .panel-header .panel-header-foreground .bottom a').attr('href', serviceData.SAB.url);
   }
 });
 
@@ -37,8 +37,8 @@ function sabShowData() {
   $('.queue').empty();
   $('.history').empty();
 
-  var queueError = serviceData.SABQ.error;
-  var historyError = serviceData.SABH.error;
+  var queueError = serviceData.SAB.queue.error;
+  var historyError = serviceData.SAB.history.error;
 
   if (queueError == "true" || historyError == "true") {
     $('#sabnzbd .error').slideDown('slow');
@@ -47,16 +47,16 @@ function sabShowData() {
     $('#sabnzbd .error').slideUp('slow');
   }
 
-  $('.bottom-bar-container .sabnzbd-info').html(serviceData.SABQ.downloadStatus);
-  $('#sabnzbd .queue').html(serviceData.SABQ.HTML);
-  $('#sabnzbd .history').html(serviceData.SABH.HTML);
+  $('.bottom-bar-container .sabnzbd-info').html(serviceData.SAB.downloadStatus);
+  $('#sabnzbd .queue').html(serviceData.SAB.queue.HTML);
+  $('#sabnzbd .history').html(serviceData.SAB.history.HTML);
 }
 
 function sabRemove(elem) {
   elem = $(elem);
   var elemClasses = elem.first().attr('class'),
       id = elem.data('id'),
-      url = serviceData.SABH.apiUrl,
+      url = serviceData.SAB.apiUrl,
       removeUrl;
 
   if (elem.hasClass('sabh-remove-icon')) {
@@ -103,7 +103,7 @@ function sabRemove(elem) {
 
 function sabCheckScroll(e) {
   var elem = $(e.currentTarget);
-  var newLength = parseFloat($('#sabnzbd .sab-item-container').length) + parseFloat(serviceData.SABH.length);
+  var newLength = parseFloat($('#sabnzbd .sab-item-container').length) + parseFloat(serviceData.SAB.history.length);
   if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight()) {
     if ($('#sabnzbd .history .loading-bar').length === 0) {
       $('#sabnzbd .history').append('<div class="core-item without-hover loading-bar">' + serviceData.spinner + '</div>');

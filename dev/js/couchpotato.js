@@ -3,7 +3,7 @@
 
 // "media.list" lists all movies, "movie.status" returns the status of the movie
 $.when(serviceDataRefreshDone).done(function() {
-  if (serviceData.CPS.status) {
+  if (serviceData.CP.status) {
     $('.refresh-cp').click(function() {
       $('#couchpotato .error:visible').slideUp(400);
 
@@ -26,7 +26,7 @@ $.when(serviceDataRefreshDone).done(function() {
 
     $('#couchpotato .panel-content').bind('scroll', couchpotatoCheckScroll);
 
-    $('#couchpotato .panel-header .panel-header-foreground .bottom a').attr('href', serviceData.CPW.url);
+    $('#couchpotato .panel-header .panel-header-foreground .bottom a').attr('href', serviceData.CP.url);
   }
 });
 
@@ -38,8 +38,8 @@ function cpShowData() {
   $('.wanted').empty();
   $('.snatched').empty();
 
-  var wantedError = serviceData.CPW.error;
-  var snatchedError = serviceData.CPS.error;
+  var wantedError = serviceData.CP.wanted.error;
+  var snatchedError = serviceData.CP.snatched.error;
 
   if (wantedError == "true" || snatchedError == "true") {
     $('#couchpotato .error').slideDown('slow');
@@ -47,9 +47,9 @@ function cpShowData() {
     $('#couchpotato .error').slideUp('slow');
   }
 
-  if (serviceData.CPW.HTML && serviceData.CPS.HTML) {
-    $('.snatched').html(serviceData.CPS.HTML);
-    $('.wanted').html(serviceData.CPW.HTML);
+  if (serviceData.CP.wanted.HTML && serviceData.CP.snatched.HTML) {
+    $('.snatched').html(serviceData.CP.snatched.HTML);
+    $('.wanted').html(serviceData.CP.wanted.HTML);
 
     $('.cp-poster').unveil(50, function() {
       var original = 'img/poster_fallback.png';
@@ -68,7 +68,7 @@ function cpShowData() {
 function searchMovie(clickedObject) {
   var movieId = clickedObject.attr('id');
 
-  var url = serviceData.CPS.apiUrl;
+  var url = serviceData.CP.apiUrl;
   var searchApiUrl = url + "/movie.refresh/?id=" + movieId;
 
   $.ajax({
@@ -89,7 +89,7 @@ function searchMovie(clickedObject) {
 function couchpotatoCheckScroll(e) {
   var elem = $(e.currentTarget);
   var length = $('#couchpotato .wanted .cp-item').length;
-  if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight() && length < serviceData.CPW.JSON.total) {
+  if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight() && length < serviceData.CP.wanted.JSON.total) {
     if ($('#couchpotato .wanted .loading-bar').length === 0) {
       $('#couchpotato .wanted').append('<div class="core-item without-hover loading-bar">' + serviceData.spinner + '</div>');
     }

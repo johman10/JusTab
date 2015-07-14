@@ -5,6 +5,7 @@ $.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(
   }
 
   // Show service that are on
+  var totalServiceWidth = 0;
   $.each(serviceData, function(index, service) {
     serviceStatus = service.status;
     serviceId = '#' + service.containerId;
@@ -12,13 +13,15 @@ $.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(
     console.log(service.containerId, serviceStatus);
     if (serviceStatus) {
       window[service.feFunctionName]();
+      totalServiceWidth += service.panelWidth || 400;
+      $(serviceId + ', ' + serviceInfo).width(service.panelWidth);
       $(serviceId + ', ' + serviceInfo).show();
     }
   });
 
   // Resize body
-  $('body').width($('.panel:visible').length * 400);
-  $('.bottom-bar-container').width($('body').width());
+  $('body').width(totalServiceWidth);
+  $('.bottom-bar-container').width(totalServiceWidth);
 
   // Make images non-draggable
   $('img').attr('draggable', false);

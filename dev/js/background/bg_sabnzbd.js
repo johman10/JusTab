@@ -3,9 +3,9 @@
 
 function getSabnzbdHistory(from, callback) {
   if (!from) {
-    from = serviceData.SABH.length;
+    from = serviceData.SAB.history.length;
   }
-  var url = serviceData.SABH.apiUrl;
+  var url = serviceData.SAB.apiUrl;
   var historyMode = "&mode=history&limit=" + from;
   var output = "&output=json";
 
@@ -14,15 +14,15 @@ function getSabnzbdHistory(from, callback) {
   })
   .done(function(history) {
     localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
-    serviceData.SABH.JSON = history;
+    serviceData.SAB.history.JSON = history;
     localStorage.setItem("SabnzbdHistory_error", false);
-    serviceData.SABH.error = false;
+    serviceData.SAB.history.error = false;
     sabhHTML();
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
     localStorage.setItem("SabnzbdHistory_error", true);
-    serviceData.SABH.error = true;
+    serviceData.SAB.history.error = true;
   })
   .always(function() {
     if (callback) {
@@ -32,7 +32,7 @@ function getSabnzbdHistory(from, callback) {
 }
 
 function getSabnzbdQueue(callback) {
-  var url = serviceData.SABQ.apiUrl;
+  var url = serviceData.SAB.apiUrl;
   var queueMode = "&mode=queue";
   var output = "&output=json";
 
@@ -41,15 +41,15 @@ function getSabnzbdQueue(callback) {
   })
   .done(function(queue) {
     localStorage.setItem("SabnzbdQueue", JSON.stringify(queue));
-    serviceData.SABQ.JSON = queue;
+    serviceData.SAB.queue.JSON = queue;
     localStorage.setItem("SabnzbdQueue_error", false);
-    serviceData.SABQ.error = false;
+    serviceData.SAB.queue.error = false;
     sabqHTML();
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
     localStorage.setItem("SabnzbdQueue_error", true);
-    serviceData.SABQ.error = true;
+    serviceData.SAB.queue.error = true;
   })
   .always(function() {
     if (callback) {
@@ -62,8 +62,8 @@ function sabqHTML() {
   var status = '',
       queue = '<h2>Queue</h2>';
 
-  if (serviceData.SABQ.JSON) {
-    var queueJson = serviceData.SABQ.JSON,
+  if (serviceData.SAB.queue.JSON) {
+    var queueJson = serviceData.SAB.queue.JSON,
         left = '',
         timeLeft = '';
 
@@ -109,15 +109,15 @@ function sabqHTML() {
     }
 
     localStorage.setItem('SabnzbdQueueHTML', queue);
-    serviceData.SABQ.HTML = queue;
+    serviceData.SAB.queue.HTML = queue;
     localStorage.setItem('SabnzbdStatusHTML', status);
-    serviceData.SABQ.downloadStatus = status;
+    serviceData.SAB.queue.downloadStatus = status;
   }
 }
 
 function sabhHTML() {
-  if (serviceData.SABH.JSON) {
-    var historyJson = serviceData.SABH.JSON;
+  if (serviceData.SAB.history.JSON) {
+    var historyJson = serviceData.SAB.history.JSON;
     var history = '<h2>History</h2>';
 
     $.each(historyJson.history.slots, function(i, hItem) {
@@ -153,6 +153,6 @@ function sabhHTML() {
     }
 
     localStorage.setItem('SabnzbdHistoryHTML', history);
-    serviceData.SABH.HTML = history;
+    serviceData.SAB.history.HTML = history;
   }
 }
