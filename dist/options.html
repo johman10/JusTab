@@ -149,6 +149,11 @@
         <label>Days from today to show</label>
       </div>
       <div class="input-container">
+        <input type="number" name="GC_width" id="GC-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
+      <div class="input-container">
         <input type="text" name="GC_refresh" id="GC-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
@@ -156,14 +161,11 @@
     </div>
 
     <div class="options-window Gmail">
-      <!-- <div class="input-container">
-        <input type="text" name="GM_emails" id="GM-emails" required>
+      <div class="input-container">
+        <input type="number" name="GM_width" id="GM-width" required>
         <span class="input-bar"></span>
-        <label>Emails</label>
-        <div class="input-description">
-          Comma separated list
-        </div>
-      </div> -->
+        <label>Panel width in px</label>
+      </div>
       <div class="input-container">
         <input type="text" name="GM_refresh" id="GM-refresh" required>
         <span class="input_bar"></span>
@@ -180,7 +182,11 @@
           Visit <a href="https://www.facebook.com/notifications" target="_blank">https://www.facebook.com/notifications</a><br>and click on RSS for your personal RSS url.
         </div>
       </div>
-
+      <div class="input-container">
+        <input type="number" name="FB_width" id="FB-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
       <div class="input-container">
         <input type="text" name="FB_refresh" id="FB-refresh" required>
         <span class="input-bar"></span>
@@ -205,6 +211,11 @@
         <label>API Key</label>
       </div>
       <div class="input-container">
+        <input type="number" name="CP_width" id="CP-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
+      <div class="input-container">
         <input type="text" name="CP_refresh" id="CP-refresh" required>
         <span class="input_bar"></span>
         <label>Refresh rate (in minutes)</label>
@@ -226,6 +237,11 @@
         <input type="text" name="SB_key" id="SB-key" required>
         <span class="input-bar"></span>
         <label>API Key</label>
+      </div>
+      <div class="input-container">
+        <input type="number" name="SB_width" id="SB-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
       </div>
       <div class="input-container">
         <input type="text" name="SB_refresh" id="SB-refresh" required>
@@ -256,6 +272,11 @@
         <label>History limit</label>
       </div>
       <div class="input-container">
+        <input type="number" name="SAB_width" id="SAB-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
+      <div class="input-container">
         <input type="text" name="SABQ_refresh" id="SABQ-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate queue (in minutes)</label>
@@ -268,21 +289,11 @@
     </div>
 
     <div class="options-window DesignerNews">
-      <!-- <div class="input-container">
-        <input type="text" name="DN_username" id="DN-username" required>
-        <span class="input-bar"></span>
-        <label>DesignerNews Username</label>
-      </div>
-
       <div class="input-container">
-        <input type="password" name="DN_password" id="DN-password" required>
+        <input type="number" name="DN_width" id="DN-width" required>
         <span class="input-bar"></span>
-        <label>DesignerNews Password</label>
+        <label>Panel width in px</label>
       </div>
-
-      <div class="DN-login-status">
-      </div> -->
-
       <div class="input-container">
         <input type="text" name="DN_refresh" id="DN-refresh" required>
         <span class="input-bar"></span>
@@ -292,6 +303,11 @@
 
     <div class="options-window HackerNews">
       <div class="input-container">
+        <input type="number" name="HN_width" id="HN-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
+      <div class="input-container">
         <input type="text" name="HN_refresh" id="HN-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
@@ -300,6 +316,11 @@
 
     <div class="options-window Github">
       <div class="input-container">
+        <input type="number" name="GH_width" id="GH-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
+      <div class="input-container">
         <input type="text" name="GH_refresh" id="GH-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
@@ -307,6 +328,11 @@
     </div>
 
     <div class="options-window ProductHunt">
+      <div class="input-container">
+        <input type="number" name="PH_width" id="PH-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
       <div class="input-container">
         <input type="text" name="PH_refresh" id="PH-refresh" required>
         <span class="input-bar"></span>
@@ -328,6 +354,11 @@
         <span class='checkbox-label'>Play gifs</span>
       </div>
       <div class="input-container">
+        <input type="number" name="DR_width" id="DR-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
+      <div class="input-container">
         <input type="text" name="DR_refresh" id="DR-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
@@ -340,8 +371,8 @@
       <p>
         The last update contains:
         <ul>
-          <li>Dribbble redesign to follow Material Design guidelines</li>
-          <li>Adding Dribbble option for small images</li>
+          <li>Resize services through panels</li>
+          <li>Load more fix for Gmail</li>
           <li>Bug fixes and code improvements</li>
         </ul>
       </p>
