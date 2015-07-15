@@ -35,6 +35,7 @@
   line-height: initial;
   padding: 0;
   border-top: none;
+  -webkit-filter: brightness(.9);
   -webkit-transition: -webkit-filter 200ms linear;
 
   &:not(:last-of-type) {
@@ -42,7 +43,7 @@
   }
 
   &:hover {
-    -webkit-filter: brightness(1.2);
+    -webkit-filter: brightness(1);
   }
 
   .dr-story-url {
