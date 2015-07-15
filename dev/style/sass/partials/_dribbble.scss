@@ -31,12 +31,18 @@
 }
 
 .dr-link-container {
+  @include ripple($white);
   line-height: initial;
   padding: 0;
   border-top: none;
+  -webkit-transition: -webkit-filter 200ms linear;
 
   &:not(:last-of-type) {
     margin-bottom: 2px;
+  }
+
+  &:hover {
+    -webkit-filter: brightness(1.15);
   }
 
   .dr-story-url {
