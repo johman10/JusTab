@@ -8,10 +8,6 @@ html a {
   text-shadow: 1px 1px 1px rgba(0, 0, 0 , .004);
 }
 
-a {
-  outline: none;
-}
-
 body {
   margin: 0;
   overflow-x: auto;
@@ -33,7 +29,7 @@ body {
 .settings-button {
   @include paper-shadow(1);
   @include ripple($black);
-  background-color: $clr-grey-300;
+  background-color: #e0e0e0;
   background-position: 50%;
   background-repeat: no-repeat;
   border-radius: 100%;
@@ -45,17 +41,6 @@ body {
   right: 0;
   width: 56px;
   z-index: 1;
-}
-
-.refresh-loading-icon {
-  height: 24px;
-  padding: 8px;
-  width: 24px;
-
-  &::shadow .circle {
-    border-color: $white;
-    border-width: 2px;
-  }
 }
 
 .cleardiv {
@@ -78,26 +63,23 @@ body {
   padding: 15px 16px 10px;
   white-space: normal;
 
-  .paper-button {
-    font-weight: 500;
+  .error-settings-button,
+  .error-retry-button {
+    @include ripple($black);
+    border-radius: 3px;
+    display: block;
     float: right;
+    font-weight: 500;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 4px;
+    min-width: 5.14em;
+    padding: 0 7px;
+    text-align: center;
+    text-transform: uppercase;
+    color: $text-color;
+    background-color: #eee;
   }
-}
-
-.paper-flat-button {
-  @include ripple($black);
-  border-radius: 3px;
-  display: block;
-  float: right;
-  font-weight: 500;
-  height: 40px;
-  line-height: 40px;
-  margin: 0 4px;
-  min-width: 5.14em;
-  padding: 0 7px;
-  text-align: center;
-  text-transform: uppercase;
-  color: $text-color;
 }
 
 .refresh-button {
