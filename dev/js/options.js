@@ -33,7 +33,7 @@ $.when(serviceDataRefreshDone).then(function() {
   }
 
   // Build list of calendars
-  $('#loading').html(serviceData.spinner);
+  $('.calendar-loading').html(serviceData.spinner);
 
   chrome.identity.getAuthToken({ 'interactive': true },function (token) {
     var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
@@ -43,7 +43,7 @@ $.when(serviceDataRefreshDone).then(function() {
       url: url + '?oauth_token=' + token
     })
     .done(function(data) {
-      $('#loading').hide();
+      $('.calendar-loading').hide();
 
       var calendars_storage = serviceData.GC.calendars;
 
@@ -72,7 +72,7 @@ $.when(serviceDataRefreshDone).then(function() {
     })
     .fail(function(xhr, ajaxOptions, thrownError) {
       console.log(xhr, ajaxOptions, thrownError);
-      $('#loading').hide();
+      $('.calendar-loading').hide();
       $('.calendar-select-container').append(
         '<div>' +
           '<div class="error-icon"></div>' +

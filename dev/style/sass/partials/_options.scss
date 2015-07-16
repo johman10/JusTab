@@ -90,9 +90,14 @@
   transition: padding 400ms;
   width: 100vw;
 
-  #loading {
+  .calendar-loading {
     @include spinner($black);
-    margin: 15px;
+
+    .loader {
+      position: initial;
+      margin: 0;
+      transform: translate(0);
+    }
   }
 }
 
@@ -105,10 +110,6 @@
   &:not(.Calendar) {
     display: none;
   }
-}
-
-.DN-login-status {
-  @include spinner($black);
 }
 
 .toast-message {
