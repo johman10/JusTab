@@ -18,154 +18,53 @@
   }
 }
 
-@mixin spinner($color: $white) {
-  $fill-unfill-rotate: fill-unfill-rotate 5332ms cubic-bezier(.4, .0, .2, 1) infinite both;
-
-  #spinner-container {
-    -webkit-animation: container-rotate 1568ms linear infinite;
-    display: inline-block;
-    height: 24px;
+@mixin spinner($color: $white, $width: 28px, $border: 2) {
+  .loader {
     position: relative;
-    width: 24px;
-  }
+    margin: 0px auto;
+    width: $width*2;
+    height: $width*2;
 
-  .spinner-layer {
-    border-color: $color;
-    height: 100%;
-    opacity: 0;
-    position: absolute;
-    width: 100%;
+    .circular {
+     animation: rotate 2s linear infinite;
+     height: $width*2;
+     position: relative;
+     width: $width*2;
 
-    &.blue {
-      -webkit-animation: $fill-unfill-rotate, blue-fade-in-out 5332ms cubic-bezier(.4, .0, .2, 1) infinite both;
-    }
-
-    &.red {
-      -webkit-animation: $fill-unfill-rotate, red-fade-in-out 5332ms cubic-bezier(.4, .0, .2, 1) infinite both;
-    }
-
-    &.yellow {
-      -webkit-animation: $fill-unfill-rotate, yellow-fade-in-out 5332ms cubic-bezier(.4, .0, .2, 1) infinite both;
-    }
-
-    &.green {
-      -webkit-animation: $fill-unfill-rotate, green-fade-in-out 5332ms cubic-bezier(.4, .0, .2, 1) infinite both;
+     .path {
+        stroke-dasharray: 1%,200%;
+        stroke-dashoffset: 0;
+        animation: dash 1.5s ease-in-out infinite;
+        stroke-linecap: round;
+        cx: $width;
+        cy: $width;
+        r: $width/5*2;
+        fill: none;
+        stroke-width: $border;
+        stroke: $color;
+      }
     }
   }
 
-  .gap-patch {
-    border-color: inherit;
-    box-sizing: border-box;
-    height: 100%;
-    left: 45%;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    width: 10%;
-
-    &.circle {
-      left: -450%;
-      width: 1000%;
-    }
+  @keyframes rotate{
+   100%{
+    transform: rotate(360deg);
+   }
   }
 
-  .circle-clipper {
-    border-color: inherit;
-    display: inline-block;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    width: 50%;
-
-    .circle {
-      -webkit-animation: none;
-      border-bottom-color: transparent !important;
-      border-color: inherit;
-      border-radius: 50%;
-      border-style: solid;
-      border-width: 2px;
-      bottom: 0;
-      box-sizing: border-box;
-      height: 100%;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 200%;
-    }
-
-    &.left .circle {
-      -webkit-animation: left-spin 1333ms cubic-bezier(.4, .0, .2, 1) infinite both;
-      border-right-color: transparent !important;
-      -webkit-transform: rotate(129deg);
-    }
-
-    &.right .circle {
-      -webkit-animation: right-spin 1333ms cubic-bezier(.4, .0, .2, 1) infinite both;
-      border-left-color: transparent !important;
-      left: -100%;
-      -webkit-transform: rotate(-129deg);
-    }
-  }
-
-  @-webkit-keyframes container-rotate {
-    to { -webkit-transform: rotate(360deg) }
-  }
-
-  @-webkit-keyframes fill-unfill-rotate {
-    12.5% { -webkit-transform: rotate(135deg);  }
-    25% { -webkit-transform: rotate(270deg);  }
-    37.5% { -webkit-transform: rotate(405deg);  }
-    50% { -webkit-transform: rotate(540deg);  }
-    62.5% { -webkit-transform: rotate(675deg);  }
-    75% { -webkit-transform: rotate(810deg);  }
-    87.5% { -webkit-transform: rotate(945deg);  }
-    to { -webkit-transform: rotate(1080deg); }
-  }
-
-  @-webkit-keyframes blue-fade-in-out {
-    from { opacity: .99; }
-    25% { opacity: .99; }
-    26% { opacity: 0; }
-    89% { opacity: 0; }
-    90% { opacity: .99; }
-    100% { opacity: .99; }
-  }
-
-  @-webkit-keyframes red-fade-in-out {
-    from { opacity: 0; }
-    15% { opacity: 0; }
-    25% { opacity: .99; }
-    50% { opacity: .99; }
-    51% { opacity: 0; }
-  }
-
-  @-webkit-keyframes yellow-fade-in-out {
-    from { opacity: 0; }
-    40% { opacity: 0; }
-    50% { opacity: .99; }
-    75% { opacity: .99; }
-    76% { opacity: 0; }
-  }
-
-  @-webkit-keyframes green-fade-in-out {
-    from { opacity: 0; }
-    65% { opacity: 0; }
-    75% { opacity: .99; }
-    90% { opacity: .99; }
-    100% { opacity: 0; }
-  }
-
-  @-webkit-keyframes left-spin {
-    from { -webkit-transform: rotate(130deg); }
-    50% { -webkit-transform: rotate(-5deg); }
-    to { -webkit-transform: rotate(130deg); }
-  }
-
-  @-webkit-keyframes right-spin {
-    from { -webkit-transform: rotate(-130deg); }
-    50% { -webkit-transform: rotate(5deg); }
-    to { -webkit-transform: rotate(-130deg); }
+  @keyframes dash{
+   0%{
+    stroke-dasharray: 1%,200%;
+    stroke-dashoffset: 0;
+   }
+   50%{
+    stroke-dasharray: 89%,200%;
+    stroke-dashoffset: -35%;
+   }
+   100%{
+    stroke-dasharray: 89%,200%;
+    stroke-dashoffset: -124%;
+   }
   }
 }
 
@@ -182,48 +81,13 @@
     .waves-ripple {
       background-color: rgba($color, .25);
       border-radius: 50%;
-      height: 20px;
+      height: 10px;
       margin: -10px 0 0 -10px;
       pointer-events: none;
       position: absolute;
-      width: 20px;
-      -webkit-transform: scale(0);
-      -webkit-transition-property: -webkit-transform, opacity;
-      -webkit-transition: all .7s ease-out;
+      width: 10px;
+      -webkit-transition-duration: 400ms;
+      -webkit-transition-timing-function: cubic-bezier(0.250, 0.460, 0.450, 0.940);
     }
-  }
-
-  .waves-notransition {
-    -webkit-transition: none #{"!important"};
-  }
-
-  .waves-circle {
-    -webkit-mask-image: -webkit-radial-gradient(circle, $white 100%, $black 100%);
-    -webkit-transform: translateZ(0);
-  }
-
-  .waves-input-wrapper {
-    border-radius: .2em;
-    vertical-align: bottom;
-
-    .waves-button-input {
-      position: relative;
-      top: 0;
-      left: 0;
-      z-index: 1;
-    }
-  }
-
-  .waves-circle {
-    text-align: center;
-    width: 2.5em;
-    height: 2.5em;
-    line-height: 2.5em;
-    border-radius: 50%;
-    -webkit-mask-image: none;
-  }
-
-  .waves-block {
-    display: block;
   }
 }

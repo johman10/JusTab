@@ -11,7 +11,7 @@ function refreshServiceData() {
 
   chrome.storage.sync.get(function(items) {
     serviceData = {
-      "spinner": "<div id='spinner-container'><div class='spinner-layer blue'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer red'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer yellow'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div><div class='spinner-layer green'><div class='circle-clipper left'><div class='circle'></div></div><div class='gap-patch'><div class='circle'></div></div><div class='circle-clipper right'><div class='circle'></div></div></div></div>",
+      "spinner": "<div class='loader'><svg class='circular'><circle class='path'/></svg></div>",
       "GC": {
         "containerId": 'calendar',
         "error": localStorage.getItem('Calendar_error'),

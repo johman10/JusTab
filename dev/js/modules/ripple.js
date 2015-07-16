@@ -24,11 +24,8 @@ function startEffect(e, element) {
   ripple.css({
     'top': relativeY + 'px',
     'left': relativeX + 'px',
-    '-webkit-transform': 'scale(10)',
-    'transform': 'scale(10)',
-    'opacity': 1,
-    '-webkit-transition-duration': duration + 'ms',
-    '-webkit-transition-timing-function': 'cubic-bezier(0.250, 0.460, 0.450, 0.940)'
+    '-webkit-transform': 'scale(20)',
+    'transform': 'scale(20)'
   });
 }
 
