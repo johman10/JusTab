@@ -32,6 +32,35 @@ $.when(serviceDataRefreshDone).then(function() {
     });
   }
 
+  // Responsive menu
+  $('.options-menu-icon').bind('click', function() {
+    if ($('.options-menu').hasClass('expanded')) {
+      $('.options-menu').removeClass('expanded');
+    } else {
+      $('.options-menu').addClass('expanded');
+    }
+  });
+
+  // Change view when clicked on object in menu
+  $('.options-menu-link').bind('click', function() {
+    var serviceName = $(this).data("title");
+    var serviceColor = '#' + $(this).data("color");
+
+    $('.options-menu').removeClass('expanded');
+    $('.options-window').hide();
+    $('.' + serviceName).show();
+    $('.options-menu-link').removeClass('active');
+    $(this).addClass('active');
+    $('.options-window-title').css('background-color', serviceColor);
+    $('.save-settings').css('color', serviceColor);
+    $('.options-window-title-text').text(serviceName);
+    location.hash = '#' + serviceName.toLowerCase();
+  });
+
+  // Link to hash page
+  var serviceName = location.hash.split('#')[1].toLowerCase();
+  $('.options-menu-link[data-lowTitle=' + serviceName + ']').click();
+
   // Build list of calendars
   $('.calendar-loading').html(serviceData.spinner);
 
@@ -82,37 +111,6 @@ $.when(serviceDataRefreshDone).then(function() {
         '</div>'
       );
     });
-  });
-
-  // Responsive menu
-  $('.options-menu-icon').bind('click', function() {
-    if ($('.options-menu').hasClass('expanded')) {
-      $('.options-menu').removeClass('expanded');
-    } else {
-      $('.options-menu').addClass('expanded');
-    }
-  });
-
-  // Change view when clicked on object in menu
-  $('.options-menu-link').bind('click', function() {
-    var serviceName = $(this).data("title");
-    var serviceColor = '#' + $(this).data("color");
-
-    if (serviceName == "Support") {
-      $('.button-bar').hide();
-    }
-    else {
-      $('.button-bar').show();
-    }
-
-    $('.options-menu').removeClass('expanded');
-    $('.options-window').hide();
-    $('.' + serviceName).show();
-    $('.options-menu-link').removeClass('active');
-    $(this).addClass('active');
-    $('.options-window-title').css('background-color', serviceColor);
-    $('.save-settings').css('color', serviceColor);
-    $('.options-window-title-text').text(serviceName);
   });
 
   // Save options on change of fields

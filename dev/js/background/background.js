@@ -30,20 +30,19 @@ chrome.runtime.onInstalled.addListener(function(event) {
     createNotificaton(
       { type: "basic",
         title: "JusTab is updated",
-        message: "Go to support within the options page for more info about this update.",
+        message: "Click here to see the changelog.",
         iconUrl: "../../img/app_icons/JusTab-128x128.png"
       },
       chrome.notifications.onClicked.addListener(function() {
         openOptions();
       })
     );
-    location.reload();
   }
 });
 
 function openOptions() {
   chrome.tabs.create({
-    'url': chrome.extension.getURL("options.html")
+    'url': chrome.extension.getURL("options.html") + '#support'
   });
 }
 

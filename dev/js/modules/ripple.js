@@ -1,6 +1,4 @@
 $(document).ready(function() {
-  duration = 400;
-
   $('body').on('mousedown', '.waves-effect', function(e) {
     var element = $(e.currentTarget);
 
@@ -30,7 +28,7 @@ function startEffect(e, element) {
 }
 
 function stopEffect(e) {
-  $(this).children('.waves-ripple').fadeOut(duration, function() {
+  $(this).children('.waves-ripple').fadeOut(400, function() {
     $(this).remove();
   });
 }
