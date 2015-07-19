@@ -37,8 +37,6 @@
     pointer-events: none;
     position: absolute;
     top: 0;
-    -moz-transition: .2s ease all;
-    -webkit-transition: .2s ease all;
     transition: .2s ease all;
   }
 
@@ -54,8 +52,6 @@
       content: '';
       height: 2px;
       position: absolute;
-      -moz-transition: .2s ease all;
-      -webkit-transition: .2s ease all;
       transition: .2s ease all;
       width: 0;
     }

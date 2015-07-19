@@ -16,8 +16,8 @@
   text-transform: uppercase;
 
   &:hover {
-    text-decoration: none;
     background-color: $hover-color;
+    text-decoration: none;
   }
 }
 

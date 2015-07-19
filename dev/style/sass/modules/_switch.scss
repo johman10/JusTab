@@ -1,19 +1,17 @@
 .switch,
 .switch * {
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-user-select: none;
+  user-select: none;
 
   label {
     cursor: pointer;
   }
 
-  input[type=checkbox] {
+  input {
+    display: block;
+    height: 0;
+    margin: 0;
     opacity: 0;
     width: 0;
-    height: 0;
-    display: block;
-    margin: 0;
 
     &:checked + .lever {
       background-color: #80cdae;
@@ -25,7 +23,7 @@
     }
 
     &:checked:not(:disabled) ~ .lever:active:after {
-      box-shadow: 0 1px 3px 1px rgba(0, 0, 0, .4), 0 0 0 15px transparentize(teal, .9);
+      box-shadow: 0 1px 3px 1px rgba(0, 0, 0, .4), 0 0 0 15px transparentize(#008080 , .9);
     }
 
     &:not(:disabled) ~ .lever:active:after {

@@ -94,8 +94,8 @@
     @include spinner($black);
 
     .loader {
-      position: initial;
       margin: 0;
+      position: initial;
       transform: translate(0);
     }
   }

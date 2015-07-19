@@ -20,8 +20,8 @@ body {
   @include spinner($black, 28px, 2);
 
   .loader {
-    top: 0;
     left: 0;
+    top: 0;
     transform: translate(0);
   }
 }
@@ -66,7 +66,9 @@ body {
   .error-settings-button,
   .error-retry-button {
     @include ripple($black);
+    background-color: #eee;
     border-radius: 3px;
+    color: $text-color;
     display: block;
     float: right;
     font-weight: 500;
@@ -77,8 +79,6 @@ body {
     padding: 0 7px;
     text-align: center;
     text-transform: uppercase;
-    color: $text-color;
-    background-color: #eee;
   }
 }
 

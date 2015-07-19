@@ -37,11 +37,11 @@
     bottom: 17px;
     color: $grey;
     left: initial;
+    max-width: calc(100% - 32px);
     position: absolute;
     right: initial;
     text-decoration: none;
     top: initial;
-    max-width: calc(100% - 32px);
 
     &:hover {
       text-decoration: underline;

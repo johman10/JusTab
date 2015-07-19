@@ -19,9 +19,9 @@
   padding: 2px;
 
   .dr-link-container {
-    width: calc(100% - 50% - 4px);
     float: left;
     margin: 2px;
+    width: calc(100% - 50% - 4px);
 
     .dr-info-container {
       height: 54px;
@@ -32,11 +32,11 @@
 
 .dr-link-container {
   @include ripple($white);
+  border-top: 0;
+  -webkit-filter: brightness(.9);
   line-height: initial;
   padding: 0;
-  border-top: none;
-  -webkit-filter: brightness(.9);
-  -webkit-transition: -webkit-filter 200ms linear;
+  transition: -webkit-filter 200ms linear;
 
   &:not(:last-of-type) {
     margin-bottom: 2px;
@@ -57,13 +57,13 @@
 
   .dr-story-gif {
     background-color: $white;
-    padding: 5px;
     border-radius: 5px;
+    font-size: 10px;
+    opacity: .75;
+    padding: 5px;
     position: absolute;
     right: 10px;
     top: 10px;
-    font-size: 10px;
-    opacity: .75;
   }
 
   .dr-image {
@@ -72,13 +72,13 @@
   }
 
   .dr-info-container {
-    position: absolute;
-    bottom: 0;
     background-color: rgba(0, 0, 0, .5);
-    width: 100%;
+    bottom: 0;
+    color: $white;
     height: 68px;
     padding: 16px;
-    color: $white;
+    position: absolute;
+    width: 100%;
 
     .dr-title {
       @include text-truncate;

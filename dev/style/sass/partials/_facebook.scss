@@ -4,19 +4,19 @@
   }
 
   .panel-header-background2 {
-    background-image: image-url('FB_header.png');
-    background-size: auto 76.8px;
-    background-position: right 0 center;
     background-color: $facebook-color;
+    background-image: image-url('FB_header.png');
+    background-position: right 0 center;
+    background-size: auto 76.8px;
   }
 }
 
 .notifications {
   a {
-    text-decoration: none;
-    line-height: 48px;
-    display: block;
     color: $black;
+    display: block;
+    line-height: 48px;
+    text-decoration: none;
 
     .notification-title {
       @include text-truncate;

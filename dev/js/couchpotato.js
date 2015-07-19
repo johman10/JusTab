@@ -34,6 +34,10 @@ $('html').on('click', '.cp-search-movie', function(event) {
   searchMovie($(this));
 });
 
+$('html').on('click', '.cp-remove-movie', function(event) {
+  cpRemoveMovie($(this));
+});
+
 function cpShowData() {
   $('.wanted').empty();
   $('.snatched').empty();
@@ -85,6 +89,10 @@ function searchMovie(clickedObject) {
   .fail(function() {
     clickedObject.attr('class', 'error-icon cp-search-movie waves-effect');
   });
+}
+
+function cpRemoveMovie(e) {
+
 }
 
 function couchpotatoCheckScroll(e) {
