@@ -58,8 +58,10 @@ $.when(serviceDataRefreshDone).then(function() {
   });
 
   // Link to hash page
-  var serviceName = location.hash.split('#')[1].toLowerCase();
-  $('.options-menu-link[data-lowTitle=' + serviceName + ']').click();
+  if (location.hash) {
+    var serviceName = location.hash.split('#')[1].toLowerCase();
+    $('.options-menu-link[data-lowTitle=' + serviceName + ']').click();
+  }
 
   // Build list of calendars
   $('.calendar-loading').html(serviceData.spinner);
