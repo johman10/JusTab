@@ -73,14 +73,15 @@ function getMailId(token, length, callback) {
 
 function GmailHTML() {
   var data = serviceData.GM.JSON.sort(sortGmailResults);
-  var messageSubject, messageFrom, messageDate, messageSnippet;
+  var isDraft, messageSubject, messageFrom, messageDate, messageSnippet;
   var GmailUnreadHTML = '<h2>Unread</h2>';
   var GmailReadHTML = '<h2>Read</h2>';
 
   $.each(data, function(i, message) {
-    messageSubject = $('<div />').html(message.payload.headers.Subject).text();
-    messageFrom = message.payload.headers.From.replace(/<(.|\n)*?>/, "");
-    messageSnippet = message.snippet;
+    isDraft = message.labelIds.indexOf('DRAFT');
+    messageSubject = $('<div />').html(message.payload.headers.Subject).text() || 'No subject';
+    messageFrom = message.payload.headers.From.replace(/<(.|\n)*?>/, "") || 'No sender';
+    messageSnippet = message.snippet || 'No content';
     messageDate = new Date(message.payload.headers.Date);
     if (moment(messageDate).isSame(moment(), 'day')) {
       messageDate = moment(messageDate).format("hh:mm A");
