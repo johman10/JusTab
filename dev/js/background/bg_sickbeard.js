@@ -116,7 +116,7 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
         '</div>' +
         '<div class="sb-collapse-buttons">' +
           '<div class="icon-button search-icon sb-search-episode waves-effect" data-tvdbid="' + tvdbid + '" data-season="' + season + '" data-episode="' + episode + '"></div>' +
-          '<a class="sb-tvdb-link" href="http://thetvdb.com/?tab=series&id="' + tvdbid + '" target="_blank">' +
+          '<a class="sb-tvdb-link" href="http://thetvdb.com/?tab=series&id=' + tvdbid + '" target="_blank">' +
             '<div class="icon-button info-icon sb-tvdb-link-icon waves-effect"></div>' +
           '</a>' +
           '<div class="icon-button done-icon sb-mark-episode waves-effect" data-tvdbid="' + tvdbid + '" data-season="' + season + '" data-episode="' + episode + '"></div>' +
