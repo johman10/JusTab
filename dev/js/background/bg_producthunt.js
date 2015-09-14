@@ -57,7 +57,7 @@ function phHTML() {
     $.each(data.posts, function(i, story) {
       phLinks +=
         '<div class="core-item waves-effect ph-link-container">' +
-          '<a href="' + story.redirect_url + '" class="ph-story-url" target="_blank">' +
+          '<a href="' + story.redirect_url + '" class="ph-story-url service-link" target="_blank">' +
             story.name +
           '</a>' +
           '<a href="' + story.discussion_url + '" class="ph-comments-url" target="_blank">' +

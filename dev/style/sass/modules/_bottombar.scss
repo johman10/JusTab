@@ -1,0 +1,40 @@
+.bottom-bar-container {
+  bottom: 0;
+  height: 50px;
+  pointer-events: none;
+  position: absolute;
+
+  .bottom-bar-part {
+    display: none;
+    float: left;
+    height: 50px;
+    width: 400px;
+  }
+}
+
+.designernews-info,
+.hackernews-info,
+.github-info,
+.producthunt-info,
+.sabnzbd-info {
+  @include paper-shadow(1);
+  background-color: $white;
+  line-height: 50px;
+  pointer-events: auto;
+
+  .open-all {
+    margin-right: 16px;
+  }
+}
+
+.sabnzbd-info {
+  .sab-time {
+    float: right;
+    right: 16px;
+  }
+
+  .sab-status {
+    float: left;
+    width: calc(100% - 79px);
+  }
+}

@@ -49,7 +49,7 @@ function dnHTML() {
       }
 
       dnLinks +=
-          '<a href="' + story.url + '" class="dn-story-url" target="_blank">' +
+          '<a href="' + story.url + '" class="dn-story-url service-link" target="_blank">' +
             story.title +
           '</a>' +
           '<a href="https://www.designernews.co/stories/' + story.id + '" class="dn-comments-url" target="_blank">' +

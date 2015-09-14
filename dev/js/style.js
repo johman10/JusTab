@@ -39,6 +39,15 @@ $.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(
     refresh_button.click();
   });
 
+  // Open all function
+  $('.open-all').click(function(event) {
+    serviceId = $(this).parent('.bottom-bar-part').data('service-id');
+    serviceLinks = $('.panel[data-service-id=' + serviceId + '] .service-link');
+    $.each(serviceLinks, function(index, link) {
+       window.open($(link).attr('href'));
+    });
+  });
+
   // On storage change functions
   $(window).bind('storage', function (e) {
     var storageFunctions = {

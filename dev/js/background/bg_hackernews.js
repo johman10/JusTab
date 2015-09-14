@@ -64,7 +64,7 @@ function hnHTML() {
 
       if (story.url) {
         hn_links +=
-          '<a href="' + story.url + '" class="hn-story-url" target="_blank">';
+          '<a href="' + story.url + '" class="hn-story-url service-link" target="_blank">';
       } else {
         hn_links +=
           '<a href="https://news.ycombinator.com/item?id=' + story.id + '" class="hn-story-url" target="_blank">';

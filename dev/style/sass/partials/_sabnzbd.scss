@@ -69,20 +69,3 @@
     }
   }
 }
-
-.sabnzbd-info {
-  @include paper-shadow(1);
-  background-color: $white;
-  line-height: 50px;
-  pointer-events: auto;
-
-  .sab-time {
-    float: right;
-    right: 16px;
-  }
-
-  .sab-status {
-    float: left;
-    width: calc(100% - 79px);
-  }
-}

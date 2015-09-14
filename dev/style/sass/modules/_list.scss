@@ -47,17 +47,3 @@
     height: 48px;
   }
 }
-
-.bottom-bar-container {
-  bottom: 0;
-  height: 50px;
-  pointer-events: none;
-  position: absolute;
-
-  .bottom-bar-part {
-    display: none;
-    float: left;
-    height: 50px;
-    width: 400px;
-  }
-}
