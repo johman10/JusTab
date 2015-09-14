@@ -107,7 +107,7 @@ module.exports = function(grunt) {
   grunt.registerTask('default', 'compass:dev');
   grunt.registerTask('dist', [
     'confirm:dist',
-    // 'push',
+    'push',
     'copy:dist',
     'compass:dist',
     'uglify:dist',
