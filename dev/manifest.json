@@ -12,7 +12,6 @@
     "256": "/img/app_icons/JusTab-256x256.png",
     "512": "/img/app_icons/JusTab-512x512.png"
   },
-  
   "background": {
     "page": "background.html",
     "persistent": false

@@ -44,7 +44,7 @@ $.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(
     serviceId = $(this).parent('.bottom-bar-part').data('service-id');
     serviceLinks = $('.panel[data-service-id=' + serviceId + '] .service-link');
     $.each(serviceLinks, function(index, link) {
-       window.open($(link).attr('href'));
+      window.open($(link).attr('href'));
     });
   });
 
