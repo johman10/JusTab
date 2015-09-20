@@ -41,10 +41,17 @@ $.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(
 
   // Open all function
   $('.open-all').click(function(event) {
-    serviceId = $(this).parent('.bottom-bar-part').data('service-id');
-    serviceLinks = $('.panel[data-service-id=' + serviceId + '] .service-link');
+    var serviceId = $(this).parent('.bottom-bar-part').data('service-id'),
+        serviceLinks = $('.panel[data-service-id=' + serviceId + '] .service-link');
+
     $.each(serviceLinks, function(index, link) {
-      window.open($(link).attr('href'));
+      var url = $(link).attr('href');
+      chrome.history.getVisits({ 'url': url }, function(data) {
+        console.log(url, data);
+        if (data.length === 0) {
+          window.open(url);
+        }
+      });
     });
   });
 

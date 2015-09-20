@@ -30,6 +30,7 @@
     ]
   },
   "permissions": [
+    "history",
     "notifications",
     "identity",
     "identity.email",
