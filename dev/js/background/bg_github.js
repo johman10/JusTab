@@ -1,5 +1,5 @@
 function getGithubData(callback) {
-  var url = "http://ghtrendingrss.appspot.com/rss?timespan=daily";
+  var url = "http://github-trends.ryotarai.info/rss/github_trends_all_daily.rss";
 
   $.ajax({
     url: url
