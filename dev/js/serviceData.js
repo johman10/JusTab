@@ -161,7 +161,7 @@ function refreshServiceData() {
         "refresh": isNaN(parseFloat(items.GH_refresh)) ? 15 : parseFloat(items.GH_refresh),
         "bgFunctionName": 'getGithubData',
         "feFunctionName": 'ghShowData',
-        "JSON": $.parseXML(localStorage.getItem('Github')),
+        "JSON": localStorage.getItem('Github'),
         "HTML": localStorage.getItem('GithubHTML'),
         "panelWidth": parseFloat(items.GH_width) || 400
       },

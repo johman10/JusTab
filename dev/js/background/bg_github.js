@@ -1,14 +1,14 @@
 function getGithubData(callback) {
-  var url = "http://github-trends.ryotarai.info/rss/github_trends_all_daily.rss";
+  var url = "https://github.com/trending";
 
   $.ajax({
     url: url
   })
-  .done(function(xml) {
+  .done(function(data) {
     localStorage.setItem("Github_error", false);
     serviceData.GH.error = false;
-    localStorage.setItem("Github", (new XMLSerializer()).serializeToString(xml));
-    serviceData.GH.JSON = xml;
+    localStorage.setItem("Github", data);
+    serviceData.GH.JSON = data;
     ghHTML();
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
@@ -25,13 +25,13 @@ function getGithubData(callback) {
 
 function ghHTML() {
   if (serviceData.GH.JSON) {
-    data = serviceData.GH.JSON;
+    data = $(serviceData.GH.JSON);
     var GithubHTML = '';
 
-    $(data).find('item').each(function(){
-      var title = $(this).find('title').text();
-      var link = $(this).find('link').text();
-      var description = $(this).find('description').text();
+    data.find('.repo-list-item').each(function() {
+      var title = $(this).find('.repo-list-name').text();
+      var link = 'https://www.github.com' + $(this).find('.repo-list-name a').attr('href');
+      var description = $(this).find('.repo-list-description').text();
 
       if (description === '') {
         description = "No description for this repository.";
