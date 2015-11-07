@@ -40,5 +40,5 @@
     "http://*/*",
     "tabs"
   ],
-  "content_security_policy": "script-src 'self' https://graph.facebook.com; object-src 'self'"
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; script-src 'self' https://graph.facebook.com; object-src 'self'"
 }
