@@ -1,15 +1,19 @@
 $.when(serviceDataRefreshDone).done(function() {
   chrome.runtime.onStartup.addListener(function() {
-    chrome.alarms.clearAll();
-
-    $.each(serviceData, function(index, val) {
-      if (val.status && val.containerId != "sabnzbd") {
-        chrome.alarms.create(val.alarmName, {periodInMinutes: val.refresh});
-      }
-      else if (val.status) {
-        chrome.alarms.create(val.queue.alarmName, {periodInMinutes: val.queue.refresh});
-        chrome.alarms.create(val.history.alarmName, {periodInMinutes: val.history.refresh});
-      }
+    chrome.alarms.clearAll(function() {
+      $.each(serviceData, function(index, val) {
+        if (val.status && val.containerId == "sabnzbd") {
+          chrome.alarms.create(val.queue.alarmName, {periodInMinutes: val.queue.refresh});
+          chrome.alarms.create(val.history.alarmName, {periodInMinutes: val.history.refresh});
+        }
+        else if (val.status && val.containerId == "couchpotato") {
+          chrome.alarms.create(val.snatched.alarmName, {periodInMinutes: val.refresh});
+          chrome.alarms.create(val.wanted.alarmName, {periodInMinutes: val.refresh});
+        }
+        else if (val.status) {
+          chrome.alarms.create(val.alarmName, {periodInMinutes: val.refresh});
+        }
+      });
     });
   });
 
