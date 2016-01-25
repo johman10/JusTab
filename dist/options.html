@@ -125,6 +125,16 @@
         </label>
       </div>
     </div>
+    <div class="options-menu-link waves-effect" data-service-id="12" data-lowTitle="reddit" data-title="Reddit" data-color="CFE3FA">
+      <span class="drag-handle"></span>
+      Reddit
+      <div class="switch service-toggle">
+        <label>
+          <input type="checkbox" name="RD_status">
+          <span class="lever"></span>
+        </label>
+      </div>
+    </div>
 
     <div class="options-menu-link support waves-effect" data-lowTitle="support" data-title="Support" data-color="03A9F4">
       Support
@@ -359,14 +369,57 @@
       </div>
     </div>
 
+    <div class="options-window Reddit">
+      <div class="input-container">
+        <input type="text" name="RD_subreddit" id="RD-subreddit" required>
+        <span class="input-bar"></span>
+        <label>Subreddit</label>
+      </div>
+
+      <div class="input-container select">
+        <input type="text" id="RD-sorting" required>
+        <span class="input-bar"></span>
+        <ul class="list">
+          <li data-value='Hot' class="list-item waves-effect">Hot</li>
+          <li data-value='New' class="list-item waves-effect">New</li>
+          <li data-value='Rising' class="list-item waves-effect">Rising</li>
+          <li data-value='Controversial - hour' class="list-item waves-effect">Controversial - hour</li>
+          <li data-value='Controversial - day' class="list-item waves-effect">Controversial - day</li>
+          <li data-value='Controversial - week' class="list-item waves-effect">Controversial - week</li>
+          <li data-value='Controversial - month' class="list-item waves-effect">Controversial - month</li>
+          <li data-value='Controversial - year' class="list-item waves-effect">Controversial - year</li>
+          <li data-value='Controversial - all' class="list-item waves-effect">Controversial - all</li>
+          <li data-value='Top - hour' class="list-item waves-effect">Top - hour</li>
+          <li data-value='Top - day' class="list-item waves-effect">Top - day</li>
+          <li data-value='Top - week' class="list-item waves-effect">Top - week</li>
+          <li data-value='Top - month' class="list-item waves-effect">Top - month</li>
+          <li data-value='Top - year' class="list-item waves-effect">Top - year</li>
+          <li data-value='Top - all' class="list-item waves-effect">Top - all</li>
+        </ul>
+        <label>Sorting</label>
+      </div>
+
+      <div class="input-container">
+        <input type="number" name="RD_width" id="RD-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
+      <div class="input-container">
+        <input type="text" name="RD_refresh" id="RD-refresh" required>
+        <span class="input-bar"></span>
+        <label>Refresh rate (in minutes)</label>
+      </div>
+    </div>
+
     <div class="options-window Support">
       <p>This application is made by <a href="http://portfolio.pxdesign.nl">Johan van Eck</a>.</p>
       <h1>Changelog</h1>
       <p>
         The last update contains:
         <ul>
-          <li>Adding Google Analytics</li>
-          <li>Switch Github service because I didn't like the previous one</li>
+          <li>Add Reddit support</li>
+          <li>Refresh alarm improvements</li>
+          <li>Error settings link now links to the service you clicked on</li>
           <li>Bug fixes and code improvements</li>
         </ul>
       </p>
@@ -399,5 +452,6 @@
   <script src="js/modules/googleanalytics.js"  type="text/javascript" charset="utf-8" defer></script>
   <script src="js/modules/ripple.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/modules/checkbox.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="js/modules/select.js" type="text/javascript" charset="utf-8" defer></script>
 </body>
 </html>
