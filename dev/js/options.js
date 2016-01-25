@@ -153,6 +153,7 @@ function save_status_options() {
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
+      backgroundPage.createAlarms();
     });
   });
 }
@@ -216,6 +217,7 @@ function save_options() {
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
+      backgroundPage.createAlarms();
     });
 
     var status = $('.status');

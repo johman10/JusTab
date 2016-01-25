@@ -201,8 +201,6 @@ function refreshServiceData() {
         "feFunctionName": 'rdShowData',
         "JSON": JSON.parse(localStorage.getItem('Reddit')),
         "HTML": localStorage.getItem('RedditHTML'),
-        "smallImages": items.RD_small_images,
-        "gifs": items.RD_gifs,
         "panelWidth": parseFloat(items.RD_width) || 400,
         "subreddit": items.RD_subreddit || 'all',
         "sorting": items.RD_sorting || 'Hot'
