@@ -31,6 +31,7 @@
 
   .list-item {
     @include ripple($black);
+    @include text-truncate;
     height: 48px;
     line-height: 48px;
     padding: 0 16px;
