@@ -20,13 +20,13 @@ You can download this extension in the Chrome Webstore go to:
 If you want to install this extension from source
 
 - Clone this repository (`git clone git@github.com:johman10/JusTab.git`)
-- `cd JusTab`
+- `cd JusTab/dist`
 - `bower install`
 - Open Chrome
 - Go to [chrome://extensions](chrome://extensions/)
 - Check the 'developer mode' checkbox on the top of the page
-- Press "Load unpacked extensions"
-- Browse to the git clone folder
+- Press 'Load unpacked extensions'
+- Browse to the git clone folder and select the dist folder
 - Press open.
 
 After that the extension is installed. Get into the settings and fill them in to have access to all the services.
