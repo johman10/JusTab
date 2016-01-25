@@ -5,19 +5,12 @@ $(document).ready(function() {
     currentValue.addClass('selected');
 
     list.show();
+    setListPostion(currentValue);
     if (list.prop('scrollHeight') > list.outerHeight()) {
       // If there is scroll-space
-      list.css('top', -21);
-      var scrollPosition = list.scrollTop() + currentValue.position().top - 8;
+      var paddingTop = list.css('padding-top').replace("px", "");
+      var scrollPosition = list.scrollTop() + currentValue.position().top - paddingTop - currentValue.height();
       list.scrollTop(scrollPosition);
-    } else {
-      // If there is no scroll
-      var newTop = currentValue.index() * -48 - 21;
-      if (newTop < -69) {
-        newTop = -69;
-      }
-
-      list.css('top', newTop);
     }
   });
 
@@ -43,4 +36,12 @@ $(document).ready(function() {
 
 function resetBackground() {
   $('.select .list-item').removeClass('selected');
+}
+
+function setListPostion(option) {
+  var newTop = option.index() * -48 - 21;
+  $('.select .list').css('top', newTop);
+  if ($('.select .list').offset().top < $('.options-window:visible').offset().top) {
+    setListPostion(option.prev());
+  }
 }
