@@ -1,36 +1,38 @@
 $(document).ready(function() {
-  $('.select input').focus(function(event) {
-    var list = $('.select .list');
+  var selectList = $('.select .list');
+  var selectInput = $('.select input');
+
+  selectInput.focus(function(event) {
     var currentValue = $('.select .list-item[data-value="' + $(this).val() + '"]');
     currentValue.addClass('selected');
 
-    list.show();
+    selectList.show();
     setListPostion(currentValue);
-    if (list.prop('scrollHeight') > list.outerHeight()) {
+    if (selectList.prop('scrollHeight') > selectList.outerHeight()) {
       // If there is scroll-space
-      var paddingTop = list.css('padding-top').replace("px", "");
-      var scrollPosition = list.scrollTop() + currentValue.position().top - paddingTop - currentValue.height();
-      list.scrollTop(scrollPosition);
+      var paddingTop = selectList.css('padding-top').replace("px", "");
+      var scrollPosition = selectList.scrollTop() + currentValue.position().top - paddingTop - currentValue.height();
+      selectList.scrollTop(scrollPosition);
     }
   });
 
-  $('.select input').keyup(function(event) {
+  selectInput.keyup(function(event) {
     event.preventDefault();
   });
 
-  $('.select input').blur(function(event) {
+  selectInput.blur(function(event) {
     // Delay to prevent hide before click trigger
     setTimeout(function() {
       resetBackground();
-      $('.select .list').hide();
+      selectList.hide();
     }, 100);
   });
 
   $('.select .list-item').click(function(event) {
     resetBackground();
-    $('.select input').val($(this).text());
+    selectInput.val($(this).text());
     save_options();
-    $('.select .list').hide();
+    selectList.hide();
   });
 });
 
@@ -39,9 +41,10 @@ function resetBackground() {
 }
 
 function setListPostion(option) {
-  var newTop = option.index() * -48 - 21;
-  $('.select .list').css('top', newTop);
-  if ($('.select .list').offset().top < $('.options-window:visible').offset().top) {
+  var selectList = $('.select .list'),
+      newTop = option.index() * -option.outerHeight() - 21;
+  selectList.css('top', newTop);
+  if (selectList.offset().top < $('.options-window:visible').offset().top) {
     setListPostion(option.prev());
   }
 }
