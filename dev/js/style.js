@@ -27,9 +27,15 @@ $.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(
   $('img').attr('draggable', false);
 
   // Set settings button click action
-  $('.settings-button, .error-settings-button').click(function(event) {
+  $('.settings-button').click(function(event) {
     chrome.tabs.create({
       'url': chrome.extension.getURL("options.html")
+    });
+  });
+
+  $('.error-settings-button').click(function(event) {
+    chrome.tabs.create({
+      'url': chrome.extension.getURL("options.html") + '#' + $(this).parents('.panel').attr('id')
     });
   });
 
