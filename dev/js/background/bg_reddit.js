@@ -1,16 +1,16 @@
 function getRedditData(callback) {
-  var sorting = serviceData.RD.sorting;
-  var sortingArray = sorting.split(' - ');
-  var sortingType = sortingArray[0].toLowerCase();
-  var sortingTime;
+  var url = 'https://www.reddit.com',
+      sorting = serviceData.RD.sorting,
+      sortingArray = sorting.split(' - '),
+      sortingType = sortingArray[0].toLowerCase(),
+      sortingTime,
+      apiCall;
+
   if (sortingArray.length > 1) {
     sortingTime = sortingArray[1].toLowerCase();
   }
 
-  var url = 'https://www.reddit.com';
-  var apiCall;
   if (sortingTime) {
-    console.log(sortingTime);
     apiCall = "/r/" + serviceData.RD.subreddit +  "/" + sortingType + ".json?t=" + sortingTime;
   } else {
     apiCall = "/r/" + serviceData.RD.subreddit +  "/" + sortingType + ".json";

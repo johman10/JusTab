@@ -18,6 +18,8 @@ $.when(serviceDataRefreshDone).done(function() {
       });
     });
   }
+
+  $('#reddit .panel-header .panel-header-foreground .bottom a').attr('href', 'https://www.reddit.com/r/' + serviceData.RD.subreddit);
 });
 
 function rdShowData() {
