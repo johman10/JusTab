@@ -86,7 +86,7 @@
 
 .options-content {
   height: calc(100vh - 64px);
-  padding-left: 272px;
+  padding-left: 256px;
   transition: padding 400ms;
   width: 100vw;
 
@@ -104,7 +104,7 @@
 .options-window {
   height: 100%;
   overflow: scroll;
-  padding: 8px 0;
+  padding: 8px 0 8px 16px;
   position: relative;
 
   &:not(.Calendar) {

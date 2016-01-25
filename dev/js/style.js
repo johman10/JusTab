@@ -75,7 +75,8 @@ $.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(
       'HackernewsHTML': hnShowData,
       'GithubHTML': ghShowData,
       'ProductHuntHTML': phShowData,
-      'DribbbleHTML': drShowData
+      'DribbbleHTML': drShowData,
+      'RedditHTML': rdShowData
     };
 
     if (e.originalEvent.key.indexOf('_error') != -1) {

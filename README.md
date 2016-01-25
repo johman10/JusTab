@@ -12,6 +12,7 @@ At this moment it supports:
 - [Github Trending RSS](http://ghtrendingrss.appspot.com/)
 - [Product Hunt](https://www.producthunt.com)
 - [Dribbble](https://www.dribbble.com)
+- [Reddit](https://www.reddit.com)
 
 ## Installation
 You can download this extension in the Chrome Webstore go to:

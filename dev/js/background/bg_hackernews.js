@@ -18,6 +18,11 @@ function getHackerNewsData(callback) {
     console.log(xhr, ajaxOptions, thrownError);
     localStorage.setItem("Hackernews_error", true);
     serviceData.HN.error = true;
+  })
+  .always(function() {
+    if (callback) {
+      callback();
+    }
   });
 }
 

@@ -148,7 +148,8 @@ function save_status_options() {
     HN_status: $('input[type=checkbox][name=HN_status]').is(':checked'),
     GH_status: $('input[type=checkbox][name=GH_status]').is(':checked'),
     PH_status: $('input[type=checkbox][name=PH_status]').is(':checked'),
-    DR_status: $('input[type=checkbox][name=DR_status]').is(':checked')
+    DR_status: $('input[type=checkbox][name=DR_status]').is(':checked'),
+    RD_status: $('input[type=checkbox][name=RD_status]').is(':checked')
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
@@ -207,7 +208,11 @@ function save_options() {
     DR_small_images: $('.dr-small-images-checkbox').hasClass('checked'),
     DR_gifs: $('.dr-gif-checkbox').hasClass('checked'),
     DR_width: $('#DR-width').val(),
-    DR_refresh: $('#DR-refresh').val()
+    DR_refresh: $('#DR-refresh').val(),
+    RD_subreddit: $('#RD-subreddit').val(),
+    RD_sorting: $('#RD-sorting').val(),
+    RD_width: $('#RD-width').val(),
+    RD_refresh: $('#RD-refresh').val()
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
@@ -274,6 +279,11 @@ function restore_options() {
   if (serviceData.DR.gifs) { $('.dr-gif-checkbox').addClass('checked'); }
   $('#DR-width').val(serviceData.DR.panelWidth);
   $('#DR-refresh').val(serviceData.DR.refresh);
+  $('input[type=checkbox][name=RD_status]').attr('checked', serviceData.RD.status);
+  $('#RD-subreddit').val(serviceData.RD.subreddit);
+  $('#RD-sorting').val(serviceData.RD.sorting);
+  $('#RD-width').val(serviceData.RD.panelWidth);
+  $('#RD-refresh').val(serviceData.RD.refresh);
 }
 
 function formatUrl(fieldname) {

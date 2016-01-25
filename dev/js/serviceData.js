@@ -190,6 +190,22 @@ function refreshServiceData() {
         "smallImages": items.DR_small_images,
         "gifs": items.DR_gifs,
         "panelWidth": parseFloat(items.DR_width) || 400
+      },
+      "RD": {
+        "containerId": 'reddit',
+        "error": localStorage.getItem('Reddit_error'),
+        "status": items.RD_status,
+        "alarmName": 'reddit',
+        "refresh": isNaN(parseFloat(items.RD_refresh)) ? 15 : parseFloat(items.RD_refresh),
+        "bgFunctionName": 'getRedditData',
+        "feFunctionName": 'rdShowData',
+        "JSON": JSON.parse(localStorage.getItem('Reddit')),
+        "HTML": localStorage.getItem('RedditHTML'),
+        "smallImages": items.RD_small_images,
+        "gifs": items.RD_gifs,
+        "panelWidth": parseFloat(items.RD_width) || 400,
+        "subreddit": items.RD_subreddit || 'all',
+        "sorting": items.RD_sorting || 'Hot'
       }
     };
     serviceDataRefreshDone.resolve();

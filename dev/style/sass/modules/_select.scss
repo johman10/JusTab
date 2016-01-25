@@ -1,0 +1,43 @@
+.select {
+  width: 300px;
+
+  &:after {
+    display: block;
+    width: 0px;
+    height: 0px;
+    content: '';
+    position: absolute;
+    right: 0.5em;
+    top: 50%;
+    margin-top: -0.25em;
+    border-top: 0.4em solid #777777;
+    border-left: 0.3em solid transparent;
+    border-right: 0.3em solid transparent;
+  }
+
+  .list {
+    @include paper-shadow(1);
+    width: 100%;
+    display: none;
+    list-style: none;
+    padding: 8px 0;
+    position: absolute;
+    background-color: $white;
+    z-index: 100;
+    top: -21px;
+    max-height: 500px;
+    overflow-y: scroll;
+  }
+
+  .list-item {
+    @include ripple($black);
+    height: 48px;
+    line-height: 48px;
+    padding: 0 16px;
+
+    &:hover,
+    &.selected {
+      background-color: $hover-color;
+    }
+  }
+}

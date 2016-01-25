@@ -16,7 +16,8 @@
 .hackernews-info,
 .github-info,
 .producthunt-info,
-.sabnzbd-info {
+.sabnzbd-info,
+.reddit-info {
   @include paper-shadow(1);
   background-color: $white;
   line-height: 50px;
