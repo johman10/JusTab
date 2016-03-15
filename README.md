@@ -9,7 +9,7 @@ At this moment it supports:
 - [Sabnzbd](https://github.com/sabnzbd/sabnzbd)
 - [Designer News](news.layervault.com)
 - [Hacker News](https://news.ycombinator.com/)
-- [Github Trending RSS](http://ghtrendingrss.appspot.com/)
+- [Github Trending](https://github.com/trending)
 - [Product Hunt](https://www.producthunt.com)
 - [Dribbble](https://www.dribbble.com)
 - [Reddit](https://www.reddit.com)
@@ -21,13 +21,14 @@ You can download this extension in the Chrome Webstore go to:
 If you want to install this extension from source
 
 - Clone this repository (`git clone git@github.com:johman10/JusTab.git`)
-- `cd JusTab/dist`
-- `bower install`
+- `cd JusTab`
+- `npm install`
+- `npm run watch`
 - Open Chrome
 - Go to [chrome://extensions](chrome://extensions/)
 - Check the 'developer mode' checkbox on the top of the page
 - Press 'Load unpacked extensions'
-- Browse to the git clone folder and select the dist folder
+- Browse to the git clone folder and select the JustTab folder
 - Press open.
 
 After that the extension is installed. Get into the settings and fill them in to have access to all the services.

@@ -1,6 +1,3 @@
-### Bower ###
-bower_components
-
 ### grunt ###
 # Grunt usually compiles files inside this directory
 dist.zip

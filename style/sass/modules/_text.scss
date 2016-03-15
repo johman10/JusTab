@@ -68,14 +68,14 @@
 
 body {
   color: $text-color;
-  font-family: 'Roboto';
+  font-family: 'Roboto', 'Helvetica';
   font-size: 14px;
   font-weight: 400;
 }
 
 h1 {
   color: $header-grey;
-  font-family: 'Roboto';
+  font-family: 'Roboto', 'Helvetica';
   font-size: 14px;
   font-weight: 600;
   margin: 0;
@@ -83,7 +83,7 @@ h1 {
 
 h2 {
   color: $header-grey;
-  font-family: 'Roboto';
+  font-family: 'Roboto', 'Helvetica';
   font-size: 14px;
   font-weight: 600;
   height: 40px;

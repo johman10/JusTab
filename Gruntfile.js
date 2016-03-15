@@ -23,9 +23,9 @@ module.exports = function(grunt) {
       dev: {
         options: {
           environment: 'development',
-          sassDir: 'dev/style/sass',
-          specify: 'dev/style/sass/main.scss',
-          cssDir: 'dev/style/css',
+          sassDir: 'style/sass',
+          specify: 'style/sass/main.scss',
+          cssDir: 'style/css',
           imagesDir: 'img',
           javascriptsDir: 'js',
           fontsDir: 'style/fonts',
@@ -36,8 +36,8 @@ module.exports = function(grunt) {
       dist: {
         options: {
           environment: 'production',
-          sassDir: 'dev/style/sass',
-          specify: 'dev/style/sass/main.scss',
+          sassDir: 'style/sass',
+          specify: 'style/sass/main.scss',
           cssDir: 'dist/style/css',
           imagesDir: 'img',
           javascriptsDir: 'js',
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'dev/js',
+          cwd: 'js',
           src: '**/*.js',
           dest: 'dist/js'
         }]
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
 
     push: {
       options: {
-        files: ['package.json', 'dev/bower.json', 'dev/manifest.json'],
+        files: ['package.json', 'manifest.json'],
         commitFiles: ['-a'], // '-a' for all files
         createTag: false
       }
@@ -71,14 +71,14 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'dev/',
+          cwd: '.',
           src: [
             'img/**',
-            'bower_components/jquery/dist/jquery.min.js',
-            'bower_components/moment/min/moment.min.js',
-            'bower_components/jquery.lazyload/jquery.lazyload.js',
-            'bower_components/dragula.js/dist/dragula.min.js',
-            'bower_components/dragula.js/dist/dragula.min.css',
+            'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/moment/min/moment.min.js',
+            'node_modules/jquery-lazyload/jquery.lazyload.js',
+            'node_modules/dragula/dist/dragula.min.js',
+            'node_modules/dragula/dist/dragula.min.css',
             'style/fonts/**',
             'index.html',
             'options.html',
