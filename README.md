@@ -18,12 +18,21 @@ At this moment it supports:
 You can download this extension in the Chrome Webstore go to:
 [https://chrome.google.com/webstore/detail/justab/ahfidkanlmlkhggdgencpoanjkokcfck](https://chrome.google.com/webstore/detail/justab/ahfidkanlmlkhggdgencpoanjkokcfck)
 
-If you want to install this extension from source
+If you just want to install this extension from source:
 
 - Clone this repository (`git clone git@github.com:johman10/JusTab.git`)
-- `cd JusTab`
+- Open Chrome
+- Go to [chrome://extensions](chrome://extensions/)
+- Check the 'developer mode' checkbox on the top of the page
+- Press 'Load unpacked extensions'
+- Browse to the git clone folder and select the 'dist' folder within the just cloned folder
+- Press open.
+
+If you want to run the development environment:
+
+- Clone this repository (`git clone git@github.com:johman10/JusTab.git`)
 - `npm install`
-- `npm run watch`
+- `grunt`
 - Open Chrome
 - Go to [chrome://extensions](chrome://extensions/)
 - Check the 'developer mode' checkbox on the top of the page
