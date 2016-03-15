@@ -1,0 +1,1 @@
+$(document).ready(function(){$(document).click(function(a){$(a.target).parent(".checkbox-container").length>0&&(checkbox_container=$(a.target).parent(".checkbox-container"),checkbox_container.toggleClass("checked"),checkbox_container.trigger("change"))})});
