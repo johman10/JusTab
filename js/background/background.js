@@ -5,7 +5,23 @@ $.when(serviceDataRefreshDone).done(function() {
 
   chrome.alarms.onAlarm.addListener(function(alarm) {
     $.each(serviceData, function(index, val) {
-      if (val.alarmName == alarm.name) {
+      if (val.containerId == "sabnzbd") {
+        if (val.queue.alarmName == alarm.name) {
+          window[val.queue.bgFunctionName]();
+        }
+        else if (val.history.alarmName == alarm.name) {
+          window[val.history.bgFunctionName]();
+        }
+      }
+      else if (val.containerId == "couchpotato") {
+        if (val.snatched.alarmName == alarm.name) {
+          window[val.snatched.bgFunctionName]();
+        }
+        else if (val.wanted.alarmName == alarm.name) {
+          window[val.wanted.bgFunctionName]();
+        }
+      }
+      else if (val.alarmName == alarm.name) {
         window[val.bgFunctionName]();
       }
     });
