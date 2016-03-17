@@ -204,6 +204,26 @@ function refreshServiceData() {
         "panelWidth": parseFloat(items.RD_width) || 400,
         "subreddit": items.RD_subreddit || 'all',
         "sorting": items.RD_sorting || 'Hot'
+      },
+      "NG": {
+        "containerId": 'nzbget',
+        "status": items.NG_status,
+        "feFunctionName": 'ngShowData',
+        "url": items.NG_address + ":" + items.NG_port,
+        "apiUrl": items.NG_address + ":" + items.NG_port + "/" + items.NG_username + ":" + items.NG_password + "/jsonrpc",
+        "downloadStatus": localStorage.getItem('NzbgetStatusHTML'),
+        "address": items.NG_address,
+        "port": items.NG_port,
+        "username": items.NG_username,
+        "password": items.NG_password,
+        "panelWidth": parseFloat(items.NG_width) || 400,
+        "error": localStorage.getItem('Nzbget_error'),
+        "alarmName": 'nzbget',
+        "refresh": isNaN(parseFloat(items.NG_refresh)) ? 15 : parseFloat(items.NG_refresh),
+        "bgFunctionName": 'getNzbget',
+        "JSON": JSON.parse(localStorage.getItem('Nzbget')),
+        "HTML": localStorage.getItem('NzbgetHTML'),
+        "limit": parseFloat(items.NG_limit) || 30
       }
     };
     serviceDataRefreshDone.resolve();

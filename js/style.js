@@ -82,7 +82,8 @@ $.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(
       'GithubHTML': ghShowData,
       'ProductHuntHTML': phShowData,
       'DribbbleHTML': drShowData,
-      'RedditHTML': rdShowData
+      'RedditHTML': rdShowData,
+      'NzbgetHTML': ngShowData
     };
 
     if (e.originalEvent.key.indexOf('_error') != -1) {

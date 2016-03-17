@@ -149,7 +149,8 @@ function save_status_options() {
     GH_status: $('input[type=checkbox][name=GH_status]').is(':checked'),
     PH_status: $('input[type=checkbox][name=PH_status]').is(':checked'),
     DR_status: $('input[type=checkbox][name=DR_status]').is(':checked'),
-    RD_status: $('input[type=checkbox][name=RD_status]').is(':checked')
+    RD_status: $('input[type=checkbox][name=RD_status]').is(':checked'),
+    NG_status: $('input[type=checkbox][name=NG_status]').is(':checked')
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
@@ -169,6 +170,7 @@ function save_options() {
   CP_address = formatUrl('CP-address');
   SB_address = formatUrl('SB-address');
   SAB_address = formatUrl('SAB-address');
+  NG_address = formatUrl('NG-address');
 
   chrome.storage.sync.set({
     calendars: calendars,
@@ -213,7 +215,14 @@ function save_options() {
     RD_subreddit: $('#RD-subreddit').val(),
     RD_sorting: $('#RD-sorting').val(),
     RD_width: $('#RD-width').val(),
-    RD_refresh: $('#RD-refresh').val()
+    RD_refresh: $('#RD-refresh').val(),
+    NG_address: NG_address,
+    NG_port: $('#NG-port').val(),
+    NG_width: $('#NG-width').val(),
+    NG_refresh: $('#NG-refresh').val(),
+    NG_limit: $('#NG-limit').val(),
+    NG_username: $('#NG-username').val(),
+    NG_password: $('#NG-password').val()
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
@@ -286,6 +295,14 @@ function restore_options() {
   $('#RD-sorting').val(serviceData.RD.sorting);
   $('#RD-width').val(serviceData.RD.panelWidth);
   $('#RD-refresh').val(serviceData.RD.refresh);
+  $('input[type=checkbox][name=NG_status]').attr('checked', serviceData.NG.status);
+  $('#NG-address').val(serviceData.NG.address);
+  $('#NG-port').val(serviceData.NG.port);
+  $('#NG-width').val(serviceData.NG.panelWidth);
+  $('#NG-refresh').val(serviceData.NG.refresh);
+  $('#NG-limit').val(serviceData.NG.limit);
+  $('#NG-username').val(serviceData.NG.username);
+  $('#NG-password').val(serviceData.NG.password);
 }
 
 function formatUrl(fieldname) {
