@@ -11,34 +11,36 @@
   }
 }
 
-.queue {
-  .sab-item-container {
-    height: 72px;
-    line-height: initial;
+#sabnzbd {
+  .queue {
+    .sab-item-container {
+      height: 72px;
+      line-height: initial;
+
+      .sab-item-name {
+        @include text-truncate;
+        padding-top: 17px;
+        position: absolute;
+        top: 0;
+        width: calc(100% - 38px);
+      }
+
+      .sab-item-status {
+        bottom: 0;
+        color: $grey;
+        padding-bottom: 17px;
+        position: absolute;
+      }
+    }
+  }
+
+  .history {
+    padding-bottom: 50px;
 
     .sab-item-name {
       @include text-truncate;
-      padding-top: 17px;
-      position: absolute;
-      top: 0;
       width: calc(100% - 38px);
     }
-
-    .sab-item-status {
-      bottom: 0;
-      color: $grey;
-      padding-bottom: 17px;
-      position: absolute;
-    }
-  }
-}
-
-.history {
-  padding-bottom: 50px;
-
-  .sab-item-name {
-    @include text-truncate;
-    width: calc(100% - 38px);
   }
 }
 

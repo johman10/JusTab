@@ -83,7 +83,8 @@ $.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(
       'ProductHuntHTML': phShowData,
       'DribbbleHTML': drShowData,
       'RedditHTML': rdShowData,
-      'NzbgetHTML': ngShowData
+      'NzbgetQueueHTML': ngShowData,
+      'NzbgetHistoryHTML': ngShowData
     };
 
     if (e.originalEvent.key.indexOf('_error') != -1) {

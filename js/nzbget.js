@@ -10,10 +10,12 @@ $.when(serviceDataRefreshDone).done(function() {
         $(this).html(serviceData.spinner);
         $(this).fadeIn(400, function() {
           chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getNzbget(function() {
-              $('.refresh-ng').fadeOut(400, function() {
-                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh NZBGet" draggable=false>');
-                $(this).fadeIn(400);
+            backgroundPage.getNzbgetQueue(function() {
+              backgroundPage.getNzbgetHistory(function() {
+                $('.refresh-ng').fadeOut(400, function() {
+                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh NZBGet" draggable=false>');
+                  $(this).fadeIn(400);
+                });
               });
             });
           });
@@ -31,15 +33,22 @@ $.when(serviceDataRefreshDone).done(function() {
 });
 
 function ngShowData() {
-  $('.bottom-bar-container .nzbget-info').empty();
-  $('.ng-items').empty();
+  $('#nzbget .queue').empty();
+  $('#nzbget .history').empty();
 
-  if (serviceData.NG.error == "true") {
+  var queueError = serviceData.NG.queue.error;
+  var historyError = serviceData.NG.history.error;
+
+  if (queueError == "true" || historyError == "true") {
     $('#nzbget .error').slideDown('slow');
+  }
+  else {
+    $('#nzbget .error').slideUp('slow');
   }
 
   // $('.bottom-bar-container .nzbget-info').html(serviceData.SAB.downloadStatus);
-  $('#nzbget .ng-items').html(serviceData.NG.HTML);
+  $('#nzbget .queue').html(serviceData.NG.queue.HTML);
+  $('#nzbget .history').html(serviceData.NG.history.HTML);
 }
 
 // function ngRemove(elem) {

@@ -34,8 +34,8 @@ $.when(serviceDataRefreshDone).done(function() {
 
 function sabShowData() {
   $('.bottom-bar-container .sabnzbd-info').empty();
-  $('.queue').empty();
-  $('.history').empty();
+  $('#sabnzbd .queue').empty();
+  $('#sabnzbd .history').empty();
 
   var queueError = serviceData.SAB.queue.error;
   var historyError = serviceData.SAB.history.error;

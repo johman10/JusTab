@@ -217,13 +217,23 @@ function refreshServiceData() {
         "username": items.NG_username,
         "password": items.NG_password,
         "panelWidth": parseFloat(items.NG_width) || 400,
-        "error": localStorage.getItem('Nzbget_error'),
-        "alarmName": 'nzbget',
-        "refresh": isNaN(parseFloat(items.NG_refresh)) ? 15 : parseFloat(items.NG_refresh),
-        "bgFunctionName": 'getNzbget',
-        "JSON": JSON.parse(localStorage.getItem('Nzbget')),
-        "HTML": localStorage.getItem('NzbgetHTML'),
-        "limit": parseFloat(items.NG_limit) || 30
+        "queue": {
+            "error": localStorage.getItem('NzbgetQueue_error'),
+            "alarmName": 'nzbgetQueue',
+            "refresh": isNaN(parseFloat(items.NGQ_refresh)) ? 15 : parseFloat(items.NGQ_refresh),
+            "bgFunctionName": 'getNzbgetQueue',
+            "JSON": JSON.parse(localStorage.getItem('NzbgetQueue')),
+            "HTML": localStorage.getItem('NzbgetQueueHTML'),
+        },
+        "history": {
+            "error": localStorage.getItem('NzbgetHistory_error'),
+            "alarmName": 'nzbgetHistory',
+            "refresh": isNaN(parseFloat(items.NGH_refresh)) ? 15 : parseFloat(items.NGH_refresh),
+            "bgFunctionName": 'getNzbgetHistory',
+            "JSON": JSON.parse(localStorage.getItem('NzbgetHistory')),
+            "HTML": localStorage.getItem('NzbgetHistoryHTML'),
+            "length": parseFloat(items.NGH_limit) || 25
+        }
       }
     };
     serviceDataRefreshDone.resolve();

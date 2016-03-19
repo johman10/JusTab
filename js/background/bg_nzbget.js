@@ -1,23 +1,49 @@
 // Docs:
 // https://github.com/nzbget/nzbget/wiki/API
 
-function getNzbget(callback) {
+function getNzbgetQueue(callback) {
+  var url = serviceData.NG.apiUrl;
+  var apiCall = "/listgroups";
+
+  $.ajax({
+    url: url + apiCall
+  })
+  .done(function(queueJson) {
+    localStorage.setItem("NzbgetQueue", JSON.stringify(queueJson));
+    serviceData.NG.queue.JSON = queueJson;
+    localStorage.setItem("NzbgetQueue_error", false);
+    serviceData.NG.queue.error = false;
+    ngqHTML();
+  })
+  .fail(function(xhr, ajaxOptions, thrownError) {
+    console.log(xhr, ajaxOptions, thrownError);
+    localStorage.setItem("NzbgetQueue_error", true);
+    serviceData.NG.queue.error = true;
+  })
+  .always(function() {
+    if (callback) {
+      callback();
+    }
+  });
+}
+
+function getNzbgetHistory(callback) {
   var url = serviceData.NG.apiUrl;
   var apiCall = "/history";
 
   $.ajax({
     url: url + apiCall
   })
-  .done(function(history) {
-    localStorage.setItem("Nzbget", JSON.stringify(history));
-    serviceData.NG.JSON = history;
-    localStorage.setItem("Nzbget_error", false);
+  .done(function(historyJson) {
+    localStorage.setItem("NzbgetHistory", JSON.stringify(historyJson));
+    serviceData.NG.JSON = historyJson;
+    localStorage.setItem("NzbgetHistory_error", false);
     serviceData.NG.error = false;
-    ngHTML();
+    nghHTML();
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("Nzbget_error", true);
+    localStorage.setItem("NzbgetHistory_error", true);
     serviceData.NG.error = true;
   })
   .always(function() {
@@ -27,41 +53,56 @@ function getNzbget(callback) {
   });
 }
 
-function ngHTML() {
-  if (serviceData.NG.JSON) {
+function ngqHTML() {
+  if (serviceData.NG.queue.JSON) {
     var status = '',
-        json = serviceData.NG.JSON,
+        queueJson = serviceData.NG.queue.JSON,
         queueHTML = '<h2>Queue</h2>',
-        historyHTML = '<h2>History</h2>';
+        downloadPercentage;
 
-    $.each(json.result.slice(0,serviceData.NG.limit), function(index, el) {
-      if (el.MoveStatus != "SUCCESS" && el.MoveStatus != "NONE") {
-        queueHTML +=
-          '<div class="core-item ngq-item-container without-hover">' +
-            '<div class="ng-item-name">' +
-              el.Name +
-            '</div>' +
-            '<div class="ng-item-status">' +
-              el.Status +
-            '</div>' +
-          '</div>';
-      } else {
-        historyHTML +=
-          '<div class="core-item ngh-item-container without-hover">' +
-            '<div class="ng-item-name">' +
-              el.Name +
-            '</div>' +
-          '</div>';
-      }
+    $.each(queueJson.result, function(index, el) {
+      downloadPercentage = el.DownloadedSizeMB/(el.FileSizeMB/100);
+
+      queueHTML +=
+        '<div class="core-item ng-item-container without-hover">' +
+          '<div class="ng-item-name">' +
+            el.NZBName +
+          '</div>' +
+          '<div class="ng-item-status">' +
+            el.Status + ' - ' + Math.round(downloadPercentage) + '%' +
+          '</div>' +
+        '</div>';
     });
 
-    if (queueHTML == '<h2>Queue</h2>') {
+    if (queueJson.result.length < 1) {
       queueHTML += '<div class="core-item without-hover">No items in queue at this moment.</div>';
     }
 
-    HTML = queueHTML + historyHTML;
+    localStorage.setItem('NzbgetQueueHTML', queueHTML);
+    serviceData.NG.queue.HTML = queueHTML;
+  }
+}
 
-    localStorage.setItem('NzbgetHTML', HTML);
-    serviceData.NG.HTML = HTML;
+function nghHTML() {
+  if (serviceData.NG.history.JSON) {
+    var status = '',
+        historyJson = serviceData.NG.history.JSON,
+        historyHTML = '<h2>History</h2>';
+
+    $.each(historyJson.result.slice(0,serviceData.NG.history.length), function(index, el) {
+      historyHTML +=
+        '<div class="core-item ng-item-container without-hover">' +
+          '<div class="ng-item-name">' +
+            el.Name +
+          '</div>' +
+        '</div>';
+    });
+
+    if (historyJson.result.length < 1) {
+      historyHTML += '<div class="core-item without-hover">No items in history at this moment.</div>';
+    }
+
+    localStorage.setItem('NzbgetHistoryHTML', historyHTML);
+    serviceData.NG.history.HTML = historyHTML;
   }
 }

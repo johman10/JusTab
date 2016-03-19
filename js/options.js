@@ -219,8 +219,9 @@ function save_options() {
     NG_address: NG_address,
     NG_port: $('#NG-port').val(),
     NG_width: $('#NG-width').val(),
-    NG_refresh: $('#NG-refresh').val(),
-    NG_limit: $('#NG-limit').val(),
+    NGQ_refresh: $('#NGQ-refresh').val(),
+    NGH_refresh: $('#NGH-refresh').val(),
+    NGH_length: $('#NGH-length').val(),
     NG_username: $('#NG-username').val(),
     NG_password: $('#NG-password').val()
   }, function() {
@@ -299,8 +300,9 @@ function restore_options() {
   $('#NG-address').val(serviceData.NG.address);
   $('#NG-port').val(serviceData.NG.port);
   $('#NG-width').val(serviceData.NG.panelWidth);
-  $('#NG-refresh').val(serviceData.NG.refresh);
-  $('#NG-limit').val(serviceData.NG.limit);
+  $('#NGQ-refresh').val(serviceData.NG.queue.refresh);
+  $('#NGH-refresh').val(serviceData.NG.history.refresh);
+  $('#NGH-length').val(serviceData.NG.history.length);
   $('#NG-username').val(serviceData.NG.username);
   $('#NG-password').val(serviceData.NG.password);
 }

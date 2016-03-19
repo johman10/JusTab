@@ -5,7 +5,7 @@ $.when(serviceDataRefreshDone).done(function() {
 
   chrome.alarms.onAlarm.addListener(function(alarm) {
     $.each(serviceData, function(index, val) {
-      if (val.containerId == "sabnzbd") {
+      if (val.containerId == "sabnzbd" || val.containerId == "nzbget") {
         if (val.queue.alarmName == alarm.name) {
           window[val.queue.bgFunctionName]();
         }
@@ -51,7 +51,7 @@ chrome.runtime.onInstalled.addListener(function(event) {
 function createAlarms() {
   chrome.alarms.clearAll(function() {
     $.each(serviceData, function(index, val) {
-      if (val.status && val.containerId == "sabnzbd") {
+      if (val.status && (val.containerId == "sabnzbd" || val.containerId == "nzbget")) {
         chrome.alarms.create(val.queue.alarmName, {periodInMinutes: val.queue.refresh});
         chrome.alarms.create(val.history.alarmName, {periodInMinutes: val.history.refresh});
       }
