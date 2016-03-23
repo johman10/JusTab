@@ -232,7 +232,7 @@ function refreshServiceData() {
             "bgFunctionName": 'getNzbgetHistory',
             "JSON": JSON.parse(localStorage.getItem('NzbgetHistory')),
             "HTML": localStorage.getItem('NzbgetHistoryHTML'),
-            "length": parseFloat(items.NGH_limit) || 25
+            "length": parseFloat(items.NGH_length) || 25
         }
       }
     };

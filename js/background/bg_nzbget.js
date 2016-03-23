@@ -27,7 +27,7 @@ function getNzbgetQueue(callback) {
   });
 }
 
-function getNzbgetHistory(callback) {
+function getNzbgetHistory(itemLength, callback) {
   var url = serviceData.NG.apiUrl;
   var apiCall = "/history";
 
@@ -39,7 +39,7 @@ function getNzbgetHistory(callback) {
     serviceData.NG.JSON = historyJson;
     localStorage.setItem("NzbgetHistory_error", false);
     serviceData.NG.error = false;
-    nghHTML();
+    nghHTML(itemLength);
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
@@ -83,17 +83,25 @@ function ngqHTML() {
   }
 }
 
-function nghHTML() {
+function nghHTML(itemLength) {
   if (serviceData.NG.history.JSON) {
     var status = '',
         historyJson = serviceData.NG.history.JSON,
         historyHTML = '<h2>History</h2>';
 
-    $.each(historyJson.result.slice(0,serviceData.NG.history.length), function(index, el) {
+    $.each(historyJson.result.slice(0, itemLength), function(index, el) {
       historyHTML +=
-        '<div class="core-item ng-item-container without-hover">' +
+        '<div class="core-item ng-item-container">' +
           '<div class="ng-item-name">' +
             el.Name +
+          '</div>' +
+          '<div class="core-item-icon">' +
+            '<div class="expand-more-icon"></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="ng-collapse core-collapse">' +
+          '<div class="ng-collapse-status">' +
+            el.Status +
           '</div>' +
         '</div>';
     });
