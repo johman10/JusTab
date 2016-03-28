@@ -19,6 +19,11 @@ function getProductHuntData(callback) {
     console.log(xhr, ajaxOptions, thrownError);
     localStorage.setItem("ProductHunt_error", true);
     serviceData.PH.error = true;
+  })
+  .always(function() {
+    if (callback) {
+      callback();
+    }
   });
 }
 
