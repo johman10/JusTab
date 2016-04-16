@@ -1,27 +1,10 @@
-$.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(function() {
+$.when(serviceDataRefreshDone, $(document).ready).done(function() {
   // Sort HTML based on array
   if (localStorage.getItem('serviceOrder')) {
     sortServices($('.panel-container'), $('.bottom-bar-container'));
   }
 
-  // Show service that are on
-  var totalServiceWidth = 0;
-  $.each(serviceData, function(index, service) {
-    serviceStatus = service.status;
-    serviceId = '#' + service.containerId;
-    serviceInfo = '.' + service.containerId + '-info';
-    console.log(service.containerId, serviceStatus);
-    if (serviceStatus) {
-      window[service.feFunctionName]();
-      totalServiceWidth += service.panelWidth || 400;
-      $(serviceId + ', ' + serviceInfo).width(service.panelWidth);
-      $(serviceId + ', ' + serviceInfo).show();
-    }
-  });
-
-  // Resize body
-  $('body').width(totalServiceWidth);
-  $('.bottom-bar-container').width(totalServiceWidth);
+  showActiveServices();
 
   // Make images non-draggable
   $('img').attr('draggable', false);
@@ -112,6 +95,32 @@ $.when(serviceDataRefreshDone, $.ready, $(document).ready, $(window).load).done(
   });
 });
 
+// Show service that are on
+function showActiveServices() {
+  var totalServiceWidth = 0, serviceStatus, serviceId, serviceInfo;
+
+  $.each(serviceData, function(index, service) {
+    serviceStatus = service.status;
+    serviceId = '#' + service.containerId;
+    serviceInfo = '.' + service.containerId + '-info';
+    console.log(service.containerId, serviceStatus);
+    if (serviceStatus) {
+      window[service.feFunctionName]();
+      totalServiceWidth += service.panelWidth || 400;
+      $(serviceId + ', ' + serviceInfo).width(service.panelWidth);
+      $(serviceId + ', ' + serviceInfo).show();
+    }
+  });
+
+  resizeBody(totalServiceWidth);
+}
+
+// Resize body
+function resizeBody(totalServiceWidth) {
+  $('body').width(totalServiceWidth);
+  $('.bottom-bar-container').width(totalServiceWidth);
+}
+
 function sortServices(panelcontainer, bottomcontainer) {
   var serviceOrder = localStorage.getItem('serviceOrder').split(',');
   $.each(serviceOrder, function(index, val) {
@@ -132,4 +141,8 @@ function errorChange(e) {
   else if (newValue == 'false') {
     $('#' + serviceName + ' .error').slideUp('slow');
   }
+
+
+
+  // window[service.feFunctionName]();
 }
