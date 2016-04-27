@@ -67,7 +67,8 @@ $.when(serviceDataRefreshDone, $(document).ready).done(function() {
       'DribbbleHTML': drShowData,
       'RedditHTML': rdShowData,
       'NzbgetQueueHTML': ngShowData,
-      'NzbgetHistoryHTML': ngShowData
+      'NzbgetHistoryHTML': ngShowData,
+      'SonarrHTML': soShowData
     };
 
     if (e.originalEvent.key.indexOf('_error') != -1) {

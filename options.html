@@ -146,6 +146,17 @@
       </div>
     </div>
 
+    <div class="options-menu-link waves-effect" data-service-id="14" data-lowTitle="sonarr" data-title="Sonarr" data-color="5FB9EF">
+      <span class="drag-handle"></span>
+      Sonarr
+      <div class="switch service-toggle">
+        <label>
+          <input type="checkbox" name="SO_status">
+          <span class="lever"></span>
+        </label>
+      </div>
+    </div>
+
     <div class="options-menu-link support waves-effect" data-lowTitle="support" data-title="Support" data-color="03A9F4">
       Support
     </div>
@@ -461,6 +472,34 @@
         <input type="number" name="NGH_refresh" id="NGH-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate history (in minutes)</label>
+      </div>
+    </div>
+
+    <div class="options-window Sonarr">
+      <div class="input-container">
+        <input type="text" name="SO_address" id="SO-address" required>
+        <span class="input-bar"></span>
+        <label>Server address</label>
+      </div>
+      <div class="input-container">
+        <input type="text" name="SO_port" id="SO-port" required>
+        <span class="input-bar"></span>
+        <label>Server port</label>
+      </div>
+      <div class="input-container">
+        <input type="text" name="SO_key" id="SO-key" required>
+        <span class="input-bar"></span>
+        <label>API Key</label>
+      </div>
+      <div class="input-container">
+        <input type="number" name="SO_width" id="SO-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
+      <div class="input-container">
+        <input type="number" name="SO_refresh" id="SO-refresh" required>
+        <span class="input-bar"></span>
+        <label>Refresh rate (in minutes)</label>
       </div>
     </div>
 

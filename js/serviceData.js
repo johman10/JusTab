@@ -234,6 +234,23 @@ function refreshServiceData() {
             "HTML": localStorage.getItem('NzbgetHistoryHTML'),
             "length": parseFloat(items.NGH_length) || 25
         }
+      },
+      "SO": {
+        "containerId": 'sonarr',
+        "error": localStorage.getItem('Sonarr_error'),
+        "status": items.SO_status,
+        "alarmName": 'sonarr',
+        "refresh": isNaN(parseFloat(items.SO_refresh)) ? 15 : parseFloat(items.SO_refresh),
+        "bgFunctionName": 'getSonarrData',
+        "feFunctionName": 'soShowData',
+        "JSON": JSON.parse(localStorage.getItem('Sonarr')),
+        "HTML": localStorage.getItem('SonarrHTML'),
+        "apiUrl": items.SO_address + ":" + items.SO_port + "/api/",
+        "url": items.SO_address + ":" + items.SO_port,
+        "address": items.SO_address,
+        "port": items.SO_port,
+        "key": items.SO_key,
+        "panelWidth": parseFloat(items.SO_width) || 400
       }
     };
     serviceDataRefreshDone.resolve();

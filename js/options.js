@@ -150,7 +150,8 @@ function save_status_options() {
     PH_status: $('input[type=checkbox][name=PH_status]').is(':checked'),
     DR_status: $('input[type=checkbox][name=DR_status]').is(':checked'),
     RD_status: $('input[type=checkbox][name=RD_status]').is(':checked'),
-    NG_status: $('input[type=checkbox][name=NG_status]').is(':checked')
+    NG_status: $('input[type=checkbox][name=NG_status]').is(':checked'),
+    SO_status: $('input[type=checkbox][name=SO_status]').is(':checked')
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
@@ -171,6 +172,7 @@ function save_options() {
   SB_address = formatUrl('SB-address');
   SAB_address = formatUrl('SAB-address');
   NG_address = formatUrl('NG-address');
+  SO_address = formatUrl('SO-address');
 
   chrome.storage.sync.set({
     calendars: calendars,
@@ -223,7 +225,12 @@ function save_options() {
     NGH_refresh: $('#NGH-refresh').val(),
     NGH_length: $('#NGH-length').val(),
     NG_username: $('#NG-username').val(),
-    NG_password: $('#NG-password').val()
+    NG_password: $('#NG-password').val(),
+    SO_address: SO_address,
+    SO_port: $('#SO-port').val(),
+    SO_key: $('#SO-key').val(),
+    SO_width: $('#SO-width').val(),
+    SO_refresh: $('#SO-refresh').val(),
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
@@ -305,6 +312,12 @@ function restore_options() {
   $('#NGH-length').val(serviceData.NG.history.length);
   $('#NG-username').val(serviceData.NG.username);
   $('#NG-password').val(serviceData.NG.password);
+  $('input[type=checkbox][name=SO_status]').attr('checked', serviceData.SO.status);
+  $('#SO-address').val(serviceData.SO.address);
+  $('#SO-port').val(serviceData.SO.port);
+  $('#SO-key').val(serviceData.SO.key);
+  $('#SO-width').val(serviceData.SO.panelWidth);
+  $('#SO-refresh').val(serviceData.SO.refresh);
 }
 
 function formatUrl(fieldname) {

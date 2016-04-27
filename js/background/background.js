@@ -1,4 +1,16 @@
 $.when(serviceDataRefreshDone).done(function() {
+  // Settings for moment.js
+  moment.updateLocale('en', {
+    calendar: {
+      sameDay: '[Today]',
+      nextDay: '[Tomorrow]',
+      nextWeek: 'dddd',
+      lastDay: '[Yesterday]',
+      lastWeek: '[Last] dddd',
+      sameElse: 'MMMM DD'
+    }
+  });
+
   chrome.runtime.onStartup.addListener(function() {
     createAlarms();
   });
