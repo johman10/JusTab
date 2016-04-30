@@ -38,7 +38,7 @@ function soHTML() {
         laterHTML = headerHtml('Later');
 
     $.each(data, function(index, el) {
-      var dateToday = moment(),
+      var dateToday = moment().startOf('day'),
           airDate = moment(el.airDate, 'YYYY-MM-DD'),
           dateDifference = airDate.diff(dateToday, 'days'),
           hasFile = el.hasFile,
@@ -88,7 +88,10 @@ function headerHtml(headerText) {
 
 function episodeHtml(object) {
   var tvdbid = object.series.tvdbId,
-      posterUrl = object.series.images[2].url,
+      posterObject = $.grep(object.series.images, function(v) {
+          return v.coverType === "poster";
+      })[0];
+      posterUrl = posterObject.url,
       showname = object.series.title,
       season = object.seasonNumber,
       episode = object.episodeNumber,

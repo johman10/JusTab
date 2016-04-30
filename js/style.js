@@ -33,19 +33,13 @@ $.when(serviceDataRefreshDone, $(document).ready).done(function() {
     var serviceId = $(this).parent('.bottom-bar-part').data('service-id'),
         serviceLinks = $('.panel[data-service-id=' + serviceId + '] .service-link');
 
-    $.each(serviceLinks, function(index, link) {
-      var url = $(link).attr('href');
-      chrome.history.getVisits({ 'url': url }, function(data) {
-        console.log(url, data);
-        if (data.length === 0) {
-          window.open(url);
-        }
-      });
-    });
+    for(i=0; i < serviceLinks.length; i++) {
+      findHistory(serviceLinks[i]);
+    }
   });
 
   // On storage change functions
-  $(window).bind('storage', function (e) {
+  $(window).bind('storage', function (event) {
     var storageFunctions = {
       'CalendarHTML': calenderShowEvents,
       'GmailReadHTML': GmailShowData,
@@ -71,47 +65,64 @@ $.when(serviceDataRefreshDone, $(document).ready).done(function() {
       'SonarrHTML': soShowData
     };
 
-    if (e.originalEvent.key.indexOf('_error') != -1) {
-      errorChange(e.originalEvent);
+    changedStorageKey = event.originalEvent.key;
+
+    if (changedStorageKey.indexOf('_error') != -1) {
+      errorChange(event.originalEvent);
     }
 
-    if (storageFunctions[e.originalEvent.key]) {
+    if (storageFunctions[changedStorageKey]) {
       currentTabs = chrome.extension.getViews({type: 'tab'});
-      console.log(e.originalEvent.key);
+      console.log(changedStorageKey);
       chrome.runtime.getBackgroundPage(function(backgroundPage) {
         backgroundPage.refreshServiceData();
         $.when(backgroundPage.serviceDataRefreshDone).then(function() {
-          $.each(currentTabs, function(index, tab) {
-            tab.refreshServiceData();
-            $.when(tab.serviceDataRefreshDone).then(function() {
-              storageFunction = storageFunctions[e.originalEvent.key];
-              if (tab.storageFunction) {
-                tab.storageFunction();
-              }
-            });
-          });
+          for(i=0; i < currentTabs.length; i++) {
+            currentTabs[i].refreshServiceData();
+            $.when(currentTabs[i].serviceDataRefreshDone).then(
+              triggerStorageFunction(changedStorageKey, storageFunctions, currentTabs[i])
+            );
+          }
         });
       });
     }
   });
 });
 
+function triggerStorageFunction(changedStorageKey, functions, tab) {
+  storageFunction = functions[changedStorageKey];
+  if (tab.storageFunction) {
+    tab.storageFunction();
+  }
+}
+
+function findHistory(link) {
+  var url = $(link).attr('href');
+  chrome.history.getVisits({ 'url': url }, function(data) {
+    if (data.length === 0) {
+      window.open(url);
+    }
+  });
+}
+
 // Show service that are on
 function showActiveServices() {
   var totalServiceWidth = 0, serviceStatus, serviceId, serviceInfo;
 
-  $.each(serviceData, function(index, service) {
-    serviceStatus = service.status;
-    serviceId = '#' + service.containerId;
-    serviceInfo = '.' + service.containerId + '-info';
-    console.log(service.containerId, serviceStatus);
+  var serviceDataKeys = Object.keys(serviceData);
+
+  for(var key in serviceData) {
+    serviceStatus = serviceData[key].status;
+    serviceId = '#' + serviceData[key].containerId;
+    serviceInfo = '.' + serviceData[key].containerId + '-info';
+    console.log(serviceData[key].containerId, serviceStatus);
     if (serviceStatus) {
-      window[service.feFunctionName]();
-      totalServiceWidth += service.panelWidth || 400;
-      $(serviceId + ', ' + serviceInfo).width(service.panelWidth);
+      window[serviceData[key].feFunctionName]();
+      totalServiceWidth += serviceData[key].panelWidth || 400;
+      $(serviceId + ', ' + serviceInfo).width(serviceData[key].panelWidth);
       $(serviceId + ', ' + serviceInfo).show();
     }
-  });
+  }
 
   resizeBody(totalServiceWidth);
 }
@@ -124,17 +135,17 @@ function resizeBody(totalServiceWidth) {
 
 function sortServices(panelcontainer, bottomcontainer) {
   var serviceOrder = localStorage.getItem('serviceOrder').split(',');
-  $.each(serviceOrder, function(index, val) {
-    serviceHTML = panelcontainer.find("[data-service-id=" + val + "]");
+  for(i=0; i < serviceOrder.length; i++) {
+    serviceHTML = panelcontainer.find("[data-service-id=" + serviceOrder[i] + "]");
     panelcontainer.append(serviceHTML);
-    serviceBottom = bottomcontainer.find("[data-service-id=" + val + "]");
+    serviceBottom = bottomcontainer.find("[data-service-id=" + serviceOrder[i] + "]");
     bottomcontainer.append(serviceBottom);
-  });
+  }
 }
 
-function errorChange(e) {
-  serviceName = e.key.replace('_error', '').toLowerCase();
-  newValue = e.newValue;
+function errorChange(event) {
+  serviceName = event.key.replace('_error', '').toLowerCase();
+  newValue = event.newValue;
 
   if (newValue == 'true') {
     $('#' + serviceName + ' .error').slideDown('slow');
