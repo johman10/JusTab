@@ -34,6 +34,7 @@ function soHTML() {
     var data = serviceData.SO.JSON,
         missedHTML = headerHtml('Missed'),
         todayHTML = headerHtml('Today'),
+        tomorrowHTML = headerHtml('Tomorrow'),
         soonHTML = headerHtml('Soon'),
         laterHTML = headerHtml('Later');
 
@@ -51,7 +52,10 @@ function soHTML() {
         else if (dateDifference === 0) {
           todayHTML += episodeHtml(el);
         }
-        else if (dateDifference > 0 && dateDifference <= 7) {
+        else if (dateDifference === 1) {
+          tomorrowHTML += episodeHtml(el);
+        }
+        else if (dateDifference > 1 && dateDifference <= 7) {
           soonHTML += episodeHtml(el);
         }
         else {
@@ -67,6 +71,10 @@ function soHTML() {
 
     if (todayHTML != headerHtml('Today')) {
       HTML += todayHTML;
+    }
+
+    if (tomorrowHTML != headerHtml('Tomorrow')) {
+      HTML += tomorrowHTML;
     }
 
     if (soonHTML != headerHtml('Soon')) {
