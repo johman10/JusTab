@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>NewTab Options</title>
-  <link rel="stylesheet" href="bower_components/dragula.js/dist/dragula.min.css" type="text/css">
+  <link rel="stylesheet" href="node_modules/dragula/dist/dragula.min.css" type="text/css">
   <link rel="stylesheet" href="/style/css/main.css" type="text/css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -135,6 +135,27 @@
         </label>
       </div>
     </div>
+    <div class="options-menu-link waves-effect" data-service-id="13" data-lowTitle="nzbget" data-title="NZBGet" data-color="282828">
+      <span class="drag-handle"></span>
+      NZBGet
+      <div class="switch service-toggle">
+        <label>
+          <input type="checkbox" name="NG_status">
+          <span class="lever"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="options-menu-link waves-effect" data-service-id="14" data-lowTitle="sonarr" data-title="Sonarr" data-color="5FB9EF">
+      <span class="drag-handle"></span>
+      Sonarr
+      <div class="switch service-toggle">
+        <label>
+          <input type="checkbox" name="SO_status">
+          <span class="lever"></span>
+        </label>
+      </div>
+    </div>
 
     <div class="options-menu-link support waves-effect" data-lowTitle="support" data-title="Support" data-color="03A9F4">
       Support
@@ -158,7 +179,7 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="GC_refresh" id="GC-refresh" required>
+        <input type="number" name="GC_refresh" id="GC-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
@@ -171,7 +192,7 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="GM_refresh" id="GM-refresh" required>
+        <input type="number" name="GM_refresh" id="GM-refresh" required>
         <span class="input_bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
@@ -192,7 +213,7 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="FB_refresh" id="FB-refresh" required>
+        <input type="number" name="FB_refresh" id="FB-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
@@ -220,7 +241,7 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="CP_refresh" id="CP-refresh" required>
+        <input type="number" name="CP_refresh" id="CP-refresh" required>
         <span class="input_bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
@@ -248,7 +269,7 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="SB_refresh" id="SB-refresh" required>
+        <input type="number" name="SB_refresh" id="SB-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
@@ -271,7 +292,7 @@
         <label>API Key</label>
       </div>
       <div class="input-container">
-        <input type="text" name="SAB_history" id="SAB-history" required>
+        <input type="number" name="SAB_history" id="SAB-history" required>
         <span class="input-bar"></span>
         <label>History limit</label>
       </div>
@@ -281,12 +302,12 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="SABQ_refresh" id="SABQ-refresh" required>
+        <input type="number" name="SABQ_refresh" id="SABQ-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate queue (in minutes)</label>
       </div>
       <div class="input-container">
-        <input type="text" name="SABH_refresh" id="SABH-refresh" required>
+        <input type="number" name="SABH_refresh" id="SABH-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate history (in minutes)</label>
       </div>
@@ -299,7 +320,7 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="DN_refresh" id="DN-refresh" required>
+        <input type="number" name="DN_refresh" id="DN-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
@@ -312,7 +333,7 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="HN_refresh" id="HN-refresh" required>
+        <input type="number" name="HN_refresh" id="HN-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
@@ -325,7 +346,7 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="GH_refresh" id="GH-refresh" required>
+        <input type="number" name="GH_refresh" id="GH-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
@@ -338,7 +359,7 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="PH_refresh" id="PH-refresh" required>
+        <input type="number" name="PH_refresh" id="PH-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
@@ -363,7 +384,7 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="DR_refresh" id="DR-refresh" required>
+        <input type="number" name="DR_refresh" id="DR-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
@@ -405,7 +426,78 @@
         <label>Panel width in px</label>
       </div>
       <div class="input-container">
-        <input type="text" name="RD_refresh" id="RD-refresh" required>
+        <input type="number" name="RD_refresh" id="RD-refresh" required>
+        <span class="input-bar"></span>
+        <label>Refresh rate (in minutes)</label>
+      </div>
+    </div>
+
+    <div class="options-window NZBGet">
+      <div class="input-container">
+        <input type="text" name="NG_address" id="NG-address" required>
+        <span class="input-bar"></span>
+        <label>Server address</label>
+      </div>
+      <div class="input-container">
+        <input type="text" name="NG_port" id="NG-port" required>
+        <span class="input-bar"></span>
+        <label>Server port</label>
+      </div>
+      <div class="input-container">
+        <input type="text" name="NG_username" id="NG-username" required>
+        <span class="input-bar"></span>
+        <label>Username</label>
+      </div>
+      <div class="input-container">
+        <input type="password" name="NG_password" id="NG-password" required>
+        <span class="input-bar"></span>
+        <label>Password</label>
+      </div>
+      <div class="input-container">
+        <input type="number" name="NGH_length" id="NGH-length" required>
+        <span class="input-bar"></span>
+        <label>History length</label>
+      </div>
+      <div class="input-container">
+        <input type="number" name="NG_width" id="NG-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
+      <div class="input-container">
+        <input type="number" name="NGQ_refresh" id="NGQ-refresh" required>
+        <span class="input-bar"></span>
+        <label>Refresh rate queue (in minutes)</label>
+      </div>
+      <div class="input-container">
+        <input type="number" name="NGH_refresh" id="NGH-refresh" required>
+        <span class="input-bar"></span>
+        <label>Refresh rate history (in minutes)</label>
+      </div>
+    </div>
+
+    <div class="options-window Sonarr">
+      <div class="input-container">
+        <input type="text" name="SO_address" id="SO-address" required>
+        <span class="input-bar"></span>
+        <label>Server address</label>
+      </div>
+      <div class="input-container">
+        <input type="text" name="SO_port" id="SO-port" required>
+        <span class="input-bar"></span>
+        <label>Server port</label>
+      </div>
+      <div class="input-container">
+        <input type="text" name="SO_key" id="SO-key" required>
+        <span class="input-bar"></span>
+        <label>API Key</label>
+      </div>
+      <div class="input-container">
+        <input type="number" name="SO_width" id="SO-width" required>
+        <span class="input-bar"></span>
+        <label>Panel width in px</label>
+      </div>
+      <div class="input-container">
+        <input type="number" name="SO_refresh" id="SO-refresh" required>
         <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
@@ -417,9 +509,10 @@
       <p>
         The last update contains:
         <ul>
-          <li>Add Reddit support</li>
-          <li>Refresh alarm improvements</li>
-          <li>Error settings link now links to the service you clicked on</li>
+          <li>Add NZBGet support</li>
+          <li>Add Sonarr support</li>
+          <li>Fix for ProductHunt keep loading animation</li>
+          <li>Fix for SAB and CP not refreshing</li>
           <li>Bug fixes and code improvements</li>
         </ul>
       </p>

@@ -366,6 +366,67 @@
         </div>
         <div class="cleardiv"></div>
       </div>
+
+      <div id="nzbget" class="panel" data-service-id="13">
+        <div class="panel-header">
+          <div class="panel-header-background panel-nzbget-background">
+            <div class="panel-header-background1"></div>
+            <div class="panel-header-background2"></div>
+          </div>
+          <div class="panel-header-foreground">
+            <div class="top">
+              <div class="refresh-button refresh-ng waves-effect">
+                <img src="img/icons/refresh.svg" alt="Refresh NZBGet">
+              </div>
+            </div>
+            <div class="bottom">
+              <a>NZBGet</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-content">
+          <div class="error">
+            <p>There was an error connecting to NZBGet. Please check your connection and your settings.</p>
+            <a class="flat-button error-settings-button waves-effect">Settings</a>
+            <a class="flat-button error-retry-button waves-effect">Retry</a>
+            <div class="cleardiv"></div>
+          </div>
+          <div class="queue">
+          </div>
+          <div class="history">
+          </div>
+        </div>
+        <div class="cleardiv"></div>
+      </div>
+
+      <div id="sonarr" class="panel" data-service-id="14">
+        <div class="panel-header">
+          <div class="panel-header-background panel-sonarr-background">
+            <div class="panel-header-background1"></div>
+            <div class="panel-header-background2"></div>
+          </div>
+          <div class="panel-header-foreground">
+            <div class="top">
+              <div class="refresh-button refresh-so waves-effect">
+                <img src="img/icons/refresh.svg" alt="Refresh Sonarr">
+              </div>
+            </div>
+            <div class="bottom">
+              <a>Sonarr</a>
+            </div>
+          </div>
+        </div>
+        <div class="panel-content">
+          <div class="error">
+            <p>There was an error connecting to Sonarr. Please check your connection and your settings.</p>
+            <a class="flat-button error-settings-button waves-effect">Settings</a>
+            <a class="flat-button error-retry-button waves-effect">Retry</a>
+            <div class="cleardiv"></div>
+          </div>
+          <div class="so-episodes"></div>
+        </div>
+        <div class="cleardiv"></div>
+      </div>
     </div>
 
     <div class="bottom-bar-container">
@@ -398,6 +459,10 @@
       <div class="reddit-info bottom-bar-part" data-service-id="12">
         <a href="#" class="open-all flat-button waves-effect">Open unread</a>
       </div>
+      <div class="nzbget-info bottom-bar-part" data-service-id="13">
+      </div>
+      <div class="sonarr-info bottom-bar-part" data-service-id="14">
+      </div>
     </div>
 
     <div class="cleardiv"></div>
@@ -408,7 +473,6 @@
     <script src="js/modules/ripple.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/modules/header.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/modules/collapse.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/modules/googleanalytics.js"  type="text/javascript" charset="utf-8"></script>
     <script src="js/serviceData.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/calendar.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/gmail.js" type="text/javascript" charset="utf-8"></script>
@@ -422,6 +486,8 @@
     <script src="js/producthunt.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/dribbble.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/reddit.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/nzbget.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/sonarr.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/style.js" type="text/javascript" charset="utf-8"></script>
   </body>
 </html>
