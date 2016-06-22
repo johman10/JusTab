@@ -104,7 +104,7 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
           '<img class="sb-poster" src="img/poster_fallback.png" data-original="' + posterUrl+ '">' +
         '</div>' +
         '<div class="core-item-content">' +
-          showname + episodeString +
+          htmlEncode(showname + episodeString) +
         '</div>' +
         '<div class="core-item-icon">' +
           '<div class="expand-more-icon"></div>' +
@@ -112,7 +112,7 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
       '</div>' +
       '<div class="sb-collapse core-collapse">' +
         '<div class="sb-collapse-date">' +
-          date +
+          htmlEncode(date) +
         '</div>' +
         '<div class="sb-collapse-buttons">' +
           '<div class="icon-button search-icon sb-search-episode waves-effect" data-tvdbid="' + tvdbid + '" data-season="' + season + '" data-episode="' + episode + '"></div>' +

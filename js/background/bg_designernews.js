@@ -50,10 +50,10 @@ function dnHTML() {
 
       dnLinks +=
           '<a href="' + story.url + '" class="dn-story-url service-link" target="_blank">' +
-            story.title +
+            htmlEncode(story.title) +
           '</a>' +
           '<a href="https://www.designernews.co/stories/' + story.id + '" class="dn-comments-url" target="_blank">' +
-            story.comment_count + ' comments - ' + story.vote_count + ' points' +
+            htmlEncode(story.comment_count + ' comments - ' + story.vote_count + ' points') +
           '</a>' +
         '</div>';
     });

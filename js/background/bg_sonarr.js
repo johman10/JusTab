@@ -112,7 +112,7 @@ function episodeHtml(object) {
               '<img class="so-poster" src="img/poster_fallback.png" data-original="' + posterUrl+ '">' +
             '</div>' +
             '<div class="core-item-content">' +
-              showname + episodeString +
+              htmlEncode(showname + episodeString) +
             '</div>' +
             '<div class="core-item-icon">' +
               '<div class="expand-more-icon"></div>' +
@@ -120,7 +120,7 @@ function episodeHtml(object) {
           '</div>' +
           '<div class="so-collapse core-collapse">' +
             '<div class="so-collapse-date">' +
-              date +
+              htmlEncode(date) +
             '</div>' +
             '<div class="so-collapse-buttons">' +
               '<div class="icon-button search-icon so-search-episode waves-effect" data-episode-id="' + episodeId + '"></div>' +

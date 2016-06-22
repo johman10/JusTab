@@ -56,10 +56,10 @@ function drHTML() {
       drLinks +=
             '<div class="dr-info-container">' +
               '<div class="dr-title" target="_blank">' +
-                story.title +
+                htmlEncode(story.title) +
               '</div>' +
               '<div class="dr-comments" target="_blank">' +
-                story.likes_count + ' likes - ' + story.buckets_count + ' buckets' +
+                htmlEncode(story.likes_count + ' likes - ' + story.buckets_count + ' buckets') +
               '</div>' +
             '</div>' +
           '</a>' +

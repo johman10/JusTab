@@ -76,10 +76,10 @@ function hnHTML() {
       }
 
       hn_links +=
-            story.title +
+            htmlEncode(story.title) +
           '</a>' +
           '<a href="https://news.ycombinator.com/item?id=' + story.id + '" class="hn-comments-url" target="_blank">' +
-            story.descendants + ' comments - ' + story.score + ' points' +
+            htmlEncode(story.descendants + ' comments - ' + story.score + ' points') +
           '</a>' +
         '</div>';
     });

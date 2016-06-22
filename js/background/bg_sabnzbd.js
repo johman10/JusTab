@@ -79,10 +79,10 @@ function sabqHTML() {
       queue +=
         '<div class="core-item sab-item-container">' +
           '<div class="sab-item-name">' +
-            qItem.filename +
+            htmlEncode(qItem.filename) +
           '</div>' +
           '<div class="sab-item-status">' +
-            qItem.status + ' - ' + qItem.percentage + '%' +
+            htmlEncode(qItem.status + ' - ' + qItem.percentage + '%') +
           '</div>' +
           '<div class="core-item-icon">' +
             '<div class="expand-more-icon"></div>' +
@@ -97,10 +97,10 @@ function sabqHTML() {
     status +=
       '<div class="core-item without-hover sab-status-container">' +
         '<div class="sab-status">' +
-          queueJson.queue.status + left +
+          htmlEncode(queueJson.queue.status + left) +
         '</div>' +
         '<div class="sab-time">' +
-          timeLeft +
+          htmlEncode(timeLeft) +
         '</div>' +
       '</div>';
 
@@ -124,7 +124,7 @@ function sabhHTML() {
       history +=
         '<div class="core-item sab-item-container">' +
           '<div class="sab-item-name">' +
-            hItem.name +
+            htmlEncode(hItem.name) +
           '</div>' +
           '<div class="core-item-icon">' +
             '<div class="expand-more-icon"></div>' +
@@ -134,10 +134,10 @@ function sabhHTML() {
           '<div class="sabh-collapse-status">';
 
         if (hItem.fail_message === "") {
-          history += hItem.status;
+          history += htmlEncode(hItem.status);
         }
         else {
-          history += hItem.fail_message;
+          history += htmlEncode(hItem.fail_message);
         }
 
         history +=

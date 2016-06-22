@@ -54,10 +54,10 @@ function rdHTML() {
       rdLinks +=
         '<div class="core-item waves-effect rd-link-container">' +
           '<a href="' + story.data.url + '" class="rd-story-url service-link" target="_blank">' +
-            story.data.title +
+            htmlEncode(story.data.title) +
           '</a>' +
           '<a href="https://reddit.com' + story.data.permalink + '" class="rd-comments-url" target="_blank">' +
-            story.data.num_comments + ' comments - ' + story.data.score + ' points - ' + story.data.subreddit +
+            htmlEncode(story.data.num_comments + ' comments - ' + story.data.score + ' points - ' + story.data.subreddit) +
           '</a>' +
         '</div>';
     });

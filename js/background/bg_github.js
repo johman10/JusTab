@@ -41,10 +41,10 @@ function ghHTML() {
         '<div class="core-item waves-effect">' +
           '<a href="' + link + '" class="service-link" target="_blank">' +
             '<div class="gh-title">' +
-              title +
+              htmlEncode(title) +
             '</div>' +
             '<div class="gh-description">' +
-              description +
+              htmlEncode(description) +
             '</div>' +
           '</a>' +
         '</div>';

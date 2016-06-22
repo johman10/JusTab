@@ -86,10 +86,10 @@ function calendarHTML() {
     if (cEvent.start.dateTime) {
       eventStartTime = moment(cEvent.start.dateTime).format("HH:mm");
       eventEndTime = moment(cEvent.end.dateTime).format("HH:mm");
-      htmlData += eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary;
+      htmlData += htmlEncode(eventStartTime + ' - ' + eventEndTime + ' ' + cEvent.summary);
     }
     else {
-      htmlData += cEvent.summary;
+      htmlData += htmlEncode(cEvent.summary);
     }
 
     htmlData +=
@@ -103,7 +103,7 @@ function calendarHTML() {
     if (cEvent.location) {
       htmlData +=
         '<div class="gc-event-location">' +
-          cEvent.location +
+          htmlEncode(cEvent.location) +
         '</div>';
     }
 

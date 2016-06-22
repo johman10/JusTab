@@ -66,10 +66,10 @@ function ngqHTML() {
       queueHTML +=
         '<div class="core-item ng-item-container without-hover">' +
           '<div class="ng-item-name">' +
-            el.NZBName +
+            htmlEncode(el.NZBName) +
           '</div>' +
           '<div class="ng-item-status">' +
-            el.Status + ' - ' + Math.round(downloadPercentage) + '%' +
+            htmlEncode(el.Status + ' - ' + Math.round(downloadPercentage) + '%') +
           '</div>' +
         '</div>';
     });
@@ -95,7 +95,7 @@ function nghHTML(itemLength) {
       historyHTML +=
         '<div class="core-item ng-item-container">' +
           '<div class="ng-item-name">' +
-            el.Name +
+            htmlEncode(el.Name) +
           '</div>' +
           '<div class="core-item-icon">' +
             '<div class="expand-more-icon"></div>' +
@@ -103,7 +103,7 @@ function nghHTML(itemLength) {
         '</div>' +
         '<div class="ng-collapse core-collapse">' +
           '<div class="ng-collapse-status">' +
-            el.Status +
+            htmlEncode(el.Status) +
           '</div>' +
         '</div>';
     });

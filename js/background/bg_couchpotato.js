@@ -108,7 +108,7 @@ function cpCreateVar(movie, cpVar) {
         '<img class="cp-poster" src="img/poster_fallback.png" data-original="' + posterUrl + '"></img>' +
       '</div>' +
       '<div class="core-item-content">' +
-        movie.title +
+        htmlEncode(movie.title) +
       '</div>' +
       '<div class="core-item-icon">' +
         '<div class="expand-more-icon"></div>' +
@@ -116,7 +116,7 @@ function cpCreateVar(movie, cpVar) {
     '</div>' +
     '<div class="cp-collapse core-collapse">' +
       '<div class="cp-collapse-date">' +
-        date +
+        htmlEncode(date) +
       '</div>' +
       '<div class="cp-collapse-buttons">' +
         '<div class="icon-button search-icon cp-search-movie waves-effect" id="' + movie._id + '"></div>' +

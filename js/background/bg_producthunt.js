@@ -63,10 +63,10 @@ function phHTML() {
       phLinks +=
         '<div class="core-item waves-effect ph-link-container">' +
           '<a href="' + story.redirect_url + '" class="ph-story-url service-link" target="_blank">' +
-            story.name +
+            htmlEncode(story.name) +
           '</a>' +
           '<a href="' + story.discussion_url + '" class="ph-comments-url" target="_blank">' +
-            story.comments_count + ' comments - ' + story.votes_count + ' points' +
+            htmlEncode(story.comments_count + ' comments - ' + story.votes_count + ' points') +
           '</a>' +
         '</div>';
     });

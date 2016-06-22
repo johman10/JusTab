@@ -60,6 +60,10 @@ chrome.runtime.onInstalled.addListener(function(event) {
   }
 });
 
+function htmlEncode(string) {
+  return $('<div/>').text(string).html();
+}
+
 function createAlarms() {
   chrome.alarms.clearAll(function() {
     $.each(serviceData, function(index, val) {

@@ -47,10 +47,10 @@ function FBHTML() {
         '<div class="core-item waves-effect">' +
           '<a href="' + link + '" target="_blank">' +
             '<div class="notification-title">' +
-              title +
+              htmlEncode(title) +
             '</div>' +
             '<div class="notification-time">' +
-              notificationDate +
+              htmlEncode(notificationDate) +
             '</div>' +
           '</a>' +
         '</div>';

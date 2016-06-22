@@ -93,9 +93,9 @@ function GmailHTML() {
     var htmlData =
       '<div class="gm-message core-item waves-effect">' +
         '<a href="https://mail.google.com/mail/u/0/#inbox/' + message.id + '">' +
-          '<div class="gm-message-subject">' + messageSubject + '</div>' +
-          '<div class="gm-message-date">' + messageDate + '</div>' +
-          '<div class="gm-message-from">' + messageFrom + '  -  ' + messageSnippet + '</div>' +
+          '<div class="gm-message-subject">' + htmlEncode(messageSubject) + '</div>' +
+          '<div class="gm-message-date">' + htmlEncode(messageDate) + '</div>' +
+          '<div class="gm-message-from">' + htmlEncode(messageFrom) + '  -  ' + htmlEncode(messageSnippet) + '</div>' +
         '</a>' +
       '</div>';
 
