@@ -140,7 +140,6 @@ function save_status_options() {
   chrome.storage.sync.set({
     GC_status: $('input[type=checkbox][name=GC_status]').is(':checked'),
     GM_status: $('input[type=checkbox][name=GM_status]').is(':checked'),
-    FB_status: $('input[type=checkbox][name=FB_status]').is(':checked'),
     CP_status: $('input[type=checkbox][name=CP_status]').is(':checked'),
     SB_status: $('input[type=checkbox][name=SB_status]').is(':checked'),
     SAB_status: $('input[type=checkbox][name=SAB_status]').is(':checked'),
@@ -167,7 +166,6 @@ function save_options() {
     calendars.push($(this).data('id'));
   });
 
-  FB_url = formatUrl('FB-url');
   CP_address = formatUrl('CP-address');
   SB_address = formatUrl('SB-address');
   SAB_address = formatUrl('SAB-address');
@@ -182,9 +180,6 @@ function save_options() {
     GM_emails: $('#GM-emails').val(),
     GM_width: $('#GM-width').val(),
     GM_refresh: $('#GM-refresh').val(),
-    FB_url: FB_url,
-    FB_width: $('#FB-width').val(),
-    FB_refresh: $('#FB-refresh').val(),
     CP_address: CP_address,
     CP_port: $('#CP-port').val(),
     CP_key: $('#CP-key').val(),
@@ -255,10 +250,6 @@ function restore_options() {
   $('input[type=checkbox][name=GM_status]').attr('checked', serviceData.GM.status);
   $('#GM-width').val(serviceData.GM.panelWidth);
   $('#GM-refresh').val(serviceData.GM.refresh);
-  $('input[type=checkbox][name=FB_status]').attr('checked', serviceData.FB.status);
-  $('#FB-url').val(serviceData.FB.url);
-  $('#FB-width').val(serviceData.FB.panelWidth);
-  $('#FB-refresh').val(serviceData.FB.refresh);
   $('input[type=checkbox][name=CP_status]').attr('checked', serviceData.CP.status);
   $('#CP-address').val(serviceData.CP.address);
   $('#CP-port').val(serviceData.CP.port);

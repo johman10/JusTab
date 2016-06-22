@@ -44,7 +44,6 @@ $.when(serviceDataRefreshDone, $(document).ready).done(function() {
       'CalendarHTML': calenderShowEvents,
       'GmailReadHTML': GmailShowData,
       'GmailUnreadHTML': GmailShowData,
-      'FacebookHTML': fbShowData,
       'CouchpotatoSnatchedHTML': cpShowData,
       'CouchpotatoWantedHTML': cpShowData,
       'SickbeardMissedHTML': sbShowData,

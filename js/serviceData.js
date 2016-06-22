@@ -36,19 +36,6 @@ function refreshServiceData() {
         "nextPage": localStorageHash.Gmail_page || null,
         "panelWidth": parseFloat(items.GM_width) || 400
       },
-      "FB": {
-        "containerId": 'facebook',
-        "error": localStorageHash.Facebook_error || null,
-        "status": items.FB_status,
-        "alarmName": 'facebook',
-        "refresh": isNaN(parseFloat(items.FB_refresh)) ? 15 : parseFloat(items.FB_refresh),
-        "bgFunctionName": 'getFacebookData',
-        "feFunctionName": 'fbShowData',
-        "JSON": $.parseXML(localStorageHash.Facebook || null),
-        "url": items.FB_url,
-        "HTML": localStorageHash.FacebookHTML || null,
-        "panelWidth": parseFloat(items.FB_width) || 400
-      },
       "CP": {
         "containerId": 'couchpotato',
         "status": items.CP_status,
