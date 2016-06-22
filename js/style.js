@@ -42,25 +42,25 @@ $.when(serviceDataRefreshDone, $(document).ready).done(function() {
   window.addEventListener('storage', function (event) {
     var storageFunctions = {
       'CalendarHTML': calenderShowEvents,
-      'GmailReadHTML': GmailShowData,
-      'GmailUnreadHTML': GmailShowData,
       'CouchpotatoSnatchedHTML': cpShowData,
       'CouchpotatoWantedHTML': cpShowData,
+      'DesignernewsHTML': dnShowData,
+      'DribbbleHTML': drShowData,
+      'GithubHTML': ghShowData,
+      'GmailReadHTML': GmailShowData,
+      'GmailUnreadHTML': GmailShowData,
+      'HackernewsHTML': hnShowData,
+      'NzbgetQueueHTML': ngShowData,
+      'NzbgetHistoryHTML': ngShowData,
+      'ProductHuntHTML': phShowData,
+      'RedditHTML': rdShowData,
+      'SabnzbdStatusHTML': sabShowData,
+      'SabnzbdQueueHTML': sabShowData,
+      'SabnzbdHistoryHTML': sabShowData,
       'SickbeardMissedHTML': sbShowData,
       'SickbeardTodayHTML': sbShowData,
       'SickbeardSoonHTML': sbShowData,
       'SickbeardLaterHTML': sbShowData,
-      'SabnzbdStatusHTML': sabShowData,
-      'SabnzbdQueueHTML': sabShowData,
-      'SabnzbdHistoryHTML': sabShowData,
-      'DesignernewsHTML': dnShowData,
-      'HackernewsHTML': hnShowData,
-      'GithubHTML': ghShowData,
-      'ProductHuntHTML': phShowData,
-      'DribbbleHTML': drShowData,
-      'RedditHTML': rdShowData,
-      'NzbgetQueueHTML': ngShowData,
-      'NzbgetHistoryHTML': ngShowData,
       'SonarrHTML': soShowData
     };
 
@@ -152,5 +152,4 @@ function errorChange(event) {
   else if (newValue == 'false') {
     $('#' + serviceName + ' .error').slideUp('slow');
   }
-  // window[service.feFunctionName]();
 }
