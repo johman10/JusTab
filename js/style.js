@@ -39,7 +39,7 @@ $.when(serviceDataRefreshDone, $(document).ready).done(function() {
   });
 
   // On storage change functions
-  $(window).bind('storage', function (event) {
+  window.addEventListener('storage', function (event) {
     var storageFunctions = {
       'CalendarHTML': calenderShowEvents,
       'GmailReadHTML': GmailShowData,
@@ -64,10 +64,10 @@ $.when(serviceDataRefreshDone, $(document).ready).done(function() {
       'SonarrHTML': soShowData
     };
 
-    changedStorageKey = event.originalEvent.key;
+    changedStorageKey = event.key;
 
     if (changedStorageKey.indexOf('_error') != -1) {
-      errorChange(event.originalEvent);
+      errorChange(event);
     }
 
     if (storageFunctions[changedStorageKey]) {
@@ -152,8 +152,5 @@ function errorChange(event) {
   else if (newValue == 'false') {
     $('#' + serviceName + ' .error').slideUp('slow');
   }
-
-
-
   // window[service.feFunctionName]();
 }

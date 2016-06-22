@@ -11,13 +11,13 @@ function getNzbgetQueue(callback) {
   .done(function(queueJson) {
     localStorage.setItem("NzbgetQueue", JSON.stringify(queueJson));
     serviceData.NG.queue.JSON = queueJson;
-    localStorage.setItem("NzbgetQueue_error", false);
+    localStorage.setItem("Nzbget_error", false);
     serviceData.NG.queue.error = false;
     ngqHTML();
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("NzbgetQueue_error", true);
+    localStorage.setItem("Nzbget_error", true);
     serviceData.NG.queue.error = true;
   })
   .always(function() {
@@ -37,13 +37,13 @@ function getNzbgetHistory(itemLength, callback) {
   .done(function(historyJson) {
     localStorage.setItem("NzbgetHistory", JSON.stringify(historyJson));
     serviceData.NG.JSON = historyJson;
-    localStorage.setItem("NzbgetHistory_error", false);
+    localStorage.setItem("Nzbget_error", false);
     serviceData.NG.error = false;
     nghHTML(itemLength);
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("NzbgetHistory_error", true);
+    localStorage.setItem("Nzbget_error", true);
     serviceData.NG.error = true;
   })
   .always(function() {
@@ -88,8 +88,6 @@ function nghHTML(itemLength) {
     var status = '',
         historyJson = serviceData.NG.history.JSON,
         historyHTML = '<h2>History</h2>';
-
-    console.log(itemLength)
 
     $.each(historyJson.result.slice(0, itemLength), function(index, el) {
       historyHTML +=

@@ -15,13 +15,13 @@ function getSabnzbdHistory(from, callback) {
   .done(function(history) {
     localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
     serviceData.SAB.history.JSON = history;
-    localStorage.setItem("SabnzbdHistory_error", false);
+    localStorage.setItem("Sabnzbd_error", false);
     serviceData.SAB.history.error = false;
     sabhHTML();
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("SabnzbdHistory_error", true);
+    localStorage.setItem("Sabnzbd_error", true);
     serviceData.SAB.history.error = true;
   })
   .always(function() {
@@ -42,13 +42,13 @@ function getSabnzbdQueue(callback) {
   .done(function(queue) {
     localStorage.setItem("SabnzbdQueue", JSON.stringify(queue));
     serviceData.SAB.queue.JSON = queue;
-    localStorage.setItem("SabnzbdQueue_error", false);
+    localStorage.setItem("Sabnzbd_error", false);
     serviceData.SAB.queue.error = false;
     sabqHTML();
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("SabnzbdQueue_error", true);
+    localStorage.setItem("Sabnzbd_error", true);
     serviceData.SAB.queue.error = true;
   })
   .always(function() {

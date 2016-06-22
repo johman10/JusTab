@@ -13,7 +13,7 @@ function getWantedCouchPotato(length, callback) {
     dataType: 'json'
   })
   .done(function(data) {
-    localStorage.setItem("CouchpotatoWanted_error", false);
+    localStorage.setItem("Couchpotato_error", false);
     serviceData.CP.wanted.error = false;
     localStorage.setItem("CouchpotatoWanted", JSON.stringify(data));
     serviceData.CP.wanted.JSON = data;
@@ -21,7 +21,7 @@ function getWantedCouchPotato(length, callback) {
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("CouchpotatoWanted_error", true);
+    localStorage.setItem("Couchpotato_error", true);
     serviceData.CP.wanted.error = true;
   })
   .always(function() {
@@ -39,7 +39,7 @@ function getSnatchedCouchPotato(callback) {
     url: url + apiCall
   })
   .done(function(data) {
-    localStorage.setItem("CouchpotatoSnatched_error", false);
+    localStorage.setItem("Couchpotato_error", false);
     serviceData.CP.snatched.error = false;
     localStorage.setItem("CouchpotatoSnatched", JSON.stringify(data));
     serviceData.CP.snatched.JSON = data;
@@ -47,7 +47,7 @@ function getSnatchedCouchPotato(callback) {
   })
   .fail(function(xhr, ajaxOptions, thrownError) {
     console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("CouchpotatoSnatched_error", true);
+    localStorage.setItem("Couchpotato_error", true);
     serviceData.CP.snatched.error = true;
   })
   .always(function() {
