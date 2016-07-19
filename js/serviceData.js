@@ -41,7 +41,6 @@ function refreshServiceData() {
         "status": items.CP_status,
         "refresh": isNaN(parseFloat(items.CP_refresh)) ? 15 : parseFloat(items.CP_refresh),
         "feFunctionName": 'cpShowData',
-        "apiUrl": items.CP_address + ":" + items.CP_port + "/api/" + items.CP_key + "/",
         "url": items.CP_address + ":" + items.CP_port,
         "address": items.CP_address,
         "port": items.CP_port,
@@ -75,7 +74,6 @@ function refreshServiceData() {
         "TodayHTML": localStorageHash.SickbeardTodayHTML || null,
         "SoonHTML": localStorageHash.SickbeardSoonHTML || null,
         "LaterHTML": localStorageHash.SickbeardLaterHTML || null,
-        "apiUrl": items.SB_address + ":" + items.SB_port + "/api/" + items.SB_key + "/",
         "url": items.SB_address + ":" + items.SB_port,
         "address": items.SB_address,
         "port": items.SB_port,
@@ -87,7 +85,6 @@ function refreshServiceData() {
         "status": items.SAB_status,
         "feFunctionName": 'sabShowData',
         "url": items.SAB_address + ":" + items.SAB_port,
-        "apiUrl": items.SAB_address + ":" + items.SAB_port + "/sabnzbd/api?apikey=" + items.SAB_key,
         "downloadStatus": localStorageHash.SabnzbdStatusHTML || null,
         "address": items.SAB_address,
         "port": items.SAB_port,
@@ -193,7 +190,6 @@ function refreshServiceData() {
         "status": items.NG_status,
         "feFunctionName": 'ngShowData',
         "url": items.NG_address + ":" + items.NG_port,
-        "apiUrl": items.NG_address + ":" + items.NG_port + "/" + items.NG_username + ":" + items.NG_password + "/jsonrpc",
         "downloadStatus": localStorageHash.NzbgetStatusHTML || null,
         "address": items.NG_address,
         "port": items.NG_port,
@@ -228,7 +224,6 @@ function refreshServiceData() {
         "feFunctionName": 'soShowData',
         "JSON": JSON.parse(localStorageHash.Sonarr || null),
         "HTML": localStorageHash.SonarrHTML || null,
-        "apiUrl": items.SO_address + ":" + items.SO_port + "/api/",
         "url": items.SO_address + ":" + items.SO_port,
         "address": items.SO_address,
         "port": items.SO_port,
@@ -236,6 +231,45 @@ function refreshServiceData() {
         "panelWidth": parseFloat(items.SO_width) || 400
       }
     };
+
+    addApiUrls(serviceData);
     serviceDataRefreshDone.resolve();
   });
+}
+
+function addApiUrls(serviceData) {
+    var cpUrl = serviceData.CP.address
+    if (serviceData.CP.port) {
+        cpUrl += ":" + serviceData.CP.port
+    }
+    cpUrl += "/api/" + serviceData.CP.key + "/"
+    serviceData.CP.apiUrl = cpUrl;
+
+    var sbUrl = serviceData.SB.address
+    if (serviceData.SB.port) {
+        sbUrl += ":" + serviceData.SB.port
+    }
+    sbUrl += "/api/" + serviceData.SB.key + "/"
+    serviceData.SB.apiUrl = sbUrl;
+
+    var sabUrl = serviceData.SAB.address
+    if (serviceData.SAB.port) {
+        sabUrl += ":" + serviceData.SAB.port
+    }
+    sabUrl += "/sabnzbd/api?apikey=" + serviceData.SAB.key
+    serviceData.SAB.apiUrl = sabUrl;
+
+    ngUrl = serviceData.NG.address
+    if (serviceData.NG.port) {
+        ngUrl += ":" + serviceData.NG.port
+    }
+    ngUrl += "/" + serviceData.NG.username + ":" + serviceData.NG.password + "/jsonrpc",
+    serviceData.NG.apiUrl = ngUrl;
+
+    soUrl = serviceData.SO.address
+    if (serviceData.SO.port) {
+        soUrl += ":" + serviceData.SO.port
+    }
+    soUrl += "/api/"
+    serviceData.SO.apiUrl = soUrl;
 }
