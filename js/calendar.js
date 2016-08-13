@@ -1,84 +1,50 @@
-$.when(serviceDataRefreshDone).done(function() {
-  if (serviceData.GC.status) {
-    $('.refresh-calendar').click(function() {
-      $('#calendar .error:visible').slideUp(400);
-      $('.refresh-calendar').fadeOut(400, function() {
-        $(this).html(serviceData.spinner);
-        $(this).fadeIn(400, function() {
-          chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getCalendarData(function() {
-              $('.refresh-calendar').fadeOut(400, function() {
-                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Calendar" draggable=false>');
-                $(this).fadeIn(400);
-              });
-            });
-          });
-        });
-      });
-    });
+document.querySelector('body').addEventListener('click', function(event) {
+  if (event.target.classList.contains('gc-event-remove-icon')) {
+    calendarRemoveEvent(event.target);
   }
-
-});
-
-$('html').on('click', '.gc-event-remove-icon', function(event) {
-  calendarRemoveEvent($(this));
 });
 
 function calenderShowEvents() {
-  $('#calendar .events').empty();
-
-  var error = serviceData.GC.error;
-
-  if (error == "true") {
-    $('#calendar .error').slideDown('slow');
-  }
-  if (error == "false") {
-    $('#calendar .error').slideUp('slow');
-  }
+  document.querySelector('#calendar .events').innerHTML = '';
+  checkError('calendar', 'Calendar_error');
 
   if (serviceData.GC.HTML) {
-    $('#calendar .events').html(serviceData.GC.HTML);
+    document.querySelector('#calendar .events').innerHTML = serviceData.GC.HTML;
   }
 }
 
 function calendarRemoveEvent(clickedObject) {
-  clickedObject.fadeOut(400, function() {
-    clickedObject.removeClass('remove-icon');
-    clickedObject.removeClass('error-icon');
-    clickedObject.html(serviceData.spinner);
-    clickedObject.fadeIn(400);
-  });
+  clickedObject.classList.remove('remove-icon');
+  clickedObject.classList.remove('error-icon');
+  replaceContent(clickedObject, serviceData.spinner);
 
   chrome.identity.getAuthToken({'interactive': true},function (token) {
-    var calendarId = clickedObject.data('calendarId'),
-        eventId = clickedObject.data('eventId');
-        removeUrl = 'https://www.googleapis.com/calendar/v3/calendars/' + calendarId + '/events/' + eventId;
+    var calendarId = clickedObject.getAttribute('data-calendar-id'),
+        eventId = clickedObject.getAttribute('data-event-id');
+        removeUrl = 'https://www.googleapis.com/calendar/v3/calendars/' + calendarId + '/events/' + eventId + "?&oauth_token=" + token;
 
-    $.ajax({
-      url: removeUrl + "?&oauth_token=" + token,
-      type: 'DELETE',
-    })
-    .done(function() {
-      var parent = clickedObject.parents('.gc-collapse');
-      var item = parent.prev('.gc-item');
+    ajax('DELETE', removeUrl).then(function(response) {
+      // Success
+      var parent = clickedObject.closest('.gc-collapse');
+      var item = parent.closest('.gc-item');
       // Remove header if there is one before item
-      if (item.prev().prop('tagName') == 'H2') {
-        item.prev().remove();
+      if (item.previousSibling.tagName == 'H2') {
+        var header = item.previousSibling
+        header.parentNode.removeChild(header);
       }
-      item.remove();
-      parent.remove();
+      item.parentNode.removeChild(item);
+      parent.parentNode.removeChild(parent);
 
-      localStorage.setItem('CalendarHTML', $('#calendar .events').html());
-      serviceData.GC.HTML = $('#calendar .events').html();
-    })
-    .fail(function(xhr, ajaxOptions, thrownError) {
-      clickedObject.fadeOut(400, function() {
-        clickedObject.html('');
-        clickedObject.addClass('error-icon');
-        clickedObject.attr('title', thrownError);
-        clickedObject.fadeIn(400);
+      var newHTML = document.querySelector('#calendar .events').innerHTML();
+      localStorage.setItem('CalendarHTML', newHTML);
+      serviceData.GC.HTML = newHTML;
+    }, function(response) {
+      // Failed
+      var thrownError = response.error.message;
+      clickedObject.setAttribute('title', thrownError);
+      replaceContent(clickedObject, '').then(function() {
+        clickedObject.classList.add('error-icon');
       });
-      console.log(xhr, ajaxOptions, thrownError);
-    });
+    })
   });
 }

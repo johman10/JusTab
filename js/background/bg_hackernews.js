@@ -5,57 +5,57 @@ function getHackerNewsData(callback) {
   var url = 'https://hacker-news.firebaseio.com/v0/';
   var apiCall = "topstories.json";
 
-  $.ajax({
-    url: url + apiCall
-  })
-  .done(function(data) {
+  ajax('GET', url + apiCall).then(function(data) {
     localStorage.setItem("Hackernews_error", false);
     serviceData.HN.error = false;
 
     getHackerNewsStories(data.slice(0,25), callback);
-  })
-  .fail(function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("Hackernews_error", true);
-    serviceData.HN.error = true;
-  })
-  .always(function() {
+
     if (callback) {
       callback();
     }
-  });
+  }, function() {
+    localStorage.setItem("Hackernews_error", true);
+    serviceData.HN.error = true;
+
+    if (callback) {
+      callback();
+    }
+  })
 }
 
 function getHackerNewsStories(data, callback) {
   var hnJSON = [];
   var promises = [];
 
-  $.each(data, function(index, val) {
+  data.forEach(function(val) {
     var url = 'https://hacker-news.firebaseio.com/v0/';
     var apiCall = "item/" + val + ".json";
 
-    promises.push($.ajax({
-      url: url + apiCall,
-    })
-    .done(function(data) {
-      hnJSON = hnJSON.concat(data);
-    })
-    .fail(function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      localStorage.setItem("Hackernews_error", true);
-      serviceData.HN.error = true;
-    }));
+    promises.push(
+      ajax('GET', url + apiCall)
+        .then(function(data) {
+          hnJSON = hnJSON.concat(data);
+        }, function() {
+          localStorage.setItem("Hackernews_error", true);
+          serviceData.HN.error = true;
+        })
+    );
   });
 
-  $.when.apply($, promises).done(function() {
+  Promise.all(promises).then(function() {
     localStorage.setItem("Hackernews", JSON.stringify(hnJSON));
     serviceData.HN.JSON = hnJSON;
     hnHTML();
-  }).always(function() {
+
     if (callback) {
       callback();
     }
-  });
+  }, function() {
+    if (callback) {
+      callback();
+    }
+  })
 }
 
 function hnHTML() {
@@ -63,7 +63,7 @@ function hnHTML() {
     data = serviceData.HN.JSON;
     var hn_links = '';
 
-    $.each(data, function(i, story) {
+    data.forEach(function(story) {
       hn_links +=
         '<div class="core-item waves-effect hn-link-container">';
 

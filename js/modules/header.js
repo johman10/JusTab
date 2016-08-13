@@ -1,26 +1,27 @@
-$(document).ready(function() {
-  $('.panel-content').scroll(function(e) {
-    var scrollTop = e.target.scrollTop,
-        panel_header = $(this).prev('.panel-header'),
-        topBar = panel_header.find('.top'),
-        panelBackground = panel_header.find('.panel-header-background2'),
+var headers = document.querySelectorAll('.panel-content');
+
+for(var header of headers) {
+  header.addEventListener('scroll', function(event) {
+    var panelContent = event.target,
+        scrollTop = panelContent.scrollTop,
+        panelHeader = panelContent.previousElementSibling,
+        topBar = panelHeader.querySelector('.top'),
+        panelBackground = panelHeader.querySelector('.panel-header-background2'),
         opacity = 1-(scrollTop*(1/64));
 
-    if (e.target.scrollTop < 64) {
-      panel_header.height(128-scrollTop);
-      topBar.height(64-scrollTop);
-      topBar.css('opacity', opacity);
-      panelBackground.css('opacity', opacity);
-    }
-
-    if (scrollTop > 64) {
-      panel_header.height(64);
-      topBar.height(0);
-      topBar.hide();
-      panelBackground.hide();
+    if (scrollTop < 64) {
+      panelHeader.style.height = 128 - scrollTop + 'px';
+      topBar.style.height = 64 - scrollTop + 'px';
+      topBar.style.opacity = opacity;
+      panelBackground.style.opacity = opacity;
+      topBar.style.display = 'block';
+      panelBackground.style.display = 'block';
     } else {
-      topBar.show();
-      panelBackground.show();
+      panelHeader.style.height = 64 + 'px';
+      topBar.style.height = 0 + 'px';
+      topBar.style.display = 'none';
+      panelBackground.style.display = 'none';
     }
   });
-});
+
+}

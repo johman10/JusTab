@@ -9,26 +9,24 @@ function getSabnzbdHistory(from, callback) {
   var historyMode = "&mode=history&limit=" + from;
   var output = "&output=json";
 
-  $.ajax({
-    url: url + historyMode + output
-  })
-  .done(function(history) {
+  ajax('GET', url + historyMode + output).then(function(history) {
     localStorage.setItem("SabnzbdHistory", JSON.stringify(history));
     serviceData.SAB.history.JSON = history;
     localStorage.setItem("Sabnzbd_error", false);
     serviceData.SAB.history.error = false;
     sabhHTML();
-  })
-  .fail(function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("Sabnzbd_error", true);
-    serviceData.SAB.history.error = true;
-  })
-  .always(function() {
+
     if (callback) {
       callback();
     }
-  });
+  }, function() {
+    localStorage.setItem("Sabnzbd_error", true);
+    serviceData.SAB.history.error = true;
+
+    if (callback) {
+      callback();
+    }
+  })
 }
 
 function getSabnzbdQueue(callback) {
@@ -36,26 +34,24 @@ function getSabnzbdQueue(callback) {
   var queueMode = "&mode=queue";
   var output = "&output=json";
 
-  $.ajax({
-    url: url + queueMode + output
-  })
-  .done(function(queue) {
+  ajax('GET', url + queueMode + output).then(function(queue) {
     localStorage.setItem("SabnzbdQueue", JSON.stringify(queue));
     serviceData.SAB.queue.JSON = queue;
     localStorage.setItem("Sabnzbd_error", false);
     serviceData.SAB.queue.error = false;
     sabqHTML();
-  })
-  .fail(function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("Sabnzbd_error", true);
-    serviceData.SAB.queue.error = true;
-  })
-  .always(function() {
+
     if (callback) {
       callback();
     }
-  });
+  }, function() {
+    localStorage.setItem("Sabnzbd_error", true);
+    serviceData.SAB.queue.error = true;
+
+    if (callback) {
+      callback();
+    }
+  })
 }
 
 function sabqHTML() {
@@ -75,7 +71,7 @@ function sabqHTML() {
       timeLeft = queueJson.queue.timeleft;
     }
 
-    $.each(queueJson.queue.slots, function(i, qItem) {
+    queueJson.queue.slots.forEach(function(qItem) {
       queue +=
         '<div class="core-item sab-item-container">' +
           '<div class="sab-item-name">' +
@@ -84,9 +80,7 @@ function sabqHTML() {
           '<div class="sab-item-status">' +
             htmlEncode(qItem.status + ' - ' + qItem.percentage + '%') +
           '</div>' +
-          '<div class="core-item-icon">' +
-            '<div class="expand-more-icon"></div>' +
-          '</div>' +
+          '<div class="core-item-icon"></div>' +
         '</div>' +
         '<div class="sabq-collapse core-collapse">' +
           '<div class="sabq-collapse-buttons">' +
@@ -120,15 +114,13 @@ function sabhHTML() {
     var historyJson = serviceData.SAB.history.JSON;
     var history = '<h2>History</h2>';
 
-    $.each(historyJson.history.slots, function(i, hItem) {
+    historyJson.history.slots.forEach(function(hItem) {
       history +=
         '<div class="core-item sab-item-container">' +
           '<div class="sab-item-name">' +
             htmlEncode(hItem.name) +
           '</div>' +
-          '<div class="core-item-icon">' +
-            '<div class="expand-more-icon"></div>' +
-          '</div>' +
+          '<div class="core-item-icon"></div>' +
         '</div>' +
         '<div class="sabh-collapse core-collapse">' +
           '<div class="sabh-collapse-status">';

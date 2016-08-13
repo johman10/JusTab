@@ -1,9 +1,9 @@
-$(document).ready(function() {
-  $(document).click(function(e) {
-    if ($(e.target).parent('.checkbox-container').length > 0) {
-      checkbox_container = $(e.target).parent('.checkbox-container');
-      checkbox_container.toggleClass('checked');
-      checkbox_container.trigger('change');
-    }
-  });
+document.querySelector('html').addEventListener('click', function(event) {
+  if (event.target.closest('.checkbox-container')) {
+    checkbox_container = event.target.closest('.checkbox-container');
+    checkbox_container.classList.toggle('checked');
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent("change", false, true);
+    checkbox_container.dispatchEvent(event);
+  }
 });

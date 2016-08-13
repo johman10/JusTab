@@ -20,10 +20,20 @@
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+    background-image: image-url('icons/expand_more.svg');
+    height: 100%;
+    width: 55px;
+    transition: background-image 300ms ease;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
   }
 
   &.expanded {
     border-top-color: #ececec;
+
+    .core-item-icon {
+      background-image: image-url('icons/expand_less.svg');
+    }
   }
 
   &:not(.without-hover) {

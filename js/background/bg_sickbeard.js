@@ -5,26 +5,24 @@ function getSickBeardData(callback) {
   var url = serviceData.SB.apiUrl;
   var apiCall = "?cmd=future&sort=date&type=today|missed|soon|later";
 
-  $.ajax({
-    url: url + apiCall
-  })
-  .done(function(data) {
+  ajax('GET', url + apiCall).then(function(data) {
     localStorage.setItem("Sickbeard_error", false);
     serviceData.SB.error = false;
     localStorage.setItem("Sickbeard", JSON.stringify(data));
     serviceData.SB.JSON = data;
     sbHTML();
-  })
-  .fail(function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("Sickbeard_error", true);
-    serviceData.SB.error = true;
-  })
-  .always(function() {
+
     if (callback) {
       callback();
     }
-  });
+  }, function() {
+    localStorage.setItem("Sickbeard_error", true);
+    serviceData.SB.error = true;
+
+    if (callback) {
+      callback();
+    }
+  })
 }
 
 function sbHTML() {
@@ -72,7 +70,7 @@ function sbHTML() {
 }
 
 function listSeries(query, HTML, storageName, serviceDataTag) {
-  $.each(query, function(i, episodeData) {
+  query.forEach(function(episodeData) {
     var tvdbid = episodeData.tvdbid,
         season = episodeData.season,
         episode = episodeData.episode,
@@ -101,14 +99,12 @@ function listSeries(query, HTML, storageName, serviceDataTag) {
     HTML +=
       '<div class="sb-item core-item">' +
         '<div class="sb-poster-container">' +
-          '<img class="sb-poster" src="img/poster_fallback.png" data-original="' + posterUrl+ '">' +
+          '<img class="sb-poster" src="img/poster_fallback.png" data-echo="' + posterUrl+ '">' +
         '</div>' +
         '<div class="core-item-content">' +
           htmlEncode(showname + episodeString) +
         '</div>' +
-        '<div class="core-item-icon">' +
-          '<div class="expand-more-icon"></div>' +
-        '</div>' +
+        '<div class="core-item-icon"></div>' +
       '</div>' +
       '<div class="sb-collapse core-collapse">' +
         '<div class="sb-collapse-date">' +

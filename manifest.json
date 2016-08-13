@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "JusTab",
-  "version": "0.2.25",
+  "version": "0.3.1",
   "author": "Johan van Eck",
   "description": "Keep track of all your online services. With just a tab you see what's going on!",
   "icons": {

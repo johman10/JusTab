@@ -74,9 +74,8 @@ module.exports = function(grunt) {
           cwd: '.',
           src: [
             'img/**',
-            'node_modules/jquery/dist/jquery.min.js',
             'node_modules/moment/min/moment.min.js',
-            'node_modules/jquery-lazyload/jquery.lazyload.js',
+            'node_modules/echo-js/dist/echo.min.js',
             'node_modules/dragula/dist/dragula.min.js',
             'node_modules/dragula/dist/dragula.min.css',
             'style/fonts/**',

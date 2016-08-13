@@ -2,58 +2,32 @@
 // https://github.com/nzbget/nzbget/wiki/API
 
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
-$.when(serviceDataRefreshDone).done(function() {
+serviceDataRefreshDone.then(function() {
   if (serviceData.NG.status) {
-    $('.refresh-ng').click(function() {
-      $('#nzbget .error:visible').slideUp(400);
-      $('.refresh-ng').fadeOut(400, function() {
-        $(this).html(serviceData.spinner);
-        $(this).fadeIn(400, function() {
-          chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getNzbgetQueue(function() {
-              backgroundPage.getNzbgetHistory(serviceData.NG.history.length, function() {
-                $('.refresh-ng').fadeOut(400, function() {
-                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh NZBGet" draggable=false>');
-                  $(this).fadeIn(400);
-                });
-              });
-            });
-          });
-        });
-      });
-    });
-
-    $('#nzbget .panel-content').bind('scroll', ngCheckScroll);
-    $('#nzbget .panel-header .panel-header-foreground .bottom a').attr('href', serviceData.NG.url);
+    document.querySelector('#nzbget .panel-content').addEventListener('scroll', ngCheckScroll, true);
+    document.querySelector('#nzbget .panel-header .panel-header-foreground .bottom a').setAttribute('href', serviceData.NG.url);
   }
 });
 
 function ngShowData() {
-  $('#nzbget .queue').empty();
-  $('#nzbget .history').empty();
+  document.querySelector('#nzbget .queue').innerHTML = '';
+  document.querySelector('#nzbget .history').innerHTML = '';
 
-  var queueError = serviceData.NG.queue.error;
-  var historyError = serviceData.NG.history.error;
+  checkError('nzbget', 'NzbgetQueue_error');
+  checkError('nzbget', 'NzbgetHistory_error');
 
-  if (queueError == "true" || historyError == "true") {
-    $('#nzbget .error').slideDown('slow');
-  }
-  else {
-    $('#nzbget .error').slideUp('slow');
-  }
-
-  $('.bottom-bar-container .nzbget-info').html(serviceData.NG.downloadStatus);
-  $('#nzbget .queue').html(serviceData.NG.queue.HTML);
-  $('#nzbget .history').html(serviceData.NG.history.HTML);
+  document.querySelector('.bottom-bar-container .nzbget-info').innerHTML = serviceData.NG.downloadStatus;
+  document.querySelector('#nzbget .queue').innerHTML = serviceData.NG.queue.HTML;
+  document.querySelector('#nzbget .history').innerHTML = serviceData.NG.history.HTML;
 }
 
-function ngCheckScroll(e) {
-  var elem = $(e.currentTarget);
-  if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight()) {
-    var oldLength = $('#nzbget .history .ng-item-container').length;
+function ngCheckScroll(event) {
+  var elem = event.target;
+  if (elem.scrollHeight - elem.scrollTop == elem.offsetHeight) {
+    var oldLength = document.querySelectorAll('#nzbget .history .ng-item-container').length;
     var newLength = oldLength + serviceData.NG.history.length;
-    if ($('#nzbget .history .loading-bar').length === 0 && oldLength < serviceData.NG.history.JSON.result.length) {
-      $('#nzbget .history').append('<div class="core-item without-hover loading-bar">' + serviceData.spinner + '</div>');
+    if (!document.querySelector('#nzbget .history .loading-bar') && oldLength < serviceData.NG.history.JSON.result.length) {
+      document.querySelector('#nzbget .history').insertAdjacentHTML('beforeend', '<div class="core-item without-hover loading-bar">' + serviceData.spinner + '</div>');
     }
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.getNzbgetHistory(newLength);

@@ -1,37 +1,13 @@
-$.when(serviceDataRefreshDone).done(function() {
+serviceDataRefreshDone.then(function() {
   if (serviceData.RD.status) {
-    $('.refresh-rd').click(function() {
-      $('#reddit .error:visible').slideUp(400);
-
-      $('.refresh-rd').fadeOut(400, function() {
-        $(this).html(serviceData.spinner);
-        $(this).fadeIn(400, function() {
-          chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getRedditData(function() {
-              $('.refresh-rd').fadeOut(400, function() {
-                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Reddit" draggable=false>');
-                $(this).fadeIn(400);
-              });
-            });
-          });
-        });
-      });
-    });
+    document.querySelector('#reddit .panel-header .panel-header-foreground .bottom a').setAttribute('href', 'https://www.reddit.com/r/' + serviceData.RD.subreddit);
   }
 
-  $('#reddit .panel-header .panel-header-foreground .bottom a').attr('href', 'https://www.reddit.com/r/' + serviceData.RD.subreddit);
 });
 
 function rdShowData() {
-  $('.rd-links').empty();
-  var error = serviceData.RD.error;
+  document.querySelector('.rd-links').innerHTML = '';
+  checkError('reddit', 'Reddit_error');
 
-  if (error == "true") {
-    $('#reddit .error').slideDown('slow');
-  }
-  if (error == "false") {
-    $('#reddit .error').slideUp('slow');
-  }
-
-  $('.rd-links').html(serviceData.RD.HTML);
+  document.querySelector('.rd-links').innerHTML = serviceData.RD.HTML;
 }

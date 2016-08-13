@@ -1,142 +1,95 @@
 // Docs:
 // http://sickbeard.com/api
 
-$.when(serviceDataRefreshDone).done(function() {
+serviceDataRefreshDone.then(function() {
   if (serviceData.SB.status) {
-    $('#sickbeard .refresh-sb').click(function(event) {
-      $('#sickbeard .error:visible').slideUp(400);
-      $('.refresh-sb').fadeOut(400, function() {
-        $(this).html(serviceData.spinner);
-        $(this).fadeIn(400, function() {
-          chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getSickBeardData(function() {
-              $('.refresh-sb').fadeOut(400, function() {
-                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sickbeard" draggable=false>');
-                $(this).fadeIn(400);
-              });
-            });
-          });
-        });
-      });
-    });
-
-    $('#sickbeard .panel-header .panel-header-foreground .bottom a').attr('href', serviceData.SB.url);
+    document.querySelector('#sickbeard .panel-header .panel-header-foreground .bottom a').attr('href', serviceData.SB.url);
   }
 });
 
-$("html").on('click', ".sb-search-episode", function(event) {
-  searchEpisode($(this));
-});
-
-$("html").on('click', ".sb-mark-episode", function(event) {
-  markEpisode($(this));
-});
+document.querySelector("html").addEventListener('click', function(event) {
+  if (event.target.classList.contains('sb-search-episode')) {
+    searchEpisode($(this));
+  }
+  if (event.target.classList.contains('sb-mark-episode')) {
+    markEpisode($(this));
+  }
+})
 
 function sbShowData() {
-  $('#sickbeard .sb-missed').empty();
-  $('#sickbeard .sb-today').empty();
-  $('#sickbeard .sb-soon').empty();
-  $('#sickbeard .sb-later').empty();
+  document.querySelector('#sickbeard .sb-missed').innerHTML = '';
+  document.querySelector('#sickbeard .sb-today').innerHTML = '';
+  document.querySelector('#sickbeard .sb-soon').innerHTML = '';
+  document.querySelector('#sickbeard .sb-later').innerHTML = '';
 
   var url = serviceData.SB.apiUrl;
-  var error = serviceData.SB.error;
-
-  if (error == "true") {
-    $('#sickbeard .error').slideDown('slow');
-  }
-  if (error == "false") {
-    $('#sickbeard .error').slideUp('slow');
-  }
+  checkError('sickbeard', 'Sickbeard_error');
 
   if (serviceData.SB.MissedHTML) {
-    $('.sb-missed').html(serviceData.SB.MissedHTML);
+    document.querySelector('.sb-missed').innerHTML = serviceData.SB.MissedHTML;
   }
 
   if (serviceData.SB.TodayHTML) {
-    $('.sb-today').html(serviceData.SB.TodayHTML);
+    document.querySelector('.sb-today').innerHTML = serviceData.SB.TodayHTML;
   }
 
   if (serviceData.SB.SoonHTML) {
-    $('.sb-soon').html(serviceData.SB.SoonHTML);
+    document.querySelector('.sb-soon').innerHTML = serviceData.SB.SoonHTML;
   }
 
   if (serviceData.SB.LaterHTML) {
-    $('.sb-later').html(serviceData.SB.LaterHTML);
+    document.querySelector('.sb-later').innerHTML = serviceData.SB.LaterHTML;
   }
-
-  $('.sb-poster').lazyload({
-    threshold: 200,
-    effect: "fadeIn",
-    container: $('#sickbeard .panel-content')
-  });
 }
 
 function searchEpisode(clickedObject) {
-  clickedObject.fadeOut(400, function() {
+  replaceContent(clickedObject, serviceData.spinner).then(function() {
     clickedObject.removeClass('search-icon');
     clickedObject.removeClass('error-icon');
-    clickedObject.html(serviceData.spinner);
-    clickedObject.fadeIn(400);
-  });
+  })
 
   var url = serviceData.SB.apiUrl;
   var searchApiUrl = url + "/?cmd=episode.search&tvdbid=" + clickedObject.data('tvdbid') + "&season=" + clickedObject.data('season') + "&episode=" + clickedObject.data('episode');
 
-  $.ajax({
-    url: searchApiUrl
-  })
-  .done(function(data) {
-    clickedObject.fadeOut(400, function() {
+  ajax('GET', searchApiUrl).then(function(data) {
+    replaceContent(clickedObject, '').then(function() {
       if (data.result == "failure") {
-        clickedObject.addClass('error-icon');
-        clickedObject.attr('title', data.message);
+        clickedObject.classList.add('error-icon');
+        clickedObject.setAttribute('title', data.message);
       } else {
-        clickedObject.addClass('done-icon');
+        clickedObject.classList.add('done-icon');
       }
-      clickedObject.html('');
-      clickedObject.fadeIn(400);
-    });
+    })
+  }, function(data) {
+    replaceContent(clickedObject, '').then(function() {
+      clickedObject.classList.add('error-icon');
+      clickedObject.setAttribute('title', 'There was an error');
+    })
   })
-  .fail(function() {
-    clickedObject.fadeOut(400, function() {
-      clickedObject.addClass('error-icon');
-      clickedObject.attr('title', 'There was an error');
-      clickedObject.fadeIn(400);
-    });
-  });
 }
 
 function markEpisode(clickedObject) {
-  clickedObject.fadeOut(400, function() {
+  replaceContent(clickedObject, serviceData.spinner).then(function() {
     clickedObject.removeClass('search-icon');
     clickedObject.removeClass('error-icon');
-    clickedObject.html(serviceData.spinner);
-    clickedObject.fadeIn(400);
-  });
+  })
 
   var url = serviceData.SB.apiUrl;
   var markApiUrl = url + "/?cmd=episode.setstatus&tvdbid=" + clickedObject.data('tvdbid') + "&season=" + clickedObject.data('season') + "&episode=" + clickedObject.data('episode') + "&status=skipped";
 
-  $.ajax({
-    url: markApiUrl,
-  })
-  .done(function(data) {
-    clickedObject.fadeOut(400, function() {
+  ajax('GET', markApiUrl).then(function(data) {
+    replaceContent(clickedObject, '').then(function() {
       if (data.result == "failure") {
-        clickedObject.attr('class', 'icon-button error-icon sb-mark-episode waves-effect');
-        clickedObject.attr('title', data.message);
+        clickedObject.setAttribute('class', 'icon-button error-icon sb-mark-episode waves-effect');
+        clickedObject.setAttribute('title', data.message);
       } else {
-        clickedObject.attr('class', 'icon-button done-all-icon sb-mark-episode waves-effect');
+        clickedObject.setAttribute('class', 'icon-button done-all-icon sb-mark-episode waves-effect');
       }
-      clickedObject.html('');
-      clickedObject.fadeIn(400);
-    });
+    })
+  }, function(data) {
+    replaceContent(clickedObject, '').then(function() {
+      clickedObject.classList.add('error-icon');
+      clickedObject.setAttribute('title', 'There was an error');
+    })
   })
-  .fail(function() {
-    clickedObject.fadeOut(400, function() {
-      clickedObject.addClass('error-icon');
-      clickedObject.attr('title', 'There was an error');
-      clickedObject.fadeIn(400);
-    });
-  });
 }

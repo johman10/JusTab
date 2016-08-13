@@ -1,4 +1,4 @@
-$.when(serviceDataRefreshDone).then(function() {
+serviceDataRefreshDone.then(function() {
   // Restore options
   restore_options();
 
@@ -13,98 +13,90 @@ $.when(serviceDataRefreshDone).then(function() {
     }
   ).on('dragend', function(el, container, source) {
     var serviceOrder = [];
-    $('.options-menu-link').each(function(index, el) {
-      el = $(el);
-      if (el.data('service-id')) {
-        serviceOrder.push($(el).data('service-id'));
+    var menuLinks = document.querySelectorAll('.options-menu-link');
+    for(var el of menuLinks) {
+      var serviceId = el.getAttribute('data-service-id')
+      if (serviceId) {
+        serviceOrder.push(serviceId);
       }
-    });
+    }
     localStorage.setItem('serviceOrder', serviceOrder);
   });
 
   // Sort services in menu on page load
   var serviceOrder = localStorage.getItem('serviceOrder');
   if (serviceOrder) {
-    serviceOrder = serviceOrder.split(',');
-    $.each(serviceOrder, function(index, val) {
-      serviceHTML = $('#services-menu').find("[data-service-id=" + val + "]");
-      $('#services-menu').append(serviceHTML);
+    var serviceOrder = serviceOrder.split(',');
+    var menu = document.querySelector('#services-menu');
+    serviceOrder.forEach(function(val, index) {
+      serviceHTML = menu.querySelector('[data-service-id="' + val + '"]');
+      if (serviceHTML) {
+        menu.appendChild(serviceHTML);
+      }
     });
   }
 
   // Responsive menu
-  $('.options-menu-icon').bind('click', function() {
-    if ($('.options-menu').hasClass('expanded')) {
-      $('.options-menu').removeClass('expanded');
+  document.querySelector('.options-menu-icon').addEventListener('click', function() {
+    var menu = document.querySelector('.options-menu');
+    if (menu.classList.contains('expanded')) {
+      menu.classList.remove('expanded');
     } else {
-      $('.options-menu').addClass('expanded');
+      menu.classList.add('expanded');
     }
   });
 
   // Change view when clicked on object in menu
-  $('.options-menu-link').bind('click', function() {
-    var serviceName = $(this).data("title");
-    var serviceColor = '#' + $(this).data("color");
-
-    $('.options-menu').removeClass('expanded');
-    $('.options-window').hide();
-    $('.' + serviceName).show();
-    $('.options-menu-link').removeClass('active');
-    $(this).addClass('active');
-    $('.options-window-title').css('background-color', serviceColor);
-    $('.save-settings').css('color', serviceColor);
-    $('.options-window-title-text').text(serviceName);
-    location.hash = '#' + serviceName.toLowerCase();
-  });
+  var menuLinks = document.querySelectorAll('.options-menu-link')
+  for (var menuLink of menuLinks) {
+    menuLink.addEventListener('click', switchOptionsView);
+  }
 
   // Link to hash page
   if (location.hash) {
     var serviceName = location.hash.split('#')[1].toLowerCase();
-    $('.options-menu-link[data-lowTitle=' + serviceName + ']').click();
+    document.querySelector('.options-menu-link[data-lowTitle="' + serviceName + '"]').click();
   }
 
   // Build list of calendars
-  $('.calendar-loading').html(serviceData.spinner);
+  document.querySelector('.calendar-loading').innerHTML = serviceData.spinner;
 
   chrome.identity.getAuthToken({ 'interactive': true },function (token) {
-    var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
+    var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList?oauth_token=" + token;
     var events = "";
 
-    $.ajax({
-      url: url + '?oauth_token=' + token
-    })
-    .done(function(data) {
-      $('.calendar-loading').hide();
+    ajax('GET', url)
+    .then(function(data) {
+      document.querySelector('.calendar-loading').style.display = 'none';
 
-      var calendars_storage = serviceData.GC.calendars;
+      var calendarsStorage = serviceData.GC.calendars;
 
-      $.each(data.items, function(l, calendar) {
-        if ($.inArray(calendar.id, calendars_storage) > -1) {
-          $('.calendar-select-container').append(
-            "<div class='calendar-checkbox checkbox-container checked' data-id=" + calendar.id + ">" +
-              "<div class='checkbox'>" +
-                "<div class='checkbox-mark'></div>" +
-              "</div>" +
-              "<span class='checkbox-label'>" + calendar.summary + "</span>" +
-            "</div>"
-          );
+      data.items.forEach(function(calendar) {
+        if (calendarsStorage.indexOf(calendar.id) > -1) {
+          document.querySelector('.calendar-select-container').insertAdjacentHTML('beforeend',
+                                                                                    "<div class='calendar-checkbox checkbox-container checked' data-id=" + calendar.id + ">" +
+                                                                                      "<div class='checkbox'>" +
+                                                                                        "<div class='checkbox-mark'></div>" +
+                                                                                      "</div>" +
+                                                                                      "<span class='checkbox-label'>" + calendar.summary + "</span>" +
+                                                                                    "</div>"
+                                                                                  );
         }
         else {
-          $('.calendar-select-container').append(
-            "<div class='calendar-checkbox checkbox-container' data-id=" + calendar.id + ">" +
-              "<div class='checkbox'>" +
-                "<div class='checkbox-mark'></div>" +
-              "</div>" +
-              "<span class='checkbox-label'>" + calendar.summary + "</span>" +
-            "</div>"
-          );
+          document.querySelector('.calendar-select-container').insertAdjacentHTML('beforeend',
+                                                                                    "<div class='calendar-checkbox checkbox-container' data-id=" + calendar.id + ">" +
+                                                                                      "<div class='checkbox'>" +
+                                                                                        "<div class='checkbox-mark'></div>" +
+                                                                                      "</div>" +
+                                                                                      "<span class='checkbox-label'>" + calendar.summary + "</span>" +
+                                                                                    "</div>"
+                                                                                  );
         }
       });
-    })
-    .fail(function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
-      $('.calendar-loading').hide();
-      $('.calendar-select-container').append(
+    }, function(error) {
+      console.log(error);
+      document.querySelector('.calendar-loading').style.display = 'none';
+      document.querySelector('.calendar-select-container').insertAdjacentHTML('beforeend',
         '<div>' +
           '<div class="error-icon"></div>' +
           '<p>' +
@@ -116,55 +108,68 @@ $.when(serviceDataRefreshDone).then(function() {
   });
 
   // Save options on change of fields
-  $(document).on('change', 'input, .checkbox-container', function() {
-    save_options();
-  });
-
-  if (serviceData.DN.token) {
-    $('.DN-login-status').html(
-      "<div class='done-all-icon'></div>"
-    );
-  } else {
-    $('.DN-login-status').html(
-      "<div class='error-icon'></div>"
-    );
+  var inputs = document.querySelectorAll('input, .checkbox-container');
+  for (var input of inputs) {
+    input.addEventListener('change', saveOptions);
   }
 
   // Switch change function
-  $('.switch input[type=checkbox]').bind('change', function() {
-    save_status_options();
-  });
+  var switches = document.querySelectorAll('.switch input[type=checkbox]');
+  for (var serviceSwitch of switches) {
+    serviceSwitch.addEventListener('change', saveStatusOptions);
+  }
 });
 
-function save_status_options() {
+function switchOptionsView(event) {
+  var menuItem = event.target.closest('.options-menu-link');
+  var serviceName = menuItem.getAttribute('data-title');
+  var serviceColor = '#' + menuItem.getAttribute('data-color');
+  var optionsWindows = document.querySelectorAll('.options-window');
+  var menuLinks = document.querySelectorAll('.options-menu-link');
+
+  document.querySelector('.options-menu').classList.remove('expanded');
+  for (var optionsWindow of optionsWindows) {
+    optionsWindow.style.display = 'none';
+  }
+  document.querySelector('.' + serviceName).style.display = 'block';
+  for (var menuLink of menuLinks) {
+    menuLink.classList.remove('active');
+  }
+  menuItem.classList.add('active');
+  document.querySelector('.options-window-title').style.backgroundColor = serviceColor;
+  document.querySelector('.options-window-title-text').innerHTML = serviceName;
+  location.hash = '#' + serviceName.toLowerCase();
+}
+
+function saveStatusOptions() {
   chrome.storage.sync.set({
-    GC_status: $('input[type=checkbox][name=GC_status]').is(':checked'),
-    GM_status: $('input[type=checkbox][name=GM_status]').is(':checked'),
-    CP_status: $('input[type=checkbox][name=CP_status]').is(':checked'),
-    SB_status: $('input[type=checkbox][name=SB_status]').is(':checked'),
-    SAB_status: $('input[type=checkbox][name=SAB_status]').is(':checked'),
-    DN_status: $('input[type=checkbox][name=DN_status]').is(':checked'),
-    HN_status: $('input[type=checkbox][name=HN_status]').is(':checked'),
-    GH_status: $('input[type=checkbox][name=GH_status]').is(':checked'),
-    PH_status: $('input[type=checkbox][name=PH_status]').is(':checked'),
-    DR_status: $('input[type=checkbox][name=DR_status]').is(':checked'),
-    RD_status: $('input[type=checkbox][name=RD_status]').is(':checked'),
-    NG_status: $('input[type=checkbox][name=NG_status]').is(':checked'),
-    SO_status: $('input[type=checkbox][name=SO_status]').is(':checked')
+    GC_status: document.querySelector('input[type=checkbox][name=GC_status]').checked,
+    GM_status: document.querySelector('input[type=checkbox][name=GM_status]').checked,
+    CP_status: document.querySelector('input[type=checkbox][name=CP_status]').checked,
+    SB_status: document.querySelector('input[type=checkbox][name=SB_status]').checked,
+    SAB_status: document.querySelector('input[type=checkbox][name=SAB_status]').checked,
+    DN_status: document.querySelector('input[type=checkbox][name=DN_status]').checked,
+    HN_status: document.querySelector('input[type=checkbox][name=HN_status]').checked,
+    GH_status: document.querySelector('input[type=checkbox][name=GH_status]').checked,
+    PH_status: document.querySelector('input[type=checkbox][name=PH_status]').checked,
+    DR_status: document.querySelector('input[type=checkbox][name=DR_status]').checked,
+    RD_status: document.querySelector('input[type=checkbox][name=RD_status]').checked,
+    NG_status: document.querySelector('input[type=checkbox][name=NG_status]').checked,
+    SO_status: document.querySelector('input[type=checkbox][name=SO_status]').checked
   }, function() {
-    chrome.runtime.getBackgroundPage(function(backgroundPage) {
-      backgroundPage.refreshServiceData();
+    refreshBackgroundServiceData().then(function(backgroundPage) {
       backgroundPage.createAlarms();
-    });
+    })
   });
 }
 
 // Saves options to chrome.storage
-function save_options() {
+function saveOptions() {
   var calendars = [];
-  $.each($('.calendar-checkbox.checked'), function(i, val) {
-    calendars.push($(this).data('id'));
-  });
+  var checkboxes = document.querySelectorAll('.calendar-checkbox.checked');
+  for (var checkbox of checkboxes) {
+    calendars.push(checkbox.getAttribute('data-id'));
+  }
 
   CP_address = formatUrl('CP-address');
   SB_address = formatUrl('SB-address');
@@ -174,148 +179,172 @@ function save_options() {
 
   chrome.storage.sync.set({
     calendars: calendars,
-    GC_days: $('#GC-days').val(),
-    GC_width: $('#GC-width').val(),
-    GC_refresh: $('#GC-refresh').val(),
-    GM_emails: $('#GM-emails').val(),
-    GM_width: $('#GM-width').val(),
-    GM_refresh: $('#GM-refresh').val(),
+    GC_days: document.querySelector('#GC-days').value,
+    GC_width: document.querySelector('#GC-width').value,
+    GC_refresh: document.querySelector('#GC-refresh').value,
+    GM_width: document.querySelector('#GM-width').value,
+    GM_refresh: document.querySelector('#GM-refresh').value,
     CP_address: CP_address,
-    CP_port: $('#CP-port').val(),
-    CP_key: $('#CP-key').val(),
-    CP_width: $('#CP-width').val(),
-    CP_refresh: $('#CP-refresh').val(),
+    CP_port: document.querySelector('#CP-port').value,
+    CP_key: document.querySelector('#CP-key').value,
+    CP_width: document.querySelector('#CP-width').value,
+    CP_refresh: document.querySelector('#CP-refresh').value,
     SB_address: SB_address,
-    SB_port: $('#SB-port').val(),
-    SB_key: $('#SB-key').val(),
-    SB_width: $('#SB-width').val(),
-    SB_refresh: $('#SB-refresh').val(),
+    SB_port: document.querySelector('#SB-port').value,
+    SB_key: document.querySelector('#SB-key').value,
+    SB_width: document.querySelector('#SB-width').value,
+    SB_refresh: document.querySelector('#SB-refresh').value,
     SAB_address: SAB_address,
-    SAB_port: $('#SAB-port').val(),
-    SAB_key: $('#SAB-key').val(),
-    SAB_history: $('#SAB-history').val(),
-    SAB_width: $('#SAB-width').val(),
-    SABQ_refresh: $('#SABQ-refresh').val(),
-    SABH_refresh: $('#SABH-refresh').val(),
-    DN_width: $('#DN-width').val(),
-    DN_refresh: $('#DN-refresh').val(),
-    HN_width: $('#HN-width').val(),
-    HN_refresh: $('#HN-refresh').val(),
-    GH_width: $('#GH-width').val(),
-    GH_refresh: $('#GH-refresh').val(),
-    PH_width: $('#PH-width').val(),
-    PH_refresh: $('#PH-refresh').val(),
-    DR_small_images: $('.dr-small-images-checkbox').hasClass('checked'),
-    DR_gifs: $('.dr-gif-checkbox').hasClass('checked'),
-    DR_width: $('#DR-width').val(),
-    DR_refresh: $('#DR-refresh').val(),
-    RD_subreddit: $('#RD-subreddit').val(),
-    RD_sorting: $('#RD-sorting').val(),
-    RD_width: $('#RD-width').val(),
-    RD_refresh: $('#RD-refresh').val(),
+    SAB_port: document.querySelector('#SAB-port').value,
+    SAB_key: document.querySelector('#SAB-key').value,
+    SAB_history: document.querySelector('#SAB-history').value,
+    SAB_width: document.querySelector('#SAB-width').value,
+    SABQ_refresh: document.querySelector('#SABQ-refresh').value,
+    SABH_refresh: document.querySelector('#SABH-refresh').value,
+    DN_width: document.querySelector('#DN-width').value,
+    DN_refresh: document.querySelector('#DN-refresh').value,
+    HN_width: document.querySelector('#HN-width').value,
+    HN_refresh: document.querySelector('#HN-refresh').value,
+    GH_width: document.querySelector('#GH-width').value,
+    GH_refresh: document.querySelector('#GH-refresh').value,
+    PH_width: document.querySelector('#PH-width').value,
+    PH_refresh: document.querySelector('#PH-refresh').value,
+    DR_small_images: document.querySelector('.dr-small-images-checkbox').classList.contains('checked'),
+    DR_gifs: document.querySelector('.dr-gif-checkbox').classList.contains('checked'),
+    DR_width: document.querySelector('#DR-width').value,
+    DR_refresh: document.querySelector('#DR-refresh').value,
+    RD_subreddit: document.querySelector('#RD-subreddit').value,
+    RD_sorting: document.querySelector('#RD-sorting').value,
+    RD_width: document.querySelector('#RD-width').value,
+    RD_refresh: document.querySelector('#RD-refresh').value,
     NG_address: NG_address,
-    NG_port: $('#NG-port').val(),
-    NG_width: $('#NG-width').val(),
-    NGQ_refresh: $('#NGQ-refresh').val(),
-    NGH_refresh: $('#NGH-refresh').val(),
-    NGH_length: $('#NGH-length').val(),
-    NG_username: $('#NG-username').val(),
-    NG_password: $('#NG-password').val(),
+    NG_port: document.querySelector('#NG-port').value,
+    NG_width: document.querySelector('#NG-width').value,
+    NGQ_refresh: document.querySelector('#NGQ-refresh').value,
+    NGH_refresh: document.querySelector('#NGH-refresh').value,
+    NGH_length: document.querySelector('#NGH-length').value,
+    NG_username: document.querySelector('#NG-username').value,
+    NG_password: document.querySelector('#NG-password').value,
     SO_address: SO_address,
-    SO_port: $('#SO-port').val(),
-    SO_key: $('#SO-key').val(),
-    SO_width: $('#SO-width').val(),
-    SO_refresh: $('#SO-refresh').val(),
+    SO_port: document.querySelector('#SO-port').value,
+    SO_key: document.querySelector('#SO-key').value,
+    SO_width: document.querySelector('#SO-width').value,
+    SO_refresh: document.querySelector('#SO-refresh').value,
   }, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
       backgroundPage.createAlarms();
     });
 
-    var status = $('.status');
-    status.html('Options saved.');
-    status.css('bottom', '16px');
+    var status = document.querySelector('.status');
+    status.innerHTML = 'Options saved.';
+    status.style.bottom = '16px';
     setTimeout(function() {
-      status.css('bottom', '-48px');
-      status.html('');
+      status.style.bottom = '-48px';
+      status.innerHTLM = '';
     }, 1000);
   });
 }
 
 function restore_options() {
-  $('input[type=checkbox][name=GC_status]').attr('checked', serviceData.GC.status);
-  $('#GC-days').val(serviceData.GC.days);
-  $('#GC-width').val(serviceData.GC.panelWidth);
-  $('#GC-refresh').val(serviceData.GC.refresh);
-  $('input[type=checkbox][name=GM_status]').attr('checked', serviceData.GM.status);
-  $('#GM-width').val(serviceData.GM.panelWidth);
-  $('#GM-refresh').val(serviceData.GM.refresh);
-  $('input[type=checkbox][name=CP_status]').attr('checked', serviceData.CP.status);
-  $('#CP-address').val(serviceData.CP.address);
-  $('#CP-port').val(serviceData.CP.port);
-  $('#CP-key').val(serviceData.CP.key);
-  $('#CP-width').val(serviceData.CP.panelWidth);
-  $('#CP-refresh').val(serviceData.CP.refresh);
-  $('input[type=checkbox][name=SB_status]').attr('checked', serviceData.SB.status);
-  $('#SB-address').val(serviceData.SB.address);
-  $('#SB-port').val(serviceData.SB.port);
-  $('#SB-key').val(serviceData.SB.key);
-  $('#SB-width').val(serviceData.SB.panelWidth);
-  $('#SB-refresh').val(serviceData.SB.refresh);
-  $('input[type=checkbox][name=SAB_status]').attr('checked', serviceData.SAB.status);
-  $('#SAB-address').val(serviceData.SAB.address);
-  $('#SAB-port').val(serviceData.SAB.port);
-  $('#SAB-key').val(serviceData.SAB.key);
-  $('#SAB-history').val(serviceData.SAB.history.length);
-  $('#SAB-width').val(serviceData.SAB.panelWidth);
-  $('#SABQ-refresh').val(serviceData.SAB.queue.refresh);
-  $('#SABH-refresh').val(serviceData.SAB.history.refresh);
-  $('input[type=checkbox][name=DN_status]').attr('checked', serviceData.DN.status);
-  $('#DN-username').val(serviceData.DN.username);
-  $('#DN-password').val(serviceData.DN.password);
-  $('#DN-width').val(serviceData.DN.panelWidth);
-  $('#DN-refresh').val(serviceData.DN.refresh);
-  $('input[type=checkbox][name=HN_status]').attr('checked', serviceData.HN.status);
-  $('#HN-width').val(serviceData.HN.panelWidth);
-  $('#HN-refresh').val(serviceData.HN.refresh);
-  $('input[type=checkbox][name=GH_status]').attr('checked', serviceData.GH.status);
-  $('#GH-width').val(serviceData.GH.panelWidth);
-  $('#GH-refresh').val(serviceData.GH.refresh);
-  $('input[type=checkbox][name=PH_status]').attr('checked', serviceData.PH.status);
-  $('#PH-width').val(serviceData.PH.panelWidth);
-  $('#PH-refresh').val(serviceData.PH.refresh);
-  $('input[type=checkbox][name=DR_status]').attr('checked', serviceData.DR.status);
-  if (serviceData.DR.smallImages) { $('.dr-small-images-checkbox').addClass('checked'); }
-  if (serviceData.DR.gifs) { $('.dr-gif-checkbox').addClass('checked'); }
-  $('#DR-width').val(serviceData.DR.panelWidth);
-  $('#DR-refresh').val(serviceData.DR.refresh);
-  $('input[type=checkbox][name=RD_status]').attr('checked', serviceData.RD.status);
-  $('#RD-subreddit').val(serviceData.RD.subreddit);
-  $('#RD-sorting').val(serviceData.RD.sorting);
-  $('#RD-width').val(serviceData.RD.panelWidth);
-  $('#RD-refresh').val(serviceData.RD.refresh);
-  $('input[type=checkbox][name=NG_status]').attr('checked', serviceData.NG.status);
-  $('#NG-address').val(serviceData.NG.address);
-  $('#NG-port').val(serviceData.NG.port);
-  $('#NG-width').val(serviceData.NG.panelWidth);
-  $('#NGQ-refresh').val(serviceData.NG.queue.refresh);
-  $('#NGH-refresh').val(serviceData.NG.history.refresh);
-  $('#NGH-length').val(serviceData.NG.history.length);
-  $('#NG-username').val(serviceData.NG.username);
-  $('#NG-password').val(serviceData.NG.password);
-  $('input[type=checkbox][name=SO_status]').attr('checked', serviceData.SO.status);
-  $('#SO-address').val(serviceData.SO.address);
-  $('#SO-port').val(serviceData.SO.port);
-  $('#SO-key').val(serviceData.SO.key);
-  $('#SO-width').val(serviceData.SO.panelWidth);
-  $('#SO-refresh').val(serviceData.SO.refresh);
+  if (serviceData.GC.status) {
+    document.querySelector('input[type=checkbox][name=GC_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#GC-days').value = serviceData.GC.days;
+  document.querySelector('#GC-width').value = serviceData.GC.panelWidth;
+  document.querySelector('#GC-refresh').value = serviceData.GC.refresh;
+  if (serviceData.GM.status) {
+    document.querySelector('input[type=checkbox][name=GM_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#GM-width').value = serviceData.GM.panelWidth;
+  document.querySelector('#GM-refresh').value = serviceData.GM.refresh;
+  if (serviceData.CP.status) {
+    document.querySelector('input[type=checkbox][name=CP_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#CP-address').value = serviceData.CP.address;
+  document.querySelector('#CP-port').value = serviceData.CP.port;
+  document.querySelector('#CP-key').value = serviceData.CP.key;
+  document.querySelector('#CP-width').value = serviceData.CP.panelWidth;
+  document.querySelector('#CP-refresh').value = serviceData.CP.refresh;
+  if (serviceData.SB.status) {
+    document.querySelector('input[type=checkbox][name=SB_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#SB-address').value = serviceData.SB.address;
+  document.querySelector('#SB-port').value = serviceData.SB.port;
+  document.querySelector('#SB-key').value = serviceData.SB.key;
+  document.querySelector('#SB-width').value = serviceData.SB.panelWidth;
+  document.querySelector('#SB-refresh').value = serviceData.SB.refresh;
+  if (serviceData.SAB.status) {
+    document.querySelector('input[type=checkbox][name=SAB_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#SAB-address').value = serviceData.SAB.address;
+  document.querySelector('#SAB-port').value = serviceData.SAB.port;
+  document.querySelector('#SAB-key').value = serviceData.SAB.key;
+  document.querySelector('#SAB-history').value = serviceData.SAB.history.length;
+  document.querySelector('#SAB-width').value = serviceData.SAB.panelWidth;
+  document.querySelector('#SABQ-refresh').value = serviceData.SAB.queue.refresh;
+  document.querySelector('#SABH-refresh').value = serviceData.SAB.history.refresh;
+  if (serviceData.DN.status) {
+    document.querySelector('input[type=checkbox][name=DN_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#DN-width').value = serviceData.DN.panelWidth;
+  document.querySelector('#DN-refresh').value = serviceData.DN.refresh;
+  if (serviceData.HN.status) {
+    document.querySelector('input[type=checkbox][name=HN_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#HN-width').value = serviceData.HN.panelWidth;
+  document.querySelector('#HN-refresh').value = serviceData.HN.refresh;
+  if (serviceData.GH.status) {
+    document.querySelector('input[type=checkbox][name=GH_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#GH-width').value = serviceData.GH.panelWidth;
+  document.querySelector('#GH-refresh').value = serviceData.GH.refresh;
+  if (serviceData.PH.status) {
+    document.querySelector('input[type=checkbox][name=PH_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#PH-width').value = serviceData.PH.panelWidth;
+  document.querySelector('#PH-refresh').value = serviceData.PH.refresh;
+  if (serviceData.DR.status) {
+    document.querySelector('input[type=checkbox][name=DR_status]').setAttribute('checked', 'true');
+  }
+  if (serviceData.DR.smallImages) { document.querySelector('.dr-small-images-checkbox').classList.add('checked'); }
+  if (serviceData.DR.gifs) { document.querySelector('.dr-gif-checkbox').classList.add('checked'); }
+  document.querySelector('#DR-width').value = serviceData.DR.panelWidth;
+  document.querySelector('#DR-refresh').value = serviceData.DR.refresh;
+  if (serviceData.RD.status) {
+    document.querySelector('input[type=checkbox][name=RD_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#RD-subreddit').value = serviceData.RD.subreddit;
+  document.querySelector('#RD-sorting').value = serviceData.RD.sorting;
+  document.querySelector('#RD-width').value = serviceData.RD.panelWidth;
+  document.querySelector('#RD-refresh').value = serviceData.RD.refresh;
+  if (serviceData.NG.status) {
+    document.querySelector('input[type=checkbox][name=NG_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#NG-address').value = serviceData.NG.address;
+  document.querySelector('#NG-port').value = serviceData.NG.port;
+  document.querySelector('#NG-width').value = serviceData.NG.panelWidth;
+  document.querySelector('#NGQ-refresh').value = serviceData.NG.queue.refresh;
+  document.querySelector('#NGH-refresh').value = serviceData.NG.history.refresh;
+  document.querySelector('#NGH-length').value = serviceData.NG.history.length;
+  document.querySelector('#NG-username').value = serviceData.NG.username;
+  document.querySelector('#NG-password').value = serviceData.NG.password;
+  if (serviceData.SO.status) {
+    document.querySelector('input[type=checkbox][name=SO_status]').setAttribute('checked', 'true');
+  }
+  document.querySelector('#SO-address').value = serviceData.SO.address;
+  document.querySelector('#SO-port').value = serviceData.SO.port;
+  document.querySelector('#SO-key').value = serviceData.SO.key;
+  document.querySelector('#SO-width').value = serviceData.SO.panelWidth;
+  document.querySelector('#SO-refresh').value = serviceData.SO.refresh;
 }
 
 function formatUrl(fieldname) {
-  if ($('#' + fieldname).val().slice(0,8) == "https://" || $('#' + fieldname).val().slice(0,7) == "http://") {
-    return $('#' + fieldname).val();
+  var inputField = document.querySelector('#' + fieldname);
+  if (inputField.value.slice(0,8) == "https://" || inputField.value.slice(0,7) == "http://") {
+    return inputField.value;
   }
   else {
-    return "http://" + $('#' + fieldname).val();
+    return "http://" + inputField.value;
   }
 }

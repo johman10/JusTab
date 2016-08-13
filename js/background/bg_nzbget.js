@@ -5,52 +5,48 @@ function getNzbgetQueue(callback) {
   var url = serviceData.NG.apiUrl;
   var apiCall = "/listgroups";
 
-  $.ajax({
-    url: url + apiCall
-  })
-  .done(function(queueJson) {
+  ajax('GET', url + apiCall).then(function(queueJson) {
     localStorage.setItem("NzbgetQueue", JSON.stringify(queueJson));
     serviceData.NG.queue.JSON = queueJson;
     localStorage.setItem("Nzbget_error", false);
     serviceData.NG.queue.error = false;
     ngqHTML();
-  })
-  .fail(function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("Nzbget_error", true);
-    serviceData.NG.queue.error = true;
-  })
-  .always(function() {
+
     if (callback) {
       callback();
     }
-  });
+  }, function() {
+    localStorage.setItem("Nzbget_error", true);
+    serviceData.NG.queue.error = true;
+
+    if (callback) {
+      callback();
+    }
+  })
 }
 
 function getNzbgetHistory(itemLength, callback) {
   var url = serviceData.NG.apiUrl;
   var apiCall = "/history";
 
-  $.ajax({
-    url: url + apiCall
-  })
-  .done(function(historyJson) {
+  ajax('GET', url + apiCall).then(function(historyJson) {
     localStorage.setItem("NzbgetHistory", JSON.stringify(historyJson));
     serviceData.NG.JSON = historyJson;
     localStorage.setItem("Nzbget_error", false);
     serviceData.NG.error = false;
     nghHTML(itemLength);
-  })
-  .fail(function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("Nzbget_error", true);
-    serviceData.NG.error = true;
-  })
-  .always(function() {
+
     if (callback) {
       callback();
     }
-  });
+  }, function() {
+    localStorage.setItem("Nzbget_error", true);
+    serviceData.NG.error = true;
+
+    if (callback) {
+      callback();
+    }
+  })
 }
 
 function ngqHTML() {
@@ -60,7 +56,7 @@ function ngqHTML() {
         queueHTML = '<h2>Queue</h2>',
         downloadPercentage;
 
-    $.each(queueJson.result, function(index, el) {
+    queueJson.result.forEach(function(index, el) {
       downloadPercentage = el.DownloadedSizeMB/(el.FileSizeMB/100);
 
       queueHTML +=
@@ -89,15 +85,13 @@ function nghHTML(itemLength) {
         historyJson = serviceData.NG.history.JSON,
         historyHTML = '<h2>History</h2>';
 
-    $.each(historyJson.result.slice(0, itemLength), function(index, el) {
+    historyJson.result.slice(0, itemLength).forEach(function(index, el) {
       historyHTML +=
         '<div class="core-item ng-item-container">' +
           '<div class="ng-item-name">' +
             htmlEncode(el.Name) +
           '</div>' +
-          '<div class="core-item-icon">' +
-            '<div class="expand-more-icon"></div>' +
-          '</div>' +
+          '<div class="core-item-icon"></div>' +
         '</div>' +
         '<div class="ng-collapse core-collapse">' +
           '<div class="ng-collapse-status">' +

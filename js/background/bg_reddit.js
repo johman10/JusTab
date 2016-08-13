@@ -18,11 +18,7 @@ function getRedditData(callback) {
 
   // Need to find out how to send form-data with ajax call
   // See local postman for more info/
-  $.ajax({
-    url: url + apiCall,
-    type: 'GET'
-  })
-  .done(function(data) {
+  ajax('GET', url + apiCall).then(function(data) {
     if (data.data.children.length > 0) {
       localStorage.setItem("Reddit_error", false);
       serviceData.RD.error = false;
@@ -32,17 +28,18 @@ function getRedditData(callback) {
       localStorage.setItem("Reddit_error", true);
       serviceData.RD.error = true;
     }
-  })
-  .fail(function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("Reddit_error", true);
-    serviceData.RD.error = true;
-  })
-  .always(function() {
+
     if (callback) {
       callback();
     }
-  });
+  }, function() {
+    localStorage.setItem("Reddit_error", true);
+    serviceData.RD.error = true;
+
+    if (callback) {
+      callback();
+    }
+  })
 }
 
 function rdHTML() {
@@ -50,7 +47,7 @@ function rdHTML() {
     var data = serviceData.RD.JSON,
         rdLinks = '';
 
-    $.each(data.data.children, function(i, story) {
+    data.data.children.forEach(function(story) {
       rdLinks +=
         '<div class="core-item waves-effect rd-link-container">' +
           '<a href="' + story.data.url + '" class="rd-story-url service-link" target="_blank">' +

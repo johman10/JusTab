@@ -4,7 +4,7 @@ function getCalendarData(callback) {
       var calendarUrls = [];
       var calendarIds = [];
       var encodedUrl;
-      $.each(serviceData.GC.calendars, function(i, val) {
+      serviceData.GC.calendars.forEach(function(val, i) {
         encodedUrl = encodeURIComponent(val);
         calendarUrls.push("https://www.googleapis.com/calendar/v3/calendars/" + encodedUrl + "/events");
         calendarIds.push(val);
@@ -15,34 +15,31 @@ function getCalendarData(callback) {
 }
 
 function eventArray(calendarUrls, calendarIds, token, callback) {
-  dateNow = new Date().toISOString();
-  daysShow = serviceData.GC.days;
-  dateLast = moment(new Date()).add(daysShow, 'days').endOf("day").toISOString();
-  events = [];
-  promises = [];
+  var dateNow = new Date().toISOString();
+  var daysShow = serviceData.GC.days;
+  var dateLast = moment(new Date()).add(daysShow, 'days').endOf("day").toISOString();
+  var events = [];
+  var promises = [];
+  var apiUrl;
 
-  $.each(calendarUrls, function(i, url) {
+  calendarUrls.forEach(function(url, i) {
+    apiUrl = url + "?&oauth_token=" + token + "&timeMin=" + dateNow + "&timeMax=" + dateLast + "&orderBy=startTime&singleEvents=true"
     promises.push(
-      $.ajax({
-        url: url + "?&oauth_token=" + token + "&timeMin=" + dateNow + "&timeMax=" + dateLast + "&orderBy=startTime&singleEvents=true"
-      })
-      .done(function(data) {
-        $.each(data.items, function(t, item) {
+      ajax('GET', apiUrl).then(function(data) {
+        data.items.forEach(function(item, t) {
           item.calendarId = calendarIds[i];
         });
         localStorage.setItem("Calendar_error", false);
         serviceData.GC.error = false;
-        events = $.merge(events, data.items);
-      })
-      .fail(function(xhr, ajaxOptions, thrownError) {
-        console.log(xhr, ajaxOptions, thrownError);
+        events = events.concat(data.items);
+      }, function(data) {
         localStorage.setItem("Calendar_error", true);
         serviceData.GC.error = true;
       })
     );
   });
 
-  $.when.apply($, promises).done(function() {
+  Promise.all(promises).then(function() {
     if (events.length > 0) {
       localStorage.setItem("Calendar", JSON.stringify(events));
       serviceData.GC.JSON = events;
@@ -53,7 +50,7 @@ function eventArray(calendarUrls, calendarIds, token, callback) {
     if (callback) {
       callback();
     }
-  });
+  })
 }
 
 function calendarHTML() {
@@ -62,7 +59,7 @@ function calendarHTML() {
   htmlData = '';
   eventDate = '';
 
-  $.each(events, function(i, cEvent) {
+  events.forEach(function(cEvent, i) {
     if (moment(cEvent.start.dateTime || cEvent.start.date).isBefore(moment(), 'day')) {
       formattedDate = 'Today';
     } else {
@@ -94,9 +91,7 @@ function calendarHTML() {
 
     htmlData +=
         '</div>' +
-        '<div class="core-item-icon">' +
-          '<div class="expand-more-icon"></div>' +
-        '</div>' +
+        '<div class="core-item-icon"></div>' +
       '</div>' +
       '<div class="gc-collapse core-collapse">';
 

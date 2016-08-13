@@ -59,9 +59,18 @@ body {
   @include paper-shadow(1);
   background-color: #eee;
   color: $text-color;
-  display: none;
-  padding: 15px 16px 10px;
+  overflow: hidden;
+  max-height: 0;
   white-space: normal;
+  transition: max-height 300ms ease;
+
+  .error-content {
+    margin: 15px 16px 10px;
+  }
+
+  .error-buttons {
+    margin: 0 16px 10px;
+  }
 
   .error-settings-button,
   .error-retry-button {
@@ -83,7 +92,7 @@ body {
 }
 
 .refresh-button {
-  @include ripple();
+  @include ripple;
   @include spinner($white, 28px, 2);
   border-radius: 100%;
   display: inline-block;
@@ -91,4 +100,5 @@ body {
   margin: 12px 8px;
   padding: 8px;
   width: 40px;
+  transition: opacity 300ms ease;
 }

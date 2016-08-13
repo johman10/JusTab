@@ -13,22 +13,48 @@ function getMailId(token, length, callback) {
   chrome.identity.getProfileUserInfo(function(data) {
     email = encodeURIComponent(data.email);
     var query = "&q=" + encodeURIComponent("-in:chats -in:sent -in:notes");
-    var url = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages?maxResults=" + length + "&oauth_token=" + token + query;
+    var messagesUrl = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages?maxResults=" + length + "&oauth_token=" + token + query;
     var messages = [];
     var idData;
     var promises = [];
 
-    $.ajax({
-      url: url
-    })
-    .done(function(data) {
+    ajax('GET', messagesUrl).then(function(data) {
       idData = data;
       localStorage.setItem("Gmail_page", data.nextPageToken);
       localStorage.setItem("Gmail_error", false);
       serviceData.GM.error = false;
-    })
-    .fail(function(xhr, ajaxOptions, thrownError) {
-      console.log(xhr, ajaxOptions, thrownError);
+
+      idData.messages.forEach(function(message) {
+        var messageUrl = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages/" + message.id + "?&oauth_token=" + token;
+
+        promises.push(
+          ajax('GET', messageUrl)
+            .then(function(data) {
+              messages.push(data);
+              localStorage.setItem("Gmail_error", false);
+              serviceData.GM.error = false;
+            }, function() {
+              localStorage.setItem("Gmail_error", true);
+              serviceData.GM.error = true;
+            })
+        );
+      });
+
+      Promise.all(promises).then(function() {
+        var gmailJSON = rebuildGmailJson(messages);
+        localStorage.setItem("Gmail", JSON.stringify(gmailJSON));
+        serviceData.GM.JSON = gmailJSON;
+        GmailHTML();
+
+        if (callback) {
+          callback();
+        }
+      }, function() {
+        if (callback) {
+          callback();
+        }
+      })
+    }, function() {
       localStorage.setItem("Gmail_error", true);
       serviceData.GM.error = true;
 
@@ -36,38 +62,6 @@ function getMailId(token, length, callback) {
         callback();
       }
     })
-    .always(function() {
-      $.each(idData.messages, function(i, message) {
-        var url = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages/" + message.id + "?&oauth_token=" + token;
-
-        promises.push($.ajax({
-          url: url
-        })
-        .done(function(data) {
-          messages.push(data);
-          localStorage.setItem("Gmail_error", false);
-          serviceData.GM.error = false;
-        })
-        .fail(function(xhr, ajaxOptions, thrownError) {
-          console.log(xhr, ajaxOptions, thrownError);
-          localStorage.setItem("Gmail_error", true);
-          serviceData.GM.error = true;
-        }));
-      });
-
-      $.when.apply($, promises)
-      .done(function() {
-        var gmailJSON = rebuildGmailJson(messages);
-        localStorage.setItem("Gmail", JSON.stringify(gmailJSON));
-        serviceData.GM.JSON = gmailJSON;
-        GmailHTML();
-      })
-      .always(function() {
-        if (callback) {
-          callback();
-        }
-      });
-    });
   });
 }
 
@@ -77,9 +71,9 @@ function GmailHTML() {
   var GmailUnreadHTML = '<h2>Unread</h2>';
   var GmailReadHTML = '<h2>Read</h2>';
 
-  $.each(data, function(i, message) {
+  data.forEach(function(message) {
     isDraft = message.labelIds.indexOf('DRAFT');
-    messageSubject = $('<div />').html(message.payload.headers.Subject).text() || 'No subject';
+    messageSubject = message.payload.headers.Subject || 'No subject'
     messageFrom = message.payload.headers.From.replace(/<(.|\n)*?>/, "") || 'No sender';
     messageSnippet = message.snippet || 'No content';
     messageDate = new Date(message.payload.headers.Date);
@@ -116,11 +110,13 @@ function GmailHTML() {
 }
 
 function rebuildGmailJson(JSON) {
-  $.each(JSON, function(i, message) {
-    $.each(message.payload.headers, function(i, header) {
+  for (var key in JSON) {
+    var message = JSON[key];
+
+    message.payload.headers.forEach(function(header) {
       message.payload.headers[header.name] = header.value;
     });
-  });
+  }
   return JSON;
 }
 

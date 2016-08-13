@@ -1,26 +1,26 @@
-$(document).ready(function() {
-  $('body').on('click', '.core-item', function(event) {
-    var clickedItem = $(this);
-    var collapseItem = clickedItem.next();
-    var collapseIcon = clickedItem.find('.core-item-icon');
+document.querySelector('body').addEventListener('click', function(event) {
+  var coreItem = event.target.closest('.core-item')
+  if (coreItem) {
+    var collapseItem = coreItem.nextSibling;
+    var expanded = coreItem.classList.contains('expanded')
+    var coreItemIcon = coreItem.querySelector('.core-item-icon');
 
-    if (collapseItem.hasClass('core-collapse')) {
-      $('.core-item.expanded .core-item-icon').fadeOut(165, function() {
-        $(this).children('.expand-less-icon').attr('class', 'expand-more-icon');
-        $(this).fadeIn(165);
-      });
-      $('.core-item.expanded').not(clickedItem).removeClass('expanded');
-      $('.core-collapse.expanded').not(collapseItem).removeClass('expanded');
+    if (collapseItem.classList.contains('core-collapse')) {
+      var allCoreItems = document.querySelectorAll('.core-item.expanded');
+      var allCoreCollapse = document.querySelectorAll('.core-collapse.expanded');
 
-      clickedItem.toggleClass('expanded');
-      collapseItem.toggleClass('expanded');
+      for(var loopCoreItem of allCoreItems) {
+        loopCoreItem.classList.remove('expanded');
+      }
 
-      if (collapseItem.hasClass('expanded')) {
-        collapseIcon.fadeOut(165, function() {
-          $(this).find('.expand-more-icon').attr('class', 'expand-less-icon');
-          $(this).fadeIn(165);
-        });
+      for(var loopCoreCollapse of allCoreCollapse) {
+        loopCoreCollapse.classList.remove('expanded');
+      }
+
+      if (!expanded) {
+        coreItem.classList.add('expanded');
+        collapseItem.classList.add('expanded');
       }
     }
-  });
+  }
 });

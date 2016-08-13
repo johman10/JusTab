@@ -2,111 +2,83 @@
 // ttp://wiki.sabnzbd.org/api
 
 // "media.list" lists all movies, "data.movies[i].status" returns the status of the movie
-$.when(serviceDataRefreshDone).done(function() {
+serviceDataRefreshDone.then(function() {
   if (serviceData.SAB.status) {
-    $('.refresh-sab').click(function() {
-      $('#sabnzbd .error:visible').slideUp(400);
-      $('.refresh-sab').fadeOut(400, function() {
-        $(this).html(serviceData.spinner);
-        $(this).fadeIn(400, function() {
-          chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getSabnzbdHistory(serviceData.SAB.history.length, function() {
-              backgroundPage.getSabnzbdQueue(function() {
-                $('.refresh-sab').fadeOut(400, function() {
-                  $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sabnzbd" draggable=false>');
-                  $(this).fadeIn(400);
-                });
-              });
-            });
-          });
-        });
-      });
-    });
+    $('html').on('click', '.sabh-remove-icon, .sabq-remove-icon', sabRemove);
 
-    $('html').on('click', '.sabh-remove-icon, .sabq-remove-icon', function(e) {
-      sabRemove(e.currentTarget);
-    });
-
-    $('#sabnzbd .panel-content').bind('scroll', sabCheckScroll);
-    $('#sabnzbd .panel-header .panel-header-foreground .bottom a').attr('href', serviceData.SAB.url);
+    document.querySelector('#sabnzbd .panel-content').addEventListener('scroll', sabCheckScroll, true);
+    document.querySelector('#sabnzbd .panel-header .panel-header-foreground .bottom a').setAttribute('href', serviceData.SAB.url);
   }
 });
 
 function sabShowData() {
-  $('.bottom-bar-container .sabnzbd-info').empty();
-  $('#sabnzbd .queue').empty();
-  $('#sabnzbd .history').empty();
+  document.querySelector('.bottom-bar-container .sabnzbd-info').innerHTML = '';
+  document.querySelector('#sabnzbd .queue').innerHTML = '';
+  document.querySelector('#sabnzbd .history').innerHTML = '';
 
-  var queueError = serviceData.SAB.queue.error;
-  var historyError = serviceData.SAB.history.error;
+  checkError('sabnzbd', 'SabnzbdHistory_error');
+  checkError('sabnzbd', 'SabnzbdQueue_error');
 
-  if (queueError == "true" || historyError == "true") {
-    $('#sabnzbd .error').slideDown('slow');
-  }
-  else {
-    $('#sabnzbd .error').slideUp('slow');
-  }
-
-  $('.bottom-bar-container .sabnzbd-info').html(serviceData.SAB.downloadStatus);
-  $('#sabnzbd .queue').html(serviceData.SAB.queue.HTML);
-  $('#sabnzbd .history').html(serviceData.SAB.history.HTML);
+  document.querySelector('.bottom-bar-container .sabnzbd-info').innerHTML = serviceData.SAB.downloadStatus;
+  document.querySelector('#sabnzbd .queue').innerHTML = serviceData.SAB.queue.HTML;
+  document.querySelector('#sabnzbd .history').innerHTML = serviceData.SAB.history.HTML;
 }
 
-function sabRemove(elem) {
-  elem = $(elem);
-  var elemClasses = elem.first().attr('class'),
-      id = elem.data('id'),
+function sabRemove(event) {
+  elem = event.target;
+  var elemClasses = elem.getAttribute('class'),
+      id = elem.getAttribute('data-id'),
       url = serviceData.SAB.apiUrl,
       removeUrl;
 
-  if (elem.hasClass('sabh-remove-icon')) {
+  if (elem.classList.contains('sabh-remove-icon')) {
     removeUrl = url + '&mode=history&name=delete&value=' + id + '&del_files=true';
   }
   else {
     removeUrl = url + '&mode=queue&name=delete&value=' + id;
   }
 
-  $.ajax({
-    url: removeUrl
-  })
-  .done(function(data) {
+  ajax('GET', removeUrl).then(function(data) {
     data = data.trim();
     if (data == 'ok') {
-      elem.parents('.core-collapse').prev('.sab-item-container')[0].remove();
-      elem.parents('.core-collapse').remove();
-      if ($('.queue .core-item').length === 0) {
-        $('.queue').append('<div class="core-item without-hover">No items in queue at this moment.</div>');
+      var parent = elem.closest('.sab-item-container');
+      var item = parent.closest('.core-collapse');
+      item.parentNode.removeChild(item);
+      parent.parentNode.removeChild(parent);
+
+      if (!document.querySelector('.queue .core-item')) {
+        document.querySelector('.queue').innerHTML = '<div class="core-item without-hover">No items in queue at this moment.</div>';
       }
-      if ($('.history .core-item').length === 0) {
-        $('.history').append('<div class="core-item without-hover">No items in history at this moment.</div>');
+      if (!document.querySelector('.history .core-item')) {
+        document.querySelector('.history').innerHTML = '<div class="core-item without-hover">No items in history at this moment.</div>';
       }
-      localStorage.setItem('SabnzbdHistoryHTML', $('.history').html());
-      localStorage.setItem('SabnzbdQueueHTML', $('.queue').html());
+      localStorage.setItem('SabnzbdHistoryHTML', document.querySelector('.history').innerHTML);
+      localStorage.setItem('SabnzbdQueueHTML', document.querySelector('.queue').innerHTML);
     }
     else {
-      elem.fadeOut(400, function() {
-        elem.removeClass('remove-icon');
-        elem.addClass('error-icon');
-        elem.attr('title', data);
-        elem.fadeIn(400);
-      });
+      replaceContent(elem, '').then(function() {
+        elem.classList.remove('remove-icon');
+        elem.classList.add('error-icon');
+        elem.setAttribute('title', data);
+        replaceContent(elem, '');
+      })
     }
-  })
-  .fail(function() {
-    elem.fadeOut(400, function() {
-      elem.addClass('error-icon');
-      elem.attr('title', 'There was an error');
-      elem.fadeIn(400);
-    });
+  }, function() {
+    replaceContent(elem, '').then(function() {
+      elem.classList.remove('remove-icon');
+      elem.classList.add('error-icon');
+      elem.setAttribute('title', data);
+      replaceContent(elem, '');
+    })
   });
 }
 
-function sabCheckScroll(e) {
-  var elem = $(e.currentTarget);
-  var newLength = parseFloat($('#sabnzbd .sab-item-container').length) + parseFloat(serviceData.SAB.history.length);
-  if (elem[0].scrollHeight - elem[0].scrollTop == elem.outerHeight()) {
-    if ($('#sabnzbd .history .loading-bar').length === 0) {
-      $('#sabnzbd .history').append('<div class="core-item without-hover loading-bar">' + serviceData.spinner + '</div>');
+function sabCheckScroll(event) {
+  var elem = event.target;
+  var newLength = parseFloat(document.querySelector('#sabnzbd .sab-item-container').length) + parseFloat(serviceData.SAB.history.length);
+  if (elem.scrollHeight - elem.scrollTop == elem.offsetHeight) {
+    if (!document.querySelector('#sabnzbd .history .loading-bar')) {
+      document.querySelector('#sabnzbd .history').insertAdjacentHTML('beforeend', '<div class="core-item without-hover loading-bar">' + serviceData.spinner + '</div>');
     }
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.getSabnzbdHistory(newLength);

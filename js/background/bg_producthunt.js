@@ -4,54 +4,57 @@ function getProductHuntData(callback) {
 
   // Need to find out how to send form-data with ajax call
   // See local postman for more info/
-  $.ajax({
-    url: url + apiCall,
-    type: 'POST',
-    data: '{"client_id" : "f8127a54f3e548ae178cbcb42b3bbf5d7465e99549839a17c00ae1697dfd07c5", "client_secret" : "b37ff09eaa04c1d148e03af94555774c9b653c2dc56391dcec85a5b657ce8c8c", "grant_type" : "client_credentials"}',
-    contentType: 'application/json'
-  })
-  .done(function(data) {
+  ajax(
+    'POST',
+    url + apiCall,
+    {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    },
+    '{"client_id" : "f8127a54f3e548ae178cbcb42b3bbf5d7465e99549839a17c00ae1697dfd07c5", "client_secret" : "b37ff09eaa04c1d148e03af94555774c9b653c2dc56391dcec85a5b657ce8c8c", "grant_type" : "client_credentials"}'
+  ).then(function(data) {
     localStorage.setItem("ProductHunt_error", false);
     serviceData.PH.error = false;
     getProductHuntStories(data.access_token, callback);
-  })
-  .fail(function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("ProductHunt_error", true);
-    serviceData.PH.error = true;
-  })
-  .always(function() {
+
     if (callback) {
       callback();
     }
-  });
+  }, function() {
+    localStorage.setItem("ProductHunt_error", true);
+    serviceData.PH.error = true;
+
+    if (callback) {
+      callback();
+    }
+  })
 }
 
 function getProductHuntStories(token, callback) {
-  $.ajax({
-    url: 'https://api.producthunt.com/v1/posts',
-    headers: {
+  ajax(
+    'GET',
+    'https://api.producthunt.com/v1/posts',
+    {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
     }
-  })
-  .done(function(data) {
+  ).then(function(data) {
     localStorage.setItem('ProductHunt', JSON.stringify(data));
     serviceData.PH.JSON = data;
-
     phHTML();
-  })
-  .fail(function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("ProductHunt_error", true);
-    serviceData.PH.error = true;
-  })
-  .always(function() {
+
     if (callback) {
       callback();
     }
-  });
+  }, function() {
+    localStorage.setItem("ProductHunt_error", true);
+    serviceData.PH.error = true;
+
+    if (callback) {
+      callback();
+    }
+  })
 }
 
 function phHTML() {
@@ -59,7 +62,7 @@ function phHTML() {
     var data = serviceData.PH.JSON,
         phLinks = '';
 
-    $.each(data.posts, function(i, story) {
+    data.posts.forEach(function(story) {
       phLinks +=
         '<div class="core-item waves-effect ph-link-container">' +
           '<a href="' + story.redirect_url + '" class="ph-story-url service-link" target="_blank">' +

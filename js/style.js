@@ -1,102 +1,145 @@
-$.when(serviceDataRefreshDone, $(document).ready).done(function() {
+serviceDataRefreshDone.then(function() {
   // Sort HTML based on array
   if (localStorage.getItem('serviceOrder')) {
-    sortServices($('.panel-container'), $('.bottom-bar-container'));
+    sortServices(document.querySelector('.panel-container'), document.querySelector('.bottom-bar-container'));
   }
 
   showActiveServices();
 
   // Make images non-draggable
-  $('img').attr('draggable', false);
+  var images = document.querySelectorAll('img');
+  for (var image of images) {
+    image.setAttribute('draggable', true);
+  }
 
   // Set settings button click action
-  $('.settings-button').click(function(event) {
+  var settingsButton = document.querySelector('.settings-button')
+  settingsButton.addEventListener('click', function(event) {
     chrome.tabs.create({
       'url': chrome.extension.getURL("options.html")
     });
-  });
+  })
 
-  $('.error-settings-button').click(function(event) {
-    chrome.tabs.create({
-      'url': chrome.extension.getURL("options.html") + '#' + $(this).parents('.panel').attr('id')
+  var errorSettingsButtons = document.querySelectorAll('.error-settings-button')
+  for (var errorSettingsButton of errorSettingsButtons) {
+    // console.log(serviceName);
+    errorSettingsButton.addEventListener('click', function(event) {
+      var serviceName = event.target.closest('.panel').getAttribute('id');
+      chrome.tabs.create({
+        'url': chrome.extension.getURL("options.html") + '#' + serviceName
+      });
     });
-  });
+  }
 
   // Error retry button call action
-  $('.error-retry-button').click(function(event) {
-    var refresh_button = $(this).closest('.panel-content').prev('.panel-header').find('.refresh-button');
-    refresh_button.click();
-  });
+  var errorRetryButtons = document.querySelectorAll('.error-retry-button')
+  for (var errorRetryButton of errorRetryButtons) {
+    errorRetryButton.addEventListener('click', function(event) {
+      var refresh_button = event.target.closest('.panel').querySelector('.refresh-button');
+      refresh_button.click();
+    });
+  }
 
   // Open all function
-  $('.open-all').click(function(event) {
-    var serviceId = $(this).parent('.bottom-bar-part').data('service-id'),
-        serviceLinks = $('.panel[data-service-id=' + serviceId + '] .service-link');
+  var openAllButtons = document.querySelectorAll('.open-all');
+  for (var openAllButton of openAllButtons) {
+    openAllButton.addEventListener('click', function(event) {
+      var serviceId = event.target.closest('.bottom-bar-part').getAttribute('data-service-id'),
+          servicePanel = document.querySelector('.panel[data-service-id="' + serviceId + '"]'),
+          serviceLinks = servicePanel.querySelectorAll('.service-link');
+      for (var serviceLink of serviceLinks) {
+        findHistory(serviceLink);
+      }
+    })
+  }
 
-    for(i=0; i < serviceLinks.length; i++) {
-      findHistory(serviceLinks[i]);
-    }
+  // Refresh button eventListener
+  var refreshButtons = document.querySelectorAll('.refresh-button');
+  for (var refreshButton of refreshButtons) {
+    refreshButton.addEventListener('click', function(event) {
+      var serviceKey = this.getAttribute('class').split(' ').filter(function(buttonClass) { return buttonClass != 'refresh-button' && buttonClass != 'waves-effect' })[0].replace('refresh-', '').toUpperCase();
+      var serviceObject = serviceData[serviceKey];
+      if (serviceObject.status) {
+        var bgServiceObjects = getObjects(serviceObject, 'bgFunctionName', '');
+        var refreshParams = []
+        bgServiceObjects.forEach(function(bgService) {
+          var functionHash = { name: bgService.bgFunctionName }
+          if (bgService.length) {
+            functionHash.param = bgService.length
+          }
+          refreshParams.push(functionHash);
+        })
+
+        refreshService(event, refreshParams);
+      }
+    });
+  }
+
+  echo.init({
+    offset: 100,
+    throttle: 250,
+    unload: false
   });
+
+  var panels = document.querySelectorAll('.panel')
+  for(var panel of panels) {
+    panel.addEventListener('scroll', function() {
+      echo.render();
+    }, true);
+
+    var panelContent = panel.querySelector('.panel-content');
+    observeDOM(panelContent, function(){
+      echo.render();
+    });
+  }
 
   // On storage change functions
   window.addEventListener('storage', function (event) {
-    var storageFunctions = {
-      'CalendarHTML': calenderShowEvents,
-      'CouchpotatoSnatchedHTML': cpShowData,
-      'CouchpotatoWantedHTML': cpShowData,
-      'DesignernewsHTML': dnShowData,
-      'DribbbleHTML': drShowData,
-      'GithubHTML': ghShowData,
-      'GmailReadHTML': GmailShowData,
-      'GmailUnreadHTML': GmailShowData,
-      'HackernewsHTML': hnShowData,
-      'NzbgetQueueHTML': ngShowData,
-      'NzbgetHistoryHTML': ngShowData,
-      'ProductHuntHTML': phShowData,
-      'RedditHTML': rdShowData,
-      'SabnzbdStatusHTML': sabShowData,
-      'SabnzbdQueueHTML': sabShowData,
-      'SabnzbdHistoryHTML': sabShowData,
-      'SickbeardMissedHTML': sbShowData,
-      'SickbeardTodayHTML': sbShowData,
-      'SickbeardSoonHTML': sbShowData,
-      'SickbeardLaterHTML': sbShowData,
-      'SonarrHTML': soShowData
-    };
-
-    changedStorageKey = event.key;
-
-    if (changedStorageKey.indexOf('_error') != -1) {
-      errorChange(event);
-    }
-
-    if (storageFunctions[changedStorageKey]) {
-      currentTabs = chrome.extension.getViews({type: 'tab'});
-      console.log(changedStorageKey);
-      chrome.runtime.getBackgroundPage(function(backgroundPage) {
-        backgroundPage.refreshServiceData();
-        $.when(backgroundPage.serviceDataRefreshDone).then(function() {
-          for(i=0; i < currentTabs.length; i++) {
-            currentTabs[i].refreshServiceData();
-            $.when(currentTabs[i].serviceDataRefreshDone).then(
-              triggerStorageFunction(changedStorageKey, storageFunctions, currentTabs[i])
-            );
-          }
-        });
-      });
+    var changedStorageKey = event.key;
+    var serviceDataObject = getObjects(serviceData, 'htmlStorageKey', changedStorageKey);
+    if (serviceDataObject.length > 0) {
+      var storageFunctionName = serviceDataObject[0].feFunctionName;
+      if (storageFunctionName) {
+        chrome.runtime.sendMessage({changedStorageKey: changedStorageKey, storageFunctionName: storageFunctionName});
+      }
     }
   });
 });
 
-function triggerStorageFunction(changedStorageKey, functions, tab) {
-  storageFunction = functions[changedStorageKey];
-  if (tab.storageFunction) {
-    tab.storageFunction();
+function observeDOM(obj, callback) {
+  var MutationObserver = window.MutationObserver || window.WebKitMutationObserver,
+  eventListenerSupported = window.addEventListener;
+  if( MutationObserver ){
+    var obs = new MutationObserver(function(mutations, observer){
+      if( mutations[0].addedNodes.length || mutations[0].removedNodes.length )
+        callback();
+    });
+    obs.observe(obj, { childList: true, subtree: true });
   }
-}
+  else if( eventListenerSupported ){
+    obj.addEventListener('DOMNodeInserted', callback, false);
+    obj.addEventListener('DOMNodeRemoved', callback, false);
+  }
+};
+
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  refreshServiceData();
+
+  serviceDataRefreshDone.then(function() {
+    if (request.changedStorageKey.indexOf('_error') != -1) {
+      var panelId = request.changedStorageKey.replace('_error', '').toLowerCase();
+      checkError(panelId, request.changedStorageKey);
+      return;
+    }
+
+    if (request.storageFunctionName) {
+      window[request.storageFunctionName]()
+    }
+  });
+});
 
 function findHistory(link) {
-  var url = $(link).attr('href');
+  var url = link.getAttribute('href');
   chrome.history.getVisits({ 'url': url }, function(data) {
     if (data.length === 0) {
       window.open(url);
@@ -106,50 +149,105 @@ function findHistory(link) {
 
 // Show service that are on
 function showActiveServices() {
-  var totalServiceWidth = 0, serviceStatus, serviceId, serviceInfo;
-
-  var serviceDataKeys = Object.keys(serviceData);
+  var totalServiceWidth = 0,
+      serviceStatus,
+      serviceId,
+      serviceInfo;
 
   for(var key in serviceData) {
-    serviceStatus = serviceData[key].status;
-    serviceId = '#' + serviceData[key].containerId;
-    serviceInfo = '.' + serviceData[key].containerId + '-info';
-    console.log(serviceData[key].containerId, serviceStatus);
+    var serviceStatus = serviceData[key].status;
     if (serviceStatus) {
+      var panelId = '#' + serviceData[key].containerId;
+      var bottomBarClass = '.' + serviceData[key].containerId + '-info';
+      var panelWidth = serviceData[key].panelWidth;
+      var elements = document.querySelectorAll(panelId + ', ' + bottomBarClass);
       window[serviceData[key].feFunctionName]();
-      totalServiceWidth += serviceData[key].panelWidth || 400;
-      $(serviceId + ', ' + serviceInfo).width(serviceData[key].panelWidth);
-      $(serviceId + ', ' + serviceInfo).show();
+      totalServiceWidth += panelWidth || 400;
+      for (var element of elements) {
+        element.style.width = panelWidth + 'px';
+        element.style.display = 'block';
+      }
     }
   }
 
-  resizeBody(totalServiceWidth);
-}
-
-// Resize body
-function resizeBody(totalServiceWidth) {
-  $('body').width(totalServiceWidth);
-  $('.bottom-bar-container').width(totalServiceWidth);
+  document.querySelector('body').style.width = totalServiceWidth + 'px';
+  document.querySelector('.bottom-bar-container').style.width = totalServiceWidth + 'px';
 }
 
 function sortServices(panelcontainer, bottomcontainer) {
   var serviceOrder = localStorage.getItem('serviceOrder').split(',');
-  for(i=0; i < serviceOrder.length; i++) {
-    serviceHTML = panelcontainer.find("[data-service-id=" + serviceOrder[i] + "]");
-    panelcontainer.append(serviceHTML);
-    serviceBottom = bottomcontainer.find("[data-service-id=" + serviceOrder[i] + "]");
-    bottomcontainer.append(serviceBottom);
+  serviceOrder.forEach(function(serviceId) {
+    serviceHTML = panelcontainer.querySelector('[data-service-id="' + serviceId + '"]');
+    if (serviceHTML) {
+      panelcontainer.appendChild(serviceHTML);
+    }
+    serviceBottom = bottomcontainer.querySelector('[data-service-id="' + serviceId + '"]');
+    if (serviceBottom) {
+      bottomcontainer.appendChild(serviceBottom);
+    }
+  })
+}
+
+// On refreshButton click
+function refreshService(event, backgroundFunctions) {
+  var panel = event.target.closest('.panel');
+  var refreshButton = panel.querySelector('.refresh-button');
+  var refreshRipple = refreshButton.querySelector('.waves-ripple');
+  // To make sure the ripple isn't placed back after done
+  if (refreshRipple) {
+    refreshButton.removeChild(refreshRipple);
+  }
+  var refreshButtonHTML = refreshButton.innerHTML;
+  panel.querySelector('.error').style.maxHeight = '0';
+  replaceContent(refreshButton, serviceData.spinner).then(function() {
+    runBackgroundFunction(backgroundFunctions, refreshButtonHTML).then(function() {
+      replaceContent(refreshButton, refreshButtonHTML);
+    });
+  })
+}
+
+function runBackgroundFunction(backgroundFunctions) {
+  return new Promise(function(resolve, reject) {
+    chrome.runtime.getBackgroundPage(function(backgroundPage) {
+      backgroundFunctions.forEach(function(backgroundFunction) {
+        var functionName = backgroundFunction.name;
+        var param = backgroundFunction.param
+        if (param) {
+          backgroundPage[functionName](param, function() {
+            resolve();
+          });
+        } else {
+          backgroundPage[functionName](function() {
+            resolve();
+          });
+        }
+      })
+    });
+  })
+}
+
+function checkError(panelId, storageKey) {
+  var error = localStorage.getItem(storageKey)
+  var errorWrapper = document.querySelector('#' + panelId + ' .error');
+
+  if (error == "true") {
+    errorWrapper.style.maxHeight = '120px';
+  }
+  if (error == "false") {
+    errorWrapper.style.maxHeight = '0';
   }
 }
 
-function errorChange(event) {
-  serviceName = event.key.replace('_error', '').toLowerCase();
-  newValue = event.newValue;
-
-  if (newValue == 'true') {
-    $('#' + serviceName + ' .error').slideDown('slow');
-  }
-  else if (newValue == 'false') {
-    $('#' + serviceName + ' .error').slideUp('slow');
-  }
+function replaceContent(element, newContent) {
+  return new Promise(function(resolve, reject) {
+    var animationTime = 300
+    element.style.opacity = 0;
+    setTimeout(function() {
+      element.innerHTML = newContent;
+      element.style.opacity = 1;
+      setTimeout(function() {
+        resolve();
+      }, animationTime);
+    }, animationTime);
+  })
 }

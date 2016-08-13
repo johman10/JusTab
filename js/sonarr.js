@@ -1,101 +1,62 @@
 // Docs:
 // https://github.com/Sonarr/Sonarr/wiki/API
 
-$.when(serviceDataRefreshDone).done(function() {
+serviceDataRefreshDone.then(function() {
   if (serviceData.SO.status) {
-    $('#sonarr .refresh-so').click(function(event) {
-      $('#sonarr .error:visible').slideUp(400);
-      $('.refresh-so').fadeOut(400, function() {
-        $(this).html(serviceData.spinner);
-        $(this).fadeIn(400, function() {
-          chrome.runtime.getBackgroundPage(function(backgroundPage) {
-            backgroundPage.getSonarrData(function() {
-              $('.refresh-so').fadeOut(400, function() {
-                $(this).html('<img src="img/icons/refresh.svg" alt="Refresh Sonarr" draggable=false>');
-                $(this).fadeIn(400);
-              });
-            });
-          });
-        });
-      });
-    });
-
-    $('#sonarr .panel-header .panel-header-foreground .bottom a').attr('href', serviceData.SO.url);
+    document.querySelector('#sonarr .panel-header .panel-header-foreground .bottom a').setAttribute('href', serviceData.SO.url);
   }
 });
 
-$("html").on('click', ".so-search-episode", function(event) {
-  searchEpisode($(this));
-});
+document.querySelector('html').addEventListener('click', function(event) {
+  var searchEpisode = event.target.closest('.so-search-episode')
+  if (searchEpisode) {
+    searchEpisode(searchEpisode);
+  }
+})
 
 // $("html").on('click', ".so-mark-episode", function(event) {
 //   markEpisode($(this));
 // });
 
 function soShowData() {
-  $('#sonarr .so-episodes').empty();
+  document.querySelector('#sonarr .so-episodes').innerHTML = '';
 
   var url = serviceData.SO.apiUrl;
-  var error = serviceData.SO.error;
+  checkError('sonarr', 'Sonarr_error');
 
-  if (error == "true") {
-    $('#sonarr .error').slideDown('slow');
-  }
-  if (error == "false") {
-    $('#sonarr .error').slideUp('slow');
-  }
-
-  $('.so-episodes').html(serviceData.SO.HTML);
-
-  $('.so-poster').lazyload({
-    threshold: 200,
-    effect: "fadeIn",
-    container: $('#sonarr .panel-content')
-  });
+  document.querySelector('.so-episodes').innerHTML = serviceData.SO.HTML;
 }
 
 function searchEpisode(clickedObject) {
-  clickedObject.fadeOut(400, function() {
+  replaceContent(clickedObject, serviceData.spinner).then(function() {
     clickedObject.removeClass('search-icon');
     clickedObject.removeClass('error-icon');
-    clickedObject.html(serviceData.spinner);
-    clickedObject.fadeIn(400);
-  });
+  })
 
   var key = serviceData.SO.key;
-  var episodeId = clickedObject.data('episode-id');
+  var episodeId = clickedObject.getAttribute('data-episode-id');
   var searchApiUrl = serviceData.SO.apiUrl + 'command';
+  var headers = {
+    "x-api-key": key
+  };
+  var data = "{\n    name: 'EpisodeSearch',\n episodeId: " + episodeId + "}"
 
-  $.ajax({
-    "async": true,
-    "crossDomain": true,
-    "url": searchApiUrl,
-    "method": "POST",
-    "headers": {
-      "x-api-key": key
-    },
-    "data": "{\n    name: 'EpisodeSearch',\n episodeId: " + episodeId + "}"
-  })
-  .done(function(data) {
+  ajax('POST', searchApiUrl, headers, data).then(function(data) {
     // TODO: Make this thing not always return done by using the get request in the documentation
-    clickedObject.fadeOut(400, function() {
+    replaceContent(clickedObject, '').then(function() {
       if (data.result == "failure") {
-        clickedObject.addClass('error-icon');
-        clickedObject.attr('title', data.message);
+        clickedObject.classList.add('error-icon');
+        clickedObject.setAttribute('title', data.message);
       } else {
-        clickedObject.addClass('done-icon');
+        clickedObject.classList.add('done-icon');
       }
-      clickedObject.html('');
-      clickedObject.fadeIn(400);
-    });
+    })
+  }, function() {
+    replaceContent(clickedObject, '').then(function() {
+      clickedObject.classList.add('error-icon');
+      clickedObject.setAttribute('title', 'There was an error');
+    })
   })
-  .fail(function() {
-    clickedObject.fadeOut(400, function() {
-      clickedObject.addClass('error-icon');
-      clickedObject.attr('title', 'There was an error');
-      clickedObject.fadeIn(400);
-    });
-  });
 }
 
 // function markEpisode(clickedObject) {

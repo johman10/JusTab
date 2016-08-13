@@ -7,26 +7,24 @@ function getDesignerNewsData(callback) {
   var apiCall = "stories";
   var apiKey = "?client_id=e7c9f9422feb744c661cc25a248d3b7206962f0605e174ae30aab12a05fb107a";
 
-  $.ajax({
-    url: url + apiCall + apiKey
-  })
-  .done(function(data) {
+  ajax('GET', url + apiCall + apiKey).then(function(data) {
     localStorage.setItem("Designernews_error", false);
     serviceData.DN.error = false;
     localStorage.setItem("Designernews", JSON.stringify(data));
     serviceData.DN.JSON = data;
     dnHTML();
-  })
-  .fail(function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("Designernews_error", true);
-    serviceData.DN.error = true;
-  })
-  .always(function() {
+
     if (callback) {
       callback();
     }
-  });
+  }, function() {
+    localStorage.setItem("Designernews_error", true);
+    serviceData.DN.error = true;
+
+    if (callback) {
+      callback();
+    }
+  })
 }
 
 function dnHTML() {
@@ -34,7 +32,7 @@ function dnHTML() {
     var data = serviceData.DN.JSON;
     var dnLinks = '';
 
-    $.each(data.stories, function(i, story) {
+    data.stories.forEach(function(story) {
       if (!story.url) {
         story.url = 'https://www.designernews.co/stories/' + story.id;
       }

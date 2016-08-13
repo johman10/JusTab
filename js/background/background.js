@@ -1,4 +1,4 @@
-$.when(serviceDataRefreshDone).done(function() {
+Promise.all([serviceDataRefreshDone]).then(function() {
   // Settings for moment.js
   moment.updateLocale('en', {
     calendar: {
@@ -16,27 +16,27 @@ $.when(serviceDataRefreshDone).done(function() {
   });
 
   chrome.alarms.onAlarm.addListener(function(alarm) {
-    $.each(serviceData, function(index, val) {
-      if (val.containerId == "sabnzbd" || val.containerId == "nzbget") {
-        if (val.queue.alarmName == alarm.name) {
-          window[val.queue.bgFunctionName]();
+    for(var key in serviceData) {
+      if (serviceData[key].containerId == "sabnzbd" || serviceData[key].containerId == "nzbget") {
+        if (serviceData[key].queue.alarmName == alarm.name) {
+          window[serviceData[key].queue.bgFunctionName]();
         }
-        else if (val.history.alarmName == alarm.name) {
-          window[val.history.bgFunctionName]();
-        }
-      }
-      else if (val.containerId == "couchpotato") {
-        if (val.snatched.alarmName == alarm.name) {
-          window[val.snatched.bgFunctionName]();
-        }
-        else if (val.wanted.alarmName == alarm.name) {
-          window[val.wanted.bgFunctionName]();
+        else if (serviceData[key].history.alarmName == alarm.name) {
+          window[serviceData[key].history.bgFunctionName]();
         }
       }
-      else if (val.alarmName == alarm.name) {
-        window[val.bgFunctionName]();
+      else if (serviceData[key].containerId == "couchpotato") {
+        if (serviceData[key].snatched.alarmName == alarm.name) {
+          window[serviceData[key].snatched.bgFunctionName]();
+        }
+        else if (serviceData[key].wanted.alarmName == alarm.name) {
+          window[serviceData[key].wanted.bgFunctionName]();
+        }
       }
-    });
+      else if (serviceData[key].alarmName == alarm.name) {
+        window[serviceData[key].bgFunctionName]();
+      }
+    };
   });
 });
 
@@ -61,7 +61,10 @@ chrome.runtime.onInstalled.addListener(function(event) {
 });
 
 function htmlEncode(string) {
-  return $('<div/>').text(string).html();
+  // return $('<div/>').text(string).html();
+  return document.createElement( 'a' ).appendChild(
+           document.createTextNode(string)
+         ).parentNode.innerHTML;
 }
 
 function createAlarms() {
