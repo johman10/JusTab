@@ -1,6 +1,6 @@
 {
   "name": "JusTab",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-confirm": "^1.0.5",

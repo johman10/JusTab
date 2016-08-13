@@ -35,16 +35,6 @@
         </label>
       </div>
     </div>
-    <div class="options-menu-link waves-effect" data-service-id="3" data-lowTitle="facebook" data-title="Facebook" data-color="3b5998">
-      <span class="drag-handle"></span>
-      Facebook
-      <div class="switch service-toggle">
-        <label>
-          <input type="checkbox" name="FB_status">
-          <span class="lever"></span>
-        </label>
-      </div>
-    </div>
     <div class="options-menu-link waves-effect" data-service-id="4" data-lowTitle="couchpotato" data-title="Couchpotato" data-color="4e5969">
       <span class="drag-handle"></span>
       Couchpotato
@@ -194,27 +184,6 @@
       <div class="input-container">
         <input type="number" name="GM_refresh" id="GM-refresh" required>
         <span class="input_bar"></span>
-        <label>Refresh rate (in minutes)</label>
-      </div>
-    </div>
-
-    <div class="options-window Facebook">
-      <div class="input-container">
-        <input type="text" name="FB_url" id="FB-url" required>
-        <span class="input-bar"></span>
-        <label>RSS notification URL</label>
-        <div class="input-description">
-          Visit <a href="https://www.facebook.com/notifications" target="_blank">https://www.facebook.com/notifications</a><br>and click on RSS for your personal RSS url.
-        </div>
-      </div>
-      <div class="input-container">
-        <input type="number" name="FB_width" id="FB-width" required>
-        <span class="input-bar"></span>
-        <label>Panel width in px</label>
-      </div>
-      <div class="input-container">
-        <input type="number" name="FB_refresh" id="FB-refresh" required>
-        <span class="input-bar"></span>
         <label>Refresh rate (in minutes)</label>
       </div>
     </div>
@@ -509,10 +478,7 @@
       <p>
         The last update contains:
         <ul>
-          <li>Add NZBGet support</li>
-          <li>Add Sonarr support</li>
-          <li>Fix for ProductHunt keep loading animation</li>
-          <li>Fix for SAB and CP not refreshing</li>
+          <li>Prevent HTML elements to be parsed based on API content</li>
           <li>Bug fixes and code improvements</li>
         </ul>
       </p>
@@ -538,11 +504,12 @@
   </div>
   <div class="toast-message status"></div>
 
-  <script src="node_modules/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer></script>
+  <!-- <script src="node_modules/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer></script> -->
   <script src="node_modules/dragula/dist/dragula.min.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="js/modules/ajax.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="js/modules/refresh_background.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/serviceData.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/options.js" type="text/javascript" charset="utf-8" defer></script>
-  <script src="js/modules/googleanalytics.js"  type="text/javascript" charset="utf-8" defer></script>
   <script src="js/modules/ripple.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/modules/checkbox.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/modules/select.js" type="text/javascript" charset="utf-8" defer></script>

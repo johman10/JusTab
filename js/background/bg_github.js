@@ -1,3 +1,5 @@
+'use strict'
+
 function getGithubData(callback) {
   var url = "https://github.com/trending";
 
