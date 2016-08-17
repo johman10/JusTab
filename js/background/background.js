@@ -69,19 +69,19 @@ function htmlEncode(string) {
 
 function createAlarms() {
   chrome.alarms.clearAll(function() {
-    $.each(serviceData, function(index, val) {
-      if (val.status && (val.containerId == "sabnzbd" || val.containerId == "nzbget")) {
-        chrome.alarms.create(val.queue.alarmName, {periodInMinutes: val.queue.refresh});
-        chrome.alarms.create(val.history.alarmName, {periodInMinutes: val.history.refresh});
+    for (var key in serviceData) {
+      if (serviceData[key].status && (serviceData[key].containerId == "sabnzbd" || serviceData[key].containerId == "nzbget")) {
+        chrome.alarms.create(serviceData[key].queue.alarmName, {periodInMinutes: serviceData[key].queue.refresh});
+        chrome.alarms.create(serviceData[key].history.alarmName, {periodInMinutes: serviceData[key].history.refresh});
       }
-      else if (val.status && val.containerId == "couchpotato") {
-        chrome.alarms.create(val.snatched.alarmName, {periodInMinutes: val.refresh});
-        chrome.alarms.create(val.wanted.alarmName, {periodInMinutes: val.refresh});
+      else if (serviceData[key].status && serviceData[key].containerId == "couchpotato") {
+        chrome.alarms.create(serviceData[key].snatched.alarmName, {periodInMinutes: serviceData[key].refresh});
+        chrome.alarms.create(serviceData[key].wanted.alarmName, {periodInMinutes: serviceData[key].refresh});
       }
-      else if (val.status) {
-        chrome.alarms.create(val.alarmName, {periodInMinutes: val.refresh});
+      else if (serviceData[key].status) {
+        chrome.alarms.create(serviceData[key].alarmName, {periodInMinutes: serviceData[key].refresh});
       }
-    });
+    };
   });
 }
 

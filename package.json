@@ -1,8 +1,10 @@
 {
   "name": "JusTab",
-  "version": "0.3.2",
+  "version": "0.3.1",
   "devDependencies": {
+    "babel-preset-es2015": "^6.13.2",
     "grunt": "^1.0.1",
+    "grunt-babel": "^6.0.0",
     "grunt-confirm": "^1.0.5",
     "grunt-contrib-compass": "^1.0.1",
     "grunt-contrib-compress": "^1.3.0",
@@ -15,5 +17,10 @@
     "dragula": "^3.7.1",
     "echo-js": "^1.7.3",
     "moment": "^2.14.1"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
   }
 }

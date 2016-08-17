@@ -1,5 +1,3 @@
-'use strict'
-
 function getGithubData(callback) {
   var url = "https://github.com/trending";
 
@@ -31,15 +29,15 @@ function ghHTML() {
     var GithubHTML = '';
 
     for(var repoListItem of repoListItems) {
-      var titleEl = repoListItem.querySelector('.repo-list-name .prefix');
-      var linkEl =  + repoListItem.querySelector('.repo-list-name a');
+      var titleEl = repoListItem.querySelector('.repo-list-name a');
+      var linkEl = repoListItem.querySelector('.repo-list-name a');
       var descriptionEl = repoListItem.querySelector('.repo-list-description');
       var title = '';
       var link = '';
       var description = '';
 
       if (titleEl) {
-        title = titleEl.innerHTML;
+        title = titleEl.text;
       }
       if (linkEl) {
         link = 'https://www.github.com' + linkEl.getAttribute('href');

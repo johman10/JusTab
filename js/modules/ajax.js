@@ -24,11 +24,9 @@ function ajax(method, url, headers, data) {
 
     request.onerror = function() {
       var resp = JSON.parse(request.responseText);
-      console.log(request.responseText);
+      console.log(request.status, request.responseText);
       reject(resp);
     };
-
-    console.log(request);
 
     request.send(data);
   })

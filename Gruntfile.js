@@ -52,9 +52,20 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'js',
+          cwd: 'dist/js',
           src: '**/*.js',
           dest: 'dist/js'
+        }]
+      }
+    },
+
+    babel: {
+      dist: {
+        files: [{
+          'expand': true,
+          'cwd': 'js',
+          'src': '**/*.js',
+          'dest': 'dist/js'
         }]
       }
     },
@@ -109,6 +120,7 @@ module.exports = function(grunt) {
     'push',
     'copy:dist',
     'compass:dist',
+    'babel:dist',
     'uglify:dist',
     'compress:dist'
   ]);
