@@ -272,7 +272,7 @@ function addApiUrls(serviceData) {
     sabUrl += "/sabnzbd/api?apikey=" + serviceData.SAB.key
     serviceData.SAB.apiUrl = sabUrl;
 
-    ngUrl = serviceData.NG.address
+    var ngUrl = serviceData.NG.address
     if (serviceData.NG.port) {
         ngUrl += ":" + serviceData.NG.port
     }
@@ -280,7 +280,7 @@ function addApiUrls(serviceData) {
     ngUrl += "/" + serviceData.NG.username + ":" + serviceData.NG.password + "/jsonrpc",
     serviceData.NG.apiUrl = ngUrl;
 
-    soUrl = serviceData.SO.address
+    var soUrl = serviceData.SO.address
     if (serviceData.SO.port) {
         soUrl += ":" + serviceData.SO.port
     }
