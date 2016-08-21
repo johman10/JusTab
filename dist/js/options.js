@@ -301,11 +301,11 @@ function saveOptions() {
     }
   }
 
-  CP_address = formatUrl('CP-address');
-  SB_address = formatUrl('SB-address');
-  SAB_address = formatUrl('SAB-address');
-  NG_address = formatUrl('NG-address');
-  SO_address = formatUrl('SO-address');
+  var CP_address = formatUrl('CP-address');
+  var SB_address = formatUrl('SB-address');
+  var SAB_address = formatUrl('SAB-address');
+  var NG_address = formatUrl('NG-address');
+  var SO_address = formatUrl('SO-address');
 
   chrome.storage.sync.set({
     calendars: calendars,

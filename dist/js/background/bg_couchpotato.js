@@ -60,7 +60,7 @@ function getSnatchedCouchPotato(callback) {
 function cpwHTML() {
   var CouchpotatoWantedHTML = '<h2>Wanted</h2>';
 
-  wantedData = serviceData.CP.wanted.JSON;
+  var wantedData = serviceData.CP.wanted.JSON;
 
   wantedData.movies.forEach(function (movie, i) {
     CouchpotatoWantedHTML = cpCreateVar(movie, CouchpotatoWantedHTML);
@@ -73,7 +73,7 @@ function cpwHTML() {
 function cpsHTML() {
   var CouchpotatoSnatchedHTML = '<h2>Snatched and Available</h2>';
 
-  snatchedData = serviceData.CP.snatched.JSON;
+  var snatchedData = serviceData.CP.snatched.JSON;
 
   snatchedData.movies.forEach(function (movie, i) {
     CouchpotatoSnatchedHTML = cpCreateVar(movie, CouchpotatoSnatchedHTML);
@@ -86,6 +86,7 @@ function cpsHTML() {
 function cpCreateVar(movie, cpVar) {
   var posterName, posterUrl;
   var movieDate = new Date(movie.info.released);
+  var date;
 
   if (movie.info.images.poster_original && movie.info.images.poster_original[0] && movie.info.images.poster_original[0].substr(-4) != "None") {
     posterUrl = movie.info.images.poster[0];

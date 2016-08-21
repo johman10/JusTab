@@ -13,7 +13,7 @@ function getMailId(token, length, callback) {
   // Make multiple e-mail adresses possible, instead of logged in user
   // $.each(serviceData.GM.emails, function(i, email) {
   chrome.identity.getProfileUserInfo(function (data) {
-    email = encodeURIComponent(data.email);
+    var email = encodeURIComponent(data.email);
     var query = "&q=" + encodeURIComponent("-in:chats -in:sent -in:notes");
     var messagesUrl = "https://www.googleapis.com/gmail/v1/users/" + email + "/messages?maxResults=" + length + "&oauth_token=" + token + query;
     var messages = [];

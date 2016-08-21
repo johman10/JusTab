@@ -56,8 +56,9 @@ function eventArray(calendarUrls, calendarIds, token, callback) {
 function calendarHTML() {
   var events = serviceData.GC.JSON.sort(sortCalendarResults);
 
-  htmlData = '';
-  eventDate = '';
+  var htmlData = '';
+  var eventDate = '';
+  var formattedDate;
 
   events.forEach(function (cEvent, i) {
     if (moment(cEvent.start.dateTime || cEvent.start.date).isBefore(moment(), 'day')) {

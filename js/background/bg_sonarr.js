@@ -62,7 +62,7 @@ function soHTML() {
       }
     });
 
-    HTML = '';
+    var HTML = '';
     if (missedHTML != headerHtml('Missed')) {
       HTML += missedHTML;
     }
@@ -96,7 +96,7 @@ function episodeHtml(object) {
   var tvdbid = object.series.tvdbId,
       posterObject = object.series.images.filter(function(v) {
           return v.coverType === "poster";
-      })[0];
+      })[0],
       posterUrl = posterObject.url,
       showname = object.series.title,
       season = object.seasonNumber,

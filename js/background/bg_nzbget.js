@@ -56,7 +56,7 @@ function ngqHTML() {
         queueHTML = '<h2>Queue</h2>',
         downloadPercentage;
 
-    queueJson.result.forEach(function(index, el) {
+    queueJson.result.forEach(function(el, index) {
       downloadPercentage = el.DownloadedSizeMB/(el.FileSizeMB/100);
 
       queueHTML +=

@@ -58,7 +58,7 @@ function ngqHTML() {
         queueHTML = '<h2>Queue</h2>',
         downloadPercentage;
 
-    queueJson.result.forEach(function (index, el) {
+    queueJson.result.forEach(function (el, index) {
       downloadPercentage = el.DownloadedSizeMB / (el.FileSizeMB / 100);
 
       queueHTML += '<div class="core-item ng-item-container without-hover">' + '<div class="ng-item-name">' + htmlEncode(el.NZBName) + '</div>' + '<div class="ng-item-status">' + htmlEncode(el.Status + ' - ' + Math.round(downloadPercentage) + '%') + '</div>' + '</div>';

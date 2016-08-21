@@ -60,7 +60,7 @@ function soHTML() {
       }
     });
 
-    HTML = '';
+    var HTML = '';
     if (missedHTML != headerHtml('Missed')) {
       HTML += missedHTML;
     }
@@ -94,8 +94,14 @@ function episodeHtml(object) {
   var tvdbid = object.series.tvdbId,
       posterObject = object.series.images.filter(function (v) {
     return v.coverType === "poster";
-  })[0];
-  posterUrl = posterObject.url, showname = object.series.title, season = object.seasonNumber, episode = object.episodeNumber, episodeString = " S" + (season < 10 ? '0' : '') + season + "E" + (episode < 10 ? '0' : '') + episode, date = moment(object.airDate).calendar(), episodeId = object.id;
+  })[0],
+      posterUrl = posterObject.url,
+      showname = object.series.title,
+      season = object.seasonNumber,
+      episode = object.episodeNumber,
+      episodeString = " S" + (season < 10 ? '0' : '') + season + "E" + (episode < 10 ? '0' : '') + episode,
+      date = moment(object.airDate).calendar(),
+      episodeId = object.id;
 
   return '<div class="so-item core-item">' + '<div class="so-poster-container">' + '<img class="so-poster" src="img/poster_fallback.png" data-echo="' + posterUrl + '">' + '</div>' + '<div class="core-item-content">' + htmlEncode(showname + episodeString) + '</div>' + '<div class="core-item-icon"></div>' + '</div>' + '<div class="so-collapse core-collapse">' + '<div class="so-collapse-date">' + htmlEncode(date) + '</div>' + '<div class="so-collapse-buttons">' + '<div class="icon-button search-icon so-search-episode waves-effect" data-episode-id="' + episodeId + '"></div>' + '<a class="so-tvdb-link" href="http://thetvdb.com/?tab=series&id=' + tvdbid + '" target="_blank">' + '<div class="icon-button info-icon so-tvdb-link-icon waves-effect"></div>' + '</a>' +
   // '<div class="icon-button done-icon so-mark-episode waves-effect" data-episode-id="' + episodeId + '"></div>' +

@@ -59,7 +59,7 @@ function getHackerNewsStories(data, callback) {
 
 function hnHTML() {
   if (serviceData.HN.JSON) {
-    data = serviceData.HN.JSON;
+    var data = serviceData.HN.JSON;
     var hn_links = '';
 
     data.forEach(function (story) {
