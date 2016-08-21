@@ -73,7 +73,9 @@ module.exports = function(grunt) {
     push: {
       options: {
         files: ['package.json', 'manifest.json'],
-        // commitFiles: ['-a'], // '-a' for all files
+        add: false,
+        commit: false,
+        push: false,
         createTag: false
       }
     },
