@@ -5,7 +5,7 @@ function refreshServiceData() {
 
   serviceDataRefreshDone = new Promise(function(resolve, reject) {
     chrome.storage.sync.get(function(items) {
-        serviceData = {
+        var serviceData = {
           spinner: "<div class='loader'><svg class='circular'><circle class='path'/></svg></div>",
           GC: {
             containerId: 'calendar',
