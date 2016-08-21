@@ -1,12 +1,13 @@
 window.onLoad = refreshServiceData();
 var serviceDataRefreshDone;
+var serviceData;
 
 function refreshServiceData() {
   var localStorageHash = localStorage;
 
   serviceDataRefreshDone = new Promise(function(resolve, reject) {
     chrome.storage.sync.get(function(items) {
-        var serviceData = {
+        serviceData = {
           spinner: "<div class='loader'><svg class='circular'><circle class='path'/></svg></div>",
           GC: {
             containerId: 'calendar',

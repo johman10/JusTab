@@ -1,1 +1,34 @@
-"use strict";function ajax(a,b,c,d){return new Promise(function(e,f){var g=new XMLHttpRequest;g.open(a,b,!0);for(var h in c)g.setRequestHeader(h,c[h]);g.onload=function(){var a;try{a=JSON.parse(g.responseText)}catch(b){a=g.responseText}g.status>=200&&g.status<400?e(a):f(a)},g.onerror=function(){var a=JSON.parse(g.responseText);console.log(g.status,g.responseText),f(a)},g.send(d)})}
+"use strict";
+
+function ajax(method, url, headers, data) {
+  return new Promise(function (resolve, reject) {
+    var request = new XMLHttpRequest();
+    request.open(method, url, true);
+    for (var key in headers) {
+      request.setRequestHeader(key, headers[key]);
+    }
+
+    request.onload = function () {
+      var resp;
+      try {
+        resp = JSON.parse(request.responseText);
+      } catch (err) {
+        resp = request.responseText;
+      }
+
+      if (request.status >= 200 && request.status < 400) {
+        resolve(resp);
+      } else {
+        reject(resp);
+      }
+    };
+
+    request.onerror = function () {
+      var resp = JSON.parse(request.responseText);
+      console.log(request.status, request.responseText);
+      reject(resp);
+    };
+
+    request.send(data);
+  });
+}

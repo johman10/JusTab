@@ -1,1 +1,44 @@
-"use strict";function startEffect(a,b){var c=document.createElement("div");c.classList.add("waves-ripple"),b.appendChild(c);var d=b.getBoundingClientRect(),e=a.clientY-d.top,f=a.clientX-d.left;c.style.top=e+"px",c.style.left=f+"px",c.style.transform="scale(20)"}function stopEffect(a){var b=this.querySelector(".waves-ripple");b&&fadeOut(b,300).then(function(){b.parentNode&&b.parentNode.removeChild(b)})}function fadeOut(a,b){return new Promise(function(b,c){a.style.opacity=0,setTimeout(function(){b()},300)})}document.querySelector("body").addEventListener("mousedown",function(a){var b=a.target.closest(".waves-effect");b&&(startEffect(a,b),b.addEventListener("mouseup",stopEffect),b.addEventListener("mouseleave",stopEffect))});
+'use strict';
+
+document.querySelector('body').addEventListener('mousedown', function (event) {
+  var element = event.target.closest('.waves-effect');
+  if (element) {
+    startEffect(event, element);
+    element.addEventListener('mouseup', stopEffect);
+    element.addEventListener('mouseleave', stopEffect);
+  }
+});
+
+function startEffect(event, element) {
+  var ripple = document.createElement('div');
+  ripple.classList.add('waves-ripple');
+  element.appendChild(ripple);
+
+  var pos = element.getBoundingClientRect();
+  var relativeY = event.clientY - pos.top;
+  var relativeX = event.clientX - pos.left;
+
+  ripple.style.top = relativeY + 'px';
+  ripple.style.left = relativeX + 'px';
+  ripple.style.transform = 'scale(20)';
+}
+
+function stopEffect(event) {
+  var ripple = this.querySelector('.waves-ripple');
+  if (ripple) {
+    fadeOut(ripple, 300).then(function () {
+      if (ripple.parentNode) {
+        ripple.parentNode.removeChild(ripple);
+      }
+    });
+  }
+}
+
+function fadeOut(element, time) {
+  return new Promise(function (resolve, reject) {
+    element.style.opacity = 0;
+    setTimeout(function () {
+      resolve();
+    }, 300);
+  });
+}

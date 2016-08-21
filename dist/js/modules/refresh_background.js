@@ -1,1 +1,12 @@
-"use strict";function refreshBackgroundServiceData(){return new Promise(function(a,b){chrome.runtime.getBackgroundPage(function(b){b.refreshServiceData(),b.serviceDataRefreshDone.then(function(){a(b)})})})}
+"use strict";
+
+function refreshBackgroundServiceData() {
+  return new Promise(function (resolve, reject) {
+    chrome.runtime.getBackgroundPage(function (backgroundPage) {
+      backgroundPage.refreshServiceData();
+      backgroundPage.serviceDataRefreshDone.then(function () {
+        resolve(backgroundPage);
+      });
+    });
+  });
+}

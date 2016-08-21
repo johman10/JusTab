@@ -28,6 +28,8 @@ serviceDataRefreshDone.then(function() {
   if (serviceOrder) {
     var serviceOrder = serviceOrder.split(',');
     var menu = document.querySelector('#services-menu');
+    var serviceHTML;
+
     serviceOrder.forEach(function(val, index) {
       serviceHTML = menu.querySelector('[data-service-id="' + val + '"]');
       if (serviceHTML) {

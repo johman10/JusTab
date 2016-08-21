@@ -4,7 +4,7 @@ serviceDataRefreshDone.then(function() {
     sortServices(document.querySelector('.panel-container'), document.querySelector('.bottom-bar-container'));
   }
 
-  showActiveServices();
+  showActiveServices(serviceData);
 
   // Make images non-draggable
   var images = document.querySelectorAll('img');
@@ -148,7 +148,7 @@ function findHistory(link) {
 }
 
 // Show service that are on
-function showActiveServices() {
+function showActiveServices(serviceData) {
   var totalServiceWidth = 0,
       serviceStatus,
       serviceId,
@@ -176,6 +176,9 @@ function showActiveServices() {
 
 function sortServices(panelcontainer, bottomcontainer) {
   var serviceOrder = localStorage.getItem('serviceOrder').split(',');
+  var serviceHTML;
+  var serviceBottom;
+
   serviceOrder.forEach(function(serviceId) {
     serviceHTML = panelcontainer.querySelector('[data-service-id="' + serviceId + '"]');
     if (serviceHTML) {

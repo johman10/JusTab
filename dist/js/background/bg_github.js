@@ -1,1 +1,84 @@
-"use strict";function getGithubData(a){var b="https://github.com/trending";ajax("GET",b).then(function(b){localStorage.setItem("Github_error",!1),serviceData.GH.error=!1,localStorage.setItem("Github",b),serviceData.GH.JSON=b,ghHTML(),a&&a()},function(){localStorage.setItem("Github_error",!0),serviceData.GH.error=!0,a&&a()})}function ghHTML(){if(serviceData.GH.JSON){var a=document.createElement("html");a.innerHTML=serviceData.GH.JSON;var b=a.querySelectorAll(".repo-list-item"),c="",d=!0,e=!1,f=void 0;try{for(var g,h=b[Symbol.iterator]();!(d=(g=h.next()).done);d=!0){var i=g.value,j=i.querySelector(".repo-list-name a"),k=i.querySelector(".repo-list-name a"),l=i.querySelector(".repo-list-description"),m="",n="",o="";j&&(m=j.text),k&&(n="https://www.github.com"+k.getAttribute("href")),l&&(o=l.innerHTML),""===o&&(o="No description for this repository."),c+='<div class="core-item waves-effect"><a href="'+n+'" class="service-link" target="_blank"><div class="gh-title">'+htmlEncode(m)+'</div><div class="gh-description">'+htmlEncode(o)+"</div></a></div>"}}catch(a){e=!0,f=a}finally{try{!d&&h.return&&h.return()}finally{if(e)throw f}}localStorage.setItem("GithubHTML",c),serviceData.GH.HTML=c}}
+"use strict";
+
+function getGithubData(callback) {
+  var url = "https://github.com/trending";
+
+  ajax('GET', url).then(function (data) {
+    localStorage.setItem("Github_error", false);
+    serviceData.GH.error = false;
+    localStorage.setItem("Github", data);
+    serviceData.GH.JSON = data;
+    ghHTML();
+
+    if (callback) {
+      callback();
+    }
+  }, function () {
+    localStorage.setItem("Github_error", true);
+    serviceData.GH.error = true;
+
+    if (callback) {
+      callback();
+    }
+  });
+}
+
+function ghHTML() {
+  if (serviceData.GH.JSON) {
+    var dataEl = document.createElement('html');
+    dataEl.innerHTML = serviceData.GH.JSON;
+    var repoListItems = dataEl.querySelectorAll('.repo-list-item');
+    var GithubHTML = '';
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = repoListItems[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var repoListItem = _step.value;
+
+        var titleEl = repoListItem.querySelector('.repo-list-name a');
+        var linkEl = repoListItem.querySelector('.repo-list-name a');
+        var descriptionEl = repoListItem.querySelector('.repo-list-description');
+        var title = '';
+        var link = '';
+        var description = '';
+
+        if (titleEl) {
+          title = titleEl.text;
+        }
+        if (linkEl) {
+          link = 'https://www.github.com' + linkEl.getAttribute('href');
+        }
+        if (descriptionEl) {
+          description = descriptionEl.innerHTML;
+        }
+
+        if (description === '') {
+          description = "No description for this repository.";
+        }
+
+        GithubHTML += '<div class="core-item waves-effect">' + '<a href="' + link + '" class="service-link" target="_blank">' + '<div class="gh-title">' + htmlEncode(title) + '</div>' + '<div class="gh-description">' + htmlEncode(description) + '</div>' + '</a>' + '</div>';
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    ;
+
+    localStorage.setItem('GithubHTML', GithubHTML);
+    serviceData.GH.HTML = GithubHTML;
+  }
+}

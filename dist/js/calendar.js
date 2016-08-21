@@ -1,1 +1,52 @@
-"use strict";function calenderShowEvents(){document.querySelector("#calendar .events").innerHTML="",checkError("calendar","Calendar_error"),serviceData.GC.HTML&&(document.querySelector("#calendar .events").innerHTML=serviceData.GC.HTML)}function calendarRemoveEvent(a){a.classList.remove("remove-icon"),a.classList.remove("error-icon"),replaceContent(a,serviceData.spinner),chrome.identity.getAuthToken({interactive:!0},function(b){var c=a.getAttribute("data-calendar-id"),d=a.getAttribute("data-event-id");removeUrl="https://www.googleapis.com/calendar/v3/calendars/"+c+"/events/"+d+"?&oauth_token="+b,ajax("DELETE",removeUrl).then(function(b){var c=a.closest(".gc-collapse"),d=c.closest(".gc-item");if("H2"==d.previousSibling.tagName){var e=d.previousSibling;e.parentNode.removeChild(e)}d.parentNode.removeChild(d),c.parentNode.removeChild(c);var f=document.querySelector("#calendar .events").innerHTML();localStorage.setItem("CalendarHTML",f),serviceData.GC.HTML=f},function(b){var c=b.error.message;a.setAttribute("title",c),replaceContent(a,"").then(function(){a.classList.add("error-icon")})})})}document.querySelector("body").addEventListener("click",function(a){a.target.classList.contains("gc-event-remove-icon")&&calendarRemoveEvent(a.target)});
+'use strict';
+
+document.querySelector('body').addEventListener('click', function (event) {
+  if (event.target.classList.contains('gc-event-remove-icon')) {
+    calendarRemoveEvent(event.target);
+  }
+});
+
+function calenderShowEvents() {
+  document.querySelector('#calendar .events').innerHTML = '';
+  checkError('calendar', 'Calendar_error');
+
+  if (serviceData.GC.HTML) {
+    document.querySelector('#calendar .events').innerHTML = serviceData.GC.HTML;
+  }
+}
+
+function calendarRemoveEvent(clickedObject) {
+  clickedObject.classList.remove('remove-icon');
+  clickedObject.classList.remove('error-icon');
+  replaceContent(clickedObject, serviceData.spinner);
+
+  chrome.identity.getAuthToken({ 'interactive': true }, function (token) {
+    var calendarId = clickedObject.getAttribute('data-calendar-id'),
+        eventId = clickedObject.getAttribute('data-event-id');
+    removeUrl = 'https://www.googleapis.com/calendar/v3/calendars/' + calendarId + '/events/' + eventId + "?&oauth_token=" + token;
+
+    ajax('DELETE', removeUrl).then(function (response) {
+      // Success
+      var parent = clickedObject.closest('.gc-collapse');
+      var item = parent.closest('.gc-item');
+      // Remove header if there is one before item
+      if (item.previousSibling.tagName == 'H2') {
+        var header = item.previousSibling;
+        header.parentNode.removeChild(header);
+      }
+      item.parentNode.removeChild(item);
+      parent.parentNode.removeChild(parent);
+
+      var newHTML = document.querySelector('#calendar .events').innerHTML();
+      localStorage.setItem('CalendarHTML', newHTML);
+      serviceData.GC.HTML = newHTML;
+    }, function (response) {
+      // Failed
+      var thrownError = response.error.message;
+      clickedObject.setAttribute('title', thrownError);
+      replaceContent(clickedObject, '').then(function () {
+        clickedObject.classList.add('error-icon');
+      });
+    });
+  });
+}

@@ -1,1 +1,95 @@
-"use strict";function htmlEncode(a){return document.createElement("a").appendChild(document.createTextNode(a)).parentNode.innerHTML}function createAlarms(){chrome.alarms.clearAll(function(){for(var a in serviceData)!serviceData[a].status||"sabnzbd"!=serviceData[a].containerId&&"nzbget"!=serviceData[a].containerId?serviceData[a].status&&"couchpotato"==serviceData[a].containerId?(chrome.alarms.create(serviceData[a].snatched.alarmName,{periodInMinutes:serviceData[a].refresh}),chrome.alarms.create(serviceData[a].wanted.alarmName,{periodInMinutes:serviceData[a].refresh})):serviceData[a].status&&chrome.alarms.create(serviceData[a].alarmName,{periodInMinutes:serviceData[a].refresh}):(chrome.alarms.create(serviceData[a].queue.alarmName,{periodInMinutes:serviceData[a].queue.refresh}),chrome.alarms.create(serviceData[a].history.alarmName,{periodInMinutes:serviceData[a].history.refresh}))})}function openOptions(){chrome.tabs.create({url:chrome.extension.getURL("options.html")+"#support"})}function createNotificaton(a,b){b||(b=function(){}),chrome.notifications.create(getNotificationId(),a,b)}function getNotificationId(){var a=Math.floor(9007199254740992*Math.random())+1;return a.toString()}Promise.all([serviceDataRefreshDone]).then(function(){moment.updateLocale("en",{calendar:{sameDay:"[Today]",nextDay:"[Tomorrow]",nextWeek:"dddd",lastDay:"[Yesterday]",lastWeek:"[Last] dddd",sameElse:"MMMM DD"}}),chrome.runtime.onStartup.addListener(function(){createAlarms()}),chrome.alarms.onAlarm.addListener(function(a){for(var b in serviceData)"sabnzbd"==serviceData[b].containerId||"nzbget"==serviceData[b].containerId?serviceData[b].queue.alarmName==a.name?window[serviceData[b].queue.bgFunctionName]():serviceData[b].history.alarmName==a.name&&window[serviceData[b].history.bgFunctionName]():"couchpotato"==serviceData[b].containerId?serviceData[b].snatched.alarmName==a.name?window[serviceData[b].snatched.bgFunctionName]():serviceData[b].wanted.alarmName==a.name&&window[serviceData[b].wanted.bgFunctionName]():serviceData[b].alarmName==a.name&&window[serviceData[b].bgFunctionName]()})}),chrome.runtime.onInstalled.addListener(function(a){createAlarms(),"install"==a.reason?openOptions():"update"==a.reason&&createNotificaton({type:"basic",title:"JusTab is updated",message:"Click here to see the changelog.",iconUrl:"../../img/app_icons/JusTab-128x128.png"},chrome.notifications.onClicked.addListener(function(){openOptions()}))});
+'use strict';
+
+Promise.all([serviceDataRefreshDone]).then(function () {
+  // Settings for moment.js
+  moment.updateLocale('en', {
+    calendar: {
+      sameDay: '[Today]',
+      nextDay: '[Tomorrow]',
+      nextWeek: 'dddd',
+      lastDay: '[Yesterday]',
+      lastWeek: '[Last] dddd',
+      sameElse: 'MMMM DD'
+    }
+  });
+
+  chrome.runtime.onStartup.addListener(function () {
+    createAlarms();
+  });
+
+  chrome.alarms.onAlarm.addListener(function (alarm) {
+    for (var key in serviceData) {
+      if (serviceData[key].containerId == "sabnzbd" || serviceData[key].containerId == "nzbget") {
+        if (serviceData[key].queue.alarmName == alarm.name) {
+          window[serviceData[key].queue.bgFunctionName]();
+        } else if (serviceData[key].history.alarmName == alarm.name) {
+          window[serviceData[key].history.bgFunctionName]();
+        }
+      } else if (serviceData[key].containerId == "couchpotato") {
+        if (serviceData[key].snatched.alarmName == alarm.name) {
+          window[serviceData[key].snatched.bgFunctionName]();
+        } else if (serviceData[key].wanted.alarmName == alarm.name) {
+          window[serviceData[key].wanted.bgFunctionName]();
+        }
+      } else if (serviceData[key].alarmName == alarm.name) {
+        window[serviceData[key].bgFunctionName]();
+      }
+    };
+  });
+});
+
+chrome.runtime.onInstalled.addListener(function (event) {
+  createAlarms();
+
+  if (event.reason == "install") {
+    openOptions();
+  } else if (event.reason == "update") {
+    createNotificaton({ type: "basic",
+      title: "JusTab is updated",
+      message: "Click here to see the changelog.",
+      iconUrl: "../../img/app_icons/JusTab-128x128.png"
+    }, chrome.notifications.onClicked.addListener(function () {
+      openOptions();
+    }));
+  }
+});
+
+function htmlEncode(string) {
+  // return $('<div/>').text(string).html();
+  return document.createElement('a').appendChild(document.createTextNode(string)).parentNode.innerHTML;
+}
+
+function createAlarms() {
+  chrome.alarms.clearAll(function () {
+    for (var key in serviceData) {
+      if (serviceData[key].status && (serviceData[key].containerId == "sabnzbd" || serviceData[key].containerId == "nzbget")) {
+        chrome.alarms.create(serviceData[key].queue.alarmName, { periodInMinutes: serviceData[key].queue.refresh });
+        chrome.alarms.create(serviceData[key].history.alarmName, { periodInMinutes: serviceData[key].history.refresh });
+      } else if (serviceData[key].status && serviceData[key].containerId == "couchpotato") {
+        chrome.alarms.create(serviceData[key].snatched.alarmName, { periodInMinutes: serviceData[key].refresh });
+        chrome.alarms.create(serviceData[key].wanted.alarmName, { periodInMinutes: serviceData[key].refresh });
+      } else if (serviceData[key].status) {
+        chrome.alarms.create(serviceData[key].alarmName, { periodInMinutes: serviceData[key].refresh });
+      }
+    };
+  });
+}
+
+function openOptions() {
+  chrome.tabs.create({
+    'url': chrome.extension.getURL("options.html") + '#support'
+  });
+}
+
+function createNotificaton(options, callback) {
+  if (!callback) {
+    callback = function callback() {};
+  }
+
+  chrome.notifications.create(getNotificationId(), options, callback);
+}
+
+function getNotificationId() {
+  var id = Math.floor(Math.random() * 9007199254740992) + 1;
+  return id.toString();
+}

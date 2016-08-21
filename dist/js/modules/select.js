@@ -1,1 +1,123 @@
-"use strict";function resetBackground(a){var b=a.querySelectorAll(".list-item"),c=!0,d=!1,e=void 0;try{for(var f,g=b[Symbol.iterator]();!(c=(f=g.next()).done);c=!0){var h=f.value;h.classList.remove("selected")}}catch(a){d=!0,e=a}finally{try{!c&&g.return&&g.return()}finally{if(d)throw e}}}function setListPostion(a,b){var c=parentIndex(b)*-b.offsetHeight-21;a.style.top=c+"px",a.getBoundingClientRect().top<a.closest(".options-window").getBoundingClientRect().top&&setListPostion(a,b.previousElementSibling)}function parentIndex(a){return[].indexOf.call(a.parentNode.children,a)}var selects=document.querySelectorAll(".select"),_iteratorNormalCompletion=!0,_didIteratorError=!1,_iteratorError=void 0;try{for(var _iterator=selects[Symbol.iterator](),_step;!(_iteratorNormalCompletion=(_step=_iterator.next()).done);_iteratorNormalCompletion=!0){var select=_step.value,selectList=select.querySelector(".list"),selectInput=select.querySelector("input");selectInput.addEventListener("focus",function(a){var b=document.querySelector('.select .list-item[data-value="'+this.value+'"]');b.classList.add("selected"),selectList.style.display="block",setListPostion(selectList,b),selectList.scrollHeight>selectList.offsetHeight&&(selectList.scrollTop=b.offsetTop)}),selectInput.addEventListener("keyup",function(a){a.preventDefault()}),selectInput.addEventListener("blur",function(a){setTimeout(function(){resetBackground(select),selectList.style.display="none"},100)});var listItems=selectList.querySelectorAll(".list-item"),_iteratorNormalCompletion3=!0,_didIteratorError3=!1,_iteratorError3=void 0;try{for(var _iterator3=listItems[Symbol.iterator](),_step3;!(_iteratorNormalCompletion3=(_step3=_iterator3.next()).done);_iteratorNormalCompletion3=!0){var listItem=_step3.value;listItem.addEventListener("click",function(a){resetBackground(select),selectInput.value=this.innerText,saveOptions(),selectList.style.display="none"})}}catch(a){_didIteratorError3=!0,_iteratorError3=a}finally{try{!_iteratorNormalCompletion3&&_iterator3.return&&_iterator3.return()}finally{if(_didIteratorError3)throw _iteratorError3}}}}catch(a){_didIteratorError=!0,_iteratorError=a}finally{try{!_iteratorNormalCompletion&&_iterator.return&&_iterator.return()}finally{if(_didIteratorError)throw _iteratorError}}
+'use strict';
+
+var selects = document.querySelectorAll('.select');
+var _iteratorNormalCompletion = true;
+var _didIteratorError = false;
+var _iteratorError = undefined;
+
+try {
+  for (var _iterator = selects[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+    var select = _step.value;
+
+    var selectList = select.querySelector('.list');
+    var selectInput = select.querySelector('input');
+
+    selectInput.addEventListener('focus', function (event) {
+      var currentValue = document.querySelector('.select .list-item[data-value="' + this.value + '"]');
+      currentValue.classList.add('selected');
+
+      selectList.style.display = 'block';
+      setListPostion(selectList, currentValue);
+      if (selectList.scrollHeight > selectList.offsetHeight) {
+        // If there is scroll-space
+        selectList.scrollTop = currentValue.offsetTop;
+      }
+    });
+
+    selectInput.addEventListener('keyup', function (event) {
+      event.preventDefault();
+    });
+
+    selectInput.addEventListener('blur', function (event) {
+      // Delay to prevent hide before click trigger
+      setTimeout(function () {
+        resetBackground(select);
+        selectList.style.display = 'none';
+      }, 100);
+    });
+
+    var listItems = selectList.querySelectorAll('.list-item');
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = listItems[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var listItem = _step3.value;
+
+        listItem.addEventListener('click', function (event) {
+          resetBackground(select);
+          selectInput.value = this.innerText;
+          saveOptions();
+          selectList.style.display = 'none';
+        });
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+          _iterator3.return();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
+      }
+    }
+  }
+} catch (err) {
+  _didIteratorError = true;
+  _iteratorError = err;
+} finally {
+  try {
+    if (!_iteratorNormalCompletion && _iterator.return) {
+      _iterator.return();
+    }
+  } finally {
+    if (_didIteratorError) {
+      throw _iteratorError;
+    }
+  }
+}
+
+function resetBackground(select) {
+  var listItems = select.querySelectorAll('.list-item');
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = listItems[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var listItem = _step2.value;
+
+      listItem.classList.remove('selected');
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+}
+
+function setListPostion(selectList, option) {
+  var newTop = parentIndex(option) * -option.offsetHeight - 21;
+  selectList.style.top = newTop + 'px';
+  if (selectList.getBoundingClientRect().top < selectList.closest('.options-window').getBoundingClientRect().top) {
+    setListPostion(selectList, option.previousElementSibling);
+  }
+}
+
+function parentIndex(element) {
+  return [].indexOf.call(element.parentNode.children, element);
+}
