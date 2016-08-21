@@ -1,6 +1,6 @@
 {
   "name": "JusTab",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "devDependencies": {
     "babel-preset-es2015": "^6.13.2",
     "grunt": "^1.0.1",

@@ -3,7 +3,7 @@ window.onLoad = refreshServiceData();
 function refreshServiceData() {
   var localStorageHash = localStorage;
 
-  serviceDataRefreshDone = new Promise(function(resolve, reject) {
+  var serviceDataRefreshDone = new Promise(function(resolve, reject) {
     chrome.storage.sync.get(function(items) {
         var serviceData = {
           spinner: "<div class='loader'><svg class='circular'><circle class='path'/></svg></div>",
