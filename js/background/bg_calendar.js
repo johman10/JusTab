@@ -59,6 +59,8 @@ function calendarHTML() {
   var htmlData = '';
   var eventDate = '';
   var formattedDate;
+  var eventStartTime;
+  var eventEndTime;
 
   events.forEach(function(cEvent, i) {
     if (moment(cEvent.start.dateTime || cEvent.start.date).isBefore(moment(), 'day')) {
