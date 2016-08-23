@@ -1,11 +1,1 @@
-'use strict';
-
-document.querySelector('html').addEventListener('click', function (event) {
-  if (event.target.closest('.checkbox-container')) {
-    var checkbox_container = event.target.closest('.checkbox-container');
-    checkbox_container.classList.toggle('checked');
-    var event = document.createEvent("HTMLEvents");
-    event.initEvent("change", false, true);
-    checkbox_container.dispatchEvent(event);
-  }
-});
+"use strict";document.querySelector("html").addEventListener("click",function(a){if(a.target.closest(".checkbox-container")){var b=a.target.closest(".checkbox-container");b.classList.toggle("checked");var a=document.createEvent("HTMLEvents");a.initEvent("change",!1,!0),b.dispatchEvent(a)}});
