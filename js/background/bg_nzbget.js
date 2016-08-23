@@ -85,7 +85,7 @@ function nghHTML(itemLength) {
         historyJson = serviceData.NG.history.JSON,
         historyHTML = '<h2>History</h2>';
 
-    historyJson.result.slice(0, itemLength).forEach(function(index, el) {
+    historyJson.result.slice(0, itemLength).forEach(function(el, index) {
       historyHTML +=
         '<div class="core-item ng-item-container">' +
           '<div class="ng-item-name">' +
