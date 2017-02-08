@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <h2>
     {{ props.text }}
-  </div>
+  </h2>
 </template>
+
+<style src="css/components/v-panel-header.scss"></style>
 
 <script>
   export default {

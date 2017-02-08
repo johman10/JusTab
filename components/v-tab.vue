@@ -41,7 +41,7 @@
   </div>
 </template>
 
-<style lang="sass" src="css/components/v-tab.scss"></style>
+<style src="css/components/v-tab.scss"></style>
 
 <script>
   import { mapState, mapGetters } from 'vuex';

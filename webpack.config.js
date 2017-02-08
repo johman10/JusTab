@@ -5,22 +5,22 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: {
-    background: "./js/background/background",
-    options: "./js/options",
-    tab: "./js/tab"
+    background: './js/background/background',
+    options: './js/options',
+    tab: './js/tab'
   },
   output: {
-    path: __dirname + "/dist",
-    filename: "[name].bundle.js",
+    path: __dirname + '/dist',
+    filename: '[name].bundle.js',
     publicPath: process.env.NODE_ENV == 'development' ? 'http://localhost:8080/' : ''
   },
   resolve: {
-    root: [
+    modules: [
       __dirname,
-      path.join(__dirname, 'node_modules')
+      path.join(__dirname, 'node_modules'),
+      'components'
     ],
-    modulesDirectories: ['components'],
-    extensions: ['', '.js', '.vue'],
+    extensions: ['.js', '.vue'],
     alias: {
       'vue$': 'vue/dist/vue',
       'store': __dirname + '/store',
@@ -31,47 +31,59 @@ module.exports = {
     }
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.vue$/,
-        loader: 'vue'
+        use: {
+          loader: 'vue-loader',
+          options: {
+            loaders: {
+              js: 'babel-loader',
+              css: 'style-loader!css-loader!sass-loader'
+            }
+          }
+        }
       },
       {
         test: /\.js$/,
-        loader: 'babel',
+        use: 'babel-loader',
         exclude: /node_modules/
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
+        use: [{
+          loader: 'style-loader'
+        }, {
+          loader: 'css-loader'
+        }, {
+          loader: 'sass-loader',
+          options: {
+            outputStyle: 'compressed'
+          }
+        }]
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.ico$/,
-        loader: 'url-loader',
-        query: {
-          name: 'assets/[path][name].[ext]'
+        use: {
+          loader: 'url-loader',
+          options: {
+            name: 'assets/[path][name].[ext]'
+          }
         }
       },
       {
         test: /\.woff$|\.eot$|\.ttf$/,
-        loader: 'file-loader',
-        query: {
-          name: 'assets/[path][name].[ext]'
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: 'assets/[path][name].[ext]'
+          }
         }
       },
     ]
   },
   devServer: {
     inline: true
-  },
-  vue: {
-    loaders: {
-      js: 'babel',
-      css: ['style', 'css', 'sass']
-    }
-  },
-  sassLoader: {
-    outputStyle: 'compressed'
   },
   plugins: [
     // new webpack.optimize.UglifyJsPlugin({

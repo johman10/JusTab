@@ -26,20 +26,20 @@
   </div>
 </template>
 
-<style  lang="sass" src="css/components/v-panel.scss"></style>
+<style src="css/components/v-panel.scss"></style>
 
 <script>
   import { mapActions, mapState } from 'vuex';
   import vPanelError from "components/v-panel-error.vue";
   import vSpinner from "components/v-spinner.vue";
-  import vHeader from "components/v-header.vue";
+  import vPanelHeader from "components/v-panel-header.vue";
   import vPanelItem from "components/v-panel-item.vue";
 
   export default {
     components: {
       'v-panel-error': vPanelError,
       'v-spinner': vSpinner,
-      'v-header': vHeader,
+      'v-panel-header': vPanelHeader,
       'v-panel-item': vPanelItem
     },
 

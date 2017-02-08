@@ -70,7 +70,7 @@ export default {
         // Create header if new loopDate;
         if (eventStart.isAfter(loopDate, 'day')) {
           components.push({
-            name: 'v-header',
+            name: 'v-panel-header',
             props: {
               text: eventStart.calendar()
             }

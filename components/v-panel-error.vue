@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<style scoped lang="sass" src="css/components/v-panel-error.scss"></style>
+<style src="css/components/v-panel-error.scss"></style>
 
 <script>
   import { mapState } from 'vuex';
