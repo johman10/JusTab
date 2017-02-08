@@ -1,13 +1,45 @@
-Promise.all([serviceDataRefreshDone]).then(function() {
+import serviceData from 'modules/serviceData';
+import moment from 'moment';
+import Vue from 'vue';
+import { mapState, mapActions } from 'vuex';
+import store from 'store/index';
+import vGoogleCalendar from 'js/background/v-google-calendar';
+// import bg_couchpotato from 'js/background/bg_couchpotato';
+
+window.vueInstance = new Vue({
+  store,
+  mixins: [
+    vGoogleCalendar
+  ],
+  computed: {
+    ...mapState(['services', 'chromePort'])
+  },
+  beforeCreate() {
+    this.$store.dispatch('loadServices');
+    chrome.runtime.onConnect.addListener((port) => {
+      port.onMessage.addListener((msg) => {
+        if (msg.name === 'startRefresh') {
+          const service = this.services.find((s) => { return s.id === msg.serviceId });
+          this[service.functionName]().then((data) => {
+            port.postMessage({ name: 'finishRefresh', serviceId: msg.serviceId })
+          });
+        }
+      });
+    });
+  },
+  render: h => h()
+});
+
+Promise.all(serviceData).then(function() {
   // Settings for moment.js
   moment.updateLocale('en', {
-    calendar: {
-      sameDay: '[Today]',
-      nextDay: '[Tomorrow]',
-      nextWeek: 'dddd',
-      lastDay: '[Yesterday]',
-      lastWeek: '[Last] dddd',
-      sameElse: 'MMMM DD'
+    calendar : {
+      lastDay : '[Yesterday]',
+      sameDay : '[Today]',
+      nextDay : '[Tomorrow]',
+      lastWeek : '[last] dddd',
+      nextWeek : 'dddd',
+      sameElse : 'MMM D'
     }
   });
 
@@ -16,7 +48,7 @@ Promise.all([serviceDataRefreshDone]).then(function() {
   });
 
   chrome.alarms.onAlarm.addListener(function(alarm) {
-    for(var key in serviceData) {
+    for(service in serviceData) {
       if (serviceData[key].containerId == "sabnzbd" || serviceData[key].containerId == "nzbget") {
         if (serviceData[key].queue.alarmName == alarm.name) {
           window[serviceData[key].queue.bgFunctionName]();
@@ -47,7 +79,7 @@ chrome.runtime.onInstalled.addListener(function(event) {
     openOptions();
   }
   else if (event.reason == "update") {
-    createNotificaton(
+    createNotification(
       { type: "basic",
         title: "JusTab is updated",
         message: "Click here to see the changelog.",
@@ -91,7 +123,7 @@ function openOptions() {
   });
 }
 
-function createNotificaton(options, callback) {
+function createNotification(options, callback) {
   if (!callback) {
     callback = function() {};
   }

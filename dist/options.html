@@ -335,17 +335,23 @@
     </div>
 
     <div class="options-window Dribbble">
-      <div class='dr-small-images-checkbox checkbox-container'>
-        <div class='checkbox'>
-          <div class='checkbox-mark'></div>
-        </div>
-        <span class='checkbox-label'>Small images</span>
+      <div class='calendar-checkbox checkbox-container'>
+        <input type='checkbox' name='DR_small_images' id='DR-small-images' class='checkbox-actual'>
+        <label for='DR-small-images' class='checkbox-label'>
+          <span class='checkbox'>
+            <span class='checkbox-mark'></span>
+          </span>
+          Small images
+        </label>
       </div>
-      <div class='dr-gif-checkbox checkbox-container'>
-        <div class='checkbox'>
-          <div class='checkbox-mark'></div>
-        </div>
-        <span class='checkbox-label'>Play gifs</span>
+      <div class='calendar-checkbox checkbox-container'>
+        <input type='checkbox' name='DR_gif' id='DR-gif' class='checkbox-actual'>
+        <label for='DR-gif' class='checkbox-label'>
+          <span class='checkbox'>
+            <span class='checkbox-mark'></span>
+          </span>
+          Play gifs
+        </label>
       </div>
       <div class="input-container">
         <input type="number" name="DR_width" id="DR-width" required>
@@ -506,13 +512,12 @@
   <div class="toast-message status"></div>
 
   <!-- <script src="node_modules/jquery/dist/jquery.min.js" type="text/javascript" charset="utf-8" defer></script> -->
-  <script src="node_modules/dragula/dist/dragula.min.js" type="text/javascript" charset="utf-8" defer></script>
+  <!-- <script src="node_modules/dragula/dist/dragula.min.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/modules/ajax.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/modules/refresh_background.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/serviceData.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/options.js" type="text/javascript" charset="utf-8" defer></script>
   <script src="js/modules/ripple.js" type="text/javascript" charset="utf-8" defer></script>
-  <script src="js/modules/checkbox.js" type="text/javascript" charset="utf-8" defer></script>
-  <script src="js/modules/select.js" type="text/javascript" charset="utf-8" defer></script>
-</body>
+  <script src="js/modules/select.js" type="text/javascript" charset="utf-8" defer></script> -->
+<script type="text/javascript" src="http://localhost:8080/options.bundle.js"></script></body>
 </html>

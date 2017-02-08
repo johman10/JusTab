@@ -8,7 +8,6 @@ for (var select of selects) {
     currentValue.classList.add('selected');
 
     selectList.style.display = 'block';
-    setListPostion(selectList, currentValue);
     if (selectList.scrollHeight > selectList.offsetHeight) {
       // If there is scroll-space
       selectList.scrollTop = currentValue.offsetTop;
@@ -42,14 +41,6 @@ function resetBackground(select) {
   var listItems = select.querySelectorAll('.list-item')
   for (var listItem of listItems) {
     listItem.classList.remove('selected');
-  }
-}
-
-function setListPostion(selectList, option) {
-  var newTop = parentIndex(option) * -option.offsetHeight - 21;
-  selectList.style.top = newTop + 'px';
-  if (selectList.getBoundingClientRect().top < selectList.closest('.options-window').getBoundingClientRect().top) {
-    setListPostion(selectList, option.previousElementSibling);
   }
 }
 

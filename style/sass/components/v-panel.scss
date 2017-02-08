@@ -1,0 +1,92 @@
+@import '~css/modules/colors';
+@import '~css/modules/mixins';
+
+.refresh-button {
+  @include ripple;
+  border-radius: 100%;
+  height: 45px;
+  margin: 12px 8px;
+  padding: 8px;
+  width: 45px;
+}
+
+.loader-enter-active, .loader-leave-active {
+  transition: opacity 300ms ease;
+}
+
+.loader-enter, .loader-leave-active {
+  opacity: 0;
+}
+
+.panel {
+  position: relative;
+  display: inline-block;
+  white-space: normal;
+  vertical-align: top;
+
+  .panel-header {
+    @include paper-shadow(1);
+    height: 128px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+  }
+
+  .panel-header-background {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    &1,
+    &2 {
+      background-repeat: no-repeat;
+      height: 100%;
+      position: absolute;
+      width: 100%;
+    }
+
+    &2 {
+      background-position: right -20px center;
+      background-size: auto 60px;
+    }
+  }
+
+  .panel-header-foreground {
+    color: $white;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+
+    .top,
+    .bottom {
+      float: left;
+      height: 64px;
+      width: 100%;
+    }
+
+    .bottom {
+      padding: 0 18px;
+    }
+
+    a {
+      color: $white;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 64px;
+      text-decoration: none;
+    }
+  }
+
+  .panel-content {
+    height: 100%;
+    overflow-y: scroll;
+    padding-top: 128px;
+  }
+}

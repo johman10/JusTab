@@ -1,1 +1,0 @@
-"use strict";document.querySelector("html").addEventListener("click",function(a){if(a.target.closest(".checkbox-container")){var b=a.target.closest(".checkbox-container");b.classList.toggle("checked");var a=document.createEvent("HTMLEvents");a.initEvent("change",!1,!0),b.dispatchEvent(a)}});

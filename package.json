@@ -2,25 +2,36 @@
   "name": "JusTab",
   "version": "0.3.3",
   "devDependencies": {
-    "babel-preset-es2015": "^6.13.2",
-    "grunt": "^1.0.1",
-    "grunt-babel": "^6.0.0",
-    "grunt-confirm": "^1.0.5",
-    "grunt-contrib-compass": "^1.0.1",
-    "grunt-contrib-compress": "^1.3.0",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-uglify": "^2.0.0",
-    "grunt-push-release": "^0.1.1",
-    "load-grunt-tasks": "^3.5.2"
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-object-rest-spread": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.26.1",
+    "eslint": "^3.14.0",
+    "eslint-loader": "^1.6.0",
+    "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.26.0",
+    "node-sass": "^4.3.0",
+    "sass-loader": "^4.1.1",
+    "style-loader": "^0.13.1",
+    "uglify-loader": "^1.4.0",
+    "url-loader": "^0.5.7",
+    "vue-loader": "^10.0.2",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
     "dragula": "^3.7.1",
     "echo-js": "^1.7.3",
-    "moment": "^2.14.1"
+    "moment": "^2.17.1",
+    "vue": "^2.1.10",
+    "vue-lazyload": "^1.0.0-rc9",
+    "vue-template-compiler": "^2.1.10",
+    "vuex": "^2.1.1"
   },
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
+  "scripts": {
+    "start": "rm -rf ./dist && NODE_ENV=development node_modules/.bin/webpack && NODE_ENV=development node_modules/.bin/webpack-dev-server",
+    "build": "NODE_ENV=production node_modules/.bin/webpack"
   }
 }

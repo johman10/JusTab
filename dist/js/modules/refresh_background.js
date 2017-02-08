@@ -1,1 +1,0 @@
-"use strict";function refreshBackgroundServiceData(){return new Promise(function(a,b){chrome.runtime.getBackgroundPage(function(b){b.refreshServiceData(),b.serviceDataRefreshDone.then(function(){a(b)})})})}

@@ -1,0 +1,38 @@
+@import '~css/modules/colors';
+@import '~css/modules/mixins';
+
+.panel-error {
+  @include paper-shadow(1);
+  background-color: #eee;
+  color: $text-color;
+  overflow: hidden;
+  transition: max-height 300ms ease;
+  white-space: normal;
+
+  &-content {
+    margin: 15px 16px 10px;
+    font-size: 14px;
+  }
+
+  &-buttons {
+    margin: 0 16px 10px;
+  }
+
+  &-settings-button,
+  &-retry-button {
+    @include ripple($black);
+    background-color: #eee;
+    border-radius: 3px;
+    color: $text-color;
+    display: block;
+    float: right;
+    font-weight: 500;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 4px;
+    min-width: 5.14em;
+    padding: 0 7px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}

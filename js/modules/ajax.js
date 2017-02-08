@@ -29,5 +29,7 @@ function ajax(method, url, headers, data) {
     };
 
     request.send(data);
-  })
+  });
 }
+
+export default ajax;

@@ -19,58 +19,7 @@
 }
 
 @mixin spinner($color: $white, $width: 28px, $border: 2) {
-  .loader {
-    position: relative;
-    margin: 0 auto;
-    width: $width*2;
-    height: $width*2;
-    top: -50%;
-    left: -50%;
-    transform: translate(-4px, -4px);
 
-    .circular {
-      animation: rotate 2s linear infinite;
-      height: $width*2;
-      position: relative;
-      width: $width*2;
-
-      .path {
-        animation: dash 1.5s ease-in-out infinite;
-        cx: $width;
-        cy: $width;
-        fill: none;
-        r: $width/5*2;
-        stroke: $color;
-        stroke-dasharray: 1%,200%;
-        stroke-dashoffset: 0;
-        stroke-linecap: round;
-        stroke-width: $border;
-      }
-    }
-  }
-
-  @keyframes rotate{
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  @keyframes dash{
-    0% {
-      stroke-dasharray: 1%, 200%;
-      stroke-dashoffset: 0;
-    }
-
-    50% {
-      stroke-dasharray: 89%,200%;
-      stroke-dashoffset: -35%;
-    }
-
-    100% {
-      stroke-dasharray: 89%,200%;
-      stroke-dashoffset: -124%;
-    }
-  }
 }
 
 @mixin ripple($color: $white) {

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 380 380"
-	 enable-background="new 0 0 380 380" xml:space="preserve">
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-115 207 380 380"
+	 style="enable-background:new -115 207 380 380;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+</style>
 <g>
 	<title>Product Hunt logo</title>
-	<path id="circle" sketch:type="MSShapeGroup" fill="#DA552F" d="M190,380c104.9,0,190-85.1,190-190S294.9,0,190,0S0,85.1,0,190
-		S85.1,380,190,380z"/>
-	<path id="P" sketch:type="MSShapeGroup" fill="#FFFFFF" d="M142.5,114v152H171v-47.5h43.1c28.6-0.8,51.9-24,51.9-52.2
-		c0-29-23.2-52.2-51.9-52.2H142.5z M214.5,190L214.5,190l-43.5,0v-47.5h43.5v0c12.7,0,23,10.6,23,23.7
-		C237.5,179.4,227.2,190,214.5,190"/>
+	<path id="P" sketch:type="MSShapeGroup" class="st0" d="M-64.5,207.8v378.5h71V468h107.3C185,466,243,408.2,243,338
+		c0-72.2-57.8-130-129.2-130H-64.5V207.8z M114.8,397L114.8,397H6.5V278.7h108.3l0,0c31.6,0,57.3,26.4,57.3,59
+		C172,370.6,146.4,397,114.8,397"/>
 </g>
 </svg>

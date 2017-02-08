@@ -91,14 +91,3 @@ body {
   }
 }
 
-.refresh-button {
-  @include ripple;
-  @include spinner($white, 28px, 2);
-  border-radius: 100%;
-  display: inline-block;
-  height: 40px;
-  margin: 12px 8px;
-  padding: 8px;
-  width: 40px;
-  transition: opacity 300ms ease;
-}

@@ -1,4 +1,7 @@
-serviceDataRefreshDone.then(function() {
+import dragula from 'dragula';
+import serviceData from 'js/serviceData'
+
+// serviceDataRefreshDone.then(function() {
   // Restore options
   restore_options();
 
@@ -65,6 +68,7 @@ serviceDataRefreshDone.then(function() {
 
   chrome.identity.getAuthToken({ 'interactive': true },function (token) {
     var url = "https://www.googleapis.com/calendar/v3/users/me/calendarList?oauth_token=" + token;
+    var checkboxContainer = document.querySelector('.calendar-select-container');
     var events = "";
 
     ajax('GET', url)
@@ -72,33 +76,18 @@ serviceDataRefreshDone.then(function() {
       document.querySelector('.calendar-loading').style.display = 'none';
 
       var calendarsStorage = serviceData.GC.calendars;
+      var checked;
 
       data.items.forEach(function(calendar) {
-        if (calendarsStorage.indexOf(calendar.id) > -1) {
-          document.querySelector('.calendar-select-container').insertAdjacentHTML('beforeend',
-                                                                                    "<div class='calendar-checkbox checkbox-container checked' data-id=" + calendar.id + ">" +
-                                                                                      "<div class='checkbox'>" +
-                                                                                        "<div class='checkbox-mark'></div>" +
-                                                                                      "</div>" +
-                                                                                      "<span class='checkbox-label'>" + calendar.summary + "</span>" +
-                                                                                    "</div>"
-                                                                                  );
-        }
-        else {
-          document.querySelector('.calendar-select-container').insertAdjacentHTML('beforeend',
-                                                                                    "<div class='calendar-checkbox checkbox-container' data-id=" + calendar.id + ">" +
-                                                                                      "<div class='checkbox'>" +
-                                                                                        "<div class='checkbox-mark'></div>" +
-                                                                                      "</div>" +
-                                                                                      "<span class='checkbox-label'>" + calendar.summary + "</span>" +
-                                                                                    "</div>"
-                                                                                  );
-        }
+        checked = calendarsStorage.indexOf(calendar.id) > -1;
+        checkboxContainer.insertAdjacentHTML('beforeend', checkboxTemplate(calendar, checked));
       });
+
+      createEventListeners();
     }, function(error) {
       console.log(error);
       document.querySelector('.calendar-loading').style.display = 'none';
-      document.querySelector('.calendar-select-container').insertAdjacentHTML('beforeend',
+      checkboxContainer.insertAdjacentHTML('beforeend',
         '<div>' +
           '<div class="error-icon"></div>' +
           '<p>' +
@@ -106,11 +95,16 @@ serviceDataRefreshDone.then(function() {
           '</p>' +
         '</div>'
       );
+
+      createEventListeners();
     });
   });
 
+// });
+
+function createEventListeners() {
   // Save options on change of fields
-  var inputs = document.querySelectorAll('input, .checkbox-container');
+  var inputs = document.querySelectorAll('input');
   for (var input of inputs) {
     input.addEventListener('change', saveOptions);
   }
@@ -120,7 +114,19 @@ serviceDataRefreshDone.then(function() {
   for (var serviceSwitch of switches) {
     serviceSwitch.addEventListener('change', saveStatusOptions);
   }
-});
+}
+
+function checkboxTemplate(calendar, checked) {
+  return "<div class='calendar-checkbox checkbox-container'>" +
+    "<input type='checkbox' value='" + calendar.id + "' id='checkbox-" + calendar.id + "' class='checkbox-actual'" + (checked ? " checked" : "") + ">" +
+    "<label for='checkbox-" + calendar.id + "'class='checkbox-label'>" +
+      "<div class='checkbox'>" +
+        "<div class='checkbox-mark'></div>" +
+      "</div>" +
+      calendar.summary +
+    "</label>" +
+  "</div>"
+}
 
 function switchOptionsView(event) {
   var menuItem = event.target.closest('.options-menu-link');
@@ -144,21 +150,17 @@ function switchOptionsView(event) {
 }
 
 function saveStatusOptions() {
-  chrome.storage.sync.set({
-    GC_status: document.querySelector('input[type=checkbox][name=GC_status]').checked,
-    GM_status: document.querySelector('input[type=checkbox][name=GM_status]').checked,
-    CP_status: document.querySelector('input[type=checkbox][name=CP_status]').checked,
-    SB_status: document.querySelector('input[type=checkbox][name=SB_status]').checked,
-    SAB_status: document.querySelector('input[type=checkbox][name=SAB_status]').checked,
-    DN_status: document.querySelector('input[type=checkbox][name=DN_status]').checked,
-    HN_status: document.querySelector('input[type=checkbox][name=HN_status]').checked,
-    GH_status: document.querySelector('input[type=checkbox][name=GH_status]').checked,
-    PH_status: document.querySelector('input[type=checkbox][name=PH_status]').checked,
-    DR_status: document.querySelector('input[type=checkbox][name=DR_status]').checked,
-    RD_status: document.querySelector('input[type=checkbox][name=RD_status]').checked,
-    NG_status: document.querySelector('input[type=checkbox][name=NG_status]').checked,
-    SO_status: document.querySelector('input[type=checkbox][name=SO_status]').checked
-  }, function() {
+  var checkboxes = document.querySelectorAll('input[type=checkbox]');
+  var hash = {};
+
+  for (var checkbox of checkboxes) {
+    var checkboxName = checkbox.getAttribute('name');
+    if (checkboxName && checkboxName.endsWith('_status')) {
+      hash[checkboxName] = checkbox.checked;
+    }
+  }
+
+  chrome.storage.sync.set(hash, function() {
     refreshBackgroundServiceData().then(function(backgroundPage) {
       backgroundPage.createAlarms();
     })
@@ -168,9 +170,9 @@ function saveStatusOptions() {
 // Saves options to chrome.storage
 function saveOptions() {
   var calendars = [];
-  var checkboxes = document.querySelectorAll('.calendar-checkbox.checked');
+  var checkboxes = document.querySelectorAll('.calendar-checkbox .checkbox-actual:checked');
   for (var checkbox of checkboxes) {
-    calendars.push(checkbox.getAttribute('data-id'));
+    calendars.push(checkbox.getAttribute('value'));
   }
 
   var CP_address = formatUrl('CP-address');
@@ -179,60 +181,28 @@ function saveOptions() {
   var NG_address = formatUrl('NG-address');
   var SO_address = formatUrl('SO-address');
 
-  chrome.storage.sync.set({
+  var hash = {
     calendars: calendars,
-    GC_days: document.querySelector('#GC-days').value,
-    GC_width: document.querySelector('#GC-width').value,
-    GC_refresh: document.querySelector('#GC-refresh').value,
-    GM_width: document.querySelector('#GM-width').value,
-    GM_refresh: document.querySelector('#GM-refresh').value,
-    CP_address: CP_address,
-    CP_port: document.querySelector('#CP-port').value,
-    CP_key: document.querySelector('#CP-key').value,
-    CP_width: document.querySelector('#CP-width').value,
-    CP_refresh: document.querySelector('#CP-refresh').value,
-    SB_address: SB_address,
-    SB_port: document.querySelector('#SB-port').value,
-    SB_key: document.querySelector('#SB-key').value,
-    SB_width: document.querySelector('#SB-width').value,
-    SB_refresh: document.querySelector('#SB-refresh').value,
-    SAB_address: SAB_address,
-    SAB_port: document.querySelector('#SAB-port').value,
-    SAB_key: document.querySelector('#SAB-key').value,
-    SAB_history: document.querySelector('#SAB-history').value,
-    SAB_width: document.querySelector('#SAB-width').value,
-    SABQ_refresh: document.querySelector('#SABQ-refresh').value,
-    SABH_refresh: document.querySelector('#SABH-refresh').value,
-    DN_width: document.querySelector('#DN-width').value,
-    DN_refresh: document.querySelector('#DN-refresh').value,
-    HN_width: document.querySelector('#HN-width').value,
-    HN_refresh: document.querySelector('#HN-refresh').value,
-    GH_width: document.querySelector('#GH-width').value,
-    GH_refresh: document.querySelector('#GH-refresh').value,
-    PH_width: document.querySelector('#PH-width').value,
-    PH_refresh: document.querySelector('#PH-refresh').value,
     DR_small_images: document.querySelector('.dr-small-images-checkbox').classList.contains('checked'),
     DR_gifs: document.querySelector('.dr-gif-checkbox').classList.contains('checked'),
-    DR_width: document.querySelector('#DR-width').value,
-    DR_refresh: document.querySelector('#DR-refresh').value,
-    RD_subreddit: document.querySelector('#RD-subreddit').value,
-    RD_sorting: document.querySelector('#RD-sorting').value,
-    RD_width: document.querySelector('#RD-width').value,
-    RD_refresh: document.querySelector('#RD-refresh').value,
+    CP_address: CP_address,
+    SB_address: SB_address,
+    SAB_address: SAB_address,
     NG_address: NG_address,
-    NG_port: document.querySelector('#NG-port').value,
-    NG_width: document.querySelector('#NG-width').value,
-    NGQ_refresh: document.querySelector('#NGQ-refresh').value,
-    NGH_refresh: document.querySelector('#NGH-refresh').value,
-    NGH_length: document.querySelector('#NGH-length').value,
-    NG_username: document.querySelector('#NG-username').value,
-    NG_password: document.querySelector('#NG-password').value,
     SO_address: SO_address,
-    SO_port: document.querySelector('#SO-port').value,
-    SO_key: document.querySelector('#SO-key').value,
-    SO_width: document.querySelector('#SO-width').value,
-    SO_refresh: document.querySelector('#SO-refresh').value,
-  }, function() {
+  }
+
+  var inputs = document.querySelectorAll('input[type=text], input[type=password], input[type=number]'),
+    value, id, key
+  for (var input of inputs) {
+    value = input.value;
+    key = input.getAttribute('name');
+    if (key && (typeof value !== 'undefined' || typeof value !== 'null')) {
+      hash.key = value;
+    }
+  }
+
+  chrome.storage.sync.set(hash, function() {
     chrome.runtime.getBackgroundPage(function(backgroundPage) {
       backgroundPage.refreshServiceData();
       backgroundPage.createAlarms();
