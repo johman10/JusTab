@@ -7,10 +7,10 @@
       <v-panel-item-content v-else :has-collapse="hasCollapse" :expanded="expanded" :title="props.title" :subtitle="props.subtitle" :extra-title="props.extraTitle"></v-panel-item-conent>
     </div>
     <div v-if="hasCollapse" v-show="expanded" class="panel-item--collapse">
-      <div class="panel-item--collapse-content">
+      <div v-if="props.collapseText" class="panel-item--collapse-content">
         {{ props.collapseText }}
       </div>
-      <div class="panel-item--button-container">
+      <div v-if="props.components" class="panel-item--button-container">
         <component v-for="component in props.components" :is="component.name" :props="component.props"></component>
       </div>
     </div>

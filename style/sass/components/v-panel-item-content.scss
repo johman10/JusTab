@@ -17,13 +17,14 @@
   }
 
   &--extra-title {
-    font-size: 13px;
+    font-size: 11px;
     padding-left: 8px;
+    // color: rgba($color-black, .54);
   }
 
   &--subtitle {
     @include text-truncate;
-    color: #757575;
+    color: rgba($color-black, .54);
   }
 
   &--icon {
