@@ -19,7 +19,7 @@
 .sabnzbd-info,
 .reddit-info {
   @include paper-shadow(1);
-  background-color: $white;
+  background-color: $color-white;
   line-height: 50px;
   pointer-events: auto;
 

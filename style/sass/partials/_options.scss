@@ -6,7 +6,7 @@
 .options-window-title {
   @include paper-shadow();
   background-color: $calendar-color;
-  color: $white;
+  color: $color-white;
   font-size: 18px;
   font-weight: 500;
   height: 64px;
@@ -44,7 +44,7 @@
 }
 
 .options-menu-link {
-  @include ripple($black);
+  @include ripple($color-black);
   cursor: pointer;
   height: 48px;
   line-height: 48px;
@@ -59,7 +59,7 @@
   }
 
   &.support {
-    background-color: $white;
+    background-color: $color-white;
     border-top: solid 1px #ececec;
     bottom: 0;
     position: fixed;
@@ -91,7 +91,7 @@
   width: 100vw;
 
   .calendar-loading {
-    @include spinner($black);
+    @include spinner($color-black);
 
     .loader {
       margin: 0;
@@ -116,7 +116,7 @@
   background-color: #323232;
   border-radius: 2px;
   bottom: -48px;
-  color: $white;
+  color: $color-white;
   height: 48px;
   left: 272px;
   line-height: 48px;
@@ -140,7 +140,7 @@
 
 @media screen and (max-width: 580px) {
   .options-menu {
-    background-color: $white;
+    background-color: $color-white;
     left: 0;
     position: absolute;
     top: 64px;

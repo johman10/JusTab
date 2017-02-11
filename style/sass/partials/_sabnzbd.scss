@@ -27,7 +27,7 @@
 
       .sab-item-status {
         bottom: 0;
-        color: $grey;
+        color: $color-grey;
         padding-bottom: 17px;
         position: absolute;
       }
@@ -60,7 +60,7 @@
 
     .sabh-remove-icon,
     .sabq-remove-icon {
-      @include ripple($black);
+      @include ripple($color-black);
       background-position: 50%;
       background-repeat: no-repeat;
       border-radius: 100%;

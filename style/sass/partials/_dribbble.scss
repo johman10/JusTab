@@ -31,7 +31,7 @@
 }
 
 .dr-link-container {
-  @include ripple($white);
+  @include ripple($color-white);
   border-top: 0;
   -webkit-filter: brightness(.9);
   line-height: initial;
@@ -48,7 +48,7 @@
 
   .dr-story-url {
     @include text-truncate;
-    color: $black;
+    color: $color-black;
     display: block;
     height: 100%;
     left: 72px;
@@ -56,7 +56,7 @@
   }
 
   .dr-story-gif {
-    background-color: $white;
+    background-color: $color-white;
     border-radius: 5px;
     font-size: 10px;
     opacity: .75;
@@ -74,7 +74,7 @@
   .dr-info-container {
     background-color: rgba(0, 0, 0, .5);
     bottom: 0;
-    color: $white;
+    color: $color-white;
     height: 68px;
     padding: 16px;
     position: absolute;

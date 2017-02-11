@@ -89,7 +89,7 @@
     },
 
     mounted () {
-      this.chromePort.onMessage.addListener((message) => {
+      chrome.runtime.onMessage.addListener((message) => {
         if (message.name === 'finishRefresh') {
           this.loading = false;
         }

@@ -17,7 +17,7 @@ body {
 }
 
 .loading-bar {
-  @include spinner($black, 28px, 2);
+  @include spinner($color-black, 28px, 2);
 
   .loader {
     left: 0;
@@ -28,7 +28,7 @@ body {
 
 .settings-button {
   @include paper-shadow(1);
-  @include ripple($black);
+  @include ripple($color-black);
   background-color: #e0e0e0;
   background-position: 50%;
   background-repeat: no-repeat;
@@ -74,7 +74,7 @@ body {
 
   .error-settings-button,
   .error-retry-button {
-    @include ripple($black);
+    @include ripple($color-black);
     background-color: #eee;
     border-radius: 3px;
     color: $text-color;

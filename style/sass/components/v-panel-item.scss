@@ -1,0 +1,53 @@
+@import '~css/modules/colors';
+@import '~css/modules/mixins';
+
+.panel-item {
+  @include ripple($color-black);
+  font-family: 'Roboto', 'Helvetica';
+  overflow: hidden;
+  padding: 0 16px;
+  transition: background-color 150ms;
+  width: 100%;
+
+  a {
+    color: black;
+  }
+
+  &--base {
+    height: 48px;
+    position: relative;
+    top: 50%;
+  }
+
+  &--collapse {
+    @include text-truncate;
+    height: 48px;
+  }
+
+  &.panel-item__expanded {
+    border-bottom: solid 1px #ececec;
+    border-top: solid 1px #ececec;
+
+    .panel-item-content--icon {
+      background-image: url('~img/icons/expand_less.svg');
+    }
+  }
+
+  &.panel-item__two-lines {
+    .panel-item-content--title {
+      margin-bottom: 3px;
+    }
+
+    .panel-item--base {
+      height: 72px;
+    }
+  }
+
+  &.panel-item__hover {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $hover-color;
+    }
+  }
+}

@@ -18,11 +18,11 @@
   }
 }
 
-@mixin spinner($color: $white, $width: 28px, $border: 2) {
+@mixin spinner($color: $color-white, $width: 28px, $border: 2) {
 
 }
 
-@mixin ripple($color: $white) {
+@mixin ripple($color: $color-white) {
   &.waves-effect {
     cursor: pointer;
     display: block;

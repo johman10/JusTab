@@ -20,16 +20,16 @@
 
   a {
     @include text-truncate;
-    color: $black;
+    color: $color-black;
     display: block;
     text-decoration: none;
 
     &:visited {
-      color: $grey;
+      color: $color-grey;
     }
 
     &:hover {
-      color: $black;
+      color: $color-black;
     }
   }
 

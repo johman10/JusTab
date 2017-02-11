@@ -58,14 +58,14 @@
   }
 
   .so-search-episode {
-    @include spinner($black);
+    @include spinner($color-black);
     margin: 0 4px 0 0;
   }
 
   .so-tvdb-link-icon,
   .so-mark-episode,
   .so-search-episode {
-    @include ripple($black);
+    @include ripple($color-black);
     background-position: 50%;
     background-repeat: no-repeat;
     border-radius: 100%;

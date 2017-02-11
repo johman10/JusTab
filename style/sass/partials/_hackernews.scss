@@ -21,25 +21,25 @@
 
   .hn-story-url {
     @include text-truncate;
-    color: $black;
+    color: $color-black;
     display: block;
     height: 100%;
     padding: 17px 0 0;
     text-decoration: none;
 
     &:hover {
-      color: $black;
+      color: $color-black;
     }
 
     &:visited {
-      color: $grey;
+      color: $color-grey;
     }
   }
 
   .hn-comments-url {
     @include text-truncate;
     bottom: 17px;
-    color: $grey;
+    color: $color-grey;
     left: initial;
     max-width: calc(100% - 32px);
     position: absolute;
@@ -56,7 +56,7 @@
     background-color: $hover-color;
 
     .hn-story-url {
-      color: $black;
+      color: $color-black;
     }
   }
 }

@@ -1,0 +1,38 @@
+@import '~css/modules/colors';
+@import '~css/modules/mixins';
+
+.panel-item-content {
+  @include text-truncate;
+  display: flex;
+  flex-wrap: wrap;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+
+  &--title {
+    @include text-truncate;
+    flex: 1;
+    font-size: 13px;
+  }
+
+  &--extra-title {
+    font-size: 13px;
+    padding-left: 8px;
+  }
+
+  &--subtitle {
+    @include text-truncate;
+    color: #757575;
+  }
+
+  &--icon {
+    background-image: url('~img/icons/expand_more.svg');
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    margin-left: 8px;
+    right: 0;
+    transition: background-image 300ms ease;
+    width: 12px;
+  }
+}

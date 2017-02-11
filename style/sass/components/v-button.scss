@@ -3,10 +3,10 @@
 
 .flat-button,
 .raised-button {
-  @include ripple($black);
-  background-color: $white;
+  @include ripple($color-black);
+  // background-color: $color-white;
   border: 0;
-  color: $black;
+  color: $color-black;
   font-size: 14px;
   font-weight: medium;
   height: 36px;

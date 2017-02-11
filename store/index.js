@@ -22,7 +22,7 @@ export default new Vuex.Store({
   mutations,
   getters,
   plugins: [
-    environment === 'development' ? createLogger() : ''
+    environment === 'development' ? createLogger() : function () {}
   ],
   strict: environment === 'development'
 });

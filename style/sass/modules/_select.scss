@@ -22,7 +22,7 @@
     list-style: none;
     padding: 8px 0;
     position: absolute;
-    background-color: $white;
+    background-color: $color-white;
     z-index: 100;
     top: -21px;
     max-height: 500px;
@@ -30,7 +30,7 @@
   }
 
   .list-item {
-    @include ripple($black);
+    @include ripple($color-black);
     @include text-truncate;
     height: 48px;
     line-height: 48px;

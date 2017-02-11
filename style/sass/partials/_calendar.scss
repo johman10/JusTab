@@ -18,8 +18,8 @@
 
     .gc-event-remove-icon,
     .gc-event-link-icon {
-      @include spinner($black);
-      @include ripple($black);
+      @include spinner($color-black);
+      @include ripple($color-black);
       background-position: 50%;
       background-repeat: no-repeat;
       border-radius: 100%;

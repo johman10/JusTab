@@ -19,7 +19,7 @@ chrome.runtime.getBackgroundPage((backgroundPage) => {
       this.$store.dispatch('loadServices');
     },
     mounted () {
-      this.chromePort.onMessage.addListener((message) => {
+      chrome.runtime.onMessage.addListener((message) => {
         if (message.name === 'finishRefresh') {
           this.reloadService({ serviceId: message.serviceId });
         }

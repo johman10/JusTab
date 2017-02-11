@@ -66,7 +66,7 @@
 
     .cp-search-movie,
     .cp-imdb-link-icon {
-      @include ripple($black);
+      @include ripple($color-black);
       background-position: 50%;
       background-repeat: no-repeat;
       border-radius: 100%;

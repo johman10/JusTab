@@ -27,8 +27,7 @@ export let googleCalendar = function() {
       // TODO: Restore this code after settings work
       // calendars: items.calendars,
       days: parseFloat(items.GC_days) || 6,
-      panelWidth: parseFloat(items.GC_width) || 400,
-      htmlStorageKey: 'CalendarHTML'
+      panelWidth: parseFloat(items.GC_width) || 400
     };
   });
 };
@@ -49,9 +48,7 @@ export let gmail = function() {
       refresh: isNaN(parseFloat(items.GM_refresh)) ? 15 : parseFloat(items.GM_refresh),
       bgFunctionName: 'getGmailData',
       feFunctionName: 'GmailShowData',
-      JSON: JSON.parse(localStorage.Gmail || null),
-      ReadHTML: localStorage.GmailReadHTML || null,
-      UnreadHTML: localStorage.GmailUnreadHTML || null,
+      components: localStorage.gmailComponents || null,
       nextPage: localStorage.Gmail_page || null,
       panelWidth: parseFloat(items.GM_width) || 400,
       htmlStorageKey: ['GmailUnreadHTML', 'GmailReadHTML'],

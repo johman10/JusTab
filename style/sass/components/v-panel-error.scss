@@ -20,7 +20,7 @@
 
   &-settings-button,
   &-retry-button {
-    @include ripple($black);
+    @include ripple($color-black);
     background-color: #eee;
     border-radius: 3px;
     color: $text-color;

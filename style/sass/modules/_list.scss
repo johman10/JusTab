@@ -1,5 +1,5 @@
 .core-item {
-  @include ripple($black);
+  @include ripple($color-black);
   border-top: solid 1px transparent;
   line-height: 48px;
   min-height: 48px;

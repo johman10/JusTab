@@ -85,6 +85,7 @@ module.exports = {
   devServer: {
     inline: true
   },
+  devtool: JSON.stringify(process.env.NODE_ENV) === 'development' ? 'eval-source-map' : 'source-map',
   plugins: [
     // new webpack.optimize.UglifyJsPlugin({
     //   comments: false,
@@ -92,6 +93,7 @@ module.exports = {
     //     warnings: false,
     //   }
     // }),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       environment: JSON.stringify(process.env.NODE_ENV)
     }),
@@ -119,3 +121,23 @@ module.exports = {
   //   configFile: __dirname + '/.eslintrc'
   // }
 };
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.optimize.UglifyJsPlugin({
+      // Don't beautify output (enable for neater output)
+      beautify: false,
+
+      // Eliminate comments
+      comments: true,
+
+      // Compression specific options
+      compress: {
+        warnings: false
+      },
+
+      // Mangling specific options
+      mangle: false
+    })
+  ]);
+}

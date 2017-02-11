@@ -24,7 +24,7 @@
   }
 
   a {
-    color: $black;
+    color: $color-black;
     text-decoration: none;
   }
 
@@ -44,7 +44,7 @@
 
   .gm-message-from {
     @include text-truncate;
-    color: $grey;
+    color: $color-grey;
     line-height: initial;
     padding: 0 0 17px;
   }

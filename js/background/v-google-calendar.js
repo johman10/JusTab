@@ -3,11 +3,13 @@ import ajax from 'modules/ajax';
 
 export default {
   computed: {
-    service () {
+    googleCalendarService () {
       return this.services[0];
     },
     calendarUrls () {
-      return this.service.calendars.map((url) => { return 'https://www.googleapis.com/calendar/v3/calendars/' + encodeURIComponent(url) + '/events'; });
+      return this.googleCalendarService.calendars.map((url) => {
+        return 'https://www.googleapis.com/calendar/v3/calendars/' + encodeURIComponent(url) + '/events';
+      });
     }
   },
   methods: {
@@ -33,7 +35,7 @@ export default {
     getEvents (token) {
       return new Promise((resolve, reject) => {
         var dateStart = new Date().toISOString();
-        var dateEnd = moment(new Date()).add(this.service.days, 'days').endOf('day').toISOString();
+        var dateEnd = moment(new Date()).add(this.googleCalendarService.days, 'days').endOf('day').toISOString();
         var events = [];
         var promises = [];
         var apiUrl;

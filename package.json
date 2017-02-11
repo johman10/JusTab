@@ -32,7 +32,7 @@
     "vuex": "^2.1.2"
   },
   "scripts": {
-    "start": "rm -rf ./dist && NODE_ENV=development node_modules/.bin/webpack && NODE_ENV=development node_modules/.bin/webpack-dev-server",
+    "start": "NODE_ENV=development node_modules/.bin/webpack && NODE_ENV=development node_modules/.bin/webpack-dev-server",
     "build": "NODE_ENV=production node_modules/.bin/webpack"
   }
 }

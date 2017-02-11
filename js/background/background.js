@@ -4,12 +4,15 @@ import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import store from 'store/index';
 import vGoogleCalendar from 'js/background/v-google-calendar';
-// import bg_couchpotato from 'js/background/bg_couchpotato';
+// import vCouchPotato from 'js/background/v-couch-potato';
+import vGmail from 'js/background/v-gmail';
 
 window.vueInstance = new Vue({
   store,
   mixins: [
-    vGoogleCalendar
+    vGoogleCalendar,
+    // vCouchPotato,
+    vGmail
   ],
   computed: {
     ...mapState(['services', 'chromePort'])
@@ -17,15 +20,25 @@ window.vueInstance = new Vue({
   beforeCreate() {
     this.$store.dispatch('loadServices');
     chrome.runtime.onConnect.addListener((port) => {
-      port.onMessage.addListener((msg) => {
-        if (msg.name === 'startRefresh') {
-          const service = this.services.find((s) => { return s.id === msg.serviceId });
-          this[service.functionName]().then((data) => {
-            port.postMessage({ name: 'finishRefresh', serviceId: msg.serviceId })
-          });
-        }
-      });
+      port.onMessage.addListener(this.startRefresh);
     });
+  },
+  methods: {
+    startRefresh (msg) {
+      if (msg.name === 'startRefresh') {
+        const service = this.services.find((s) => { return s.id === msg.serviceId });
+        this[service.functionName]().then(() => {
+          this.finishRefresh(msg);
+        });
+      }
+    },
+    finishRefresh (msg) {
+      chrome.tabs.query({ url: 'chrome://newtab/' }, function(tabs) {
+        tabs.forEach((tab) => {
+          chrome.tabs.sendMessage(tab.id, { name: 'finishRefresh', serviceId: msg.serviceId }, function () {});
+        })
+      });
+    }
   },
   render: h => h()
 });

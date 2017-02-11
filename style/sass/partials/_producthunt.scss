@@ -21,7 +21,7 @@
 
   .ph-story-url {
     @include text-truncate;
-    color: $black;
+    color: $color-black;
     display: block;
     height: 100%;
     left: 72px;
@@ -29,18 +29,18 @@
     text-decoration: none;
 
     &:hover {
-      color: $black;
+      color: $color-black;
     }
 
     &:visited {
-      color: $grey;
+      color: $color-grey;
     }
   }
 
   .ph-comments-url {
     @include text-truncate;
     bottom: 17px;
-    color: $grey;
+    color: $color-grey;
     left: initial;
     max-width: calc(100% - 32px);
     position: absolute;
@@ -57,7 +57,7 @@
     background-color: $hover-color;
 
     .ph-story-url {
-      color: $black;
+      color: $color-black;
     }
   }
 }
