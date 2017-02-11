@@ -1,12 +1,11 @@
 @import '~css/modules/colors';
 
 h2 {
-  color: $header-grey;
+  color: rgba($color-black, .54);
   font-family: 'Roboto', 'Helvetica';
-  font-size: 14px;
-  font-weight: 600;
-  height: 40px;
-  line-height: 40px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 48px;
   margin: 0;
   padding: 0 16px;
 }
