@@ -13,7 +13,6 @@
 <style src="css/components/v-panel-error.scss"></style>
 
 <script>
-  import { mapState } from 'vuex';
   import vButton from 'v-button';
 
   export default {
@@ -24,10 +23,6 @@
     props: {
       serviceName: String,
       serviceId: Number
-    },
-
-    computed: {
-      ...mapState(['chromePort'])
     },
 
     methods: {

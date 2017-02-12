@@ -65,5 +65,9 @@
     position: absolute;
     top: 64px;
     width: 0;
+
+    &.options-menu__show {
+      width: 265px;
+    }
   }
 }

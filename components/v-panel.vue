@@ -1,5 +1,5 @@
 <template>
-  <div class="panel" :style="panelStyling">
+  <div v-if="service" class="panel" :style="panelStyling">
     <v-panel-header @refresh="onRefresh" :loading="loading" :scrollTop="scrollTop" :service="service"></v-panel-header>
     <div class="panel--content" :style="panelContentStyling" @scroll="onScroll">
       <v-panel-error @refresh="onRefresh" v-if="service.error === 'true'" :serviceId="serviceId" :serviceName="service.name"></v-panel-error>
@@ -11,7 +11,7 @@
 <style src="css/components/v-panel.scss"></style>
 
 <script>
-  import { mapActions, mapState } from 'vuex';
+  import { mapActions, mapGetters } from 'vuex';
   import vPanelError from "components/v-panel-error.vue";
   import vPanelHeader from "components/v-panel-header.vue";
   import vPanelSubheader from "components/v-panel-subheader.vue";
@@ -54,12 +54,10 @@
           return {};
         }
       },
-      ...mapState({
-        chromePort: 'chromePort',
-        service (state) {
-          return state.services.find((service) => service.id === this.serviceId);
-        }
-      })
+      service (state) {
+        return this.activeServices.find((service) => service.id === this.serviceId);
+      },
+      ...mapGetters([ 'activeServices' ])
     },
 
     mounted () {
@@ -76,7 +74,7 @@
       },
       onRefresh () {
         this.loading = true;
-        this.chromePort.postMessage({ name: 'startRefresh', serviceId: this.serviceId })
+        chrome.runtime.sendMessage({ name: 'startRefresh', serviceId: this.serviceId });
       }
     }
   };

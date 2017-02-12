@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import vTab from 'components/v-tab.vue';
 import VueLazyload from 'vue-lazyload';
 import store from 'store/index';
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 Vue.use(VueLazyload, {
   error: require('img/poster_fallback.png'),
@@ -20,16 +20,15 @@ new Vue({
   },
   mounted () {
     chrome.runtime.onMessage.addListener((message) => {
-      if (message.name === 'finishRefresh') {
+      if (message.name === 'finishRefresh' || message.name === 'reloadService') {
         this.reloadService({ serviceId: message.serviceId });
+      } else if (message.name === 'loadServices') {
+        this.loadServices();
       }
     });
   },
   methods: {
-    ...mapActions(['reloadService'])
-  },
-  computed: {
-    ...mapState(['chromePort'])
+    ...mapActions(['reloadService', 'loadServices'])
   },
   render: h => h(vTab)
 });

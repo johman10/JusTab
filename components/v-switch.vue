@@ -1,7 +1,7 @@
 <template>
   <div class="switch">
-    <label class="switch--label">
-      <input type="checkbox" class="switch--checkbox" :name="name" :checked="value" @input="toggleService" @change="toggleService">
+    <label class="switch--label" @click="toggleService">
+      <input type="checkbox" class="switch--checkbox" :name="name" :checked="value">
       <span class="switch--lever"></span>
     </label>
   </div>
@@ -13,14 +13,13 @@
   export default {
     props: {
       name: String,
-      value: Boolean
+      value: Boolean,
+      serviceId: Number
     },
 
     methods: {
       toggleService () {
-        this.value = !this.value
-        this.$emit('input', this.value)
-        this.$emit('change', this.value)
+        this.$emit('input', this.serviceId, this.name, !this.value);
       }
     }
   }

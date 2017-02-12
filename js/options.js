@@ -11,9 +11,9 @@ Vue.use(Vuex);
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '', component: vOptionsGoogleCalendar },
-  { path: 'googlecalendar', component: vOptionsGoogleCalendar },
-  { path: 'couchpotato', component: vOptionsCouchPotato },
+  { path: '/', redirect: '/googlecalendar' },
+  { path: '/googlecalendar', component: vOptionsGoogleCalendar },
+  { path: '/couchpotato', component: vOptionsCouchPotato },
 ];
 
 const router = new VueRouter({

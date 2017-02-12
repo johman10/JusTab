@@ -15,3 +15,17 @@ body {
   padding: 0;
   width: 0;
 }
+
+.options--view {
+  height: calc(100vh - 64px);
+  overflow: scroll;
+  padding: 8px 16px;
+  position: relative;
+  width: calc(100vw - 256px);
+}
+
+@media screen and (max-width: 580px) {
+  .options--view {
+    width: 100vw;
+  }
+}

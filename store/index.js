@@ -11,6 +11,7 @@ Vue.use(Vuex);
 const state = {
   chromeStorage: [],
   services: [],
+  // Not used but needed to be able to listen to and send messages
   chromePort: chrome.runtime.connect()
 };
 

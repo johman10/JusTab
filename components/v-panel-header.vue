@@ -9,7 +9,7 @@
         <div @click="triggerRefresh" class="refresh-button waves-effect">
           <transition name="loader" mode="out-in">
             <v-spinner v-if="loading" :border="5" :width="25"></v-spinner>
-            <img v-else :src="refreshIcon" :alt="`Refresh ${service.name}`">
+            <img v-else src="~img/icons/refresh.svg" :alt="`Refresh ${service.name}`">
           </transition>
         </div>
       </div>
@@ -36,16 +36,10 @@
     },
     data () {
       return {
-        refreshIcon: require('img/icons/refresh.svg'),
         panelHeaderStyling: {
           height: '128px'
         },
-        background1Styling: {
-          'background-color': this.service.color
-        },
-        background2Styling: {
-          'background-color': this.service.color,
-          'background-image': 'url(' + this.service.logo + ')',
+        background2ScrollStyling: {
           opacity: 1,
           display: 'block'
         },
@@ -63,18 +57,29 @@
           this.panelHeaderStyling.height = 128 - newVal + 'px';
           this.foregroundTopStyling.height = 64 - newVal + 'px';
           this.foregroundTopStyling.opacity = opacity;
-          this.background2Styling.opacity = opacity
+          this.background2ScrollStyling.opacity = opacity
           this.foregroundTopStyling.display = 'block';
-          this.background2Styling.display = 'block';
+          this.background2ScrollStyling.display = 'block';
         } else {
           this.panelHeaderStyling.height = 64 + 'px';
           this.foregroundTopStyling.height = 0 + 'px';
           this.foregroundTopStyling.display = 'none';
-          this.background2Styling.display = 'none';
+          this.background2ScrollStyling.display = 'none';
         }
       }
     },
     computed: {
+      background1Styling () {
+        return {
+          'background-color': this.service.color
+        }
+      },
+      background2Styling () {
+        return Object.assign({
+          'background-color': this.service.color,
+          'background-image': 'url(' + this.service.logo + ')',
+        }, this.background2ScrollStyling);
+      }
     },
     methods: {
       triggerRefresh () {

@@ -23,7 +23,32 @@ export default {
         });
     },
 
-    googleCalendarToken() {
+    googleCalendersList () {
+      return this.googleCalendarToken()
+        .then(this.getCalendars)
+        .then(this.googleCalendarsListComponents);
+    },
+
+    getCalendars (token) {
+      var url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList?oauth_token=' + token;
+      return ajax('GET', url);
+    },
+
+    googleCalendarsListComponents (data) {
+      let components = [];
+      data.items.forEach((calendar) => {
+        components.push({
+          name: 'v-checkbox',
+          props: {
+            label: calendar.summary,
+            value: calendar.id
+          }
+        });
+      });
+      return components;
+    },
+
+    googleCalendarToken () {
       return new Promise((resolve, reject) => {
         chrome.identity.getAuthToken({'interactive': true}, function (token) {
           if (!token) reject();
@@ -44,7 +69,6 @@ export default {
           apiUrl = url + '?&oauth_token=' + token + '&timeMin=' + dateStart + '&timeMax=' + dateEnd + '&orderBy=startTime&singleEvents=true';
           promises.push(
             ajax('GET', apiUrl).then((data) => {
-              console.log(data);
               localStorage.setItem('googleCalendarError', false);
               events = events.concat(data.items);
             }, reject)
@@ -64,11 +88,13 @@ export default {
       // Start with yesterday to include today in calendar
       let loopDate = moment().subtract(1, 'day');
       let eventStart;
+      let eventEnd;
       let eventStartTime;
       let eventEndTime;
 
-      events.forEach((event) => {
+      events.forEach((event, index) => {
         eventStart = moment(event.start.dateTime || event.start.date);
+        eventEnd = moment(event.end.dateTime || event.end.date);
         // Create header if new loopDate;
         if (eventStart.isAfter(loopDate, 'day')) {
           components.push({
@@ -77,6 +103,15 @@ export default {
               text: eventStart.calendar()
             }
           });
+          loopDate = eventStart;
+        } else if (index === 0) {
+          components.push({
+            name: 'v-panel-subheader',
+            props: {
+              text: moment().calendar()
+            }
+          });
+          loopDate = moment();
         }
 
         // Create item
@@ -105,8 +140,6 @@ export default {
         }
 
         components.push(itemComponent);
-
-        loopDate = eventStart;
       });
 
       localStorage.setItem('googleCalendarComponents', JSON.stringify(components));

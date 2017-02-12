@@ -1,5 +1,5 @@
 export const activeServices = (state) => {
-  return state.services.filter(service => service.status);
+  return state.services.filter(service => service.active);
 }
 
 export const loadingServices = (state) => {

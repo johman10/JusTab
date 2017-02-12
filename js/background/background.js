@@ -17,12 +17,12 @@ window.vueInstance = new Vue({
     vDesignerNews
   ],
   computed: {
-    ...mapState(['services', 'chromePort'])
+    ...mapState(['services'])
   },
   beforeCreate() {
     this.$store.dispatch('loadServices');
     chrome.runtime.onConnect.addListener((port) => {
-      port.onMessage.addListener(this.startRefresh);
+      chrome.runtime.onMessage.addListener(this.startRefresh);
     });
   },
   methods: {
@@ -32,14 +32,14 @@ window.vueInstance = new Vue({
         this[service.functionName]().then(() => {
           this.finishRefresh(msg);
         });
+      } else if (msg.name === 'loadServices') {
+        this.$store.dispatch('loadServices');
+      } else if (msg.name === 'reloadService') {
+        this.$store.dispatch('reloadService', { serviceId: msg.serviceId });
       }
     },
     finishRefresh (msg) {
-      chrome.tabs.query({ url: 'chrome://newtab/' }, function(tabs) {
-        tabs.forEach((tab) => {
-          chrome.tabs.sendMessage(tab.id, { name: 'finishRefresh', serviceId: msg.serviceId }, function () {});
-        })
-      });
+      chrome.runtime.sendMessage({ name: 'finishRefresh', serviceId: msg.serviceId });
     }
   },
   render: h => h()

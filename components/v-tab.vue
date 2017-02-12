@@ -1,7 +1,7 @@
 <template>
   <div v-cloak class="panel-container">
     <div class="settings-button settings-icon waves-effect"></div>
-    <v-panel v-for="(service, index) in services" :service-id="service.id"></v-panel>
+    <v-panel v-for="(service, index) in activeServices" :service-id="service.id"></v-panel>
     <div class="bottom-bar">
       <v-service-actions v-for="service in services" :service="service"></v-service-actions>
     </div>
