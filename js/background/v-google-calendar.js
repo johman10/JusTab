@@ -4,7 +4,7 @@ import ajax from 'modules/ajax';
 export default {
   computed: {
     googleCalendarService () {
-      return this.services[0];
+      return this.services.find((s) => { return s.id === 1; });
     },
     calendarUrls () {
       return this.googleCalendarService.calendars.map((url) => {
@@ -72,7 +72,7 @@ export default {
         // Create header if new loopDate;
         if (eventStart.isAfter(loopDate, 'day')) {
           components.push({
-            name: 'v-panel-header',
+            name: 'v-panel-subheader',
             props: {
               text: eventStart.calendar()
             }

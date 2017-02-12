@@ -40,47 +40,6 @@ serviceDataRefreshDone.then(function() {
     });
   }
 
-  // Open all function
-  var openAllButtons = document.querySelectorAll('.open-all');
-  for (var openAllButton of openAllButtons) {
-    openAllButton.addEventListener('click', function(event) {
-      var serviceId = event.target.closest('.bottom-bar-part').getAttribute('data-service-id'),
-          servicePanel = document.querySelector('.panel[data-service-id="' + serviceId + '"]'),
-          serviceLinks = servicePanel.querySelectorAll('.service-link');
-      for (var serviceLink of serviceLinks) {
-        findHistory(serviceLink);
-      }
-    })
-  }
-
-  // Refresh button eventListener
-  var refreshButtons = document.querySelectorAll('.refresh-button');
-  for (var refreshButton of refreshButtons) {
-    refreshButton.addEventListener('click', function(event) {
-      var serviceKey = this.getAttribute('class').split(' ').filter(function(buttonClass) { return buttonClass != 'refresh-button' && buttonClass != 'waves-effect' })[0].replace('refresh-', '').toUpperCase();
-      var serviceObject = serviceData[serviceKey];
-      if (serviceObject.status) {
-        var bgServiceObjects = getObjects(serviceObject, 'bgFunctionName', '');
-        var refreshParams = []
-        bgServiceObjects.forEach(function(bgService) {
-          var functionHash = { name: bgService.bgFunctionName }
-          if (bgService.length) {
-            functionHash.param = bgService.length
-          }
-          refreshParams.push(functionHash);
-        })
-
-        refreshService(event, refreshParams);
-      }
-    });
-  }
-
-  echo.init({
-    offset: 100,
-    throttle: 250,
-    unload: false
-  });
-
   var panels = document.querySelectorAll('.panel')
   for(var panel of panels) {
     panel.addEventListener('scroll', function() {
@@ -137,15 +96,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
   });
 });
-
-function findHistory(link) {
-  var url = link.getAttribute('href');
-  chrome.history.getVisits({ 'url': url }, function(data) {
-    if (data.length === 0) {
-      window.open(url);
-    }
-  });
-}
 
 // Show service that are on
 function showActiveServices(serviceData) {

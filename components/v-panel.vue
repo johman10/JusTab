@@ -1,26 +1,8 @@
 <template>
   <div class="panel" :style="panelStyling">
-    <div class="panel-header">
-      <div class="panel-header-background">
-        <div class="panel-header-background1" :style="background1Styling"></div>
-        <div class="panel-header-background2" :style="background2Styling"></div>
-      </div>
-      <div class="panel-header-foreground">
-        <div class="top">
-          <div @click="triggerRefresh" class="refresh-button waves-effect">
-            <transition name="loader" mode="out-in">
-              <v-spinner v-if="loading" :border="5" :width="25"></v-spinner>
-              <img v-else :src="refreshIcon" :alt="`Refresh ${service.name}`">
-            </transition>
-          </div>
-        </div>
-        <div class="bottom">
-          <a :href="service.url">{{service.name}}</a>
-        </div>
-      </div>
-    </div>
-    <div class="panel-content">
-      <v-panel-error v-if="service.error === 'true'" :serviceId="serviceId" :serviceName="service.name"></v-panel-error>
+    <v-panel-header @refresh="onRefresh" :loading="loading" :scrollTop="scrollTop" :service="service"></v-panel-header>
+    <div class="panel--content" :style="panelContentStyling" @scroll="onScroll">
+      <v-panel-error @refresh="onRefresh" v-if="service.error === 'true'" :serviceId="serviceId" :serviceName="service.name"></v-panel-error>
       <component v-for="component in components" :is="component.name" :props="component.props"></component>
     </div>
   </div>
@@ -31,16 +13,16 @@
 <script>
   import { mapActions, mapState } from 'vuex';
   import vPanelError from "components/v-panel-error.vue";
-  import vSpinner from "components/v-spinner.vue";
   import vPanelHeader from "components/v-panel-header.vue";
+  import vPanelSubheader from "components/v-panel-subheader.vue";
   import vPanelItem from "components/v-panel-item.vue";
 
   export default {
     components: {
       'v-panel-error': vPanelError,
-      'v-spinner': vSpinner,
       'v-panel-header': vPanelHeader,
-      'v-panel-item': vPanelItem
+      'v-panel-subheader': vPanelSubheader,
+      'v-panel-item': vPanelItem,
     },
 
     props: {
@@ -49,28 +31,20 @@
 
     data () {
       return {
-        loading: false
+        loading: false,
+        scrollTop: 0
       }
     },
 
     computed: {
-      refreshIcon() {
-        return require('img/icons/refresh.svg')
-      },
-      background1Styling() {
+      panelStyling () {
         return {
-          'background-color': this.service.color
+          width: this.service.panelWidth + 'px',
         }
       },
-      background2Styling() {
+      panelContentStyling () {
         return {
-          'background-color': this.service.color,
-          'background-image': 'url(' + this.service.logo + ')'
-        }
-      },
-      panelStyling() {
-        return {
-          width: this.service.panelWidth + 'px'
+          'padding-bottom': this.service.actions.length > 0 ? '50px' : 0
         }
       },
       components () {
@@ -97,7 +71,10 @@
     },
 
     methods: {
-      triggerRefresh() {
+      onScroll(event) {
+        this.scrollTop = event.target.scrollTop;
+      },
+      onRefresh () {
         this.loading = true;
         this.chromePort.postMessage({ name: 'startRefresh', serviceId: this.serviceId })
       }

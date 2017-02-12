@@ -4,7 +4,7 @@
 .panel-error {
   @include paper-shadow(1);
   background-color: #eee;
-  color: $text-color;
+  color: $color-text-primary;
   overflow: hidden;
   transition: max-height 300ms ease;
   white-space: normal;
@@ -23,7 +23,7 @@
     @include ripple($color-black);
     background-color: #eee;
     border-radius: 3px;
-    color: $text-color;
+    color: $color-text-primary;
     display: block;
     float: right;
     font-weight: 500;

@@ -1,0 +1,17 @@
+@import '~css/modules/colors';
+@import '~css/modules/mixins';
+
+.service-actions {
+  @include paper-shadow(1);
+  background-color: $color-white;
+  // display: none;
+  float: left;
+  height: 50px;
+  line-height: 50px;
+  width: 400px;
+
+  &--button {
+    margin-right: 16px;
+    pointer-events: auto;
+  }
+}

@@ -5,6 +5,13 @@
   white-space: nowrap;
 }
 
+.bottom-bar {
+  bottom: 0;
+  height: 50px;
+  pointer-events: none;
+  position: absolute;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -16,6 +23,7 @@ html a {
 }
 
 body {
+  font-family: 'Roboto', 'Helvetica Neue', 'Lucida Grande', sans-serif;
   margin: 0;
   overflow-x: auto;
   overflow-y: hidden;
@@ -39,6 +47,7 @@ body {
   background-color: #e0e0e0;
   background-position: 50%;
   background-repeat: no-repeat;
+  background-image: url('~img/icons/settings.svg');
   border-radius: 100%;
   bottom: 0;
   height: 56px;

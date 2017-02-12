@@ -32,7 +32,7 @@
 
     methods: {
       triggerRefresh () {
-        this.chromePort.postMessage({ name: 'startRefresh', serviceId: this.serviceId })
+        this.$emit('refresh');
       }
     }
   }

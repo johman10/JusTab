@@ -4,15 +4,17 @@ import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import store from 'store/index';
 import vGoogleCalendar from 'js/background/v-google-calendar';
-// import vCouchPotato from 'js/background/v-couch-potato';
+import vCouchPotato from 'js/background/v-couch-potato';
 import vGmail from 'js/background/v-gmail';
+import vDesignerNews from 'js/background/v-designer-news';
 
 window.vueInstance = new Vue({
   store,
   mixins: [
     vGoogleCalendar,
-    // vCouchPotato,
-    vGmail
+    vCouchPotato,
+    vGmail,
+    vDesignerNews
   ],
   computed: {
     ...mapState(['services', 'chromePort'])

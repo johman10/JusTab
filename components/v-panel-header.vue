@@ -1,15 +1,85 @@
 <template>
-  <h2>
-    {{ props.text }}
-  </h2>
+  <div class="panel-header" :style="panelHeaderStyling">
+    <div class="panel-header--background">
+      <div class="panel-header--background1" :style="background1Styling"></div>
+      <div class="panel-header--background2" :style="background2Styling"></div>
+    </div>
+    <div class="panel-header--foreground">
+      <div class="panel-header--foreground-top" :style="foregroundTopStyling">
+        <div @click="triggerRefresh" class="refresh-button waves-effect">
+          <transition name="loader" mode="out-in">
+            <v-spinner v-if="loading" :border="5" :width="25"></v-spinner>
+            <img v-else :src="refreshIcon" :alt="`Refresh ${service.name}`">
+          </transition>
+        </div>
+      </div>
+      <div class="panel-header--foreground-bottom">
+        <a class="panel-header--url" :href="service.url">{{service.name}}</a>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style src="css/components/v-panel-header.scss"></style>
 
 <script>
+  import vSpinner from "components/v-spinner.vue";
+
   export default {
+    components: {
+      'v-spinner': vSpinner
+    },
     props: {
-      props: Object
+      scrollTop: Number,
+      service: Object,
+      loading: Boolean
+    },
+    data () {
+      return {
+        refreshIcon: require('img/icons/refresh.svg'),
+        panelHeaderStyling: {
+          height: '128px'
+        },
+        background1Styling: {
+          'background-color': this.service.color
+        },
+        background2Styling: {
+          'background-color': this.service.color,
+          'background-image': 'url(' + this.service.logo + ')',
+          opacity: 1,
+          display: 'block'
+        },
+        foregroundTopStyling: {
+          height: '64px',
+          opacity: 1,
+          display: 'block'
+        }
+      }
+    },
+    watch: {
+      scrollTop (newVal) {
+        let opacity = 1-(newVal*(1/64));;
+        if (newVal < 64) {
+          this.panelHeaderStyling.height = 128 - newVal + 'px';
+          this.foregroundTopStyling.height = 64 - newVal + 'px';
+          this.foregroundTopStyling.opacity = opacity;
+          this.background2Styling.opacity = opacity
+          this.foregroundTopStyling.display = 'block';
+          this.background2Styling.display = 'block';
+        } else {
+          this.panelHeaderStyling.height = 64 + 'px';
+          this.foregroundTopStyling.height = 0 + 'px';
+          this.foregroundTopStyling.display = 'none';
+          this.background2Styling.display = 'none';
+        }
+      }
+    },
+    computed: {
+    },
+    methods: {
+      triggerRefresh () {
+        this.$emit('refresh');
+      }
     }
   }
 </script>

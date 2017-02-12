@@ -1,126 +1,110 @@
-// Docs:
-// http://nas.pxdesign.nl:5050/docs
+import moment from 'moment';
+import ajax from 'modules/ajax';
 
-function getWantedCouchPotato(length, callback) {
-  if (!length) {
-    length = 25;
-  }
-  var url = serviceData.CP.apiUrl;
-  var apiCall = "movie.list/?status=active&limit_offset=" + length;
-  var apiUrl = url + apiCall
-
-  ajax('GET', apiUrl).then(function(data) {
-    localStorage.setItem("Couchpotato_error", false);
-    serviceData.CP.wanted.error = false;
-    localStorage.setItem("CouchpotatoWanted", JSON.stringify(data));
-    serviceData.CP.wanted.JSON = data;
-    cpwHTML();
-
-    if (callback) {
-      callback();
+export default {
+  computed: {
+    couchPotatoService () {
+      return this.services.find((s) => { return s.id === 3; });
     }
-  }, function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("Couchpotato_error", true);
-    serviceData.CP.wanted.error = true;
+  },
+  methods: {
+    couchPotato () {
+      return this.getMovies()
+        .then(this.couchPotatoComponents)
+        .catch((error) => {
+          if (error) console.error(error);
+          localStorage.setItem('couchPotatoError', true);
+        });
+    },
 
-    if (callback) {
-      callback();
+    getMovies () {
+      return new Promise((resolve, reject) => {
+        var apiUrls = [
+          `${this.couchPotatoService.apiUrl}/movie.list/?release_status=snatched,downloaded,available`,
+          `${this.couchPotatoService.apiUrl}/movie.list/?status=active&limit_offset=25`
+        ];
+        var promises = [];
+
+        apiUrls.forEach(function (url) {
+          promises.push(
+            ajax('GET', url)
+              .then((data) => {
+                localStorage.setItem('couchPotatoError', false);
+                return data;
+              })
+          );
+        });
+
+        Promise.all(promises).then((results) => {
+          resolve({ snatched: results[0], wanted: results[1]});
+        });
+      });
+    },
+
+    couchPotatoComponents (data) {
+      let components = [];
+
+      components.push({
+        name: 'v-panel-subheader',
+        props: {
+          text: 'Snatched'
+        }
+      });
+
+      data.snatched.movies.forEach((movie) => {
+        components.push(this.buildMovieItem(movie));
+      });
+
+      components.push({
+        name: 'v-panel-subheader',
+        props: {
+          text: 'Wanted'
+        }
+      });
+
+      data.wanted.movies.forEach((movie) => {
+        components.push(this.buildMovieItem(movie));
+      });
+
+      localStorage.setItem('couchPotatoComponents', JSON.stringify(components));
+    },
+
+    buildMovieItem (movie) {
+      var posterUrl;
+      var movieDate = new Date(movie.info.released);
+      var date;
+
+      if (movie.info.images.poster_original && movie.info.images.poster_original[0] && movie.info.images.poster_original[0].substr(-4) != 'None') {
+        posterUrl = movie.info.images.poster[0];
+      }
+      else {
+        posterUrl = 'img/poster_fallback.png';
+      }
+
+      if (moment(movieDate).year() != moment().year()) {
+        date = moment(movieDate).format('MMM D, YYYY');
+      }
+      else {
+        date = moment(movieDate).format('MMM D');
+      }
+
+      return {
+        name: 'v-panel-item',
+        props: {
+          image: posterUrl,
+          title: movie.title,
+          collapseText: date,
+          components: [
+            {
+              name: 'v-panel-item-button',
+              props: {
+                url: 'http://www.imdb.com/title/' + movie.identifiers.imdb,
+                iconClass: 'info-icon'
+              }
+            }
+          ]
+        }
+      };
     }
-  });
-}
-
-function getSnatchedCouchPotato(callback) {
-  var url = serviceData.CP.apiUrl;
-  var apiCall = "movie.list/?release_status=snatched,downloaded,available";
-
-  ajax('GET', url + apiCall).then(function(data) {
-    localStorage.setItem("Couchpotato_error", false);
-    serviceData.CP.snatched.error = false;
-    localStorage.setItem("CouchpotatoSnatched", JSON.stringify(data));
-    serviceData.CP.snatched.JSON = data;
-    cpsHTML();
-
-    if (callback) {
-      callback();
-    }
-  }, function(xhr, ajaxOptions, thrownError) {
-    console.log(xhr, ajaxOptions, thrownError);
-    localStorage.setItem("Couchpotato_error", true);
-    serviceData.CP.snatched.error = true;
-
-    if (callback) {
-      callback();
-    }
-  })
-}
-
-function cpwHTML() {
-  var CouchpotatoWantedHTML = '<h2>Wanted</h2>';
-
-  var wantedData = serviceData.CP.wanted.JSON;
-
-  wantedData.movies.forEach(function(movie, i) {
-    CouchpotatoWantedHTML = cpCreateVar(movie, CouchpotatoWantedHTML);
-  });
-
-  localStorage.setItem('CouchpotatoWantedHTML', CouchpotatoWantedHTML);
-  serviceData.CP.wanted.HTML = CouchpotatoWantedHTML;
-}
-
-function cpsHTML() {
-  var CouchpotatoSnatchedHTML = '<h2>Snatched and Available</h2>';
-
-  var snatchedData = serviceData.CP.snatched.JSON;
-
-  snatchedData.movies.forEach(function(movie, i) {
-    CouchpotatoSnatchedHTML = cpCreateVar(movie, CouchpotatoSnatchedHTML);
-  });
-
-  localStorage.setItem('CouchpotatoSnatchedHTML', CouchpotatoSnatchedHTML);
-  serviceData.CP.snatched.HTML = CouchpotatoSnatchedHTML;
-}
-
-function cpCreateVar(movie, cpVar) {
-  var posterName, posterUrl;
-  var movieDate = new Date(movie.info.released);
-  var date;
-
-  if (movie.info.images.poster_original && movie.info.images.poster_original[0] && movie.info.images.poster_original[0].substr(-4) != "None") {
-    posterUrl = movie.info.images.poster[0];
   }
-  else {
-    posterUrl = 'img/poster_fallback.png';
-  }
-
-  if (moment(movieDate).year() != moment().year()) {
-    date = moment(movieDate).format("MMM D, YYYY");
-  }
-  else {
-    date = moment(movieDate).format("MMM D");
-  }
-
-  cpVar +=
-    '<div class="core-item cp-item">' +
-      '<div class="cp-poster-container">' +
-        '<img class="cp-poster" src="img/poster_fallback.png" data-echo="' + posterUrl + '"></img>' +
-      '</div>' +
-      '<div class="core-item-content">' +
-        htmlEncode(movie.title) +
-      '</div>' +
-      '<div class="core-item-icon"></div>' +
-    '</div>' +
-    '<div class="cp-collapse core-collapse">' +
-      '<div class="cp-collapse-date">' +
-        htmlEncode(date) +
-      '</div>' +
-      '<div class="cp-collapse-buttons">' +
-        '<div class="icon-button search-icon cp-search-movie waves-effect" id="' + movie._id + '"></div>' +
-        '<a class="cp-imdb-link" href="http://www.imdb.com/title/' + movie.identifiers.imdb + '" target="_blank">' +
-          '<div class="icon-button info-icon cp-imdb-link-icon waves-effect"></div>' +
-        '</a>' +
-      '</div>' +
-    '</div>';
-
-  return cpVar;
-}
+};

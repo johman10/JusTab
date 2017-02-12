@@ -64,37 +64,3 @@
        url('../fonts/Roboto-Black-webfont.ttf') format('truetype'),
        url('../fonts/Roboto-Black-webfont.svg#robotoblack') format('svg');
 }
-
-
-body {
-  color: $color-text-primary;
-  font-family: 'Roboto', 'Helvetica';
-  font-size: 14px;
-  font-weight: 400;
-}
-
-h1 {
-  color: $header-grey;
-  font-family: 'Roboto', 'Helvetica';
-  font-size: 14px;
-  font-weight: 600;
-  margin: 0;
-}
-
-p {
-  margin: 0 0 10px;
-}
-
-a {
-  color: $color-primary;
-  outline: none;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-ul {
-  margin: 0 0 5px;
-}

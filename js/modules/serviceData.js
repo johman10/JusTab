@@ -13,21 +13,19 @@ export let googleCalendar = function() {
       name: 'Google Calendar',
       url: 'https://calendar.google.com',
       color: '#4285f4',
-      loading: false,
       logo: require('img/GC_header.svg'),
-      containerId: 'calendar',
       error: localStorage.googleCalendarError || null,
-      status: items.GC_status,
+      status: items.GC_status || true,
       functionName: 'googleCalendar',
+      optionsPath: 'googlecalendar',
       refresh: isNaN(parseFloat(items.GC_refresh)) ? 15 : parseFloat(items.GC_refresh),
-      bgFunctionName: 'getCalendarData',
-      feFunctionName: 'calenderShowEvents',
       components: localStorage.googleCalendarComponents || null,
       calendars: ['johveck@gmail.com'],
       // TODO: Restore this code after settings work
       // calendars: items.calendars,
       days: parseFloat(items.GC_days) || 6,
-      panelWidth: parseFloat(items.GC_width) || 400
+      panelWidth: parseFloat(items.GC_width) || 400,
+      actions: []
     };
   });
 };
@@ -39,20 +37,17 @@ export let gmail = function() {
       name: 'Gmail',
       url: 'https://gmail.com',
       color: '#e04a3f',
-      loading: false,
       logo: require('img/GM_header.svg'),
-      containerId: 'gmail',
       error: localStorage.Gmail_error || null,
-      status: items.GM_status,
+      status: items.GM_status || true,
       functionName: 'gmail',
+      optionsPath: 'gmail',
       refresh: isNaN(parseFloat(items.GM_refresh)) ? 15 : parseFloat(items.GM_refresh),
-      bgFunctionName: 'getGmailData',
-      feFunctionName: 'GmailShowData',
       components: localStorage.gmailComponents || null,
       nextPage: localStorage.Gmail_page || null,
       panelWidth: parseFloat(items.GM_width) || 400,
-      htmlStorageKey: ['GmailUnreadHTML', 'GmailReadHTML'],
-      length: 25
+      length: 25,
+      actions: []
     };
   });
 };
@@ -62,107 +57,23 @@ export let couchPotato = function() {
     var data = {
       id: 3,
       name: 'CouchPotato',
-      containerId: 'couchpotato',
       color: '#4e5969',
-      loading: false,
       logo: require('img/CP_header.png'),
-      status: items.CP_status,
+      status: items.CP_status || true,
       refresh: isNaN(parseFloat(items.CP_refresh)) ? 15 : parseFloat(items.CP_refresh),
-      feFunctionName: 'cpShowData',
       address: items.CP_address,
       port: items.CP_port,
       key: items.CP_key,
       panelWidth: parseFloat(items.CP_width) || 400,
-      htmlStorageKey: ['CouchpotatoSnatchedHTML', 'CouchpotatoWantedHTML'],
-      snatched: {
-        error: localStorage.CouchpotatoSnatched_error || null,
-        functionName: 'couchPotatoSnatched',
-        bgFunctionName: 'getSnatchedCouchPotato',
-        JSON: JSON.parse(localStorage.CouchpotatoSnatched || null),
-        HTML: localStorage.CouchpotatoSnatchedHTML || null
-      },
-      wanted: {
-        error: localStorage.CouchpotatoWanted_error || null,
-        functionName: 'couchPotatoWanted',
-        bgFunctionName: 'getWantedCouchPotato',
-        JSON: JSON.parse(localStorage.CouchpotatoWanted || null),
-        HTML: localStorage.CouchpotatoWantedHTML || null,
-        length: 25
-      }
+      error: localStorage.couchPotatoError || null,
+      functionName: 'couchPotato',
+      optionsPath: 'couchpotato',
+      components: localStorage.couchPotatoComponents || null,
+      actions: []
     };
     data = Object.assign(data, apiUrl(data));
-    return data;
-  });
-};
-
-export let sickBeard = function() {
-  return chromeStorage().then(function(items) {
-    var data = {
-      id: 4,
-      name: 'Sick Beard',
-      containerId: 'sickbeard',
-      color: '#c7db40',
-      loading: false,
-      logo: require('img/SB_header.png'),
-      error: localStorage.Sickbeard_error || null,
-      status: items.SB_status,
-      functionName: 'sickBeard',
-      refresh: isNaN(parseFloat(items.SB_refresh)) ? 15 : parseFloat(items.SB_refresh),
-      bgFunctionName: 'getSickBeardData',
-      feFunctionName: 'sbShowData',
-      JSON: JSON.parse(localStorage.Sickbeard || null),
-      MissedHTML: localStorage.SickbeardMissedHTML || null,
-      TodayHTML: localStorage.SickbeardTodayHTML || null,
-      SoonHTML: localStorage.SickbeardSoonHTML || null,
-      LaterHTML: localStorage.SickbeardLaterHTML || null,
-      address: items.SB_address,
-      port: items.SB_port,
-      key: items.SB_key,
-      panelWidth: parseFloat(items.SB_width) || 400,
-      htmlStorageKey: ['SickbeardMissedHTML', 'SickbeardTodayHTML', 'SickbeardSoonHTML', 'SickbeardLaterHTML']
-    }
-    data = Object.assign(data, apiUrl(data));
-    return data;
-  });
-}
-
-export let sabnzbd = function() {
-  return chromeStorage().then(function(items) {
-    var data = {
-      id: 5,
-      name: 'SABnzbd',
-      containerId: 'sabnzbd',
-      color: '#ffeb3b',
-      loading: false,
-      logo: require('img/SAB_header.png'),
-      status: items.SAB_status,
-      feFunctionName: 'sabShowData',
-      downloadStatus: localStorage.SabnzbdStatusHTML || null,
-      address: items.SAB_address,
-      port: items.SAB_port,
-      key: items.SAB_key,
-      panelWidth: parseFloat(items.SAB_width) || 400,
-      htmlStorageKey: ['SabnzbdQueueHTML', 'SabnzbdHistoryHTML'],
-      queue: {
-        error: localStorage.SabnzbdQueue_error || null,
-        functionName: 'sabnzbdQueue',
-        refresh: isNaN(parseFloat(items.SABQ_refresh)) ? 15 : parseFloat(items.SABQ_refresh),
-        bgFunctionName: 'getSabnzbdQueue',
-        JSON: JSON.parse(localStorage.SabnzbdQueue || null),
-        HTML: localStorage.SabnzbdQueueHTML || null
-      },
-      history: {
-        error: localStorage.SabnzbdHistory_error || null,
-        functionName: 'sabnzbdHistory',
-        refresh: isNaN(parseFloat(items.SABH_refresh)) ? 15 : parseFloat(items.SABH_refresh),
-        bgFunctionName: 'getSabnzbdHistory',
-        JSON: JSON.parse(localStorage.SabnzbdHistory || null),
-        HTML: localStorage.SabnzbdHistoryHTML || null,
-        length: items.SAB_history
-      }
-    };
-
-    data = Object.assign(data, apiUrl(data));
+    // TODO: remove this line and use the previous line instead
+    data.apiUrl = 'https://nas.pxdesign.nl/couchpotato/api/18f01df7c60c4f519fab66877028f91a/';
     return data;
   });
 };
@@ -174,19 +85,15 @@ export let designerNews = function() {
       name: 'Designer News',
       url: 'https://www.designernews.co/',
       color: '#1c52a2',
-      loading: false,
       logo: require('img/DN_header.png'),
-      containerId: 'designernews',
-      error: localStorage.Designernews_error || null,
-      status: items.DN_status,
+      error: localStorage.designerNewsError || null,
+      status: items.DN_status || true,
       functionName: 'designerNews',
+      optionsPath: 'designernews',
       refresh: isNaN(parseFloat(items.DN_refresh)) ? 15 : parseFloat(items.DN_refresh),
-      bgFunctionName: 'getDesignerNewsData',
-      feFunctionName: 'dnShowData',
-      JSON: JSON.parse(localStorage.Designernews || null),
-      HTML: localStorage.DesignernewsHTML || null,
+      components: localStorage.designerNewsComponents,
       panelWidth: parseFloat(items.DN_width) || 400,
-      htmlStorageKey: 'DesignernewsHTML'
+      actions: ['openUnread']
     };
   });
 };
@@ -198,20 +105,17 @@ export let hackerNews = function() {
       name: 'Hacker News',
       url: 'https://news.ycombinator.com/',
       color: '#f60',
-      loading: false,
       logo: require('img/HN_header.svg'),
-      containerId: 'hackernews',
       error: localStorage.Hackernews_error || null,
-      status: items.HN_status,
+      status: items.HN_status || true,
       functionName: 'hackernews',
+      optionsPath: 'hackernews',
       refresh: isNaN(parseFloat(items.HN_refresh)) ? 15 : parseFloat(items.HN_refresh),
-      bgFunctionName: 'getHackerNewsData',
-      feFunctionName: 'hnShowData',
       IDs: localStorage.HackernewsIDs || null,
       JSON: JSON.parse(localStorage.Hackernews || null),
       HTML: localStorage.HackernewsHTML || null,
       panelWidth: parseFloat(items.HN_width) || 400,
-      htmlStorageKey: 'HackernewsHTML'
+      actions: ['openUnread']
     };
   });
 };
@@ -223,19 +127,16 @@ export let github = function() {
       name: 'Github',
       url: 'https://github.com/trending',
       color: '#000',
-      loading: false,
       logo: require('img/GH_header.png'),
-      containerId: 'github',
       error: localStorage.Github_error || null,
-      status: items.GH_status,
+      status: items.GH_status || true,
       functionName: 'github',
+      optionsPath: 'github',
       refresh: isNaN(parseFloat(items.GH_refresh)) ? 15 : parseFloat(items.GH_refresh),
-      bgFunctionName: 'getGithubData',
-      feFunctionName: 'ghShowData',
       JSON: localStorage.Github || null,
       HTML: localStorage.GithubHTML || null,
       panelWidth: parseFloat(items.GH_width) || 400,
-      htmlStorageKey: 'GithubHTML'
+      actions: ['openUnread']
     };
   });
 };
@@ -247,19 +148,16 @@ export let productHunt = function() {
       name: 'Product Hunt',
       url: 'https://www.producthunt.com/',
       color: '#df5337',
-      loading: false,
       logo: require('img/PH_header.svg'),
-      containerId: 'producthunt',
       error: localStorage.ProductHunt_error || null,
-      status: items.PH_status,
+      status: items.PH_status || true,
       functionName: 'productHunt',
+      optionsPath: 'producthunt',
       refresh: isNaN(parseFloat(items.PH_refresh)) ? 15 : parseFloat(items.PH_refresh),
-      bgFunctionName: 'getProductHuntData',
-      feFunctionName: 'phShowData',
       JSON: JSON.parse(localStorage.ProductHunt || null),
       HTML: localStorage.ProductHuntHTML || null,
       panelWidth: parseFloat(items.PH_width) || 400,
-      htmlStorageKey: 'ProductHuntHTML'
+      actions: ['openUnread']
     };
   });
 };
@@ -271,21 +169,18 @@ export let dribbble = function() {
       name: 'Dribbble',
       url: 'https://dribbble.com',
       color: '#ea4c89',
-      loading: false,
       logo: require('img/DR_header.svg'),
-      containerId: 'dribbble',
       error: localStorage.Dribbble_error || null,
-      status: items.PH_status,
+      status: items.PH_status || true,
       functionName: 'dribbble',
+      optionsPath: 'dribbble',
       refresh: isNaN(parseFloat(items.DR_refresh)) ? 15 : parseFloat(items.DR_refresh),
-      bgFunctionName: 'getDribbbleData',
-      feFunctionName: 'drShowData',
       JSON: JSON.parse(localStorage.Dribbble || null),
       HTML: localStorage.DribbbleHTML || null,
       smallImages: items.DR_small_images,
       gifs: items.DR_gifs,
       panelWidth: parseFloat(items.DR_width) || 400,
-      htmlStorageKey: 'DribbbleHTML'
+      actions: ['openUnread']
     };
   });
 };
@@ -297,21 +192,18 @@ export let reddit = function() {
       name: 'Reddit',
       url: 'https://www.reddit.com/',
       color: '#CFE3FA',
-      loading: false,
       logo: require('img/RD_header.png'),
-      containerId: 'reddit',
       error: localStorage.Reddit_error || null,
-      status: items.RD_status,
+      status: items.RD_status || true,
       functionName: 'reddit',
+      optionsPath: 'reddit',
       refresh: isNaN(parseFloat(items.RD_refresh)) ? 15 : parseFloat(items.RD_refresh),
-      bgFunctionName: 'getRedditData',
-      feFunctionName: 'rdShowData',
       JSON: JSON.parse(localStorage.Reddit || null),
       HTML: localStorage.RedditHTML || null,
       panelWidth: parseFloat(items.RD_width) || 400,
       subreddit: items.RD_subreddit || 'all',
       sorting: items.RD_sorting || 'Hot',
-      htmlStorageKey: 'RedditHTML'
+      actions: ['openUnread']
     };
   });
 };
@@ -322,23 +214,20 @@ export let nzbget = function() {
       id: 12,
       name: 'NZBGet',
       color: '#282828',
-      loading: false,
       logo: require('img/NG_header.png'),
-      containerId: 'nzbget',
-      status: items.NG_status,
-      feFunctionName: 'ngShowData',
-      downloadStatus: localStorage.NzbgetStatusHTML || null,
+      status: items.NG_status || true,
+      downloadStatus: localStorage.NzbgetStatusHTML || null || true,
       address: items.NG_address,
       port: items.NG_port,
       username: items.NG_username,
       password: items.NG_password,
       panelWidth: parseFloat(items.NG_width) || 400,
-      htmlStorageKey: ['NzbgetQueueHTML', 'NzbgetHistoryHTML'],
+      optionsPath: 'nzbget',
+      actions: [],
       queue: {
         error: localStorage.NzbgetQueue_error || null,
         functionName: 'nzbgetQueue',
         refresh: isNaN(parseFloat(items.NGQ_refresh)) ? 15 : parseFloat(items.NGQ_refresh),
-        bgFunctionName: 'getNzbgetQueue',
         JSON: JSON.parse(localStorage.NzbgetQueue || null),
         HTML: localStorage.NzbgetQueueHTML || null
       },
@@ -346,11 +235,10 @@ export let nzbget = function() {
         error: localStorage.NzbgetHistory_error || null,
         functionName: 'nzbgetHistory',
         refresh: isNaN(parseFloat(items.NGH_refresh)) ? 15 : parseFloat(items.NGH_refresh),
-        bgFunctionName: 'getNzbgetHistory',
         JSON: JSON.parse(localStorage.NzbgetHistory || null),
         HTML: localStorage.NzbgetHistoryHTML || null,
         length: parseFloat(items.NGH_length) || 25
-      }
+      },
     };
 
     data = Object.assign(data, apiUrl(data));
@@ -364,22 +252,19 @@ export let sonarr = function() {
       id: 13,
       name: 'Sonarr',
       color: '#5FB9EF',
-      loading: false,
       logo: require('img/SO_header.png'),
-      containerId: 'sonarr',
       error: localStorage.Sonarr_error || null,
-      status: items.SO_status,
+      status: items.SO_status || true,
       functionName: 'sonarr',
+      optionsPath: 'sonarr',
       refresh: isNaN(parseFloat(items.SO_refresh)) ? 15 : parseFloat(items.SO_refresh),
-      bgFunctionName: 'getSonarrData',
-      feFunctionName: 'soShowData',
       JSON: JSON.parse(localStorage.Sonarr || null),
       HTML: localStorage.SonarrHTML || null,
       address: items.SO_address,
       port: items.SO_port,
       key: items.SO_key,
       panelWidth: parseFloat(items.SO_width) || 400,
-      htmlStorageKey: 'SonarrHTML'
+      actions: []
     };
 
     data = Object.assign(data, apiUrl(data));
@@ -391,8 +276,6 @@ const serviceData = [
   googleCalendar,
   gmail,
   couchPotato,
-  sickBeard,
-  sabnzbd,
   designerNews,
   hackerNews,
   github,

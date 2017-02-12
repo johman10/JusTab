@@ -9,8 +9,13 @@
   transition: background-color 150ms;
   width: 100%;
 
-  a {
-    color: black;
+  &--url {
+    color: inherit;
+    text-decoration: none;
+
+    &:visited {
+      color: #757575;
+    }
   }
 
   &--base {
@@ -20,8 +25,19 @@
   }
 
   &--collapse {
-    @include text-truncate;
+    display: flex;
+    flex-wrap: wrap;
     height: 48px;
+    line-height: 48px;
+
+    &-content {
+      @include text-truncate;
+      flex: 1;
+    }
+  }
+
+  &--button-container {
+    margin-left: 8px;
   }
 
   &.panel-item__expanded {
@@ -30,6 +46,12 @@
 
     .panel-item-content--icon {
       background-image: url('~img/icons/expand_less.svg');
+    }
+  }
+
+  &.panel-item__image {
+    .panel-item--base {
+      height: 56px;
     }
   }
 

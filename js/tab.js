@@ -8,29 +8,28 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 Vue.use(VueLazyload, {
   error: require('img/poster_fallback.png'),
   loading: require('img/poster_fallback.png'),
+  attempt: 1
 });
 Vue.use(Vuex);
 
-chrome.runtime.getBackgroundPage((backgroundPage) => {
-  new Vue({
-    el: '.tab',
-    store,
-    beforeCreate () {
-      this.$store.dispatch('loadServices');
-    },
-    mounted () {
-      chrome.runtime.onMessage.addListener((message) => {
-        if (message.name === 'finishRefresh') {
-          this.reloadService({ serviceId: message.serviceId });
-        }
-      });
-    },
-    methods: {
-      ...mapActions(['reloadService'])
-    },
-    computed: {
-      ...mapState(['chromePort'])
-    },
-    render: h => h(vTab)
-  })
+new Vue({
+  el: '.tab',
+  store,
+  beforeCreate () {
+    this.$store.dispatch('loadServices');
+  },
+  mounted () {
+    chrome.runtime.onMessage.addListener((message) => {
+      if (message.name === 'finishRefresh') {
+        this.reloadService({ serviceId: message.serviceId });
+      }
+    });
+  },
+  methods: {
+    ...mapActions(['reloadService'])
+  },
+  computed: {
+    ...mapState(['chromePort'])
+  },
+  render: h => h(vTab)
 });

@@ -4,7 +4,7 @@ import ajax from 'modules/ajax';
 export default {
   computed: {
     service () {
-      return this.services[1];
+      return this.services.find((s) => { return s.id === 2; });
     }
   },
   methods: {
@@ -59,9 +59,7 @@ export default {
                 messages.push(data);
                 localStorage.setItem('gmailError', false);
               })
-              .catch(() => {
-                localStorage.setItem('gmailError', true);
-              })
+              .catch(reject)
           );
         });
 
@@ -79,28 +77,41 @@ export default {
       let components = [];
 
       components.push({
-        name: 'v-panel-header',
+        name: 'v-panel-subheader',
         props: {
           text: 'Unread'
         }
       });
 
-      unreadEmails.forEach((email) => {
-        components.push(this.buildMailItem(email));
-      });
+      components = components.concat(this.buildMailItems(unreadEmails, 'unread'));
 
       components.push({
-        name: 'v-panel-header',
+        name: 'v-panel-subheader',
         props: {
           text: 'Read'
         }
       });
 
-      readEmails.forEach((email) => {
-        components.push(this.buildMailItem(email));
-      });
+      components = components.concat(this.buildMailItems(readEmails, 'read'));
 
       localStorage.setItem('gmailComponents', JSON.stringify(components));
+    },
+
+    buildMailItems (mails, type) {
+      let mailComponents = [];
+      if (mails.length) {
+        mails.forEach((email) => {
+          mailComponents.push(this.buildMailItem(email));
+        });
+      } else {
+        mailComponents.push({
+          name: 'v-panel-item',
+          props: {
+            title: `There are no ${type} emails at the moment.`
+          }
+        });
+      }
+      return mailComponents;
     },
 
     buildMailItem (mail) {

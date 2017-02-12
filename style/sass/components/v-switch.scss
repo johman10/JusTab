@@ -1,0 +1,67 @@
+.switch {
+  user-select: none;
+
+  .switch--label {
+    cursor: pointer;
+  }
+
+  .switch--checkbox {
+    display: block;
+    height: 0;
+    margin: 0;
+    opacity: 0;
+    width: 0;
+
+    &:checked + .switch--lever {
+      background-color: #80cdae;
+    }
+
+    &:checked + .switch--lever::after {
+      background-color: #009d5f;
+      left: 16px;
+    }
+
+    &:checked:not(:disabled) ~ .switch--lever:active::after {
+      box-shadow: 0 1px 3px 1px rgba(0, 0, 0, .4), 0 0 0 15px transparentize(#008080 , .9);
+    }
+
+    &:not(:disabled) ~ .switch--lever:active::after {
+      box-shadow: 0 1px 3px 1px rgba(0, 0, 0, .4), 0 0 0 15px rgba(0, 0, 0, .08);
+    }
+
+    &[disabled] + .switch--lever {
+      cursor: default;
+    }
+
+    &[disabled] + .switch--lever::after,
+    &[disabled]:checked + .switch--lever::after {
+      background-color: #bdbdbd;
+    }
+  }
+
+  .switch--lever {
+    background-color: #bcbcbc;
+    border-radius: 14px;
+    content: '';
+    display: inline-block;
+    height: 14px;
+    position: relative;
+    transition: background .3s ease;
+    vertical-align: middle;
+    width: 36px;
+
+    &::after {
+      background-color: #f1f1f1;
+      border-radius: 20px;
+      box-shadow: 0 1px 5px 0 rgba(0, 0, 0, .4);
+      content: '';
+      display: inline-block;
+      height: 20px;
+      left: 0;
+      position: absolute;
+      top: -3px;
+      transition: left linear .08s, background linear .08s, box-shadow .1s ease;
+      width: 20px;
+    }
+  }
+}

@@ -2,7 +2,7 @@
 @import '~css/modules/mixins';
 
 .panel-item-content {
-  @include text-truncate;
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
   position: absolute;
@@ -10,21 +10,47 @@
   transform: translateY(-50%);
   width: 100%;
 
+  &--image {
+    background-position: 50%;
+    background-size: cover;
+    border-radius: 50%;
+    height: 40px;
+    margin-right: 16px;
+    width: 40px;
+  }
+
+  &--titles {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    min-width: 0;
+    width: 100%;
+  }
+
   &--title {
     @include text-truncate;
-    flex: 1;
+    flex: 1 0 10%;
     font-size: 13px;
+    min-width: 70%;
   }
 
   &--extra-title {
     font-size: 11px;
     padding-left: 8px;
-    // color: rgba($color-black, .54);
+  }
+
+  &--subtitle-url {
+    color: $color-text-secondary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &--subtitle {
     @include text-truncate;
-    color: rgba($color-black, .54);
+    color: $color-text-secondary;
   }
 
   &--icon {

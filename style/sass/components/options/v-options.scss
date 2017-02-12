@@ -1,0 +1,17 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+html a {
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0 , .004);
+}
+
+body {
+  margin: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0;
+  width: 0;
+}
