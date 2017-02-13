@@ -13,7 +13,3 @@ export const sortedServices = (state) => {
   });
   return sortedServices;
 };
-
-export const loadingServices = (state) => {
-  return state.services.filter(service => service.loading);
-};

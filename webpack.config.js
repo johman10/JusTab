@@ -1,7 +1,8 @@
-var path = require('path');
-var htmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var webpack = require('webpack');
+const path = require('path');
+const htmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: {
@@ -124,7 +125,7 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.optimize.UglifyJsPlugin({
+    new UglifyJSPlugin({
       // Don't beautify output (enable for neater output)
       beautify: false,
 
@@ -132,9 +133,7 @@ if (process.env.NODE_ENV === 'production') {
       comments: true,
 
       // Compression specific options
-      compress: {
-        warnings: false
-      },
+      compress: true,
 
       // Mangling specific options
       mangle: false
