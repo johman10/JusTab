@@ -18,11 +18,11 @@ export let googleCalendar = function() {
       active: typeof items.googleCalendarActive === 'boolean' ? items.googleCalendarActive : true,
       functionName: 'googleCalendar',
       optionsPath: '/googlecalendar',
-      refresh: isNaN(parseFloat(items.GC_refresh)) ? 15 : parseFloat(items.GC_refresh),
+      refresh: parseFloat(items.googleCalendarRefresh) || 15,
       components: localStorage.googleCalendarComponents || null,
       calendars: items.googleCalendarCalendars,
-      days: parseFloat(items.GC_days) || 6,
-      panelWidth: parseFloat(items.GC_width) || 400,
+      days: parseInt(items.googleCalendarDays) || 6,
+      panelWidth: parseFloat(items.googleCalendarWidth) || 400,
       actions: []
     };
   });
@@ -36,14 +36,14 @@ export let gmail = function() {
       url: 'https://gmail.com',
       color: '#e04a3f',
       logo: require('img/GM_header.svg'),
-      error: localStorage.Gmail_error || null,
+      error: localStorage.gmailError || null,
       active: typeof items.gmailActive === 'boolean' ? items.gmailActive : true,
       functionName: 'gmail',
       optionsPath: '/gmail',
-      refresh: isNaN(parseFloat(items.GM_refresh)) ? 15 : parseFloat(items.GM_refresh),
+      refresh: parseFloat(items.gmailRefresh) || 15,
       components: localStorage.gmailComponents || null,
       nextPage: localStorage.Gmail_page || null,
-      panelWidth: parseFloat(items.GM_width) || 400,
+      panelWidth: parseFloat(items.gmailWidth) || 400,
       length: 25,
       actions: []
     };
@@ -58,11 +58,11 @@ export let couchPotato = function() {
       color: '#4e5969',
       logo: require('img/CP_header.png'),
       active: typeof items.couchPotatoActive === 'boolean' ? items.couchPotatoActive : true,
-      refresh: isNaN(parseFloat(items.CP_refresh)) ? 15 : parseFloat(items.CP_refresh),
-      address: items.CP_address,
-      port: items.CP_port,
-      key: items.CP_key,
-      panelWidth: parseFloat(items.CP_width) || 400,
+      refresh: parseFloat(items.couchPotatoRefresh) || 15,
+      address: items.couchPotatoAddress,
+      port: items.couchPotatoPort,
+      key: items.couchPotatoKey,
+      panelWidth: parseFloat(items.couchPotatoWidth) || 400,
       error: localStorage.couchPotatoError || null,
       functionName: 'couchPotato',
       optionsPath: '/couchpotato',
@@ -70,8 +70,6 @@ export let couchPotato = function() {
       actions: []
     };
     data = Object.assign(data, apiUrl(data));
-    // TODO: remove this line and use the previous line instead
-    data.apiUrl = 'https://nas.pxdesign.nl/couchpotato/api/18f01df7c60c4f519fab66877028f91a/';
     return data;
   });
 };
@@ -88,9 +86,9 @@ export let designerNews = function() {
       active: typeof items.designerNewsActive === 'boolean' ? items.designerNewsActive : true,
       functionName: 'designerNews',
       optionsPath: '/designernews',
-      refresh: isNaN(parseFloat(items.DN_refresh)) ? 15 : parseFloat(items.DN_refresh),
+      refresh: parseFloat(items.designerNewsRefresh) || 15,
       components: localStorage.designerNewsComponents,
-      panelWidth: parseFloat(items.DN_width) || 400,
+      panelWidth: parseFloat(items.designerNewsWidth) || 400,
       actions: ['openUnread']
     };
   });
@@ -108,7 +106,7 @@ export let hackerNews = function() {
       active: typeof items.hackernewsActive === 'boolean' ? items.hackernewsActive : true,
       functionName: 'hackernews',
       optionsPath: '/hackernews',
-      refresh: isNaN(parseFloat(items.HN_refresh)) ? 15 : parseFloat(items.HN_refresh),
+      refresh: parseFloat(items.HN_refresh) || 15,
       IDs: localStorage.HackernewsIDs || null,
       JSON: JSON.parse(localStorage.Hackernews || null),
       HTML: localStorage.HackernewsHTML || null,
@@ -130,7 +128,7 @@ export let github = function() {
       active: typeof items.githubActive === 'boolean' ? items.githubActive : true,
       functionName: 'github',
       optionsPath: '/github',
-      refresh: isNaN(parseFloat(items.GH_refresh)) ? 15 : parseFloat(items.GH_refresh),
+      refresh: parseFloat(items.GH_refresh) || 15,
       JSON: localStorage.Github || null,
       HTML: localStorage.GithubHTML || null,
       panelWidth: parseFloat(items.GH_width) || 400,
@@ -151,7 +149,7 @@ export let productHunt = function() {
       active: typeof items.productHuntActive === 'boolean' ? items.productHuntActive : true,
       functionName: 'productHunt',
       optionsPath: '/producthunt',
-      refresh: isNaN(parseFloat(items.PH_refresh)) ? 15 : parseFloat(items.PH_refresh),
+      refresh: parseFloat(items.PH_refresh) || 15,
       JSON: JSON.parse(localStorage.ProductHunt || null),
       HTML: localStorage.ProductHuntHTML || null,
       panelWidth: parseFloat(items.PH_width) || 400,
@@ -172,7 +170,7 @@ export let dribbble = function() {
       active: typeof items.dribbleActive === 'boolean' ? items.dribbleActive : true,
       functionName: 'dribbble',
       optionsPath: '/dribbble',
-      refresh: isNaN(parseFloat(items.DR_refresh)) ? 15 : parseFloat(items.DR_refresh),
+      refresh: parseFloat(items.DR_refresh) || 15,
       JSON: JSON.parse(localStorage.Dribbble || null),
       HTML: localStorage.DribbbleHTML || null,
       smallImages: items.DR_small_images,
@@ -195,7 +193,7 @@ export let reddit = function() {
       active: typeof items.redditActive === 'boolean' ? items.redditActive : true,
       functionName: 'reddit',
       optionsPath: '/reddit',
-      refresh: isNaN(parseFloat(items.RD_refresh)) ? 15 : parseFloat(items.RD_refresh),
+      refresh: parseFloat(items.RD_refresh) || 15,
       JSON: JSON.parse(localStorage.Reddit || null),
       HTML: localStorage.RedditHTML || null,
       panelWidth: parseFloat(items.RD_width) || 400,
@@ -225,14 +223,14 @@ export let nzbget = function() {
       queue: {
         error: localStorage.NzbgetQueue_error || null,
         functionName: 'nzbgetQueue',
-        refresh: isNaN(parseFloat(items.NGQ_refresh)) ? 15 : parseFloat(items.NGQ_refresh),
+        refresh: parseFloat(items.NGQ_refresh) || 15,
         JSON: JSON.parse(localStorage.NzbgetQueue || null),
         HTML: localStorage.NzbgetQueueHTML || null
       },
       history: {
         error: localStorage.NzbgetHistory_error || null,
         functionName: 'nzbgetHistory',
-        refresh: isNaN(parseFloat(items.NGH_refresh)) ? 15 : parseFloat(items.NGH_refresh),
+        refresh: parseFloat(items.NGH_refresh) || 15,
         JSON: JSON.parse(localStorage.NzbgetHistory || null),
         HTML: localStorage.NzbgetHistoryHTML || null,
         length: parseFloat(items.NGH_length) || 25
@@ -255,7 +253,7 @@ export let sonarr = function() {
       active: typeof items.sonarrActive === 'boolean' ? items.sonarrActive : true,
       functionName: 'sonarr',
       optionsPath: '/sonarr',
-      refresh: isNaN(parseFloat(items.SO_refresh)) ? 15 : parseFloat(items.SO_refresh),
+      refresh: parseFloat(items.SO_refresh) || 15,
       JSON: JSON.parse(localStorage.Sonarr || null),
       HTML: localStorage.SonarrHTML || null,
       address: items.SO_address,
@@ -290,7 +288,7 @@ function apiUrl(data) {
     tempUrl += ':' + data.port;
   }
   var url = tempUrl;
-  var apiUrl = tempUrl + '/api/' + data.key + '/';
+  var apiUrl = tempUrl + '/api/' + data.key;
 
   return {
     url: url,

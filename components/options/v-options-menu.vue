@@ -1,6 +1,6 @@
 <template>
   <nav :class="['options-menu', { 'options-menu__show': showMenu }]">
-    <router-link v-for="service in services" :to="service.optionsPath" class="options-menu--link">
+    <router-link v-for="service in sortedServices" :to="service.optionsPath" class="options-menu--link" :data-id="service.id">
       <span class="options-menu--drag-handle"></span>
       {{ service.name }}
       <v-switch @input="processChanges" :value="service.active" :service-id="service.id" :name="service.functionName + 'Active'" class="options-menu--switch"></v-switch>
@@ -14,8 +14,9 @@
 <style src="css/components/options/v-options-menu.scss"></style>
 
 <script>
+  import { mapState, mapActions, mapGetters } from 'vuex';
+  import dragula from 'dragula';
   import vSwitch from 'v-switch';
-  import { mapState, mapActions } from 'vuex';
 
   export default {
     props: {
@@ -25,7 +26,7 @@
       'v-switch': vSwitch
     },
     computed: {
-      ...mapState([ 'services' ])
+      ...mapGetters([ 'sortedServices' ])
     },
     methods: {
       processChanges (serviceId, key, value) {
@@ -34,6 +35,25 @@
         this.updateService({ serviceId, changes })
       },
       ...mapActions([ 'updateService' ])
+    },
+    mounted () {
+      dragula([this.$el],{
+        moves: function (el, container, handle) {
+          return handle.className.includes('options-menu--drag-handle');
+        },
+        direction: 'vertical'
+      }).on('dragend', function(el) {
+        var serviceOrder = [];
+        var menuLinks = document.querySelectorAll('.options-menu--link');
+        for(var el of menuLinks) {
+          var serviceId = el.getAttribute('data-id')
+          if (serviceId) {
+            serviceOrder.push(serviceId);
+          }
+        }
+        localStorage.setItem('serviceOrder', serviceOrder);
+        chrome.runtime.sendMessage({ name: 'loadServices' });
+      });
     }
   }
 </script>

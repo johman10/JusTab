@@ -10,11 +10,11 @@
       </div>
       <div v-else-if="hasCollapse" class="panel-item-content--icon"></div>
       <template v-if="subtitle">
-        <a v-if="subtitleUrl" class="panel-item-content--subtitle-url" :href="subtitleUrl">
-          <div v-if="subtitle" class="panel-item-content--subtitle">
+        <div v-if="subtitleUrl" class="panel-item-content--subtitle">
+          <a class="panel-item-content--subtitle-url" :href="subtitleUrl">
             {{ subtitle }}
-          </div>
-        </a>
+          </a>
+        </div>
         <div v-else class="panel-item-content--subtitle">
           {{ subtitle }}
         </div>

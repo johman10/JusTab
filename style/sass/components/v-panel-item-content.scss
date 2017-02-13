@@ -51,6 +51,7 @@
   &--subtitle {
     @include text-truncate;
     color: $color-text-secondary;
+    flex-basis: 100%;
   }
 
   &--icon {

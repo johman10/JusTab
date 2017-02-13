@@ -5,7 +5,9 @@ import store from 'store/index';
 
 import vOptions from 'options/v-options';
 import vOptionsGoogleCalendar from 'options/v-options-google-calendar';
+import vOptionsGmail from 'options/v-options-gmail';
 import vOptionsCouchPotato from 'options/v-options-couch-potato';
+import vOptionsDesignerNews from 'options/v-options-designer-news';
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
@@ -13,7 +15,9 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/', redirect: '/googlecalendar' },
   { path: '/googlecalendar', component: vOptionsGoogleCalendar },
+  { path: '/gmail', component: vOptionsGmail },
   { path: '/couchpotato', component: vOptionsCouchPotato },
+  { path: '/designernews', component: vOptionsDesignerNews },
 ];
 
 const router = new VueRouter({

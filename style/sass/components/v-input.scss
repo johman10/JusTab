@@ -1,0 +1,97 @@
+.input {
+  margin: 30px 0 5px;
+  position: relative;
+
+  &--field {
+    border: 0;
+    border-bottom: 1px solid #757575;
+    display: block;
+    font-size: 14px;
+    padding-bottom: 8px;
+    width: 300px;
+
+    &::-webkit-input-placeholder {
+       opacity: 0;
+    }
+
+    &:focus {
+      outline: none;
+
+      & ~ .input--bottom-bar::before,
+      & ~ .input--bottom-bar::after {
+        width: 50%;
+      }
+
+      & ~ .input--label {
+        color: #4059a9;
+        font-size: 12px;
+        top: -22px;
+      }
+    }
+
+    &:focus ~ .input--label,
+    &:not(:placeholder-shown) ~ .input--label {
+      font-size: 12px;
+      top: -22px;
+    }
+
+    &:invalid {
+      color: #F44336;
+
+      .input--bottom-bar::before,
+      .input--bottom-bar::after {
+        background: #F44336;
+        width: 50%;
+      }
+
+      .input--label {
+        color: #F44336;
+        font-size: 12px;
+        top: -22px;
+      }
+    }
+  }
+
+  &--label {
+    color: #aaaaaa;
+    font-size: 13px;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    transition: .2s ease all;
+  }
+
+  &--bottom-bar {
+    display: block;
+    position: relative;
+    width: 300px;
+
+    &::before,
+    &::after {
+      background: #4059a9;
+      bottom: 0;
+      content: '';
+      height: 2px;
+      position: absolute;
+      transition: .2s ease all;
+      width: 0;
+    }
+
+    &::before {
+      left: 50%;
+    }
+
+    &::after {
+      right: 50%;
+    }
+  }
+
+  &--description {
+    color: #4059a9;
+    font-size: 12px;
+
+    a {
+      color: inherit;
+    }
+  }
+}

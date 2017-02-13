@@ -16,17 +16,15 @@
     props: {
       service: Object
     },
-    data () {
-      return {
-        wrapperStyling: {
-          width: this.service.panelWidth + 'px',
-          opacity: this.service.actions.length > 0 ? 1 : 0
-        }
-      }
-    },
     computed: {
       components () {
         return JSON.parse(this.service.components);
+      },
+      wrapperStyling () {
+        return {
+          width: this.service.panelWidth + 'px',
+          opacity: this.service.actions.length > 0 ? 1 : 0
+        }
       }
     },
     methods: {
