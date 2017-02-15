@@ -4,7 +4,7 @@ import ajax from 'modules/ajax';
 export default {
   computed: {
     googleCalendarService () {
-      return this.services.find((s) => { return s.id === 1; });
+      return this.services.find(s => s.id === 1);
     },
     calendarUrls () {
       return this.googleCalendarService.calendars.map((url) => {
@@ -58,43 +58,33 @@ export default {
     },
 
     getEvents (token) {
-      return new Promise((resolve, reject) => {
-        var dateStart = new Date().toISOString();
-        var dateEnd = moment(new Date()).add(this.googleCalendarService.days, 'days').endOf('day').toISOString();
-        var events = [];
-        var promises = [];
-        var apiUrl;
+      var dateStart = new Date().toISOString();
+      var dateEnd = moment(new Date()).add(this.googleCalendarService.days, 'days').endOf('day').toISOString();
+      var promises = [];
+      var apiUrl;
 
-        this.calendarUrls.forEach((url, i) => {
-          apiUrl = url + '?&oauth_token=' + token + '&timeMin=' + dateStart + '&timeMax=' + dateEnd + '&orderBy=startTime&singleEvents=true';
-          promises.push(
-            ajax('GET', apiUrl).then((data) => {
-              localStorage.setItem('googleCalendarError', false);
-              events = events.concat(data.items);
-            }, reject)
-          );
-        });
-
-        Promise.all(promises)
-          .then(function() {
-            resolve(events.sort(sortCalendarResults));
-          })
-          .catch(reject);
+      this.calendarUrls.forEach((url) => {
+        apiUrl = url + '?&oauth_token=' + token + '&timeMin=' + dateStart + '&timeMax=' + dateEnd + '&orderBy=startTime&singleEvents=true';
+        promises.push(ajax('GET', apiUrl));
       });
+
+      return Promise.all(promises)
+        .then(function(calendars) {
+          localStorage.setItem('googleCalendarError', false);
+          let eventArrays = calendars.map(calendar => calendar.items);
+          return [].concat.apply([], eventArrays).sort(sortCalendarResults);
+        });
     },
 
     googleCalendarComponents (events) {
       let components = [];
       // Start with yesterday to include today in calendar
       let loopDate = moment().subtract(1, 'day');
-      let eventStart;
-      let eventEnd;
       let eventStartTime;
       let eventEndTime;
 
       events.forEach((event, index) => {
-        eventStart = moment(event.start.dateTime || event.start.date);
-        eventEnd = moment(event.end.dateTime || event.end.date);
+        let eventStart = moment(event.start.dateTime || event.start.date);
         // Create header if new loopDate;
         if (eventStart.isAfter(loopDate, 'day')) {
           components.push({

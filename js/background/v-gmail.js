@@ -4,7 +4,7 @@ import ajax from 'modules/ajax';
 export default {
   computed: {
     service () {
-      return this.services.find((s) => { return s.id === 2; });
+      return this.services.find(s => s.id === 2);
     }
   },
   methods: {
@@ -15,7 +15,7 @@ export default {
         .then(this.gmailComponents)
         .catch((error) => {
           if (error) console.error(error);
-          localStorage.setItem('googleCalendarError', true);
+          localStorage.setItem('gmailError', true);
         });
     },
 
@@ -29,46 +29,43 @@ export default {
     },
 
     getMailIds (token) {
-      return new Promise((resolve, reject) => {
-        chrome.identity.getProfileUserInfo((data) => {
-          var email = encodeURIComponent(data.email);
-          var query = '&q=' + encodeURIComponent('-in:chats -in:sent -in:notes');
-          var messagesUrl = `https://www.googleapis.com/gmail/v1/users/${email}/messages?maxResults=${this.service.length}&oauth_token=${token}${query}`;
+      var email;
+      return this.getUserData()
+        .then((userData) => {
+          email = encodeURIComponent(userData.email);
+          let query = '&q=' + encodeURIComponent('-in:chats -in:sent -in:notes');
+          let messagesUrl = `https://www.googleapis.com/gmail/v1/users/${email}/messages?maxResults=${this.service.length}&oauth_token=${token}${query}`;
+          return messagesUrl;
+        })
+        .then((messagesUrl) => {
+          return ajax('GET', messagesUrl);
+        })
+        .then((data) => {
+          return { token, email, messages: data.messages };
+        });
+    },
 
-          ajax('GET', messagesUrl)
-            .then(function(data) {
-              localStorage.setItem('gmailError', false);
-              resolve({ token, email, messages: data.messages });
-            })
-            .catch(reject);
+    getUserData () {
+      return new Promise((resolve) => {
+        chrome.identity.getProfileUserInfo((userData) => {
+          resolve(userData);
         });
       });
     },
 
     getMails (data) {
-      return new Promise((resolve, reject) => {
-        let promises = [];
-        let messages = [];
+      let promises = [];
 
-        data.messages.forEach((message) => {
-          let messageUrl = 'https://www.googleapis.com/gmail/v1/users/' + data.email + '/messages/' + message.id + '?&oauth_token=' + data.token;
-
-          promises.push(
-            ajax('GET', messageUrl)
-              .then((data) => {
-                messages.push(data);
-                localStorage.setItem('gmailError', false);
-              })
-              .catch(reject)
-          );
-        });
-
-        Promise.all(promises)
-          .then(function() {
-            resolve(rebuildGmailJson(messages).sort(sortGmailResults));
-          })
-          .catch(reject);
+      data.messages.forEach((message) => {
+        let messageUrl = 'https://www.googleapis.com/gmail/v1/users/' + data.email + '/messages/' + message.id + '?&oauth_token=' + data.token;
+        promises.push(ajax('GET', messageUrl));
       });
+
+      return Promise.all(promises)
+        .then((messages) => {
+          localStorage.setItem('gmailError', false);
+          return rebuildGmailJson(messages).sort(sortGmailResults);
+        });
     },
 
     gmailComponents (emails) {

@@ -102,15 +102,13 @@ export let hackerNews = function() {
       url: 'https://news.ycombinator.com/',
       color: '#f60',
       logo: require('img/HN_header.svg'),
-      error: localStorage.Hackernews_error || null,
+      error: localStorage.hackerNewsError || null,
       active: typeof items.hackernewsActive === 'boolean' ? items.hackernewsActive : true,
-      functionName: 'hackernews',
+      functionName: 'hackerNews',
       optionsPath: '/hackernews',
-      refresh: parseFloat(items.HN_refresh) || 15,
-      IDs: localStorage.HackernewsIDs || null,
-      JSON: JSON.parse(localStorage.Hackernews || null),
-      HTML: localStorage.HackernewsHTML || null,
-      panelWidth: parseFloat(items.HN_width) || 400,
+      refresh: parseFloat(items.hackerNewsRefresh) || 15,
+      components: localStorage.hackerNewsComponents,
+      panelWidth: parseFloat(items.hackerNewsWidth) || 400,
       actions: ['openUnread']
     };
   });
@@ -124,14 +122,13 @@ export let github = function() {
       url: 'https://github.com/trending',
       color: '#000',
       logo: require('img/GH_header.png'),
-      error: localStorage.Github_error || null,
+      error: localStorage.githubError || null,
       active: typeof items.githubActive === 'boolean' ? items.githubActive : true,
       functionName: 'github',
       optionsPath: '/github',
-      refresh: parseFloat(items.GH_refresh) || 15,
-      JSON: localStorage.Github || null,
-      HTML: localStorage.GithubHTML || null,
-      panelWidth: parseFloat(items.GH_width) || 400,
+      refresh: parseFloat(items.githubRefresh) || 15,
+      panelWidth: parseFloat(items.githubWidth) || 400,
+      components: localStorage.githubComponents,
       actions: ['openUnread']
     };
   });
@@ -145,14 +142,13 @@ export let productHunt = function() {
       url: 'https://www.producthunt.com/',
       color: '#df5337',
       logo: require('img/PH_header.svg'),
-      error: localStorage.ProductHunt_error || null,
+      error: localStorage.productHuntError || null,
       active: typeof items.productHuntActive === 'boolean' ? items.productHuntActive : true,
       functionName: 'productHunt',
       optionsPath: '/producthunt',
-      refresh: parseFloat(items.PH_refresh) || 15,
-      JSON: JSON.parse(localStorage.ProductHunt || null),
-      HTML: localStorage.ProductHuntHTML || null,
-      panelWidth: parseFloat(items.PH_width) || 400,
+      refresh: parseFloat(items.productHuntRefresh) || 15,
+      panelWidth: parseFloat(items.productHuntWidth) || 400,
+      components: localStorage.productHuntComponents,
       actions: ['openUnread']
     };
   });

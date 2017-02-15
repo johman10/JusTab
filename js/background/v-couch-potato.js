@@ -4,7 +4,7 @@ import ajax from 'modules/ajax';
 export default {
   computed: {
     couchPotatoService () {
-      return this.services.find((s) => { return s.id === 3; });
+      return this.services.find(s => s.id === 3);
     }
   },
   methods: {
@@ -18,26 +18,19 @@ export default {
     },
 
     getMovies () {
-      return new Promise((resolve, reject) => {
-        var apiUrls = [
-          `${this.couchPotatoService.apiUrl}/movie.list/?release_status=snatched,downloaded,available`,
-          `${this.couchPotatoService.apiUrl}/movie.list/?status=active&limit_offset=25`
-        ];
-        var promises = [];
+      var apiUrls = [
+        `${this.couchPotatoService.apiUrl}/movie.list/?release_status=snatched,downloaded,available`,
+        `${this.couchPotatoService.apiUrl}/movie.list/?status=active&limit_offset=25`
+      ];
+      var promises = [];
 
-        apiUrls.forEach(function (url) {
-          promises.push(
-            ajax('GET', url)
-              .then((data) => {
-                localStorage.setItem('couchPotatoError', false);
-                return data;
-              })
-          );
-        });
+      apiUrls.forEach(function (url) {
+        promises.push(ajax('GET', url));
+      });
 
-        Promise.all(promises).then((results) => {
-          resolve({ snatched: results[0], wanted: results[1]});
-        });
+      return Promise.all(promises).then((results) => {
+        localStorage.setItem('couchPotatoError', false);
+        return { snatched: results[0], wanted: results[1] };
       });
     },
 

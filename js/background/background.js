@@ -7,6 +7,9 @@ import vGoogleCalendar from 'js/background/v-google-calendar';
 import vCouchPotato from 'js/background/v-couch-potato';
 import vGmail from 'js/background/v-gmail';
 import vDesignerNews from 'js/background/v-designer-news';
+import vHackerNews from 'js/background/v-hacker-news';
+import vGithub from 'js/background/v-github';
+import vProductHunt from 'js/background/v-product-hunt';
 
 window.vueInstance = new Vue({
   store,
@@ -14,7 +17,10 @@ window.vueInstance = new Vue({
     vGoogleCalendar,
     vCouchPotato,
     vGmail,
-    vDesignerNews
+    vDesignerNews,
+    vHackerNews,
+    vGithub,
+    vProductHunt
   ],
   computed: {
     ...mapState(['services'])
