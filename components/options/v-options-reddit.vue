@@ -1,7 +1,7 @@
 <template>
-  <div class="options-gmail" v-if="service">
-    <v-input type="number" @change="saveData" :value="service.panelWidth" name="gmailWidth" label="Panel width in px"></v-input>
-    <v-input type="number" @change="saveData" :value="service.refresh" name="gmailRefresh" label="Refresh rate (in minutes)"></v-input>
+  <div class="options-reddit" v-if="service">
+    <v-input type="number" @change="saveData" :value="service.panelWidth" name="redditWidth" label="Panel width in px"></v-input>
+    <v-input type="number" @change="saveData" :value="service.refresh" name="redditRefresh" label="Refresh rate (in minutes)"></v-input>
   </div>
 </template>
 
@@ -17,7 +17,7 @@
       ...mapState({
         services: 'services',
         service (state) {
-          return state.services.find(s => s.id === 2);
+          return state.services.find((s) => s.id === 11);
         }
       })
     },
@@ -31,7 +31,7 @@
         changes[name] = newVal;
         this.updateService({ serviceId: this.service.id, changes });
       }
-    }
+    },
   }
 </script>
 

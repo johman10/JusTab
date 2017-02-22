@@ -23,7 +23,7 @@ module.exports = {
     ],
     extensions: ['.js', '.vue'],
     alias: {
-      'vue$': 'vue/dist/vue',
+      'vue$': 'vue/dist/vue.common',
       'store': __dirname + '/store',
       'modules': __dirname + '/js/modules',
       'img': __dirname + '/img',
@@ -88,12 +88,6 @@ module.exports = {
   },
   devtool: JSON.stringify(process.env.NODE_ENV) === 'development' ? 'eval-source-map' : 'source-map',
   plugins: [
-    // new webpack.optimize.UglifyJsPlugin({
-    //   comments: false,
-    //   compress: {
-    //     warnings: false,
-    //   }
-    // }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       environment: JSON.stringify(process.env.NODE_ENV)
@@ -118,9 +112,6 @@ module.exports = {
       { from: 'img/app_icons', to: 'img/app_icons'}
     ])
   ]
-  // eslint: {
-  //   configFile: __dirname + '/.eslintrc'
-  // }
 };
 
 if (process.env.NODE_ENV === 'production') {
@@ -133,7 +124,9 @@ if (process.env.NODE_ENV === 'production') {
       comments: true,
 
       // Compression specific options
-      compress: true,
+      compress: {
+        warnings: false
+      },
 
       // Mangling specific options
       mangle: false

@@ -23,9 +23,12 @@ function ajax(method, url, headers, data) {
     };
 
     request.onerror = function() {
-      var resp = JSON.parse(request.responseText);
-      console.log(request.status, request.responseText);
-      reject(resp);
+      try {
+        var resp = JSON.parse(request.responseText);
+        reject(resp);
+      } catch (e) {
+        reject(request.responseText);
+      }
     };
 
     request.send(data);

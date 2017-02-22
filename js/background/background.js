@@ -10,8 +10,12 @@ import vDesignerNews from 'js/background/v-designer-news';
 import vHackerNews from 'js/background/v-hacker-news';
 import vGithub from 'js/background/v-github';
 import vProductHunt from 'js/background/v-product-hunt';
+import vDribbble from 'js/background/v-dribbble';
+import vReddit from 'js/background/v-reddit';
+import vNzbget from 'js/background/v-nzbget';
+import vSonarr from 'js/background/v-sonarr';
 
-window.vueInstance = new Vue({
+let vueInstance = new Vue({
   store,
   mixins: [
     vGoogleCalendar,
@@ -20,21 +24,30 @@ window.vueInstance = new Vue({
     vDesignerNews,
     vHackerNews,
     vGithub,
-    vProductHunt
+    vProductHunt,
+    vDribbble,
+    vReddit,
+    vNzbget,
+    vSonarr
   ],
   computed: {
     ...mapState(['services'])
   },
   beforeCreate() {
     this.$store.dispatch('loadServices');
+
+    chrome.alarms.onAlarm.addListener(function(alarm) {
+      chrome.runtime.sendMessage({ name: 'startRefresh', serviceId: parseInt(alarm.name) });
+    });
+
     chrome.runtime.onConnect.addListener((port) => {
-      chrome.runtime.onMessage.addListener(this.startRefresh);
+      chrome.runtime.onMessage.addListener(this.respondToMessage);
     });
   },
   methods: {
-    startRefresh (msg) {
+    respondToMessage (msg) {
       if (msg.name === 'startRefresh') {
-        const service = this.services.find((s) => { return s.id === msg.serviceId });
+        const service = this.services.find(s => s.id === msg.serviceId);
         this[service.functionName]().then(() => {
           this.finishRefresh(msg);
         });
@@ -42,14 +55,25 @@ window.vueInstance = new Vue({
         this.$store.dispatch('loadServices');
       } else if (msg.name === 'reloadService') {
         this.$store.dispatch('reloadService', { serviceId: msg.serviceId });
+        this.setAlarms();
       }
     },
     finishRefresh (msg) {
       chrome.runtime.sendMessage({ name: 'finishRefresh', serviceId: msg.serviceId });
+    },
+    setAlarms () {
+      chrome.alarms.clearAll(() => {
+        this.services.forEach((service) => {
+          if (service.active) {
+            chrome.alarms.create(service.id.toString(), {periodInMinutes: service.refresh});
+          }
+        })
+      });
     }
-  },
-  render: h => h()
+  }
 });
+
+vueInstance.setAlarms();
 
 Promise.all(serviceData).then(function() {
   // Settings for moment.js
@@ -63,39 +87,9 @@ Promise.all(serviceData).then(function() {
       sameElse : 'MMM D'
     }
   });
-
-  chrome.runtime.onStartup.addListener(function() {
-    createAlarms();
-  });
-
-  chrome.alarms.onAlarm.addListener(function(alarm) {
-    for(service in serviceData) {
-      if (serviceData[key].containerId == "sabnzbd" || serviceData[key].containerId == "nzbget") {
-        if (serviceData[key].queue.alarmName == alarm.name) {
-          window[serviceData[key].queue.bgFunctionName]();
-        }
-        else if (serviceData[key].history.alarmName == alarm.name) {
-          window[serviceData[key].history.bgFunctionName]();
-        }
-      }
-      else if (serviceData[key].containerId == "couchpotato") {
-        if (serviceData[key].snatched.alarmName == alarm.name) {
-          window[serviceData[key].snatched.bgFunctionName]();
-        }
-        else if (serviceData[key].wanted.alarmName == alarm.name) {
-          window[serviceData[key].wanted.bgFunctionName]();
-        }
-      }
-      else if (serviceData[key].alarmName == alarm.name) {
-        window[serviceData[key].bgFunctionName]();
-      }
-    };
-  });
 });
 
 chrome.runtime.onInstalled.addListener(function(event) {
-  createAlarms();
-
   if (event.reason == "install") {
     openOptions();
   }
@@ -118,24 +112,6 @@ function htmlEncode(string) {
   return document.createElement( 'a' ).appendChild(
            document.createTextNode(string)
          ).parentNode.innerHTML;
-}
-
-function createAlarms() {
-  chrome.alarms.clearAll(function() {
-    for (var key in serviceData) {
-      if (serviceData[key].status && (serviceData[key].containerId == "sabnzbd" || serviceData[key].containerId == "nzbget")) {
-        chrome.alarms.create(serviceData[key].queue.alarmName, {periodInMinutes: serviceData[key].queue.refresh});
-        chrome.alarms.create(serviceData[key].history.alarmName, {periodInMinutes: serviceData[key].history.refresh});
-      }
-      else if (serviceData[key].status && serviceData[key].containerId == "couchpotato") {
-        chrome.alarms.create(serviceData[key].snatched.alarmName, {periodInMinutes: serviceData[key].refresh});
-        chrome.alarms.create(serviceData[key].wanted.alarmName, {periodInMinutes: serviceData[key].refresh});
-      }
-      else if (serviceData[key].status) {
-        chrome.alarms.create(serviceData[key].alarmName, {periodInMinutes: serviceData[key].refresh});
-      }
-    };
-  });
 }
 
 function openOptions() {

@@ -2,7 +2,10 @@
   <div class="options-google-calendar" v-if="service">
     <div class="options-google-calendar--calendar-list">
       <label class="options--label">Calendars</label>
-      <component @change="onCalendarChange" v-for="(checkbox, index) in calendarCheckboxes" :is="checkbox.name" :label="checkbox.props.label" :value="checkbox.props.value" :checked="checkedCalendar(checkbox.props.value)"></component>
+      <div v-if="error">
+        {{ error }}
+      </div>
+      <v-checkbox @change="onCalendarChange" v-for="calendar in calendars" :label="calendar.summary" :name="calendar.id" :value="calendar.id" :checked="checkedCalendar(calendar.id)"></v-checkbox>
     </div>
 
     <v-input type="number" @change="saveData" :value="service.days" name="googleCalendarDays" label="Days from today to show"></v-input>
@@ -32,7 +35,7 @@
           return state.services.find((s) => s.id === 1);
         }
       }),
-      calendars () {
+      activeCalendars () {
         if (!this.service) return [];
         return this.service.calendars || [];
       }
@@ -40,7 +43,8 @@
 
     data () {
       return {
-        calendarCheckboxes: []
+        calendars: [],
+        error: null
       }
     },
 
@@ -48,9 +52,9 @@
       ...mapActions([
         'updateService'
       ]),
-      onCalendarChange (value) {
-        let newCalendars = [].concat(this.calendars);
-        if (this.calendars.includes(value)) {
+      onCalendarChange (name, value) {
+        let newCalendars = [].concat(this.activeCalendars);
+        if (this.activeCalendars.includes(value)) {
           let index = newCalendars.indexOf(value);
           newCalendars.splice(index, 1);
         } else {
@@ -60,7 +64,7 @@
       },
       checkedCalendar (id) {
         if (!this.service) return false;
-        return this.calendars.includes(id);
+        return this.activeCalendars.includes(id);
       },
       saveData (name, newVal) {
         let changes = {};
@@ -70,9 +74,15 @@
     },
 
     mounted () {
-      this.googleCalendersList().then((calendarListCheckboxes) => {
-        this.calendarCheckboxes = calendarListCheckboxes;
-      });
+      this.googleCalendersList()
+        .then((calendars) => {
+          console.log(calendars);
+          this.calendars = calendars;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.error = error
+        });
     }
   }
 </script>

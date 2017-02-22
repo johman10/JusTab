@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<style src="css/components/options/v-options.scss"></style>
+<style src="css/options/v-options.scss"></style>
 
 <script>
   import vOptionsMenu from 'options/v-options-menu';

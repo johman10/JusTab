@@ -16,6 +16,7 @@
   import vPanelHeader from "components/v-panel-header.vue";
   import vPanelSubheader from "components/v-panel-subheader.vue";
   import vPanelItem from "components/v-panel-item.vue";
+  import vPanelImage from "components/v-panel-image.vue";
 
   export default {
     components: {
@@ -23,6 +24,7 @@
       'v-panel-header': vPanelHeader,
       'v-panel-subheader': vPanelSubheader,
       'v-panel-item': vPanelItem,
+      'v-panel-image': vPanelImage,
     },
 
     props: {

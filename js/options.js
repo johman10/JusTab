@@ -8,6 +8,13 @@ import vOptionsGoogleCalendar from 'options/v-options-google-calendar';
 import vOptionsGmail from 'options/v-options-gmail';
 import vOptionsCouchPotato from 'options/v-options-couch-potato';
 import vOptionsDesignerNews from 'options/v-options-designer-news';
+import vOptionsHackerNews from 'options/v-options-hacker-news';
+import vOptionsGithub from 'options/v-options-github';
+import vOptionsProductHunt from 'options/v-options-product-hunt';
+import vOptionsDribbble from 'options/v-options-dribbble';
+import vOptionsReddit from 'options/v-options-reddit';
+import vOptionsNzbget from 'options/v-options-nzbget';
+import vOptionsSonarr from 'options/v-options-sonarr';
 
 Vue.use(Vuex);
 Vue.use(VueRouter);
@@ -18,6 +25,13 @@ const routes = [
   { path: '/gmail', component: vOptionsGmail },
   { path: '/couchpotato', component: vOptionsCouchPotato },
   { path: '/designernews', component: vOptionsDesignerNews },
+  { path: '/hackernews', component: vOptionsHackerNews },
+  { path: '/github', component: vOptionsGithub },
+  { path: '/producthunt', component: vOptionsProductHunt },
+  { path: '/dribbble', component: vOptionsDribbble },
+  { path: '/reddit', component: vOptionsReddit },
+  { path: '/nzbget', component: vOptionsNzbget },
+  { path: '/sonarr', component: vOptionsSonarr },
 ];
 
 const router = new VueRouter({

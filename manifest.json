@@ -3,7 +3,7 @@
   "name": "JusTab",
   "version": "0.3.3",
   "author": "Johan van Eck",
-  "description": "Keep track of all your online services. With just a tab you see what's going on!",
+  "description": "Keep track of all your online services. With just a tab you can see what's going on!",
   "icons": {
     "16": "/img/app_icons/JusTab-16x16.png",
     "32": "/img/app_icons/JusTab-32x32.png",
@@ -25,7 +25,6 @@
     "client_id": "597229797223-em315o6neelklo2k7e9uv3ahtuo54lue.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/calendar",
-      "https://mail.google.com/",
       "https://www.googleapis.com/auth/gmail.readonly"
     ]
   },

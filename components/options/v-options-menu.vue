@@ -11,7 +11,7 @@
   </nav>
 </template>
 
-<style src="css/components/options/v-options-menu.scss"></style>
+<style src="css/options/v-options-menu.scss"></style>
 
 <script>
   import { mapState, mapActions, mapGetters } from 'vuex';

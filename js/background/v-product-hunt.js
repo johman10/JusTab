@@ -28,7 +28,6 @@ export default {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        // '{"client_id" : "f8127a54f3e548ae178cbcb42b3bbf5d7465e99549839a17c00ae1697dfd07c5", "client_secret" : "b37ff09eaa04c1d148e03af94555774c9b653c2dc56391dcec85a5b657ce8c8c", "grant_type" : "client_credentials"}'
         '{"client_id" : "4a6c8ab542d980ab608413902710f2902d76d771737a4ae4d9824a1627dc5a5b", "client_secret" : "bd9ca7a89b428c7f32f3fcfaac6b8c46c0916efcf077fef221ac6b5c20b313a8", "grant_type" : "client_credentials"}'
       );
     },
@@ -47,17 +46,26 @@ export default {
 
     productHuntComponents (postData) {
       let components = [];
-      postData.posts.forEach((post) => {
+      if (postData.posts.length) {
+        postData.posts.forEach((post) => {
+          components.push({
+            name: 'v-panel-item',
+            props: {
+              url: post.redirect_url,
+              title: post.name,
+              subtitleUrl: post.discussion_url,
+              subtitle: `${post.comments_count} comments - ${post.votes_count} points`
+            }
+          });
+        });
+      } else {
         components.push({
           name: 'v-panel-item',
           props: {
-            url: post.redirect_url,
-            title: post.name,
-            subtitleUrl: post.discussion_url,
-            subtitle: `${post.comments_count} comments - ${post.votes_count} points`
+            title: 'There are no posts at the moment.'
           }
         });
-      });
+      }
 
       localStorage.setItem('productHuntComponents', JSON.stringify(components));
     }

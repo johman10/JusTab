@@ -26,26 +26,14 @@ export default {
     googleCalendersList () {
       return this.googleCalendarToken()
         .then(this.getCalendars)
-        .then(this.googleCalendarsListComponents);
+        .then((data) => {
+          return data.items;
+        });
     },
 
     getCalendars (token) {
       var url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList?oauth_token=' + token;
       return ajax('GET', url);
-    },
-
-    googleCalendarsListComponents (data) {
-      let components = [];
-      data.items.forEach((calendar) => {
-        components.push({
-          name: 'v-checkbox',
-          props: {
-            label: calendar.summary,
-            value: calendar.id
-          }
-        });
-      });
-      return components;
     },
 
     googleCalendarToken () {

@@ -1,6 +1,21 @@
 // Docs:
 // http://developers.news.layervault.com/
 import ajax from 'modules/ajax';
+const badges = {
+  ama: require('img/dn_badges/badge_ama.png'),
+  apple: require('img/dn_badges/badge_apple.png'),
+  ask: require('img/dn_badges/badge_ask.png'),
+  css: require('img/dn_badges/badge_css.png'),
+  design: require('img/dn_badges/badge_design.png'),
+  discussion: require('img/dn_badges/badge_discussion.png'),
+  layervault: require('img/dn_badges/badge_layervault.png'),
+  pinned: require('img/dn_badges/badge_pinned.png'),
+  podcast: require('img/dn_badges/badge_podcast.png'),
+  show: require('img/dn_badges/badge_show.png'),
+  sponsored: require('img/dn_badges/badge_sponsored.png'),
+  type: require('img/dn_badges/badge_type.png'),
+  video: require('img/dn_badges/badge_video.png')
+};
 
 export default {
   computed: {
@@ -38,7 +53,7 @@ export default {
       data.stories.forEach((story) => {
         let url = story.url || 'https://www.designernews.co/stories/' + story.id;
         let subUrl = `https://www.designernews.co/stories/${story.id}`;
-        let badge = story.badge ? require(`img/dn_badges/badge_${story.badge}.png`) : false;
+        let badge = story.badge ? badges[story.badge] : false;
 
         components.push({
           name: 'v-panel-item',

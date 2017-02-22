@@ -162,16 +162,15 @@ export let dribbble = function() {
       url: 'https://dribbble.com',
       color: '#ea4c89',
       logo: require('img/DR_header.svg'),
-      error: localStorage.Dribbble_error || null,
+      error: localStorage.dribbbleError || null,
       active: typeof items.dribbleActive === 'boolean' ? items.dribbleActive : true,
       functionName: 'dribbble',
       optionsPath: '/dribbble',
-      refresh: parseFloat(items.DR_refresh) || 15,
-      JSON: JSON.parse(localStorage.Dribbble || null),
-      HTML: localStorage.DribbbleHTML || null,
-      smallImages: items.DR_small_images,
-      gifs: items.DR_gifs,
-      panelWidth: parseFloat(items.DR_width) || 400,
+      refresh: parseFloat(items.dribbbleRefresh) || 15,
+      components: localStorage.dribbbleComponents,
+      smallImages: items.dribbbleSmallImages,
+      gifs: items.dribbbleGifs,
+      panelWidth: parseFloat(items.dribbbleWidth) || 400,
       actions: ['openUnread']
     };
   });
@@ -185,16 +184,15 @@ export let reddit = function() {
       url: 'https://www.reddit.com/',
       color: '#CFE3FA',
       logo: require('img/RD_header.png'),
-      error: localStorage.Reddit_error || null,
+      error: localStorage.redditError || null,
       active: typeof items.redditActive === 'boolean' ? items.redditActive : true,
       functionName: 'reddit',
       optionsPath: '/reddit',
-      refresh: parseFloat(items.RD_refresh) || 15,
-      JSON: JSON.parse(localStorage.Reddit || null),
-      HTML: localStorage.RedditHTML || null,
-      panelWidth: parseFloat(items.RD_width) || 400,
-      subreddit: items.RD_subreddit || 'all',
-      sorting: items.RD_sorting || 'Hot',
+      refresh: parseFloat(items.redditRefresh) || 15,
+      components: localStorage.redditComponents,
+      panelWidth: parseFloat(items.redditWidth) || 400,
+      subreddit: items.redditSubreddit || 'all',
+      sorting: items.redditSorting || 'Hot',
       actions: ['openUnread']
     };
   });
@@ -208,29 +206,18 @@ export let nzbget = function() {
       color: '#282828',
       logo: require('img/NG_header.png'),
       active: typeof items.nzbgetActive === 'boolean' ? items.nzbgetActive : true,
-      downloadStatus: localStorage.NzbgetStatusHTML || null || true,
-      address: items.NG_address,
-      port: items.NG_port,
-      username: items.NG_username,
-      password: items.NG_password,
-      panelWidth: parseFloat(items.NG_width) || 400,
+      // downloadStatus: localStorage.NzbgetStatusHTML || null || true,
+      address: items.nzbgetAddress,
+      port: items.nzbgetPort,
+      username: items.nzbgetUsername,
+      password: items.nzbgetPassword,
+      panelWidth: parseFloat(items.nzbgetWidth) || 400,
       optionsPath: '/nzbget',
       actions: [],
-      queue: {
-        error: localStorage.NzbgetQueue_error || null,
-        functionName: 'nzbgetQueue',
-        refresh: parseFloat(items.NGQ_refresh) || 15,
-        JSON: JSON.parse(localStorage.NzbgetQueue || null),
-        HTML: localStorage.NzbgetQueueHTML || null
-      },
-      history: {
-        error: localStorage.NzbgetHistory_error || null,
-        functionName: 'nzbgetHistory',
-        refresh: parseFloat(items.NGH_refresh) || 15,
-        JSON: JSON.parse(localStorage.NzbgetHistory || null),
-        HTML: localStorage.NzbgetHistoryHTML || null,
-        length: parseFloat(items.NGH_length) || 25
-      },
+      error: localStorage.nzbgetError || null,
+      functionName: 'nzbget',
+      refresh: parseFloat(items.nzbgetRefresh) || 15,
+      components: localStorage.nzbgetComponents
     };
 
     data = Object.assign(data, apiUrl(data));
@@ -245,17 +232,16 @@ export let sonarr = function() {
       name: 'Sonarr',
       color: '#5FB9EF',
       logo: require('img/SO_header.png'),
-      error: localStorage.Sonarr_error || null,
+      error: localStorage.sonarrError || null,
       active: typeof items.sonarrActive === 'boolean' ? items.sonarrActive : true,
       functionName: 'sonarr',
       optionsPath: '/sonarr',
-      refresh: parseFloat(items.SO_refresh) || 15,
-      JSON: JSON.parse(localStorage.Sonarr || null),
-      HTML: localStorage.SonarrHTML || null,
-      address: items.SO_address,
-      port: items.SO_port,
-      key: items.SO_key,
-      panelWidth: parseFloat(items.SO_width) || 400,
+      refresh: parseFloat(items.sonarrRefresh) || 15,
+      address: items.sonarrAddress,
+      port: items.sonarrPort,
+      key: items.sonarrKey,
+      panelWidth: parseFloat(items.sonarrWidth) || 400,
+      components: localStorage.sonarrComponents,
       actions: []
     };
 
@@ -284,7 +270,13 @@ function apiUrl(data) {
     tempUrl += ':' + data.port;
   }
   var url = tempUrl;
-  var apiUrl = tempUrl + '/api/' + data.key;
+  var apiUrl;
+  if (data.key) {
+    apiUrl = tempUrl + '/api/' + data.key;
+  } else if (data.username && data.password) {
+    // TODO: Make sure tempUrl doesn't start with https:// instead it should be before the login data;
+    apiUrl = `${data.username}:${data.password}@` + tempUrl;
+  }
 
   return {
     url: url,

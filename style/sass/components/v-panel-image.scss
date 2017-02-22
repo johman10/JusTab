@@ -1,0 +1,67 @@
+@import '~css/modules/colors';
+@import '~css/modules/mixins';
+
+.panel-image {
+  @include ripple($color-white);
+  -webkit-filter: brightness(.9);
+  height: 300px;
+  line-height: initial;
+  margin: 2px;
+  position: relative;
+  transition: -webkit-filter 200ms linear;
+
+  &.small-image {
+    float: left;
+    height: 150px;
+    width: calc(50% - 4px);
+
+    &.wide-panel {
+      height: 300px;
+    }
+  }
+
+  &.wide-panel {
+    height: 500px;
+  }
+
+  &:hover {
+    -webkit-filter: brightness(1);
+  }
+
+  &--url {
+    @include text-truncate;
+    color: $color-black;
+    display: block;
+    height: 100%;
+    left: 72px;
+    text-decoration: none;
+  }
+
+  &--gif {
+    background-color: $color-white;
+    border-radius: 5px;
+    font-size: 10px;
+    opacity: .75;
+    padding: 5px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  &--image {
+    background-position: 50%;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+  }
+
+  &--content {
+    background-color: rgba(0, 0, 0, .5);
+    bottom: 0;
+    color: $color-white;
+    height: 68px;
+    padding: 16px;
+    position: absolute;
+    width: 100%;
+  }
+}

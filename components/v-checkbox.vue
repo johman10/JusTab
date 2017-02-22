@@ -1,7 +1,7 @@
 <template>
-  <div class="calendar-checkbox checkbox">
-    <input type="checkbox" @change="onChange" :value="value" :id="'checkbox-' + value" class="checkbox--actual" :checked="checked">
-    <label :for="'checkbox-' + value" class="checkbox--label">
+  <div class="checkbox">
+    <input type="checkbox" @change="onChange" :value="value" :id="name" class="checkbox--actual" :checked="checked">
+    <label :for="name" class="checkbox--label">
       <div class="checkbox--styled">
         <div class="checkbox--mark"></div>
       </div>
@@ -15,14 +15,15 @@
 <script>
   export default {
     props: {
-      value: String,
+      name: String,
+      value: [String, Boolean],
       label: String,
       checked: Boolean
     },
 
     methods: {
       onChange () {
-        this.$emit('change', this.value);
+        this.$emit('change', this.name, this.value);
       }
     }
   }

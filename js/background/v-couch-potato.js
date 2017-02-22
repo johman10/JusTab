@@ -44,9 +44,18 @@ export default {
         }
       });
 
-      data.snatched.movies.forEach((movie) => {
-        components.push(this.buildMovieItem(movie));
-      });
+      if (data.snatched.movies.length) {
+        data.snatched.movies.forEach((movie) => {
+          components.push(this.buildMovieItem(movie));
+        });
+      } else {
+        components.push({
+          name: 'v-panel-item',
+          props: {
+            title: 'There are no snatched movies at the moment.'
+          }
+        });
+      }
 
       components.push({
         name: 'v-panel-subheader',
@@ -55,9 +64,18 @@ export default {
         }
       });
 
-      data.wanted.movies.forEach((movie) => {
-        components.push(this.buildMovieItem(movie));
-      });
+      if (data.wanted.movies.length) {
+        data.wanted.movies.forEach((movie) => {
+          components.push(this.buildMovieItem(movie));
+        });
+      } else {
+        components.push({
+          name: 'v-panel-item',
+          props: {
+            title: 'There are no wanted movies at the moment.'
+          }
+        });
+      }
 
       localStorage.setItem('couchPotatoComponents', JSON.stringify(components));
     },
