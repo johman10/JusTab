@@ -25,8 +25,8 @@
       vGoogleCalendar
     ],
     components: {
-      'v-checkbox': vCheckbox,
-      'v-input': vInput
+      vCheckbox,
+      vInput
     },
     computed: {
       ...mapState({

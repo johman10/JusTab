@@ -11,7 +11,7 @@
 
   export default {
     components: {
-      'v-input': vInput
+      vInput
     },
     computed: {
       ...mapState({

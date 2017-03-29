@@ -18,8 +18,8 @@
 
   export default {
     components: {
-      'v-options-menu': vOptionsMenu,
-      'v-page-header': vPageHeader
+      vOptionsMenu,
+      vPageHeader
     },
     data () {
       return {

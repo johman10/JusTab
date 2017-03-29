@@ -14,8 +14,8 @@
 
   export default {
     components: {
-      'v-input': vInput,
-      'v-checkbox': vCheckbox
+      vInput,
+      vCheckbox
     },
     computed: {
       ...mapState({

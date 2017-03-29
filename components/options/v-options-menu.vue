@@ -23,7 +23,7 @@
       showMenu: Boolean
     },
     components: {
-      'v-switch': vSwitch
+      vSwitch
     },
     computed: {
       ...mapGetters([ 'sortedServices' ])

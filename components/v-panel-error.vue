@@ -17,7 +17,7 @@
 
   export default {
     components: {
-      'v-button': vButton
+      vButton
     },
 
     props: {
