@@ -77,8 +77,12 @@ let vueInstance = new Vue({
         this.setAlarms();
       } else if (msg.name === 'afterUpdateService') {
         this.reloadService({ serviceId: msg.serviceId });
-        this.startRefresh(msg.serviceId);
-        this.setAlarms();
+        // Wait until the service is reloaded before triggering a refresh
+        // Hacky. I know.
+        setTimeout(() => {
+          this.startRefresh(msg.serviceId);
+          this.setAlarms();
+        }, 500);
       }
     },
     startRefresh (serviceId) {
