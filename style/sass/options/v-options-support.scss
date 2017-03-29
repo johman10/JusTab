@@ -1,9 +1,17 @@
 @import '~css/modules/colors';
 
 .options-support {
+  padding-top: 10px;
+
   &__button.raised-button {
+    background-color: $color-white;
     margin-left: 0;
     vertical-align: middle;
+
+    img {
+      height: 75%;
+      vertical-align: middle;
+    }
   }
 
   h2 {
