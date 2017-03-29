@@ -116,20 +116,6 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([
-    new UglifyJSPlugin({
-      // Don't beautify output (enable for neater output)
-      beautify: false,
-
-      // Eliminate comments
-      comments: true,
-
-      // Compression specific options
-      compress: {
-        warnings: false
-      },
-
-      // Mangling specific options
-      mangle: false
-    })
+    new UglifyJSPlugin()
   ]);
 }
