@@ -22,8 +22,8 @@
       },
       wrapperStyling () {
         return {
-          width: this.service.panelWidth + 'px',
-          opacity: this.service.actions.length > 0 ? 1 : 0
+          display: this.service.actions.length > 0 ? 'inline-block' : 'none',
+          pointerEvents: this.service.actions.length > 0 ? 'initial' : 'none'
         }
       }
     },

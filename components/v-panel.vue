@@ -5,6 +5,7 @@
       <v-panel-error @refresh="onRefresh" v-if="service.error === 'true'" :serviceId="serviceId" :serviceName="service.name"></v-panel-error>
       <component v-for="component in components" :key="component.props" :is="component.name" :props="component.props"></component>
     </div>
+    <v-service-actions :service="service"></v-service-actions>
   </div>
 </template>
 
@@ -17,6 +18,7 @@
   import vPanelSubheader from "components/v-panel-subheader.vue";
   import vPanelItem from "components/v-panel-item.vue";
   import vPanelImage from "components/v-panel-image.vue";
+  import vServiceActions from 'v-service-actions.vue';
 
   export default {
     components: {
@@ -25,6 +27,7 @@
       vPanelSubheader,
       vPanelItem,
       vPanelImage,
+      vServiceActions
     },
 
     props: {

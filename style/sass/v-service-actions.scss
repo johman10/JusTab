@@ -4,10 +4,12 @@
 .service-actions {
   @include paper-shadow(1);
   background-color: $color-white;
+  bottom: 0;
   display: inline-block;
   height: 50px;
   line-height: 50px;
-  width: 400px;
+  position: absolute;
+  width: 100%;
 
   &--button {
     background-color: $color-white;
