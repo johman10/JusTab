@@ -11,6 +11,7 @@ export default {
 
   methods: {
     hackerNews () {
+      localStorage.setItem('hackerNewsError', false);
       return this.hackerNewsStoryIds()
         .then(this.hackerNewsStories)
         .then(this.hackerNewsComponents)
@@ -27,7 +28,6 @@ export default {
 
         ajax('GET', url + apiCall)
           .then(function(data) {
-            localStorage.setItem('hackerNewsError', false);
             resolve(data.slice(0,25));
           })
           .catch(reject);

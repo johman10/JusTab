@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<style src="css/components/v-panel-image.scss"></style>
+<style src="css/v-panel-image.scss"></style>
 
 <script>
   export default {
@@ -35,10 +35,6 @@
 
     props: {
       props: Object
-    },
-
-    mounted () {
-      console.log(this.props.panelWidth);
     }
   }
 </script>

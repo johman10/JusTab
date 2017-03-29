@@ -2,11 +2,10 @@
 @import '~css/modules/mixins';
 
 .panel-image {
-  @include ripple($color-white);
   -webkit-filter: brightness(.9);
   height: 300px;
   line-height: initial;
-  margin: 2px;
+  margin: 4px;
   position: relative;
   transition: -webkit-filter 200ms linear;
 
@@ -28,13 +27,22 @@
     -webkit-filter: brightness(1);
   }
 
-  &--url {
-    @include text-truncate;
+  &--link {
     color: $color-black;
     display: block;
     height: 100%;
-    left: 72px;
     text-decoration: none;
+  }
+
+  &--title {
+    @include text-truncate;
+    margin-bottom: 5px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  &--subtitle {
+    @include text-truncate;
   }
 
   &--gif {

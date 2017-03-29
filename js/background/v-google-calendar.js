@@ -14,6 +14,7 @@ export default {
   },
   methods: {
     googleCalendar () {
+      localStorage.setItem('googleCalendarError', false);
       return this.googleCalendarToken()
         .then(this.getEvents)
         .then(this.googleCalendarComponents)
@@ -58,7 +59,6 @@ export default {
 
       return Promise.all(promises)
         .then(function(calendars) {
-          localStorage.setItem('googleCalendarError', false);
           let eventArrays = calendars.map(calendar => calendar.items);
           return [].concat.apply([], eventArrays).sort(sortCalendarResults);
         });

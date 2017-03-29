@@ -1,12 +1,12 @@
 <template>
   <div class="options-designer-news" v-if="service">
-    <v-input type="number" @change="saveData" :value="service.panelWidth" name="designerNewsWidth" label="Panel width in px"></v-input>
-    <v-input type="number" @change="saveData" :value="service.refresh" name="designerNewsRefresh" label="Refresh rate (in minutes)"></v-input>
+    <v-input type="number" @change="onChange" :value="service.panelWidth" name="designerNewsWidth" label="Panel width in px"></v-input>
+    <v-input type="number" @change="onChange" :value="service.refresh" name="designerNewsRefresh" label="Refresh rate (in minutes)"></v-input>
   </div>
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex';
+  import { mapState } from 'vuex';
   import vInput from 'v-input';
 
   export default {
@@ -23,13 +23,8 @@
     },
 
     methods: {
-      ...mapActions([
-        'updateService'
-      ]),
-      saveData (name, newVal) {
-        let changes = {};
-        changes[name] = newVal;
-        this.updateService({ serviceId: this.service.id, changes });
+      onChange (name, newVal) {
+        this.saveData(this.service.id, name, newVal)
       }
     },
   }

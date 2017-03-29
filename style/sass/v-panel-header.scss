@@ -2,7 +2,6 @@
 @import '~css/modules/mixins';
 
 .refresh-button {
-  @include ripple;
   border-radius: 100%;
   height: 45px;
   margin: 12px 2px;

@@ -17,30 +17,3 @@
     box-shadow: 0 17px 17px 0 rgba(0, 0, 0, .15), 0 27px 55px 0 rgba(0, 0, 0, .3);
   }
 }
-
-@mixin spinner($color: $color-white, $width: 28px, $border: 2) {
-
-}
-
-@mixin ripple($color: $color-white) {
-  &.waves-effect {
-    cursor: pointer;
-    display: block;
-    overflow: hidden;
-    position: relative;
-    user-select: none;
-    will-change: opacity, transform;
-
-    .waves-ripple {
-      background-color: rgba($color, .25);
-      border-radius: 50%;
-      height: 10px;
-      margin: -10px 0 0 -10px;
-      pointer-events: none;
-      position: absolute;
-      -webkit-transition-duration: 400ms;
-      -webkit-transition-timing-function: cubic-bezier(.250, .460, .450, .940);
-      width: 10px;
-    }
-  }
-}

@@ -1,5 +1,5 @@
 function chromeStorage () {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     chrome.storage.sync.get(function(items) {
       resolve(items);
     });
@@ -103,7 +103,7 @@ export let hackerNews = function() {
       color: '#f60',
       logo: require('img/HN_header.svg'),
       error: localStorage.hackerNewsError || null,
-      active: typeof items.hackernewsActive === 'boolean' ? items.hackernewsActive : true,
+      active: typeof items.hackerNewsActive === 'boolean' ? items.hackerNewsActive : true,
       functionName: 'hackerNews',
       optionsPath: '/hackernews',
       refresh: parseFloat(items.hackerNewsRefresh) || 15,
@@ -163,7 +163,7 @@ export let dribbble = function() {
       color: '#ea4c89',
       logo: require('img/DR_header.svg'),
       error: localStorage.dribbbleError || null,
-      active: typeof items.dribbleActive === 'boolean' ? items.dribbleActive : true,
+      active: typeof items.dribbbleActive === 'boolean' ? items.dribbbleActive : true,
       functionName: 'dribbble',
       optionsPath: '/dribbble',
       refresh: parseFloat(items.dribbbleRefresh) || 15,

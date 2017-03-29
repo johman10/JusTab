@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     designerNews () {
+      localStorage.setItem('designerNewsError', false);
       return this.getStories()
         .then(this.designerNewsComponents)
         .catch((error) => {
@@ -41,7 +42,6 @@ export default {
 
         ajax('GET', url + apiCall + apiKey)
           .then(function(data) {
-            localStorage.setItem('designerNewsError', false);
             resolve(data);
           })
           .catch(reject);

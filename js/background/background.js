@@ -1,4 +1,3 @@
-import serviceData from 'modules/serviceData';
 import moment from 'moment';
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
@@ -36,38 +35,74 @@ let vueInstance = new Vue({
   beforeCreate() {
     this.$store.dispatch('loadServices');
 
-    chrome.alarms.onAlarm.addListener(function(alarm) {
-      chrome.runtime.sendMessage({ name: 'startRefresh', serviceId: parseInt(alarm.name) });
+    chrome.alarms.onAlarm.addListener((alarm) => {
+      this.respondToMessage({ name: 'reloadService', serviceId: parseInt(alarm.name) });
     });
 
     chrome.runtime.onConnect.addListener((port) => {
-      chrome.runtime.onMessage.addListener(this.respondToMessage);
+      // Prevent double event listeners when anoother connection is opened
+      if (!chrome.runtime.onMessage.hasListeners()) {
+        chrome.runtime.onMessage.addListener(this.respondToMessage);
+      }
+
+      port.onDisconnect.addListener(() => {
+        chrome.runtime.onMessage.removeListener(this.respondToMessage);
+      });
+    });
+
+    moment.updateLocale('en', {
+      calendar : {
+        lastDay : '[Yesterday]',
+        sameDay : '[Today]',
+        nextDay : '[Tomorrow]',
+        lastWeek : '[last] dddd',
+        nextWeek : 'dddd',
+        sameElse : 'MMM D'
+      }
     });
   },
   methods: {
+    ...mapActions([
+      'reloadService',
+      'loadServices'
+    ]),
     respondToMessage (msg) {
       if (msg.name === 'startRefresh') {
-        const service = this.services.find(s => s.id === msg.serviceId);
-        this[service.functionName]().then(() => {
-          this.finishRefresh(msg);
-        });
+        this.startRefresh(msg.serviceId);
       } else if (msg.name === 'loadServices') {
-        this.$store.dispatch('loadServices');
+        this.loadServices();
       } else if (msg.name === 'reloadService') {
-        this.$store.dispatch('reloadService', { serviceId: msg.serviceId });
+        this.reloadService({ serviceId: msg.serviceId });
+      } else if (msg.name === 'setAlarms') {
+        this.setAlarms();
+      } else if (msg.name === 'afterUpdateService') {
+        this.reloadService({ serviceId: msg.serviceId });
+        this.startRefresh(msg.serviceId);
         this.setAlarms();
       }
     },
-    finishRefresh (msg) {
-      chrome.runtime.sendMessage({ name: 'finishRefresh', serviceId: msg.serviceId });
+    startRefresh (serviceId) {
+      const service = this.services.find(s => s.id === serviceId);
+      this[service.functionName]()
+        .then(() => {
+          this.finishRefresh(serviceId);
+        });
+    },
+    finishRefresh (serviceId) {
+      chrome.tabs.query({ url: 'chrome://newtab/' }, (tabs) => {
+        tabs.forEach((tab) => {
+          chrome.tabs.sendMessage(tab.id, { name: 'finishRefresh', serviceId: serviceId });
+        });
+      });
     },
     setAlarms () {
+      console.log('setAlarms');
       chrome.alarms.clearAll(() => {
         this.services.forEach((service) => {
           if (service.active) {
             chrome.alarms.create(service.id.toString(), {periodInMinutes: service.refresh});
           }
-        })
+        });
       });
     }
   }
@@ -75,30 +110,16 @@ let vueInstance = new Vue({
 
 vueInstance.setAlarms();
 
-Promise.all(serviceData).then(function() {
-  // Settings for moment.js
-  moment.updateLocale('en', {
-    calendar : {
-      lastDay : '[Yesterday]',
-      sameDay : '[Today]',
-      nextDay : '[Tomorrow]',
-      lastWeek : '[last] dddd',
-      nextWeek : 'dddd',
-      sameElse : 'MMM D'
-    }
-  });
-});
-
 chrome.runtime.onInstalled.addListener(function(event) {
-  if (event.reason == "install") {
+  if (event.reason === 'install') {
     openOptions();
   }
-  else if (event.reason == "update") {
+  else if (event.reason === 'update') {
     createNotification(
-      { type: "basic",
-        title: "JusTab is updated",
-        message: "Click here to see the changelog.",
-        iconUrl: "../../img/app_icons/JusTab-128x128.png"
+      { type: 'basic',
+        title: 'JusTab is updated',
+        message: 'Click here to see the changelog.',
+        iconUrl: '../../img/app_icons/JusTab-128x128.png'
       },
       chrome.notifications.onClicked.addListener(function() {
         openOptions();
@@ -107,16 +128,9 @@ chrome.runtime.onInstalled.addListener(function(event) {
   }
 });
 
-function htmlEncode(string) {
-  // return $('<div/>').text(string).html();
-  return document.createElement( 'a' ).appendChild(
-           document.createTextNode(string)
-         ).parentNode.innerHTML;
-}
-
 function openOptions() {
   chrome.tabs.create({
-    'url': chrome.extension.getURL("options.html") + '#support'
+    'url': chrome.extension.getURL('options.html')
   });
 }
 

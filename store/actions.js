@@ -12,16 +12,14 @@ export const loadServices = ({ commit }) => {
 // Reload the whole service
 export const reloadService = ({ state, commit }, { serviceId }) => {
   const service = state.services.find((s) => { return s.id === serviceId; });
-  serviceData[service.functionName]().then((service) => {
+  return serviceData[service.functionName]().then((service) => {
     commit(types.RELOAD_SERVICE, { service: service });
   });
 };
 
 export const updateService = ({ state, dispatch }, { serviceId, changes }) => {
   chrome.storage.sync.set(changes, () => {
-    dispatch('reloadService', { serviceId });
-    chrome.runtime.sendMessage({ name: 'reloadService', serviceId });
-    chrome.runtime.sendMessage({ name: 'startRefresh', serviceId });
+    chrome.runtime.sendMessage({ name: 'afterUpdateService', serviceId });
   });
 };
 

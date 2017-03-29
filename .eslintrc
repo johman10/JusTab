@@ -2,6 +2,13 @@
     "parserOptions": {
         "ecmaVersion": 6,
         "sourceType": "module",
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "globals": {
+        "chrome": true,
+        "environment": true
     },
     "rules": {
         "indent": [2, 2],
@@ -9,6 +16,6 @@
         "linebreak-style": [2, "unix"],
         "semi": [2, "always"]
     },
-    "env": {"node": true, "browser": true},
-    "extends": "eslint:recommended"
+    "env": {"node": true, "browser": true, "es6": true},
+    "extends": "eslint:recommended", "vue"
 }

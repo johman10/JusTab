@@ -3,7 +3,6 @@
 
 .flat-button,
 .raised-button {
-  @include ripple($color-black);
   // background-color: $color-white;
   border: 0;
   color: $color-black;
@@ -17,6 +16,7 @@
   padding: 0 8px;
   text-decoration: none;
   text-transform: uppercase;
+  background-color: $color-white;
 
   &:hover {
     background-color: $hover-color;

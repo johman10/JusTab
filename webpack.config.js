@@ -11,7 +11,7 @@ module.exports = {
     tab: './js/tab'
   },
   output: {
-    path: __dirname + '/dist',
+    path: path.join(__dirname, '/dist'),
     filename: '[name].bundle.js',
     publicPath: process.env.NODE_ENV == 'development' ? 'http://localhost:8080/' : ''
   },
@@ -24,11 +24,11 @@ module.exports = {
     extensions: ['.js', '.vue'],
     alias: {
       'vue$': 'vue/dist/vue.common',
-      'store': __dirname + '/store',
-      'modules': __dirname + '/js/modules',
-      'img': __dirname + '/img',
-      'js': __dirname + '/js',
-      'css': __dirname + '/style/sass'
+      'store': path.join(__dirname, '/store'),
+      'modules': path.join(__dirname, '/js/modules'),
+      'img': path.join(__dirname, '/img'),
+      'js': path.join(__dirname, '/js'),
+      'css': path.join(__dirname, '/style/sass')
     }
   },
   module: {

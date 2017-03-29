@@ -1,14 +1,18 @@
 <template>
-  <a @click="$emit('click')" :class="['waves-effect', typeClass, extraClass]">{{ text }}</a>
+  <button @click="$emit('click')" :class="['ripple', typeClass]">
+    <template v-if="text">
+      {{ text }}
+    </template>
+    <slot v-else></slot>
+  </button>
 </template>
 
-<style src="css/components/v-button.scss"></style>
+<style src="css/v-button.scss"></style>
 
 <script>
   export default {
     props: {
       type: String,
-      extraClass: String,
       text: String
     },
 

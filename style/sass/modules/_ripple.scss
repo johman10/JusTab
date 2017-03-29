@@ -1,0 +1,27 @@
+.ripple {
+  cursor: pointer;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  user-select: none;
+  will-change: opacity, transform;
+
+  &__element {
+    background-color: rgba($color-black, .25);
+    border-radius: 50%;
+    height: 10px;
+    margin: -10px 0 0 -10px;
+    pointer-events: none;
+    position: absolute;
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(.250, .460, .450, .940);
+    width: 10px;
+    z-index: -10;
+  }
+
+  &--white {
+    &__element {
+      background-color: rgba($color-white, .25);
+    }
+  }
+}

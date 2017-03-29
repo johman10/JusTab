@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<style src="css/components/v-page-header.scss"></style>
+<style src="css/v-page-header.scss"></style>
 
 <script>
   export default {

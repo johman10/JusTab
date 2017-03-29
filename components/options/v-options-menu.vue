@@ -1,9 +1,9 @@
 <template>
   <nav :class="['options-menu', { 'options-menu__show': showMenu }]">
-    <router-link v-for="service in sortedServices" :to="service.optionsPath" class="options-menu--link" :data-id="service.id">
+    <router-link v-for="service in sortedServices" :key="service.id" :to="service.optionsPath" class="options-menu--link ripple" @mousedown.native="_showRipple" :data-id="service.id">
       <span class="options-menu--drag-handle"></span>
       {{ service.name }}
-      <v-switch @input="processChanges" :value="service.active" :service-id="service.id" :name="service.functionName + 'Active'" class="options-menu--switch"></v-switch>
+      <v-switch @input="onInput(service, $event)" :value="service.active" :service-id="service.id" :name="service.functionName + 'Active'" class="options-menu--switch"></v-switch>
     </router-link>
     <router-link to="/support" class="options-menu--link options-menu--support">
       Support
@@ -29,12 +29,10 @@
       ...mapGetters([ 'sortedServices' ])
     },
     methods: {
-      processChanges (serviceId, key, value) {
-        let changes = {}
-        changes[key] = value;
-        this.updateService({ serviceId, changes })
-      },
-      ...mapActions([ 'updateService' ])
+      onInput (service, key, value) {
+        console.log(service);
+        this.saveData(service.id, key, !service.active);
+      }
     },
     mounted () {
       dragula([this.$el],{

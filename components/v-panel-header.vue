@@ -6,7 +6,7 @@
     </div>
     <div class="panel-header--foreground">
       <div class="panel-header--foreground-top" :style="foregroundTopStyling">
-        <div @click="triggerRefresh" class="refresh-button waves-effect">
+        <div @click="triggerRefresh" class="refresh-button ripple">
           <transition name="loader" mode="out-in">
             <v-spinner v-if="loading" :border="5" :width="25"></v-spinner>
             <img v-else src="~img/icons/refresh.svg" :alt="`Refresh ${service.name}`">
@@ -20,14 +20,14 @@
   </div>
 </template>
 
-<style src="css/components/v-panel-header.scss"></style>
+<style src="css/v-panel-header.scss"></style>
 
 <script>
   import vSpinner from "components/v-spinner.vue";
 
   export default {
     components: {
-      'v-spinner': vSpinner
+      vSpinner
     },
     props: {
       scrollTop: Number,

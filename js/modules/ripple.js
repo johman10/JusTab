@@ -1,15 +1,20 @@
-document.querySelector('body').addEventListener('mousedown', function(event) {
-  var element = event.target.closest('.waves-effect');
-  if (element) {
-    startEffect(event, element);
-    element.addEventListener('mouseup', stopEffect);
-    element.addEventListener('mouseleave', stopEffect);
+export default {
+  methods: {
+    _showRipple (event) {
+      removeAllRipples();
+      var element = event.target.closest('.ripple, .ripple--no');
+      if (element && element.classList.contains('ripple')) {
+        startEffect(event, element);
+        element.addEventListener('mouseup', stopEffect);
+        element.addEventListener('mouseleave', stopEffect);
+      }
+    }
   }
-});
+};
 
 function startEffect(event, element) {
   var ripple = document.createElement('div');
-  ripple.classList.add('waves-ripple');
+  ripple.classList.add('ripple__element');
   element.appendChild(ripple);
 
   var pos = element.getBoundingClientRect();
@@ -21,22 +26,30 @@ function startEffect(event, element) {
   ripple.style.transform = 'scale(20)';
 }
 
-function stopEffect(event) {
-  var ripple = this.querySelector('.waves-ripple');
+function stopEffect() {
+  var ripple = this.querySelector('.ripple__element');
   if (ripple) {
     fadeOut(ripple, 300).then(function() {
       if (ripple.parentNode) {
         ripple.parentNode.removeChild(ripple);
       }
-    })
+    });
+  }
+}
+
+function removeAllRipples () {
+  const ripples = document.querySelectorAll('.ripple__element');
+  for (let i = 0; i < ripples.length; i++) {
+    let ripple = ripples[i];
+    ripple.parentNode.removeChild(ripple);
   }
 }
 
 function fadeOut(element, time) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve) {
     element.style.opacity = 0;
     setTimeout(function() {
       resolve();
-    }, 300)
-  })
+    }, time);
+  });
 }

@@ -23,13 +23,8 @@
     },
 
     methods: {
-      ...mapActions([
-        'updateService'
-      ]),
-      saveData (name, newVal) {
-        let changes = {};
-        changes[name] = newVal;
-        this.updateService({ serviceId: this.service.id, changes });
+      onChange (name, newVal) {
+        this.saveData(this.service.id, name, newVal)
       }
     },
   }

@@ -9,6 +9,7 @@ export default {
   },
   methods: {
     gmail () {
+      localStorage.setItem('gmailError', false);
       return this.gmailToken()
         .then(this.getMailIds)
         .then(this.getMails)
@@ -63,7 +64,6 @@ export default {
 
       return Promise.all(promises)
         .then((messages) => {
-          localStorage.setItem('gmailError', false);
           return rebuildGmailJson(messages).sort(sortGmailResults);
         });
     },

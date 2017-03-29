@@ -1,12 +1,13 @@
 .panel-item-button {
   float: right;
+  border-radius: 50%;
 
   &--icon {
     background-position: 50%;
     background-repeat: no-repeat;
     display: block;
     height: 48px;
-    width: 24px;
+    width: 48px;
   }
 
   .edit-icon {

@@ -48,8 +48,8 @@ export default {
             let subtitle = item.Status;
 
             if (index === 0) {
-              downloadPercentage = Math.round(item.DownloadedSizeMB)/(item.FileSizeMB/100);
-              subtitle += ` - ${downloadPercentage}`;
+              downloadPercentage = roundNumber(item.DownloadedSizeMB/(item.FileSizeMB/100));
+              subtitle += ` - ${downloadPercentage}%`;
             }
 
             components.push({
@@ -91,3 +91,7 @@ export default {
     }
   }
 };
+
+function roundNumber (number) {
+  return Math.round(number*100)/100;
+}

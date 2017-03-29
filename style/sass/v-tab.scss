@@ -1,5 +1,6 @@
 @import '~css/modules/colors';
 @import '~css/modules/mixins';
+@import '~css/modules/ripple';
 
 .panel-container {
   white-space: nowrap;
@@ -29,34 +30,6 @@ body {
   overflow-y: hidden;
   padding: 0;
   width: 0;
-}
-
-.loading-bar {
-  @include spinner($color-black, 28px, 2);
-
-  .loader {
-    left: 0;
-    top: 0;
-    transform: translate(0);
-  }
-}
-
-.settings-button {
-  @include paper-shadow(1);
-  @include ripple($color-black);
-  background-color: #e0e0e0;
-  background-position: 50%;
-  background-repeat: no-repeat;
-  background-image: url('~img/icons/settings.svg');
-  border-radius: 100%;
-  bottom: 0;
-  height: 56px;
-  margin: 16px;
-  padding: 16px;
-  position: fixed !important;
-  right: 0;
-  width: 56px;
-  z-index: 1;
 }
 
 .cleardiv {

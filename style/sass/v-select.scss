@@ -1,0 +1,60 @@
+@import '~css/modules/mixins';
+@import '~css/modules/colors';
+
+.select {
+  margin: 10px 0 0;
+  width: 300px;
+
+  &__label {
+    color: #aaaaaa;
+    display: block;
+    font-size: 12px;
+  }
+
+  &__bar {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+    border-bottom: 1px solid #757575;
+
+    &:after {
+      border-left: 0.4em solid transparent;
+      border-right: 0.4em solid transparent;
+      border-top: 0.5em solid #737373;
+      content: '';
+      display: block;
+      height: 0px;
+      margin-top: -0.2em;
+      position: absolute;
+      right: 0.5em;
+      top: 50%;
+      width: 0px;
+    }
+  }
+
+  &__list {
+    @include paper-shadow(1);
+    background-color: $color-white;
+    list-style: none;
+    max-height: 500px;
+    overflow-y: scroll;
+    padding: 8px 0;
+    position: absolute;
+    top: -21px;
+    width: 300px;
+    z-index: 100;
+  }
+
+  &__list-item {
+    @include text-truncate;
+    height: 48px;
+    line-height: 48px;
+    padding: 0 16px;
+
+    &:hover,
+    &.selected {
+      background-color: $hover-color;
+    }
+  }
+}

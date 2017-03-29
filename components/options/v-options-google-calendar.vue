@@ -5,17 +5,17 @@
       <div v-if="error">
         {{ error }}
       </div>
-      <v-checkbox @change="onCalendarChange" v-for="calendar in calendars" :label="calendar.summary" :name="calendar.id" :value="calendar.id" :checked="checkedCalendar(calendar.id)"></v-checkbox>
+      <v-checkbox @change="onCalendarChange" v-for="calendar in calendars" :key="calendar.id" :label="calendar.summary" :name="calendar.id" :value="calendar.id" :checked="checkedCalendar(calendar.id)"></v-checkbox>
     </div>
 
-    <v-input type="number" @change="saveData" :value="service.days" name="googleCalendarDays" label="Days from today to show"></v-input>
-    <v-input type="number" @change="saveData" :value="service.panelWidth" name="googleCalendarWidth" label="Panel width in px"></v-input>
-    <v-input type="number" @change="saveData" :value="service.refresh" name="googleCalendarRefresh" label="Refresh rate (in minutes)"></v-input>
+    <v-input type="number" @change="onChange" :value="service.days" name="googleCalendarDays" label="Days from today to show"></v-input>
+    <v-input type="number" @change="onChange" :value="service.panelWidth" name="googleCalendarWidth" label="Panel width in px"></v-input>
+    <v-input type="number" @change="onChange" :value="service.refresh" name="googleCalendarRefresh" label="Refresh rate (in minutes)"></v-input>
   </div>
 </template>
 
 <script>
-  import { mapActions, mapState } from 'vuex';
+  import { mapState } from 'vuex';
   import vGoogleCalendar from 'js/background/v-google-calendar';
   import vCheckbox from 'v-checkbox';
   import vInput from 'v-input';
@@ -49,9 +49,6 @@
     },
 
     methods: {
-      ...mapActions([
-        'updateService'
-      ]),
       onCalendarChange (name, value) {
         let newCalendars = [].concat(this.activeCalendars);
         if (this.activeCalendars.includes(value)) {
@@ -60,23 +57,20 @@
         } else {
           newCalendars.push(value);
         }
-        this.saveData('googleCalendarCalendars', newCalendars);
+        this.saveData(this.service.id, 'googleCalendarCalendars', newCalendars);
       },
       checkedCalendar (id) {
         if (!this.service) return false;
         return this.activeCalendars.includes(id);
       },
-      saveData (name, newVal) {
-        let changes = {};
-        changes[name] = newVal;
-        this.updateService({ serviceId: this.service.id, changes });
+      onChange (name, newVal) {
+        this.saveData(this.service.id, name, newVal)
       }
     },
 
     mounted () {
       this.googleCalendersList()
         .then((calendars) => {
-          console.log(calendars);
           this.calendars = calendars;
         })
         .catch((error) => {

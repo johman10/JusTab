@@ -1,0 +1,19 @@
+@import '~css/modules/colors';
+@import '~css/modules/mixins';
+
+.fab {
+  @include paper-shadow(1);
+  background-color: #e0e0e0;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-image: url('~img/icons/settings.svg');
+  border-radius: 100%;
+  bottom: 0;
+  height: 56px;
+  margin: 16px;
+  padding: 16px;
+  position: fixed !important;
+  right: 0;
+  width: 56px;
+  z-index: 1;
+}

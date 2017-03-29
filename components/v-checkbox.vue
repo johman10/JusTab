@@ -7,10 +7,10 @@
       </div>
       {{ label }}
     </label>
-  </div>"
+  </div>
 </template>
 
-<style src="css/components/v-checkbox.scss"></style>
+<style src="css/v-checkbox.scss"></style>
 
 <script>
   export default {

@@ -41,7 +41,7 @@ export default {
           props: {
             url: post.data.url,
             title: post.data.title,
-            subtitleUrl: post.data.permalink,
+            subtitleUrl: `https://reddit.com${post.data.permalink}`,
             extraTitle: `/r/${post.data.subreddit}`,
             subtitle: `${post.data.num_comments} comments - ${post.data.score} points`
           }

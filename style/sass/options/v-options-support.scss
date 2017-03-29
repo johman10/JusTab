@@ -1,0 +1,21 @@
+@import '~css/modules/colors';
+
+.options-support {
+  &__button.raised-button {
+    margin-left: 0;
+    vertical-align: middle;
+  }
+
+  h2 {
+    color: $color-text-secondary;
+    font-family: 'Roboto', 'Helvetica';
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0 0 5px;
+  }
+
+  p {
+    font-size: 14px;
+    margin: 0 0 20px;
+  }
+}

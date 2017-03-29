@@ -3,12 +3,12 @@
     <v-panel-header @refresh="onRefresh" :loading="loading" :scrollTop="scrollTop" :service="service"></v-panel-header>
     <div class="panel--content" :style="panelContentStyling" @scroll="onScroll">
       <v-panel-error @refresh="onRefresh" v-if="service.error === 'true'" :serviceId="serviceId" :serviceName="service.name"></v-panel-error>
-      <component v-for="component in components" :is="component.name" :props="component.props"></component>
+      <component v-for="component in components" :key="component.props" :is="component.name" :props="component.props"></component>
     </div>
   </div>
 </template>
 
-<style src="css/components/v-panel.scss"></style>
+<style src="css/v-panel.scss"></style>
 
 <script>
   import { mapActions, mapGetters } from 'vuex';
@@ -20,11 +20,11 @@
 
   export default {
     components: {
-      'v-panel-error': vPanelError,
-      'v-panel-header': vPanelHeader,
-      'v-panel-subheader': vPanelSubheader,
-      'v-panel-item': vPanelItem,
-      'v-panel-image': vPanelImage,
+      vPanelError,
+      vPanelHeader,
+      vPanelSubheader,
+      vPanelItem,
+      vPanelImage,
     },
 
     props: {

@@ -13,7 +13,6 @@
   z-index: 100;
 
   &--link {
-    @include ripple($color-black);
     color: $color-text-primary;
     display: block;
     height: 48px;
@@ -50,8 +49,8 @@
     background-color: $color-white;
     border-top: solid 1px #ececec;
     bottom: 0;
-    position: absolute;
-    width: 100%;
+    position: fixed;
+    width: 256px;
     z-index: 10;
     z-index: 10;
   }

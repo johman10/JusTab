@@ -9,6 +9,7 @@ export default {
   },
   methods: {
     couchPotato () {
+      localStorage.setItem('couchPotatoError', false);
       return this.getMovies()
         .then(this.couchPotatoComponents)
         .catch((error) => {
@@ -29,7 +30,6 @@ export default {
       });
 
       return Promise.all(promises).then((results) => {
-        localStorage.setItem('couchPotatoError', false);
         return { snatched: results[0], wanted: results[1] };
       });
     },

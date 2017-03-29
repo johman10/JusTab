@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<style src="css/components/v-input.scss"></style>
+<style src="css/v-input.scss"></style>
 
 <script>
   export default {

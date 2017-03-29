@@ -4,14 +4,14 @@
   </div>
 </template>
 
-<style src="css/components/v-service-actions.scss"></style>
+<style src="css/v-service-actions.scss"></style>
 
 <script>
   import vButton from 'v-button';
 
   export default {
     components: {
-      'v-button': vButton
+      vButton
     },
     props: {
       service: Object

@@ -25,7 +25,7 @@ export default {
     },
 
     githubBuildJson (html) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         var repos = [];
         var parsedDom = document.createElement('html');
         parsedDom.innerHTML = html;
@@ -35,7 +35,7 @@ export default {
           let repoListItem = repoListItems[i];
           let languageElement = repoListItem.querySelector('[itemprop="programmingLanguage"]');
           let language = languageElement ? languageElement.innerText.trim() : null;
-          let stars = repoListItem.querySelector('[aria-label="Stargazers"]').innerText.trim();
+          let stars = repoListItem.querySelector('[href$="/stargazers"]').innerText.trim();
           let urlPath = repoListItem.querySelector('a').getAttribute('href');
           let title = urlPath.split('/')[urlPath.split('/').length - 1];
           let owner = urlPath.split('/')[1];
@@ -81,52 +81,3 @@ export default {
     }
   }
 };
-
-
-
-function ghHTML() {
-  if (serviceData.GH.JSON) {
-    var dataEl = document.createElement('html');
-    dataEl.innerHTML = serviceData.GH.JSON
-    var repoListItems = dataEl.querySelectorAll('.repo-list-item')
-    var GithubHTML = '';
-
-    for(var repoListItem of repoListItems) {
-      var titleEl = repoListItem.querySelector('.repo-list-name a');
-      var linkEl = repoListItem.querySelector('.repo-list-name a');
-      var descriptionEl = repoListItem.querySelector('.repo-list-description');
-      var title = '';
-      var link = '';
-      var description = '';
-
-      if (titleEl) {
-        title = titleEl.text;
-      }
-      if (linkEl) {
-        link = 'https://www.github.com' + linkEl.getAttribute('href');
-      }
-      if (descriptionEl) {
-        description = descriptionEl.innerHTML
-      }
-
-      if (description === '') {
-        description = "No description for this repository.";
-      }
-
-      GithubHTML +=
-        '<div class="core-item waves-effect">' +
-          '<a href="' + link + '" class="service-link" target="_blank">' +
-            '<div class="gh-title">' +
-              htmlEncode(title) +
-            '</div>' +
-            '<div class="gh-description">' +
-              htmlEncode(description) +
-            '</div>' +
-          '</a>' +
-        '</div>';
-    };
-
-    localStorage.setItem('GithubHTML', GithubHTML);
-    serviceData.GH.HTML = GithubHTML;
-  }
-}
