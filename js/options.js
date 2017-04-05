@@ -25,13 +25,13 @@ Vue.mixin(ripple);
 Vue.mixin({
   methods: {
     ...mapActions([
-      'updateService',
+      'updateServiceSettings',
       'reloadService'
     ]),
     saveData (serviceId, key, value) {
       let changes = {};
       changes[key] = value;
-      this.updateService({ serviceId, changes });
+      this.updateServiceSettings({ serviceId, changes });
       this.reloadService({ serviceId });
     }
   }

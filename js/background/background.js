@@ -34,32 +34,6 @@ let vueInstance = new Vue({
   },
   beforeCreate() {
     this.$store.dispatch('loadServices');
-
-    chrome.alarms.onAlarm.addListener((alarm) => {
-      this.respondToMessage({ name: 'reloadService', serviceId: parseInt(alarm.name) });
-    });
-
-    chrome.runtime.onConnect.addListener((port) => {
-      // Prevent double event listeners when anoother connection is opened
-      if (!chrome.runtime.onMessage.hasListeners()) {
-        chrome.runtime.onMessage.addListener(this.respondToMessage);
-      }
-
-      port.onDisconnect.addListener(() => {
-        chrome.runtime.onMessage.removeListener(this.respondToMessage);
-      });
-    });
-
-    moment.updateLocale('en', {
-      calendar : {
-        lastDay : '[Yesterday]',
-        sameDay : '[Today]',
-        nextDay : '[Tomorrow]',
-        lastWeek : '[last] dddd',
-        nextWeek : 'dddd',
-        sameElse : 'MMM D'
-      }
-    });
   },
   methods: {
     ...mapActions([
@@ -75,7 +49,7 @@ let vueInstance = new Vue({
         this.reloadService({ serviceId: msg.serviceId });
       } else if (msg.name === 'setAlarms') {
         this.setAlarms();
-      } else if (msg.name === 'afterUpdateService') {
+      } else if (msg.name === 'afterUpdateServiceSettings') {
         this.reloadService({ serviceId: msg.serviceId });
         // Wait until the service is reloaded before triggering a refresh
         // Hacky. I know.
@@ -100,7 +74,6 @@ let vueInstance = new Vue({
       });
     },
     setAlarms () {
-      console.log('setAlarms');
       chrome.alarms.clearAll(() => {
         this.services.forEach((service) => {
           if (service.active) {
@@ -109,6 +82,32 @@ let vueInstance = new Vue({
         });
       });
     }
+  }
+});
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+  vueInstance.respondToMessage({ name: 'startRefresh', serviceId: parseInt(alarm.name) });
+});
+
+chrome.runtime.onConnect.addListener((port) => {
+  // Prevent double event listeners when another connection is opened
+  if (!chrome.runtime.onMessage.hasListeners()) {
+    chrome.runtime.onMessage.addListener(vueInstance.respondToMessage);
+  }
+
+  port.onDisconnect.addListener(() => {
+    chrome.runtime.onMessage.removeListener(vueInstance.respondToMessage);
+  });
+});
+
+moment.updateLocale('en', {
+  calendar : {
+    lastDay : '[Yesterday]',
+    sameDay : '[Today]',
+    nextDay : '[Tomorrow]',
+    lastWeek : '[last] dddd',
+    nextWeek : 'dddd',
+    sameElse : 'MMM D'
   }
 });
 

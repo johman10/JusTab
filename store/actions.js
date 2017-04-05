@@ -9,7 +9,7 @@ export const loadServices = ({ commit }) => {
   });
 };
 
-// Reload the whole service
+// Refreshes that data on a service
 export const reloadService = ({ state, commit }, { serviceId }) => {
   const service = state.services.find((s) => { return s.id === serviceId; });
   return serviceData[service.functionName]().then((service) => {
@@ -17,9 +17,10 @@ export const reloadService = ({ state, commit }, { serviceId }) => {
   });
 };
 
-export const updateService = ({ state, dispatch }, { serviceId, changes }) => {
+// Save the changes to chrome storage
+export const updateServiceSettings = ({ state, dispatch }, { serviceId, changes }) => {
   chrome.storage.sync.set(changes, () => {
-    chrome.runtime.sendMessage({ name: 'afterUpdateService', serviceId });
+    chrome.runtime.sendMessage({ name: 'afterUpdateServiceSettings', serviceId });
   });
 };
 

@@ -27,7 +27,7 @@ new Vue({
   methods: {
     ...mapActions(['reloadService', 'loadServices']),
     handleMessage (message) {
-      if (message.name === 'finishRefresh' || message.name === 'reloadService') {
+      if (message.name === 'finishRefresh' || message.name === 'reloadService' || message.name === 'afterUpdateServiceSettings') {
         this.reloadService({ serviceId: message.serviceId });
       } else if (message.name === 'loadServices') {
         this.loadServices();
