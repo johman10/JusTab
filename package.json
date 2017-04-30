@@ -6,6 +6,7 @@
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
+    "chrome-webstore-upload-cli": "^1.1.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.0",
     "eslint": "^3.19.0",
@@ -35,6 +36,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=development node_modules/.bin/webpack && NODE_ENV=development node_modules/.bin/webpack-dev-server",
-    "build": "NODE_ENV=production node_modules/.bin/webpack"
+    "build": "NODE_ENV=production node_modules/.bin/webpack",
+    "release": "source .env; npm run build && webstore upload --source=dist --auto-publish"
   }
 }
