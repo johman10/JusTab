@@ -31,8 +31,7 @@ export default {
         parsedDom.innerHTML = html;
 
         var repoListItems = parsedDom.querySelectorAll('.repo-list li');
-        for (var i = 0; i < repoListItems.length; i++) {
-          let repoListItem = repoListItems[i];
+        repoListItems.forEach((repoListItem) => {
           let languageElement = repoListItem.querySelector('[itemprop="programmingLanguage"]');
           let language = languageElement ? languageElement.innerText.trim() : null;
           let stars = repoListItem.querySelector('[href$="/stargazers"]').innerText.trim();
@@ -50,7 +49,7 @@ export default {
             description,
             url
           });
-        }
+        });
 
         resolve(repos);
       });
@@ -76,6 +75,15 @@ export default {
           }
         });
       });
+
+      if (components.length === 0) {
+        components.push({
+          name: 'v-panel-item',
+          props: {
+            title: 'There are no repositories to show at the moment.'
+          }
+        });
+      }
 
       localStorage.setItem('githubComponents', JSON.stringify(components));
     }
