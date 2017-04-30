@@ -1,5 +1,5 @@
 <template>
-  <button @click="$emit('click')" :class="['ripple', typeClass]">
+  <button @click="$emit('click')" @mousedown="_showRipple" :class="['ripple', typeClass]">
     <template v-if="text">
       {{ text }}
     </template>
