@@ -18,10 +18,4 @@
     width: 10px;
     z-index: -10;
   }
-
-  &--white {
-    &__element {
-      background-color: rgba($color-white, .25);
-    }
-  }
 }

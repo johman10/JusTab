@@ -5,8 +5,8 @@ export default {
       var element = event.target.closest('.ripple, .ripple--no');
       if (element && element.classList.contains('ripple')) {
         startEffect(event, element);
-        element.addEventListener('mouseup', stopEffect);
-        element.addEventListener('mouseleave', stopEffect);
+        // element.addEventListener('mouseup', stopEffect);
+        // element.addEventListener('mouseleave', stopEffect);
       }
     }
   }

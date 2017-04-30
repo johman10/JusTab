@@ -1,6 +1,6 @@
 <template>
-  <div :class="['panel-image', { 'small-image': props.smallImages }, { 'wide-panel': widePanel }]">
-    <a :href="props.url" class="panel-image--link" target="_blank">
+  <div :class="['panel-image', { 'small-image': props.smallImages, 'wide-panel': widePanel }]">
+    <a :href="props.url" class="panel-image--link ripple" target="_blank" @mousedown="_showRipple">
       <div v-if="props.gif" class="panel-image--gif">GIF</div>
       <div class="panel-image--image" v-lazy:background-image="imageObject"></div>
       <div class="panel-image--content">
