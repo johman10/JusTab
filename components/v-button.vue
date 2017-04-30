@@ -12,7 +12,10 @@
 <script>
   export default {
     props: {
-      type: String,
+      type: {
+        type: String,
+        default: 'flat'
+      },
       text: String
     },
 

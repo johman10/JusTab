@@ -8,7 +8,10 @@
     },
     "globals": {
         "chrome": true,
-        "environment": true
+        "environment": true,
+        "it": true,
+        "describe": true,
+        "expect": true
     },
     "rules": {
         "indent": [2, 2],

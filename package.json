@@ -6,6 +6,8 @@
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
+    "chai": "^3.5.0",
+    "chai-dom": "^1.4.3",
     "chrome-webstore-upload-cli": "^1.1.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.0",
@@ -15,6 +17,14 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
     "html-webpack-plugin": "^2.28.0",
+    "jsdom": "^10.0.0",
+    "karma": "^1.6.0",
+    "karma-chai": "^0.1.0",
+    "karma-chai-dom": "^1.1.0",
+    "karma-jsdom-launcher": "git://github.com/badeball/karma-jsdom-launcher#master",
+    "karma-mocha": "^1.3.0",
+    "karma-webpack": "^2.0.3",
+    "mocha": "^3.3.0",
     "node-sass": "^4.5.2",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",
@@ -37,6 +47,7 @@
   "scripts": {
     "start": "NODE_ENV=development node_modules/.bin/webpack && NODE_ENV=development node_modules/.bin/webpack-dev-server",
     "build": "NODE_ENV=production node_modules/.bin/webpack",
-    "release": "source .env; npm run build && webstore upload --source=dist --auto-publish"
+    "release": "source .env; npm run build && webstore upload --source=dist --auto-publish",
+    "test": "karma start test/karma.conf.js --single-run --no-auto-watch"
   }
 }
