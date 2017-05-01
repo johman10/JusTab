@@ -1,5 +1,5 @@
-import Vue from 'test/testVue';
-import vButton from 'v-button.vue';
+import Vue from 'test/test-helpers';
+import vButton from 'v-button';
 
 describe('v-button', () => {
   const componentFactory = ({ text, type, content }) => {
