@@ -1,8 +1,8 @@
 export default {
   methods: {
     _showRipple (event) {
-      removeAllRipples();
       var element = event.target.closest('.ripple, .ripple--no');
+      removeAllRipples(element);
       if (element && element.classList.contains('ripple')) {
         startEffect(event, element);
         element.addEventListener('mouseup', stopEffect);
@@ -37,8 +37,8 @@ function stopEffect() {
   }
 }
 
-function removeAllRipples () {
-  const ripples = document.querySelectorAll('.ripple__element');
+function removeAllRipples (element) {
+  const ripples = element.querySelectorAll('.ripple__element');
   for (let i = 0; i < ripples.length; i++) {
     let ripple = ripples[i];
     ripple.parentNode.removeChild(ripple);

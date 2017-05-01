@@ -28,6 +28,12 @@ describe('ripple', () => {
       vm.$el.dispatchEvent(mousedownEvent);
     });
 
+    it('when there are two mouse down events after each other', () => {
+      vm.$el.dispatchEvent(mousedownEvent);
+      // Timeout for delay of removing
+      expect(vm.$el.querySelectorAll('.ripple__element')).to.have.length(1);
+    });
+
     it('on mouse up', (done) => {
       vm.$el.dispatchEvent(mouseupEvent);
       // Timeout for delay of removing
