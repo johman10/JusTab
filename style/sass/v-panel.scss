@@ -11,6 +11,17 @@
   opacity: 0;
 }
 
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: max-height 3000ms ease;
+}
+
+.slide-up-enter,
+.slide-up-leave-active {
+  max-height: 0;
+}
+
+
 .panel {
   display: inline-block;
   position: relative;

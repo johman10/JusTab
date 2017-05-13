@@ -4,7 +4,7 @@ import vButton from 'v-button';
 describe('v-button', () => {
   const componentFactory = ({ text, type, content }) => {
     return new Vue({
-      template: `<vButton :type="type" :text="text">${ content }</vButton>`,
+      template: `<v-button :type="type" :text="text">${ content }</v-button>`,
       components: {
         vButton
       },
