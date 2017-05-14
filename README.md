@@ -12,6 +12,8 @@ At this moment it supports:
 - [Product Hunt](https://www.producthunt.com)
 - [Dribbble](https://www.dribbble.com)
 - [Reddit](https://www.reddit.com)
+- [NZBGet](http://nzbget.net)
+- [Sonarr](https://www.sonarr.tv)
 
 ## Installation
 You can download this extension in the Chrome Webstore go to:
