@@ -3,6 +3,7 @@
     <v-input type="number" @change="onChange" :value="service.panelWidth" name="redditWidth" label="Panel width in px"></v-input>
     <v-input type="number" @change="onChange" :value="service.refresh" name="redditRefresh" label="Refresh rate (in minutes)"></v-input>
     <v-input type="text" @change="onChange" :value="service.subreddit" name="redditSubreddit" label="Subreddit"></v-input>
+    <v-checkbox @change="onCheckboxChange" :checked="service.nsfw" name="redditNsfw" label="Show NSFW"></v-checkbox>
     <v-select @change="onChange" :options="sortingOptions" :value="service.sorting" name="redditSorting" label="Sorting"></v-select>
   </div>
 </template>
@@ -10,12 +11,14 @@
 <script>
   import { mapState } from 'vuex';
   import vInput from 'v-input';
+  import vCheckbox from 'v-checkbox';
   import vSelect from 'v-select';
 
   export default {
     components: {
       vInput,
-      vSelect
+      vSelect,
+      vCheckbox
     },
 
     data () {
@@ -52,6 +55,10 @@
     methods: {
       onChange (name, newVal) {
         this.saveData(this.service.id, name, newVal)
+      },
+
+      onCheckboxChange (name, value) {
+        this.saveData(this.service.id, name, !this.service.nsfw);
       }
     },
   }

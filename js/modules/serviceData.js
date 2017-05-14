@@ -192,6 +192,7 @@ export let reddit = function() {
       components: localStorage.redditComponents,
       panelWidth: parseFloat(items.redditWidth) || 400,
       subreddit: items.redditSubreddit || 'all',
+      nsfw: typeof items.redditNsfw === 'boolean' ? items.redditNsfw : false,
       sorting: items.redditSorting || 'Hot',
       actions: ['openUnread']
     };

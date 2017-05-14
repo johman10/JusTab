@@ -11,6 +11,7 @@ export default {
     reddit () {
       localStorage.setItem('redditError', false);
       return this.redditPosts()
+        .then(this.redditFilter)
         .then(this.redditComponents)
         .catch((error) => {
           if (error) console.error(error);
@@ -33,9 +34,25 @@ export default {
       return ajax('GET', url + apiCall);
     },
 
+    redditFilter (posts) {
+      let filteredPosts = [];
+      if (this.redditService.nsfw === false) {
+        posts.data.children.forEach((post) => {
+          const isNotOver18 = !post.data.over_18;
+          if (isNotOver18) {
+            filteredPosts.push(post);
+          }
+        });
+      } else {
+        filteredPosts = posts.data.children;
+      }
+      return filteredPosts;
+    },
+
     redditComponents (posts) {
       let components = [];
-      posts.data.children.forEach(function(post) {
+      posts.forEach((post) => {
+        const isOver18 = post.data.over_18;
         components.push({
           name: 'v-panel-item',
           props: {
@@ -43,7 +60,7 @@ export default {
             title: post.data.title,
             subtitleUrl: `https://reddit.com${post.data.permalink}`,
             extraTitle: `/r/${post.data.subreddit}`,
-            subtitle: `${post.data.num_comments} comments - ${post.data.score} points`
+            subtitle: `${post.data.num_comments} comments - ${post.data.score} points${isOver18 ? ' - NSFW' : ''}`
           }
         });
       });
