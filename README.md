@@ -31,7 +31,7 @@ If you want to run the development environment:
 
 - Clone this repository (`git clone git@github.com:johman10/JusTab.git`)
 - `npm install`
-- `grunt`
+- `npm start`
 - Open Chrome
 - Go to [chrome://extensions](chrome://extensions/)
 - Check the 'developer mode' checkbox on the top of the page
