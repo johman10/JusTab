@@ -1,10 +1,10 @@
 <template>
   <div class="options-reddit" v-if="service">
-    <v-input type="number" @change="onChange" :value="service.panelWidth" name="redditWidth" label="Panel width in px"></v-input>
-    <v-input type="number" @change="onChange" :value="service.refresh" name="redditRefresh" label="Refresh rate (in minutes)"></v-input>
     <v-input type="text" @change="onChange" :value="service.subreddit" name="redditSubreddit" label="Subreddit"></v-input>
     <v-checkbox @change="onCheckboxChange" :checked="service.nsfw" name="redditNsfw" label="Show NSFW"></v-checkbox>
     <v-select @change="onChange" :options="sortingOptions" :value="service.sorting" name="redditSorting" label="Sorting"></v-select>
+    <v-input type="number" @change="onChange" :value="service.panelWidth" name="redditWidth" label="Panel width in px"></v-input>
+    <v-input type="number" @change="onChange" :value="service.refresh" name="redditRefresh" label="Refresh rate (in minutes)"></v-input>
   </div>
 </template>
 
