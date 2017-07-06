@@ -3,11 +3,11 @@
 
 .panel-error {
   @include paper-shadow(1);
+  @include vue-transition($scope: '&', $name: 'slide', $transition-field: max-height);
   background-color: #eee;
   color: $color-text-primary;
   max-height: 130px;
   overflow: hidden;
-  transition: max-height 3000ms ease;
   white-space: normal;
 
   &-content {

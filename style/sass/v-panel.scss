@@ -1,26 +1,7 @@
 @import '~css/modules/colors';
 @import '~css/modules/mixins';
 
-.loader-enter-active,
-.loader-leave-active {
-  transition: opacity 300ms ease;
-}
-
-.loader-enter,
-.loader-leave-active {
-  opacity: 0;
-}
-
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: max-height 3000ms ease;
-}
-
-.slide-up-enter,
-.slide-up-leave-active {
-  max-height: 0;
-}
-
+@include vue-transition($scope: '& ', $name: 'loader', $transition-field: opacity)
 
 .panel {
   display: inline-block;

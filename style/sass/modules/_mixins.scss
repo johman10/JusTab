@@ -17,3 +17,15 @@
     box-shadow: 0 17px 17px 0 rgba(0, 0, 0, .15), 0 27px 55px 0 rgba(0, 0, 0, .3);
   }
 }
+
+@mixin vue-transition($scope, $name, $transition-field, $time: 300ms, $timing: ease) {
+  #{$scope}.#{$name}-enter-active,
+  #{$scope}.#{$name}-leave-active {
+    transition: $transition-field $time $timing;
+  }
+
+  #{$scope}.#{$name}-enter,
+  #{$scope}.#{$name}-leave-to {
+    #{$transition-field}: 0;
+  }
+}

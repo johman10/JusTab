@@ -2,7 +2,7 @@
   <div v-if="service" class="panel" :style="panelStyling">
     <v-panel-header @refresh="onRefresh" :loading="loading" :scrollTop="scrollTop" :service="service"></v-panel-header>
     <div class="panel--content" :style="panelContentStyling" @scroll="onScroll">
-      <transition name="slide-up">
+      <transition name="slide">
         <v-panel-error @refresh="onRefresh" v-if="service.error === 'true'" :serviceId="serviceId" :serviceName="service.name"></v-panel-error>
       </transition>
       <component v-for="component in components" :key="component.props" :is="component.name" :props="component.props"></component>
