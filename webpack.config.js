@@ -23,7 +23,7 @@ module.exports = {
     ],
     extensions: ['.js', '.vue'],
     alias: {
-      'vue$': 'vue/dist/vue.common',
+      'vue$': 'vue/dist/vue.esm',
       'store': path.join(__dirname, '/store'),
       'modules': path.join(__dirname, '/js/modules'),
       'img': path.join(__dirname, '/img'),
@@ -88,6 +88,12 @@ module.exports = {
   },
   devtool: JSON.stringify(process.env.NODE_ENV) === 'development' ? 'eval-source-map' : 'source-map',
   plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      async: true
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common'
+    }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       environment: JSON.stringify(process.env.NODE_ENV)
@@ -95,17 +101,18 @@ module.exports = {
     new htmlWebpackPlugin({
       filename: 'options.html',
       template: './options.html',
-      chunks: ['options']
+      inject: true,
+      chunks: ['common', 'options']
     }),
     new htmlWebpackPlugin({
       filename: 'index.html',
       template: './index.html',
-      chunks: ['tab']
+      chunks: ['common', 'tab']
     }),
     new htmlWebpackPlugin({
       filename: 'background.html',
       template: './background.html',
-      chunks: ['background']
+      chunks: ['common', 'background']
     }),
     new CopyWebpackPlugin([
       { from: 'manifest.json' },

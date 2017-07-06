@@ -29,7 +29,7 @@
       onChange (name, newVal) {
         this.saveData(this.service.id, name, newVal)
       }
-    },
+    }
   }
 </script>
 
