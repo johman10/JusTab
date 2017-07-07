@@ -27,14 +27,16 @@
     "karma-webpack": "^2.0.3",
     "mocha": "^3.3.0",
     "node-sass": "^4.5.3",
+    "resource-hints-webpack-plugin": "^0.0.1",
     "sass-loader": "^6.0.5",
     "style-loader": "^0.18.2",
     "uglify-loader": "^2.0.0",
     "uglifyjs-webpack-plugin": "^0.4.3",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.0.0",
-    "webpack": "^3.0.0",
-    "webpack-dev-server": "^2.4.5"
+    "webpack": "^3.1.0",
+    "webpack-bundle-analyzer": "^2.8.2",
+    "webpack-dev-server": "^2.5.1"
   },
   "dependencies": {
     "dragula": "^3.7.1",

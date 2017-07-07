@@ -1,8 +1,26 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ResourceHintWebpackPlugin = require('resource-hints-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
+const htmlMinifyOptions = {
+  collapseBooleanAttributes: true,
+  collapseWhitespace: true,
+  decodeEntities: true,
+  html5: true,
+  processConditionalComments: true,
+  removeAttributeQuotes: true,
+  removeComments: true,
+  removeEmptyAttributes: true,
+  removeScriptTypeAttributes: true,
+  removeStyleLinkTypeAttributes: true,
+  removeTagWhitespace: true,
+  sortAttributes: true,
+  trimCustomFragments: true,
+  useShortDoctype: true
+}
 
 module.exports = {
   entry: {
@@ -92,7 +110,7 @@ module.exports = {
       async: true
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'common'
+      name: 'commons'
     }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
@@ -101,23 +119,33 @@ module.exports = {
     new htmlWebpackPlugin({
       filename: 'options.html',
       template: './options.html',
-      inject: true,
-      chunks: ['common', 'options']
+      minify: htmlMinifyOptions,
+      chunks: ['commons', 'options'],
+      prefetch: ['commons.bundle.js', 'options.bundle.js'],
+      preload: ['commons.bundle.js', 'options.bundle.js']
     }),
     new htmlWebpackPlugin({
       filename: 'index.html',
       template: './index.html',
-      chunks: ['common', 'tab']
+      minify: htmlMinifyOptions,
+      chunks: ['commons', 'tab'],
+      prefetch: ['commons.bundle.js', 'tab.bundle.js'],
+      preload: ['commons.bundle.js', 'tab.bundle.js']
     }),
     new htmlWebpackPlugin({
       filename: 'background.html',
       template: './background.html',
-      chunks: ['common', 'background']
+      minify: htmlMinifyOptions,
+      chunks: ['commons', 'background'],
+      prefetch: ['commons.bundle.js', 'background.bundle.js'],
+      preload: ['commons.bundle.js', 'background.bundle.js']
     }),
+    new ResourceHintWebpackPlugin(),
     new CopyWebpackPlugin([
       { from: 'manifest.json' },
       { from: 'img/app_icons', to: 'img/app_icons'}
-    ])
+    ]),
+    // new BundleAnalyzerPlugin()
   ]
 };
 
