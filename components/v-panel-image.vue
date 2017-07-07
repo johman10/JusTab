@@ -23,8 +23,8 @@
       imageObject () {
         return {
           src: this.props.image,
-          error: require('img/dribbble_fallback.png'),
-          loading: require('img/dribbble_fallback.png')
+          error: require('img/dribbble_fallback.svg'),
+          loading: require('img/dribbble_fallback.svg')
         }
       },
 

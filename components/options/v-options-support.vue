@@ -45,7 +45,7 @@
     },
     data () {
       return {
-        paypalImage: require('img/paypal.png')
+        paypalImage: require('img/paypal.svg')
       }
     }
   }

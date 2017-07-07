@@ -63,6 +63,13 @@
     position: relative;
     width: 100%;
     z-index: -10;
+
+    &[lazy='error'],
+    &[lazy='loading'] {
+      background-position: 50%;
+      background-repeat: no-repeat;
+      background-size: 30%;
+    }
   }
 
   &--content {

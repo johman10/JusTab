@@ -2,19 +2,18 @@
 // http://developers.news.layervault.com/
 import ajax from 'modules/ajax';
 const badges = {
-  ama: require('img/dn_badges/badge_ama.png'),
-  apple: require('img/dn_badges/badge_apple.png'),
-  ask: require('img/dn_badges/badge_ask.png'),
-  css: require('img/dn_badges/badge_css.png'),
-  design: require('img/dn_badges/badge_design.png'),
-  discussion: require('img/dn_badges/badge_discussion.png'),
-  layervault: require('img/dn_badges/badge_layervault.png'),
+  ama: require('img/dn_badges/badge_ama.svg'),
+  apple: require('img/dn_badges/badge_apple.svg'),
+  ask: require('img/dn_badges/badge_ask.svg'),
+  css: require('img/dn_badges/badge_css.svg'),
+  design: require('img/dn_badges/badge_design.svg'),
+  discussion: require('img/dn_badges/badge_discussion.svg'),
   pinned: require('img/dn_badges/badge_pinned.png'),
-  podcast: require('img/dn_badges/badge_podcast.png'),
-  show: require('img/dn_badges/badge_show.png'),
-  sponsored: require('img/dn_badges/badge_sponsored.png'),
-  type: require('img/dn_badges/badge_type.png'),
-  video: require('img/dn_badges/badge_video.png')
+  podcast: require('img/dn_badges/badge_podcast.svg'),
+  show: require('img/dn_badges/badge_show.svg'),
+  sponsored: require('img/dn_badges/badge_sponsored.svg'),
+  type: require('img/dn_badges/badge_type.svg'),
+  video: require('img/dn_badges/badge_video.svg')
 };
 
 export default {
@@ -53,7 +52,14 @@ export default {
       data.stories.forEach((story) => {
         let url = story.url || 'https://www.designernews.co/stories/' + story.id;
         let subUrl = `https://www.designernews.co/stories/${story.id}`;
-        let badge = story.badge ? badges[story.badge] : false;
+        let badge;
+        if (story.badge) {
+          badge = {
+            src: badges[story.badge],
+            error: require('img/designernews_fallback.svg'),
+            loading: require('img/designernews_fallback.svg')
+          };
+        }
 
         components.push({
           name: 'v-panel-item',

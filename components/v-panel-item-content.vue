@@ -33,7 +33,7 @@
       subtitleUrl: String,
       extraTitle: String,
       hasCollapse: Boolean,
-      image: [String, Boolean]
+      image: [String, Object]
     }
   }
 </script>
