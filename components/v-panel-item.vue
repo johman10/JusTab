@@ -11,7 +11,7 @@
         {{ props.collapseText }}
       </div>
       <div v-if="props.components" class="panel-item--button-container">
-        <component v-for="component in props.components" :key="component.props.title" :is="component.name" :props="component.props"></component>
+        <component v-for="(component, index) in props.components" :key="index" :is="component.name" :props="component.props"></component>
       </div>
     </div>
   </div>
@@ -20,13 +20,13 @@
 <style src="css/v-panel-item.scss"></style>
 
 <script>
-  import vPanelItemButton from 'v-panel-item-button';
-  import vPanelItemContent from 'v-panel-item-content';
+  import dynamicImportComponent from 'modules/dynamic-import-component';
+  import vPanelItemContent from 'components/v-panel-item-content';
 
   export default {
     components: {
-      vPanelItemButton,
-      vPanelItemContent
+      vPanelItemContent,
+      vPanelItemButton: dynamicImportComponent('v-panel-item-button')
     },
 
     props: {

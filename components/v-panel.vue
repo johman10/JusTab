@@ -5,7 +5,7 @@
       <transition name="slide">
         <v-panel-error @refresh="onRefresh" v-if="service.error === 'true'" :serviceId="serviceId" :serviceName="service.name"></v-panel-error>
       </transition>
-      <component v-for="component in components" :key="component.props" :is="component.name" :props="component.props"></component>
+      <component v-for="(component, index) in components" :key="index" :is="component.name" :props="component.props"></component>
     </div>
     <v-service-actions :service="service"></v-service-actions>
   </div>
@@ -15,21 +15,17 @@
 
 <script>
   import { mapActions, mapGetters } from 'vuex';
-  import vPanelError from "components/v-panel-error.vue";
-  import vPanelHeader from "components/v-panel-header.vue";
-  import vPanelSubheader from "components/v-panel-subheader.vue";
-  import vPanelItem from "components/v-panel-item.vue";
-  import vPanelImage from "components/v-panel-image.vue";
-  import vServiceActions from 'v-service-actions.vue';
+  import dynamicImportComponent from 'modules/dynamic-import-component';
+  import vPanelHeader from 'components/v-panel-header';
 
   export default {
     components: {
-      vPanelError,
       vPanelHeader,
-      vPanelSubheader,
-      vPanelItem,
-      vPanelImage,
-      vServiceActions
+      vPanelSubheader: dynamicImportComponent('v-panel-subheader'),
+      vPanelError: dynamicImportComponent('v-panel-error'),
+      vPanelItem: dynamicImportComponent('v-panel-item'),
+      vPanelImage: dynamicImportComponent('v-panel-image'),
+      vServiceActions: dynamicImportComponent('v-service-actions')
     },
 
     props: {

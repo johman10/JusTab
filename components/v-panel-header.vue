@@ -23,11 +23,11 @@
 <style src="css/v-panel-header.scss"></style>
 
 <script>
-  import vSpinner from "components/v-spinner.vue";
+  import dynamicImportComponent from 'modules/dynamic-import-component';
 
   export default {
     components: {
-      vSpinner
+      vSpinner: dynamicImportComponent('v-spinner')
     },
     props: {
       scrollTop: Number,

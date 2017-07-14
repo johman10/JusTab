@@ -9,8 +9,8 @@
 
 <script>
   import { mapState } from 'vuex';
-  import vInput from 'v-input';
-  import vCheckbox from 'v-checkbox';
+  import vInput from 'components/v-input';
+  import vCheckbox from 'components/v-checkbox';
 
   export default {
     components: {

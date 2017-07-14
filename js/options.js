@@ -5,20 +5,21 @@ import store from 'store/index';
 import { mapActions } from 'vuex';
 
 import ripple from 'modules/ripple';
+import dynamicImportComponent from 'modules/dynamic-import-component';
 
-import vOptions from 'options/v-options';
-const vOptionsGoogleCalendar = () => import('options/v-options-google-calendar');
-const vOptionsGmail = () => import('options/v-options-gmail');
-const vOptionsCouchPotato = () => import('options/v-options-couch-potato');
-const vOptionsDesignerNews = () => import('options/v-options-designer-news');
-const vOptionsHackerNews = () => import('options/v-options-hacker-news');
-const vOptionsGithub = () => import('options/v-options-github');
-const vOptionsProductHunt = () => import('options/v-options-product-hunt');
-const vOptionsDribbble = () => import('options/v-options-dribbble');
-const vOptionsReddit = () => import('options/v-options-reddit');
-const vOptionsNzbget = () => import('options/v-options-nzbget');
-const vOptionsSonarr = () => import('options/v-options-sonarr');
-const vOptionsSupport = () => import('options/v-options-support');
+const vOptions = dynamicImportComponent('options/v-options');
+const vOptionsGoogleCalendar = dynamicImportComponent('options/v-options-google-calendar');
+const vOptionsGmail = dynamicImportComponent('options/v-options-gmail');
+const vOptionsCouchPotato = dynamicImportComponent('options/v-options-couch-potato');
+const vOptionsDesignerNews = dynamicImportComponent('options/v-options-designer-news');
+const vOptionsHackerNews = dynamicImportComponent('options/v-options-hacker-news');
+const vOptionsGithub = dynamicImportComponent('options/v-options-github');
+const vOptionsProductHunt = dynamicImportComponent('options/v-options-product-hunt');
+const vOptionsDribbble = dynamicImportComponent('options/v-options-dribbble');
+const vOptionsReddit = dynamicImportComponent('options/v-options-reddit');
+const vOptionsNzbget = dynamicImportComponent('options/v-options-nzbget');
+const vOptionsSonarr = dynamicImportComponent('options/v-options-sonarr');
+const vOptionsSupport = dynamicImportComponent('options/v-options-support');
 
 Vue.use(Vuex);
 Vue.mixin(ripple);

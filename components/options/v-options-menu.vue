@@ -16,7 +16,7 @@
 <script>
   import { mapState, mapActions, mapGetters } from 'vuex';
   import dragula from 'dragula';
-  import vSwitch from 'v-switch';
+  import vSwitch from 'components/v-switch';
 
   export default {
     props: {

@@ -9,8 +9,9 @@
 
 <script>
   import { mapState, mapGetters } from 'vuex';
-  import vPanel from 'v-panel.vue';
-  import vFab from 'v-fab.vue';
+  import dynamicImportComponent from 'modules/dynamic-import-component';
+  import vPanel from 'components/v-panel';
+  import vFab from 'components/v-fab';
 
   export default {
     name: 'v-tab',

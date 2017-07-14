@@ -13,7 +13,7 @@
 <style src="css/v-panel-error.scss"></style>
 
 <script>
-  import vButton from 'v-button';
+  import vButton from 'components/v-button';
 
   export default {
     components: {

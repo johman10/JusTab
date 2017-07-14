@@ -2,6 +2,7 @@ const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ResourceHintWebpackPlugin = require('resource-hints-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
@@ -31,14 +32,10 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: '[name].bundle.js',
-    publicPath: process.env.NODE_ENV == 'development' ? 'http://localhost:8080/' : ''
+    publicPath: process.env.NODE_ENV == 'development' ? 'http://localhost:8080/' : '',
+    chunkFilename: '[name].chunk.js'
   },
   resolve: {
-    modules: [
-      __dirname,
-      path.join(__dirname, 'node_modules'),
-      'components'
-    ],
     extensions: ['.js', '.vue'],
     alias: {
       'vue$': 'vue/dist/vue.esm',
@@ -46,7 +43,8 @@ module.exports = {
       'modules': path.join(__dirname, '/js/modules'),
       'img': path.join(__dirname, '/img'),
       'js': path.join(__dirname, '/js'),
-      'css': path.join(__dirname, '/style/sass')
+      'css': path.join(__dirname, '/style/sass'),
+      'components': path.join(__dirname, '/components')
     }
   },
   module: {
@@ -132,6 +130,12 @@ module.exports = {
       prefetch: ['commons.bundle.js', 'tab.bundle.js'],
       preload: ['commons.bundle.js', 'tab.bundle.js']
     }),
+    new ScriptExtHtmlWebpackPlugin({
+      preload: {
+        test: /(\d)*\.bundle\.js$/,
+        chunks: 'async'
+      }
+    }),
     new htmlWebpackPlugin({
       filename: 'background.html',
       template: './background.html',
@@ -140,7 +144,6 @@ module.exports = {
       prefetch: ['commons.bundle.js', 'background.bundle.js'],
       preload: ['commons.bundle.js', 'background.bundle.js']
     }),
-    new ResourceHintWebpackPlugin(),
     new CopyWebpackPlugin([
       { from: 'manifest.json' },
       { from: 'img/app_icons', to: 'img/app_icons'}

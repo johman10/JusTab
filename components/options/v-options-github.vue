@@ -7,7 +7,7 @@
 
 <script>
   import { mapActions, mapState } from 'vuex';
-  import vInput from 'v-input';
+  import vInput from 'components/v-input';
 
   export default {
     components: {
