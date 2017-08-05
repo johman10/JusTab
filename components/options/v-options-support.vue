@@ -5,12 +5,12 @@
     <p>
       The last update contains:
       <ul>
-        <li>Huge rewrite to use a framework (Vue) instead of no framework at all</li>
-        <li>Dropped support for Facebook - Facebook removed it's RSS feed so this broke down</li>
-        <li>Dropped support for Sickbeard and Sabnzbd - I switched to Sonarr and NZBGet which made it very hard to support these services</li>
-        <li>Refreshing of service data on multiple tabs at the same time</li>
-        <li>Refreshing of service data when changing a setting</li>
-        <li>Bug fixes and code improvements (Duh.)</li>
+        <li>Added a NSFW tag for Reddit</li>
+        <li>Fix transitition for when there is an error on a servive</li>
+        <li>Improved images, svg so better support for higher DPI screens</li>
+        <li>Better loading states for some services</li>
+        <li>Huge peformance improvements, load time is now almost instant</li>
+        <li>Bug fixes and code improvements</li>
       </ul>
     </p>
     <h2>Questions</h2>
