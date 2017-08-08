@@ -154,6 +154,11 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([
-    new UglifyJSPlugin()
+    new UglifyJSPlugin({
+      parallel: {
+        cache: true,
+        workers: 2 // for e.g
+      }
+    })
   ]);
 }
