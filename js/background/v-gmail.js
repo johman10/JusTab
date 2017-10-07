@@ -113,7 +113,7 @@ export default {
 
     buildMailItem (mail) {
       let messageSubject = mail.payload.headers.Subject || 'No subject';
-      let messageFrom = mail.payload.headers.From.replace(/<(.|\n)*?>/, '') || 'No sender';
+      let messageFrom = (mail.payload.headers.From  || 'No sender').replace(/<(.|\n)*?>/, '');
       let messageSnippet = mail.snippet || 'No content';
       let messageDate = new Date(mail.payload.headers.Date);
       if (moment(messageDate).isSame(moment(), 'day')) {
