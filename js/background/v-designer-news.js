@@ -34,17 +34,11 @@ export default {
     },
 
     getStories () {
-      return new Promise((resolve, reject) => {
-        var url = 'https://www.designernews.co/api/v2/';
-        var apiCall = 'stories';
-        var apiKey = '?client_id=e7c9f9422feb744c661cc25a248d3b7206962f0605e174ae30aab12a05fb107a';
+      var url = 'https://www.designernews.co/api/v2/';
+      var apiCall = 'stories';
+      var apiKey = '?client_id=e7c9f9422feb744c661cc25a248d3b7206962f0605e174ae30aab12a05fb107a';
 
-        ajax('GET', url + apiCall + apiKey)
-          .then(function(data) {
-            resolve(data);
-          })
-          .catch(reject);
-      });
+      return ajax('GET', url + apiCall + apiKey);
     },
 
     designerNewsComponents (data) {

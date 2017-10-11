@@ -1,9 +1,7 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-const ResourceHintWebpackPlugin = require('resource-hints-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const htmlMinifyOptions = {
@@ -21,7 +19,7 @@ const htmlMinifyOptions = {
   sortAttributes: true,
   trimCustomFragments: true,
   useShortDoctype: true
-}
+};
 
 module.exports = {
   entry: {
@@ -39,6 +37,7 @@ module.exports = {
     extensions: ['.js', '.vue'],
     alias: {
       'vue$': 'vue/dist/vue.esm',
+      'moment$': 'moment/moment.js',
       'store': path.join(__dirname, '/store'),
       'modules': path.join(__dirname, '/js/modules'),
       'img': path.join(__dirname, '/img'),
@@ -110,9 +109,11 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'commons'
     }),
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.IgnorePlugin(/\.\/locale$/),
     new webpack.DefinePlugin({
-      environment: JSON.stringify(process.env.NODE_ENV)
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
     }),
     new htmlWebpackPlugin({
       filename: 'options.html',
@@ -147,8 +148,7 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: 'manifest.json' },
       { from: 'img/app_icons', to: 'img/app_icons'}
-    ]),
-    // new BundleAnalyzerPlugin()
+    ])
   ]
 };
 

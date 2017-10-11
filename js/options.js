@@ -20,6 +20,7 @@ const vOptionsReddit = dynamicImportComponent('options/v-options-reddit');
 const vOptionsNzbget = dynamicImportComponent('options/v-options-nzbget');
 const vOptionsSonarr = dynamicImportComponent('options/v-options-sonarr');
 const vOptionsSupport = dynamicImportComponent('options/v-options-support');
+const vOptionsTransmission = dynamicImportComponent('options/v-options-transmission');
 
 Vue.use(Vuex);
 Vue.mixin(ripple);
@@ -52,6 +53,7 @@ const routes = [
   { path: '/reddit', component: vOptionsReddit },
   { path: '/nzbget', component: vOptionsNzbget },
   { path: '/sonarr', component: vOptionsSonarr },
+  { path: '/transmission', component: vOptionsTransmission },
   { path: '/support', component: vOptionsSupport }
 ];
 

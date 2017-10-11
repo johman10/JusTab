@@ -30,7 +30,6 @@
     },
     methods: {
       onInput (service, key, value) {
-        console.log(service);
         this.saveData(service.id, key, !service.active);
       }
     },

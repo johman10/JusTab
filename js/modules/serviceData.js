@@ -251,6 +251,34 @@ export let sonarr = function() {
   });
 };
 
+export let transmission = function() {
+  return chromeStorage().then(function(items) {
+    var data = {
+      id: 14,
+      name: 'Transmission',
+      color: '#B50D11',
+      logo: require('img/TM_header.png'),
+      error: localStorage.transmissionError || null,
+      active: typeof items.transmissionActive === 'boolean' ? items.transmissionActive : true,
+      functionName: 'transmission',
+      optionsPath: '/transmission',
+      refresh: parseFloat(items.transmissionRefresh) || 15,
+      address: items.transmissionAddress,
+      port: items.transmissionPort,
+      username: items.transmissionUsername,
+      password: items.transmissionPassword,
+      panelWidth: parseFloat(items.transmissionWidth) || 400,
+      components: localStorage.transmissionComponents,
+      actions: []
+    };
+
+    data = Object.assign(data, apiUrl(data));
+    // Override the apiUrl from the method with the actual RPC URL from transmision;
+    data = Object.assign(data, { apiUrl: data.url + '/rpc' });
+    return data;
+  });
+};
+
 const serviceData = [
   googleCalendar,
   gmail,
@@ -262,7 +290,8 @@ const serviceData = [
   dribbble,
   reddit,
   nzbget,
-  sonarr
+  sonarr,
+  transmission
 ];
 
 function apiUrl(data) {

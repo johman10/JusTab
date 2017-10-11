@@ -18,9 +18,8 @@ export const reloadService = ({ state, commit }, { serviceId }) => {
 };
 
 // Save the changes to chrome storage
-export const updateServiceSettings = ({ state, dispatch }, { serviceId, changes }) => {
+export const updateServiceSettings = (_, { serviceId, changes }) => {
   chrome.storage.sync.set(changes, () => {
     chrome.runtime.sendMessage({ name: 'afterUpdateServiceSettings', serviceId });
   });
 };
-

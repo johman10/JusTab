@@ -7,27 +7,27 @@ function ajax(method, url, headers, data) {
     }
 
     request.onload = function() {
-      var resp;
+      var response;
       try {
-        resp = JSON.parse(request.responseText);
+        response = JSON.parse(request.responseText);
       }
       catch(err) {
-        resp = request.responseText;
+        response = request.responseText;
       }
 
       if (request.status >= 200 && request.status < 400) {
-        resolve(resp);
+        resolve(response);
       } else {
-        reject(resp);
+        reject({ response, request });
       }
     };
 
     request.onerror = function() {
       try {
-        var resp = JSON.parse(request.responseText);
-        reject(resp);
+        var response = JSON.parse(request.responseText);
+        reject({ response, request });
       } catch (e) {
-        reject(request.responseText);
+        reject({ response: request.responseText, request });
       }
     };
 

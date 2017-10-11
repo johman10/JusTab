@@ -13,6 +13,7 @@ import vDribbble from 'js/background/v-dribbble';
 import vReddit from 'js/background/v-reddit';
 import vNzbget from 'js/background/v-nzbget';
 import vSonarr from 'js/background/v-sonarr';
+import vTransmission from 'js/background/v-transmission';
 
 let vueInstance = new Vue({
   store,
@@ -27,7 +28,8 @@ let vueInstance = new Vue({
     vDribbble,
     vReddit,
     vNzbget,
-    vSonarr
+    vSonarr,
+    vTransmission
   ],
   computed: {
     ...mapState(['services'])

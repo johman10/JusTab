@@ -20,5 +20,5 @@
         "semi": [2, "always"]
     },
     "env": {"node": true, "browser": true, "es6": true},
-    "extends": "eslint:recommended", "vue"
+    "extends": ["eslint:recommended", "plugin:vue/base"]
 }
