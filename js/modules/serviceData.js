@@ -25,7 +25,8 @@ export let googleCalendar = function() {
       calendars: items.googleCalendarCalendars,
       days: parseInt(items.googleCalendarDays) || 6,
       panelWidth: parseFloat(items.googleCalendarWidth) || 400,
-      actions: []
+      actions: [],
+      loadMore: false
     };
   });
 };
@@ -47,7 +48,8 @@ export let gmail = function() {
       nextPage: localStorage.Gmail_page || null,
       panelWidth: parseFloat(items.gmailWidth) || 400,
       length: 25,
-      actions: []
+      actions: [],
+      loadMore: true
     };
   });
 };
@@ -68,7 +70,8 @@ export let couchPotato = function() {
       functionName: 'couchPotato',
       optionsPath: '/couchpotato',
       components: localStorage.couchPotatoComponents || null,
-      actions: []
+      actions: [],
+      loadMore: true
     };
   });
 };
@@ -88,7 +91,8 @@ export let designerNews = function() {
       refresh: parseFloat(items.designerNewsRefresh) || 15,
       components: localStorage.designerNewsComponents,
       panelWidth: parseFloat(items.designerNewsWidth) || 400,
-      actions: ['openUnread']
+      actions: ['openUnread'],
+      loadMore: false
     };
   });
 };
@@ -109,7 +113,8 @@ export let hackerNews = function() {
       components: localStorage.hackerNewsComponents,
       panelWidth: parseFloat(items.hackerNewsWidth) || 400,
       actions: ['openUnread'],
-      sorting: items.hackerNewsSorting || 'Top'
+      sorting: items.hackerNewsSorting || 'Top',
+      loadMore: false
     };
   });
 };
@@ -129,7 +134,8 @@ export let github = function() {
       refresh: parseFloat(items.githubRefresh) || 15,
       panelWidth: parseFloat(items.githubWidth) || 400,
       components: localStorage.githubComponents,
-      actions: ['openUnread']
+      actions: ['openUnread'],
+      loadMore: false
     };
   });
 };
@@ -149,7 +155,8 @@ export let productHunt = function() {
       refresh: parseFloat(items.productHuntRefresh) || 15,
       panelWidth: parseFloat(items.productHuntWidth) || 400,
       components: localStorage.productHuntComponents,
-      actions: ['openUnread']
+      actions: ['openUnread'],
+      loadMore: false
     };
   });
 };
@@ -171,7 +178,9 @@ export let dribbble = function() {
       smallImages: items.dribbbleSmallImages,
       gifs: items.dribbbleGifs,
       panelWidth: parseFloat(items.dribbbleWidth) || 400,
-      actions: ['openUnread']
+      actions: ['openUnread'],
+      limit: 26,
+      loadMore: true
     };
   });
 };
@@ -194,7 +203,8 @@ export let reddit = function() {
       subreddit: items.redditSubreddit || 'all',
       nsfw: typeof items.redditNsfw === 'boolean' ? items.redditNsfw : false,
       sorting: items.redditSorting || 'Hot',
-      actions: ['openUnread']
+      actions: ['openUnread'],
+      loadMore: false
     };
   });
 };
@@ -213,6 +223,7 @@ export let nzbget = function() {
       panelWidth: parseFloat(items.nzbgetWidth) || 400,
       optionsPath: '/nzbget',
       actions: [],
+      loadMore: true,
       error: localStorage.nzbgetError || null,
       functionName: 'nzbget',
       refresh: parseFloat(items.nzbgetRefresh) || 15,
@@ -237,7 +248,8 @@ export let sonarr = function() {
       key: items.sonarrKey,
       panelWidth: parseFloat(items.sonarrWidth) || 400,
       components: localStorage.sonarrComponents,
-      actions: []
+      actions: [],
+      loadMore: false
     };
   });
 };

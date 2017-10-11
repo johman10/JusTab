@@ -43,15 +43,20 @@ let vueInstance = new Vue({
       'loadServices'
     ]),
     respondToMessage (msg) {
-      if (msg.name === 'startRefresh') {
+      switch (msg.name) {
+      case 'startRefresh':
         this.startRefresh(msg.serviceId);
-      } else if (msg.name === 'loadServices') {
+        break;
+      case 'loadServices':
         this.loadServices();
-      } else if (msg.name === 'reloadService') {
+        break;
+      case 'reloadService':
         this.reloadService({ serviceId: msg.serviceId });
-      } else if (msg.name === 'setAlarms') {
+        break;
+      case 'setAlarms':
         this.setAlarms();
-      } else if (msg.name === 'afterUpdateServiceSettings') {
+        break;
+      case 'afterUpdateServiceSettings':
         this.reloadService({ serviceId: msg.serviceId });
         // Wait until the service is reloaded before triggering a refresh
         // Hacky. I know.
@@ -59,6 +64,7 @@ let vueInstance = new Vue({
           this.startRefresh(msg.serviceId);
           this.setAlarms();
         }, 500);
+        break;
       }
     },
     startRefresh (serviceId) {

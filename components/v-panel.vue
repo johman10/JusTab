@@ -62,7 +62,8 @@ export default {
   data () {
     return {
       loading: false,
-      scrollTop: 0
+      scrollTop: 0,
+      loadingMore: false
     };
   },
 
@@ -101,6 +102,16 @@ export default {
   methods: {
     onScroll(event) {
       this.scrollTop = event.target.scrollTop;
+
+      if (!this.service.loadMore) return;
+
+      const maxScrollTop = event.target.scrollHeight - event.target.offsetHeight;
+      const scrollTop = event.target.scrollTop;
+      const spaceToEnd = maxScrollTop - scrollTop;
+      if (spaceToEnd < 200 && !this.loadingMore) {
+        this.loadingMore = true;
+        console.log('almost there!')
+      }
     },
     onRefresh () {
       this.loading = true;
