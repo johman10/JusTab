@@ -6,7 +6,6 @@ const STATUS_ARRAY = ['Stopped', 'Check Waiting', 'Checking', 'Download Waiting'
 export default {
   computed: {
     transmissionService () {
-      console.log(this.services);
       return this.services.find(s => s.id === 14);
     },
     emptyListComponent () {
@@ -69,6 +68,7 @@ export default {
 
       if (!torrents.length) return queueComponents.push(this.emptyListComponent);
 
+      torrents.sort((torrentA, torrentB) => torrentB.percentDone - torrentA.percentDone);
       torrents.forEach(torrent => {
         const percentage = Number(Math.round(torrent.percentDone + 'e2') + 'e-2') * 100;
         queueComponents.push({
@@ -85,6 +85,7 @@ export default {
 
     transmissionHistoryComponents (torrents) {
       torrents = torrents.filter(torrent => torrent.isFinished);
+      torrents.sort((torrentA, torrentB) => torrentB.addedDate - torrentA.addedDate);
       torrents = torrents.splice(0, 25);
 
       const historyComponents = [];
