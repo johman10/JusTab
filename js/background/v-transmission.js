@@ -56,7 +56,6 @@ export default {
 
       components = components.concat(this.transmissionQueueComponents(torrents));
       components = components.concat(this.transmissionHistoryComponents(torrents));
-
       localStorage.setItem('transmissionComponents', JSON.stringify(components));
     },
 
@@ -66,7 +65,10 @@ export default {
       const queueComponents = [];
       queueComponents.push(this.transmissionSubheaders('Queue'));
 
-      if (!torrents.length) return queueComponents.push(this.emptyListComponent);
+      if (!torrents.length) {
+        queueComponents.push(this.emptyListComponent);
+        return queueComponents;
+      }
 
       torrents.sort((torrentA, torrentB) => torrentB.percentDone - torrentA.percentDone);
       torrents.forEach(torrent => {
@@ -91,7 +93,10 @@ export default {
       const historyComponents = [];
       historyComponents.push(this.transmissionSubheaders('History'));
 
-      if (!torrents.length) return historyComponents.push(this.emptyListComponent);
+      if (!torrents.length) {
+        historyComponents.push(this.emptyListComponent);
+        return historyComponents;
+      }
 
       torrents.forEach(torrent => {
         historyComponents.push({
@@ -121,7 +126,6 @@ export default {
         this.transmissionSessionKey = error.request.getResponseHeader('X-Transmission-Session-Id');
         return this.transmission();
       }
-      console.error(error);
       localStorage.setItem('transmissionError', true);
     }
   }
