@@ -3,6 +3,7 @@
 
 import moment from 'moment';
 import ajax from 'modules/ajax';
+import imageResize from 'modules/image-resize';
 
 export default {
   computed: {
@@ -14,6 +15,7 @@ export default {
     sonarr () {
       localStorage.setItem('sonarrError', false);
       return this.sonarrEpisodes()
+        .then(this.sonarrImages)
         .then(this.sonarrComponents)
         .catch((error) => {
           console.error(error);
@@ -27,6 +29,20 @@ export default {
       let endDate = moment().add(1, 'months').format('YYYY-MM-DD');
       let apiCall = `api/calendar?apikey=${this.sonarrService.key}&start=${startDate}&end=${endDate}`;
       return ajax('GET', url + apiCall);
+    },
+
+    sonarrImages (episodes) {
+      const posterPromises = episodes.map(this.sonarrPoster);
+      return Promise.all(posterPromises);
+    },
+
+    sonarrPoster (episode) {
+      const episodeClone = Object.assign({}, episode);
+      const posterUrl = episode.series.images.find(image => image.coverType === 'poster').url;
+      return imageResize(posterUrl).then((posterString) => {
+        episodeClone.customPoster = posterString;
+        return episodeClone;
+      });
     },
 
     sonarrComponents (episodes) {
@@ -51,9 +67,7 @@ export default {
 
     sonarrBuildEpisodeItem (episodeObject) {
       let tvdbid = episodeObject.series.tvdbId;
-      let posterUrl = episodeObject.series.images.find(function(v) {
-        return v.coverType === 'poster';
-      }).url;
+      let posterUrl = episodeObject.customPoster;
       let showname = episodeObject.series.title;
       let season = episodeObject.seasonNumber;
       let episode = episodeObject.episodeNumber;

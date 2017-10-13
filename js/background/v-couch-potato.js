@@ -1,5 +1,6 @@
 import moment from 'moment';
 import ajax from 'modules/ajax';
+import imageResize from 'modules/image-resize';
 
 export default {
   computed: {
@@ -10,7 +11,8 @@ export default {
   methods: {
     couchPotato () {
       localStorage.setItem('couchPotatoError', false);
-      return this.getMovies()
+      return this.couchpotatoMovies()
+        .then(this.couchPotatoImages)
         .then(this.couchPotatoComponents)
         .catch((error) => {
           if (error) console.error(error);
@@ -18,19 +20,28 @@ export default {
         });
     },
 
-    getMovies () {
+    couchpotatoMovies () {
       var apiUrls = [
         `${this.couchPotatoService.apiUrl}/movie.list/?release_status=snatched,downloaded,available`,
         `${this.couchPotatoService.apiUrl}/movie.list/?status=active&limit_offset=25`
       ];
-      var promises = [];
+      var promises = apiUrls.map(apiUrl => ajax('GET', apiUrl));
+      return Promise.all(promises);
+    },
 
-      apiUrls.forEach(function (url) {
-        promises.push(ajax('GET', url));
+    couchPotatoImages ([snatched, wanted]) {
+      const snatchedPromises = Promise.all(snatched.movies.map(this.couchPotatoPoster));
+      const wantedPromises = Promise.all(wanted.movies.map(this.couchPotatoPoster));
+      return Promise.all([snatchedPromises, wantedPromises]).then(([snatchedMovies, wantedMovies]) => {
+        return { snatchedMovies, wantedMovies };
       });
+    },
 
-      return Promise.all(promises).then((results) => {
-        return { snatched: results[0], wanted: results[1] };
+    couchPotatoPoster (movie) {
+      const movieClone = Object.assign({}, movie);
+      return imageResize(movieClone.info.images.poster[0]).then((posterString) => {
+        movieClone.customPoster = posterString;
+        return movieClone;
       });
     },
 
@@ -44,9 +55,9 @@ export default {
         }
       });
 
-      if (data.snatched.movies.length) {
-        data.snatched.movies.forEach((movie) => {
-          components.push(this.buildMovieItem(movie));
+      if (data.snatchedMovies.length) {
+        data.snatchedMovies.forEach((movie) => {
+          components.push(this.couchPotatoMovieItem(movie));
         });
       } else {
         components.push({
@@ -64,9 +75,9 @@ export default {
         }
       });
 
-      if (data.wanted.movies.length) {
-        data.wanted.movies.forEach((movie) => {
-          components.push(this.buildMovieItem(movie));
+      if (data.wantedMovies.length) {
+        data.wantedMovies.forEach((movie) => {
+          components.push(this.couchPotatoMovieItem(movie));
         });
       } else {
         components.push({
@@ -80,29 +91,20 @@ export default {
       localStorage.setItem('couchPotatoComponents', JSON.stringify(components));
     },
 
-    buildMovieItem (movie) {
-      var posterUrl;
+    couchPotatoMovieItem (movie) {
       var movieDate = new Date(movie.info.released);
       var date;
 
-      if (movie.info.images.poster_original && movie.info.images.poster_original[0] && movie.info.images.poster_original[0].substr(-4) != 'None') {
-        posterUrl = movie.info.images.poster[0];
-      }
-      else {
-        posterUrl = 'img/poster_fallback.png';
-      }
-
       if (moment(movieDate).year() != moment().year()) {
         date = moment(movieDate).format('MMM D, YYYY');
-      }
-      else {
+      } else {
         date = moment(movieDate).format('MMM D');
       }
 
       return {
         name: 'v-panel-item',
         props: {
-          image: posterUrl,
+          image: movie.customPoster,
           title: movie.title,
           collapseText: date,
           components: [
