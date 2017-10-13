@@ -37,7 +37,6 @@ module.exports = {
     extensions: ['.js', '.vue'],
     alias: {
       'vue$': 'vue/dist/vue.esm',
-      'moment$': 'moment/moment.js',
       'store': path.join(__dirname, '/store'),
       'modules': path.join(__dirname, '/js/modules'),
       'img': path.join(__dirname, '/img'),
@@ -109,7 +108,7 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'commons'
     }),
-    new webpack.IgnorePlugin(/\.\/locale$/),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
