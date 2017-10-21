@@ -78,7 +78,7 @@ module.exports = {
         }]
       },
       {
-        test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.ico$/,
+        test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.ico$|\.webp$/,
         use: {
           loader: 'url-loader',
           options: {
