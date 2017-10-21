@@ -5,7 +5,7 @@
     :style="panelStyling"
   >
     <v-panel-header
-      @refresh="onRefresh"
+      @refresh="startRefresh"
       :loading="loading"
       :scroll-top="scrollTop"
       :service="service"
@@ -19,7 +19,7 @@
         name="slide"
       >
         <v-panel-error
-          @refresh="onRefresh"
+          @refresh="startRefresh"
           v-if="service.error === 'true'"
           :service-name="service.name"
         />
@@ -62,8 +62,7 @@ export default {
   data () {
     return {
       loading: false,
-      scrollTop: 0,
-      loadingMore: false
+      scrollTop: 0
     };
   },
 
@@ -85,6 +84,10 @@ export default {
         return {};
       }
     },
+    nextPage () {
+      const items = this.components.filter(component => component.name === 'v-panel-item' || component.name === 'v-panel-image');
+      return Math.floor(items.length / this.service.perPage + 1);
+    },
     service () {
       return this.activeServices.find((service) => service.id === this.serviceId);
     },
@@ -103,19 +106,22 @@ export default {
     onScroll(event) {
       this.scrollTop = event.target.scrollTop;
 
-      if (!this.service.loadMore) return;
+      if (!this.service.loadMore || this.loading) return;
 
       const maxScrollTop = event.target.scrollHeight - event.target.offsetHeight;
       const scrollTop = event.target.scrollTop;
       const spaceToEnd = maxScrollTop - scrollTop;
-      if (spaceToEnd < 200 && !this.loadingMore) {
-        this.loadingMore = true;
-        console.log('almost there!')
+      if (spaceToEnd < 200) {
+        this.startRefresh(this.nextPage);
       }
     },
-    onRefresh () {
+    startRefresh (page) {
       this.loading = true;
-      chrome.runtime.sendMessage({ name: 'startRefresh', serviceId: this.serviceId });
+      chrome.runtime.sendMessage({
+        name: 'startRefresh',
+        serviceId: this.serviceId,
+        page
+      });
     }
   }
 };

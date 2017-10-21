@@ -10,9 +10,7 @@
     "globals": {
         "chrome": true,
         "environment": true,
-        "it": true,
-        "describe": true,
-        "beforeEach": true,
+
         "expect": true
     },
     "rules": {
@@ -22,7 +20,7 @@
         "semi": ["error", "always"],
         "vue/html-indent": ["error", 2]
     },
-    "env": {"node": true, "browser": true, "es6": true},
+    "env": {"node": true, "browser": true, "es6": true, "mocha": true},
     "extends": [
       "eslint:recommended",
       "plugin:vue/recommended"

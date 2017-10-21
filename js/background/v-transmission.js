@@ -127,6 +127,7 @@ export default {
         this.transmissionSessionKey = error.request.getResponseHeader('X-Transmission-Session-Id');
         return this.transmission();
       }
+      console.error(error); // eslint-disable-line no-console
       localStorage.setItem('transmissionError', true);
     }
   }

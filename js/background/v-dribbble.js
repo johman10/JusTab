@@ -7,8 +7,15 @@ export default {
     }
   },
 
+  data () {
+    return {
+      dribbblePage: 1
+    };
+  },
+
   methods: {
-    dribbble () {
+    dribbble (page) {
+      this.dribbblePage = page || this.dribbblePage;
       localStorage.setItem('dribbbleError', false);
       return this.dribbbleData()
         .then(this.dribbbleComponents)
@@ -20,7 +27,7 @@ export default {
 
     dribbbleData () {
       let url = 'https://api.dribbble.com/v1/';
-      let apiCall = `shots?per_page=${this.dribbbleService.limit}`;
+      let apiCall = `shots?per_page=${this.dribbbleService.perPage * this.dribbblePage}`;
       let apiKey = '&access_token=4236924e13782988c1cee5d251936fe5a985dbe06505a15cd16d0492890d62a4';
       return ajax('GET', url + apiCall + apiKey);
     },
@@ -57,4 +64,3 @@ export default {
     }
   }
 };
-

@@ -53,7 +53,7 @@ export default {
         });
     },
     findHistory (url) {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         chrome.history.getVisits({ 'url': url }, function(data) {
           if (data.length === 0) {
             return resolve(url);

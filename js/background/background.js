@@ -45,7 +45,7 @@ let vueInstance = new Vue({
     respondToMessage (msg) {
       switch (msg.name) {
       case 'startRefresh':
-        this.startRefresh(msg.serviceId);
+        this.startRefresh(msg.serviceId, msg.page);
         break;
       case 'loadServices':
         this.loadServices();
@@ -67,9 +67,9 @@ let vueInstance = new Vue({
         break;
       }
     },
-    startRefresh (serviceId) {
+    startRefresh (serviceId, page = 1) {
       const service = this.services.find(s => s.id === serviceId);
-      this[service.functionName]()
+      this[service.functionName](page)
         .then(() => {
           this.finishRefresh(serviceId);
         });

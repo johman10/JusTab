@@ -179,7 +179,7 @@ export let dribbble = function() {
       gifs: items.dribbbleGifs,
       panelWidth: parseFloat(items.dribbbleWidth) || 400,
       actions: ['openUnread'],
-      limit: 26,
+      perPage: 25,
       loadMore: true
     };
   });

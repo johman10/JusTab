@@ -54,7 +54,7 @@ export default {
     vCheckbox,
     vInput
   },
-  
+
   mixins: [
     vGoogleCalendar
   ],
@@ -85,6 +85,7 @@ export default {
         this.calendars = calendars;
       })
       .catch((error) => {
+        console.log(error); // eslint-disable-line no-console
         this.error = error;
       });
   },
