@@ -20,12 +20,14 @@ export default {
 
   data () {
     return {
-      transmissionSessionKey: ''
+      transmissionSessionKey: '',
+      transmissionPage: 1
     };
   },
 
   methods: {
-    transmission () {
+    transmission (page) {
+      this.transmissionPage = page || this.transmissionPage;
       localStorage.setItem('transmissionError', false);
       return this.transmissionItems()
         .then(this.transmissionComponents)
@@ -47,6 +49,7 @@ export default {
         },
         method: 'torrent-get'
       };
+      // TODO: See if I can limit the amount returned by the API
       return ajax('POST', apiUrl, headers, JSON.stringify(data));
     },
 
@@ -89,7 +92,8 @@ export default {
     transmissionHistoryComponents (torrents) {
       torrents = torrents.filter(torrent => torrent.status === 0);
       torrents.sort((torrentA, torrentB) => torrentB.addedDate - torrentA.addedDate);
-      torrents = torrents.splice(0, 25);
+      const historyAmount = this.transmissionService.perPage * this.transmissionPage;
+      torrents = torrents.splice(0, historyAmount);
 
       const historyComponents = [];
       historyComponents.push(this.transmissionSubheaders('History'));

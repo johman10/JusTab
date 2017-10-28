@@ -7,8 +7,16 @@ export default {
       return this.services.find(s => s.id === 2);
     }
   },
+
+  data () {
+    return {
+      gmailPage: 1
+    };
+  },
+
   methods: {
-    gmail () {
+    gmail (page) {
+      this.gmailPage = page || this.gmailPage;
       localStorage.setItem('gmailError', false);
       return this.gmailToken()
         .then(this.getMailIds)
@@ -34,8 +42,9 @@ export default {
       return this.getUserData()
         .then((userData) => {
           email = encodeURIComponent(userData.email);
-          let query = '&q=' + encodeURIComponent('-in:chats -in:sent -in:notes');
-          let messagesUrl = `https://www.googleapis.com/gmail/v1/users/${email}/messages?maxResults=${this.service.length}&oauth_token=${token}${query}`;
+          const query = '&q=' + encodeURIComponent('-in:chats -in:sent -in:notes');
+          const mailAmount = this.gmailService.perPage * this.couchPotatoPage;
+          const messagesUrl = `https://www.googleapis.com/gmail/v1/users/${email}/messages?maxResults=${mailAmount}&oauth_token=${token}${query}`;
           return messagesUrl;
         })
         .then((messagesUrl) => {

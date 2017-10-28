@@ -15,8 +15,15 @@ export default {
     }
   },
 
+  data () {
+    return {
+      nzbgetPage: 1
+    }
+  },
+
   methods: {
-    nzbget () {
+    nzbget (page) {
+      this.nzbgetPage = page || this.nzbgetPage;
       localStorage.setItem('nzbgetError', false);
       return Promise.all([this.nzbgetQueue(), this.nzbgetHistory()])
         .then(this.nzbgetComponents)
@@ -27,14 +34,15 @@ export default {
     },
 
     nzbgetQueue () {
-      var url = this.nzbgetHost;
-      var apiCall = '/listgroups';
+      const url = this.nzbgetHost;
+      const apiCall = '/listgroups';
       return ajax('GET', url + apiCall);
     },
 
     nzbgetHistory () {
-      var url = this.nzbgetHost;
-      var apiCall = '/history';
+      const url = this.nzbgetHost;
+      const apiCall = '/history';
+      // TODO: figure out how to limit the amount of downloads, and how to scale them
       return ajax('GET', url + apiCall);
     },
 

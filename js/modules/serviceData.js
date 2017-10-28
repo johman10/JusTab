@@ -47,8 +47,8 @@ export let gmail = function() {
       components: localStorage.gmailComponents || null,
       nextPage: localStorage.Gmail_page || null,
       panelWidth: parseFloat(items.gmailWidth) || 400,
-      length: 25,
       actions: [],
+      perPage: 25,
       loadMore: true
     };
   });
@@ -71,6 +71,7 @@ export let couchPotato = function() {
       optionsPath: '/couchpotato',
       components: localStorage.couchPotatoComponents || null,
       actions: [],
+      perPage: 25,
       loadMore: true
     };
   });
@@ -191,7 +192,7 @@ export let reddit = function() {
       id: 11,
       name: 'Reddit',
       url: urlNormalize('https://www.reddit.com/'),
-      color: '#CFE3FA',
+      color: '#cfe3fa',
       logo: require('img/RD_header.svg'),
       error: localStorage.redditError || null,
       active: typeof items.redditActive === 'boolean' ? items.redditActive : true,
@@ -204,7 +205,7 @@ export let reddit = function() {
       nsfw: typeof items.redditNsfw === 'boolean' ? items.redditNsfw : false,
       sorting: items.redditSorting || 'Hot',
       actions: ['openUnread'],
-      loadMore: false
+      loadMore: true
     };
   });
 };
@@ -222,12 +223,13 @@ export let nzbget = function() {
       password: items.nzbgetPassword,
       panelWidth: parseFloat(items.nzbgetWidth) || 400,
       optionsPath: '/nzbget',
-      actions: [],
-      loadMore: true,
       error: localStorage.nzbgetError || null,
       functionName: 'nzbget',
       refresh: parseFloat(items.nzbgetRefresh) || 15,
-      components: localStorage.nzbgetComponents
+      components: localStorage.nzbgetComponents,
+      actions: [],
+      loadMore: true,
+      perPage: 25
     };
   });
 };
@@ -237,7 +239,7 @@ export let sonarr = function() {
     return {
       id: 13,
       name: 'Sonarr',
-      color: '#5FB9EF',
+      color: '#5fb9ef',
       logo: require('img/SO_header.svg'),
       error: localStorage.sonarrError || null,
       active: typeof items.sonarrActive === 'boolean' ? items.sonarrActive : true,
@@ -259,7 +261,7 @@ export let transmission = function() {
     return {
       id: 14,
       name: 'Transmission',
-      color: '#B50D11',
+      color: '#b50d11',
       logo: require('img/TM_header.webp'),
       error: localStorage.transmissionError || null,
       active: typeof items.transmissionActive === 'boolean' ? items.transmissionActive : true,
@@ -271,7 +273,9 @@ export let transmission = function() {
       password: items.transmissionPassword,
       panelWidth: parseFloat(items.transmissionWidth) || 400,
       components: localStorage.transmissionComponents,
-      actions: []
+      actions: [],
+      loadMore: true,
+      perPage: 25
     };
   });
 };

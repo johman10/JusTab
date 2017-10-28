@@ -7,8 +7,15 @@ export default {
     }
   },
 
+  data () {
+    return {
+      redditPage: 1
+    }
+  },
+
   methods: {
-    reddit () {
+    reddit (page) {
+      this.redditPage = page || this.redditPage;
       localStorage.setItem('redditError', false);
       return this.redditPosts()
         .then(this.redditFilter)
@@ -30,6 +37,7 @@ export default {
         sortingTime = sortingArray[1].toLowerCase();
       }
 
+      // TODO: Figure out how to get more reddit posts
       let apiCall = `/r/${this.redditService.subreddit}/${sortingType}.json${sortingTime ? `?t=${sortingTime}` : ''}`;
       return ajax('GET', url + apiCall);
     },

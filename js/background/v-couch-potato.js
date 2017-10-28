@@ -8,8 +8,16 @@ export default {
       return this.services.find(s => s.id === 3);
     }
   },
+
+  data () {
+    return {
+      couchPotatoPage: 1
+    };
+  },
+
   methods: {
-    couchPotato () {
+    couchPotato (page) {
+      this.couchPotatoPage = page || this.couchPotatoPage;
       localStorage.setItem('couchPotatoError', false);
       return this.couchpotatoMovies()
         .then(this.couchPotatoImages)
@@ -21,10 +29,11 @@ export default {
     },
 
     couchpotatoMovies () {
+      const wantedAmount = this.couchPotatoService.perPage * this.couchPotatoPage;
       const baseUri = `${this.couchPotatoService.url}/api/${this.couchPotatoService.key}/movie.list`;
       const dataUrl = [
         `${baseUri}?release_status=snatched,downloaded,available`,
-        `${baseUri}?status=active&limit_offset=25`
+        `${baseUri}?status=active&limit_offset=${wantedAmount}`
       ];
       const promises = dataUrl.map(dataUrl => ajax('GET', dataUrl));
       return Promise.all(promises);
