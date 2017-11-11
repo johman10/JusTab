@@ -38,7 +38,8 @@ export default {
           let urlPath = repoListItem.querySelector('a').getAttribute('href');
           let title = urlPath.split('/')[urlPath.split('/').length - 1];
           let owner = urlPath.split('/')[1];
-          let description = repoListItem.querySelector('.text-gray').innerText.trim();
+          let descriptionElement = repoListItem.querySelector('.py-1 .text-gray');
+          let description = descriptionElement ? descriptionElement.innerText.trim() : 'No description, website, or topics provided.';
           let url = 'https://github.com' + urlPath;
 
           repos.push({

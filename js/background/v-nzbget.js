@@ -15,15 +15,8 @@ export default {
     }
   },
 
-  data () {
-    return {
-      nzbgetPage: 1
-    }
-  },
-
   methods: {
-    nzbget (page) {
-      this.nzbgetPage = page || this.nzbgetPage;
+    nzbget () {
       localStorage.setItem('nzbgetError', false);
       return Promise.all([this.nzbgetQueue(), this.nzbgetHistory()])
         .then(this.nzbgetComponents)
@@ -42,22 +35,29 @@ export default {
     nzbgetHistory () {
       const url = this.nzbgetHost;
       const apiCall = '/history';
-      // TODO: figure out how to limit the amount of downloads, and how to scale them
       return ajax('GET', url + apiCall);
+    },
+
+    capitalize (string) {
+      return string[0].toUpperCase() + string.slice(1).toLowerCase();
     },
 
     nzbgetComponents (results) {
       let components = [];
       results.forEach((resultData, index) => {
-        components.push(this.nzbgetSubheaders(index));
+        const isQueue = index === 0;
+        components.push(this.nzbgetSubheaders(isQueue));
         if (resultData.result.length) {
           resultData.result.forEach((item) => {
             let downloadPercentage;
-            let subtitle = item.Status;
+            let subtitle;
 
-            if (index === 0) {
+            if (isQueue) {
               downloadPercentage = roundNumber(item.DownloadedSizeMB/(item.FileSizeMB/100));
-              subtitle += ` - ${downloadPercentage}%`;
+              subtitle = `${this.capitalize(item.Status)} - ${downloadPercentage}%`;
+            } else {
+              const splittedStatus = item.Status.split('/');
+              subtitle = `${this.capitalize(splittedStatus[0])} - ${this.capitalize(splittedStatus[1])}`;
             }
 
             components.push({
@@ -81,10 +81,10 @@ export default {
       localStorage.setItem('nzbgetComponents', JSON.stringify(components));
     },
 
-    nzbgetSubheaders (index) {
+    nzbgetSubheaders (isQueue) {
       let text;
 
-      if (index === 0) {
+      if (isQueue) {
         text = 'Queue';
       } else {
         text = 'History';

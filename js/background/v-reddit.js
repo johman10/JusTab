@@ -27,18 +27,18 @@ export default {
     },
 
     redditPosts () {
-      let url = 'https://www.reddit.com';
-      let sorting = this.redditService.sorting;
-      let sortingArray = sorting.split(' - ');
-      let sortingType = sortingArray[0].toLowerCase();
+      const url = 'https://www.reddit.com';
+      const sorting = this.redditService.sorting;
+      const sortingArray = sorting.split(' - ');
+      const sortingType = sortingArray[0].toLowerCase();
+      const limit = this.redditService.perPage * this.redditPage;
       let sortingTime;
 
       if (sortingArray.length > 1) {
         sortingTime = sortingArray[1].toLowerCase();
       }
 
-      // TODO: Figure out how to get more reddit posts
-      let apiCall = `/r/${this.redditService.subreddit}/${sortingType}.json${sortingTime ? `?t=${sortingTime}` : ''}`;
+      const apiCall = `/r/${this.redditService.subreddit}/${sortingType}.json?limit=${limit}${sortingTime ? `&t=${sortingTime}` : ''}`;
       return ajax('GET', url + apiCall);
     },
 

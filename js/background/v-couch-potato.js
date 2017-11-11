@@ -30,9 +30,10 @@ export default {
 
     couchpotatoMovies () {
       const wantedAmount = this.couchPotatoService.perPage * this.couchPotatoPage;
+      const snatchedStatuses = ['snatched', 'missing', 'available', 'downloaded', 'done', 'seeding']
       const baseUri = `${this.couchPotatoService.url}/api/${this.couchPotatoService.key}/movie.list`;
       const dataUrl = [
-        `${baseUri}?release_status=snatched,downloaded,available`,
+        `${baseUri}?release_status=${snatchedStatuses.join(',')}&with_tags=recent`,
         `${baseUri}?status=active&limit_offset=${wantedAmount}`
       ];
       const promises = dataUrl.map(dataUrl => ajax('GET', dataUrl));

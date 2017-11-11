@@ -20,8 +20,7 @@ export default {
 
   data () {
     return {
-      transmissionSessionKey: '',
-      transmissionPage: 1
+      transmissionSessionKey: ''
     };
   },
 
@@ -92,8 +91,6 @@ export default {
     transmissionHistoryComponents (torrents) {
       torrents = torrents.filter(torrent => torrent.status === 0);
       torrents.sort((torrentA, torrentB) => torrentB.addedDate - torrentA.addedDate);
-      const historyAmount = this.transmissionService.perPage * this.transmissionPage;
-      torrents = torrents.splice(0, historyAmount);
 
       const historyComponents = [];
       historyComponents.push(this.transmissionSubheaders('History'));

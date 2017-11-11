@@ -3,7 +3,7 @@ import ajax from 'modules/ajax';
 
 export default {
   computed: {
-    service () {
+    gmailService () {
       return this.services.find(s => s.id === 2);
     }
   },
@@ -43,7 +43,7 @@ export default {
         .then((userData) => {
           email = encodeURIComponent(userData.email);
           const query = '&q=' + encodeURIComponent('-in:chats -in:sent -in:notes');
-          const mailAmount = this.gmailService.perPage * this.couchPotatoPage;
+          const mailAmount = this.gmailService.perPage * this.gmailPage;
           const messagesUrl = `https://www.googleapis.com/gmail/v1/users/${email}/messages?maxResults=${mailAmount}&oauth_token=${token}${query}`;
           return messagesUrl;
         })

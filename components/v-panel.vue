@@ -30,6 +30,9 @@
         :is="component.name"
         :props="component.props"
       />
+      <v-loading-item
+        v-if="loadingMore"
+      />
     </div>
     <v-service-actions :service="service" />
   </div>
@@ -49,7 +52,8 @@ export default {
     vPanelError: dynamicImportComponent('v-panel-error'),
     vPanelItem: dynamicImportComponent('v-panel-item'),
     vPanelImage: dynamicImportComponent('v-panel-image'),
-    vServiceActions: dynamicImportComponent('v-service-actions')
+    vServiceActions: dynamicImportComponent('v-service-actions'),
+    vLoadingItem: dynamicImportComponent('v-loading-item')
   },
 
   props: {
@@ -62,6 +66,7 @@ export default {
   data () {
     return {
       loading: false,
+      loadingMore: false,
       scrollTop: 0
     };
   },
@@ -86,7 +91,7 @@ export default {
     },
     nextPage () {
       const items = this.components.filter(component => component.name === 'v-panel-item' || component.name === 'v-panel-image');
-      return Math.floor(items.length / this.service.perPage + 1);
+      return Math.ceil(items.length / this.service.perPage + 1);
     },
     service () {
       return this.activeServices.find((service) => service.id === this.serviceId);
@@ -98,6 +103,7 @@ export default {
     chrome.runtime.onMessage.addListener((message) => {
       if (message.name === 'finishRefresh') {
         this.loading = false;
+        this.loadingMore = false;
       }
     });
   },
@@ -106,17 +112,20 @@ export default {
     onScroll(event) {
       this.scrollTop = event.target.scrollTop;
 
+      // TODO: Prevent load more when everything is loaded.
+      // How do I know whether everything is loaded?
       if (!this.service.loadMore || this.loading) return;
 
       const maxScrollTop = event.target.scrollHeight - event.target.offsetHeight;
-      const scrollTop = event.target.scrollTop;
-      const spaceToEnd = maxScrollTop - scrollTop;
-      if (spaceToEnd < 200) {
+      const spaceToEnd = maxScrollTop - this.scrollTop;
+      if (spaceToEnd < 10) {
         this.startRefresh(this.nextPage);
       }
     },
     startRefresh (page) {
       this.loading = true;
+      if (page > 1) this.loadingMore = true;
+
       chrome.runtime.sendMessage({
         name: 'startRefresh',
         serviceId: this.serviceId,
