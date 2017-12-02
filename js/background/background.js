@@ -96,10 +96,6 @@ chrome.runtime.onConnect.addListener((port) => {
   if (!chrome.runtime.onMessage.hasListeners()) {
     chrome.runtime.onMessage.addListener(vueInstance.respondToMessage);
   }
-
-  port.onDisconnect.addListener(() => {
-    chrome.runtime.onMessage.removeListener(vueInstance.respondToMessage);
-  });
 });
 
 moment.updateLocale('en', {
