@@ -109,7 +109,8 @@ export let hackerNews = function() {
       refresh: parseFloat(items.hackerNewsRefresh) || 15,
       components: localStorage.hackerNewsComponents,
       panelWidth: parseFloat(items.hackerNewsWidth) || 400,
-      actions: ['openUnread']
+      actions: ['openUnread'],
+      sorting: items.hackerNewsSorting || 'Top'
     };
   });
 };

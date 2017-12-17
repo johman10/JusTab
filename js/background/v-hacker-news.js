@@ -6,6 +6,14 @@ export default {
   computed: {
     hackerNewsService () {
       return this.services.find(s => s.id === 7);
+    },
+
+    hackerNewsApicall () {
+      const validSortings = ['best', 'new', 'top'];
+      const lowercaseSorting = this.hackerNewsService.sorting.toLowerCase();
+      const hasValidSorting = validSortings.includes(lowercaseSorting);
+      if (!hasValidSorting) return 'topstories.json';
+      return `${lowercaseSorting}stories.json`;
     }
   },
 
@@ -23,8 +31,8 @@ export default {
 
     hackerNewsStoryIds () {
       return new Promise((resolve, reject) => {
-        var url = 'https://hacker-news.firebaseio.com/v0/';
-        var apiCall = 'topstories.json';
+        const url = 'https://hacker-news.firebaseio.com/v0/';
+        const apiCall = this.hackerNewsApicall;
 
         ajax('GET', url + apiCall)
           .then(function(data) {
