@@ -1,6 +1,6 @@
 {
   "name": "JusTab",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
