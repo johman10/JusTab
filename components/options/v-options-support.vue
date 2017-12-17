@@ -5,11 +5,14 @@
     <p>
       The last update contains:
       <ul>
+        <li>Added Transmission</li>
         <li>Added a NSFW tag for Reddit</li>
-        <li>Fix transitition for when there is an error on a servive</li>
-        <li>Improved images, svg so better support for higher DPI screens</li>
+        <li>Added sorting option to HackerNews after a tip from <a href="https://github.com/chtefi">@chtefi</a></li>
+        <li>Huge peformance improvements, load time is now almost instant now</li>
         <li>Better loading states for some services</li>
-        <li>Huge peformance improvements, load time is now almost instant</li>
+        <li>Better fallbacks for GMail to prevent errors</li>
+        <li>Fix issue where refreshing might not work anymore after a while</li>
+        <li>Fix transitition for when there is an error on a servive</li>
         <li>Bug fixes and code improvements</li>
       </ul>
     </p>
