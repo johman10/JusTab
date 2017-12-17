@@ -1,8 +1,8 @@
 <template>
   <div class="input">
-    <input v-if="type === 'text'" :value="changeValue" v-model="changeValue" placeholder="." @input="onInput" @change="onChange" class="input--field" type="text" :name="name" :id="name">
-    <input v-else-if="type === 'number'" :value="changeValue" v-model="changeValue" placeholder="." @input="onInput" @change="onChange" class="input--field" type="number" :name="name" :id="name">
-    <input v-else-if="type === 'password'" :value="changeValue" v-model="changeValue" placeholder="." @input="onInput" @change="onChange" class="input--field" type="password" :name="name" :id="name">
+    <input v-if="type === 'text'" v-model="changeValue" placeholder="." @input="onInput" @change="onChange" class="input--field" type="text" :name="name" :id="name">
+    <input v-else-if="type === 'number'" v-model="changeValue" placeholder="." @input="onInput" @change="onChange" class="input--field" type="number" :name="name" :id="name">
+    <input v-else-if="type === 'password'" v-model="changeValue" placeholder="." @input="onInput" @change="onChange" class="input--field" type="password" :name="name" :id="name">
     <span class="input--bottom-bar"></span>
     <label class="input--label">{{ label }}</label>
   </div>
