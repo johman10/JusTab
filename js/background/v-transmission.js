@@ -60,7 +60,7 @@ export default {
     },
 
     transmissionQueueComponents (torrents) {
-      torrents = torrents.filter(torrent => torrent.percentDone !== 1);
+      torrents = torrents.filter(torrent => torrent.status !== 0);
 
       const queueComponents = [];
       queueComponents.push(this.transmissionSubheaders('Queue'));
@@ -86,7 +86,7 @@ export default {
     },
 
     transmissionHistoryComponents (torrents) {
-      torrents = torrents.filter(torrent => torrent.percentDone === 1);
+      torrents = torrents.filter(torrent => torrent.status === 0);
       torrents.sort((torrentA, torrentB) => torrentB.addedDate - torrentA.addedDate);
       torrents = torrents.splice(0, 25);
 
