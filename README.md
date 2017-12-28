@@ -14,6 +14,7 @@ At this moment it supports:
 - [Reddit](https://www.reddit.com)
 - [NZBGet](http://nzbget.net)
 - [Sonarr](https://www.sonarr.tv)
+- [Chrome Bookmarks] A list of a selected bookmark folder
 
 ## Installation
 You can download this extension in the Chrome Webstore go to:
