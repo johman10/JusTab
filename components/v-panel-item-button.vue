@@ -1,5 +1,5 @@
 <template>
-  <a @mousedown="_showRipple" class="ripple panel-item-button" :href="props.url">
+  <a @mousedown="_showRipple" class="ripple panel-item-button" :href="props.url" @click.prevent="onClick">
     <i :class="['panel-item-button--icon', props.iconClass]"></i>
   </a>
 </template>
@@ -10,6 +10,11 @@
   export default {
     props: {
       props: Object
+    },
+    methods: {
+      onClick ($event) {
+        chrome.tabs.create({url: this.props.url});
+      }
     }
   }
 </script>

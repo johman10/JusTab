@@ -46,8 +46,12 @@
     },
 
     methods: {
-      expandItem () {
+      expandItem (el) {
         if (this.hasCollapse) {
+          if (el.target.classList.contains('panel-item-content--icon')) {
+            el.preventDefault();
+          }
+          else if (this.props.url) return;
           this.expanded = !this.expanded
         }
       }

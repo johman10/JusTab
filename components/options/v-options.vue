@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-page-header @toggle="toggleMenu" :title="pageTitle" :color="headerColor"></v-page-header>
+    <v-page-header @toggle-menu="toggleMenu" :title="pageTitle" :color="headerColor"></v-page-header>
     <v-options-menu :show-menu="showMenu"></v-options-menu>
     <div class="options--view">
       <router-view>

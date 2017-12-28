@@ -9,28 +9,37 @@
   font-weight: 500;
   height: 64px;
   line-height: 64px;
-  padding-left: 272px;
   transition: padding 400ms, background .3s;
   width: 100vw;
 
-  &--menu-icon {
+  &--menu-icon,
+  &--back-icon {
     cursor: pointer;
-    display: none;
-    margin-right: 8px;
     vertical-align: middle;
+    padding-left: 15px;
+    float: left;
+    margin: 22px 10px;
+    display: inline;
+  }
+  &--menu-icon {
+    display: none;
   }
 
   &--title {
+    padding-left: 212px;
     display: inline;
+    float: left;
   }
 }
 
 @media screen and (max-width: 580px) {
   .page-header {
-    padding-left: 8px;
-
+    &--title {
+      padding-left: 8px;
+    }
     &--menu-icon {
       display: inline;
+      float: right;
     }
   }
 }

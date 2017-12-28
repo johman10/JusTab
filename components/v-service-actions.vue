@@ -1,6 +1,6 @@
 <template>
   <div class="service-actions" :style="wrapperStyling">
-    <v-button v-if="service.actions.includes('openUnread')" class="service-actions--button" @click="openUnread(service)" text="Open unread" type="flat"></v-button>
+    <v-button v-for="(action, index) in service.actions" :key="index" v-if="isValidAction(action)" class="service-actions--button" @click="action.onClick(service)" :text="action.text" type="flat"></v-button>
   </div>
 </template>
 
@@ -17,9 +17,6 @@
       service: Object
     },
     computed: {
-      components () {
-        return JSON.parse(this.service.components);
-      },
       wrapperStyling () {
         return {
           display: this.service.actions.length > 0 ? 'inline-block' : 'none',
@@ -28,27 +25,8 @@
       }
     },
     methods: {
-      openUnread () {
-        var promises = []
-        this.components.forEach((component) => {
-          var url = component.props.url;
-          if (url) promises.push(this.findHistory(url));
-        });
-        Promise.all(promises)
-          .then((urls) => {
-            urls.forEach((url) => { if (url) { window.open(url) } });
-          });
-      },
-      findHistory (url) {
-        return new Promise((resolve, reject) => {
-          chrome.history.getVisits({ 'url': url }, function(data) {
-            if (data.length === 0) {
-              return resolve(url);
-            } else {
-              return resolve(false);
-            }
-          });
-        })
+      isValidAction (action) {
+        return action && action.text && typeof action.onClick === 'function'
       }
     }
   }

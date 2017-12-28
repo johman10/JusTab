@@ -19,8 +19,9 @@ const vOptionsDribbble = dynamicImportComponent('options/v-options-dribbble');
 const vOptionsReddit = dynamicImportComponent('options/v-options-reddit');
 const vOptionsNzbget = dynamicImportComponent('options/v-options-nzbget');
 const vOptionsSonarr = dynamicImportComponent('options/v-options-sonarr');
-const vOptionsSupport = dynamicImportComponent('options/v-options-support');
 const vOptionsTransmission = dynamicImportComponent('options/v-options-transmission');
+const vOptionsBookmarks = dynamicImportComponent('options/v-options-bookmarks');
+const vOptionsSupport = dynamicImportComponent('options/v-options-support');
 
 Vue.use(Vuex);
 Vue.mixin(ripple);
@@ -31,9 +32,12 @@ Vue.mixin({
       'reloadService'
     ]),
     saveData (serviceId, key, value) {
-      let changes = {};
-      changes[key] = value;
-      this.updateServiceSettings({ serviceId, changes });
+      this.updateServiceSettings({
+        serviceId,
+        changes: {
+          [key]: value
+        }
+      });
       this.reloadService({ serviceId });
     }
   }
@@ -54,6 +58,7 @@ const routes = [
   { path: '/nzbget', component: vOptionsNzbget },
   { path: '/sonarr', component: vOptionsSonarr },
   { path: '/transmission', component: vOptionsTransmission },
+  { path: '/bookmarks', component: vOptionsBookmarks },
   { path: '/support', component: vOptionsSupport }
 ];
 

@@ -30,6 +30,7 @@
     ]
   },
   "permissions": [
+    "bookmarks",
     "history",
     "notifications",
     "identity",

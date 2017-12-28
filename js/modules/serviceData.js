@@ -1,3 +1,5 @@
+import * as bookmark from 'modules/bookmark'
+
 function chromeStorage () {
   return new Promise(function(resolve) {
     chrome.storage.sync.get(function(items) {
@@ -89,7 +91,10 @@ export let designerNews = function() {
       refresh: parseFloat(items.designerNewsRefresh) || 15,
       components: localStorage.designerNewsComponents,
       panelWidth: parseFloat(items.designerNewsWidth) || 400,
-      actions: ['openUnread']
+      actions: [{
+        text: 'Open unread',
+        onClick: openUnread
+      }]
     };
   });
 };
@@ -109,7 +114,10 @@ export let hackerNews = function() {
       refresh: parseFloat(items.hackerNewsRefresh) || 15,
       components: localStorage.hackerNewsComponents,
       panelWidth: parseFloat(items.hackerNewsWidth) || 400,
-      actions: ['openUnread'],
+      actions: [{
+        text: 'Open unread',
+        onClick: openUnread
+      }],
       sorting: items.hackerNewsSorting || 'Top'
     };
   });
@@ -130,7 +138,10 @@ export let github = function() {
       refresh: parseFloat(items.githubRefresh) || 15,
       panelWidth: parseFloat(items.githubWidth) || 400,
       components: localStorage.githubComponents,
-      actions: ['openUnread']
+      actions: [{
+        text: 'Open unread',
+        onClick: openUnread
+      }]
     };
   });
 };
@@ -150,7 +161,10 @@ export let productHunt = function() {
       refresh: parseFloat(items.productHuntRefresh) || 15,
       panelWidth: parseFloat(items.productHuntWidth) || 400,
       components: localStorage.productHuntComponents,
-      actions: ['openUnread']
+      actions: [{
+        text: 'Open unread',
+        onClick: openUnread
+      }]
     };
   });
 };
@@ -172,7 +186,10 @@ export let dribbble = function() {
       smallImages: items.dribbbleSmallImages,
       gifs: items.dribbbleGifs,
       panelWidth: parseFloat(items.dribbbleWidth) || 400,
-      actions: ['openUnread']
+      actions: [{
+        text: 'Open unread',
+        onClick: openUnread
+      }]
     };
   });
 };
@@ -195,7 +212,10 @@ export let reddit = function() {
       subreddit: items.redditSubreddit || 'all',
       nsfw: typeof items.redditNsfw === 'boolean' ? items.redditNsfw : false,
       sorting: items.redditSorting || 'Hot',
-      actions: ['openUnread']
+      actions: [{
+        text: 'Open unread',
+        onClick: openUnread
+      }]
     };
   });
 };
@@ -280,6 +300,33 @@ export let transmission = function() {
   });
 };
 
+export let bookmarks = function() {
+  return chromeStorage().then(function(items) {
+    var data = {
+      id: 15,
+      name: 'Chrome bookmarks',
+      color: '#3367D6',
+      logo: require('img/BM_header.svg'),
+      error: localStorage.bookmarksError || null,
+      active: typeof items.bookmarksActive === 'boolean' ? items.bookmarksActive : true,
+      functionName: 'bookmarks',
+      optionsPath: '/bookmarks',
+      refresh: parseFloat(items.bookmarkRefresh) || 15,
+      panelWidth: parseFloat(items.transmissionWidth) || 400,
+      components: localStorage.bookmarksComponents,
+      recursive: !!items.bookmarksRecursive,
+      folder: items.bookmarksFolder || '/',
+      actions: [{
+        text: 'Save open tabs into active bookmarks folder',
+        onClick: bookmark.saveOpenTabsToFolder(items)
+      }]
+    };
+
+    data = Object.assign(data, apiUrl(data));
+    return data;
+  });
+};
+
 const serviceData = [
   googleCalendar,
   gmail,
@@ -292,7 +339,8 @@ const serviceData = [
   reddit,
   nzbget,
   sonarr,
-  transmission
+  transmission,
+  bookmarks
 ];
 
 function apiUrl(data) {
@@ -313,6 +361,30 @@ function apiUrl(data) {
     url: url,
     apiUrl: apiUrl
   };
+}
+
+function openUnread (service) {
+  var promises = []
+  const items = JSON.parse(service.components);
+  items.forEach((component) => {
+    var url = component.props.url;
+    if (url) promises.push(findHistory(url));
+  });
+  Promise.all(promises)
+    .then((urls) => {
+      urls.forEach((url) => { if (url) { window.open(url) } });
+    });
+}
+function findHistory (url) {
+  return new Promise((resolve, reject) => {
+    chrome.history.getVisits({ 'url': url }, function(data) {
+      if (data.length === 0) {
+        return resolve(url);
+      } else {
+        return resolve(false);
+      }
+    });
+  })
 }
 
 export default serviceData;

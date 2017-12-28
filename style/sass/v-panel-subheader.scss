@@ -9,3 +9,11 @@ h2 {
   margin: 0;
   padding: 0 16px;
 }
+
+.icon {
+  filter: gray; /* IE6-9 */
+  -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+  filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
+  vertical-align: middle;
+  margin-top: -3px;
+}
