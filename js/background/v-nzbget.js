@@ -21,7 +21,7 @@ export default {
       return Promise.all([this.nzbgetQueue(), this.nzbgetHistory()])
         .then(this.nzbgetComponents)
         .catch((error) => {
-          if (error) console.error(error);
+          if (error) console.error(error); // eslint-disable-line no-console
           localStorage.setItem('nzbgetError', true);
         });
     },

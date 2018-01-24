@@ -4,6 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
+const Jarvis = require('webpack-jarvis');
 const htmlMinifyOptions = {
   collapseBooleanAttributes: true,
   collapseWhitespace: true,
@@ -42,7 +43,8 @@ module.exports = {
       'img': path.join(__dirname, '/img'),
       'js': path.join(__dirname, '/js'),
       'css': path.join(__dirname, '/style/sass'),
-      'components': path.join(__dirname, '/components')
+      'components': path.join(__dirname, '/components'),
+      'test': path.join(__dirname, '/test')
     }
   },
   module: {
@@ -102,12 +104,6 @@ module.exports = {
   },
   devtool: JSON.stringify(process.env.NODE_ENV) === 'development' ? 'eval-source-map' : 'source-map',
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      async: true
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'commons'
-    }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       'process.env': {
@@ -151,13 +147,22 @@ module.exports = {
   ]
 };
 
+if (process.env.NODE_ENV !== 'test') {
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new webpack.optimize.CommonsChunkPlugin({
+      async: true
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'commons'
+    })
+  ]);
+}
+
 if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new UglifyJSPlugin({
-      parallel: {
-        cache: true,
-        workers: 2 // for e.g
-      }
+      cache: true,
+      parallel: 2
     })
   ]);
 }

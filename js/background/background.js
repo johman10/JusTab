@@ -91,7 +91,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   vueInstance.respondToMessage({ name: 'startRefresh', serviceId: parseInt(alarm.name) });
 });
 
-chrome.runtime.onConnect.addListener((port) => {
+chrome.runtime.onConnect.addListener(() => {
   // Prevent double event listeners when another connection is opened
   if (!chrome.runtime.onMessage.hasListeners()) {
     chrome.runtime.onMessage.addListener(vueInstance.respondToMessage);

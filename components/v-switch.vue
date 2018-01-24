@@ -1,8 +1,18 @@
 <template>
-  <div class="switch ripple--no">
-    <label class="switch--label" @click="toggleService">
-      <input type="checkbox" class="switch--checkbox" :name="name" :checked="value">
-      <span class="switch--lever"></span>
+  <div
+    class="switch ripple--no"
+  >
+    <label
+      class="switch--label"
+      @click="toggleService"
+    >
+      <input
+        type="checkbox"
+        class="switch--checkbox"
+        :name="name"
+        :checked="value"
+      >
+      <span class="switch--lever" />
     </label>
   </div>
 </template>
@@ -10,16 +20,22 @@
 <style src="css/v-switch.scss"></style>
 
 <script>
-  export default {
-    props: {
-      name: String,
-      value: Boolean
+export default {
+  props: {
+    name: {
+      type: String,
+      required: true
     },
+    value: {
+      type: Boolean,
+      default: false
+    }
+  },
 
-    methods: {
-      toggleService () {
-        this.$emit('input', this.name, !this.value);
-      }
+  methods: {
+    toggleService () {
+      this.$emit('input', this.name, !this.value);
     }
   }
+};
 </script>

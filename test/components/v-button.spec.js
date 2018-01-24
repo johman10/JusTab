@@ -1,17 +1,16 @@
 import Vue from 'test/test-helpers';
-import vButton from 'v-button';
+import vButton from 'components/v-button';
 
 describe('v-button', () => {
-  const componentFactory = ({ text, type, content }) => {
+  const componentFactory = ({ type, content }) => {
     return new Vue({
-      template: `<v-button :type="type" :text="text">${ content }</v-button>`,
       components: {
         vButton
       },
       data: {
-        text,
         type
-      }
+      },
+      template: `<v-button :type="type">${ content }</v-button>`,
     }).$mount();
   };
 
@@ -25,11 +24,6 @@ describe('v-button', () => {
       const component = componentFactory({ content: '<div class="test-element">Hello</div>' });
       expect(component.$el.querySelector('.test-element')).to.exist;
       expect(component.$el.querySelector('.test-element')).to.include.text('Hello');
-    });
-
-    it('parses text', () => {
-      const component = componentFactory({ text: 'Hello' });
-      expect(component.$el).to.include.text('Hello');
     });
   });
 

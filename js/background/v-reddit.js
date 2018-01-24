@@ -14,7 +14,7 @@ export default {
         .then(this.redditFilter)
         .then(this.redditComponents)
         .catch((error) => {
-          if (error) console.error(error);
+          if (error) console.error(error); // eslint-disable-line no-console
           localStorage.setItem('redditError', true);
         });
     },

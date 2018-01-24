@@ -1,10 +1,9 @@
 import Vue from 'test/test-helpers';
-import vCheckbox from 'v-checkbox';
+import vCheckbox from 'components/v-checkbox';
 
 describe('v-checkbox', () => {
-  const componentFactory = ({ name, value, label, checked }) => {
+  const componentFactory = ({ name = 'testInput', value = '', label = 'TestInputLabel', checked }) => {
     return new Vue({
-      template: '<v-checkbox :name="name" :value="value" :label="label" :checked="checked"></v-checkbox>',
       components: {
         vCheckbox
       },
@@ -13,7 +12,8 @@ describe('v-checkbox', () => {
         value,
         label,
         checked
-      }
+      },
+      template: '<v-checkbox :name="name" :value="value" :label="label" :checked="checked"></v-checkbox>'
     }).$mount();
   };
 

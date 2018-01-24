@@ -14,7 +14,7 @@ export default {
         .then(this.productHuntPosts)
         .then(this.productHuntComponents)
         .catch((error) => {
-          if (error) console.error(error);
+          if (error) console.error(error); // eslint-disable-line no-console
           localStorage.setItem('productHuntError', true);
         });
     },

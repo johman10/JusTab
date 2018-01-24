@@ -1,14 +1,15 @@
 .input {
   margin: 30px 0 5px;
   position: relative;
+  width: 300px;
 
-  &--field {
+  &__field {
     border: 0;
     border-bottom: 1px solid #757575;
     display: block;
     font-size: 14px;
     padding-bottom: 8px;
-    width: 300px;
+    width: 100%;
 
     &::-webkit-input-placeholder {
        opacity: 0;
@@ -17,20 +18,20 @@
     &:focus {
       outline: none;
 
-      & ~ .input--bottom-bar::before,
-      & ~ .input--bottom-bar::after {
+      & ~ .input__bottom-bar::before,
+      & ~ .input__bottom-bar::after {
         width: 50%;
       }
 
-      & ~ .input--label {
+      & ~ .input__label {
         color: #4059a9;
         font-size: 12px;
         top: -22px;
       }
     }
 
-    &:focus ~ .input--label,
-    &:not(:placeholder-shown) ~ .input--label {
+    &:focus ~ .input__label,
+    &:not(:placeholder-shown) ~ .input__label {
       font-size: 12px;
       top: -22px;
     }
@@ -38,13 +39,13 @@
     &:invalid {
       color: #F44336;
 
-      .input--bottom-bar::before,
-      .input--bottom-bar::after {
+      .input__bottom-bar::before,
+      .input__bottom-bar::after {
         background: #F44336;
         width: 50%;
       }
 
-      .input--label {
+      .input__label {
         color: #F44336;
         font-size: 12px;
         top: -22px;
@@ -52,7 +53,7 @@
     }
   }
 
-  &--label {
+  &__label {
     color: #aaaaaa;
     font-size: 13px;
     pointer-events: none;
@@ -61,7 +62,7 @@
     transition: .2s ease all;
   }
 
-  &--bottom-bar {
+  &__bottom-bar {
     display: block;
     position: relative;
     width: 300px;
@@ -86,9 +87,10 @@
     }
   }
 
-  &--description {
+  &__hint {
     color: #4059a9;
     font-size: 12px;
+    width: 100%;
 
     a {
       color: inherit;

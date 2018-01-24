@@ -4,6 +4,7 @@
 import moment from 'moment';
 import ajax from 'modules/ajax';
 import imageResize from 'modules/image-resize';
+import URI from 'urijs';
 
 export default {
   computed: {
@@ -18,17 +19,22 @@ export default {
         .then(this.sonarrImages)
         .then(this.sonarrComponents)
         .catch((error) => {
-          console.error(error);
+          console.error(error); // eslint-disable-line no-console
           localStorage.setItem('sonarrError', true);
         });
     },
 
     sonarrEpisodes () {
-      let url = this.sonarrService.url;
-      let startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
-      let endDate = moment().add(1, 'months').format('YYYY-MM-DD');
-      let apiCall = `api/calendar?apikey=${this.sonarrService.key}&start=${startDate}&end=${endDate}`;
-      return ajax('GET', url + apiCall);
+      const url = this.sonarrService.url;
+      const startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
+      const endDate = moment().add(1, 'months').format('YYYY-MM-DD');
+      const searchObject = {
+        apikey: this.sonarrService.key,
+        start: startDate,
+        end: endDate
+      };
+      const apiUrl = new URI(url).segment('api/calendar').search(searchObject).toString();
+      return ajax('GET', apiUrl);
     },
 
     sonarrImages (episodes) {

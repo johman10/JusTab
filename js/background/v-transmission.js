@@ -1,4 +1,5 @@
 import ajax from 'modules/ajax';
+import URI from 'urijs';
 
 const TRANSMISSION_FIELDS =  ['activityDate', 'addedDate', 'bandwidthPriority', 'comment', 'corruptEver', 'creator', 'dateCreated', 'desiredAvailable', 'doneDate', 'downloadDir', 'downloadedEver', 'downloadLimit', 'downloadLimited', 'error', 'errorString', 'eta', 'files', 'fileStats', 'hashString', 'haveUnchecked', 'haveValid', 'honorsSessionLimits', 'id', 'isFinished', 'isPrivate', 'leftUntilDone', 'magnetLink', 'manualAnnounceTime', 'maxConnectedPeers', 'metadataPercentComplete', 'name', 'peer-limit', 'peers', 'peersConnected', 'peersFrom', 'peersGettingFromUs', 'peersKnown', 'peersSendingToUs', 'percentDone', 'pieces', 'pieceCount', 'pieceSize', 'priorities', 'rateDownload', 'rateUpload', 'recheckProgress', 'seedIdleLimit', 'seedIdleMode', 'seedRatioLimit', 'seedRatioMode', 'sizeWhenDone', 'startDate', 'status', 'trackers', 'trackerStats', 'totalSize', 'torrentFile', 'uploadedEver', 'uploadLimit', 'uploadLimited', 'uploadRatio', 'wanted', 'webseeds', 'webseedsSendingToUs'];
 const STATUS_ARRAY = ['Stopped', 'Check Waiting', 'Checking', 'Download Waiting', 'Downloading', 'Seed Waiting', 'Seeding', 'Isolated'];
@@ -35,6 +36,7 @@ export default {
     transmissionItems () {
       const authPassword = this.transmissionService.password ? `:${this.transmissionService.password}` : '';
       const authString = this.transmissionService.username + authPassword;
+      const apiUrl = new URI(this.transmissionService.url).segment('rpc').toString();
       const headers = {
         'X-Transmission-Session-Id': this.transmissionSessionKey,
         'Content-Type': 'application/json',
@@ -46,7 +48,7 @@ export default {
         },
         method: 'torrent-get'
       };
-      return ajax('POST', this.transmissionService.apiUrl, headers, JSON.stringify(data));
+      return ajax('POST', apiUrl, headers, JSON.stringify(data));
     },
 
     transmissionComponents (requestResponse) {

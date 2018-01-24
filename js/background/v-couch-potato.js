@@ -1,6 +1,7 @@
 import moment from 'moment';
 import ajax from 'modules/ajax';
 import imageResize from 'modules/image-resize';
+import URI from 'urijs';
 
 export default {
   computed: {
@@ -15,17 +16,18 @@ export default {
         .then(this.couchPotatoImages)
         .then(this.couchPotatoComponents)
         .catch((error) => {
-          if (error) console.error(error);
+          if (error) console.error(error); // eslint-disable-line no-console
           localStorage.setItem('couchPotatoError', true);
         });
     },
 
     couchpotatoMovies () {
-      var apiUrls = [
-        `${this.couchPotatoService.apiUrl}/movie.list/?release_status=snatched,downloaded,available`,
-        `${this.couchPotatoService.apiUrl}/movie.list/?status=active&limit_offset=25`
+      const baseUri = new URI(this.couchPotatoService.url).segment(`/api/${this.couchPotatoService.key}/movie.list`);
+      const dataUrl = [
+        baseUri.search('release_status=snatched,downloaded,available').toString(),
+        baseUri.search('status=active&limit_offset=25').toString()
       ];
-      var promises = apiUrls.map(apiUrl => ajax('GET', apiUrl));
+      const promises = dataUrl.map(dataUrl => ajax('GET', dataUrl));
       return Promise.all(promises);
     },
 
@@ -111,7 +113,7 @@ export default {
             {
               name: 'v-panel-item-button',
               props: {
-                url: 'http://www.imdb.com/title/' + movie.identifiers.imdb,
+                url: `http://www.imdb.com/title/${movie.identifiers.imdb}`,
                 iconClass: 'info-icon'
               }
             }

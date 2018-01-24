@@ -24,7 +24,7 @@ export default {
         .then(this.hackerNewsStories)
         .then(this.hackerNewsComponents)
         .catch((error) => {
-          if (error) console.error(error);
+          if (error) console.error(error); // eslint-disable-line no-console
           localStorage.setItem('hackerNewsError', true);
         });
     },

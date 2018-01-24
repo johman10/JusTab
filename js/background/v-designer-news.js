@@ -28,7 +28,7 @@ export default {
       return this.getStories()
         .then(this.designerNewsComponents)
         .catch((error) => {
-          if (error) console.error(error);
+          if (error) console.error(error); // eslint-disable-line no-console
           localStorage.setItem('designerNewsError', true);
         });
     },

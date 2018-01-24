@@ -7,9 +7,14 @@
 <style src="css/v-panel-subheader.scss"></style>
 
 <script>
-  export default {
+export default {
+  props: {
     props: {
-      props: Object
+      type: Object,
+      default () {
+        return {};
+      }
     }
   }
+};
 </script>

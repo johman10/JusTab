@@ -14,7 +14,7 @@ export default {
         .then(this.githubBuildJson)
         .then(this.githubComponents)
         .catch((error) => {
-          if (error) console.error(error);
+          if (error) console.error(error); // eslint-disable-line no-console
           localStorage.setItem('githubError', true);
         });
     },

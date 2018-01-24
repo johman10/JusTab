@@ -15,7 +15,7 @@ export default {
         .then(this.getMails)
         .then(this.gmailComponents)
         .catch((error) => {
-          if (error) console.error(error);
+          if (error) console.error(error); // eslint-disable-line no-console
           localStorage.setItem('gmailError', true);
         });
     },

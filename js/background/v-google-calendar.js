@@ -1,5 +1,6 @@
 import moment from 'moment';
 import ajax from 'modules/ajax';
+import URI from 'urijs';
 
 export default {
   computed: {
@@ -19,7 +20,7 @@ export default {
         .then(this.getEvents)
         .then(this.googleCalendarComponents)
         .catch((error) => {
-          if (error) console.error(error);
+          if (error) console.error(error); // eslint-disable-line no-console
           localStorage.setItem('googleCalendarError', true);
         });
     },
@@ -50,10 +51,16 @@ export default {
       var dateStart = new Date().toISOString();
       var dateEnd = moment(new Date()).add(this.googleCalendarService.days, 'days').endOf('day').toISOString();
       var promises = [];
-      var apiUrl;
 
       this.calendarUrls.forEach((url) => {
-        apiUrl = url + '?&oauth_token=' + token + '&timeMin=' + dateStart + '&timeMax=' + dateEnd + '&orderBy=startTime&singleEvents=true';
+        const searchObject = {
+          oauth_token: token,
+          timeMin: dateStart,
+          timeMax: dateEnd,
+          orderBy: 'startTime',
+          singleEvents: true
+        };
+        const apiUrl = new URI(url).search(searchObject).toString();
         promises.push(ajax('GET', apiUrl));
       });
 
