@@ -4,7 +4,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
-const Jarvis = require('webpack-jarvis');
 const htmlMinifyOptions = {
   collapseBooleanAttributes: true,
   collapseWhitespace: true,

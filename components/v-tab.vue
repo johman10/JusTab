@@ -23,7 +23,6 @@ import vPanel from 'components/v-panel';
 import vFab from 'components/v-fab';
 
 export default {
-  name: 'VTab',
   components: {
     vPanel,
     vFab
