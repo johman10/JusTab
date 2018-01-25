@@ -1,6 +1,5 @@
 import moment from 'moment';
 import ajax from 'modules/ajax';
-import URI from 'urijs';
 
 export default {
   computed: {
@@ -48,19 +47,13 @@ export default {
     },
 
     getEvents (token) {
-      var dateStart = new Date().toISOString();
-      var dateEnd = moment(new Date()).add(this.googleCalendarService.days, 'days').endOf('day').toISOString();
-      var promises = [];
+      const dateStart = new Date().toISOString();
+      const dateEnd = moment(new Date()).add(this.googleCalendarService.days, 'days').endOf('day').toISOString();
+      const params = `oauth_token=${token}&timeMin=${dateStart}&timeMax=${dateEnd}&orderBy=startTime&singleEvents=true`;
+      const promises = [];
 
       this.calendarUrls.forEach((url) => {
-        const searchObject = {
-          oauth_token: token,
-          timeMin: dateStart,
-          timeMax: dateEnd,
-          orderBy: 'startTime',
-          singleEvents: true
-        };
-        const apiUrl = new URI(url).search(searchObject).toString();
+        const apiUrl = `${url}?${params}`;
         promises.push(ajax('GET', apiUrl));
       });
 

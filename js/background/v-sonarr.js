@@ -4,7 +4,6 @@
 import moment from 'moment';
 import ajax from 'modules/ajax';
 import imageResize from 'modules/image-resize';
-import URI from 'urijs';
 
 export default {
   computed: {
@@ -28,12 +27,8 @@ export default {
       const url = this.sonarrService.url;
       const startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
       const endDate = moment().add(1, 'months').format('YYYY-MM-DD');
-      const searchObject = {
-        apikey: this.sonarrService.key,
-        start: startDate,
-        end: endDate
-      };
-      const apiUrl = new URI(url).segment('api/calendar').search(searchObject).toString();
+      const params = `apikey=${this.sonarrService.key}&start=${startDate}&end=${endDate}`;
+      const apiUrl = `${url}/api/calendar?${params}`;
       return ajax('GET', apiUrl);
     },
 

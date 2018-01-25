@@ -43,7 +43,6 @@
   "dependencies": {
     "dragula": ">=3.7.1",
     "moment": ">=2.18.1",
-    "urijs": ">=1.19.0",
     "vue": ">=2.3.3",
     "vue-lazyload": ">=1.0.3",
     "vue-router": ">=3.0.1",

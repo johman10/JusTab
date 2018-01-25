@@ -1,7 +1,6 @@
 import moment from 'moment';
 import ajax from 'modules/ajax';
 import imageResize from 'modules/image-resize';
-import URI from 'urijs';
 
 export default {
   computed: {
@@ -22,10 +21,10 @@ export default {
     },
 
     couchpotatoMovies () {
-      const baseUri = new URI(this.couchPotatoService.url).segment(`/api/${this.couchPotatoService.key}/movie.list`);
+      const baseUri = `${this.couchPotatoService.url}/api/${this.couchPotatoService.key}/movie.list`;
       const dataUrl = [
-        baseUri.search('release_status=snatched,downloaded,available').toString(),
-        baseUri.search('status=active&limit_offset=25').toString()
+        `${baseUri}?release_status=snatched,downloaded,available`,
+        `${baseUri}?status=active&limit_offset=25`
       ];
       const promises = dataUrl.map(dataUrl => ajax('GET', dataUrl));
       return Promise.all(promises);
