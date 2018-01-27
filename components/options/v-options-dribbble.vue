@@ -59,7 +59,7 @@ export default {
       if (name === 'dribbbleGifs') {
         this.saveData(this.service.id, name, !this.service.gifs);
       } else if (name === 'dribbbleSmallImages') {
-        this.saveData(this.service.id, !this.service.smallImages);
+        this.saveData(this.service.id, name, !this.service.smallImages);
       }
     }
   },

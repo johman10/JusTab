@@ -1,30 +1,30 @@
 <template>
-  <div :class="['panel-image', { 'small-image': props.smallImages, 'wide-panel': widePanel }]">
+  <div :class="['panel-image', { 'panel-image--small': props.smallImages, 'panel-image--wide': widePanel }]">
     <a
       :href="props.url"
-      class="panel-image--link ripple"
+      class="panel-image__link ripple"
       target="_blank"
       @mousedown="_showRipple"
     >
       <div
         v-if="props.gif"
-        class="panel-image--gif"
+        class="panel-image__gif"
       >
         GIF
       </div>
       <div
-        class="panel-image--image"
+        class="panel-image__image"
         v-lazy:background-image="imageObject"
       />
-      <div class="panel-image--content">
+      <div class="panel-image__content">
         <div
-          class="panel-image--title"
+          class="panel-image__title"
           target="_blank"
         >
           {{ props.title }}
         </div>
         <div
-          class="panel-image--subtitle"
+          class="panel-image__subtitle"
           target="_blank"
         >
           {{ props.subTitle }}

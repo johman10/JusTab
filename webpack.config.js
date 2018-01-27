@@ -1,7 +1,6 @@
 const path = require('path');
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const htmlMinifyOptions = {
@@ -124,12 +123,6 @@ module.exports = {
       chunks: ['commons', 'tab'],
       prefetch: ['commons.bundle.js', 'tab.bundle.js'],
       preload: ['commons.bundle.js', 'tab.bundle.js']
-    }),
-    new ScriptExtHtmlWebpackPlugin({
-      preload: {
-        test: /(\d)*\.bundle\.js$/,
-        chunks: 'async'
-      }
     }),
     new htmlWebpackPlugin({
       filename: 'background.html',

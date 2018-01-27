@@ -9,17 +9,17 @@
   position: relative;
   transition: -webkit-filter 200ms linear;
 
-  &.small-image {
+  &--small {
     float: left;
     height: 150px;
-    width: calc(50% - 4px);
+    width: calc(50% - 8px);
 
-    &.wide-panel {
+    &.panel-image--wide {
       height: 300px;
     }
   }
 
-  &.wide-panel {
+  &--wide {
     height: 500px;
   }
 
@@ -27,25 +27,25 @@
     -webkit-filter: brightness(1);
   }
 
-  &--link {
+  &__link {
     color: $color-black;
     display: block;
     height: 100%;
     text-decoration: none;
   }
 
-  &--title {
+  &__title {
     @include text-truncate;
     margin-bottom: 5px;
     font-weight: 500;
     font-size: 14px;
   }
 
-  &--subtitle {
+  &__subtitle {
     @include text-truncate;
   }
 
-  &--gif {
+  &__gif {
     background-color: $color-white;
     border-radius: 5px;
     font-size: 10px;
@@ -56,7 +56,7 @@
     top: 10px;
   }
 
-  &--image {
+  &__image {
     background-position: 50%;
     background-size: cover;
     height: 100%;
@@ -72,7 +72,7 @@
     }
   }
 
-  &--content {
+  &__content {
     background-color: rgba(0, 0, 0, .5);
     bottom: 0;
     color: $color-white;

@@ -41,8 +41,6 @@ export default {
         return this.service.color;
       } else if (this.$route.path === '/support') {
         return '#03a9f4';
-      } else {
-        return 'white';
       }
     },
     pageTitle () {
@@ -50,6 +48,8 @@ export default {
         return this.service.name;
       } else if (this.$route.path === '/support') {
         return 'Support';
+      } else {
+        return '';
       }
     }
   },
