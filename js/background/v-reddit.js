@@ -10,7 +10,7 @@ export default {
   data () {
     return {
       redditPage: 1
-    }
+    };
   },
 
   methods: {

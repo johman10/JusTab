@@ -1,17 +1,17 @@
 <template>
   <div class="loading-item">
-    <v-spinner color="#000000"></v-spinner>
+    <v-spinner color="#000000" />
   </div>
 </template>
 
 <style src="css/v-loading-item.scss"></style>
 
 <script>
-  import vSpinner from 'components/v-spinner';
+import vSpinner from 'components/v-spinner';
 
-  export default {
-    components: {
-      vSpinner
-    }
+export default {
+  components: {
+    vSpinner
   }
+};
 </script>
