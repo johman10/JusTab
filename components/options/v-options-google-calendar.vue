@@ -1,7 +1,7 @@
 <template>
   <div
-    class="options-google-calendar"
     v-if="service"
+    class="options-google-calendar"
   >
     <div class="options-google-calendar--calendar-list">
       <label class="options--label">Calendars</label>
@@ -9,36 +9,36 @@
         {{ error }}
       </div>
       <v-checkbox
-        @change="onCalendarChange"
         v-for="calendar in calendars"
         :key="calendar.id"
         :label="calendar.summary"
         :name="calendar.id"
         :value="calendar.id"
         :checked="checkedCalendar(calendar.id)"
+        @change="onCalendarChange"
       />
     </div>
 
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.days"
+      type="number"
       name="googleCalendarDays"
       label="Days from today to show"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.panelWidth"
+      type="number"
       name="googleCalendarWidth"
       label="Panel width in px"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.refresh"
+      type="number"
       name="googleCalendarRefresh"
       label="Refresh rate (in minutes)"
+      @change="onChange"
     />
   </div>
 </template>

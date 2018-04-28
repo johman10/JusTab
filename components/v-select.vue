@@ -7,14 +7,14 @@
       {{ label }}
     </label>
     <span
-      @click="showList"
       class="select__bar"
+      @click="showList"
     >
       {{ changeValue }}
     </span>
     <ul
-      class="select__list"
       v-show="active"
+      class="select__list"
     >
       <li
         v-for="option in options"

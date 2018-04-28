@@ -1,41 +1,41 @@
 <template>
   <div
-    class="options-nzbget"
     v-if="service"
+    class="options-nzbget"
   >
     <v-input
-      @change="onChange"
       :value="service.url"
       name="nzbgetUrl"
       label="Service URL"
       hint="http://localhost:6789, https://sub.domain.com/nzbget"
+      @change="onChange"
     />
     <v-input
-      @change="onChange"
       :value="service.username"
       name="nzbgetUsername"
       label="Username"
+      @change="onChange"
     />
     <v-input
-      type="password"
-      @change="onChange"
       :value="service.password"
+      type="password"
       name="nzbgetPassword"
       label="Password"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.panelWidth"
+      type="number"
       name="nzbgetWidth"
       label="Panel width in px"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.refresh"
+      type="number"
       name="nzbgetRefresh"
       label="Refresh rate (in minutes)"
+      @change="onChange"
     />
   </div>
 </template>

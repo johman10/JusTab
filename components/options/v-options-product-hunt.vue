@@ -1,21 +1,21 @@
 <template>
   <div
-    class="options-product-hunt"
     v-if="service"
+    class="options-product-hunt"
   >
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.panelWidth"
+      type="number"
       name="productHuntWidth"
       label="Panel width in px"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.refresh"
+      type="number"
       name="productHuntRefresh"
       label="Refresh rate (in minutes)"
+      @change="onChange"
     />
   </div>
 </template>

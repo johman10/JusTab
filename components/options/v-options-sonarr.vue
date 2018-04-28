@@ -1,35 +1,35 @@
 <template>
   <div
-    class="options-sonarr"
     v-if="service"
+    class="options-sonarr"
   >
     <v-input
-      type="url"
-      @change="onChange"
       :value="service.url"
+      type="url"
       name="sonarrUrl"
       label="Service URL"
       hint="http://localhost:8989, https://sub.domain.com/sonarr"
+      @change="onChange"
     />
     <v-input
-      @change="onChange"
       :value="service.key"
       name="sonarrKey"
       label="API Key"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.panelWidth"
+      type="number"
       name="sonarrWidth"
       label="Panel width in px"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.refresh"
+      type="number"
       name="sonarrRefresh"
       label="Refresh rate (in minutes)"
+      @change="onChange"
     />
   </div>
 </template>

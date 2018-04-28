@@ -1,8 +1,8 @@
 <template>
   <a
-    @mousedown="_showRipple"
-    class="ripple panel-item-button"
     :href="props.url"
+    class="ripple panel-item-button"
+    @mousedown="_showRipple"
   >
     <i :class="['panel-item-button--icon', props.iconClass]"/>
   </a>

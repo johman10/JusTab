@@ -1,34 +1,34 @@
 <template>
   <div
-    class="options-couch-potato"
     v-if="service"
+    class="options-couch-potato"
   >
     <v-input
-      @change="onChange"
       :value="service.url"
       name="couchPotatoUrl"
       label="Service URL"
       hint="http://localhost:5000, https://sub.domain.com/couchpotato"
+      @change="onChange"
     />
     <v-input
-      @change="onChange"
       :value="service.key"
       name="couchPotatoKey"
       label="API Key"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.panelWidth"
+      type="number"
       name="couchPotatoWidth"
       label="Panel width in px"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.refresh"
+      type="number"
       name="couchPotatoRefresh"
       label="Refresh rate (in minutes)"
+      @change="onChange"
     />
   </div>
 </template>

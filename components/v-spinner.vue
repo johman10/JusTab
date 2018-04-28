@@ -1,20 +1,20 @@
 <template>
   <div
-    class="spinner"
     :style="spinnerStyle"
+    class="spinner"
   >
     <svg
       class="spinner-circular"
       viewBox="25 25 50 50"
     >
       <circle
+        :style="circleStyle"
         class="spinner-path"
         cx="50"
         cy="50"
         r="20"
         fill="none"
         stroke-miterlimit="10"
-        :style="circleStyle"
       />
     </svg>
   </div>

@@ -1,26 +1,26 @@
 <template>
   <div
-    class="panel-header"
     :style="panelHeaderStyling"
+    class="panel-header"
   >
     <div class="panel-header--background">
       <div
-        class="panel-header--background1"
         :style="background1Styling"
+        class="panel-header--background1"
       />
       <div
-        class="panel-header--background2"
         :style="background2Styling"
+        class="panel-header--background2"
       />
     </div>
     <div class="panel-header--foreground">
       <div
-        class="panel-header--foreground-top"
         :style="foregroundTopStyling"
+        class="panel-header--foreground-top"
       >
         <div
-          @click="triggerRefresh"
           class="refresh-button ripple"
+          @click="triggerRefresh"
         >
           <transition
             name="loader"
@@ -33,16 +33,16 @@
             />
             <img
               v-else
-              src="~img/icons/refresh.svg"
               :alt="`Refresh ${service.name}`"
+              src="~img/icons/refresh.svg"
             >
           </transition>
         </div>
       </div>
       <div class="panel-header--foreground-bottom">
         <a
-          class="panel-header--url"
           :href="service.url"
+          class="panel-header--url"
         >
           {{ service.name }}
         </a>

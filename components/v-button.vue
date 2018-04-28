@@ -1,9 +1,9 @@
 <template>
   <button
-    @click="$emit('click')"
-    @mousedown="_showRipple"
     :class="['ripple', typeClass]"
     type="button"
+    @click="$emit('click')"
+    @mousedown="_showRipple"
   >
     <slot/>
   </button>

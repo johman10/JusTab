@@ -1,14 +1,14 @@
 <template>
   <div class="panel-item-content">
     <div
-      class="panel-item-content--image"
-      v-if="image"
       v-lazy:background-image="image"
+      v-if="image"
+      class="panel-item-content--image"
     />
     <div class="panel-item-content--titles">
       <div
-        class="panel-item-content--title"
         :title="title.length > 60 ? title : ''"
+        class="panel-item-content--title"
       >
         {{ title }}
       </div>
@@ -24,13 +24,13 @@
       />
       <template v-if="subtitle">
         <div
-          class="panel-item-content--subtitle"
           :title="subtitle.length > 70 ? subtitle : ''"
+          class="panel-item-content--subtitle"
         >
           <a
             v-if="subtitleUrl"
-            class="panel-item-content--subtitle-url"
             :href="subtitleUrl"
+            class="panel-item-content--subtitle-url"
           >
             {{ subtitle }}
           </a>

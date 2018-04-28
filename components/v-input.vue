@@ -3,54 +3,54 @@
     <input
       v-if="type === 'number'"
       v-model="changeValue"
-      placeholder="."
-      @input="onInput"
-      @change="onChange"
-      class="input__field"
-      type="number"
       :name="name"
       :id="name"
+      placeholder="."
+      class="input__field"
+      type="number"
+      @input="onInput"
+      @change="onChange"
     >
     <input
       v-else-if="type === 'password'"
       v-model="changeValue"
-      placeholder="."
-      @input="onInput"
-      @change="onChange"
-      class="input__field"
-      type="password"
       :name="name"
       :id="name"
+      placeholder="."
+      class="input__field"
+      type="password"
+      @input="onInput"
+      @change="onChange"
     >
     <input
       v-else-if="type === 'url'"
       v-model="changeValue"
-      placeholder="."
-      @input="onInput"
-      @change="onChange"
-      class="input__field"
-      type="url"
       :name="name"
       :id="name"
+      placeholder="."
+      class="input__field"
+      type="url"
+      @input="onInput"
+      @change="onChange"
     >
     <input
       v-else
       v-model="changeValue"
-      placeholder="."
-      @input="onInput"
-      @change="onChange"
-      class="input__field"
-      type="text"
       :name="name"
       :id="name"
+      placeholder="."
+      class="input__field"
+      type="text"
+      @input="onInput"
+      @change="onChange"
     >
     <span class="input__bottom-bar"/>
     <label class="input__label">
       {{ label }}
     </label>
     <span
-      class="input__hint"
       v-if="hint"
+      class="input__hint"
     >
       Hint: {{ hint }}
     </span>

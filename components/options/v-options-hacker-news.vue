@@ -1,28 +1,28 @@
 <template>
   <div
-    class="options-hacker-news"
     v-if="service"
+    class="options-hacker-news"
   >
     <v-select
-      @change="onChange"
       :options="sortingOptions"
       :value="service.sorting"
       name="hackerNewsSorting"
       label="Sorting"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.panelWidth"
+      type="number"
       name="hackerNewsWidth"
       label="Panel width in px"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.refresh"
+      type="number"
       name="hackerNewsRefresh"
       label="Refresh rate (in minutes)"
+      @change="onChange"
     />
   </div>
 </template>

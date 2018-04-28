@@ -1,21 +1,21 @@
 <template>
   <div
-    class="options-github"
     v-if="service"
+    class="options-github"
   >
     <v-input
-      type="number"
-      @change="saveData"
       :value="service.panelWidth"
+      type="number"
       name="githubWidth"
       label="Panel width in px"
+      @change="saveData"
     />
     <v-input
-      type="number"
-      @change="saveData"
       :value="service.refresh"
+      type="number"
       name="githubRefresh"
       label="Refresh rate (in minutes)"
+      @change="saveData"
     />
   </div>
 </template>

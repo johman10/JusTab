@@ -1,8 +1,8 @@
 <template>
   <a
-    @mousedown="_showRipple"
     :href="url"
     class="fab ripple"
+    @mousedown="_showRipple"
   >
     <div :class="iconClass"/>
   </a>

@@ -7,10 +7,10 @@
       @click="toggleService"
     >
       <input
-        type="checkbox"
-        class="switch--checkbox"
         :name="name"
         :checked="value"
+        type="checkbox"
+        class="switch--checkbox"
       >
       <span class="switch--lever" />
     </label>

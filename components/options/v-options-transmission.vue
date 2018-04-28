@@ -1,41 +1,41 @@
 <template>
   <div
-    class="options-transmission"
     v-if="service"
+    class="options-transmission"
   >
     <v-input
-      @change="onChange"
       :value="service.url"
       name="transmissionUrl"
       label="Service URL"
       hint="http://localhost:9091, https://sub.domain.com/transmission"
+      @change="onChange"
     />
     <v-input
-      @change="onChange" 
-      :value="service.username"
+      :value="service.username" 
       name="transmissionUsername"
       label="Username"
+      @change="onChange"
     />
     <v-input
-      type="password"
-      @change="onChange"
       :value="service.password"
+      type="password"
       name="transmissionPassword"
       label="Password"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.panelWidth"
+      type="number"
       name="transmissionWidth"
       label="Panel width in px"
+      @change="onChange"
     />
     <v-input
-      type="number"
-      @change="onChange"
       :value="service.refresh"
+      type="number"
       name="transmissionRefresh"
       label="Refresh rate (in minutes)"
+      @change="onChange"
     />
   </div>
 </template>

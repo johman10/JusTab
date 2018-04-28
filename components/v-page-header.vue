@@ -1,13 +1,13 @@
 <template>
   <div
-    class="page-header"
     :style="{ 'background-color': color }"
+    class="page-header"
   >
     <img
-      @click="onMenuClick"
       class="page-header--menu-icon"
       src="~img/icons/menu.svg"
       alt="Toggle menu"
+      @click="onMenuClick"
     >
     <div class="page-header--title">
       {{ title }}

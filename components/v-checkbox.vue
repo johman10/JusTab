@@ -1,12 +1,12 @@
 <template>
   <div class="checkbox">
     <input
-      type="checkbox"
-      @change="onChange"
       :value="value"
       :id="name"
-      class="checkbox--actual"
       :checked="checked"
+      type="checkbox"
+      class="checkbox--actual"
+      @change="onChange"
     >
     <label
       :for="name"

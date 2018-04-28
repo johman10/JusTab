@@ -1,27 +1,27 @@
 <template>
   <div
     v-if="service"
-    class="panel"
     :style="panelStyling"
+    class="panel"
   >
     <v-panel-header
-      @refresh="onRefresh"
       :loading="loading"
       :scroll-top="scrollTop"
       :service="service"
+      @refresh="onRefresh"
     />
     <div
-      class="panel--content"
       :style="panelContentStyling"
+      class="panel--content"
       @scroll="onScroll"
     >
       <transition
         name="slide"
       >
         <v-panel-error
-          @refresh="onRefresh"
           v-if="service.error === 'true'"
           :service-name="service.name"
+          @refresh="onRefresh"
         />
       </transition>
       <component

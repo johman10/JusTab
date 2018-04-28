@@ -1,13 +1,13 @@
 <template>
   <div
-    class="service-actions"
     :style="wrapperStyling"
+    class="service-actions"
   >
     <v-button
       v-if="service.actions.includes('openUnread')"
       class="service-actions--button"
-      @click="openUnread(service)"
       type="flat"
+      @click="openUnread(service)"
     >
       Open unread
     </v-button>

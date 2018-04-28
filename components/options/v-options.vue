@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-page-header
-      @toggle="toggleMenu"
       :title="pageTitle"
       :color="headerColor"
+      @toggle="toggleMenu"
     />
     <v-options-menu :show-menu="showMenu"/>
     <div class="options--view">

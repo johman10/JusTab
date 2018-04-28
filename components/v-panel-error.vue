@@ -11,9 +11,9 @@
         Settings
       </v-button>
       <v-button
-        @click="triggerRefresh"
         type="flat"
         class="panel-error-retry-button"
+        @click="triggerRefresh"
       >
         Retry
       </v-button>
