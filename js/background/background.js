@@ -1,4 +1,3 @@
-import moment from 'moment';
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import store from 'store/index';
@@ -95,17 +94,6 @@ chrome.runtime.onConnect.addListener(() => {
   // Prevent double event listeners when another connection is opened
   if (!chrome.runtime.onMessage.hasListeners()) {
     chrome.runtime.onMessage.addListener(vueInstance.respondToMessage);
-  }
-});
-
-moment.updateLocale('en', {
-  calendar : {
-    lastDay : '[Yesterday]',
-    sameDay : '[Today]',
-    nextDay : '[Tomorrow]',
-    lastWeek : '[last] dddd',
-    nextWeek : 'dddd',
-    sameElse : 'MMM D'
   }
 });
 

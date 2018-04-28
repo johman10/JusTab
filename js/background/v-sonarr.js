@@ -1,8 +1,9 @@
 // Docs:
 // https://github.com/Sonarr/Sonarr/wiki/API
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 import ajax from 'modules/ajax';
+import dateFormat from 'modules/date-format';
 import imageResize from 'modules/image-resize';
 
 export default {
@@ -25,8 +26,8 @@ export default {
 
     sonarrEpisodes () {
       const url = this.sonarrService.url;
-      const startDate = moment().subtract(7, 'days').format('YYYY-MM-DD');
-      const endDate = moment().add(1, 'months').format('YYYY-MM-DD');
+      const startDate = dayjs().subtract(7, 'days').format('YYYY-MM-DD');
+      const endDate = dayjs().add(1, 'months').format('YYYY-MM-DD');
       const params = `apikey=${this.sonarrService.key}&start=${startDate}&end=${endDate}`;
       const apiUrl = `${url}/api/calendar?${params}`;
       return ajax('GET', apiUrl);
@@ -53,7 +54,7 @@ export default {
 
       episodes.forEach((episode) => {
         if (!episode.hasFile && episode.monitored) {
-          let airDate = moment(episode.airDate, 'YYYY-MM-DD');
+          let airDate = dayjs(episode.airDate, 'YYYY-MM-DD');
           let header = this.sonarrBuildHeader({airDate, currentSection});
           if (header) {
             currentSection = header.currentSection;
@@ -73,7 +74,7 @@ export default {
       let season = episodeObject.seasonNumber;
       let episode = episodeObject.episodeNumber;
       let episodeString = 'S' + (season<10?'0':'') + season + 'E' + (episode<10?'0':'') + episode;
-      let date = moment(episodeObject.airDate).calendar();
+      let date = dateFormat(dayjs(episodeObject.airDate));
 
       return {
         name: 'v-panel-item',
@@ -93,7 +94,7 @@ export default {
     },
 
     sonarrBuildHeader ({ airDate, currentSection }) {
-      let dateToday = moment().startOf('day');
+      let dateToday = dayjs().startOf('day');
       let dateDifference = airDate.diff(dateToday, 'days');
       if (currentSection !== 'missed' && dateDifference < 0) {
         return { component: this.sonarrSubheader('Missed'), currentSection: 'missed' };

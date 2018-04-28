@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import ajax from 'modules/ajax';
 
 export default {
@@ -116,11 +116,11 @@ export default {
       let messageFrom = (mail.payload.headers.From  || 'No sender').replace(/<(.|\n)*?>/, '');
       let messageSnippet = mail.snippet || 'No content';
       let messageDate = new Date(mail.payload.headers.Date);
-      if (moment(messageDate).isSame(moment(), 'day')) {
-        messageDate = moment(messageDate).format('hh:mm A');
+      if (dayjs(messageDate).isSame(dayjs(), 'day')) {
+        messageDate = dayjs(messageDate).format('hh:mm A');
       }
       else {
-        messageDate = moment(messageDate).format('MMM D, hh:mm A');
+        messageDate = dayjs(messageDate).format('MMM D, hh:mm A');
       }
       let messageUrl = 'https://mail.google.com/mail/u/0/#inbox/' + mail.id;
 

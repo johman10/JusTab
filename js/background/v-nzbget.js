@@ -10,8 +10,9 @@ export default {
     },
 
     nzbgetHost () {
-      let strippedUrl = this.nzbgetService.url.replace(/http(s?):\/\//, '');
-      return `https://${this.nzbgetService.username}:${this.nzbgetService.password}@${strippedUrl}/jsonrpc`;
+      let strippedUrl = this.nzbgetService.url.replace(/https?:\/\//, '');
+      let protocol = this.nzbgetService.url.match(/^https?/)[0];
+      return `${protocol}://${this.nzbgetService.username}:${this.nzbgetService.password}@${strippedUrl}/jsonrpc`;
     }
   },
 

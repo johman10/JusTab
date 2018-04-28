@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import ajax from 'modules/ajax';
 import imageResize from 'modules/image-resize';
 
@@ -96,10 +96,12 @@ export default {
       var movieDate = new Date(movie.info.released);
       var date;
 
-      if (moment(movieDate).year() != moment().year()) {
-        date = moment(movieDate).format('MMM D, YYYY');
+      if (!movie.info.released) {
+        date = '';
+      } else if (dayjs(movieDate).year() != dayjs().year()) {
+        date = dayjs(movieDate).format('MMM D, YYYY');
       } else {
-        date = moment(movieDate).format('MMM D');
+        date = dayjs(movieDate).format('MMM D');
       }
 
       return {

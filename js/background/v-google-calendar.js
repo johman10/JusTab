@@ -1,5 +1,6 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import ajax from 'modules/ajax';
+import dateFormat from 'modules/date-format';
 
 export default {
   computed: {
@@ -48,7 +49,7 @@ export default {
 
     getEvents (token) {
       const dateStart = new Date().toISOString();
-      const dateEnd = moment(new Date()).add(this.googleCalendarService.days, 'days').endOf('day').toISOString();
+      const dateEnd = dayjs(new Date()).add(this.googleCalendarService.days, 'days').endOf('day').toISOString();
       const params = `oauth_token=${token}&timeMin=${dateStart}&timeMax=${dateEnd}&orderBy=startTime&singleEvents=true`;
       const promises = [];
 
@@ -67,18 +68,18 @@ export default {
     googleCalendarComponents (events) {
       let components = [];
       // Start with yesterday to include today in calendar
-      let loopDate = moment().subtract(1, 'day');
+      let loopDate = dayjs().subtract(1, 'day');
       let eventStartTime;
       let eventEndTime;
 
       events.forEach((event, index) => {
-        let eventStart = moment(event.start.dateTime || event.start.date);
+        let eventStart = dayjs(event.start.dateTime || event.start.date);
         // Create header if new loopDate;
-        if (eventStart.isAfter(loopDate, 'day')) {
+        if (eventStart.diff(loopDate, 'day') > 0) {
           components.push({
             name: 'v-panel-subheader',
             props: {
-              text: eventStart.calendar()
+              text: dateFormat(eventStart)
             }
           });
           loopDate = eventStart;
@@ -86,10 +87,10 @@ export default {
           components.push({
             name: 'v-panel-subheader',
             props: {
-              text: moment().calendar()
+              text: dateFormat(dayjs())
             }
           });
-          loopDate = moment();
+          loopDate = dayjs();
         }
 
         // Create item
@@ -101,8 +102,8 @@ export default {
         };
 
         if (event.start.dateTime) {
-          eventStartTime = moment(event.start.dateTime).format('HH:mm');
-          eventEndTime = moment(event.end.dateTime).format('HH:mm');
+          eventStartTime = dayjs(event.start.dateTime).format('HH:mm');
+          eventEndTime = dayjs(event.end.dateTime).format('HH:mm');
           itemComponent.props.title += `${eventStartTime} - ${eventEndTime} `;
         }
         itemComponent.props.title += event.summary;
