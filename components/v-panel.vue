@@ -48,7 +48,6 @@ export default {
     vPanelSubheader: dynamicImportComponent('v-panel-subheader'),
     vPanelError: dynamicImportComponent('v-panel-error'),
     vPanelItem: dynamicImportComponent('v-panel-item'),
-    vPanelImage: dynamicImportComponent('v-panel-image'),
     vServiceActions: dynamicImportComponent('v-service-actions')
   },
 

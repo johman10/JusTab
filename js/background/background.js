@@ -8,7 +8,6 @@ import vDesignerNews from 'js/background/v-designer-news';
 import vHackerNews from 'js/background/v-hacker-news';
 import vGithub from 'js/background/v-github';
 import vProductHunt from 'js/background/v-product-hunt';
-import vDribbble from 'js/background/v-dribbble';
 import vReddit from 'js/background/v-reddit';
 import vNzbget from 'js/background/v-nzbget';
 import vSonarr from 'js/background/v-sonarr';
@@ -24,7 +23,6 @@ let vueInstance = new Vue({
     vHackerNews,
     vGithub,
     vProductHunt,
-    vDribbble,
     vReddit,
     vNzbget,
     vSonarr,

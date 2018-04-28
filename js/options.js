@@ -15,7 +15,6 @@ const vOptionsDesignerNews = dynamicImportComponent('options/v-options-designer-
 const vOptionsHackerNews = dynamicImportComponent('options/v-options-hacker-news');
 const vOptionsGithub = dynamicImportComponent('options/v-options-github');
 const vOptionsProductHunt = dynamicImportComponent('options/v-options-product-hunt');
-const vOptionsDribbble = dynamicImportComponent('options/v-options-dribbble');
 const vOptionsReddit = dynamicImportComponent('options/v-options-reddit');
 const vOptionsNzbget = dynamicImportComponent('options/v-options-nzbget');
 const vOptionsSonarr = dynamicImportComponent('options/v-options-sonarr');
@@ -49,7 +48,6 @@ const routes = [
   { path: '/hackernews', component: vOptionsHackerNews },
   { path: '/github', component: vOptionsGithub },
   { path: '/producthunt', component: vOptionsProductHunt },
-  { path: '/dribbble', component: vOptionsDribbble },
   { path: '/reddit', component: vOptionsReddit },
   { path: '/nzbget', component: vOptionsNzbget },
   { path: '/sonarr', component: vOptionsSonarr },

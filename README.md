@@ -10,7 +10,6 @@ At this moment it supports:
 - [Hacker News](https://news.ycombinator.com/)
 - [Github Trending](https://github.com/trending)
 - [Product Hunt](https://www.producthunt.com)
-- [Dribbble](https://www.dribbble.com)
 - [Reddit](https://www.reddit.com)
 - [NZBGet](http://nzbget.net)
 - [Sonarr](https://www.sonarr.tv)

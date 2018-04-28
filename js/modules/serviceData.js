@@ -154,28 +154,6 @@ export let productHunt = function() {
   });
 };
 
-export let dribbble = function() {
-  return chromeStorage().then(function(items) {
-    return {
-      id: 10,
-      name: 'Dribbble',
-      url: urlNormalize('https://dribbble.com/'),
-      color: '#ea4c89',
-      logo: require('img/DR_header.svg'),
-      error: localStorage.dribbbleError || null,
-      active: typeof items.dribbbleActive === 'boolean' ? items.dribbbleActive : true,
-      functionName: 'dribbble',
-      optionsPath: '/dribbble',
-      refresh: parseFloat(items.dribbbleRefresh) || 15,
-      components: localStorage.dribbbleComponents,
-      smallImages: items.dribbbleSmallImages,
-      gifs: items.dribbbleGifs,
-      panelWidth: parseFloat(items.dribbbleWidth) || 400,
-      actions: ['openUnread']
-    };
-  });
-};
-
 export let reddit = function() {
   return chromeStorage().then(function(items) {
     return {
@@ -272,7 +250,6 @@ const serviceData = [
   hackerNews,
   github,
   productHunt,
-  dribbble,
   reddit,
   nzbget,
   sonarr,

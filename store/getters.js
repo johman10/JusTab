@@ -1,5 +1,5 @@
 export const activeServices = (state, getters) => {
-  return getters.sortedServices.filter(service => service.active);
+  return getters.sortedServices.filter(service => service && service.active);
 };
 
 export const sortedServices = (state) => {
