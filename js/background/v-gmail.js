@@ -117,10 +117,10 @@ export default {
       let messageSnippet = mail.snippet || 'No content';
       let messageDate = new Date(mail.payload.headers.Date);
       if (dayjs(messageDate).isSame(dayjs(), 'day')) {
-        messageDate = dayjs(messageDate).format('hh:mm A');
+        messageDate = dayjs(messageDate).format('HH:mm');
       }
       else {
-        messageDate = dayjs(messageDate).format('MMM D, hh:mm A');
+        messageDate = dayjs(messageDate).format('MMM D, HH:mm');
       }
       let messageUrl = 'https://mail.google.com/mail/u/0/#inbox/' + mail.id;
 
