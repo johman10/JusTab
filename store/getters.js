@@ -16,5 +16,5 @@ export const sortedServices = (state) => {
     return state.services.find(service => service.id === parseInt(id));
   });
 
-  return sortedServices;
+  return sortedServices.filter(service => !!service);
 };
