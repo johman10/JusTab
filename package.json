@@ -9,7 +9,7 @@
     "babel-eslint": "^8.2.3",
     "babel-loader": ">=8.0.0-beta.3",
     "chai": ">=4.0.2",
-    "chai-dom": ">=1.4.3",
+    "chai-dom": ">=1.8.0",
     "chrome-webstore-upload-cli": ">=1.1.1",
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.11",
