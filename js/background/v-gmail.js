@@ -112,17 +112,18 @@ export default {
     },
 
     buildMailItem (mail) {
-      let messageSubject = mail.payload.headers.Subject || 'No subject';
-      let messageFrom = (mail.payload.headers.From  || 'No sender').replace(/<(.|\n)*?>/, '');
-      let messageSnippet = mail.snippet || 'No content';
-      let messageDate = new Date(mail.payload.headers.Date);
+      const messageSubject = mail.payload.headers.Subject || mail.payload.headers.subject || 'No subject';
+      const messageFrom = (mail.payload.headers.From || mail.payload.headers.from || 'No sender').replace(/<(.|\n)*?>/, '');
+      const messageSnippet = mail.snippet || 'No content';
+      
+      let messageDate = new Date(mail.payload.headers.Date || mail.payload.headers.date);
       if (dayjs(messageDate).isSame(dayjs(), 'day')) {
         messageDate = dayjs(messageDate).format('HH:mm');
       }
       else {
         messageDate = dayjs(messageDate).format('MMM D, HH:mm');
       }
-      let messageUrl = 'https://mail.google.com/mail/u/0/#inbox/' + mail.id;
+      const messageUrl = 'https://mail.google.com/mail/u/0/#inbox/' + mail.id;
 
       return {
         name: 'v-panel-item',
