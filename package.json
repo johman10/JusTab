@@ -41,7 +41,7 @@
     "dayjs": "^1.6.6",
     "dragula": ">=3.7.1",
     "vue": "^2.5.16",
-    "vue-lazyload": "^1.2.4",
+    "vue-lazyload": "^1.2.5",
     "vue-router": ">=3.0.1",
     "vuex": ">=3.0.1"
   },
