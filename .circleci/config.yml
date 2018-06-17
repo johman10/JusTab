@@ -8,12 +8,8 @@ restore_cache: &restore_cache
       # fallback to using the latest cache if no exact match is found
       - v1-dependencies-
 
-docker_images: &docker_images
-  docker:
-    - image: circleci/node:10.4
-
-working_directory: &working_directory
-  working_directory: *root
+docker: &docker
+  - image: circleci/node:10.4
 
 attach_workspace: &attach_workspace
   attach_workspace:
@@ -22,8 +18,8 @@ attach_workspace: &attach_workspace
 version: 2
 jobs:
   checkout:
-    *docker_images
-    *working_directory
+    docker: *docker
+    working_directory: *root
     steps:
       - checkout
       - persist_to_workspace:
@@ -31,41 +27,39 @@ jobs:
           paths: .
 
   install:
-    *docker_images
-    *working_directory
+    docker: *docker
+    working_directory: *root
     steps:
       - *attach_workspace
-
-      # Download and cache dependencies
-      - *restore_dependencies
-
+      - *restore_cache
       - run: npm install
-
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
+
   build:
-    *docker_images
-    *working_directory
+    docker: *docker
+    working_directory: *root
     steps:
       - *attach_workspace
-      - *restore_dependencies
+      - *restore_cache
       - run: npm build
+
   test:
-    *docker_images
-    *working_directory
+    docker: *docker
+    working_directory: *root
     steps:
       - *attach_workspace
-      - *restore_dependencies
+      - *restore_cache
       - run: npm test
 
   code_quality:
-    *docker_images
-    *working_directory
+    docker: *docker
+    working_directory: *root
     steps:
       - *attach_workspace
-      - *restore_dependencies
+      - *restore_cache
       - run: npm run lint
 
 workflows:
