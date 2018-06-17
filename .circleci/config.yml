@@ -1,0 +1,90 @@
+root: &root
+  ~/repo
+
+restore_cache: &restore_cache
+  restore_cache:
+    keys:
+      - v1-dependencies-{{ checksum "package-lock.json" }}
+      # fallback to using the latest cache if no exact match is found
+      - v1-dependencies-
+
+docker_images: &docker_images
+  docker:
+    - image: circleci/node:10.4
+
+working_directory: &working_directory
+  working_directory: *root
+
+attach_workspace: &attach_workspace
+  attach_workspace:
+    at: *root
+
+version: 2
+jobs:
+  checkout:
+    *docker_images
+    *working_directory
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: .
+          paths: .
+
+  install:
+    *docker_images
+    *working_directory
+    steps:
+      - *attach_workspace
+
+      # Download and cache dependencies
+      - *restore_dependencies
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+  build:
+    *docker_images
+    *working_directory
+    steps:
+      - *attach_workspace
+      - *restore_dependencies
+      - run: npm build
+  test:
+    *docker_images
+    *working_directory
+    steps:
+      - *attach_workspace
+      - *restore_dependencies
+      - run: npm test
+
+  code_quality:
+    *docker_images
+    *working_directory
+    steps:
+      - *attach_workspace
+      - *restore_dependencies
+      - run: npm run lint
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - checkout
+      - install:
+          requires:
+            - checkout
+      - build:
+          requires:
+            - checkout
+            - install
+      - test:
+          requires:
+            - checkout
+            - install
+      - code_quality:
+          requires:
+            - checkout
+            - install

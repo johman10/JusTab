@@ -44,7 +44,6 @@
     "start": "NODE_ENV=development npx webpack && NODE_ENV=development node_modules/.bin/webpack-dev-server",
     "lint": "npx eslint . --ext .vue,.js",
     "build": "NODE_ENV=production npx webpack",
-    "code-check": "NODE_ENV=development npx eslint .",
     "version": "npm run version:patch",
     "version:patch": "npx mversion patch",
     "version:minor": "npx mversion minor",
