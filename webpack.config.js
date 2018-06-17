@@ -43,7 +43,7 @@ module.exports = {
       'js': path.join(__dirname, '/js'),
       'css': path.join(__dirname, '/style/sass'),
       'components': path.join(__dirname, '/components'),
-      'test': path.join(__dirname, '/test')
+      'test': path.join(__dirname, '/__tests__')
     }
   },
   optimization: {

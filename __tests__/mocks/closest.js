@@ -1,7 +1,3 @@
-import Vue from 'vue';
-import ripple from 'modules/ripple';
-Vue.mixin(ripple);
-
 Element.prototype.closest = function (selectors) {
   // https://dom.spec.whatwg.org/#dom-element-closest
   let el = this;
@@ -13,5 +9,3 @@ Element.prototype.closest = function (selectors) {
   }
   return null;
 };
-
-export default Vue;
