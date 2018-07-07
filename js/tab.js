@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import vTab from 'components/v-tab';
+import vTab from '~components/v-tab';
 import VueLazyload from 'vue-lazyload';
-import store from 'store/index';
+import store from '~store/index';
 import { mapActions } from 'vuex';
 
-import ripple from 'modules/ripple';
+import ripple from '~modules/ripple';
 
 Vue.mixin(ripple);
 Vue.use(VueLazyload, {

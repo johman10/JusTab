@@ -54,7 +54,7 @@
 <style src="css/v-panel-header.scss"></style>
 
 <script>
-import dynamicImportComponent from 'modules/dynamic-import-component';
+import dynamicImportComponent from '~modules/dynamic-import-component';
 
 export default {
   components: {

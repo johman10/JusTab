@@ -1,6 +1,6 @@
 // Docs:
 // https://github.com/HackerNews/API
-import ajax from 'modules/ajax';
+import ajax from '~modules/ajax';
 
 export default {
   computed: {

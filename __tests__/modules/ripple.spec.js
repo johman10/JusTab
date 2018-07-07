@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import ripple from 'modules/ripple';
+import ripple from '~modules/ripple';
 import localVue from '../mocks/local-vue';
 
 describe('ripple', () => {

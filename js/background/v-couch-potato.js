@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import ajax from 'modules/ajax';
-import imageResize from 'modules/image-resize';
+import ajax from '~modules/ajax';
+import imageResize from '~modules/image-resize';
 
 export default {
   computed: {

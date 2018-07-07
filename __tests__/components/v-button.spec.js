@@ -1,4 +1,4 @@
-import vButton from 'components/v-button';
+import vButton from '~components/v-button';
 import { shallowMount } from '@vue/test-utils';
 import localVue from '../mocks/local-vue';
 

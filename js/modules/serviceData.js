@@ -1,4 +1,4 @@
-import urlNormalize from 'modules/url-normalize';
+import urlNormalize from '~modules/url-normalize';
 
 function chromeStorage () {
   return new Promise(function(resolve) {
