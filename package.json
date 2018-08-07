@@ -35,7 +35,7 @@
   "dependencies": {
     "dayjs": "^1.7.4",
     "dragula": ">=3.7.1",
-    "vue": "^2.5.16",
+    "vue": "^2.5.17",
     "vue-lazyload": "^1.2.6",
     "vue-router": ">=3.0.1",
     "vuex": ">=3.0.1"
