@@ -22,7 +22,7 @@
     "mversion": ">=1.12.0",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
-    "style-loader": "^0.22.0",
+    "style-loader": "^0.22.1",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "url-loader": ">=1.0.1",
     "vue-jest": "^2.6.0",
