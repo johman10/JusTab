@@ -53,15 +53,7 @@ module.exports = {
     rules: [
       {
         test: /\.vue$/,
-        use: {
-          loader: 'vue-loader',
-          options: {
-            loaders: {
-              js: 'babel-loader',
-              css: 'style-loader!css-loader!sass-loader'
-            }
-          }
-        }
+        use: ['vue-loader', 'vue-svg-inline-loader']
       },
       {
         test: /\.js$/,
