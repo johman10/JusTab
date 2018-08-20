@@ -10,7 +10,7 @@ describe('v-button', () => {
       },
       localVue,
       slots: {
-        default: content || ''
+        default: content || '<div>Hello</div>'
       }
     });
   };
