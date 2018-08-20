@@ -7,6 +7,7 @@
       <v-button
         type="flat"
         class="panel-error-settings-button"
+        @click="openSettings"
       >
         Settings
       </v-button>
@@ -41,6 +42,9 @@ export default {
   },
 
   methods: {
+    openSettings () {
+      window.location = `chrome-extension://ahfidkanlmlkhggdgencpoanjkokcfck/options.html#/${this.serviceName.toLowerCase()}`;
+    },
     triggerRefresh () {
       this.$emit('refresh');
     }
