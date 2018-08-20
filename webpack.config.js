@@ -62,16 +62,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [{
-          loader: 'style-loader'
-        }, {
-          loader: 'css-loader'
-        }, {
-          loader: 'sass-loader',
-          options: {
-            outputStyle: 'compressed'
-          }
-        }]
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.ico$|\.webp$/,
