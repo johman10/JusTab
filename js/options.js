@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
-import store from '~store/index';
+import store from 'store/index';
 import { mapActions } from 'vuex';
 
-import ripple from '~modules/ripple';
-import dynamicImportComponent from '~modules/dynamic-import-component';
+import ripple from 'modules/ripple';
+import dynamicImportComponent from 'modules/dynamic-import-component';
 
 const vOptions = dynamicImportComponent('options/v-options');
 const vOptionsGoogleCalendar = dynamicImportComponent('options/v-options-google-calendar');

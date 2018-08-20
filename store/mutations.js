@@ -1,5 +1,5 @@
 // define the possible changes that can be applied to our state
-import * as types from '~store/mutation-types';
+import * as types from 'store/mutation-types';
 
 export default {
   [types.LOAD_SERVICES] (state, { services }) {

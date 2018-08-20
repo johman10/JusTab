@@ -1,6 +1,6 @@
 // Docs:
 // http://developers.news.layervault.com/
-import ajax from '~modules/ajax';
+import ajax from 'modules/ajax';
 const badges = {
   ama: require('img/dn_badges/badge_ama.svg'),
   apple: require('img/dn_badges/badge_apple.svg'),

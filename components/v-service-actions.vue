@@ -17,7 +17,7 @@
 <style src="css/v-service-actions.scss"></style>
 
 <script>
-import vButton from '~components/v-button';
+import vButton from 'components/v-button';
 
 export default {
   components: {

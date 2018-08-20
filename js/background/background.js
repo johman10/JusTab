@@ -1,17 +1,17 @@
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
-import store from '~store/index';
-import vGoogleCalendar from '~js/background/v-google-calendar';
-import vCouchPotato from '~js/background/v-couch-potato';
-import vGmail from '~js/background/v-gmail';
-import vDesignerNews from '~js/background/v-designer-news';
-import vHackerNews from '~js/background/v-hacker-news';
-import vGithub from '~js/background/v-github';
-import vProductHunt from '~js/background/v-product-hunt';
-import vReddit from '~js/background/v-reddit';
-import vNzbget from '~js/background/v-nzbget';
-import vSonarr from '~js/background/v-sonarr';
-import vTransmission from '~js/background/v-transmission';
+import store from 'store/index';
+import vGoogleCalendar from 'js/background/v-google-calendar';
+import vCouchPotato from 'js/background/v-couch-potato';
+import vGmail from 'js/background/v-gmail';
+import vDesignerNews from 'js/background/v-designer-news';
+import vHackerNews from 'js/background/v-hacker-news';
+import vGithub from 'js/background/v-github';
+import vProductHunt from 'js/background/v-product-hunt';
+import vReddit from 'js/background/v-reddit';
+import vNzbget from 'js/background/v-nzbget';
+import vSonarr from 'js/background/v-sonarr';
+import vTransmission from 'js/background/v-transmission';
 
 let vueInstance = new Vue({
   store,

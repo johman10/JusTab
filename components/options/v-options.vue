@@ -15,8 +15,8 @@
 <style src="css/options/v-options.scss"></style>
 
 <script>
-import vOptionsMenu from '~components/options/v-options-menu';
-import vPageHeader from '~components/v-page-header';
+import vOptionsMenu from 'components/options/v-options-menu';
+import vPageHeader from 'components/v-page-header';
 import { mapState } from 'vuex';
 
 export default {

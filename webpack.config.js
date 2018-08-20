@@ -37,13 +37,13 @@ module.exports = {
     extensions: ['.js', '.vue'],
     alias: {
       'vue$': 'vue/dist/vue.esm',
-      '~store': path.join(__dirname, '/store'),
-      '~modules': path.join(__dirname, '/js/modules'),
-      '~img': path.join(__dirname, '/img'),
-      '~js': path.join(__dirname, '/js'),
-      '~css': path.join(__dirname, '/style/sass'),
-      '~components': path.join(__dirname, '/components'),
-      '~test': path.join(__dirname, '/__tests__')
+      'store': path.join(__dirname, '/store'),
+      'modules': path.join(__dirname, '/js/modules'),
+      'img': path.join(__dirname, '/img'),
+      'js': path.join(__dirname, '/js'),
+      'css': path.join(__dirname, '/style/sass'),
+      'components': path.join(__dirname, '/components'),
+      'test': path.join(__dirname, '/__tests__')
     }
   },
   optimization: {

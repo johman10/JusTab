@@ -41,9 +41,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import vInput from '~components/v-input';
-import vCheckbox from '~components/v-checkbox';
-import vSelect from '~components/v-select';
+import vInput from 'components/v-input';
+import vCheckbox from 'components/v-checkbox';
+import vSelect from 'components/v-select';
 
 export default {
   components: {
