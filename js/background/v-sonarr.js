@@ -54,7 +54,7 @@ export default {
 
       episodes.forEach((episode) => {
         if (!episode.hasFile && episode.monitored) {
-          let airDate = dayjs(episode.airDate, 'YYYY-MM-DD');
+          let airDate = dayjs(episode.airDate);
           let header = this.sonarrBuildHeader({airDate, currentSection});
           if (header) {
             currentSection = header.currentSection;
