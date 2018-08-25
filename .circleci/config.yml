@@ -44,7 +44,7 @@ jobs:
     steps:
       - *attach_workspace
       - *restore_cache
-      - run: npm build
+      - run: npm run build
 
   test:
     docker: *docker
@@ -52,7 +52,7 @@ jobs:
     steps:
       - *attach_workspace
       - *restore_cache
-      - run: npm test
+      - run: npm run test
 
   code_quality:
     docker: *docker
