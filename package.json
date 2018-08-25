@@ -2,7 +2,7 @@
   "name": "JusTab",
   "version": "0.4.2",
   "devDependencies": {
-    "@babel/core": "^7.0.0-rc.1",
+    "@babel/core": "^7.0.0-rc.3",
     "@babel/plugin-proposal-object-rest-spread": ">=7.0.0-rc.1",
     "@babel/plugin-syntax-dynamic-import": ">=7.0.0-rc.3",
     "@babel/preset-env": ">=7.0.0-rc.1",
