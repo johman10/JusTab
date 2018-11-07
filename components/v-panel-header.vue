@@ -35,7 +35,8 @@
               v-else
               :alt="`Refresh ${service.name}`"
               svg-inline
-              src="~img/icons/refresh.svg"
+              src="
+              img/icons/refresh.svg"
             >
           </transition>
         </div>

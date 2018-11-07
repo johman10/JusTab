@@ -6,7 +6,7 @@
     <img
       class="page-header--menu-icon"
       svg-inline
-      src="~img/icons/menu.svg"
+      src="img/icons/menu.svg"
       alt="Toggle menu"
       @click="onMenuClick"
     >
