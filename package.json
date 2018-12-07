@@ -12,7 +12,7 @@
     "babel-loader": ">=8.0.4",
     "chrome-webstore-upload-cli": ">=1.2.0",
     "copy-webpack-plugin": "^4.6.0",
-    "css-loader": "^1.0.1",
+    "css-loader": "^2.0.0",
     "eslint": "^5.9.0",
     "eslint-plugin-vue": "^4.7.1",
     "file-loader": ">=2.0.0",
