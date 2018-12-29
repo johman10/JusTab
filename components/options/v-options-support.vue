@@ -15,6 +15,7 @@
         <li>Upgrading dependencies</li>
         <li>Some small fixes around Gmail to prevent weird rendering</li>
         <li>Better date parsing for Sonarr</li>
+        <li>Bug fixes and code improvements</li>
       </ul>
     </p>
     <h2>Questions</h2>
