@@ -1,8 +1,8 @@
 <template>
   <div class="panel-item-content">
     <div
-      v-lazy:background-image="image"
       v-if="image"
+      v-lazy:background-image="image"
       class="panel-item-content--image"
     />
     <div class="panel-item-content--titles">

@@ -4,7 +4,7 @@
     class="fab ripple"
     @mousedown="_showRipple"
   >
-    <div :class="iconClass"/>
+    <div :class="iconClass" />
   </a>
 </template>
 

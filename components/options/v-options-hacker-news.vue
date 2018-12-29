@@ -3,21 +3,21 @@
     v-if="service"
     class="options-hacker-news"
   >
-    <v-select
+    <VSelect
       :options="sortingOptions"
       :value="service.sorting"
       name="hackerNewsSorting"
       label="Sorting"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.panelWidth"
       type="number"
       name="hackerNewsWidth"
       label="Panel width in px"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.refresh"
       type="number"
       name="hackerNewsRefresh"

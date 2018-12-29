@@ -2,9 +2,9 @@
   <div class="input">
     <input
       v-if="type === 'number'"
+      :id="name"
       v-model="changeValue"
       :name="name"
-      :id="name"
       placeholder="."
       class="input__field"
       type="number"
@@ -13,9 +13,9 @@
     >
     <input
       v-else-if="type === 'password'"
+      :id="name"
       v-model="changeValue"
       :name="name"
-      :id="name"
       placeholder="."
       class="input__field"
       type="password"
@@ -24,9 +24,9 @@
     >
     <input
       v-else-if="type === 'url'"
+      :id="name"
       v-model="changeValue"
       :name="name"
-      :id="name"
       placeholder="."
       class="input__field"
       type="url"
@@ -35,16 +35,16 @@
     >
     <input
       v-else
+      :id="name"
       v-model="changeValue"
       :name="name"
-      :id="name"
       placeholder="."
       class="input__field"
       type="text"
       @input="onInput"
       @change="onChange"
     >
-    <span class="input__bottom-bar"/>
+    <span class="input__bottom-bar" />
     <label class="input__label">
       {{ label }}
     </label>

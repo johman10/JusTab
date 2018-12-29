@@ -3,34 +3,34 @@
     v-if="service"
     class="options-nzbget"
   >
-    <v-input
+    <VInput
       :value="service.url"
       name="nzbgetUrl"
       label="Service URL"
       hint="http://localhost:6789, https://sub.domain.com/nzbget"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.username"
       name="nzbgetUsername"
       label="Username"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.password"
       type="password"
       name="nzbgetPassword"
       label="Password"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.panelWidth"
       type="number"
       name="nzbgetWidth"
       label="Panel width in px"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.refresh"
       type="number"
       name="nzbgetRefresh"

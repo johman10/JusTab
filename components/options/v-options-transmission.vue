@@ -3,34 +3,34 @@
     v-if="service"
     class="options-transmission"
   >
-    <v-input
+    <VInput
       :value="service.url"
       name="transmissionUrl"
       label="Service URL"
       hint="http://localhost:9091, https://sub.domain.com/transmission"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.username" 
       name="transmissionUsername"
       label="Username"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.password"
       type="password"
       name="transmissionPassword"
       label="Password"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.panelWidth"
       type="number"
       name="transmissionWidth"
       label="Panel width in px"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.refresh"
       type="number"
       name="transmissionRefresh"

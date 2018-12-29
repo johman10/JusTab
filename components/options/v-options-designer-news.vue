@@ -3,14 +3,14 @@
     v-if="service"
     class="options-designer-news"
   >
-    <v-input
+    <VInput
       :value="service.panelWidth"
       type="number"
       name="designerNewsWidth"
       label="Panel width in px"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.refresh"
       type="number"
       name="designerNewsRefresh"

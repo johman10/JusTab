@@ -3,14 +3,14 @@
     v-if="service"
     class="options-product-hunt"
   >
-    <v-input
+    <VInput
       :value="service.panelWidth"
       type="number"
       name="productHuntWidth"
       label="Panel width in px"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.refresh"
       type="number"
       name="productHuntRefresh"

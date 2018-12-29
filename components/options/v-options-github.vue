@@ -3,14 +3,14 @@
     v-if="service"
     class="options-github"
   >
-    <v-input
+    <VInput
       :value="service.panelWidth"
       type="number"
       name="githubWidth"
       label="Panel width in px"
       @change="saveData"
     />
-    <v-input
+    <VInput
       :value="service.refresh"
       type="number"
       name="githubRefresh"

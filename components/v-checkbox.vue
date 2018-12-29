@@ -1,8 +1,8 @@
 <template>
   <div class="checkbox">
     <input
-      :value="value"
       :id="name"
+      :value="value"
       :checked="checked"
       type="checkbox"
       class="checkbox--actual"

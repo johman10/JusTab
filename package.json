@@ -14,7 +14,7 @@
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^2.1.0",
     "eslint": "^5.11.1",
-    "eslint-plugin-vue": "^4.7.1",
+    "eslint-plugin-vue": "^5.0.0",
     "file-loader": ">=2.0.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^23.6.0",
@@ -44,6 +44,7 @@
   "scripts": {
     "start": "NODE_ENV=development webpack && NODE_ENV=development node_modules/.bin/webpack-dev-server",
     "lint": "eslint . --ext .vue,.js",
+    "lint:fix": "npm run lint -- --fix",
     "build": "NODE_ENV=production webpack",
     "version": "npm run version:patch",
     "version:patch": "mversion patch",

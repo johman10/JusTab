@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-page-header
+    <VPageHeader
       :title="pageTitle"
       :color="headerColor"
       @toggle="toggleMenu"
     />
-    <v-options-menu :show-menu="showMenu"/>
+    <VOptionsMenu :show-menu="showMenu" />
     <div class="options--view">
-      <router-view/>
+      <RouterView />
     </div>
   </div>
 </template>
@@ -39,9 +39,8 @@ export default {
     headerColor () {
       if (this.service) {
         return this.service.color;
-      } else if (this.$route.path === '/support') {
-        return '#03a9f4';
       }
+      return '#03a9f4';
     },
     pageTitle () {
       if (this.service) {

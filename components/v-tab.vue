@@ -3,11 +3,11 @@
     v-cloak
     class="panel-container"
   >
-    <v-fab
+    <VFab
       url="/options.html"
       icon="settings"
     />
-    <v-panel
+    <VPanel
       v-for="service in activeServices"
       :key="service.id"
       :service-id="service.id"

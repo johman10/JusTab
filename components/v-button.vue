@@ -5,7 +5,7 @@
     @click="$emit('click')"
     @mousedown="_showRipple"
   >
-    <slot/>
+    <slot />
   </button>
 </template>
 
