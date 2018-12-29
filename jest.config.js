@@ -11,9 +11,6 @@ module.exports = {
     '^.+\\.js$': 'babel-jest',
     '^.+\\.vue$': 'vue-jest'
   },
-  setupFiles: [
-    './__tests__/mocks/closest.js'
-  ],
   moduleNameMapper: {
     '^store(.*)$': path.join(__dirname, '/store$1'),
     '^modules(.*)$': path.join(__dirname, '/js/modules$1'),
