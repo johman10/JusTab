@@ -1,32 +1,32 @@
 import Vue from 'vue';
 import { mapState, mapActions } from 'vuex';
 import store from 'store/index';
-import vGoogleCalendar from 'js/background/v-google-calendar';
-import vCouchPotato from 'js/background/v-couch-potato';
-import vGmail from 'js/background/v-gmail';
-import vDesignerNews from 'js/background/v-designer-news';
-import vHackerNews from 'js/background/v-hacker-news';
-import vGithub from 'js/background/v-github';
-import vProductHunt from 'js/background/v-product-hunt';
-import vReddit from 'js/background/v-reddit';
-import vNzbget from 'js/background/v-nzbget';
-import vSonarr from 'js/background/v-sonarr';
-import vTransmission from 'js/background/v-transmission';
+import VGoogleCalendar from 'js/background/v-google-calendar';
+import VCouchPotato from 'js/background/v-couch-potato';
+import VGmail from 'js/background/v-gmail';
+import VDesignerNews from 'js/background/v-designer-news';
+import VHackerNews from 'js/background/v-hacker-news';
+import VGithub from 'js/background/v-github';
+import VProductHunt from 'js/background/v-product-hunt';
+import VReddit from 'js/background/v-reddit';
+import VNzbget from 'js/background/v-nzbget';
+import VSonarr from 'js/background/v-sonarr';
+import VTransmission from 'js/background/v-transmission';
 
 let vueInstance = new Vue({
   store,
   mixins: [
-    vGoogleCalendar,
-    vCouchPotato,
-    vGmail,
-    vDesignerNews,
-    vHackerNews,
-    vGithub,
-    vProductHunt,
-    vReddit,
-    vNzbget,
-    vSonarr,
-    vTransmission
+    VGoogleCalendar,
+    VCouchPotato,
+    VGmail,
+    VDesignerNews,
+    VHackerNews,
+    VGithub,
+    VProductHunt,
+    VReddit,
+    VNzbget,
+    VSonarr,
+    VTransmission
   ],
   computed: {
     ...mapState(['services'])

@@ -1,10 +1,10 @@
-import vButton from 'components/v-button';
+import VButton from 'components/v-button';
 import { shallowMount } from '@vue/test-utils';
 import localVue from '../mocks/local-vue';
 
 describe('v-button', () => {
   const componentFactory = ({ type, content } = {}) => {
-    return shallowMount(vButton, {
+    return shallowMount(VButton, {
       propsData: {
         type,
       },

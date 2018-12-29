@@ -35,11 +35,11 @@
 
 <script>
 import { mapState } from 'vuex';
-import vInput from 'components/v-input';
+import VInput from 'components/v-input';
 
 export default {
   components: {
-    vInput
+    VInput
   },
 
   computed: {

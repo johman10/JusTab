@@ -60,7 +60,7 @@ import dynamicImportComponent from 'modules/dynamic-import-component';
 
 export default {
   components: {
-    vSpinner: dynamicImportComponent('v-spinner')
+    VSpinner: dynamicImportComponent('v-spinner')
   },
 
   props: {

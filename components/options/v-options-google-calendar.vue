@@ -47,18 +47,18 @@
 
 <script>
 import { mapState } from 'vuex';
-import vGoogleCalendar from 'js/background/v-google-calendar';
-import vCheckbox from 'components/v-checkbox';
-import vInput from 'components/v-input';
+import VGoogleCalendar from 'js/background/v-google-calendar';
+import VCheckbox from 'components/v-checkbox';
+import VInput from 'components/v-input';
 
 export default {
   components: {
-    vCheckbox,
-    vInput
+    VCheckbox,
+    VInput
   },
 
   mixins: [
-    vGoogleCalendar
+    VGoogleCalendar
   ],
 
   data () {

@@ -15,14 +15,14 @@
 <style src="css/options/v-options.scss"></style>
 
 <script>
-import vOptionsMenu from 'components/options/v-options-menu';
-import vPageHeader from 'components/v-page-header';
+import VOptionsMenu from 'components/options/v-options-menu';
+import VPageHeader from 'components/v-page-header';
 import { mapState } from 'vuex';
 
 export default {
   components: {
-    vOptionsMenu,
-    vPageHeader
+    VOptionsMenu,
+    VPageHeader
   },
   data () {
     return {

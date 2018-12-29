@@ -1,10 +1,10 @@
-import vInput from 'components/v-input';
+import VInput from 'components/v-input';
 import { shallowMount } from '@vue/test-utils';
 import localVue from '../mocks/local-vue';
 
 describe('v-input', () => {
   const componentFactory = ({ name, type, label, hint, value } = {}) => {
-    return shallowMount(vInput, {
+    return shallowMount(VInput, {
       propsData: { name, type, label, hint, value },
       localVue,
     });

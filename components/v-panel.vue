@@ -40,15 +40,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import dynamicImportComponent from 'modules/dynamic-import-component';
-import vPanelHeader from 'components/v-panel-header';
+import VPanelHeader from 'components/v-panel-header';
 
 export default {
   components: {
-    vPanelHeader,
-    vPanelSubheader: dynamicImportComponent('v-panel-subheader'),
-    vPanelError: dynamicImportComponent('v-panel-error'),
-    vPanelItem: dynamicImportComponent('v-panel-item'),
-    vServiceActions: dynamicImportComponent('v-service-actions')
+    VPanelHeader,
+    VPanelSubheader: dynamicImportComponent('v-panel-subheader'),
+    VPanelError: dynamicImportComponent('v-panel-error'),
+    VPanelItem: dynamicImportComponent('v-panel-item'),
+    VServiceActions: dynamicImportComponent('v-service-actions')
   },
 
   props: {

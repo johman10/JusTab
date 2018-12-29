@@ -19,13 +19,13 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import vPanel from 'components/v-panel';
-import vFab from 'components/v-fab';
+import VPanel from 'components/v-panel';
+import VFab from 'components/v-fab';
 
 export default {
   components: {
-    vPanel,
-    vFab
+    VPanel,
+    VFab
   },
   computed: {
     ...mapState([ 'services' ]),

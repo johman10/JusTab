@@ -17,11 +17,11 @@
 <style src="css/v-service-actions.scss"></style>
 
 <script>
-import vButton from 'components/v-button';
+import VButton from 'components/v-button';
 
 export default {
   components: {
-    vButton
+    VButton
   },
   props: {
     service: {

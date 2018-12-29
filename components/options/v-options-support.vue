@@ -73,11 +73,11 @@
 <style src="css/options/v-options-support.scss"></style>
 
 <script>
-import vButton from 'components/v-button';
+import VButton from 'components/v-button';
 
 export default {
   components: {
-    vButton
+    VButton
   },
   data () {
     return {
