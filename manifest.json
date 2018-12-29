@@ -23,7 +23,7 @@
   },
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhljSfj+fB5CNC9/EY7RZCMSpG+PVvEECK3UociKf/oTCZGYjstc6g5n7GCGT2Qsna9wLiqlQ+2TlXy+Z42pLIhbi0QaG632B2SbwhSTcVgNdmBIxJUJb53trQHiTKPglezUbjW1GDTTN2pO54HPl320WNGWIbzX61Lj9LPXolEc+YLBokEmemHlx2NKMWnmMOpBrIEYUyMBWBjxOSjzBdwrI6DkuiXsdi8T7YjuuRalaTPgymiBJ56ZarB/0TO2uqPGNMv/wKoHolGNsmszMSsVkfLi6I5ERcy+DxO2cLkKp/5dvTGux5Iw4z9gKYUlqJQENzT9OiTCNd9CWxJxFZwIDAQAB",
   "oauth2": {
-    "client_id": "597229797223-em315o6neelklo2k7e9uv3ahtuo54lue.apps.googleusercontent.com",
+    "client_id": "597229797223-9eadtbv0v9ph3d6fpd494c7t239sj9si.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/calendar",
       "https://www.googleapis.com/auth/gmail.readonly"
