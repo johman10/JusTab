@@ -3,7 +3,7 @@
     v-if="service"
     class="options-sonarr"
   >
-    <v-input
+    <VInput
       :value="service.url"
       type="url"
       name="sonarrUrl"
@@ -11,20 +11,20 @@
       hint="http://localhost:8989, https://sub.domain.com/sonarr"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.key"
       name="sonarrKey"
       label="API Key"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.panelWidth"
       type="number"
       name="sonarrWidth"
       label="Panel width in px"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.refresh"
       type="number"
       name="sonarrRefresh"

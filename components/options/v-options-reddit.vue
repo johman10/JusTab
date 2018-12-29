@@ -3,33 +3,33 @@
     v-if="service"
     class="options-reddit"
   >
-    <v-input
+    <VInput
       :value="service.subreddit"
       name="redditSubreddit"
       label="Subreddit"
       @change="onChange"
     />
-    <v-checkbox
+    <VCheckbox
       :checked="service.nsfw"
       name="redditNsfw"
       label="Show NSFW"
       @change="onCheckboxChange"
     />
-    <v-select
+    <VSelect
       :options="sortingOptions"
       :value="service.sorting"
       name="redditSorting"
       label="Sorting"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.panelWidth"
       type="number"
       name="redditWidth"
       label="Panel width in px"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.refresh"
       type="number"
       name="redditRefresh"

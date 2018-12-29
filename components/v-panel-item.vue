@@ -13,7 +13,7 @@
         class="panel-item--url"
         target="_blank"
       >
-        <v-panel-item-content
+        <VPanelItemContent
           :image="props.image"
           :has-collapse="hasCollapse"
           :expanded="expanded"
@@ -23,7 +23,7 @@
           :extra-title="props.extraTitle"
         />
       </a>
-      <v-panel-item-content
+      <VPanelItemContent
         v-else
         :image="props.image"
         :has-collapse="hasCollapse"
@@ -48,10 +48,10 @@
         v-if="props.components"
         class="panel-item--button-container"
       >
-        <component
+        <Component
+          :is="component.name"
           v-for="(component, index) in props.components"
           :key="index"
-          :is="component.name"
           :props="component.props"
         />
       </div>

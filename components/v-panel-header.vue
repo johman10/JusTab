@@ -22,11 +22,11 @@
           class="refresh-button ripple"
           @click="triggerRefresh"
         >
-          <transition
+          <Transition
             name="loader"
             mode="out-in"
           >
-            <v-spinner
+            <VSpinner
               v-if="loading"
               :border="5"
               :width="25"
@@ -38,7 +38,7 @@
               src="
               img/icons/refresh.svg"
             >
-          </transition>
+          </Transition>
         </div>
       </div>
       <div class="panel-header--foreground-bottom">

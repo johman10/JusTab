@@ -1,6 +1,6 @@
 <template>
   <nav :class="['options-menu', { 'options-menu__show': showMenu }]">
-    <router-link
+    <RouterLink
       v-for="service in sortedServices"
       :key="service.id"
       :to="service.optionsPath"
@@ -8,22 +8,22 @@
       class="options-menu--link ripple"
       @mousedown.native="_showRipple"
     >
-      <div class="options-menu--drag-handle"/>
+      <div class="options-menu--drag-handle" />
       {{ service.name }}
-      <v-switch
+      <VSwitch
         :value="service.active"
         :service-id="service.id"
         :name="service.functionName + 'Active'"
         class="options-menu--switch"
         @input="onInput(service, $event)"
       />
-    </router-link>
-    <router-link
+    </RouterLink>
+    <RouterLink
       to="/support"
       class="options-menu--link options-menu--support"
     >
       Support
-    </router-link>
+    </RouterLink>
   </nav>
 </template>
 

@@ -4,23 +4,23 @@
       There was an error connecting to {{ serviceName }}. Please check your connection and your settings.
     </p>
     <div class="panel-error-buttons">
-      <v-button
+      <VButton
         type="flat"
         class="panel-error-settings-button"
         @click="openSettings"
       >
         Settings
-      </v-button>
-      <v-button
+      </VButton>
+      <VButton
         type="flat"
         class="panel-error-retry-button"
         @click="triggerRefresh"
       >
         Retry
-      </v-button>
-      <div class="cleardiv"/>
+      </VButton>
+      <div class="cleardiv" />
     </div>
-    <div class="cleardiv"/>
+    <div class="cleardiv" />
   </div>
 </template>
 

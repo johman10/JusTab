@@ -3,14 +3,14 @@
     v-if="service"
     class="options-gmail"
   >
-    <v-input
+    <VInput
       :value="service.panelWidth"
       type="number"
       name="gmailWidth"
       label="Panel width in px"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.refresh"
       type="number"
       name="gmailRefresh"

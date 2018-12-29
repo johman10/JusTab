@@ -4,7 +4,7 @@
     class="ripple panel-item-button"
     @mousedown="_showRipple"
   >
-    <i :class="['panel-item-button--icon', props.iconClass]"/>
+    <i :class="['panel-item-button--icon', props.iconClass]" />
   </a>
 </template>
 

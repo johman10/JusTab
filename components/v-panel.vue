@@ -4,7 +4,7 @@
     :style="panelStyling"
     class="panel"
   >
-    <v-panel-header
+    <VPanelHeader
       :loading="loading"
       :scroll-top="scrollTop"
       :service="service"
@@ -15,23 +15,23 @@
       class="panel--content"
       @scroll="onScroll"
     >
-      <transition
+      <Transition
         name="slide"
       >
-        <v-panel-error
+        <VPanelError
           v-if="service.error === 'true'"
           :service-name="service.name"
           @refresh="onRefresh"
         />
-      </transition>
-      <component
+      </Transition>
+      <Component
+        :is="component.name"
         v-for="(component, index) in components"
         :key="index"
-        :is="component.name"
         :props="component.props"
       />
     </div>
-    <v-service-actions :service="service" />
+    <VServiceActions :service="service" />
   </div>
 </template>
 

@@ -3,14 +3,14 @@
     :style="wrapperStyling"
     class="service-actions"
   >
-    <v-button
+    <VButton
       v-if="service.actions.includes('openUnread')"
       class="service-actions--button"
       type="flat"
       @click="openUnread(service)"
     >
       Open unread
-    </v-button>
+    </VButton>
   </div>
 </template>
 

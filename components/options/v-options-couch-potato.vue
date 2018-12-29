@@ -3,27 +3,27 @@
     v-if="service"
     class="options-couch-potato"
   >
-    <v-input
+    <VInput
       :value="service.url"
       name="couchPotatoUrl"
       label="Service URL"
       hint="http://localhost:5000, https://sub.domain.com/couchpotato"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.key"
       name="couchPotatoKey"
       label="API Key"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.panelWidth"
       type="number"
       name="couchPotatoWidth"
       label="Panel width in px"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.refresh"
       type="number"
       name="couchPotatoRefresh"

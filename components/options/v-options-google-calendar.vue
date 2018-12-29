@@ -4,11 +4,13 @@
     class="options-google-calendar"
   >
     <div class="options-google-calendar--calendar-list">
-      <label class="options--label">Calendars</label>
+      <label class="options--label">
+        Calendars
+      </label>
       <div v-if="error">
         {{ error }}
       </div>
-      <v-checkbox
+      <VCheckbox
         v-for="calendar in calendars"
         :key="calendar.id"
         :label="calendar.summary"
@@ -19,21 +21,21 @@
       />
     </div>
 
-    <v-input
+    <VInput
       :value="service.days"
       type="number"
       name="googleCalendarDays"
       label="Days from today to show"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.panelWidth"
       type="number"
       name="googleCalendarWidth"
       label="Panel width in px"
       @change="onChange"
     />
-    <v-input
+    <VInput
       :value="service.refresh"
       type="number"
       name="googleCalendarRefresh"
@@ -54,7 +56,7 @@ export default {
     vCheckbox,
     vInput
   },
-  
+
   mixins: [
     vGoogleCalendar
   ],
