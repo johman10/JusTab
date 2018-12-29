@@ -1,6 +1,6 @@
 {
   "name": "JusTab",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "devDependencies": {
     "@babel/core": "^7.2.0",
     "@babel/plugin-proposal-object-rest-spread": ">=7.2.0",
