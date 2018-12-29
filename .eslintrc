@@ -3,9 +3,6 @@
         "parser": "babel-eslint",
         "ecmaVersion": 6,
         "sourceType": "module",
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true
-        }
     },
     "globals": {
         "chrome": true,
