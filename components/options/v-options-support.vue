@@ -11,10 +11,8 @@
     <p>
       The last update contains:
       <ul>
-        <li>Removed Dribbble because they killed their API</li>
         <li>Upgrading dependencies</li>
-        <li>Some small fixes around Gmail to prevent weird rendering</li>
-        <li>Better date parsing for Sonarr</li>
+        <li>Fix Github crawler</li>
         <li>Bug fixes and code improvements</li>
       </ul>
     </p>
