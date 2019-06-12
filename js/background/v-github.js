@@ -26,20 +26,22 @@ export default {
 
     githubBuildJson (html) {
       return new Promise((resolve) => {
-        var repos = [];
-        var parsedDom = document.createElement('html');
+        const repos = [];
+        const parsedDom = document.createElement('html');
         parsedDom.innerHTML = html;
 
-        var repoListItems = parsedDom.querySelectorAll('.repo-list li');
+        const repoListItems = parsedDom.querySelectorAll('.Box article');
         repoListItems.forEach((repoListItem) => {
-          let languageElement = repoListItem.querySelector('[itemprop="programmingLanguage"]');
-          let language = languageElement ? languageElement.innerText.trim() : null;
-          let stars = repoListItem.querySelector('[href$="/stargazers"]').innerText.trim();
-          let urlPath = repoListItem.querySelector('a').getAttribute('href');
-          let title = urlPath.split('/')[urlPath.split('/').length - 1];
-          let owner = urlPath.split('/')[1];
-          let description = repoListItem.querySelector('.text-gray').innerText.trim();
-          let url = 'https://github.com' + urlPath;
+          const languageElement = repoListItem.querySelector('[itemprop="programmingLanguage"]');
+          const language = languageElement ? languageElement.innerText.trim() : null;
+          const starGazersLink = repoListItem.querySelector('[href$="/stargazers"]');
+          const stars = starGazersLink ? starGazersLink.innerText.trim() : 0;
+          const urlPath = repoListItem.querySelector('a').getAttribute('href');
+          const title = urlPath.split('/')[urlPath.split('/').length - 1];
+          const owner = urlPath.split('/')[1];
+          const descriptionElement = repoListItem.querySelector('p.text-gray');
+          const description = descriptionElement ? descriptionElement.innerText.trim() : null;
+          const url = 'https://github.com' + urlPath;
 
           repos.push({
             language,
