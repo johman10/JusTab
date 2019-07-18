@@ -40,7 +40,8 @@ export default {
 
     googleCalendarToken () {
       return new Promise((resolve, reject) => {
-        chrome.identity.getAuthToken({'interactive': true}, function (token) {
+        if (navigator.userAgent === 'puppeteerTest') return resolve('12345');
+        chrome.identity.getAuthToken({ interactive: true }, function (token) {
           if (!token) reject();
           resolve(token);
         });
@@ -57,6 +58,7 @@ export default {
         const apiUrl = `${url}?${params}`;
         promises.push(ajax('GET', apiUrl));
       });
+
 
       return Promise.all(promises)
         .then(function(calendars) {

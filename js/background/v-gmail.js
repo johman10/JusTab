@@ -22,6 +22,7 @@ export default {
 
     gmailToken () {
       return new Promise((resolve, reject) => {
+        if (navigator.userAgent === 'puppeteerTest') return resolve('12345');
         chrome.identity.getAuthToken({'interactive': true}, function (token) {
           if (!token) reject();
           resolve(token);
@@ -115,7 +116,7 @@ export default {
       const messageSubject = mail.payload.headers.Subject || mail.payload.headers.subject || 'No subject';
       const messageFrom = (mail.payload.headers.From || mail.payload.headers.from || 'No sender').replace(/<(.|\n)*?>/, '');
       const messageSnippet = mail.snippet || 'No content';
-      
+
       let messageDate = new Date(mail.payload.headers.Date || mail.payload.headers.date);
       if (dayjs(messageDate).isSame(dayjs(), 'day')) {
         messageDate = dayjs(messageDate).format('HH:mm');

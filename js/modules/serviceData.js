@@ -22,7 +22,7 @@ export let googleCalendar = function() {
       optionsPath: '/googlecalendar',
       refresh: parseFloat(items.googleCalendarRefresh) || 15,
       components: localStorage.googleCalendarComponents || null,
-      calendars: items.googleCalendarCalendars,
+      calendars: items.googleCalendarCalendars || [],
       days: parseInt(items.googleCalendarDays) || 6,
       panelWidth: parseFloat(items.googleCalendarWidth) || 400,
       actions: []
