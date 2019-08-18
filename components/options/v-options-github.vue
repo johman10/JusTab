@@ -3,6 +3,13 @@
     v-if="service"
     class="options-github"
   >
+    <VSelect
+      :options="timeOptions"
+      :value="service.time"
+      name="githubTime"
+      label="Trending within timeframe"
+      @change="onChange"
+    />
     <VInput
       :value="service.panelWidth"
       type="number"
@@ -23,11 +30,24 @@
 <script>
 import { mapState } from 'vuex';
 import VInput from 'components/v-input';
+import VSelect from 'components/v-select';
 
 export default {
   components: {
-    VInput
+    VInput,
+    VSelect
   },
+
+  data () {
+    return {
+      timeOptions: [
+        'daily',
+        'weekly',
+        'monthly'
+      ]
+    };
+  },
+
   computed: {
     ...mapState({
       services: 'services',

@@ -20,7 +20,7 @@ export default {
     },
 
     githubRequest () {
-      var url = 'https://github.com/trending';
+      var url = `https://github.com/trending?since=${this.githubService.time}`;
       return ajax('GET', url);
     },
 

@@ -129,7 +129,8 @@ export let github = function() {
       refresh: parseFloat(items.githubRefresh) || 15,
       panelWidth: parseFloat(items.githubWidth) || 400,
       components: localStorage.githubComponents,
-      actions: ['openUnread']
+      actions: ['openUnread'],
+      time: items.githubTime || 'weekly'
     };
   });
 };
