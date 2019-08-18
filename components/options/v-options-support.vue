@@ -12,7 +12,7 @@
       The last update contains:
       <ul>
         <li>Upgrading dependencies</li>
-        <li>Fix Github crawler</li>
+        <li>Add option for selecting Github trending time</li>
         <li>Bug fixes and code improvements</li>
       </ul>
     </p>
