@@ -8,7 +8,7 @@
     "@babel/preset-env": ">=7.5.5",
     "@vue/test-utils": "^1.0.0-beta.29",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-eslint": "^10.0.2",
+    "babel-eslint": "^10.0.3",
     "babel-loader": ">=8.0.6",
     "chrome-webstore-upload-cli": ">=1.2.0",
     "copy-webpack-plugin": "^5.0.4",
