@@ -1,19 +1,33 @@
 // Docs:
 // http://developers.news.layervault.com/
 import ajax from 'modules/ajax';
+import badgeAma from 'img/dn_badges/badge_ama.svg';
+import badgeApple from 'img/dn_badges/badge_apple.svg';
+import badgeAsk from 'img/dn_badges/badge_ask.svg';
+import badgeCss from 'img/dn_badges/badge_css.svg';
+import badgeDesign from 'img/dn_badges/badge_design.svg';
+import badgeDiscussion from 'img/dn_badges/badge_discussion.svg';
+import badgePinned from 'img/dn_badges/badge_pinned.png';
+import badgePodcast from 'img/dn_badges/badge_podcast.svg';
+import badgeShow from 'img/dn_badges/badge_show.svg';
+import badgeSponsored from 'img/dn_badges/badge_sponsored.svg';
+import badgeType from 'img/dn_badges/badge_type.svg';
+import badgeVideo from 'img/dn_badges/badge_video.svg';
+import fallbackImage from 'img/designernews_fallback.svg';
+
 const badges = {
-  ama: require('img/dn_badges/badge_ama.svg'),
-  apple: require('img/dn_badges/badge_apple.svg'),
-  ask: require('img/dn_badges/badge_ask.svg'),
-  css: require('img/dn_badges/badge_css.svg'),
-  design: require('img/dn_badges/badge_design.svg'),
-  discussion: require('img/dn_badges/badge_discussion.svg'),
-  pinned: require('img/dn_badges/badge_pinned.png'),
-  podcast: require('img/dn_badges/badge_podcast.svg'),
-  show: require('img/dn_badges/badge_show.svg'),
-  sponsored: require('img/dn_badges/badge_sponsored.svg'),
-  type: require('img/dn_badges/badge_type.svg'),
-  video: require('img/dn_badges/badge_video.svg')
+  ama: badgeAma,
+  apple: badgeApple,
+  ask: badgeAsk,
+  css: badgeCss,
+  design: badgeDesign,
+  discussion: badgeDiscussion,
+  pinned: badgePinned,
+  podcast: badgePodcast,
+  show: badgeShow,
+  sponsored: badgeSponsored,
+  type: badgeType,
+  video: badgeVideo
 };
 
 export default {
@@ -50,8 +64,8 @@ export default {
         if (story.badge) {
           badge = {
             src: badges[story.badge],
-            error: require('img/designernews_fallback.svg'),
-            loading: require('img/designernews_fallback.svg')
+            error: fallbackImage,
+            loading: fallbackImage
           };
         }
 

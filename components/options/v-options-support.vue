@@ -64,6 +64,7 @@
 
 <script>
 import VButton from 'components/v-button';
+import paypalImage from 'img/paypal.svg';
 
 export default {
   components: {
@@ -71,7 +72,7 @@ export default {
   },
   data () {
     return {
-      paypalImage: require('img/paypal.svg')
+      paypalImage
     };
   }
 };

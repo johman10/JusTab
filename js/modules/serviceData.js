@@ -1,4 +1,15 @@
 import urlNormalize from 'modules/url-normalize';
+import gcHeader from 'img/GC_header.svg';
+import gmHeader from 'img/GM_header.svg';
+import cpHeader from 'img/CP_header.webp';
+import dnHeader from 'img/DN_header.svg';
+import hnHeader from 'img/HN_header.svg';
+import ghHeader from 'img/GH_header.svg';
+import phHeader from 'img/PH_header.svg';
+import rdHeader from 'img/RD_header.svg';
+import ngHeader from 'img/NG_header.webp';
+import soHeader from 'img/SO_header.svg';
+import tmHeader from 'img/TM_header.webp';
 
 function chromeStorage () {
   return new Promise(function(resolve) {
@@ -15,7 +26,7 @@ export let googleCalendar = function() {
       name: 'Google Calendar',
       url: urlNormalize('https://calendar.google.com/'),
       color: '#4285f4',
-      logo: require('img/GC_header.svg'),
+      logo: gcHeader,
       error: localStorage.googleCalendarError || null,
       active: typeof items.googleCalendarActive === 'boolean' ? items.googleCalendarActive : true,
       functionName: 'googleCalendar',
@@ -37,7 +48,7 @@ export let gmail = function() {
       name: 'Gmail',
       url: urlNormalize('https://gmail.com/'),
       color: '#e04a3f',
-      logo: require('img/GM_header.svg'),
+      logo: gmHeader,
       error: localStorage.gmailError || null,
       active: typeof items.gmailActive === 'boolean' ? items.gmailActive : true,
       functionName: 'gmail',
@@ -58,7 +69,7 @@ export let couchPotato = function() {
       id: 3,
       name: 'CouchPotato',
       color: '#4e5969',
-      logo: require('img/CP_header.webp'),
+      logo: cpHeader,
       active: typeof items.couchPotatoActive === 'boolean' ? items.couchPotatoActive : true,
       refresh: parseFloat(items.couchPotatoRefresh) || 15,
       url: urlNormalize(items.couchPotatoUrl),
@@ -80,7 +91,7 @@ export let designerNews = function() {
       name: 'Designer News',
       url: urlNormalize('https://www.designernews.co/'),
       color: '#1c52a2',
-      logo: require('img/DN_header.svg'),
+      logo: dnHeader,
       error: localStorage.designerNewsError || null,
       active: typeof items.designerNewsActive === 'boolean' ? items.designerNewsActive : true,
       functionName: 'designerNews',
@@ -100,7 +111,7 @@ export let hackerNews = function() {
       name: 'Hacker News',
       url: urlNormalize('https://news.ycombinator.com/'),
       color: '#f60',
-      logo: require('img/HN_header.svg'),
+      logo: hnHeader,
       error: localStorage.hackerNewsError || null,
       active: typeof items.hackerNewsActive === 'boolean' ? items.hackerNewsActive : true,
       functionName: 'hackerNews',
@@ -121,7 +132,7 @@ export let github = function() {
       name: 'Github',
       url: urlNormalize('https://github.com/trending/'),
       color: '#000',
-      logo: require('img/GH_header.svg'),
+      logo: ghHeader,
       error: localStorage.githubError || null,
       active: typeof items.githubActive === 'boolean' ? items.githubActive : true,
       functionName: 'github',
@@ -142,7 +153,7 @@ export let productHunt = function() {
       name: 'Product Hunt',
       url: urlNormalize('https://www.producthunt.com/'),
       color: '#df5337',
-      logo: require('img/PH_header.svg'),
+      logo: phHeader,
       error: localStorage.productHuntError || null,
       active: typeof items.productHuntActive === 'boolean' ? items.productHuntActive : true,
       functionName: 'productHunt',
@@ -162,7 +173,7 @@ export let reddit = function() {
       name: 'Reddit',
       url: urlNormalize('https://www.reddit.com/'),
       color: '#CFE3FA',
-      logo: require('img/RD_header.svg'),
+      logo: rdHeader,
       error: localStorage.redditError || null,
       active: typeof items.redditActive === 'boolean' ? items.redditActive : true,
       functionName: 'reddit',
@@ -184,7 +195,7 @@ export let nzbget = function() {
       id: 12,
       name: 'NZBGet',
       color: '#282828',
-      logo: require('img/NG_header.webp'),
+      logo: ngHeader,
       active: typeof items.nzbgetActive === 'boolean' ? items.nzbgetActive : true,
       url: urlNormalize(items.nzbgetUrl),
       username: items.nzbgetUsername,
@@ -206,7 +217,7 @@ export let sonarr = function() {
       id: 13,
       name: 'Sonarr',
       color: '#5FB9EF',
-      logo: require('img/SO_header.svg'),
+      logo: soHeader,
       error: localStorage.sonarrError || null,
       active: typeof items.sonarrActive === 'boolean' ? items.sonarrActive : true,
       functionName: 'sonarr',
@@ -227,7 +238,7 @@ export let transmission = function() {
       id: 14,
       name: 'Transmission',
       color: '#B50D11',
-      logo: require('img/TM_header.webp'),
+      logo: tmHeader,
       error: localStorage.transmissionError || null,
       active: typeof items.transmissionActive === 'boolean' ? items.transmissionActive : true,
       functionName: 'transmission',
