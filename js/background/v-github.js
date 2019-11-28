@@ -26,31 +26,27 @@ export default {
 
     githubBuildJson (html) {
       return new Promise((resolve) => {
-        const repos = [];
         const parsedDom = document.createElement('html');
         parsedDom.innerHTML = html;
 
-        const repoListItems = parsedDom.querySelectorAll('.Box article');
-        repoListItems.forEach((repoListItem) => {
+        const repoListItems = Array.from(parsedDom.querySelectorAll('article'));
+        const repos = repoListItems.map((repoListItem) => {
           const languageElement = repoListItem.querySelector('[itemprop="programmingLanguage"]');
-          const language = languageElement ? languageElement.innerText.trim() : null;
-          const starGazersLink = repoListItem.querySelector('[href$="/stargazers"]');
-          const stars = starGazersLink ? starGazersLink.innerText.trim() : 0;
-          const urlPath = repoListItem.querySelector('a').getAttribute('href');
-          const title = urlPath.split('/')[urlPath.split('/').length - 1];
-          const owner = urlPath.split('/')[1];
+          const starGazersLink = repoListItem.querySelector('[href*="/stargazers"]');
+          const repoLink = repoListItem.querySelector('a:not([href*="login"])');
+          const repoInfo = repoLink.innerText.trim().replace(/[ \n]/g, '');
           const descriptionElement = repoListItem.querySelector('p.text-gray');
-          const description = descriptionElement ? descriptionElement.innerText.trim() : null;
-          const url = 'https://github.com' + urlPath;
+          const title = repoInfo.split('/')[1];
+          const owner = repoInfo.split('/')[0];
 
-          repos.push({
-            language,
-            stars,
+          return {
+            language: languageElement ? languageElement.innerText.trim() : null,
+            stars: starGazersLink ? starGazersLink.innerText.trim() : 0,
             title,
             owner,
-            description,
-            url
-          });
+            description: descriptionElement ? descriptionElement.innerText.trim() : null,
+            url: `https://github.com/${owner}/${title}`
+          };
         });
 
         resolve(repos);
