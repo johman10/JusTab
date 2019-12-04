@@ -85,7 +85,8 @@ module.exports = {
     ]
   },
   devServer: {
-    inline: true
+    inline: true,
+    disableHostCheck: true
   },
   devtool: JSON.stringify(process.env.NODE_ENV) === 'development' ? 'eval-source-map' : 'source-map',
   plugins: [
