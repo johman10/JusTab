@@ -13,11 +13,10 @@
       <VCheckbox
         v-for="calendar in calendars"
         :key="calendar.id"
+        v-model="activeCalendars"
         :label="calendar.summary"
         :name="calendar.id"
-        :value="calendar.id"
-        :checked="checkedCalendar(calendar.id)"
-        @change="onCalendarChange"
+        :val="calendar.id"
       />
     </div>
 
@@ -75,9 +74,17 @@ export default {
         return state.services.find((s) => s.id === 1);
       }
     }),
-    activeCalendars () {
-      if (!this.service) return [];
-      return this.service.calendars || [];
+    activeCalendars: {
+      get() {
+        if (!this.service) return [];
+        return (this.service.calendars || []).filter(calendarId => (
+          // Filter calendars from previously selected list if they don't exist anymore in the latest version of the list
+          this.calendars.some(calendar => calendar.id === calendarId)
+        ));
+      },
+      set(value) {
+        this.onChange('googleCalendarCalendars', value);
+      }
     }
   },
 
@@ -92,20 +99,6 @@ export default {
   },
 
   methods: {
-    onCalendarChange (name, value) {
-      let newCalendars = [].concat(this.activeCalendars);
-      if (this.activeCalendars.includes(value)) {
-        let index = newCalendars.indexOf(value);
-        newCalendars.splice(index, 1);
-      } else {
-        newCalendars.push(value);
-      }
-      this.saveData(this.service.id, 'googleCalendarCalendars', newCalendars);
-    },
-    checkedCalendar (id) {
-      if (!this.service) return false;
-      return this.activeCalendars.includes(id);
-    },
     onChange (name, newVal) {
       this.saveData(this.service.id, name, newVal);
     }

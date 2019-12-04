@@ -10,10 +10,9 @@
       @change="onChange"
     />
     <VCheckbox
-      :checked="service.nsfw"
+      v-model="showNsfw"
       name="redditNsfw"
       label="Show NSFW"
-      @change="onCheckboxChange"
     />
     <VSelect
       :options="sortingOptions"
@@ -80,16 +79,20 @@ export default {
       service (state) {
         return state.services.find((s) => s.id === 11);
       }
-    })
+    }),
+    showNsfw: {
+      get() {
+        return this.service.nsfw;
+      },
+      set(val) {
+        this.onChange('redditNsfw', val);
+      }
+    }
   },
 
   methods: {
     onChange (name, newVal) {
       this.saveData(this.service.id, name, newVal);
-    },
-
-    onCheckboxChange (name) {
-      this.saveData(this.service.id, name, !this.service.nsfw);
     }
   },
 };

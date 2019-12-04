@@ -2,8 +2,8 @@
   <div class="checkbox">
     <input
       :id="name"
-      :value="value"
-      :checked="checked"
+      v-model="checked"
+      :value="val"
       type="checkbox"
       class="checkbox--actual"
       @change="onChange"
@@ -30,22 +30,39 @@ export default {
       required: true
     },
     value: {
+      type: [Boolean, Array],
+      required: true
+    },
+    val: {
       type: [String, Boolean],
       default: false
     },
     label: {
       type: String,
       required: true
-    },
+    }
+  },
+
+  data() {
+    return {
+      checkedProxy: false,
+    };
+  },
+
+  computed: {
     checked: {
-      type: Boolean,
-      default: false
+      get () {
+        return this.value;
+      },
+      set (val) {
+        this.checkedProxy = val;
+      }
     }
   },
 
   methods: {
     onChange () {
-      this.$emit('change', this.name, this.value);
+      this.$emit('input', this.checkedProxy);
     }
   }
 };
