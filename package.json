@@ -34,7 +34,7 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
-    "dayjs": "^1.8.17",
+    "dayjs": "^1.8.18",
     "dragula": ">=3.7.1",
     "vue": "^2.6.11",
     "vue-lazyload": "^1.3.3",
