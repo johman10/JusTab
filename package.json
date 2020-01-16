@@ -20,7 +20,7 @@
     "jest": "^24.9.0",
     "jsdom": "^15.2.1",
     "mversion": ">=1.13.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "sass-loader": "^7.3.1",
     "style-loader": "^1.1.2",
     "uglifyjs-webpack-plugin": "^2.2.0",
