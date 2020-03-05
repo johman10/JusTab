@@ -2,9 +2,9 @@
 // https://github.com/Sonarr/Sonarr/wiki/API
 
 import dayjs from 'dayjs';
-import ajax from '~modules/ajax';
-import dateFormat from '~modules/date-format';
-import imageResize from '~modules/image-resize';
+import ajax from 'modules/ajax';
+import dateFormat from 'modules/date-format';
+import imageResize from 'modules/image-resize';
 
 export default {
   computed: {

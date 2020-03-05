@@ -1,7 +1,7 @@
 // Docs:
 // https://github.com/nzbget/nzbget/wiki/API
 
-import ajax from '~modules/ajax';
+import ajax from 'modules/ajax';
 
 export default {
   computed: {

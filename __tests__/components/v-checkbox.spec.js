@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import VCheckbox from '~components/v-checkbox';
+import VCheckbox from 'components/v-checkbox';
 
 describe('v-checkbox', () => {
   const componentFactory = (propsData = {}) => {

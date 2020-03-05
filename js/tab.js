@@ -1,12 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import VTab from '~components/v-tab';
+import VTab from 'components/v-tab';
 import VueLazyload from 'vue-lazyload';
-import store from '~store/index';
+import store from 'store/index';
 import { mapActions } from 'vuex';
-import posterFallback from '~img/poster_fallback.png';
+import posterFallback from 'img/poster_fallback.png';
 
-import ripple from '~modules/ripple';
+import ripple from 'modules/ripple';
 
 Vue.mixin(ripple);
 Vue.use(VueLazyload, {

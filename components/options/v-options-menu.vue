@@ -33,7 +33,7 @@ src="css/options/v-options-menu.scss"></style>
 <script>
 import { mapGetters } from 'vuex';
 import dragula from 'dragula';
-import VSwitch from '~components/v-switch';
+import VSwitch from 'components/v-switch';
 
 export default {
   components: {

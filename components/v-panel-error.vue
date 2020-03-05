@@ -27,7 +27,7 @@
 <style src="css/v-panel-error.scss"></style>
 
 <script>
-import VButton from '~components/v-button';
+import VButton from 'components/v-button';
 
 export default {
   components: {

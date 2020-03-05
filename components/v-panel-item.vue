@@ -64,8 +64,8 @@ src="css/v-panel-item.scss"
 ></style>
 
 <script>
-import dynamicImportComponent from '~modules/dynamic-import-component';
-import VPanelItemContent from '~components/v-panel-item-content';
+import dynamicImportComponent from 'modules/dynamic-import-component';
+import VPanelItemContent from 'components/v-panel-item-content';
 
 export default {
   components: {

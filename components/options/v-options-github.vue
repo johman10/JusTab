@@ -29,8 +29,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import VInput from '~components/v-input';
-import VSelect from '~components/v-select';
+import VInput from 'components/v-input';
+import VSelect from 'components/v-select';
 
 export default {
   components: {

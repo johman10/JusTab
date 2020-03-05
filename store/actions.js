@@ -1,5 +1,5 @@
-import * as types from '~store/mutation-types';
-import * as serviceData from '~modules/serviceData';
+import * as types from 'store/mutation-types';
+import * as serviceData from 'modules/serviceData';
 
 // Loads all services into the state
 export const loadServices = ({ commit }) => {

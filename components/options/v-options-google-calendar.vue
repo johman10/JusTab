@@ -46,9 +46,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import VGoogleCalendar from '~js/background/v-google-calendar';
-import VCheckbox from '~components/v-checkbox';
-import VInput from '~components/v-input';
+import VGoogleCalendar from 'js/background/v-google-calendar';
+import VCheckbox from 'components/v-checkbox';
+import VInput from 'components/v-input';
 
 export default {
   components: {
