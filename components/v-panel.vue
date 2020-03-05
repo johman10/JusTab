@@ -39,8 +39,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import dynamicImportComponent from 'modules/dynamic-import-component';
-import VPanelHeader from 'components/v-panel-header';
+import dynamicImportComponent from '~modules/dynamic-import-component';
+import VPanelHeader from '~components/v-panel-header';
 
 export default {
   components: {

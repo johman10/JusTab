@@ -19,7 +19,7 @@ export default function imageResize (imageUrl) {
     };
 
     image.onerror = function () {
-      resolve('img/poster_fallback.png');
+      resolve('~img/poster_fallback.png');
     };
 
     image.src = imageUrl;

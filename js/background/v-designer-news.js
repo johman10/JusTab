@@ -1,19 +1,19 @@
 // Docs:
 // http://developers.news.layervault.com/
-import ajax from 'modules/ajax';
-import badgeAma from 'img/dn_badges/badge_ama.svg';
-import badgeApple from 'img/dn_badges/badge_apple.svg';
-import badgeAsk from 'img/dn_badges/badge_ask.svg';
-import badgeCss from 'img/dn_badges/badge_css.svg';
-import badgeDesign from 'img/dn_badges/badge_design.svg';
-import badgeDiscussion from 'img/dn_badges/badge_discussion.svg';
-import badgePinned from 'img/dn_badges/badge_pinned.png';
-import badgePodcast from 'img/dn_badges/badge_podcast.svg';
-import badgeShow from 'img/dn_badges/badge_show.svg';
-import badgeSponsored from 'img/dn_badges/badge_sponsored.svg';
-import badgeType from 'img/dn_badges/badge_type.svg';
-import badgeVideo from 'img/dn_badges/badge_video.svg';
-import fallbackImage from 'img/designernews_fallback.svg';
+import ajax from '~modules/ajax';
+import badgeAma from '~img/dn_badges/badge_ama.svg';
+import badgeApple from '~img/dn_badges/badge_apple.svg';
+import badgeAsk from '~img/dn_badges/badge_ask.svg';
+import badgeCss from '~img/dn_badges/badge_css.svg';
+import badgeDesign from '~img/dn_badges/badge_design.svg';
+import badgeDiscussion from '~img/dn_badges/badge_discussion.svg';
+import badgePinned from '~img/dn_badges/badge_pinned.png';
+import badgePodcast from '~img/dn_badges/badge_podcast.svg';
+import badgeShow from '~img/dn_badges/badge_show.svg';
+import badgeSponsored from '~img/dn_badges/badge_sponsored.svg';
+import badgeType from '~img/dn_badges/badge_type.svg';
+import badgeVideo from '~img/dn_badges/badge_video.svg';
+import fallbackImage from '~img/designernews_fallback.svg';
 
 const badges = {
   ama: badgeAma,

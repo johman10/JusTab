@@ -63,8 +63,8 @@
 <style src="css/options/v-options-support.scss"></style>
 
 <script>
-import VButton from 'components/v-button';
-import paypalImage from 'img/paypal.svg';
+import VButton from '~components/v-button';
+import paypalImage from '~img/paypal.svg';
 
 export default {
   components: {

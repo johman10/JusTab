@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import ajax from 'modules/ajax';
-import dateFormat from 'modules/date-format';
+import ajax from '~modules/ajax';
+import dateFormat from '~modules/date-format';
 
 export default {
   computed: {

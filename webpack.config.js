@@ -36,14 +36,12 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
-      'vue$': 'vue/dist/vue.esm',
-      'store': path.join(__dirname, '/store'),
-      'modules': path.join(__dirname, '/js/modules'),
-      'img': path.join(__dirname, '/img'),
-      'js': path.join(__dirname, '/js'),
-      'css': path.join(__dirname, '/style/sass'),
-      'components': path.join(__dirname, '/components'),
-      'test': path.join(__dirname, '/__tests__')
+      '~vue$': 'vue/dist/vue.esm',
+      '~store': path.join(__dirname, '/store'),
+      '~modules': path.join(__dirname, '/js/modules'),
+      '~img': path.join(__dirname, '/img'),
+      '~js': path.join(__dirname, '/js'),
+      '~components': path.join(__dirname, '/components'),
     }
   },
   optimization: {
@@ -125,7 +123,7 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: 'manifest.json' },
-      { from: 'img/app_icons', to: 'img/app_icons'}
+      { from: '~img/app_icons', to: '~img/app_icons'}
     ])
   ]
 };

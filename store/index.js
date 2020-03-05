@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import mutations from 'store/mutations';
-import * as getters from 'store/getters';
-import * as actions from 'store/actions';
+import mutations from '~store/mutations';
+import * as getters from '~store/getters';
+import * as actions from '~store/actions';
 import createLogger from 'vuex/dist/logger';
 
 Vue.use(Vuex);

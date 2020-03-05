@@ -19,8 +19,8 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
-import VPanel from 'components/v-panel';
-import VFab from 'components/v-fab';
+import VPanel from '~components/v-panel';
+import VFab from '~components/v-fab';
 
 export default {
   components: {

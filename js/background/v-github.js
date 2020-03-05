@@ -1,4 +1,4 @@
-import ajax from 'modules/ajax';
+import ajax from '~modules/ajax';
 
 export default {
   computed: {
