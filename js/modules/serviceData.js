@@ -10,6 +10,7 @@ import rdHeader from 'img/RD_header.svg';
 import ngHeader from 'img/NG_header.webp';
 import soHeader from 'img/SO_header.svg';
 import tmHeader from 'img/TM_header.webp';
+import raHeader from 'img/RA_header.svg';
 
 function chromeStorage () {
   return new Promise(function(resolve) {
@@ -254,6 +255,27 @@ export let transmission = function() {
   });
 };
 
+export let radarr = function() {
+  return chromeStorage().then(function(items) {
+    return {
+      id: 15,
+      name: 'Radarr',
+      color: '#FFC230',
+      logo: raHeader,
+      error: localStorage.radarrError || null,
+      active: typeof items.radarrActive === 'boolean' ? items.radarrActive : true,
+      functionName: 'radarr',
+      optionsPath: '/radarr',
+      refresh: parseFloat(items.radarrRefresh) || 15,
+      url: urlNormalize(items.radarrUrl),
+      key: items.radarrKey,
+      panelWidth: parseFloat(items.radarrWidth) || 400,
+      components: localStorage.radarrComponents,
+      actions: []
+    };
+  });
+};
+
 const serviceData = [
   googleCalendar,
   gmail,
@@ -265,7 +287,8 @@ const serviceData = [
   reddit,
   nzbget,
   sonarr,
-  transmission
+  transmission,
+  radarr
 ];
 
 export default serviceData;

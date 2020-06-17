@@ -13,6 +13,7 @@ At this moment it supports:
 - [Reddit](https://www.reddit.com)
 - [NZBGet](http://nzbget.net)
 - [Sonarr](https://www.sonarr.tv)
+- [Radarr](https://www.radarr.video)
 
 ## Installation
 You can download this extension in the Chrome Webstore go to:

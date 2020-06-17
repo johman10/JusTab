@@ -20,6 +20,7 @@ const vOptionsNzbget = dynamicImportComponent('options/v-options-nzbget');
 const vOptionsSonarr = dynamicImportComponent('options/v-options-sonarr');
 const vOptionsSupport = dynamicImportComponent('options/v-options-support');
 const vOptionsTransmission = dynamicImportComponent('options/v-options-transmission');
+const vOptionsRadarr = dynamicImportComponent('options/v-options-radarr');
 
 Vue.use(Vuex);
 Vue.mixin(ripple);
@@ -52,7 +53,8 @@ const routes = [
   { path: '/nzbget', component: vOptionsNzbget },
   { path: '/sonarr', component: vOptionsSonarr },
   { path: '/transmission', component: vOptionsTransmission },
-  { path: '/support', component: vOptionsSupport }
+  { path: '/radarr', component: vOptionsRadarr },
+  { path: '/support', component: vOptionsSupport },
 ];
 
 const router = new VueRouter({

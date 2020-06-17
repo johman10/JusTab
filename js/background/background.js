@@ -12,6 +12,7 @@ import VReddit from 'js/background/v-reddit';
 import VNzbget from 'js/background/v-nzbget';
 import VSonarr from 'js/background/v-sonarr';
 import VTransmission from 'js/background/v-transmission';
+import VRadarr from 'js/background/v-radarr';
 
 let vueInstance = new Vue({
   store,
@@ -26,7 +27,8 @@ let vueInstance = new Vue({
     VReddit,
     VNzbget,
     VSonarr,
-    VTransmission
+    VTransmission,
+    VRadarr
   ],
   computed: {
     ...mapState(['services'])
