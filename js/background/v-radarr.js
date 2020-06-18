@@ -16,7 +16,7 @@ export default {
     radarr () {
       localStorage.setItem('radarrError', false);
       return this.radarrMovies()
-        .then(this.radarrWantedAndUpcoming)
+        .then(this.radarrLists)
         .then(this.radarrImages)
         .then(this.radarrComponents)
         .catch((error) => {
@@ -32,7 +32,7 @@ export default {
       return ajax('GET', apiUrl);
     },
 
-    radarrWantedAndUpcoming (movies) {
+    radarrLists (movies) {
       const released = [];
       const inCinemas = [];
       const wanted = [];
@@ -40,11 +40,12 @@ export default {
       movies.forEach(movie => {
         const daysToCinema = dayjs(movie.inCinemas).diff(today, 'days');
         const daysToPhysical = dayjs(movie.physicalRelease).diff(today, 'days');
-        if (!movie.hasFile && movie.monitored && daysToPhysical < 0 && daysToPhysical > -14) {
+        if (movie.hasFile || !movie.monitored) return;
+        if (daysToPhysical < 0 && daysToPhysical > -14) {
           released.push(movie);
-        } else if (!movie.hasFile && movie.monitored && daysToCinema < 0 && daysToCinema > -14) {
+        } else if (daysToCinema < 0 && daysToCinema > -14) {
           inCinemas.push(movie);
-        } else if (movie.monitored) {
+        } else  {
           wanted.push(movie);
         }
       });
