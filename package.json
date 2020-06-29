@@ -39,7 +39,7 @@
     "vue": "^2.6.11",
     "vue-lazyload": "^1.3.3",
     "vue-router": ">=3.3.4",
-    "vuex": ">=3.4.0"
+    "vuex": ">=3.5.1"
   },
   "scripts": {
     "start": "NODE_ENV=development webpack && NODE_ENV=development node_modules/.bin/webpack-dev-server",
