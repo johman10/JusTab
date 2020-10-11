@@ -17,7 +17,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "file-loader": ">=6.1.1",
     "html-webpack-plugin": "^4.5.0",
-    "jest": "^25.5.4",
+    "jest": "^26.5.2",
     "jsdom": "^16.4.0",
     "mversion": ">=2.0.1",
     "node-sass": "^4.14.1",
