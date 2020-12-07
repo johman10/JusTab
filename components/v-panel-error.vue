@@ -43,7 +43,7 @@ export default {
 
   methods: {
     openSettings () {
-      window.location = `chrome-extension://ahfidkanlmlkhggdgencpoanjkokcfck/options.html#/${this.serviceName.toLowerCase()}`;
+      window.location = `chrome-extension://ahfidkanlmlkhggdgencpoanjkokcfck/options.html#/${this.serviceName.toLowerCase().split(' ').join('')}`;
     },
     triggerRefresh () {
       this.$emit('refresh');

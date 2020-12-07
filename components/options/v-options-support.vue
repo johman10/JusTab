@@ -14,7 +14,7 @@
         <li>Add Radarr support</li>
         <li>Upgrading dependencies</li>
         <li>Fix options being empty</li>
-        <li>Bug fixes and code improvements</li>
+        <li>Fix options link in the panel error</li>
       </ul>
     </p>
     <h2>Questions</h2>
