@@ -9,7 +9,7 @@ restore_cache: &restore_cache
       - v1-dependencies-
 
 docker: &docker
-  - image: circleci/node:10.4
+  - image: circleci/node:14
 
 attach_workspace: &attach_workspace
   attach_workspace:
@@ -32,7 +32,7 @@ jobs:
     steps:
       - *attach_workspace
       - *restore_cache
-      - run: npm install
+      - run: npm ci
       - save_cache:
           paths:
             - node_modules
