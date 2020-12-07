@@ -5,7 +5,7 @@
   @include paper-shadow();
   float: left;
   height: calc(100vh - 64px);
-  overflow: scroll;
+  overflow: auto;
   padding: 8px 0 48px;
   position: relative;
   transition: width 400ms;
