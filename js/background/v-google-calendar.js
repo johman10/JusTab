@@ -41,7 +41,7 @@ export default {
     googleCalendarToken () {
       return new Promise((resolve, reject) => {
         chrome.identity.getAuthToken({'interactive': true}, function (token) {
-          if (!token) reject();
+          if (!token) return reject();
           resolve(token);
         });
       });
