@@ -11,8 +11,9 @@
     <p>
       The last update contains:
       <ul>
+        <li>Add Radarr support</li>
         <li>Upgrading dependencies</li>
-        <li>Add option for selecting Github trending time</li>
+        <li>Fix options being empty</li>
         <li>Bug fixes and code improvements</li>
       </ul>
     </p>
