@@ -23,7 +23,7 @@ describe('v-button', () => {
   describe('content', () => {
     it('parses HTML content', () => {
       const wrapper = componentFactory({ content: '<div class="test-element">Hello</div>' });
-      expect(wrapper.contains('.test-element')).toBe(true);
+      expect(wrapper.find('.test-element').exists()).toBe(true);
       expect(wrapper.text()).toBe('Hello');
     });
   });

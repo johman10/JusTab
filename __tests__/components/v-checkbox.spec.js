@@ -15,12 +15,12 @@ describe('v-checkbox', () => {
   describe('structure', () => {
     it('contains an actual checkbox', () => {
       const wrapper = componentFactory();
-      expect(wrapper.contains('input[type="checkbox"]')).toBe(true);
+      expect(wrapper.find('input[type="checkbox"]').exists()).toBe(true);
     });
 
     it('contains a styled checkbox', () => {
       const wrapper = componentFactory();
-      expect(wrapper.contains('.checkbox--styled')).toBe(true);
+      expect(wrapper.find('.checkbox--styled').exists()).toBe(true);
     });
   });
 

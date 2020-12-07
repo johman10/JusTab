@@ -18,7 +18,7 @@ describe('ripple', () => {
 
   it('adds the ripple element with the right class on click', () => {
     wrapper.trigger('mousedown');
-    expect(wrapper.contains('.ripple__element')).toBe(true);
+    expect(wrapper.find('.ripple__element').exists()).toBe(true);
   });
 
   describe('remove ripple element', () => {
@@ -35,7 +35,7 @@ describe('ripple', () => {
       wrapper.trigger('mouseup');
       // Timeout for delay of removing
       setTimeout(() => {
-        expect(wrapper.contains('.ripple__element')).toBe(false);
+        expect(wrapper.find('.ripple__element').exists()).toBe(false);
         done();
       }, 350);
     });
@@ -44,7 +44,7 @@ describe('ripple', () => {
       wrapper.trigger('mouseleave');
       // Timeout for delay of removing
       setTimeout(() => {
-        expect(wrapper.contains('.ripple__element')).toBe(false);
+        expect(wrapper.find('.ripple__element').exists()).toBe(false);
         done();
       }, 350);
     });
