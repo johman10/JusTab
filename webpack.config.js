@@ -123,9 +123,11 @@ module.exports = {
       prefetch: ['commons.bundle.js', 'background.bundle.js'],
       preload: ['commons.bundle.js', 'background.bundle.js']
     }),
-    new CopyWebpackPlugin([
-      { from: 'manifest.json' },
-      { from: 'img/app_icons', to: 'img/app_icons'}
-    ])
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'manifest.json' },
+        { from: 'img/app_icons', to: 'img/app_icons'}
+      ]
+    })
   ]
 };
