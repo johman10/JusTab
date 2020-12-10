@@ -4,9 +4,7 @@ root: &root
 restore_cache: &restore_cache
   restore_cache:
     keys:
-      - v1-dependencies-{{ checksum "package-lock.json" }}
-      # fallback to using the latest cache if no exact match is found
-      - v1-dependencies-
+      - v2-dependencies-{{ checksum "package-lock.json" }}
 
 docker: &docker
   - image: circleci/node:14
@@ -36,7 +34,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          key: v2-dependencies-{{ checksum "package-lock.json" }}
 
   build:
     docker: *docker
