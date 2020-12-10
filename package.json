@@ -34,12 +34,12 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "dayjs": "^1.9.7",
-    "dragula": "^3.7.3",
+    "dayjs": "^1.9.6",
+    "dragula": ">=3.7.3",
     "vue": "^2.6.12",
     "vue-lazyload": "^1.3.3",
-    "vue-router": "^3.4.9",
-    "vuex": "^3.6.0"
+    "vue-router": ">=3.4.9",
+    "vuex": ">=3.6.0"
   },
   "scripts": {
     "start": "NODE_ENV=development webpack && NODE_ENV=development node_modules/.bin/webpack-dev-server",
