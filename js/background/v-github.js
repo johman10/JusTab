@@ -33,7 +33,7 @@ export default {
         const repos = repoListItems.map((repoListItem) => {
           const languageElement = repoListItem.querySelector('[itemprop="programmingLanguage"]');
           const starGazersLink = repoListItem.querySelector('[href*="/stargazers"]');
-          const repoLink = repoListItem.querySelector('a:not([href*="login"])');
+          const repoLink = repoListItem.querySelector('a:not([href*="login"]):not([aria-label*="Sponsor @"])');
           const repoInfo = repoLink.innerText.trim().replace(/[ \n]/g, '');
           const descriptionElement = repoListItem.querySelector('p.text-gray');
           const title = repoInfo.split('/')[1];
