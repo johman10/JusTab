@@ -21,8 +21,8 @@
     <p>
       If you have any questions or ideas, shoot me a message:<br> <VButton
         class="options-support__button"
-        type="raised"
-        href="mailto:johveck@gmail.com"
+        look="raised"
+        @click="onMailButtonClick"
       >
         Send me an e-mail
       </VButton>
@@ -48,7 +48,8 @@
       >
       <VButton
         class="options-support__button"
-        type="raised"
+        type="submit"
+        look="raised"
         alt="Donate"
       >
         <img
@@ -60,8 +61,6 @@
     </form>
   </div>
 </template>
-
-<style src="css/options/v-options-support.scss"></style>
 
 <script>
 import VButton from 'components/v-button';
@@ -75,6 +74,13 @@ export default {
     return {
       paypalImage
     };
+  },
+  methods: {
+    onMailButtonClick: () => {
+      window.location.href = 'mailto:johveck@gmail.com';
+    }
   }
 };
 </script>
+
+<style src="css/options/v-options-support.scss"></style>

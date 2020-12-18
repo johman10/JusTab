@@ -5,14 +5,14 @@
     </p>
     <div class="panel-error-buttons">
       <VButton
-        type="flat"
+        look="flat"
         class="panel-error-settings-button"
         @click="openSettings"
       >
         Settings
       </VButton>
       <VButton
-        type="flat"
+        look="flat"
         class="panel-error-retry-button"
         @click="triggerRefresh"
       >

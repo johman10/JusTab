@@ -6,7 +6,7 @@
     <VButton
       v-if="service.actions.includes('openUnread')"
       class="service-actions--button"
-      type="flat"
+      look="flat"
       @click="openUnread(service)"
     >
       Open unread
