@@ -20,8 +20,6 @@
   </div>
 </template>
 
-<style src="css/v-checkbox.scss"></style>
-
 <script>
 export default {
   props: {
@@ -67,3 +65,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/v-checkbox.scss"></style>

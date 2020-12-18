@@ -12,8 +12,6 @@
   </div>
 </template>
 
-<style src="css/options/v-options.scss"></style>
-
 <script>
 import VOptionsMenu from 'components/options/v-options-menu';
 import VPageHeader from 'components/v-page-header';
@@ -60,3 +58,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/options/v-options.scss"></style>

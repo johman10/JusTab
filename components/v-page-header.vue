@@ -16,8 +16,6 @@
   </div>
 </template>
 
-<style src="css/v-page-header.scss"></style>
-
 <script>
 export default {
   props: {
@@ -38,3 +36,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/v-page-header.scss"></style>

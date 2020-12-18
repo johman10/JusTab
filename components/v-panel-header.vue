@@ -53,8 +53,6 @@
   </div>
 </template>
 
-<style src="css/v-panel-header.scss"></style>
-
 <script>
 import dynamicImportComponent from 'modules/dynamic-import-component';
 
@@ -135,3 +133,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/v-panel-header.scss"></style>

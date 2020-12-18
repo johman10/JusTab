@@ -4,8 +4,6 @@
   </h2>
 </template>
 
-<style src="css/v-panel-subheader.scss"></style>
-
 <script>
 export default {
   props: {
@@ -18,3 +16,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/v-panel-subheader.scss"></style>

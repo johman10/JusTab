@@ -15,8 +15,6 @@
   </div>
 </template>
 
-<style src="css/v-tab.scss"></style>
-
 <script>
 import { mapState, mapGetters } from 'vuex';
 import VPanel from 'components/v-panel';
@@ -33,3 +31,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/v-tab.scss"></style>

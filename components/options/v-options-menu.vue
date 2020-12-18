@@ -27,9 +27,6 @@
   </nav>
 </template>
 
-<style
-src="css/options/v-options-menu.scss"></style>
-
 <script>
 import { mapGetters } from 'vuex';
 import dragula from 'dragula';
@@ -79,3 +76,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/options/v-options-menu.scss"></style>

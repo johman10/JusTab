@@ -43,10 +43,7 @@
   </div>
 </template>
 
-<style src="css/v-panel-item-content.scss"></style>
-
 <script>
-
 export default {
   props: {
     title: {
@@ -76,3 +73,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/v-panel-item-content.scss"></style>

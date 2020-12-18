@@ -24,8 +24,6 @@
   </div>
 </template>
 
-<style src="css/v-panel-error.scss"></style>
-
 <script>
 import VButton from 'components/v-button';
 
@@ -51,3 +49,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/v-panel-error.scss"></style>

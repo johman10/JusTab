@@ -35,8 +35,6 @@
   </div>
 </template>
 
-<style src="css/v-panel.scss"></style>
-
 <script>
 import { mapGetters } from 'vuex';
 import dynamicImportComponent from 'modules/dynamic-import-component';
@@ -108,3 +106,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/v-panel.scss"></style>

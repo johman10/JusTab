@@ -8,8 +8,6 @@
   </a>
 </template>
 
-<style src="css/v-panel-item-button.scss"></style>
-
 <script>
 export default {
   props: {
@@ -22,3 +20,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/v-panel-item-button.scss"></style>

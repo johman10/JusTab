@@ -8,8 +8,6 @@
   </a>
 </template>
 
-<style src="css/v-fab.scss"></style>
-
 <script>
 export default {
   props: {
@@ -30,3 +28,5 @@ export default {
   }
 };
 </script>
+
+<style src="css/v-fab.scss"></style>
