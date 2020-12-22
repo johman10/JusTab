@@ -3,10 +3,10 @@ import { shallowMount } from '@vue/test-utils';
 import localVue from '../mocks/local-vue';
 
 describe('v-button', () => {
-  const componentFactory = ({ type, content } = {}) => {
+  const componentFactory = ({ look, content } = {}) => {
     return shallowMount(VButton, {
       propsData: {
-        type,
+        look,
       },
       localVue,
       slots: {
@@ -35,7 +35,7 @@ describe('v-button', () => {
     });
 
     it('gets a class basses on type', () => {
-      const wrapper = componentFactory({ type: 'raised' });
+      const wrapper = componentFactory({ look: 'raised' });
       expect(wrapper.classes()).toContain('raised-button');
     });
   });
