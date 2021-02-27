@@ -35,7 +35,7 @@ export default {
           const starGazersLink = repoListItem.querySelector('[href*="/stargazers"]');
           const repoLink = repoListItem.querySelector('a:not([href*="login"]):not([aria-label*="Sponsor @"])');
           const repoInfo = repoLink.innerText.trim().replace(/[ \n]/g, '');
-          const descriptionElement = repoListItem.querySelector('p.text-gray');
+          const descriptionElement = repoListItem.querySelector('p.color-text-secondary');
           const title = repoInfo.split('/')[1];
           const owner = repoInfo.split('/')[0];
 
