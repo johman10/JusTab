@@ -50,7 +50,7 @@
     "version:patch": "mversion patch",
     "version:minor": "mversion minor",
     "version:major": "mversion major",
-    "release": "source .env; npm run build && webstore upload --source=dist",
+    "release": "npm run build && eval $(cat .env) webstore upload --source=dist",
     "test": "NODE_ENV=test jest --config jest.config.js"
   }
 }
