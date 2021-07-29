@@ -8,12 +8,12 @@ import imageResize from 'modules/image-resize';
 
 export default {
   computed: {
-    radarrService () {
-      return this.services.find(s => s.id === 15);
-    }
+    radarrService() {
+      return this.services.find((s) => s.id === 15);
+    },
   },
   methods: {
-    radarr () {
+    radarr() {
       localStorage.setItem('radarrError', false);
       return this.radarrMovies()
         .then(this.radarrLists)
@@ -25,19 +25,19 @@ export default {
         });
     },
 
-    radarrMovies () {
+    radarrMovies() {
       const url = this.radarrService.url;
       const params = `apikey=${this.radarrService.key}`;
       const apiUrl = `${url}/api/movie?${params}`;
       return ajax('GET', apiUrl);
     },
 
-    radarrLists (movies) {
+    radarrLists(movies) {
       const released = [];
       const inCinemas = [];
       const wanted = [];
       const today = dayjs().startOf('day');
-      movies.forEach(movie => {
+      movies.forEach((movie) => {
         const daysToCinema = dayjs(movie.inCinemas).diff(today, 'days');
         const daysToPhysical = dayjs(movie.physicalRelease).diff(today, 'days');
         if (movie.hasFile || !movie.monitored) return;
@@ -45,14 +45,14 @@ export default {
           released.push(movie);
         } else if (daysToCinema < 0 && daysToCinema > -14) {
           inCinemas.push(movie);
-        } else  {
+        } else {
           wanted.push(movie);
         }
       });
       return [released, inCinemas, wanted.splice(0, 25)];
     },
 
-    radarrImages (movieLists) {
+    radarrImages(movieLists) {
       const promises = movieLists.map((movies) => {
         const posterPromises = movies.splice(0, 25).map(this.radarrPoster);
         return Promise.all(posterPromises);
@@ -60,38 +60,49 @@ export default {
       return Promise.all(promises);
     },
 
-    radarrPoster (movie) {
+    radarrPoster(movie) {
       const movieClone = Object.assign({}, movie);
-      const posterObject = movie.images.find(image => image.coverType === 'poster');
+      const posterObject = movie.images.find(
+        (image) => image.coverType === 'poster'
+      );
       if (!posterObject) return Promise.resolve(movieClone);
-      const path = posterObject.url;
-      const host = this.radarrService.url.split('/').slice(0, 3).join('/');
-      return imageResize(`${host}${path}`).then((posterString) => {
+      const url = posterObject.remoteUrl;
+      return imageResize(url).then((posterString) => {
         movieClone.customPoster = posterString;
         return movieClone;
       });
     },
 
-    radarrComponents ([released, inCinemas, wanted]) {
+    radarrComponents([released, inCinemas, wanted]) {
       let components = [];
       components.push(this.radarrSubheader('Released'));
       if (released.length) {
-        components = components.concat(released.map(this.radarrBuildEpisodeItem));
+        components = components.concat(
+          released.map(this.radarrBuildEpisodeItem)
+        );
       } else {
-        components.push(this.radarrEmptyItem('There are no released movies at the moment.'));
+        components.push(
+          this.radarrEmptyItem('There are no released movies at the moment.')
+        );
       }
       components.push(this.radarrSubheader('In the cinema'));
       if (inCinemas.length) {
-        components = components.concat(inCinemas.map(this.radarrBuildEpisodeItem));
+        components = components.concat(
+          inCinemas.map(this.radarrBuildEpisodeItem)
+        );
       } else {
-        components.push(this.radarrEmptyItem('There are no movies in the cinema at the moment.'));
+        components.push(
+          this.radarrEmptyItem(
+            'There are no movies in the cinema at the moment.'
+          )
+        );
       }
       components.push(this.radarrSubheader('Wanted'));
       components = components.concat(wanted.map(this.radarrBuildEpisodeItem));
       localStorage.setItem('radarrComponents', JSON.stringify(components));
     },
 
-    radarrBuildEpisodeItem (movieObject) {
+    radarrBuildEpisodeItem(movieObject) {
       let tmdbId = movieObject.tmdbId;
       let posterUrl = movieObject.customPoster;
       let movieName = movieObject.title;
@@ -103,33 +114,35 @@ export default {
           image: posterUrl,
           title: `${movieName}`,
           collapseText: date,
-          components: [{
-            name: 'v-panel-item-button',
-            props: {
-              iconClass: 'info-icon',
-              url: `https://www.themoviedb.org/movie/${tmdbId}`
-            }
-          }]
-        }
+          components: [
+            {
+              name: 'v-panel-item-button',
+              props: {
+                iconClass: 'info-icon',
+                url: `https://www.themoviedb.org/movie/${tmdbId}`,
+              },
+            },
+          ],
+        },
       };
     },
 
-    radarrEmptyItem (title) {
+    radarrEmptyItem(title) {
       return {
         name: 'v-panel-item',
         props: {
-          title
-        }
+          title,
+        },
       };
     },
 
-    radarrSubheader (text) {
+    radarrSubheader(text) {
       return {
         name: 'v-panel-subheader',
         props: {
-          text
-        }
+          text,
+        },
       };
-    }
-  }
+    },
+  },
 };

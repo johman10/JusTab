@@ -17,84 +17,83 @@ const htmlMinifyOptions = {
   removeTagWhitespace: true,
   sortAttributes: true,
   trimCustomFragments: true,
-  useShortDoctype: true
+  useShortDoctype: true,
 };
 
 module.exports = {
   entry: {
     background: './js/background/background',
     options: './js/options',
-    tab: './js/tab'
+    tab: './js/tab',
   },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   output: {
     path: path.join(__dirname, '/dist'),
     filename: '[name].bundle.js',
-    publicPath: process.env.NODE_ENV == 'development' ? 'http://localhost:8080/' : '',
-    chunkFilename: '[name].chunk.js'
+    publicPath:
+      process.env.NODE_ENV == 'development' ? 'http://localhost:8080/' : '',
+    chunkFilename: '[name].chunk.js',
   },
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
-      'vue$': 'vue/dist/vue.esm',
-      'store': path.join(__dirname, '/store'),
-      'modules': path.join(__dirname, '/js/modules'),
-      'img': path.join(__dirname, '/img'),
-      'js': path.join(__dirname, '/js'),
-      'css': path.join(__dirname, '/style/sass'),
-      'components': path.join(__dirname, '/components'),
-      'test': path.join(__dirname, '/__tests__')
-    }
+      vue$: 'vue/dist/vue.esm',
+      store: path.join(__dirname, '/store'),
+      modules: path.join(__dirname, '/js/modules'),
+      img: path.join(__dirname, '/img'),
+      js: path.join(__dirname, '/js'),
+      css: path.join(__dirname, '/style/sass'),
+      components: path.join(__dirname, '/components'),
+      test: path.join(__dirname, '/__tests__'),
+    },
   },
   optimization: {
-    splitChunks: false
+    splitChunks: false,
   },
   module: {
     rules: [
       {
         test: /\.vue$/,
-        use: ['vue-loader', 'vue-svg-inline-loader']
+        use: ['vue-loader', 'vue-svg-inline-loader'],
       },
       {
         test: /\.js$/,
         use: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.scss$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.ico$|\.webp$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            name: 'assets/[path][name].[ext]'
-          }
-        }
+        type: 'asset/inline',
       },
       {
         test: /\.woff$|\.eot$|\.ttf$/,
         use: {
           loader: 'file-loader',
           options: {
-            name: 'assets/[path][name].[ext]'
-          }
-        }
+            name: 'assets/[path][name].[ext]',
+          },
+        },
       },
-    ]
+    ],
   },
   devServer: {
     inline: true,
-    disableHostCheck: true
+    disableHostCheck: true,
   },
-  devtool: JSON.stringify(process.env.NODE_ENV) === 'development' ? 'eval-source-map' : 'source-map',
+  devtool:
+    JSON.stringify(process.env.NODE_ENV) === 'development'
+      ? 'eval-source-map'
+      : 'source-map',
   plugins: [
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-      }
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      },
     }),
     new htmlWebpackPlugin({
       filename: 'options.html',
@@ -103,7 +102,7 @@ module.exports = {
       chunks: ['commons', 'options'],
       chunksSortMode: 'none',
       prefetch: ['commons.bundle.js', 'options.bundle.js'],
-      preload: ['commons.bundle.js', 'options.bundle.js']
+      preload: ['commons.bundle.js', 'options.bundle.js'],
     }),
     new htmlWebpackPlugin({
       filename: 'index.html',
@@ -112,7 +111,7 @@ module.exports = {
       chunks: ['commons', 'tab'],
       chunksSortMode: 'none',
       prefetch: ['commons.bundle.js', 'tab.bundle.js'],
-      preload: ['commons.bundle.js', 'tab.bundle.js']
+      preload: ['commons.bundle.js', 'tab.bundle.js'],
     }),
     new htmlWebpackPlugin({
       filename: 'background.html',
@@ -121,13 +120,13 @@ module.exports = {
       chunks: ['commons', 'background'],
       chunksSortMode: 'none',
       prefetch: ['commons.bundle.js', 'background.bundle.js'],
-      preload: ['commons.bundle.js', 'background.bundle.js']
+      preload: ['commons.bundle.js', 'background.bundle.js'],
     }),
     new CopyWebpackPlugin({
       patterns: [
         { from: 'manifest.json' },
-        { from: 'img/app_icons', to: 'img/app_icons'}
-      ]
-    })
-  ]
+        { from: 'img/app_icons', to: 'img/app_icons' },
+      ],
+    }),
+  ],
 };

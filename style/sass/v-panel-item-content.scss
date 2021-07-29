@@ -1,5 +1,5 @@
-@import '~css/modules/colors';
-@import '~css/modules/mixins';
+@import "~css/modules/colors";
+@import "~css/modules/mixins";
 
 .panel-item-content {
   align-items: center;
@@ -54,7 +54,7 @@
   }
 
   &--icon {
-    background-image: url('~img/icons/expand_more.svg');
+    background-image: url("~img/icons/expand_more.svg");
     background-position: 50% 50%;
     background-repeat: no-repeat;
     margin-left: 8px;
