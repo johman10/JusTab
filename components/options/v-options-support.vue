@@ -11,10 +11,10 @@
     <p>
       The last update contains:
       <ul>
-        <li>Add Radarr support</li>
+        <li>Fix Github items not showing properly</li>
+        <li>Fix Radarr images not loading properly</li>
+        <li>Fix icons not loading properly</li>
         <li>Upgrading dependencies</li>
-        <li>Fix options being empty</li>
-        <li>Fix options link in the panel error</li>
       </ul>
     </p>
     <h2>Questions</h2>
