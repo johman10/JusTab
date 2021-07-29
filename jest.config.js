@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  testEnvironment: 'jsdom',
   verbose: true,
   moduleFileExtensions: ['js', 'vue'],
   moduleDirectories: ['node_modules'],
@@ -9,7 +10,7 @@ module.exports = {
   transformIgnorePatterns: ['./node_modules'],
   transform: {
     '^.+\\.js$': 'babel-jest',
-    '^.+\\.vue$': 'vue-jest'
+    '^.+\\.vue$': 'vue-jest',
   },
   moduleNameMapper: {
     '^store/(.*)$': path.join(__dirname, '/store/$1'),
@@ -19,5 +20,5 @@ module.exports = {
     '^css/(.*)$': path.join(__dirname, '/style/sass/$1'),
     '^components/(.*)$': path.join(__dirname, '/components/$1'),
     '^test/(.*)$': path.join(__dirname, '/__tests__/$1'),
-  }
+  },
 };
