@@ -80,10 +80,7 @@ module.exports = {
       },
     ],
   },
-  devServer: {
-    inline: true,
-    disableHostCheck: true,
-  },
+  devServer: {},
   devtool:
     JSON.stringify(process.env.NODE_ENV) === 'development'
       ? 'eval-source-map'
