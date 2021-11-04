@@ -17,7 +17,30 @@
         "quotes": ["error", "single"],
         "linebreak-style": ["error", "unix"],
         "semi": ["error", "always"],
-        "vue/html-indent": ["error", 2]
+        "vue/html-indent": ["error", 2],
+        "vue/max-attributes-per-line": [
+            "error",
+            {
+                "singleline": {
+                    "max": 3
+                },
+                "multiline": {
+                    "max": 1
+                }
+            }
+        ],
+        "vue/html-self-closing": [
+            "error",
+            {
+                "html": {
+                    "void": "always",
+                    "normal": "always",
+                    "component": "always"
+                },
+                "svg": "always",
+                "math": "always"
+            }
+        ]
     },
     "env": {"node": true, "browser": true, "es6": true},
     "extends": [

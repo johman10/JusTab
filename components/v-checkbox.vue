@@ -7,7 +7,7 @@
       type="checkbox"
       class="checkbox--actual"
       @change="onChange"
-    >
+    />
     <label
       :for="name"
       class="checkbox--label"

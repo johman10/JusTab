@@ -11,7 +11,7 @@
         :checked="value"
         type="checkbox"
         class="switch--checkbox"
-      >
+      />
       <span class="switch--lever" />
     </label>
   </div>

@@ -10,6 +10,11 @@
 }
 
 .panel-header {
+  @include vue-transition(
+    $scope: '& ',
+    $name: 'panel-header--loader',
+    $transition-field: opacity
+  );
   @include paper-shadow(1);
   height: 128px;
   left: 0;

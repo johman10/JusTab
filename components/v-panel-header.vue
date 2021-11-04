@@ -1,51 +1,25 @@
 <template>
-  <div
-    :style="panelHeaderStyling"
-    class="panel-header"
-  >
+  <div :style="panelHeaderStyling" class="panel-header">
     <div class="panel-header--background">
-      <div
-        :style="background1Styling"
-        class="panel-header--background1"
-      />
-      <div
-        :style="background2Styling"
-        class="panel-header--background2"
-      />
+      <div :style="background1Styling" class="panel-header--background1" />
+      <div :style="background2Styling" class="panel-header--background2" />
     </div>
     <div class="panel-header--foreground">
-      <div
-        :style="foregroundTopStyling"
-        class="panel-header--foreground-top"
-      >
-        <div
-          class="refresh-button ripple"
-          @click="triggerRefresh"
-        >
-          <Transition
-            name="loader"
-            mode="out-in"
-          >
-            <VSpinner
-              v-if="loading"
-              :border="5"
-              :width="25"
-            />
+      <div :style="foregroundTopStyling" class="panel-header--foreground-top">
+        <div class="refresh-button ripple" @click="triggerRefresh">
+          <Transition name="panel-header--loader" mode="out-in">
+            <VSpinner v-if="loading" :border="5" :width="25" />
             <img
               v-else
               :alt="`Refresh ${service.name}`"
               svg-inline
-              src="
-              img/icons/refresh.svg"
-            >
+              src="img/icons/refresh.svg"
+            />
           </Transition>
         </div>
       </div>
       <div class="panel-header--foreground-bottom">
-        <a
-          :href="service.url"
-          class="panel-header--url"
-        >
+        <a :href="service.url" class="panel-header--url">
           {{ service.name }}
         </a>
       </div>
@@ -58,58 +32,61 @@ import dynamicImportComponent from 'modules/dynamic-import-component';
 
 export default {
   components: {
-    VSpinner: dynamicImportComponent('v-spinner')
+    VSpinner: dynamicImportComponent('v-spinner'),
   },
 
   props: {
     scrollTop: {
       type: Number,
-      default: 0
+      default: 0,
     },
     service: {
       type: Object,
-      required: true
+      required: true,
     },
     loading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
-  data () {
+  data() {
     return {
       panelHeaderStyling: {
-        height: '128px'
+        height: '128px',
       },
       background2ScrollStyling: {
         opacity: 1,
-        display: 'block'
+        display: 'block',
       },
       foregroundTopStyling: {
         height: '64px',
         opacity: 1,
-        display: 'block'
-      }
+        display: 'block',
+      },
     };
   },
 
   computed: {
-    background1Styling () {
+    background1Styling() {
       return {
-        'background-color': this.service.color
+        'background-color': this.service.color,
       };
     },
-    background2Styling () {
-      return Object.assign({
-        'background-color': this.service.color,
-        'background-image': 'url(' + this.service.logo + ')',
-      }, this.background2ScrollStyling);
-    }
+    background2Styling() {
+      return Object.assign(
+        {
+          'background-color': this.service.color,
+          'background-image': 'url(' + this.service.logo + ')',
+        },
+        this.background2ScrollStyling,
+      );
+    },
   },
 
   watch: {
-    scrollTop (newVal) {
-      let opacity = 1-(newVal*(1/64));
+    scrollTop(newVal) {
+      let opacity = 1 - newVal * (1 / 64);
       if (newVal < 64) {
         this.panelHeaderStyling.height = 128 - newVal + 'px';
         this.foregroundTopStyling.height = 64 - newVal + 'px';
@@ -123,14 +100,14 @@ export default {
         this.foregroundTopStyling.display = 'none';
         this.background2ScrollStyling.display = 'none';
       }
-    }
+    },
   },
 
   methods: {
-    triggerRefresh () {
+    triggerRefresh() {
       this.$emit('refresh');
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -10,7 +10,7 @@
       type="number"
       @input="onInput"
       @change="onChange"
-    >
+    />
     <input
       v-else-if="type === 'password'"
       :id="name"
@@ -21,7 +21,7 @@
       type="password"
       @input="onInput"
       @change="onChange"
-    >
+    />
     <input
       v-else-if="type === 'url'"
       :id="name"
@@ -32,7 +32,7 @@
       type="url"
       @input="onInput"
       @change="onChange"
-    >
+    />
     <input
       v-else
       :id="name"
@@ -43,7 +43,7 @@
       type="text"
       @input="onInput"
       @change="onChange"
-    >
+    />
     <span class="input__bottom-bar" />
     <label class="input__label">
       {{ label }}
