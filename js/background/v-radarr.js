@@ -9,7 +9,7 @@ import imageResize from 'modules/image-resize';
 export default {
   computed: {
     radarrService() {
-      return this.services.find((s) => s.id === 15);
+      return this.services.find(s => s.id === 15);
     },
   },
   methods: {
@@ -19,7 +19,7 @@ export default {
         .then(this.radarrLists)
         .then(this.radarrImages)
         .then(this.radarrComponents)
-        .catch((error) => {
+        .catch(error => {
           console.error(error); // eslint-disable-line no-console
           localStorage.setItem('radarrError', true);
         });
@@ -28,7 +28,7 @@ export default {
     radarrMovies() {
       const url = this.radarrService.url;
       const params = `apikey=${this.radarrService.key}`;
-      const apiUrl = `${url}/api/movie?${params}`;
+      const apiUrl = `${url}/api/v3/movie?${params}`;
       return ajax('GET', apiUrl);
     },
 
@@ -37,7 +37,7 @@ export default {
       const inCinemas = [];
       const wanted = [];
       const today = dayjs().startOf('day');
-      movies.forEach((movie) => {
+      movies.forEach(movie => {
         const daysToCinema = dayjs(movie.inCinemas).diff(today, 'days');
         const daysToPhysical = dayjs(movie.physicalRelease).diff(today, 'days');
         if (movie.hasFile || !movie.monitored) return;
@@ -53,7 +53,7 @@ export default {
     },
 
     radarrImages(movieLists) {
-      const promises = movieLists.map((movies) => {
+      const promises = movieLists.map(movies => {
         const posterPromises = movies.splice(0, 25).map(this.radarrPoster);
         return Promise.all(posterPromises);
       });
@@ -63,11 +63,11 @@ export default {
     radarrPoster(movie) {
       const movieClone = Object.assign({}, movie);
       const posterObject = movie.images.find(
-        (image) => image.coverType === 'poster'
+        image => image.coverType === 'poster',
       );
       if (!posterObject) return Promise.resolve(movieClone);
       const url = posterObject.remoteUrl;
-      return imageResize(url).then((posterString) => {
+      return imageResize(url).then(posterString => {
         movieClone.customPoster = posterString;
         return movieClone;
       });
@@ -78,23 +78,23 @@ export default {
       components.push(this.radarrSubheader('Released'));
       if (released.length) {
         components = components.concat(
-          released.map(this.radarrBuildEpisodeItem)
+          released.map(this.radarrBuildEpisodeItem),
         );
       } else {
         components.push(
-          this.radarrEmptyItem('There are no released movies at the moment.')
+          this.radarrEmptyItem('There are no released movies at the moment.'),
         );
       }
       components.push(this.radarrSubheader('In the cinema'));
       if (inCinemas.length) {
         components = components.concat(
-          inCinemas.map(this.radarrBuildEpisodeItem)
+          inCinemas.map(this.radarrBuildEpisodeItem),
         );
       } else {
         components.push(
           this.radarrEmptyItem(
-            'There are no movies in the cinema at the moment.'
-          )
+            'There are no movies in the cinema at the moment.',
+          ),
         );
       }
       components.push(this.radarrSubheader('Wanted'));
