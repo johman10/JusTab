@@ -4,68 +4,76 @@ import dateFormat from 'modules/date-format';
 
 export default {
   computed: {
-    googleCalendarService () {
+    googleCalendarService() {
       return this.services.find(s => s.id === 1);
     },
-    calendarUrls () {
-      return this.googleCalendarService.calendars.map((url) => {
-        return 'https://www.googleapis.com/calendar/v3/calendars/' + encodeURIComponent(url) + '/events';
+    calendarUrls() {
+      return this.googleCalendarService.calendars.map(url => {
+        return (
+          'https://www.googleapis.com/calendar/v3/calendars/' +
+          encodeURIComponent(url) +
+          '/events'
+        );
       });
-    }
+    },
   },
   methods: {
-    googleCalendar () {
+    googleCalendar() {
       localStorage.setItem('googleCalendarError', false);
       return this.googleCalendarToken()
         .then(this.getEvents)
         .then(this.googleCalendarComponents)
-        .catch((error) => {
+        .catch(error => {
           if (error) console.error(error); // eslint-disable-line no-console
           localStorage.setItem('googleCalendarError', true);
         });
     },
 
-    googleCalendersList () {
+    googleCalendersList() {
       return this.googleCalendarToken()
         .then(this.getCalendars)
-        .then((data) => {
+        .then(data => {
           return data.items;
         });
     },
 
-    getCalendars (token) {
-      var url = 'https://www.googleapis.com/calendar/v3/users/me/calendarList?oauth_token=' + token;
+    getCalendars(token) {
+      var url =
+        'https://www.googleapis.com/calendar/v3/users/me/calendarList?oauth_token=' +
+        token;
       return ajax('GET', url);
     },
 
-    googleCalendarToken () {
+    googleCalendarToken() {
       return new Promise((resolve, reject) => {
-        chrome.identity.getAuthToken({'interactive': true}, function (token) {
+        chrome.identity.getAuthToken({ interactive: true }, function(token) {
           if (!token) return reject();
           resolve(token);
         });
       });
     },
 
-    getEvents (token) {
+    getEvents(token) {
       const dateStart = new Date().toISOString();
-      const dateEnd = dayjs(new Date()).add(this.googleCalendarService.days, 'days').endOf('day').toISOString();
+      const dateEnd = dayjs(new Date())
+        .add(this.googleCalendarService.days, 'days')
+        .endOf('day')
+        .toISOString();
       const params = `oauth_token=${token}&timeMin=${dateStart}&timeMax=${dateEnd}&orderBy=startTime&singleEvents=true`;
       const promises = [];
 
-      this.calendarUrls.forEach((url) => {
+      this.calendarUrls.forEach(url => {
         const apiUrl = `${url}?${params}`;
         promises.push(ajax('GET', apiUrl));
       });
 
-      return Promise.all(promises)
-        .then(function(calendars) {
-          let eventArrays = calendars.map(calendar => calendar.items);
-          return [].concat.apply([], eventArrays).sort(sortCalendarResults);
-        });
+      return Promise.all(promises).then(function(calendars) {
+        let eventArrays = calendars.map(calendar => calendar.items);
+        return [].concat.apply([], eventArrays).sort(sortCalendarResults);
+      });
     },
 
-    googleCalendarComponents (events) {
+    googleCalendarComponents(events) {
       let components = [];
       // Start with yesterday to include today in calendar
       let loopDate = dayjs().subtract(1, 'day');
@@ -79,16 +87,16 @@ export default {
           components.push({
             name: 'v-panel-subheader',
             props: {
-              text: dateFormat(eventStart)
-            }
+              text: dateFormat(eventStart),
+            },
           });
           loopDate = eventStart;
         } else if (index === 0) {
           components.push({
             name: 'v-panel-subheader',
             props: {
-              text: dateFormat(dayjs())
-            }
+              text: dateFormat(dayjs()),
+            },
           });
           loopDate = dayjs();
         }
@@ -97,8 +105,8 @@ export default {
         const itemComponent = {
           name: 'v-panel-item',
           props: {
-            title: ''
-          }
+            title: '',
+          },
         };
 
         if (event.start.dateTime) {
@@ -106,14 +114,16 @@ export default {
           eventEndTime = dayjs(event.end.dateTime).format('HH:mm');
           itemComponent.props.title += `${eventStartTime} - ${eventEndTime} `;
         }
-        itemComponent.props.title += event.summary;
-        itemComponent.props.components = [{
-          name: 'v-panel-item-button',
-          props: {
-            url: event.htmlLink,
-            iconClass: 'edit-icon'
-          }
-        }];
+        itemComponent.props.title += event.summary ?? 'Busy';
+        itemComponent.props.components = [
+          {
+            name: 'v-panel-item-button',
+            props: {
+              url: event.htmlLink,
+              iconClass: 'edit-icon',
+            },
+          },
+        ];
         if (event.location) {
           itemComponent.props.collapseText = event.location;
         }
@@ -121,12 +131,17 @@ export default {
         components.push(itemComponent);
       });
 
-      localStorage.setItem('googleCalendarComponents', JSON.stringify(components));
+      localStorage.setItem(
+        'googleCalendarComponents',
+        JSON.stringify(components),
+      );
     },
-
-  }
+  },
 };
 
-function sortCalendarResults (a, b) {
-  return new Date(a.start.dateTime || a.start.date) - new Date(b.start.dateTime || b.start.date);
+function sortCalendarResults(a, b) {
+  return (
+    new Date(a.start.dateTime || a.start.date) -
+    new Date(b.start.dateTime || b.start.date)
+  );
 }
