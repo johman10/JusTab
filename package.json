@@ -13,7 +13,7 @@
     "chrome-webstore-upload-cli": "^2.0.1",
     "copy-webpack-plugin": "^10.2.0",
     "css-loader": "^6.5.1",
-    "eslint": "^8.6.0",
+    "eslint": "^8.15.0",
     "eslint-plugin-vue": "^8.2.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
