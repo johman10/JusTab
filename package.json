@@ -20,7 +20,7 @@
     "jest": "^27.4.7",
     "jsdom": "^19.0.0",
     "mversion": "^2.0.1",
-    "sass": "^1.47.0",
+    "sass": "^1.56.0",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
     "url-loader": "^4.1.1",
