@@ -2,72 +2,74 @@ import ajax from 'modules/ajax';
 
 export default {
   computed: {
-    productHuntService () {
+    productHuntService() {
       return this.services.find(s => s.id === 9);
-    }
+    },
   },
 
   methods: {
-    productHunt () {
+    productHunt() {
       localStorage.setItem('productHuntError', false);
       return this.productHuntToken()
         .then(this.productHuntPosts)
         .then(this.productHuntComponents)
-        .catch((error) => {
+        .catch(error => {
           if (error) console.error(error); // eslint-disable-line no-console
           localStorage.setItem('productHuntError', true);
         });
     },
 
-    productHuntToken () {
-      var url = 'https://api.producthunt.com/v1/oauth/token';
+    productHuntToken() {
+      var url = 'https://api.producthunt.com/v2/oauth/token';
       return ajax(
         'POST',
         url,
         {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: 'application/json',
         },
-        '{"client_id" : "4a6c8ab542d980ab608413902710f2902d76d771737a4ae4d9824a1627dc5a5b", "client_secret" : "bd9ca7a89b428c7f32f3fcfaac6b8c46c0916efcf077fef221ac6b5c20b313a8", "grant_type" : "client_credentials"}'
+        '{"client_id" : "H01WZsxiAGjufYmbUdaBj_w1kD86cF-RtcqOeoG054Y", "client_secret" : "BcTB2jqoCFm9DvX0-g2lEcH4o5bvVgfT-CKEa-Nvd64", "grant_type" : "client_credentials"}',
       );
     },
 
-    productHuntPosts (tokenData) {
+    productHuntPosts(tokenData) {
       return ajax(
-        'GET',
-        'https://api.producthunt.com/v1/posts',
+        'POST',
+        'https://api.producthunt.com/v2/api/graphql',
         {
-          'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + tokenData.access_token
-        }
-      );
+          Authorization: 'Bearer ' + tokenData.access_token,
+        },
+        '{ "query": "{posts(first:25){edges{node{url,name,website,commentsCount,votesCount}}}}" }',
+      ).then(({ data }) => {
+        return data.posts.edges.map(edge => edge.node);
+      });
     },
 
-    productHuntComponents (postData) {
+    productHuntComponents(posts) {
       let components = [];
-      if (postData.posts.length) {
-        postData.posts.forEach((post) => {
+      if (posts.length) {
+        posts.forEach(post => {
           components.push({
             name: 'v-panel-item',
             props: {
-              url: post.redirect_url,
+              url: post.website,
               title: post.name,
-              subtitleUrl: post.discussion_url,
-              subtitle: `${post.comments_count} comments - ${post.votes_count} points`
-            }
+              subtitleUrl: post.url,
+              subtitle: `${post.commentsCount} comments - ${post.votesCount} points`,
+            },
           });
         });
       } else {
         components.push({
           name: 'v-panel-item',
           props: {
-            title: 'There are no posts at the moment.'
-          }
+            title: 'There are no posts at the moment.',
+          },
         });
       }
 
       localStorage.setItem('productHuntComponents', JSON.stringify(components));
-    }
-  }
+    },
+  },
 };
